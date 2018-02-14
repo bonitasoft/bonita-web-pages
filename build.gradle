@@ -16,7 +16,7 @@ subprojects {
     }
 
     tasks.npm_install.configure {
-        inputs.files('package.json','package-lock.json')
+        inputs.files('package.json', 'package-lock.json')
         outputs.dirs('node_modules')
     }
 
@@ -28,6 +28,8 @@ subprojects {
         inputs.dir('client')
     }
 
-    task clean { delete project.buildDir, 'dist' }
+    task clean {
+        delete project.buildDir, 'dist'
+    }
 
 }
