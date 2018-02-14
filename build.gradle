@@ -15,4 +15,19 @@ subprojects {
         npmWorkDir = file("${currentDir}/.gradle/npm")
     }
 
+    tasks.npm_install.configure {
+        inputs.files('package.json','package-lock.json')
+        outputs.dirs('node_modules')
+    }
+
+    task build(type: NpmTask, dependsOn: npm_install) {
+        args = ['run', 'build']
+        inputs.files('package.json', 'package-lock.json')
+        //should rename client folder into "src"
+        //inputs.dir('src')
+        inputs.dir('client')
+    }
+
+    task clean { delete project.buildDir, 'dist' }
+
 }
