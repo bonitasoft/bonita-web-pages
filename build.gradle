@@ -23,9 +23,7 @@ subprojects {
     task build(type: NpmTask, dependsOn: npm_install) {
         args = ['run', 'build']
         inputs.files('package.json', 'package-lock.json')
-        //should rename client folder into "src"
-        //inputs.dir('src')
-        inputs.dir('client')
+        inputs.dir('src')
     }
 
     task clean {
