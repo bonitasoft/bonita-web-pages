@@ -1,10 +1,13 @@
+
 plugins {
     id "com.moowork.node" version "1.2.0"
 }
 
 def currentDir = project.projectDir
+
 subprojects {
     apply plugin: 'com.moowork.node'
+    apply plugin: 'distribution'
 
     node {
         version = '8.9.4'
@@ -20,14 +23,28 @@ subprojects {
         outputs.dirs('node_modules')
     }
 
-    task build(type: NpmTask, dependsOn: npm_install) {
+    def buildNpm = task buildNpm(type: NpmTask, dependsOn: npm_install) {
         args = ['run', 'build']
         inputs.files('package.json', 'package-lock.json')
         inputs.dir('src')
     }
 
-    task clean {
-        delete project.buildDir, 'dist'
+    tasks.distZip.dependsOn buildNpm
+
+    def cleanNpm = task cleanNpm {
+        doFirst {
+            delete 'dist'
+        }
     }
 
+    tasks.clean.dependsOn cleanNpm
+
+    distributions{
+        main {
+            contents {
+                from('resources') { into '/' }
+                from('dist') { into '/resources' }
+            }
+        }
+    }
 }
