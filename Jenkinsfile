@@ -2,8 +2,12 @@
 node {
     checkout scm
 
-    stage('Build') {
-        sh './gradlew build'
-        archiveArtifacts '**/build/distributions/*.zip'
+    stage('🔧 Build') {
+        try {
+            sh './gradlew clean build'
+        } finally {
+            // Update this by archiveArtifacts when we move in ymci
+            archive '**/build/distributions/*.zip'
+        }
     }
 }
