@@ -1,21 +1,28 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-abstract class PagePlugin implements Plugin<Project> {
+class BonitaPagePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        def extension = project.extensions.create('bonitaPage', BonitaPagePluginExtension)
         project.plugins.apply('com.moowork.node')
         project.plugins.apply('distribution')
         def currentDir = project.rootProject.projectDir
 
+
         project.node {
-            version = '8.9.4'
-            npmVersion = '5.6.0'
             download = true
 
             workDir = project.file("${currentDir}/.gradle/nodejs")
             npmWorkDir = project.file("${currentDir}/.gradle/npm")
+        }
+
+        project.afterEvaluate {
+            project.node {
+                version = extension.nodeVersion
+                npmVersion = extension.npmVersion
+            }
         }
 
         project.tasks.npm_install.configure {
@@ -23,24 +30,33 @@ abstract class PagePlugin implements Plugin<Project> {
             outputs.dirs('node_modules')
         }
 
-        def buildNpm = project.task( [type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install]  ,'buildNpm') {
+        def buildPage = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
             args = ['run', 'build']
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
         }
 
-        project.tasks.distZip.dependsOn buildNpm
+        project.tasks.distZip.dependsOn buildPage
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             doFirst {
-                project.delete 'dist'
+                project.delete extension.frontendBuildDir
             }
         }
 
         project.tasks.clean.dependsOn cleanNpm
 
-        implementDistribution(project);
+        project.distributions {
+            main {
+                contents {
+                    from('resources') { into '/' }
+                    from({ extension.frontendBuildDir }) {
+                        into '/resources'
+                    }
+                }
+            }
+        }
+
     }
 
-    abstract implementDistribution(Project project);
 }
