@@ -8,7 +8,10 @@ class ReactPagePlugin extends PagePlugin {
             main {
                 contents {
                     from('resources') { into '/' }
-                    from('build') { into '/resources' }
+                    from('build') {
+                        exclude 'distributions'
+                        into '/resources'
+                    }
                 }
             }
         }
