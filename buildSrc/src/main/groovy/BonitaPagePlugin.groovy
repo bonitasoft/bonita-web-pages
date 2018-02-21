@@ -23,8 +23,6 @@ class BonitaPagePlugin implements Plugin<Project> {
                 version = extension.nodeVersion
                 npmVersion = extension.npmVersion
             }
-            // Workaround to manage React-CLI non conventional build directory
-            project.buildDir = 'build-gradle'
 
         }
 
@@ -38,8 +36,6 @@ class BonitaPagePlugin implements Plugin<Project> {
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
             inputs.dir('resources')
-            inputs.dir('public')
-            inputs.dir('static')
             outputs.dirs({extension.frontendBuildDir})
         }
 
