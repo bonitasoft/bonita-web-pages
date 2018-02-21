@@ -7,7 +7,7 @@ node {
             sh './gradlew clean build'
         } finally {
             // Update this by archiveArtifacts when we move in ymci
-            archive '**/build/distributions/*.zip'
+            archive '**/build-gradle/distributions/*.zip'
         }
     }
 }
