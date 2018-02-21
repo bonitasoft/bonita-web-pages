@@ -37,6 +37,7 @@ class BonitaPagePlugin implements Plugin<Project> {
         }
 
         project.tasks.distZip.dependsOn buildPage
+        buildPage.dependsOn project.tasks.clean
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             doFirst {
