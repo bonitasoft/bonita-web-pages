@@ -23,6 +23,7 @@ class BonitaPagePlugin implements Plugin<Project> {
                 version = extension.nodeVersion
                 npmVersion = extension.npmVersion
             }
+
         }
 
         project.tasks.npm_install.configure {
@@ -34,6 +35,8 @@ class BonitaPagePlugin implements Plugin<Project> {
             args = ['run', 'build']
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
+            inputs.dir('resources')
+            outputs.dirs({extension.frontendBuildDir})
         }
 
         project.tasks.distZip.dependsOn buildPage
