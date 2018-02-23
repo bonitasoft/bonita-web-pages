@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
+import fetchProcesses from './fetchProcesses.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      processes: [
-        { name: 'process1' },
-        { name: 'process2' }
-      ]
+        processes: []
     };
+  }
+
+  componentDidMount() {
+    fetchProcesses().then((processes) => this.setState({ processes }));
   }
 
   render() {
@@ -20,7 +22,7 @@ class App extends Component {
         <h1>Hello world with React</h1>
         <ul>
           {
-            processes.map((process) => <li>{process.name}</li>)
+            processes.map((process) => <li>{process.displayName}</li>)
           }
         </ul>
       </div>
