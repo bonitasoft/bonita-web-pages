@@ -12,9 +12,9 @@
 <script>
 export default {
   name: 'HelloWorld',
-  data() {
+  data () {
     return {
-      msg: "Hello world with Vuejs",
+      msg: 'Hello world with Vuejs',
       processes: [
         { name: 'process1' },
         { name: 'process2' }
