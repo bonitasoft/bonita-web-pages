@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import fetchProcesses from 'common/api/src/fetchProcesses.js';
+import fetchProcesses from '@bonita/api/src/fetchProcesses.js';
 
 class App extends Component {
   constructor(props) {
