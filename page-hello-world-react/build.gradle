@@ -9,3 +9,7 @@ project.buildDir = 'build-gradle'
 project.tasks.buildPage.configure {
     inputs.dir('public')
 }
+
+task common_symlink(type: Exec) {
+    commandLine "ln -s", "../common", "node_modules/common"
+}
