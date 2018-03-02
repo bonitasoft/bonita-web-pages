@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import fetchProcesses from './fetchProcesses.js'
+import fetchProcesses from '@bonita/api/src/fetchProcesses.js'
 
 export default {
   name: 'HelloWorld',
