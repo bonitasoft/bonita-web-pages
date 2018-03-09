@@ -1,17 +1,21 @@
 
 import fetchApi from './fetchApi';
 
-export default (processId) => fetchApi.get(
-  '/bonita/API/bpm/process',
-  {
-    'p': 0,
-    'c': 10,
-    'f=id': processId,
-    'o': 'displayName ' + order,
-    's': search || '',
-    'f=categoryId': (category) ? category.id : '&f=activationState=ENABLED'
-  }
-)
+export default function({ category, order = 'ASC', search = '', page = 0, count = 10 }) {
+  return fetchApi.get(
+    '/bonita/API/bpm/process',
+    {
+      'p': page,
+      'c': count,
+      'o': 'displayName ' + order,
+      's': search,
+      'f=': {
+        'categoryId': (category) ? category.id : '',
+        'activationState': 'ENABLED'
+      }
+    }
+  )
+}
 
 /* A process looks like that :
 {

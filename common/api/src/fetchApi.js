@@ -29,16 +29,34 @@ function parseParams(params) {
 // return a promise with data (processes, tasks, categories, ...)
 function request(baseUrl, params, method) {
   const options = { ...defaultOptions, method };
-  const url = baseUrl;
+  let url = baseUrl;
 
-  if (['GET', 'DELETE'].indexOf(method) > -1)
+  if (['GET', 'DELETE'].indexOf(method) > -1) {
     url += '?' + parseParams(params);
-  else // POST or PUT
+    url += '?' + parseParams(params);
+  } else { // POST or PUT
     options.body = JSON.stringify(params);
+  }
 
   return fetch(url, options).then(function (response) {
     if (response.ok) {
-      return Promise.resolve(response.json());
+      const range = response.headers["Content-Range"];
+      let pagination;
+
+      if (range) {
+        const regexp = new RegExp(/^items=(\d+)-(\d+)\/(\d+)$/);
+        const result = range.match(regexp);
+
+        pagination = {
+          start: result[0],
+          end: result[1],
+          total: result[2],
+          page: params.page,
+          count: params.count
+        };
+      }
+
+      return Promise.resolve({ response: response.json(), pagination });
     }
     return Promise.reject(response.error());
   });
