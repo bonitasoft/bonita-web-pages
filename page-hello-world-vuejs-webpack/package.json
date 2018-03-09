@@ -11,10 +11,12 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js && npm run build-theme",
+    "build-theme": "bonita-theme dist/index.html"
   },
   "dependencies": {
     "@bonita/api": "file:../common/api",
+    "@bonita/bonita-theme": "file:../common/bonita-theme",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
