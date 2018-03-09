@@ -1,8 +1,18 @@
 {
-  "name": "page-hello-world-react",
+  "name": "page-process-list",
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
+  "proxy": {
+    "/bonita": {
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true,
+      "ws": true,
+      "pathRewrite": {
+        "^/bonita": ""
+      }
+    }
+  },
   "dependencies": {
     "@bonita/api": "file:../common/api",
     "primer": "^10.3.0",

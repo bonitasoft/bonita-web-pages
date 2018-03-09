@@ -26,13 +26,13 @@ class Filter extends Component {
               <Row>
                 <DropdownButton
                   xs={4} md={6}
-                  title={category.displayName}
+                  title={"Categorie" || category.displayName}
                   onSelect={this.selectCategory}
-                  key={category.id} id={category.id}
+                  key="filter-category" id="filter-category"
                 >
                   {
                     categories.map((category) =>
-                      <MenuItem eventKey={category}>{category.displayName}</MenuItem>)
+                      <MenuItem eventKey={category} key={category.id}>{category.displayName}</MenuItem>)
                   }
                 </DropdownButton>
                 <FormGroup xs={8} md={6}>

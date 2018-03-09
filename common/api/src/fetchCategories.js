@@ -1,15 +1,13 @@
 
 import fetchApi from './fetchApi';
 
-export default function() {
-  return fetchApi.get(
-    '/bonita/API/bpm/category',
-    {
-      'p': 0,
-      'c': Number.MAX_SAFE_INTEGER
-    }
-  )
-}
+export default () => fetchApi.get(
+  '/bonita/API/bpm/category',
+  {
+    'p': 0,
+    'c': Number.MAX_SAFE_INTEGER % 1 // some working cast
+  }
+)
 
 /* A category looks like that :
 {

@@ -1,11 +1,11 @@
 
 const defaultOptions = {
-  credentials: 'same-origin', // automatically send cookies for the current domain
+  credentials: 'include', // automatically send cookies for the current domain
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     // 'Cookie': document.cookie,
-    //'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*'
   },
   mode: 'cors',
   cache: 'default'
@@ -21,18 +21,21 @@ function parseParams(params) {
           .join('&');
       }
 
+      if (params[k] !== null & typeof params[k] === 'object') {
+        return encodeURIComponent(k) + '=' + parseParams(params[k]);
+      }
+
       return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
     })
     .join('&');
 }
 
 // return a promise with data (processes, tasks, categories, ...)
-function request(baseUrl, params, method) {
+const request = (method) => (baseUrl, params) => {
   const options = { ...defaultOptions, method };
   let url = baseUrl;
 
   if (['GET', 'DELETE'].indexOf(method) > -1) {
-    url += '?' + parseParams(params);
     url += '?' + parseParams(params);
   } else { // POST or PUT
     options.body = JSON.stringify(params);
@@ -41,7 +44,8 @@ function request(baseUrl, params, method) {
   return fetch(url, options).then(function (response) {
     if (response.ok) {
       const range = response.headers["Content-Range"];
-      let pagination;
+      let pagination = {};
+      console.log('response headers: ', response.headers);
 
       if (range) {
         const regexp = new RegExp(/^items=(\d+)-(\d+)\/(\d+)$/);
@@ -51,20 +55,19 @@ function request(baseUrl, params, method) {
           start: result[0],
           end: result[1],
           total: result[2],
-          page: params.page,
-          count: params.count
+          page: params.p,
+          count: params.c
         };
       }
-
-      return Promise.resolve({ response: response.json(), pagination });
+      return response.json().then((data) => Promise.resolve({data, pagination}));
     }
-    return Promise.reject(response.error());
+    return Promise.reject(response.error);
   });
 }
 
 export default {
-  get: (params) => request(url, params, {method: 'GET'}),
-  post: (params) => request(url, params, {method: 'POST'}),
-  put: (params) => request(url, params, {method: 'PUT'}),
-  delete: (params) => request(url, params, {method: 'DELETE'})
+  get: request('GET'),
+  post: request('POST'),
+  put: request('PUT'),
+  delete: request('DELETE')
 }
