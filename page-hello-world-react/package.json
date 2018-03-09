@@ -5,7 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "@bonita/api": "file:../common/api",
-    "cheerio": "^1.0.0-rc.2",
+    "@bonita/bonita-theme": "file:../common/bonita-theme",
     "node-sass-chokidar": "1.1.0",
     "npm-run-all": "^4.1.2",
     "primer": "^10.3.0",
@@ -18,15 +18,15 @@
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "build-theme": "node ./build-theme.js",
     "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js  build-theme",
+    "build-theme": "bonita-theme",
+    "build": "npm-run-all build-css build-js build-theme",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "esprima": "^4.0.0"
+    "cheerio": "^1.0.0-rc.2"
   }
 }
