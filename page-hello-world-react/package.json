@@ -4,10 +4,11 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "node-sass-chokidar": "0.0.3",
+    "@bonita/api": "file:../common/api",
+    "cheerio": "^1.0.0-rc.2",
+    "node-sass-chokidar": "1.1.0",
     "npm-run-all": "^4.1.2",
     "primer": "^10.3.0",
-    "@bonita/api": "file:../common/api",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
@@ -17,13 +18,15 @@
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
+    "build-theme": "node ./build-theme.js",
     "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js",
+    "build": "npm-run-all build-css build-js  build-theme",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "esprima": "^4.0.0"
   }
 }
