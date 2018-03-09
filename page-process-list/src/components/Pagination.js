@@ -8,9 +8,18 @@ class _Pagination extends Component {
 
   render() {
     const { pagination } = this.props;
-    return;
 
-    return ( //TODO
+    return (
+      <Pagination>
+        <Pagination.First />
+        <Pagination.Prev />
+        <Pagination.Item>{pagination.page}</Pagination.Item>
+        <Pagination.Next />
+        <Pagination.Last />
+      </Pagination>
+    );
+
+    /*return ( //TODO
       <Pagination>
         <Pagination.First />
         <Pagination.Prev />
@@ -28,7 +37,7 @@ class _Pagination extends Component {
         <Pagination.Next />
         <Pagination.Last />
       </Pagination>
-    );
+    );*/
   }
 }
 

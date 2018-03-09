@@ -9,10 +9,7 @@ export default function({ category, order = 'ASC', search = '', page = 0, count 
       'c': count,
       'o': 'displayName ' + order,
       's': search,
-      'f=': {
-        'categoryId': (category) ? category.id : '',
-        'activationState': 'ENABLED'
-      }
+      'f': (category.id) ? { 'categoryId': category.id } : { 'activationState': 'ENABLED' }
     }
   )
 }

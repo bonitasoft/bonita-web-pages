@@ -36,14 +36,14 @@ class List extends Component {
             <Button onClick={this.showSettings}>
               <Glyphicon glyph="cog" />
             </Button>
-            <p>{'${start}-${end} of ${total}'}</p>
+            <p>{`${start}-${end} of ${total}`}</p>
           </div>
           <Table striped hover>
             <thead>
             <tr>
               <th className="process-name" onClick={this.toggleOrder}>
                 <span>Name</span>
-                <Glyphicon glyph={'chevron-' + (order == 'ASC') ? 'down' : 'up'} />
+                <Glyphicon glyph={'chevron-' + (order === 'ASC') ? 'down' : 'up'} />
               </th>
               <th>Version</th>
               <th>Categories</th>

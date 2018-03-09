@@ -6,7 +6,7 @@ export default (processId) => fetchApi.get(
   {
     'c': 1,
     'p': 0,
-    'f=id': processId
+    'f': { 'id': processId }
   }
 )
 

@@ -5,9 +5,9 @@ import Filter from './components/Filter.js';
 import List from './components/List.js';
 import Pagination from './components/Pagination.js';
 
-import fetchProcesses from '@bonita/api/src/fetchProcesses.js';
-import fetchCategories from '@bonita/api/src/fetchCategories.js';
-import fetchCategoriesByProcess from '@bonita/api/src/fetchCategoriesByProcess.js';
+import fetchProcesses from './common/api/src/fetchProcesses.js';
+import fetchCategories from './common/api/src/fetchCategories.js';
+import fetchCategoriesByProcess from './common/api/src/fetchCategoriesByProcess.js';
 
 
 class App extends Component {
@@ -17,7 +17,7 @@ class App extends Component {
       processes: [],
       categories: [],
       filter: {
-        category: null,
+        category: {},
         search: '',
         order: 'ASC'
       },
@@ -33,16 +33,17 @@ class App extends Component {
 
   componentDidMount() {
     this.fetchProcesses();
-    fetchCategories().then(({ response: categories }) => this.setState({ categories }));
+    fetchCategories().then(({ data: categories }) => this.setState({ categories }));
   }
 
-  fetchProcesses({ page = 0 }) { // fetch first page by default
-    fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ response: processes, pagination }) => {
+  fetchProcesses(page = 0) { // fetch first page by default
+    fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ data: processes, pagination }) => {
+      console.log('pagination: ', pagination);
       this.setState({ processes, pagination });
 
       // populate categories for each process
       processes.forEach((process) => fetchCategoriesByProcess(process.id).then(
-        ({ response: categories }) => {
+        ({ data: categories }) => {
           process.categories = categories.map((category) => category.displayName);
           this.setState({
             processes: [ ...this.state.processes, process ]
@@ -57,7 +58,7 @@ class App extends Component {
     const { order } = filter;
 
     this.setState({
-      filter: { ...filter, order: (order == 'ASC') ? 'DESC' : 'ASC'}
+      filter: { ...filter, order: (order === 'ASC') ? 'DESC' : 'ASC'}
     });
     this.fetchProcesses();
   }
