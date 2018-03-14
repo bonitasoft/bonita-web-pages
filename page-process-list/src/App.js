@@ -39,7 +39,7 @@ class App extends Component {
   fetchProcesses(page = 0) { // fetch first page by default
     fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ data: processes, pagination }) => {
       console.log('pagination: ', pagination);
-      this.setState({ processes, pagination });
+      this.setState({ processes: processes.map((process) => {return { ...process, categories: [] }}), pagination });
 
       // populate categories for each process
       processes.forEach((process) => fetchCategoriesByProcess(process.id).then(

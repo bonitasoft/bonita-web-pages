@@ -43,9 +43,9 @@ const request = (method) => (baseUrl, params) => {
 
   return fetch(url, options).then(function (response) {
     if (response.ok) {
-      const range = response.headers["Content-Range"];
+      const range = response.headers.get("Content-Range");
       let pagination = {};
-      console.log('response headers: ', response.headers);
+      console.log('response headers content-range: ', response.headers.get("Content-Range"));
 
       if (range) {
         const regexp = new RegExp(/^items=(\d+)-(\d+)\/(\d+)$/);
