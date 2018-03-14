@@ -18,12 +18,18 @@ class App extends Component {
     const { processes } = this.state;
 
     return (
-      <div>
+      <div className="container">
         <h1>Hello world with React</h1>
+        <div className="flash">
+            <button type="submit" className="btn btn-sm primary flash-action">Complete action</button>
+            Flash message with action here.
+        </div>
+        <button className="btn btn-primary" type="button">Button</button>
+        <a className="btn" href="https://primer.github.io/" role="button">Primer showroom</a>
         <ul>
-          {
-            processes.map((process) => <li>{process.displayName}</li>)
-          }
+            {
+                processes.map((process) => <li>{process.displayName}</li>)
+            }
         </ul>
       </div>
     );
