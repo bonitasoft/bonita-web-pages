@@ -10,20 +10,18 @@ class BonitaPagePlugin implements Plugin<Project> {
         project.plugins.apply('distribution')
         def currentDir = project.rootProject.projectDir
 
+        project.beforeEvaluate {
+            project.node {
+                version = extension.nodeVersion
+                npmVersion = extension.npmVersion
+            }
+        }
 
         project.node {
             download = true
 
             workDir = project.file("${currentDir}/.gradle/nodejs")
             npmWorkDir = project.file("${currentDir}/.gradle/npm")
-        }
-
-        project.afterEvaluate {
-            project.node {
-                version = extension.nodeVersion
-                npmVersion = extension.npmVersion
-            }
-
         }
 
         project.tasks.npm_install.configure {
