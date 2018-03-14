@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Filter.scss';
+import './Pagination.scss';
 
 import { Pagination } from 'react-bootstrap';
 
