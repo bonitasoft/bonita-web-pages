@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.scss';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 import Filter from './components/Filter.js';
 import List from './components/List.js';
@@ -15,9 +15,11 @@ class App extends Component {
     super(props);
     this.state = {
       processes: [],
-      categories: [],
+      categories: [
+        { displayName: 'All Categories', id: null }
+      ],
       filter: {
-        category: {},
+        category: {}, //init category at All
         search: '',
         order: 'ASC'
       },
@@ -29,17 +31,18 @@ class App extends Component {
         count: 10
       }
     };
+
+    this.state.filter.category = this.state.categories[0]; //init category at All
   }
 
   componentDidMount() {
     this.fetchProcesses();
-    fetchCategories().then(({ data: categories }) => this.setState({ categories }));
+    fetchCategories().then(({ data: categories }) => this.setState({ categories: [ this.state.categories[0], ...categories ]}));
   }
 
   fetchProcesses(page = 0) { // fetch first page by default
     fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ data: processes, pagination }) => {
-      console.log('pagination: ', pagination);
-      this.setState({ processes: processes.map((process) => {return { ...process, categories: [] }}), pagination });
+      this.setState({ processes: processes.map((process) => ({ ...process, categories: [] })), pagination });
 
       // populate categories for each process
       processes.forEach((process) => fetchCategoriesByProcess(process.id).then(

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Pagination.scss';
+import './Pagination.css';
 
 import { Pagination } from 'react-bootstrap';
 
@@ -8,16 +8,17 @@ class _Pagination extends Component {
 
   render() {
     const { pagination } = this.props;
+    const { page, end, count, total } = pagination;
 
-    return (
-      <Pagination>
-        <Pagination.First />
-        <Pagination.Prev />
-        <Pagination.Item>{pagination.page}</Pagination.Item>
-        <Pagination.Next />
-        <Pagination.Last />
-      </Pagination>
-    );
+    const hasPreviousPage = page !== 0,
+          hasNextPage = page * count + end < total; // nb on the previous pages (if any) + nb on the current page < total
+    const pager = [];
+
+    if (hasPreviousPage) pager.push(<Pagination.First />, <Pagination.Prev />);
+    pager.push(<Pagination.Item>{page + 1}</Pagination.Item>);
+    if (hasNextPage) pager.push(<Pagination.Next />, <Pagination.Last />);
+
+    return (hasPreviousPage || hasNextPage) ? <Pagination>{ pager }</Pagination> : null;
 
     /*return ( //TODO
       <Pagination>

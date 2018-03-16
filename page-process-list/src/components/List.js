@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import './List.scss';
+import './List.css';
 
 import { Panel, Table, Label, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const actions = [
   {
-    displayName: 'View process overview',
+    displayName: 'Show process overview',
     icon: 'eye-open'
   },
   {
-    displayName: '',
+    displayName: 'Start a new case',
+    icon: 'play-circle'
+  },
+  {
+    displayName: 'Show cases ?',
     icon: 'list'
   }
 ];
@@ -27,12 +31,12 @@ class List extends Component {
     const { start, end, total } = pagination;
 
     return (
-      <Panel>
+      <Panel id="list">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
-          <div>
+          <div id="list-info">
             <Button onClick={this.showSettings}>
               <Glyphicon glyph="cog" />
             </Button>

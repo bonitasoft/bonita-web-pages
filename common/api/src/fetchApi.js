@@ -11,7 +11,6 @@ const defaultOptions = {
   cache: 'default'
 };
 
-
 function parseParams(params) {
   return Object.keys(params)
     .map(k => {
@@ -41,28 +40,27 @@ const request = (method) => (baseUrl, params) => {
     options.body = JSON.stringify(params);
   }
 
-  return fetch(url, options).then(function (response) {
-    if (response.ok) {
+  return fetch(url, options)
+    .catch((err) => console.error(`Network error : fetching ${url}\n`, err))
+    .then((response) => response.json().then((data) => {
       const range = response.headers.get("Content-Range");
       let pagination = {};
-      console.log('response headers content-range: ', response.headers.get("Content-Range"));
 
       if (range) {
-        const regexp = new RegExp(/^items=(\d+)-(\d+)\/(\d+)$/);
+        const regexp = new RegExp(/^(\d+)-(\d+)\/(\d+)$/);
         const result = range.match(regexp);
 
         pagination = {
-          start: result[0],
-          end: result[1],
-          total: result[2],
+          start: result[1],
+          end: data.length,
+          total: result[3],
           page: params.p,
           count: params.c
         };
       }
-      return response.json().then((data) => Promise.resolve({data, pagination}));
-    }
-    return Promise.reject(response.error);
-  });
+
+      return Promise.resolve({ data, pagination }); //return a promise
+    }));
 }
 
 export default {
