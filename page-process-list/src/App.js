@@ -33,6 +33,11 @@ class App extends Component {
     };
 
     this.state.filter.category = this.state.categories[0]; //init category at All
+
+    // to have "this" available inside function
+    this.fetchProcessesAndPopulateCategories = this.fetchProcessesAndPopulateCategories.bind(this);
+    this.fetchProcesses = this.fetchProcesses.bind(this);
+    this.changePage = this.changePage.bind(this);
   }
 
   componentDidMount() {
@@ -40,20 +45,29 @@ class App extends Component {
     fetchCategories().then(({ data: categories }) => this.setState({ categories: [ this.state.categories[0], ...categories ]}));
   }
 
-  fetchProcesses(page = 0) { // fetch first page by default
+  // fetch processes then populate categories for each process (the API does not give provide a way to populate
+  // categories when fetching an array of processes
+  fetchProcessesAndPopulateCategories(page = 0) {
     fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ data: processes, pagination }) => {
-      this.setState({ processes: processes.map((process) => ({ ...process, categories: [] })), pagination });
+      processes.forEach((process) => process.categories = []);
+      this.setState({ processes, pagination });
 
       // populate categories for each process
       processes.forEach((process) => fetchCategoriesByProcess(process.id).then(
         ({ data: categories }) => {
           process.categories = categories.map((category) => category.displayName);
-          this.setState({
-            processes: [ ...this.state.processes, process ]
-          });
+          this.setState({ processes });
         }
       ))
     });
+  }
+
+  fetchProcesses() {
+    this.fetchProcessesAndPopulateCategories();
+  }
+
+  changePage(page) {
+    this.fetchProcessesAndPopulateCategories(page);
   }
 
   toggleOrder() {
@@ -72,9 +86,9 @@ class App extends Component {
     return (
       <div className="container border">
         <h1>Processes</h1>
-        <Filter filter={filter} categories={categories} onChange={() => this.fetchProcesses()} />
+        <Filter filter={filter} categories={categories} onChange={this.fetchProcesses} />
         <List processes={processes} pagination={pagination} filter={filter} toggleOrder={this.toggleOrder} />
-        <Pagination pagination={pagination} />
+        <Pagination pagination={pagination} onChangePage={this.changePage} />
       </div>
     );
   }

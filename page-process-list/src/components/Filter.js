@@ -9,17 +9,20 @@ class Filter extends Component {
   constructor(props) {
     super(props);
 
-    this.selectCategory = this.selectCategory.bind(this); //to have this available inside selectCategory
+    this.submit = this.props.onChange; // an alias that is more explicit
+
+    // to have "this" available inside function
+    this.selectCategory = this.selectCategory.bind(this);
   }
 
   selectCategory(category) {
     this.props.filter.category = category;
-    this.props.onChange();
+    this.submit();
   }
 
   render() {
-    const { categories, filter, onChange } = this.props;
-    const { category, search } = filter;
+    const { categories, filter } = this.props;
+    const { category } = filter;
 
     return (
       <Panel id="filter">
@@ -27,7 +30,7 @@ class Filter extends Component {
           <Panel.Title componentClass="h3">Filter</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
-          <form>
+          <form onSubmit={(e) => { e.preventDefault() /*to avoid page refresh*/; this.submit(); }}>
             <DropdownButton
               xs={4} md={6}
               title={category.displayName}
@@ -43,11 +46,10 @@ class Filter extends Component {
               <InputGroup>
                 <FormControl
                   type="text"
-                  value={search}
                   placeholder="Search..."
-                  onChange={onChange}
+                  onChange={(e) => this.props.filter.search = e.target.value}
                 />
-                <Button componentClass={InputGroup.Button}>
+                <Button componentClass={InputGroup.Button} onClick={this.submit}>
                   <Glyphicon glyph="search" />
                 </Button>
               </InputGroup>

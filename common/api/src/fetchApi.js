@@ -47,15 +47,14 @@ const request = (method) => (baseUrl, params) => {
       let pagination = {};
 
       if (range) {
-        const regexp = new RegExp(/^(\d+)-(\d+)\/(\d+)$/);
-        const result = range.match(regexp);
+        const { p: page, c: count } = params;
 
         pagination = {
-          start: result[1],
-          end: data.length,
-          total: result[3],
-          page: params.p,
-          count: params.c
+          start: page * count + ((data.length) ? 1 : 0),
+          end: page * count + data.length,
+          total: parseInt(range.split('/')[1], 10),
+          page,
+          count
         };
       }
 

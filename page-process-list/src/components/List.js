@@ -55,14 +55,14 @@ class List extends Component {
             </tr>
             </thead>
             <tbody>
-            {processes.map((process, i) =>
+            { processes.map((process, i) =>
               <tr key={"tr"+i}>
                 <td>{process.displayName}</td>
                 <td>{process.version}</td>
                 <td>
                   {
                     process.categories.map((category, k) =>
-                      <Label key={"label"+k} bsStyle="default">{category}</Label>
+                      <Label key={"label"+k} bsStyle="default">{category.displayName}</Label>
                     )
                   }
                 </td>

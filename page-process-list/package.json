@@ -28,10 +28,8 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "npm-run-all -p watch-css start-js",
-    "build": "npm-run-all build-css build-js",
+    "start": "npm-run-all -p start-js",
+    "build": "npm-run-all build-js",
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -40,7 +38,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "node-sass-chokidar": "^1.1.0",
     "npm-run-all": "^4.1.2"
   }
 }
