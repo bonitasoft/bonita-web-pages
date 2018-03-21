@@ -55,7 +55,7 @@ class App extends Component {
       // populate categories for each process
       processes.forEach((process) => fetchCategoriesByProcess(process.id).then(
         ({ data: categories }) => {
-          process.categories = categories.map((category) => category.displayName);
+          process.categories = categories.map((category) => category);
           this.setState({ processes });
         }
       ))
