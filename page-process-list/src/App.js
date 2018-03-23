@@ -7,7 +7,6 @@ import Pagination from './components/Pagination.js';
 
 import fetchProcesses from './common/api/src/fetchProcesses.js';
 import fetchCategories from './common/api/src/fetchCategories.js';
-import fetchCategoriesByProcess from './common/api/src/fetchCategoriesByProcess.js';
 
 
 class App extends Component {
@@ -45,21 +44,13 @@ class App extends Component {
     fetchCategories().then(({ data: categories }) => this.setState({ categories: [ this.state.categories[0], ...categories ]}));
   }
 
-  // fetch processes then populate categories for each process (the API does not give provide a way to populate
-  // categories when fetching an array of processes
-  fetchProcessesAndPopulateCategories(page = 0) {
-    fetchProcesses({ ...this.state.filter, ...this.state.pagination, page }).then(({ data: processes, pagination }) => {
-      processes.forEach((process) => process.categories = []);
-      this.setState({ processes, pagination });
 
-      // populate categories for each process
-      processes.forEach((process) => fetchCategoriesByProcess(process.id).then(
-        ({ data: categories }) => {
-          process.categories = categories.map((category) => category);
-          this.setState({ processes });
-        }
-      ))
-    });
+  // fetch processes then populate categories for each process (the API does not give provide a way to populate
+  // categories when fetching an array of processes)
+  fetchProcessesAndPopulateCategories(page = 0) {
+    fetchProcesses({ ...this.state.filter, ...this.state.pagination, page })
+      .then(({ data: processes, pagination }) => this.setState({ processes, pagination }))
+      .populateCategories((processes) => this.setState({ processes }));
   }
 
   fetchProcesses() {
