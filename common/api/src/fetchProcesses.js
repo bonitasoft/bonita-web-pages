@@ -1,8 +1,12 @@
 
 import fetchApi from './fetchApi';
+import fetchCategoriesByProcess from "./fetchCategoriesByProcess";
+
+import concat from 'async/concat';
+
 
 export default function({ category, order = 'ASC', search = '', page = 0, count = 10 }) {
-  return fetchApi.get(
+  var promise = fetchApi.get(
     '/bonita/API/bpm/process',
     {
       'p': page,
@@ -11,7 +15,32 @@ export default function({ category, order = 'ASC', search = '', page = 0, count 
       's': search,
       'f': (category.id) ? { 'categoryId': category.id } : { 'activationState': 'ENABLED' }
     }
-  )
+  );
+
+
+  // rewrite then to be able to chain then and populateCategories,i.e. promise.then(thenCallback).populateCategories(populateCallback);
+  promise._then = promise.then;
+  promise.then = (thenCallback) => { // no need to pass errCallback because fetchApi already handle network errors
+    const promise2 = new Promise((resolve) => {
+      promise._then(({ data: processes, pagination }) => {
+        processes.forEach((process) => process.categories = []);
+
+        thenCallback({ data: processes, pagination });
+        resolve(processes);
+      });
+    });
+
+    return {
+      populateCategories: (populateCallback) => promise2.then((processes) => concat( // get processes then concat fetches
+        processes, // pass each process to the following function (that is the next argument passed to concat)
+        (process, cb) => fetchCategoriesByProcess(process.id) // fetch categories for each process
+          .then(({ data: categories }) => { process.categories = categories; cb(null, process); }),
+        (err, processes) => populateCallback(processes) // get all processes with categories populated
+      ))
+    }
+  };
+
+  return promise;
 }
 
 /* A process looks like that :

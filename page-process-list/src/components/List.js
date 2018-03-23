@@ -34,14 +34,14 @@ class List extends Component {
       <Panel id="list">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
-        </Panel.Heading>
-        <Panel.Body>
           <div id="list-info">
+            <p>{`${start}-${end} of ${total}`}</p>
             <Button onClick={this.showSettings}>
               <Glyphicon glyph="cog" />
             </Button>
-            <p>{`${start}-${end} of ${total}`}</p>
           </div>
+        </Panel.Heading>
+        <Panel.Body>
           <Table striped hover>
             <thead>
             <tr>
