@@ -4,8 +4,8 @@ import fetchApi from './fetchApi';
 export default (processId) => fetchApi.get(
   '/bonita/API/bpm/category',
   {
-    'c': 1,
     'p': 0,
+    'c': Number.MAX_SAFE_INTEGER % 1, // some working cast
     'f': { 'id': processId }
   }
 )

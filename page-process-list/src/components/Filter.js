@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Filter.css';
 
-import { Panel, DropdownButton, Button, MenuItem, FormGroup, InputGroup, FormControl, Glyphicon } from 'react-bootstrap';
+import { Panel, DropdownButton, Button, MenuItem, Form, FormGroup, FormControl, Glyphicon } from 'react-bootstrap';
 
 
 class Filter extends Component {
@@ -30,7 +30,7 @@ class Filter extends Component {
           <Panel.Title componentClass="h3">Filter</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
-          <form onSubmit={(e) => { e.preventDefault() /*to avoid page refresh*/; this.submit(); }}>
+          <Form onSubmit={(e) => { e.preventDefault() /*to avoid page refresh*/; this.submit(); }}>
             <DropdownButton
               xs={4} md={6}
               title={category.displayName}
@@ -42,19 +42,18 @@ class Filter extends Component {
                   <MenuItem eventKey={category} key={category.id}>{category.displayName}</MenuItem>)
               }
             </DropdownButton>
-            <FormGroup xs={8} md={6}>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  placeholder="Search..."
-                  onChange={(e) => this.props.filter.search = e.target.value}
-                />
-                <Button componentClass={InputGroup.Button} onClick={this.submit}>
-                  <Glyphicon glyph="search" />
-                </Button>
-              </InputGroup>
+            <FormGroup xs={8} md={6} id="filter-search">
+              <FormControl
+                type="text"
+                placeholder="Search..."
+                onChange={(e) => this.props.filter.search = e.target.value}
+              />
+              <Button onClick={this.submit}>
+                <Glyphicon glyph="search" />
+              </Button>
             </FormGroup>
-          </form>
+
+          </Form>
         </Panel.Body>
       </Panel>
     );
