@@ -1,28 +1,46 @@
 
-const options = {
-  method: 'GET',
-  credentials: 'same-origin', // automatically send cookies for the current domain
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    // 'Cookie': document.cookie,
-    'Access-Control-Allow-Origin': '*'
-  },
-  mode: 'cors',
-  cache: 'default'
-}
+import fetchApi from './fetchApi';
+import fetchCategoriesByProcess from "./fetchCategoriesByProcess";
 
-const url = '/bonita/API/bpm/process?p=0&c=10&o=displayName ASC&f=activationState=ENABLED'
+import concat from 'async/concat';
 
-// return a promise with processes as the first parameter
-export default function () {
-  return fetch(url, options)
-    .then(function (response) {
-      if (response.ok) {
-        return Promise.resolve(response.json())
-      }
-      return Promise.reject(response.error())
-    })
+
+export default function({ category, order = 'ASC', search = '', page = 0, count = 10 }) {
+  var promise = fetchApi.get(
+    '/bonita/API/bpm/process',
+    {
+      'p': page,
+      'c': count,
+      'o': 'displayName ' + order,
+      's': search,
+      'f': (category.id) ? { 'categoryId': category.id } : { 'activationState': 'ENABLED' }
+    }
+  );
+
+
+  // rewrite then to be able to chain then and populateCategories,i.e. promise.then(thenCallback).populateCategories(populateCallback);
+  promise._then = promise.then;
+  promise.then = (thenCallback) => { // no need to pass errCallback because fetchApi already handle network errors
+    const promise2 = new Promise((resolve) => {
+      promise._then(({ data: processes, pagination }) => {
+        processes.forEach((process) => process.categories = []);
+
+        thenCallback({ data: processes, pagination });
+        resolve(processes);
+      });
+    });
+
+    return {
+      populateCategories: (populateCallback) => promise2.then((processes) => concat( // get processes then concat fetches
+        processes, // pass each process to the following function (that is the next argument passed to concat)
+        (process, cb) => fetchCategoriesByProcess(process.id) // fetch categories for each process
+          .then(({ data: categories }) => { process.categories = categories; cb(null, process); }),
+        (err, processes) => populateCallback(processes) // get all processes with categories populated
+      ))
+    }
+  };
+
+  return promise;
 }
 
 /* A process looks like that :

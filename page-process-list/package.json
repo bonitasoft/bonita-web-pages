@@ -1,0 +1,58 @@
+{
+  "name": "page-process-list",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "proxy": {
+    "/bonita": {
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true,
+      "ws": true,
+      "pathRewrite": {
+        "^/bonita": ""
+      }
+    },
+    "/theme/theme.css": {
+      "target": "/theme/theme",
+      "changeOrigin": true,
+      "ws": true
+    }
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
+  "dependencies": {
+    "@bonita/api": "file:../common/api",
+    "async": "^2.6.0",
+    "bootstrap": "^3.3.7",
+    "primer": "^10.3.0",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.2.0"
+  },
+  "scripts": {
+    "start": "npm-run-all -p start-js",
+    "build": "npm-run-all build-js",
+    "start-js": "react-scripts start",
+    "build-js": "react-scripts build",
+    "test": "jest",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^22.4.3",
+    "jest-fetch-mock": "^1.5.0",
+    "npm-run-all": "^4.1.2",
+    "react-scripts": "1.1.1",
+    "react-test-renderer": "^16.2.0"
+  }
+}
