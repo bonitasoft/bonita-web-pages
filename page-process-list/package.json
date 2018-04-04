@@ -2,10 +2,28 @@
   "name": "page-process-list",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
+  "proxy": {
+    "/bonita": {
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true,
+      "ws": true,
+      "pathRewrite": {
+        "^/bonita": ""
+      }
+    },
+    "/theme/theme.css": {
+      "target": "/theme/theme",
+      "changeOrigin": true,
+      "ws": true
+    }
+  },
   "dependencies": {
+    "bootstrap": "^4.0.0",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-scripts": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
