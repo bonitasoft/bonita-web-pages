@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
 
-import { Panel, Table, Label } from 'react-bootstrap';
+import { Panel, Table, Label, Glyphicon } from 'react-bootstrap';
 
 class List extends Component {
   render() {
-    const { processes, pagination } = this.props;
+    const { processes, pagination, filters } = this.props;
     const { page, size, total } = pagination;
 
     // indexes of first and last elements on the page
@@ -18,16 +18,28 @@ class List extends Component {
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
           <div className="List-info">
-            <p>{`${start + 1}-${end + 1} of ${total}`}</p>
+            <p>
+              {total !== 0
+                ? `${start + 1}-${end + 1} of ${total}`
+                : 'no processes'}
+            </p>
           </div>
         </Panel.Heading>
         <Panel.Body>
           <Table striped hover>
             <thead>
               <tr>
-                <th>Name</th>
+                <th className="List-name" onClick={this.props.toggleOrder}>
+                  <span>Name</span>
+                  <Glyphicon
+                    glyph={
+                      'chevron-' + (filters.order === 'ASC') ? 'up' : 'down'
+                    }
+                  />
+                </th>
                 <th>Version</th>
                 <th>Categories</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
@@ -42,6 +54,7 @@ class List extends Component {
                       </Label>
                     ))}
                   </td>
+                  <td>{process.description}</td>
                 </tr>
               ))}
             </tbody>
@@ -52,15 +65,15 @@ class List extends Component {
   }
 }
 
-const { string, number, oneOf, shape, arrayOf } = PropTypes;
+const { string, oneOf, shape, arrayOf, objectOf, func } = PropTypes;
 
 const categoryType = shape({
-  createdBy: number,
+  createdBy: string,
   displayName: string,
   name: string,
   description: string,
   creation_date: string,
-  id: number
+  id: string
 });
 
 const processType = shape({
@@ -85,7 +98,9 @@ const processType = shape({
 });
 
 List.propTypes = {
-  processes: arrayOf(processType)
+  processes: arrayOf(processType),
+  filters: objectOf(string),
+  toggleOrder: func
 };
 
 export default List;
