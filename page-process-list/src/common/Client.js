@@ -20,22 +20,24 @@ class Client {
     this.interceptors = [];
   }
 
-  get(url) {
+  get(url, _options) {
     const options = {
       ...OPTIONS,
       method: 'GET',
-      headers: headers()
+      headers: headers(),
+      ..._options
     };
 
     return this._fetch(url, options);
   }
 
-  post(url, body) {
+  post(url, body, _options) {
     const options = {
       ...OPTIONS,
       method: 'POST',
       headers: headers(),
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      ..._options
     };
 
     return this._fetch(url, options);

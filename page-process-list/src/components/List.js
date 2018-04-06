@@ -45,29 +45,30 @@ class List extends Component {
             </tr>
             </thead>
             <tbody>
-            { processes.map((process, i) =>
-              <tr key={"tr"+i}>
-                <td>{process.displayName}</td>
-                <td>{process.version}</td>
-                <td>
-                  {
-                    process.categories.map((category, k) =>
-                      <Label key={"label"+k} bsStyle="default">{category.displayName}</Label>
-                    )
-                  }
-                </td>
-                <td>
-                  {
-                    actions.map((action, j) =>
-                      <OverlayTrigger placement="top" key={j} overlay={<Tooltip id={"action"+j}>{action.displayName}</Tooltip>}>
-                        <Button /* TODO: onClick={} */>
-                          <Glyphicon glyph={action.icon} />
-                        </Button>
-                      </OverlayTrigger>
-                    )
-                  }
-                </td>
-              </tr>
+            {
+              processes.map((process, i) =>
+                <tr key={"tr"+i}>
+                  <td>{process.displayName}</td>
+                  <td>{process.version}</td>
+                  <td>
+                    {
+                      process.categories.map((category, k) =>
+                        <Label key={"label"+k} bsStyle="default">{category.displayName}</Label>
+                      )
+                    }
+                  </td>
+                  <td>
+                    {
+                      actions.map((action, j) =>
+                        <OverlayTrigger placement="top" key={j} overlay={<Tooltip id={"action"+j}>{action.displayName}</Tooltip>}>
+                          <Button /* TODO: onClick={} */>
+                            <Glyphicon glyph={action.icon} />
+                          </Button>
+                        </OverlayTrigger>
+                      )
+                    }
+                  </td>
+                </tr>
             )}
             </tbody>
           </Table>

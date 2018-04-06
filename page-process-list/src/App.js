@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import fetchProcesses from './common/requests/fetchProcesses';
+import { ProcessApi } from './api';
 
 import List from './components/List';
 
@@ -16,8 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetchProcesses()
-      .then((processes) => this.setState({ processes }));
+    ProcessApi.fetchPage().then((processes) => this.setState({ processes }));
   }
 
   render() {
