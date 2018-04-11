@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ProcessApi } from './api';
 
 import List from './components/List';
+import Pagination from './components/Pagination';
 
 
 class App extends Component {
@@ -11,21 +12,31 @@ class App extends Component {
     super(props);
 
     this.state = {
-      processes: []
+      processes: [],
+      pagination: {}
     };
+
+    this.fetchPage = this.fetchPage.bind(this);
   }
 
   componentDidMount() {
-    ProcessApi.fetchPage().then((processes) => this.setState({ processes }));
+    this.fetchPage();
+  }
+
+  fetchPage(page = 0) {
+    const { pagination } = this.state;
+
+    ProcessApi.fetchPage({ ...pagination, page }).then(({ processes, pagination }) => this.setState({ processes, pagination }));
   }
 
   render() {
-    const { processes } = this.state;
+    const { processes, pagination } = this.state;
 
     return (
-      <div>
+      <div className="container border">
         <h1>Processes</h1>
-        <List processes={processes} />
+        <List processes={processes} pagination={pagination} />
+        <Pagination pagination={pagination} onChangePage={this.fetchPage} />
       </div>
     );
   }
