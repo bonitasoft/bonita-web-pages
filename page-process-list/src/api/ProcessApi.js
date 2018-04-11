@@ -17,7 +17,6 @@ class ProcessApi {
     return this.apiClient.get(url, options)
                          .then(response => response.json())
                          .then(processes => processes.map(process => ({ ...process, categories: [] })))
-                         .catch(err => console.error(err));
   }
 }
 

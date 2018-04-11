@@ -2,35 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
 
-import { Panel, Table, Label, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
-
-const actions = [
-  {
-    displayName: 'Show process overview',
-    icon: 'eye-open'
-  },
-  {
-    displayName: 'Start a new case',
-    icon: 'play-circle'
-  },
-  {
-    displayName: 'Show cases ?',
-    icon: 'list'
-  }
-];
+import { Panel, Table, Label } from 'react-bootstrap';
 
 
 class List extends Component {
-
-  static showSettings() {
-    //TODO
-  }
 
   render() {
     const { processes } = this.props;
 
     return (
-      <Panel id="List">
+      <Panel className="List">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
         </Panel.Heading>
@@ -46,25 +27,14 @@ class List extends Component {
             </thead>
             <tbody>
             {
-              processes.map((process, i) =>
-                <tr key={"tr"+i}>
+              processes.map((process) =>
+                <tr key={process.id}>
                   <td>{process.displayName}</td>
                   <td>{process.version}</td>
                   <td>
                     {
-                      process.categories.map((category, k) =>
-                        <Label key={"label"+k} bsStyle="default">{category.displayName}</Label>
-                      )
-                    }
-                  </td>
-                  <td>
-                    {
-                      actions.map((action, j) =>
-                        <OverlayTrigger placement="top" key={j} overlay={<Tooltip id={"action"+j}>{action.displayName}</Tooltip>}>
-                          <Button /* TODO: onClick={} */>
-                            <Glyphicon glyph={action.icon} />
-                          </Button>
-                        </OverlayTrigger>
+                      process.categories.map((category) =>
+                        <Label key={category.id} bsStyle="default">{category.displayName}</Label>
                       )
                     }
                   </td>

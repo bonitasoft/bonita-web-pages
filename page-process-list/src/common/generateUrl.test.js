@@ -33,7 +33,7 @@ describe('generateUrl', () => {
     const url = generateUrl('localhost', {
       'items': [ 'a', 'b' ]
     });
-    expect(url).toEqual('localhost?items[]=a&items[]=b');
+    expect(url).toEqual('localhost?items=a&items=b');
   });
 
 });
