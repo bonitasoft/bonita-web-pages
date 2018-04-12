@@ -16,5 +16,11 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
+//Workaround to support fetch stubbing in Cypress
+//https://github.com/cypress-io/cypress/issues/687
+Cypress.on("window:before:load", win => {
+    win.fetch = null;
+  });
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
