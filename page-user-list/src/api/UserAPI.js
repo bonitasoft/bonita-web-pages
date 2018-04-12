@@ -8,7 +8,7 @@ export class UserAPI {
   }
 
   async getUsers() {
-    const response = await this.client.get(`/bonita/API/identity/user?p=0&c=9999`);
+    const response = await this.client.get(`../API/identity/user?p=0&c=9999`);
     return response.json();
   }
 
