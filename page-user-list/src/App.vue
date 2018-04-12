@@ -12,13 +12,13 @@ export default {
   components: {
     HelloWorld
   },
-  data: function(){
+  data: function() {
     return {
-      users:[]
-    }
+      users: []
+    };
   },
-  mounted: function () {
-      api.getUsers().then(response => this.users = response);
+  mounted: function() {
+    api.getUsers().then(response => (this.users = response));
   }
 };
 </script>

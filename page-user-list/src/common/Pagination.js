@@ -1,8 +1,7 @@
 export default class Pagination {
-
   constructor(page, size, total) {
     this.page = page;
-    this.size = size;       // = bonita `c` parameter (count)
+    this.size = size; // = bonita `c` parameter (count)
     this.total = total;
   }
 
@@ -11,7 +10,10 @@ export default class Pagination {
     if (!match || match.length < 4) {
       return {};
     }
-    return new Pagination(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]))
+    return new Pagination(
+      parseInt(match[1]),
+      parseInt(match[2]),
+      parseInt(match[3])
+    );
   }
-
 }

@@ -1,17 +1,17 @@
-import cookie from './Cookie';
+import cookie from "./Cookie";
 
 const OPTIONS = {
-  credentials: 'same-origin', // automatically send cookies for the current domain
+  credentials: "same-origin", // automatically send cookies for the current domain
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
+    Accept: "application/json",
+    "Content-Type": "application/json"
   }
 };
 
 const headers = () => {
-  const csrfToken = cookie.getValue('X-Bonita-API-Token');
+  const csrfToken = cookie.getValue("X-Bonita-API-Token");
   return csrfToken
-    ? { ...OPTIONS.headers, 'X-Bonita-API-Token': csrfToken }
+    ? { ...OPTIONS.headers, "X-Bonita-API-Token": csrfToken }
     : { ...OPTIONS.headers };
 };
 
@@ -23,7 +23,7 @@ class Client {
   get(url) {
     const options = {
       ...OPTIONS,
-      method: 'GET',
+      method: "GET",
       headers: headers()
     };
 
@@ -33,7 +33,7 @@ class Client {
   post(url, body) {
     const options = {
       ...OPTIONS,
-      method: 'POST',
+      method: "POST",
       headers: headers(),
       body: JSON.stringify(body)
     };
