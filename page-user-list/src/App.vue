@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HelloWorld :users="users" msg="Welcome to Your Vue.js App"/>
+    <UserTable :users="users"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import UserTable from "./components/UserTable.vue";
 import api from "./api/UserAPI.js";
 export default {
   name: "app",
   components: {
-    HelloWorld
+    UserTable
   },
   data: function() {
     return {
