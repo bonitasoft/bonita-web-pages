@@ -3,17 +3,17 @@ function parseParams(params) {
     .map(k => {
       if (Array.isArray(params[k])) {
         return params[k]
-          .map(val => encodeURIComponent(k) + "=" + encodeURIComponent(val))
-          .join("&");
+          .map(val => encodeURIComponent(k) + '=' + encodeURIComponent(val))
+          .join('&');
       }
 
-      if (params[k] !== null && typeof params[k] === "object") {
-        return encodeURIComponent(k) + "=" + parseParams(params[k]);
+      if (params[k] !== null && typeof params[k] === 'object') {
+        return encodeURIComponent(k) + '=' + parseParams(params[k]);
       }
 
-      return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+      return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
     })
-    .join("&");
+    .join('&');
 }
 
 const generateUrl = (url, params) =>

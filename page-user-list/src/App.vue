@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import UserTable from "./components/UserTable.vue";
-import api from "./api/UserAPI.js";
+import UserTable from './components/UserTable.vue';
+import api from './api/UserAPI.js';
 export default {
-  name: "app",
+  name: 'app',
   components: {
     UserTable
   },

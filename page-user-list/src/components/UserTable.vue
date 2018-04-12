@@ -6,18 +6,18 @@
 
 <script>
 export default {
-  name: "UserTable",
+  name: 'UserTable',
   props: {
     users: Array
   },
   data() {
     return {
       fields: [
-        "userName",
-        "lastname",
-        "firstname",
-        "job_title",
-        "last_connection"
+        'userName',
+        'lastname',
+        'firstname',
+        'job_title',
+        'last_connection'
       ]
     };
   }
