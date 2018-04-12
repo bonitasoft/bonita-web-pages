@@ -42,11 +42,15 @@ describe("UserAPI", () => {
         last_update_date: "2018-04-03 16:19:18.994"
       }
     ];
-    fetchMock.getOnce(`../API/identity/user?p=0&c=9999`, {
+    fetchMock.getOnce(`../API/identity/user?p=0&c=10`, {
       body: expectedUsers
     });
 
-    const response = await api.getUsers();
+    let searchOptions = {
+      page: 0,
+      elementsByPage: 10
+    }
+    const response = await api.getUsers(searchOptions);
 
     expect(response).toEqual(expectedUsers);
   });

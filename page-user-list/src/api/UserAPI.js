@@ -1,4 +1,4 @@
-import { apiClient } from "../common";
+import { apiClient, Pagination } from "../common";
 
 export class UserAPI {
   constructor(client) {
@@ -7,9 +7,12 @@ export class UserAPI {
     // this.client.register({ responseError: sessionTimeoutInterceptor });
   }
 
-  async getUsers() {
-    const response = await this.client.get(`../API/identity/user?p=0&c=9999`);
-    return response.json();
+  async getUsers(pagination) {
+    const response = await this.client.get(`../API/identity/user?p=${pagination.page}&c=${pagination.size}`);
+    return {
+        data: await response.json(),
+        pagination: Pagination.from(response.headers.get('content-range'))
+    }
   }
 }
 
