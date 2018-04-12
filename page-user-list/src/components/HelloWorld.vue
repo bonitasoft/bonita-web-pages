@@ -1,14 +1,18 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div>
+    <ol>
+      <li v-for="user in users" :key="user.id">
+        {{ user.userName }}
+      </li>
+    </ol>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "UserList",
   props: {
-    msg: String
+    users: Array
   }
 };
 </script>
