@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <UserTable :users="users"/>
+    <UserTable :users="users" :pagination="pagination" @refresh="getUsers()"/>
   </div>
 </template>
 
 <script>
 import UserTable from "./components/UserTable.vue";
 import api from "./api/UserAPI.js";
+import Pagination from './common/Pagination';
 export default {
   name: "app",
   components: {
@@ -14,11 +15,23 @@ export default {
   },
   data: function() {
     return {
-      users: []
+      users: [],
+      pagination: {
+        page:0,
+        size:10
+      }
     };
   },
-  mounted: function() {
-    api.getUsers().then(response => (this.users = response));
+  methods:{
+    getUsers () {
+      api.getUsers(this.pagination).then((response) => {
+        this.users = response.data;
+        this.pagination = response.pagination;
+      });
+    }
+  },
+  mounted: function () {
+    this.getUsers();
   }
 };
 </script>
