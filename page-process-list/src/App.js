@@ -13,7 +13,7 @@ class App extends Component {
 
     this.state = {
       processes: [],
-      pagination: {}
+      pagination: { page: 0, size: 10, total: 0 } // avoid NaN errors
     };
 
     this.fetchPage = this.fetchPage.bind(this);
