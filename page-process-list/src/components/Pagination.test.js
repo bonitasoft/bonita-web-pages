@@ -1,13 +1,18 @@
 import React from 'react';
 import Pagination from './Pagination';
+import { Pager} from 'react-bootstrap';
 
+import { shallow, mount } from 'enzyme';
 
-import { shallow } from 'enzyme';
+import jsdom from 'jsdom';
+const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.document = doc;
+global.window = doc.defaultView;
 
 
 describe('<Pagination />', () => {
 
-  const changePageMock = jest.fn().mockImplementation((page) => page);
+  const changePageMock = jest.fn();//.mockImplementation((page) => page);
 
   it('should render null when page is the first and last page so the only page', () => {
     const wrapper = shallow(<Pagination pagination={{ total: 10, page: 0, size: 10 }} onChangePage={changePageMock} />);
@@ -29,10 +34,11 @@ describe('<Pagination />', () => {
     expect(wrapper.children()).toHaveLength(5);
   });
 
-  it('should call onPageChange with the right page parameter when an <Item /> is clicked', () => {
-    const wrapper = shallow(<Pagination pagination={{ total: 20, page: 1, size: 10 }} onChangePage={changePageMock} />);
-    wrapper.children().forEach((item) => item.simulate('click'));
-    expect(changePageMock.mock.calls).toBe([ '0', '0', '1', '2', '2']);
+  it('should call onPageChange with the right page parameter when all <Item /> is clicked', () => {
+    const wrapper = mount(<Pagination pagination={{ total: 30, page: 1, size: 10 }} onChangePage={changePageMock} />);
+
+    wrapper.find(Pager.Item).forEach((item) => item.prop('onClick')());
+    expect(changePageMock.mock.calls.map((args) => args.join())).toEqual([ '0', '0', '1', '2', '2' ]);
   });
 
 });
