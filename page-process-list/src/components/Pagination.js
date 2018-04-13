@@ -5,10 +5,11 @@ import './Pagination.css';
 import { Pager, Glyphicon } from 'react-bootstrap';
 
 
-const buildItem = (onChangePage) => ({ page, children, ...props }) =>
+const buildItem = (onChangePage) => ({ page, children, ...props }) => (
   <Pager.Item onClick={() => onChangePage(page)} {...props}>
     { children || page+1 }
-  </Pager.Item>;
+  </Pager.Item>
+);
 
 
 class Pagination extends Component {
@@ -37,28 +38,27 @@ class Pagination extends Component {
 
     if (!isFirstPage) {
       pager.push(
-        <Item page={0} key="first"/>,
-        <Item previous page={page - 1} key="prev"><Glyphicon glyph="menu-left"/></Item>
+        <Item page={0} key="first" />,
+        <Item previous page={page - 1} key="prev"><Glyphicon glyph="menu-left" /></Item>
       );
     }
 
-    pager.push(<Item page={page} key={page}/>);
+    pager.push(<Item page={page} key="current" />);
 
     if (!isLastPage) {
       pager.push(
-        <Item next page={page + 1} key="next"><Glyphicon glyph="menu-right"/></Item>,
-        <Item page={lastPage} key="last"/>
+        <Item next page={page + 1} key="next"><Glyphicon glyph="menu-right" /></Item>,
+        <Item page={lastPage} key="last" />
       );
     }
 
-    return <Pager className="Pagination">{pager}</Pager>;
-  }
+    return <Pager className="Pagination" children={pager} /> }
 }
 
 const { func, number, objectOf } = PropTypes;
 
 Pagination.propTypes = {
-  pagination: objectOf(number), // { page, size, total }
+  pagination: objectOf(number),
   onChangePage: func
 };
 
