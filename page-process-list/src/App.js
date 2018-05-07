@@ -17,13 +17,15 @@ class App extends Component {
       pagination: { page: 0, size: 10, total: 0 }, // avoid NaN errors
       filters: {
         categoryId: '0',
-        search: ''
+        search: '',
+        order: 'DESC'
       }
     };
 
     this.fetchPage = this.fetchPage.bind(this);
     this.fetchCategories = this.fetchCategories.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
+    this.toggleOrder = this.toggleOrder.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +58,13 @@ class App extends Component {
     this.setState((prevState) => ({ filters: { ...prevState.filters, ..._filters }}));
   }
 
+  toggleOrder() {
+    const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
+
+    this.fetchPage(0, { order });
+    this.setState((prevState) => ({ filters: { ...prevState.filters, order }}));
+  }
+
   render() {
     const { processes, categories, pagination, filters } = this.state;
 
@@ -63,7 +72,7 @@ class App extends Component {
       <div className="container border">
         <h1>Processes</h1>
         <Filters filters={filters} categories={categories} onChange={this.updateFilters} />
-        <List processes={processes} pagination={pagination} />
+        <List processes={processes} pagination={pagination} toggleOrder={this.toggleOrder} />
         <Pagination pagination={pagination} onChangePage={this.fetchPage} />
       </div>
     );

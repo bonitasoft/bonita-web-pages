@@ -13,7 +13,7 @@ class ProcessApi {
       'p': page,
       'c': size,
       's': search,
-      'f': (categoryId) ? { 'categoryId': categoryId } : { 'activationState': 'ENABLED' }
+      'f': (categoryId !== '0') ? { 'categoryId': categoryId } : { 'activationState': 'ENABLED' }
     });
 
     const response = await this.apiClient.get(url);

@@ -70,7 +70,7 @@ class Filters extends Component {
 }
 
 
-const { string, func, objectOf, shape } = PropTypes;
+const { string, func, objectOf } = PropTypes;
 
 const categoryType = objectOf({
   createdBy: string,
@@ -82,10 +82,7 @@ const categoryType = objectOf({
 });
 
 Filters.propTypes = {
-  filters: shape({
-    categoryId: string,
-    search: string
-  }),
+  filters: objectOf(string),
   categories: objectOf(categoryType),
   onChange: func
 };
