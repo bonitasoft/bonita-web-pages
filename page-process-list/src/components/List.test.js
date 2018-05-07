@@ -35,9 +35,9 @@ describe('<List />', () => {
       const process = mockupProcesses[i];
       const children = process_node.children();
 
-      expect(children[0].text()).toBe(process.displayName);
-      expect(children[1].text()).toBe(process.version);
-      expect(children[2].children()).toHaveLength(process.categories.length);
+      expect(children.at(0).text()).toBe(process.displayName);
+      expect(children.at(1).text()).toBe(process.version);
+      expect(children.at(2).children()).toHaveLength(process.categories.length);
     })
   });
 
