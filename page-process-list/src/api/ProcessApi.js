@@ -7,11 +7,13 @@ class ProcessApi {
     this.apiClient = client;
   }
 
-  async fetchPage({ page = 0, size = 10 } = {}) {
+  async fetchPage({ page = 0, size = 10 } = {}, { categoryId, search }) {
 
     const url = generateUrl('/bonita/API/bpm/process', {
       'p': page,
-      'c': size
+      'c': size,
+      's': search,
+      'f': (categoryId) ? { 'categoryId': categoryId } : { 'activationState': 'ENABLED' }
     });
 
     const response = await this.apiClient.get(url);

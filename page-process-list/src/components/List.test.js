@@ -46,4 +46,9 @@ describe('<List />', () => {
     expect(wrapper.find('.List-info > p').text()).toBe('26-50 of 100');
   });
 
+  it('should display a no processes if there is none', () => {
+    const wrapper = shallow(<List processes={[]} pagination={{ page: 0, size: 25, total: 0 }} />);
+    expect(wrapper.find('.List-info > p').text()).toBe('no processes');
+  });
+
 });

@@ -20,7 +20,13 @@ class List extends Component {
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
           <div className="List-info">
-            <p>{`${start+1}-${end+1} of ${total}`}</p>
+            <p>
+              {
+                (total !== 0)
+                  ? `${start + 1}-${end + 1} of ${total}`
+                  : 'no processes'
+              }
+            </p>
           </div>
         </Panel.Heading>
         <Panel.Body>
