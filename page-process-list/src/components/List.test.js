@@ -54,8 +54,8 @@ describe('<List />', () => {
   const toggleOrderMock = jest.fn();
 
   it('should toggle order when name column header is clicked', () => {
-    const wrapper = wrapper(<List processes={[]} pagination={{ page: 0, size: 25, total: 10 }} filters={{ order: 'DESC' }} toggleOrder={toggleOrderMock} />);
-    wrapper.find('.List-name')[0].prop('onClick')();
+    const wrapper = shallow(<List processes={[]} pagination={{ page: 0, size: 25, total: 10 }} filters={{ order: 'DESC' }} toggleOrder={toggleOrderMock} />);
+    wrapper.find('.List-name').prop('onClick')();
 
     expect(toggleOrderMock.mock.calls.length).toBe(1);
   });

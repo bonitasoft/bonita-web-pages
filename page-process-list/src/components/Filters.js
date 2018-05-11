@@ -14,8 +14,12 @@ class Filters extends Component {
       search: props.filters.search
     };
 
+    this.searchInput = null;
+
+
     // to have "this" available inside function
     this.selectCategory = this.selectCategory.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
   }
 
@@ -23,12 +27,19 @@ class Filters extends Component {
     this.props.onChange({ categoryId });
   }
 
+  clearSearch() {
+    this.searchInput.focus();
+    this.props.onChange({ search: '' });
+    this.setState({ search : '' });
+  }
+
   updateSearch() {
-    this.props.onChange({ search: this.state.search});
+    this.props.onChange({ search: this.state.search });
   }
 
   render() {
     const { categories, filters } = this.props;
+    const { search } = this.state;
 
     return (
       <Panel className="Filters">
@@ -46,7 +57,7 @@ class Filters extends Component {
             >
               {
                 Object.values(categories)
-                  .map((category) => <MenuItem eventKey={category.id} key={category.id} active={filters.categoryId === category.id}>{category.displayName}</MenuItem>)
+                  .map((category) => <MenuItem className='Filters-category-item' eventKey={category.id} key={category.id} active={filters.categoryId === category.id}>{category.displayName}</MenuItem>)
               }
             </DropdownButton>
 
@@ -54,10 +65,14 @@ class Filters extends Component {
               <FormControl
                 type="text"
                 placeholder="Search..."
-                value={this.state.search}
+                value={search}
                 onChange={(e) => this.setState({ search: e.target.value })}
+                inputRef={(ref) => this.searchInput = ref}
               />
-              <Button onClick={this.updateSearch}>
+              <Button className="Filters-search-clear" style={{ 'visibility': (search === '') ? 'hidden' : 'initial' }} onClick={this.clearSearch}>
+                <Glyphicon glyph="remove"/>
+              </Button>
+              <Button className="Filters-search-submit" onClick={this.updateSearch}>
                 <Glyphicon glyph="search" />
               </Button>
             </FormGroup>
@@ -70,9 +85,9 @@ class Filters extends Component {
 }
 
 
-const { string, func, objectOf } = PropTypes;
+const { string, func, objectOf, shape } = PropTypes;
 
-const categoryType = objectOf({
+const categoryType = shape({
   createdBy: string,
   displayName: string,
   name: string,

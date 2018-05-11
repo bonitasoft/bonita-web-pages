@@ -1,6 +1,5 @@
 import React from 'react';
 import Filters from './Filters';
-import { MenuItem } from 'react-bootstrap';
 
 import { shallow, mount } from 'enzyme';
 
@@ -10,22 +9,20 @@ global.document = doc;
 global.window = doc.defaultView;
 
 
-const mockupCategories = Array(25).map((value, i) => ({
-  "createdBy":"4",
-  "displayName":"azdfesfe",
-  "name":"azdfesfe",
-  "description":"",
-  "creation_date":"2018-03-02 11:05:39.490",
-  "id": i.toString()
-}));
-
 const mockupState = {
-  categories: mockupCategories.reduce(
-    (categories, category) => {
-      categories[category.id] = category;
+  categories: [...Array(25).keys()].reduce(
+    (categories, i) => {
+      categories[i] = {
+        "createdBy":"4",
+        "displayName":"azdfesfe",
+        "name":"azdfesfe",
+        "description":"",
+        "creation_date":"2018-03-02 11:05:39.490",
+        "id": i.toString()
+      };
       return categories;
     },
-    { 0: { createdBy: 'a', displayName: 'All Categories', name: 'all', description: 'All Categories among processes', creation_date: 'a', id: '0' }}
+    { all: { createdBy: 'a', displayName: 'All Categories', name: 'all', description: 'All Categories among processes', creation_date: 'a', id: 'all' }}
   ),
   filters: {
     categoryId: '0',
@@ -34,20 +31,19 @@ const mockupState = {
 };
 
 
-
 describe('<Filters />', () => {
 
   const updateFiltersMock = jest.fn();
 
   it('should render as many categories as given, inside the dropdown menu', () => {
-    const wrapper = mount(<Filters { ...mockupState } onChange={updateFiltersMock} />);
-    expect(wrapper.find(MenuItem)).toHaveLength(mockupCategories.length + 1);
+    const wrapper = shallow(<Filters { ...mockupState } onChange={updateFiltersMock} />);
+    expect(wrapper.find('.Filters-category-item')).toHaveLength(25 + 1);
   });
 
-  it('should update the categoryId when a MenuItem is clicked', () => {
+  it('should update the categoryId with the id of the category represented by the MenuItem that is clicked', () => {
     const wrapper = mount(<Filters { ...mockupState } onChange={updateFiltersMock} />);
-    wrapper.find(MenuItem).first().prop('onClick')();
-    expect(updateFiltersMock.mock.calls[0]).toEqual([ '0' ]);
+    wrapper.find('.Filters-category-item a').at(0).simulate('click');
+    expect(updateFiltersMock.mock.calls[0]).toEqual([{ "categoryId": "0" }]);
   });
 
 });
