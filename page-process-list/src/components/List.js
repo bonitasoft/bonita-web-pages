@@ -15,6 +15,7 @@ class List extends Component {
     const start = page*size;
     const end = start + (processes.length-1);
 
+
     return (
       <Panel className="List">
         <Panel.Heading>
@@ -39,14 +40,15 @@ class List extends Component {
               </th>
               <th>Version</th>
               <th>Categories</th>
+              <th>Description</th>
             </tr>
             </thead>
             <tbody>
             {
               processes.map((process) =>
                 <tr className="List-process" key={process.id}>
-                  <td>{process.displayName}</td>
-                  <td>{process.version}</td>
+                  <td>{ process.displayName }</td>
+                  <td>{ process.version }</td>
                   <td>
                     {
                       process.categories.map((category) =>
@@ -54,6 +56,7 @@ class List extends Component {
                       )
                     }
                   </td>
+                  <td>{ process.description }</td>
                 </tr>
               )
             }

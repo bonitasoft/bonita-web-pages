@@ -7,7 +7,7 @@ class ProcessApi {
     this.apiClient = client;
   }
 
-  async fetchPage({ page = 0, size = 10 } = {}, { categoryId, search }) {
+  async fetchPage({ page = 0, size = 50 } = {}, { categoryId, search }) {
 
     const url = generateUrl('/bonita/API/bpm/process', {
       'p': page,
@@ -16,13 +16,27 @@ class ProcessApi {
       'f': (categoryId !== '0') ? { 'categoryId': categoryId } : { 'activationState': 'ENABLED' }
     });
 
+    const generateCategoryUrl = (processId) => generateUrl('/bonita/API/bpm/category', {
+      'p': 0,
+      'c': Number.MAX_SAFE_INTEGER % 1, // some working cast,
+      'f': { 'id': processId }
+    });
+
     const response = await this.apiClient.get(url);
     const processes = await response.json();
 
-    return {
-      processes: processes.map(process => ({ ...process, categories: [] })),
-      pagination: Pagination.from(response.headers.get("Content-Range"))
-    };
+    return [
+      Promise.resolve({
+        processes: processes.map(process => ({ ...process, categories: [] })),
+        pagination: Pagination.from(response.headers.get("Content-Range"))
+      }),
+      Promise.all(processes.map(process =>
+               this.apiClient.get(generateCategoryUrl(process.id))
+                             .then(response => response.json())
+                             .then(categories => ({ ...process, categories })))
+             )
+             .then(processes => ({ processes }))
+    ];
   }
 }
 

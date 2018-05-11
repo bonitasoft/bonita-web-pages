@@ -37,7 +37,7 @@ class App extends Component {
     const { pagination, filters } = this.state;
 
     ProcessApi.fetchPage({ ...pagination, page }, { ...filters, ..._filters })
-              .then(({ processes, pagination }) => this.setState({ processes, pagination }));
+              .then(promises => promises.forEach(promise => promise.then(data => this.setState(data))));
   }
 
   fetchCategories() {
