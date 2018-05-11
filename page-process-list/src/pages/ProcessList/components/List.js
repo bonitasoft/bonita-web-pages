@@ -7,6 +7,10 @@ import { Panel, Table, Label, Glyphicon } from 'react-bootstrap';
 
 class List extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const { processes, pagination, filters } = this.props;
     const { page, size, total } = pagination;
@@ -15,19 +19,15 @@ class List extends Component {
     const start = page*size;
     const end = start + (processes.length-1);
 
+    const paginationDisplay = (total !== 0) ? `${start + 1}-${end + 1} of ${total}` : 'no processes';
+
 
     return (
       <Panel className="List">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
-          <div className="List-info">
-            <p>
-              {
-                (total !== 0)
-                  ? `${start + 1}-${end + 1} of ${total}`
-                  : 'no processes'
-              }
-            </p>
+          <div className="List-heading-right">
+            <p className="List-pagination-top">{ paginationDisplay }</p>
           </div>
         </Panel.Heading>
         <Panel.Body>
@@ -35,8 +35,8 @@ class List extends Component {
             <thead>
             <tr>
               <th className="List-name" onClick={this.props.toggleOrder}>
+                <Glyphicon glyph={(filters.order === 'ASC') ? 'chevron-up' : 'chevron-down'} />
                 <span>Name</span>
-                <Glyphicon glyph={'chevron-' + (filters.order === 'ASC') ? 'up' : 'down'} />
               </th>
               <th>Version</th>
               <th>Categories</th>
@@ -63,6 +63,7 @@ class List extends Component {
             </tbody>
           </Table>
         </Panel.Body>
+        <p className="List-pagination-bottom">{ paginationDisplay }</p>
       </Panel>
     );
   }
