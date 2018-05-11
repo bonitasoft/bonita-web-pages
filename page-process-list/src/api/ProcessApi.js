@@ -7,12 +7,13 @@ class ProcessApi {
     this.apiClient = client;
   }
 
-  async fetchPage({ page = 0, size = 50 } = {}, { categoryId, search }) {
+  async fetchPage({ page = 0, size = 50 } = {}, { categoryId, search, order }) {
 
     const url = generateUrl('/bonita/API/bpm/process', {
       'p': page,
       'c': size,
       's': search,
+      'o': `name ${order}`,
       'f': (categoryId !== '0') ? { 'categoryId': categoryId } : { 'activationState': 'ENABLED' }
     });
 
@@ -25,18 +26,21 @@ class ProcessApi {
     const response = await this.apiClient.get(url);
     const processes = await response.json();
 
-    return [
-      Promise.resolve({
-        processes: processes.map(process => ({ ...process, categories: [] })),
-        pagination: Pagination.from(response.headers.get("Content-Range"))
-      }),
-      Promise.all(processes.map(process =>
-               this.apiClient.get(generateCategoryUrl(process.id))
-                             .then(response => response.json())
-                             .then(categories => ({ ...process, categories })))
-             )
-             .then(processes => ({ processes }))
-    ];
+
+    return {
+      unpopulated: Promise.resolve({
+          processes: processes.map(process => ({...process, categories: []})),
+          pagination: Pagination.from(response.headers.get("Content-Range"))
+        }),
+
+      populated: Promise.all(processes.map(process =>
+        this.apiClient.get(generateCategoryUrl(process.id))
+          .then(response => response.json())
+          .then(categories => ({...process, categories})))
+        )
+        .then(processes => ({processes}))
+    };
+
   }
 }
 
