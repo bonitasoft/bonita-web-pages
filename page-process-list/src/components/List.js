@@ -8,12 +8,20 @@ import { Panel, Table, Label } from 'react-bootstrap';
 class List extends Component {
 
   render() {
-    const { processes } = this.props;
+    const { processes, pagination } = this.props;
+    const { page, size, total } = pagination;
+
+    // indexes of first and last elements on the page
+    const start = page*size;
+    const end = start + (processes.length-1);
 
     return (
       <Panel className="List">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
+          <div className="List-info">
+            <p>{`${start+1}-${end+1} of ${total}`}</p>
+          </div>
         </Panel.Heading>
         <Panel.Body>
           <Table striped hover>
@@ -22,13 +30,12 @@ class List extends Component {
               <th>Name</th>
               <th>Version</th>
               <th>Categories</th>
-              <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {
               processes.map((process) =>
-                <tr key={process.id}>
+                <tr className="List-process" key={process.id}>
                   <td>{process.displayName}</td>
                   <td>{process.version}</td>
                   <td>
@@ -39,7 +46,8 @@ class List extends Component {
                     }
                   </td>
                 </tr>
-            )}
+              )
+            }
             </tbody>
           </Table>
         </Panel.Body>
