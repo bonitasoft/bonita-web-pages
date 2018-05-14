@@ -20,7 +20,6 @@ class Pagination extends Component {
   render() {
     const { Item } = this;
     const { page, size, total } = this.props.pagination;
-
     const lastPage = Math.floor((total - 1) / size);
 
     const isFirstPage = page === 0,
