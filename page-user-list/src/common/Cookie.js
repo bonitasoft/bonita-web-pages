@@ -4,7 +4,7 @@ class Cookie {
     const regexp = new RegExp(
       `(?:(?:^|.*;\\s*)${name}\\s*\\=\\s*([^;]*).*$)|^.*$`
     );
-    return document.cookie.replace(regexp, "$1");
+    return document.cookie.replace(regexp, '$1');
   }
 }
 

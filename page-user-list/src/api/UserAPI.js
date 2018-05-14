@@ -1,4 +1,4 @@
-import { apiClient } from "../common";
+import { apiClient } from '../common';
 
 export class UserAPI {
   constructor(client) {
