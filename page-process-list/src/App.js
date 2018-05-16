@@ -6,7 +6,6 @@ import { ProcessApi } from './api';
 import List from './components/List';
 import Pagination from './components/Pagination';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +25,9 @@ class App extends Component {
   fetchPage(page = 0) {
     const { pagination } = this.state;
 
-    ProcessApi.fetchPage({ ...pagination, page }).then(({ processes, pagination }) => this.setState({ processes, pagination }));
+    ProcessApi.fetchPage({ ...pagination, page }).then(
+      ({ processes, pagination }) => this.setState({ processes, pagination })
+    );
   }
 
   render() {
@@ -42,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default App;
