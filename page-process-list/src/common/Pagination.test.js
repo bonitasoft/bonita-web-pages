@@ -1,9 +1,7 @@
 import Pagination from './Pagination';
 
 describe('pagination', () => {
-
   it('should parse content-range', () => {
-
     const pagination = Pagination.from('12-25/1234');
 
     expect(pagination).toEqual({

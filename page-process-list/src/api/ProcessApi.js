@@ -2,16 +2,14 @@ import { apiClient, Pagination, generateUrl } from '../common';
 
 // I use a class syntax here but we can use a more functional approach if we want.
 class ProcessApi {
-
   constructor(client) {
     this.apiClient = client;
   }
 
   async fetchPage({ page = 0, size = 10 } = {}) {
-
     const url = generateUrl('/bonita/API/bpm/process', {
-      'p': page,
-      'c': size
+      p: page,
+      c: size
     });
 
     const response = await this.apiClient.get(url);
@@ -19,13 +17,12 @@ class ProcessApi {
 
     return {
       processes: processes.map(process => ({ ...process, categories: [] })),
-      pagination: Pagination.from(response.headers.get("Content-Range"))
+      pagination: Pagination.from(response.headers.get('Content-Range'))
     };
   }
 }
 
-export default new ProcessApi(apiClient)
-
+export default new ProcessApi(apiClient);
 
 /* A process looks like that :
 {

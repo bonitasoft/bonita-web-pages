@@ -4,16 +4,13 @@ import './Pagination.css';
 
 import { Pager, Glyphicon } from 'react-bootstrap';
 
-
-const buildItem = (onChangePage) => ({ page, children, ...props }) => (
+const buildItem = onChangePage => ({ page, children, ...props }) => (
   <Pager.Item onClick={() => onChangePage(page)} {...props}>
-    { children || page+1 }
+    {children || page + 1}
   </Pager.Item>
 );
 
-
 class Pagination extends Component {
-
   constructor(props) {
     super(props);
 
@@ -24,11 +21,11 @@ class Pagination extends Component {
     const { Item } = this;
     const { page, size, total } = this.props.pagination;
 
-    const lastPage = Math.ceil(total/size) -1;
+    const lastPage = Math.ceil(total / size) - 1;
 
     const isFirstPage = page === 0,
-          isLastPage = page === lastPage, // nb on the previous pages (if any) + nb on the current page < total
-          isSolePage = lastPage === 0;
+      isLastPage = page === lastPage, // nb on the previous pages (if any) + nb on the current page < total
+      isSolePage = lastPage === 0;
 
     if (isSolePage) {
       return null;
@@ -39,7 +36,9 @@ class Pagination extends Component {
     if (!isFirstPage) {
       pager.push(
         <Item page={0} key="first" />,
-        <Item previous page={page - 1} key="prev"><Glyphicon glyph="menu-left" /></Item>
+        <Item previous page={page - 1} key="prev">
+          <Glyphicon glyph="menu-left" />
+        </Item>
       );
     }
 
@@ -47,12 +46,15 @@ class Pagination extends Component {
 
     if (!isLastPage) {
       pager.push(
-        <Item next page={page + 1} key="next"><Glyphicon glyph="menu-right" /></Item>,
+        <Item next page={page + 1} key="next">
+          <Glyphicon glyph="menu-right" />
+        </Item>,
         <Item page={lastPage} key="last" />
       );
     }
 
-    return <Pager className="Pagination" children={pager} /> }
+    return <Pager className="Pagination" children={pager} />;
+  }
 }
 
 const { func, number, objectOf } = PropTypes;
@@ -62,4 +64,4 @@ Pagination.propTypes = {
   onChangePage: func
 };
 
-export default Pagination
+export default Pagination;
