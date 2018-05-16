@@ -49,7 +49,7 @@ class BonitaPagePlugin implements Plugin<Project> {
             description 'Format all files in directory /src with prettier'
         }
 
-        def eslint = project.task([type: com.moowork.gradle.node.npm.NpmTask], 'eslint') {
+        def eslint = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'eslint') {
             group 'Bonita'
             args = ['run', 'eslint']
             description 'Check if format issues exist on directory src'
