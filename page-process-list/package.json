@@ -26,13 +26,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "build:only": "react-scripts build",
     "eject": "react-scripts eject",
-    "prettier": "prettier --single-quote --write \"src/**/*.{js,jsx,json,css}\"",
-    "eslint": "eslint src/**/*.js"
+    "lint:fix": "prettier --single-quote --write \"src/**/*.{js,jsx,json,css}\"",
+    "lint:check": "eslint src/**/*.js",
+    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
+    "cross-env": "^5.1.5",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.15.0",

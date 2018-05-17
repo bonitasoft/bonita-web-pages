@@ -34,7 +34,7 @@ class BonitaPagePlugin implements Plugin<Project> {
         def buildPage = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
             group 'Bonita'
             description 'Build a ZIP which contains an custom-page to be imported in living application'
-            args = ['run', 'build']
+            args = ['run', 'build:only']
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
             inputs.dir('resources')
@@ -43,19 +43,26 @@ class BonitaPagePlugin implements Plugin<Project> {
 
         project.tasks.distZip.dependsOn buildPage
 
-        project.task([type: com.moowork.gradle.node.npm.NpmTask], 'prettier') {
+        project.task([type: com.moowork.gradle.node.npm.NpmTask], 'lintFix') {
             group 'Bonita'
-            args = ['run', 'prettier']
+            args = ['run', 'lint:fix']
             description 'Format all files in directory /src with prettier'
         }
 
-        def eslint = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'eslint') {
+        def lintCheck = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'lintCheck') {
             group 'Bonita'
-            args = ['run', 'eslint']
+            args = ['run', 'lint:check']
             description 'Check if format issues exist on directory src'
         }
 
-        project.tasks.buildPage.dependsOn eslint
+        def test = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'test') {
+            group 'Bonita'
+            args = ['run', 'test']
+            description 'Run test of project'
+        }
+
+        project.tasks.buildPage.dependsOn lintCheck
+        project.tasks.buildPage.dependsOn test
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             group 'Bonita'
