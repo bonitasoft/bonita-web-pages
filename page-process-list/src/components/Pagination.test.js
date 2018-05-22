@@ -10,7 +10,17 @@ global.document = doc;
 global.window = doc.defaultView;
 
 describe('<Pagination />', () => {
-  const changePageMock = jest.fn(); //.mockImplementation((page) => page);
+  const changePageMock = jest.fn();
+
+  it('should render null when there is no processes', () => {
+    const wrapper = shallow(
+      <Pagination
+        pagination={{ total: 0, page: 0, size: 10 }}
+        onChangePage={changePageMock}
+      />
+    );
+    expect(wrapper.children()).toHaveLength(0);
+  });
 
   it('should render null when page is the first and last page so the only page', () => {
     const wrapper = shallow(

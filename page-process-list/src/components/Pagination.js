@@ -20,14 +20,13 @@ class Pagination extends Component {
   render() {
     const { Item } = this;
     const { page, size, total } = this.props.pagination;
-
-    const lastPage = Math.ceil(total / size) - 1;
+    const lastPage = Math.floor((total - 1) / size);
 
     const isFirstPage = page === 0,
       isLastPage = page === lastPage, // nb on the previous pages (if any) + nb on the current page < total
       isSolePage = lastPage === 0;
 
-    if (isSolePage) {
+    if (isSolePage || total === 0) {
       return null;
     }
 
