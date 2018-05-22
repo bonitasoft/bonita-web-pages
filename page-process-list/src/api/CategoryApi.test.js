@@ -3,8 +3,8 @@ import CategoryApi from './CategoryApi';
 
 const mockupCategories = Array(25).fill({
   createdBy: '4',
-  displayName: 'azdfesfe',
-  name: 'azdfesfe',
+  displayName: 'Tests',
+  name: 'tests',
   description: '',
   creation_date: '2018-03-02 11:05:39.490',
   id: '101'
