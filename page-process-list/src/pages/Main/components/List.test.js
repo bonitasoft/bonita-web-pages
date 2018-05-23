@@ -61,7 +61,7 @@ describe('<List />', () => {
         toggleOrder={toggleOrderMock}
       />
     );
-    expect(wrapper.find('.List-info > p').text()).toBe('26-50 of 100');
+    expect(wrapper.find('.List-pagination-top').text()).toBe('26-50 of 100');
   });
 
   it('should display a no processes if there is none', () => {
@@ -73,7 +73,7 @@ describe('<List />', () => {
         toggleOrder={toggleOrderMock}
       />
     );
-    expect(wrapper.find('.List-info > p').text()).toBe('no processes');
+    expect(wrapper.find('.List-pagination-top').text()).toBe('no processes');
   });
 
   const toggleOrderMock = jest.fn();

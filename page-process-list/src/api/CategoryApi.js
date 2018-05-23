@@ -3,6 +3,7 @@ import { apiClient, generateUrl } from '../common';
 class CategoryApi {
   constructor(client) {
     this.apiClient = client;
+    this.cache = {};
   }
 
   async fetchAll() {
@@ -15,6 +16,26 @@ class CategoryApi {
     const categories = await response.json();
 
     return categories;
+  }
+
+  async fetchByProcess({ id }) {
+    const buildCategoryUrl = processId =>
+      generateUrl('/bonita/API/bpm/category', {
+        p: 0,
+        c: Math.pow(2, 31) - 1,
+        f: `id=${processId}`
+      });
+
+    if (this.cache[id]) {
+      return Promise.resolve(this.cache[id]);
+    } else {
+      const response = await this.apiClient.get(buildCategoryUrl(id));
+      const categories = await response.json();
+
+      this.cache[id] = categories;
+
+      return Promise.resolve(categories);
+    }
   }
 }
 

@@ -1,14 +1,14 @@
 import { apiClient, Pagination, generateUrl } from '../common';
+import CategoryApi from './CategoryApi';
 
 class ProcessApi {
   constructor(client) {
     this.apiClient = client;
-    this.categoriesByProcessCache = {};
   }
 
   async fetchProcesses(
     { page = 0, size = 25 } = {},
-    { categoryId, search, order }
+    { categoryId, search, order } = {}
   ) {
     const url = generateUrl('/bonita/API/bpm/process', {
       p: page,
@@ -32,33 +32,13 @@ class ProcessApi {
 
       populated: Promise.all(
         processes.map(process =>
-          this.fetchCategoriesByProcess(process).then(categories => ({
+          CategoryApi.fetchByProcess(process).then(categories => ({
             ...process,
             categories
           }))
         )
       ).then(processes => ({ processes }))
     };
-  }
-
-  async fetchCategoriesByProcess(process) {
-    const buildCategoryUrl = processId =>
-      generateUrl('/bonita/API/bpm/category', {
-        p: 0,
-        c: Math.pow(2, 31) - 1,
-        f: `id=${processId}`
-      });
-
-    if (this.categoriesByProcessCache[process.id]) {
-      return Promise.resolve(this.categoriesByProcessCache[process.id]);
-    } else {
-      const response = await this.apiClient.get(buildCategoryUrl(process.id));
-      const categories = await response.json();
-
-      this.categoriesByProcessCache[process.id] = categories;
-
-      return Promise.resolve(categories);
-    }
   }
 }
 
