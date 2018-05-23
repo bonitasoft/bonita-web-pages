@@ -1,29 +1,25 @@
 import { apiClient, Pagination, generateUrl } from '../common';
 
-// I use a class syntax here but we can use a more functional approach if we want.
 class ProcessApi {
   constructor(client) {
     this.apiClient = client;
+    this.categoriesByProcessCache = {};
   }
 
-  async fetchPage({ page = 0, size = 50 } = {}, { categoryId, search, order }) {
+  async fetchProcesses(
+    { page = 0, size = 25 } = {},
+    { categoryId, search, order }
+  ) {
     const url = generateUrl('/bonita/API/bpm/process', {
       p: page,
       c: size,
       s: search,
-      o: `name ${order}`,
+      o: `displayName ${order}`,
       f:
         categoryId !== '0'
-          ? { categoryId: categoryId }
-          : { activationState: 'ENABLED' }
+          ? `categoryId=${categoryId}`
+          : 'activationState=ENABLED'
     });
-
-    const generateCategoryUrl = processId =>
-      generateUrl('/bonita/API/bpm/category', {
-        p: 0,
-        c: Number.MAX_SAFE_INTEGER % 1, // some working cast,
-        f: { id: processId }
-      });
 
     const response = await this.apiClient.get(url);
     const processes = await response.json();
@@ -36,13 +32,33 @@ class ProcessApi {
 
       populated: Promise.all(
         processes.map(process =>
-          this.apiClient
-            .get(generateCategoryUrl(process.id))
-            .then(response => response.json())
-            .then(categories => ({ ...process, categories }))
+          this.fetchCategoriesByProcess(process).then(categories => ({
+            ...process,
+            categories
+          }))
         )
       ).then(processes => ({ processes }))
     };
+  }
+
+  async fetchCategoriesByProcess(process) {
+    const buildCategoryUrl = processId =>
+      generateUrl('/bonita/API/bpm/category', {
+        p: 0,
+        c: Math.pow(2, 31) - 1,
+        f: `id=${processId}`
+      });
+
+    if (this.categoriesByProcessCache[process.id]) {
+      return Promise.resolve(this.categoriesByProcessCache[process.id]);
+    } else {
+      const response = await this.apiClient.get(buildCategoryUrl(process.id));
+      const categories = await response.json();
+
+      this.categoriesByProcessCache[process.id] = categories;
+
+      return Promise.resolve(categories);
+    }
   }
 }
 

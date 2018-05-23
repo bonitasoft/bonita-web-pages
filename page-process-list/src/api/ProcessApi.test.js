@@ -27,10 +27,10 @@ describe('Process API', () => {
   it('should fetch a set of processes', () => {
     let set = mockupProcesses.slice(0, 10);
 
-    const spyGet = jest.spyOn(ProcessApi, 'fetchPage');
+    const spyGet = jest.spyOn(ProcessApi, 'fetchProcesses');
     spyGet.mockImplementation(() => Promise.resolve(set));
 
-    ProcessApi.fetchPage({ page: 0, count: 10 }).then(processes =>
+    ProcessApi.fetchProcesses({ page: 0, count: 10 }).then(processes =>
       expect(processes).toEqual(set)
     );
   });

@@ -8,7 +8,7 @@ class CategoryApi {
   async fetchAll() {
     const url = generateUrl('/bonita/API/bpm/category', {
       p: 0,
-      c: Number.MAX_SAFE_INTEGER % 1 // some working cast
+      c: Math.pow(2, 31) - 1
     });
 
     const response = await this.apiClient.get(url);

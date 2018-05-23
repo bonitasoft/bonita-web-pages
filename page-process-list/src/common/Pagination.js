@@ -11,9 +11,9 @@ export default class Pagination {
       return {};
     }
     return new Pagination(
-      parseInt(match[1]),
-      parseInt(match[2]),
-      parseInt(match[3])
+      parseInt(match[1], 10),
+      parseInt(match[2], 10),
+      parseInt(match[3], 10)
     );
   }
 }

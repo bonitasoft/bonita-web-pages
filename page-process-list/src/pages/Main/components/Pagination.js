@@ -20,6 +20,7 @@ class Pagination extends Component {
   render() {
     const { Item } = this;
     const { page, size, total } = this.props.pagination;
+
     const lastPage = Math.floor((total - 1) / size);
 
     const isFirstPage = page === 0,
@@ -34,8 +35,8 @@ class Pagination extends Component {
 
     if (!isFirstPage) {
       pager.push(
-        <Item page={0} key="first" />,
-        <Item previous page={page - 1} key="prev">
+        <Item previous page={0} key="first" />,
+        <Item page={page - 1} key="prev">
           <Glyphicon glyph="menu-left" />
         </Item>
       );
@@ -45,10 +46,10 @@ class Pagination extends Component {
 
     if (!isLastPage) {
       pager.push(
-        <Item next page={page + 1} key="next">
+        <Item page={page + 1} key="next">
           <Glyphicon glyph="menu-right" />
         </Item>,
-        <Item page={lastPage} key="last" />
+        <Item next page={lastPage} key="last" />
       );
     }
 
