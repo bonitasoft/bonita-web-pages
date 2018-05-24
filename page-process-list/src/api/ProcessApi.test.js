@@ -44,15 +44,13 @@ describe('Process API', () => {
     beforeAll(async () => {
       spyApi.mockReset();
 
-      spyApi.mockImplementation(() =>
-        Promise.resolve(
-          Promise.resolve({
-            json: () => processSet,
+      spyApi.mockImplementation(
+        () =>
+          new Response(JSON.stringify(processSet), {
             headers: {
-              get: () => '0-10/25'
+              'Content-Range': '0-10/25'
             }
           })
-        )
       );
 
       const spyCategories = jest.spyOn(CategoryApi, 'fetchByProcess');
