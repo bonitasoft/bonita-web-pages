@@ -46,10 +46,8 @@ describe('Category API', () => {
     beforeAll(async () => {
       spyApi.mockReset();
 
-      spyApi.mockImplementation(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockupCategories)
-        })
+      spyApi.mockImplementation(
+        () => new Response(JSON.stringify(mockupCategories))
       );
 
       fetchedCategories = await CategoryApi.fetchAll();
@@ -67,10 +65,8 @@ describe('Category API', () => {
     beforeAll(async () => {
       spyApi.mockReset();
 
-      spyApi.mockImplementation(() =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockupCategories)
-        })
+      spyApi.mockImplementation(
+        () => new Response(JSON.stringify(mockupCategories))
       );
 
       fetchedCategories = await Promise.all(
