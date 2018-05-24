@@ -15,9 +15,9 @@ class ProcessApi {
         p: page,
         c: size,
         s: search,
-        o: `displayName ${order}`,
+        o: order ? `displayName ${order}` : undefined,
         f:
-          categoryId !== '0'
+          categoryId && categoryId !== '0'
             ? `categoryId=${categoryId}`
             : 'activationState=ENABLED'
       }

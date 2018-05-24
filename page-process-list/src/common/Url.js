@@ -1,5 +1,4 @@
 import assignIn from 'lodash.assignin'; // deep assign
-import queryString from 'query-string';
 
 class Url {
   constructor(url, overridingProps = {}) {
@@ -47,11 +46,34 @@ class Url {
   }
 
   static parseQueries(str) {
-    return queryString.parse(str);
+    return str
+      .replace('?', '')
+      .replace(/\+/g, ' ')
+      .split('&')
+      .filter(param => param) // to have empty array if split on empty str
+      .map(param => param.split('='))
+      .map(([key, value]) => [key, value])
+      .reduce((queries, [key, value]) => {
+        queries[key] =
+          typeof queries[key] === 'undefined'
+            ? value
+            : [].concat(queries[key], value);
+
+        return queries;
+      }, {});
   }
 
   static stringifyQueries(obj) {
-    const str = queryString.stringify(obj);
+    const str = Object.keys(obj)
+      .map(key => [key, obj[key]])
+      .filter(([key, value]) => typeof value !== 'undefined')
+      .map(
+        ([key, value]) =>
+          !Array.isArray(value)
+            ? `${key}=${value}`
+            : value.map(element => `${key}=${element}`).join('&')
+      )
+      .join('&');
 
     return !str ? null : `?${str}`;
   }

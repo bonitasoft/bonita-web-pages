@@ -26,7 +26,7 @@ class CategoryApi {
         queries: {
           p: 0,
           c: Math.pow(2, 31) - 1,
-          f: `id=${processId}`
+          f: processId ? `id=${processId}` : undefined
         }
       });
 

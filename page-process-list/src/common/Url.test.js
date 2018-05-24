@@ -117,33 +117,34 @@ describe('Url', () => {
 
   describe('parse & stringify', () => {
     it('should parse queries', () => {
-      expect(equivalence.queries.object).toEqual(
-        Url.parseQueries(equivalence.queries.string)
+      expect(Url.parseQueries(equivalence.queries.string)).toEqual(
+        equivalence.queries.object
       );
-      expect({}).toEqual(Url.parseQueries(''));
-      expect({}).toEqual(Url.parseQueries('?'));
+      expect(Url.parseQueries('')).toEqual({});
+      expect(Url.parseQueries('?')).toEqual({});
     });
 
     it('should stringify queries', () => {
-      expect(equivalence.queries.string).toEqual(
-        Url.stringifyQueries(equivalence.queries.object)
+      expect(Url.stringifyQueries(equivalence.queries.object)).toEqual(
+        equivalence.queries.string
       );
-      expect(null).toEqual(Url.stringifyQueries({}));
+      expect(Url.stringifyQueries({ a: undefined })).toEqual(null);
+      expect(Url.stringifyQueries({})).toEqual(null);
     });
 
     it('should parse fragments', () => {
       expect(Url.parseFragments(equivalence.fragments.string)).toEqual(
         equivalence.fragments.object
       );
-      expect({}).toEqual(Url.parseFragments(''));
-      expect({}).toEqual(Url.parseFragments('#'));
+      expect(Url.parseFragments('')).toEqual({});
+      expect(Url.parseFragments('#')).toEqual({});
     });
 
     it('should stringify fragments', () => {
       expect(Url.stringifyFragments(equivalence.fragments.object)).toEqual(
         equivalence.fragments.string
       );
-      expect(null).toEqual(Url.stringifyFragments({}));
+      expect(Url.stringifyFragments({})).toEqual(null);
     });
   });
 });
