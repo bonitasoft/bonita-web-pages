@@ -1,4 +1,4 @@
-import { apiClient, Pagination, generateUrl } from '../common';
+import { apiClient, Pagination, Url } from '../common';
 import CategoryApi from './CategoryApi';
 
 class ProcessApi {
@@ -10,18 +10,20 @@ class ProcessApi {
     { page = 0, size = 25 } = {},
     { categoryId, search, order } = {}
   ) {
-    const url = generateUrl('/bonita/API/bpm/process', {
-      p: page,
-      c: size,
-      s: search,
-      o: `displayName ${order}`,
-      f:
-        categoryId !== '0'
-          ? `categoryId=${categoryId}`
-          : 'activationState=ENABLED'
+    const url = new Url('/bonita/API/bpm/process', {
+      queries: {
+        p: page,
+        c: size,
+        s: search,
+        o: `displayName ${order}`,
+        f:
+          categoryId !== '0'
+            ? `categoryId=${categoryId}`
+            : 'activationState=ENABLED'
+      }
     });
 
-    const response = await this.apiClient.get(url);
+    const response = await this.apiClient.get(url.get());
     const processes = await response.json();
 
     return {
