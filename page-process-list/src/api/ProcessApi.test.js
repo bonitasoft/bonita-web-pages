@@ -1,37 +1,86 @@
 import { apiClient } from '../common';
 import ProcessApi from './ProcessApi';
+import CategoryApi from './CategoryApi';
 
-const mockupProcesses = Array(25).fill({
-  displayDescription: '',
-  deploymentDate: '2018-02-14 12:18:34.254',
-  displayName: 'Pool',
-  name: 'Pool',
+const mockupCategories = Array(10).fill({
+  createdBy: '4',
+  displayName: 'Tests',
+  name: 'tests',
   description: '',
-  deployedBy: '4',
-  id: '7544905540282516773',
-  activationState: 'ENABLED',
-  version: '1.0',
-  configurationState: 'RESOLVED',
-  last_update_date: '2018-02-14 12:18:34.723',
-  actorinitiatorid: '1'
+  creation_date: '2018-03-02 11:05:39.490',
+  id: '101'
 });
 
+const mockupProcesses = Array(25)
+  .fill(null)
+  .map((val, i) => ({
+    displayDescription: '',
+    deploymentDate: '2018-02-14 12:18:34.254',
+    displayName: 'Pool',
+    name: 'Pool',
+    description: '',
+    deployedBy: '4',
+    id: i.toString(),
+    activationState: 'ENABLED',
+    version: '1.0',
+    configurationState: 'RESOLVED',
+    last_update_date: '2018-02-14 12:18:34.723',
+    actorinitiatorid: '1',
+    categories: []
+  }));
+
+const processSet = mockupProcesses.slice(0, 10);
+const processSetPopulated = processSet.map(process => ({
+  ...process,
+  categories: mockupCategories
+}));
+
 describe('Process API', () => {
-  const spyGet = jest.spyOn(apiClient, 'get');
+  const spyApi = jest.spyOn(apiClient, 'get');
 
-  beforeEach(() => {
-    spyGet.mockReset();
-    spyGet.mockRestore();
-  });
+  describe('fetchProcesses', () => {
+    let responses = {};
 
-  it('should fetch a set of processes', () => {
-    let set = mockupProcesses.slice(0, 10);
+    beforeAll(async () => {
+      spyApi.mockReset();
 
-    const spyGet = jest.spyOn(ProcessApi, 'fetchPage');
-    spyGet.mockImplementation(() => Promise.resolve(set));
+      spyApi.mockImplementation(() =>
+        Promise.resolve(
+          Promise.resolve({
+            json: () => processSet,
+            headers: {
+              get: () => '0-10/25'
+            }
+          })
+        )
+      );
 
-    ProcessApi.fetchPage({ page: 0, count: 10 }).then(processes =>
-      expect(processes).toEqual(set)
-    );
+      const spyCategories = jest.spyOn(CategoryApi, 'fetchByProcess');
+      spyCategories.mockImplementation(() => Promise.resolve(mockupCategories));
+
+      const { unpopulated, populated } = await ProcessApi.fetchProcesses({
+        page: 0,
+        count: 10
+      });
+
+      responses.unpopulated = await unpopulated;
+      responses.populated = await populated;
+    });
+
+    it('should fetch processes', () => {
+      expect(responses.unpopulated.processes).toEqual(processSet);
+    });
+
+    it('should compute pagination', () => {
+      expect(responses.unpopulated.pagination).toEqual({
+        page: 0,
+        size: 10,
+        total: 25
+      });
+    });
+
+    it('should populate processes', () => {
+      expect(responses.populated.processes).toEqual(processSetPopulated);
+    });
   });
 });

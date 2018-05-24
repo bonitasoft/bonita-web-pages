@@ -13,27 +13,26 @@ class List extends Component {
     const start = page * size;
     const end = start + (processes.length - 1);
 
+    const paginationStatus =
+      total !== 0 ? `${start + 1}-${end + 1} of ${total}` : 'no processes';
+
     return (
       <Panel className="List">
         <Panel.Heading>
           <Panel.Title componentClass="h3">List</Panel.Title>
-          <div className="List-info">
-            <p>
-              {total !== 0
-                ? `${start + 1}-${end + 1} of ${total}`
-                : 'no processes'}
-            </p>
+          <div className="List-heading-right">
+            <p className="List-pagination-top">{paginationStatus}</p>
           </div>
         </Panel.Heading>
         <Panel.Body>
-          <Table striped hover>
+          <Table striped responsive hover>
             <thead>
               <tr>
                 <th className="List-name" onClick={this.props.toggleOrder}>
                   <span>Name</span>
                   <Glyphicon
                     glyph={
-                      'chevron-' + (filters.order === 'ASC') ? 'up' : 'down'
+                      { ASC: 'chevron-up', DESC: 'chevron-down' }[filters.order]
                     }
                   />
                 </th>
@@ -60,6 +59,7 @@ class List extends Component {
             </tbody>
           </Table>
         </Panel.Body>
+        <p className="List-pagination-bottom">{paginationStatus}</p>
       </Panel>
     );
   }
