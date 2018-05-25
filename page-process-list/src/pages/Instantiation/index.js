@@ -16,7 +16,8 @@ class Instantiation extends Component {
       encodeURIComponent(str).replace(new RegExp('%2F', 'g'), '/');
 
     const portalUrl = router.getPortalUrl(),
-      { queries, fragments } = router.getUrl(),
+      queries = router.getQueries(),
+      fragments = router.getFragments(),
       { name, version, id } = fragments.process;
 
     const instantiationUrl = new Url(

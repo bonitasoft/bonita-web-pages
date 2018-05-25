@@ -42,6 +42,7 @@ class Router {
         return { event, state, nextState, isChanging };
       });
 
+
       contexts.forEach(({ event, state, nextState, isChanging }) => {
         if (isChanging) {
           const interceptState = _this.publish(`${event}.interceptor`, [

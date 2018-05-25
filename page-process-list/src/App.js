@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Router from './RouterComponent';
+import RouterComponent from './RouterComponent';
 
 class App extends Component {
   render() {
-    return <Router />;
+    return <RouterComponent />;
   }
 }
 
