@@ -1,4 +1,4 @@
-import { apiClient, generateUrl } from '../common';
+import { apiClient, Url } from '../common';
 
 class CategoryApi {
   constructor(client) {
@@ -7,12 +7,14 @@ class CategoryApi {
   }
 
   async fetchAll() {
-    const url = generateUrl('/bonita/API/bpm/category', {
-      p: 0,
-      c: Math.pow(2, 31) - 1
+    const url = new Url('/bonita/API/bpm/category', {
+      queries: {
+        p: 0,
+        c: Math.pow(2, 31) - 1
+      }
     });
 
-    const response = await this.apiClient.get(url);
+    const response = await this.apiClient.get(url.get());
     const categories = await response.json();
 
     return categories;
@@ -20,16 +22,18 @@ class CategoryApi {
 
   async fetchByProcess({ id }) {
     const buildCategoryUrl = processId =>
-      generateUrl('/bonita/API/bpm/category', {
-        p: 0,
-        c: Math.pow(2, 31) - 1,
-        f: `id=${processId}`
+      new Url('/bonita/API/bpm/category', {
+        queries: {
+          p: 0,
+          c: Math.pow(2, 31) - 1,
+          f: processId ? `id=${processId}` : undefined
+        }
       });
 
     if (this.cache[id]) {
       return Promise.resolve(this.cache[id]);
     } else {
-      const response = await this.apiClient.get(buildCategoryUrl(id));
+      const response = await this.apiClient.get(buildCategoryUrl(id).get());
       const categories = await response.json();
 
       this.cache[id] = categories;
