@@ -94,8 +94,7 @@ class Main extends Component {
           processes={processes}
           pagination={pagination}
           filters={filters}
-          toggleOrder={this.toggleOrder}
-          changePage={this.props.changePage}
+          onToggleOrder={this.toggleOrder}
         />
         <Pagination pagination={pagination} onChangePage={this.getPage} />
       </div>
