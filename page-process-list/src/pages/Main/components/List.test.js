@@ -26,7 +26,7 @@ describe('<List />', () => {
         processes={mockupProcesses}
         pagination={{}}
         filters={{ order: 'DESC' }}
-        toggleOrder={toggleOrderMock}
+        onToggleOrder={toggleOrderMock}
       />
     );
     expect(wrapper.find('.List-process')).toHaveLength(mockupProcesses.length);
@@ -38,7 +38,7 @@ describe('<List />', () => {
         processes={mockupProcesses}
         pagination={{}}
         filters={{ order: 'DESC' }}
-        toggleOrder={toggleOrderMock}
+        onToggleOrder={toggleOrderMock}
       />
     );
 
@@ -58,7 +58,7 @@ describe('<List />', () => {
         processes={mockupProcesses}
         pagination={{ page: 1, size: 25, total: 100 }}
         filters={{ order: 'DESC' }}
-        toggleOrder={toggleOrderMock}
+        onToggleOrder={toggleOrderMock}
       />
     );
     expect(wrapper.find('.List-pagination-top').text()).toBe('26-50 of 100');
@@ -70,7 +70,7 @@ describe('<List />', () => {
         processes={[]}
         pagination={{ page: 0, size: 25, total: 0 }}
         filters={{ order: 'DESC' }}
-        toggleOrder={toggleOrderMock}
+        onToggleOrder={toggleOrderMock}
       />
     );
     expect(wrapper.find('.List-pagination-top').text()).toBe('no processes');
@@ -84,7 +84,7 @@ describe('<List />', () => {
         processes={[]}
         pagination={{ page: 0, size: 25, total: 10 }}
         filters={{ order: 'DESC' }}
-        toggleOrder={toggleOrderMock}
+        onToggleOrder={toggleOrderMock}
       />
     );
     wrapper.find('.List-name').prop('onClick')();

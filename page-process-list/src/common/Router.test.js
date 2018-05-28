@@ -17,7 +17,7 @@ describe('Router', () => {
   const mockupUrl = {
     queries: {
       tenant: 'France', // What would it look like ?
-      local: 'FR-fr',
+      locale: 'FR-fr',
       app: 'bonita',
       s: 'pool'
     },
@@ -27,7 +27,7 @@ describe('Router', () => {
         version: '1.0',
         id: '7544905540282516773'
       },
-      page: 'main',
+      page: 'instantiation',
       task: {
         name: 'preinstall'
       }
@@ -86,13 +86,13 @@ describe('Router', () => {
 
   describe('readStateFromUrl', () => {
     it('should compose state from url', () => {
-      // TODO: Url is not mock but should (see ligne 49)
-      expect(router.readStateFromUrl()).toEqual({
+      // TODO: Url is not mock but should (see ligne 38)
+      expect(router.readStateFromUrl({ href: mockupUrl })).toEqual({
         page: {
           name: mockupUrl.fragments.page,
           queries: {
             tenant: mockupUrl.queries.tenant,
-            local: mockupUrl.queries.local,
+            locale: mockupUrl.queries.locale,
             app: mockupUrl.queries.app
           },
           fragments: {
@@ -103,7 +103,7 @@ describe('Router', () => {
             }
           }
         },
-        mockupUrl
+        url: mockupUrl
       });
     });
   });
