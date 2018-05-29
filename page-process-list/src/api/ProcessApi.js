@@ -10,7 +10,7 @@ class ProcessApi {
     { page = 0, size = 25 } = {},
     { categoryId, search, order } = {}
   ) {
-    const url = new Url('/bonita/API/bpm/process', {
+    const url = new Url('../API/bpm/process', {
       queries: {
         p: page,
         c: size,

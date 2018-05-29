@@ -7,7 +7,7 @@ class CategoryApi {
   }
 
   async fetchAll() {
-    const url = new Url('/bonita/API/bpm/category', {
+    const url = new Url('../API/bpm/category', {
       queries: {
         p: 0,
         c: Math.pow(2, 31) - 1
@@ -22,7 +22,7 @@ class CategoryApi {
 
   async fetchByProcess({ id }) {
     const buildCategoryUrl = processId =>
-      new Url('/bonita/API/bpm/category', {
+      new Url('../API/bpm/category', {
         queries: {
           p: 0,
           c: Math.pow(2, 31) - 1,
