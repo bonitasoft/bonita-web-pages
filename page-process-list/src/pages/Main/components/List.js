@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
 
-import { Panel, Table, Label, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {
+  Panel,
+  Table,
+  Label,
+  Glyphicon,
+  OverlayTrigger,
+  Tooltip
+} from 'react-bootstrap';
 import router from '../../../routerInstance';
 
 class List extends Component {
@@ -67,8 +74,21 @@ class List extends Component {
                   </td>
                   <td>{process.description}</td>
                   <td>
-                    <OverlayTrigger placement="top" overlay={<Tooltip id={`new_case_${process.id}`}>Start a new case</Tooltip>}>
-                      <a href="" onClick={(e) => { e.preventDefault(); this.instantiateProcess(process); }}>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id={`new_case_${process.id}`}>
+                          Start a new case
+                        </Tooltip>
+                      }
+                    >
+                      <a
+                        href=""
+                        onClick={e => {
+                          e.preventDefault();
+                          this.instantiateProcess(process);
+                        }}
+                      >
                         <Glyphicon glyph="play" />
                       </a>
                     </OverlayTrigger>

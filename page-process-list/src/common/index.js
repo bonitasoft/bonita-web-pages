@@ -3,3 +3,4 @@ export { default as cookie } from './Cookie';
 export { default as Pagination } from './Pagination';
 export { default as Url } from './Url';
 export { default as Router } from './Router';
+export { default as EventManager } from './EventManager';

@@ -1,5 +1,4 @@
-import { Router } from './Router';
-import Url from './Url';
+import Router from './Router';
 
 describe('Router', () => {
   // pages with their requirements
@@ -14,7 +13,7 @@ describe('Router', () => {
     }
   };
 
-  const mockupUrl = {
+  const mockupUrl = (page = 'main') => ({
     queries: {
       tenant: 'France', // What would it look like ?
       locale: 'FR-fr',
@@ -27,83 +26,44 @@ describe('Router', () => {
         version: '1.0',
         id: '7544905540282516773'
       },
-      page: 'instantiation',
+      page,
       task: {
         name: 'preinstall'
       }
     }
-  };
-
-  Url.default = jest.fn();
-  Url.default.mockImplementation(() => mockupUrl);
+  });
 
   const router = new Router(pages, 'main');
 
-  describe('events', () => {
-    const subscriptions = router.events.reduce((subscriptions, name) => {
-      ['interceptor', 'post', 'pre'].forEach(moment => {
-        const event = `${name}.${moment}`;
-        const handler = jest.fn();
+  describe('readState', () => {
+    it('should compose state from url according to page requirements', () => {
+      const urlInstantiation = mockupUrl('instantiation');
+      const urlMain = mockupUrl('main');
 
-        const { unsubscribe } = router.subscribe(event, handler);
-
-        subscriptions.push({
-          event,
-          handler,
-          unsubscribe
-        });
+      expect(router.readState(urlInstantiation)).toEqual({
+        page: urlInstantiation.fragments.page,
+        queries: {
+          tenant: urlInstantiation.queries.tenant,
+          locale: urlInstantiation.queries.locale,
+          app: urlInstantiation.queries.app
+        },
+        fragments: {
+          process: {
+            name: urlInstantiation.fragments.process.name,
+            version: urlInstantiation.fragments.process.version,
+            id: urlInstantiation.fragments.process.id
+          }
+        }
       });
 
-      return subscriptions;
-    }, []);
-
-    it('can be subscribed', () => {
-      subscriptions.forEach(({ event }) =>
-        expect(router.getCollection(event)).toHaveLength(1)
-      );
-    });
-
-    it('can be published', () => {
-      subscriptions.forEach(({ event }) => router.publish(event));
-      subscriptions.forEach(({ handler }) =>
-        expect(handler.mock.calls.length).toBe(1)
-      );
-    });
-
-    it('can be unsubscribed', () => {
-      subscriptions.forEach(({ unsubscribe }) => unsubscribe());
-      subscriptions.forEach(({ event }) =>
-        expect(router.getCollection(event)).toHaveLength(0)
-      );
-      subscriptions.forEach(({ event }) => router.publish(event));
-      subscriptions.forEach(({ handler }) =>
-        expect(handler.mock.calls.length).toBe(1)
-      );
-    });
-
-    // TODO: test interceptors : can they modify the next state or prevent to change the current state to the next one
-  });
-
-  describe('readStateFromUrl', () => {
-    it('should compose state from url', () => {
-      // TODO: Url is not mock but should (see ligne 38)
-      expect(router.readStateFromUrl({ href: mockupUrl })).toEqual({
-        page: {
-          name: mockupUrl.fragments.page,
-          queries: {
-            tenant: mockupUrl.queries.tenant,
-            locale: mockupUrl.queries.locale,
-            app: mockupUrl.queries.app
-          },
-          fragments: {
-            process: {
-              name: mockupUrl.fragments.process.name,
-              version: mockupUrl.fragments.process.version,
-              id: mockupUrl.fragments.process.id
-            }
-          }
+      expect(router.readState(urlMain)).toEqual({
+        page: urlMain.fragments.page,
+        queries: {
+          tenant: urlMain.queries.tenant,
+          locale: urlMain.queries.locale,
+          app: urlMain.queries.app
         },
-        url: mockupUrl
+        fragments: {}
       });
     });
   });
