@@ -12,7 +12,7 @@ ansiColor('xterm') {
 
         slackStage('🔧 Build', isBaseBranch) {
             try {
-                sh './gradlew clean build'
+                gradle 'clean build'
             } finally {
                 archiveArtifacts '**/build*/distributions/*.zip'
             }
@@ -24,6 +24,10 @@ ansiColor('xterm') {
             }
         }
     }
+}
+
+def gradle(args) {
+    sh "./gradlew ${args}"
 }
 
 // wrap a stage in try/catch and notify team by slack in case of failure
