@@ -1,5 +1,8 @@
 subprojects {
     apply plugin: BonitaPagePlugin
+    apply plugin: 'maven-publish'
+
+    group 'org.bonitasoft.web.pages'
 
     bonitaPage {
         nodeVersion = '8.9.4'
@@ -7,4 +10,20 @@ subprojects {
         frontendBuildDir = 'dist'
     }
 
+    publishing {
+        repositories {
+            maven {
+                name 'bonitaInternal'
+                if (project.version.endsWith('-SNAPSHOT')) {
+                    url 'http://repositories.rd.lan/maven/snapshots/'
+                } else {
+                    url 'http://repositories.rd.lan/maven/releases/'
+                }
+            }
+        }
+
+        publications {
+            distributionZip(MavenPublication) { artifact distZip }
+        }
+    }
 }
