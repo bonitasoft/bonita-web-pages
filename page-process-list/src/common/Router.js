@@ -24,8 +24,8 @@ class Router {
     };
   }
 
-  readUrl() {
-    return new Url(window.location.href);
+  readUrl(url = window.location.href) {
+    return new Url(url);
   }
 
   readState(url) {

@@ -9,7 +9,7 @@ const statesMockup = {
   },
   nextState: {
     page: 'instantiation',
-    queries: { locale: 'FR-fr' },
+    queries: { locale: 'fr' },
     fragments: {
       process: {
         name: 'pool',
@@ -59,9 +59,7 @@ describe('EventManager', () => {
     eventManager.publish(state, nextState, transition);
 
     expect(transition.mock.calls.length).toBe(1);
-    subscriptions.forEach(({ handler }) =>
-      expect(handler.mock.calls.length).toBe(1)
-    );
+    subscriptions.forEach(({ handler }) => expect(handler).toHaveBeenCalled());
   });
 
   it('can be unsubscribed', () => {
@@ -76,7 +74,7 @@ describe('EventManager', () => {
     eventManager.publish(state, nextState, transition);
 
     subscriptions.forEach(({ handler }) =>
-      expect(handler.mock.calls.length).toBe(1)
+      expect(handler).toHaveBeenCalledTimes(1)
     );
   });
 });

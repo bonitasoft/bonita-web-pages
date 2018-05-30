@@ -2,28 +2,14 @@
   "name": "page-process-list",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "proxy": {
-    "/bonita": {
+    "/API": {
       "target": "http://localhost:8080/bonita",
-      "changeOrigin": true,
-      "ws": true,
-      "pathRewrite": {
-        "^/bonita": ""
-      }
+      "changeOrigin": true
     },
     "/portal": {
-      "target": "http://localhost:8080/bonita/portal",
-      "changeOrigin": true,
-      "ws": true,
-      "pathRewrite": {
-        "^/portal": ""
-      }
-    },
-    "/theme/theme.css": {
-      "target": "/theme/theme",
-      "changeOrigin": true,
-      "ws": true
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true
     }
   },
   "dependencies": {
@@ -53,6 +39,5 @@
     "eslint-plugin-prettier": "^2.4.0",
     "prettier": "^1.9.2",
     "react-scripts": "^1.1.4"
-  },
-  "proxy": "http://localhost:8080/bonita"
+  }
 }
