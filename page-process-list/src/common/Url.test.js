@@ -85,6 +85,11 @@ describe('Url', () => {
       const url = new Url(equivalence.url.string);
       expect(url.getPath()).toEqual('http://localhost:3000/bonita/portal/');
     });
+
+    it('should recompose path without port', () => {
+      const url = new Url('http://localhost/bonita/portal/');
+      expect(url.getPath()).toEqual('http://localhost/bonita/portal/');
+    });
   });
 
   describe('get', () => {
@@ -139,6 +144,11 @@ describe('Url', () => {
       expect(Url.parseFragments('')).toEqual({});
       expect(Url.parseFragments('#')).toEqual({});
     });
+
+      it('should parse fragments containing space', () => {
+          //expect(Url.parseFragments('#process:pool%201')).toEqual({process: 'pool%201'});
+          expect(Url.parseFragments('#process:pool n')).toEqual({process: 'pool n'});
+      });
 
     it('should stringify fragments', () => {
       expect(Url.stringifyFragments(equivalence.fragments.object)).toEqual(

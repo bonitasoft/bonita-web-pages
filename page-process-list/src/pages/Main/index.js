@@ -29,18 +29,18 @@ class Main extends Component {
       }
     };
 
-    this.getPage = this.getPage.bind(this);
+    this.getProcesses = this.getProcesses.bind(this);
     this.getCategories = this.getCategories.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
   }
 
   componentDidMount() {
-    this.getPage();
+    this.getProcesses();
     this.getCategories();
   }
 
-  getPage(page = 0, _filters) {
+  getProcesses(page = 0, _filters) {
     const { pagination, filters } = this.state;
 
     ProcessApi.fetchProcesses(
@@ -66,7 +66,7 @@ class Main extends Component {
   }
 
   updateFilters(_filters) {
-    this.getPage(0, _filters);
+    this.getProcesses(0, _filters);
     this.setState(prevState => ({
       filters: { ...prevState.filters, ..._filters }
     }));
@@ -75,7 +75,7 @@ class Main extends Component {
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
 
-    this.getPage(0, { order });
+    this.getProcesses(0, { order });
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
@@ -96,7 +96,7 @@ class Main extends Component {
           filters={filters}
           onToggleOrder={this.toggleOrder}
         />
-        <Pagination pagination={pagination} onChangePage={this.getPage} />
+        <Pagination pagination={pagination} onChangePage={this.getProcesses} />
       </div>
     );
   }

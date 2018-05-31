@@ -24,8 +24,16 @@ class Router {
     };
   }
 
-  readUrl(url = window.location.href) {
+  readUrl(url = this.getWindowLocationHref()) {
     return new Url(url);
+  }
+
+  getWindowLocationHref() {
+    return window.location.href;
+  }
+
+  setWindowLocationHref(href) {
+    window.location.href = href;
   }
 
   readState(url) {
@@ -47,14 +55,13 @@ class Router {
     };
   }
 
-  changePage(page, fragments) {
+  changePage(page = 'main', fragments = {}) {
     if (page !== this.defaultPage) {
-      fragments.page = page;
+      fragments = { page, ...fragments };
     }
 
     const nextUrl = new Url(this.getUrl(), { fragments });
-
-    window.location.href = nextUrl.get();
+    this.setWindowLocationHref(nextUrl.get());
   }
 
   getPage() {
@@ -73,11 +80,13 @@ class Router {
     return this.url;
   }
 
-  getPortalUrl() {
-    const path = this.url.getPath();
-    const index = path.indexOf('/portal');
+  getUrlContext() {
+    const index = this.url.pathname.indexOf('/portal');
+    const urlContextPath = this.url.pathname.slice(0, index);
 
-    return `${index !== -1 ? path.substring(0, index) : path}portal/`;
+    return this.url.getPath.apply(
+      new Url(this.url, { pathname: urlContextPath })
+    );
   }
 }
 
