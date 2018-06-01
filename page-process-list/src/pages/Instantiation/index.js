@@ -12,7 +12,7 @@ class Instantiation extends Component {
     const urlContext = router.getUrlContext(),
       queries = router.getQueries(),
       fragments = router.getFragments();
-      const { name, version, id } = fragments.process;
+    const { name, version, id } = fragments.process;
 
     const instantiationUrl = new Url(
       `${urlContext}/portal/resource/process/${encodeParam(name)}/${encodeParam(
