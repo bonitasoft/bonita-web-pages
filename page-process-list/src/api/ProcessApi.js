@@ -8,7 +8,8 @@ class ProcessApi {
 
   async fetchProcesses(
     { page = 0, size = 25 } = {},
-    { categoryId, search, order } = {}
+    { categoryId, search, order } = {},
+    userId = 0
   ) {
     const url = new Url('../API/bpm/process', {
       queries: {
@@ -18,8 +19,8 @@ class ProcessApi {
         o: order ? `displayName ${order}` : undefined,
         f:
           categoryId && categoryId !== '0'
-            ? `categoryId=${categoryId}`
-            : 'activationState=ENABLED'
+            ? `categoryId=${categoryId}&f=user_id=${userId}`
+            : `activationState=ENABLED&f=user_id=${userId}`
       }
     });
 

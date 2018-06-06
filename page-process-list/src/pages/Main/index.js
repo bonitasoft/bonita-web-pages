@@ -8,7 +8,6 @@ import { Filters, List, Pagination } from './components';
 class Main extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       processes: [],
       categories: {
@@ -36,16 +35,16 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.getPage();
+    this.getPage(0, this.state.filters, this.props.session.user_id);
     this.getCategories();
   }
 
-  getPage(page = 0, _filters) {
+  getPage(page = 0, _filters, userId) {
     const { pagination, filters } = this.state;
-
     ProcessApi.fetchProcesses(
       { ...pagination, page },
-      { ...filters, ..._filters }
+      { ...filters, ..._filters },
+      userId
     ).then(({ unpopulated, populated }) => {
       unpopulated.then(({ processes, pagination }) =>
         this.setState({ processes, pagination })
@@ -66,7 +65,7 @@ class Main extends Component {
   }
 
   updateFilters(_filters) {
-    this.getPage(0, _filters);
+    this.getPage(0, _filters, this.props.session.user_id);
     this.setState(prevState => ({
       filters: { ...prevState.filters, ..._filters }
     }));
@@ -74,14 +73,12 @@ class Main extends Component {
 
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
-
-    this.getPage(0, { order });
+    this.getPage(0, { order }, this.props.session);
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
   render() {
     const { processes, categories, pagination, filters } = this.state;
-
     return (
       <div className="Main container border">
         <h1>Processes</h1>
