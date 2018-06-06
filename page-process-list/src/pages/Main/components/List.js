@@ -2,9 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
 
-import { Panel, Table, Label, Glyphicon } from 'react-bootstrap';
+import {
+  Panel,
+  Table,
+  Label,
+  Glyphicon,
+  OverlayTrigger,
+  Tooltip
+} from 'react-bootstrap';
+import router from '../../../routerInstance';
 
 class List extends Component {
+  constructor(props) {
+    super(props);
+
+    this.instantiateProcess = this.instantiateProcess.bind(this);
+  }
+
+  instantiateProcess({ name, version, id }) {
+    router.changePage('instantiation', { process: { name, version, id } });
+  }
+
   render() {
     const { processes, pagination, filters } = this.props;
     const { page, size, total } = pagination;
@@ -28,7 +46,7 @@ class List extends Component {
           <Table striped responsive hover>
             <thead>
               <tr>
-                <th className="List-name" onClick={this.props.toggleOrder}>
+                <th className="List-name" onClick={this.props.onToggleOrder}>
                   <span>Name</span>
                   <Glyphicon
                     glyph={
@@ -39,6 +57,7 @@ class List extends Component {
                 <th>Version</th>
                 <th>Categories</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -54,6 +73,26 @@ class List extends Component {
                     ))}
                   </td>
                   <td>{process.description}</td>
+                  <td>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id={`new_case_${process.id}`}>
+                          Start a new case
+                        </Tooltip>
+                      }
+                    >
+                      <a
+                        href=""
+                        onClick={e => {
+                          e.preventDefault();
+                          this.instantiateProcess(process);
+                        }}
+                      >
+                        <Glyphicon glyph="play" />
+                      </a>
+                    </OverlayTrigger>
+                  </td>
                 </tr>
               ))}
             </tbody>

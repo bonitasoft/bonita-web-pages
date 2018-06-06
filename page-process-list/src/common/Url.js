@@ -40,9 +40,9 @@ class Url {
   }
 
   getPath() {
-    const { protocol, hostname, port, pathname } = this;
-
-    return `${protocol}//${hostname}:${port}${pathname}`;
+    let { protocol, hostname, port, pathname } = this;
+    port = port !== '' ? `:${port}` : port;
+    return `${protocol}//${hostname}${port}${pathname}`;
   }
 
   static parseQueries(str) {

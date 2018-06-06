@@ -2,11 +2,21 @@
   "name": "page-process-list",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
-  "proxy": "http://localhost:8080/bonita",
+  "proxy": {
+    "/API": {
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true
+    },
+    "/portal": {
+      "target": "http://localhost:8080/bonita",
+      "changeOrigin": true
+    }
+  },
   "dependencies": {
     "bootstrap": "^3.3.7",
     "lodash.assignin": "^4.2.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.uniqueid": "^4.0.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0"

@@ -1,3 +1,7 @@
 import Main from './Main';
+import Instantiation from './Instantiation';
 
-export { Main };
+export default {
+  main: Main,
+  instantiation: Instantiation
+};
