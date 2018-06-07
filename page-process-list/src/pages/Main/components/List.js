@@ -13,16 +13,6 @@ import {
 import { Link } from 'react-router-dom';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-
-    this.instantiateProcess = this.instantiateProcess.bind(this);
-  }
-
-  instantiateProcess(process) {
-    // pageName = instantiation
-    // router => GoToPage(pageName#process)
-  }
 
   render() {
     const { processes, pagination, filters } = this.props;
