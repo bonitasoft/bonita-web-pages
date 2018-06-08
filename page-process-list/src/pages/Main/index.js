@@ -98,7 +98,7 @@ class Main extends Component {
   render() {
     const { processes, categories, pagination, filters } = this.state;
     return (
-      <div className="Main container border">
+      <div className="Main container border transition-item">
         <h1>Processes</h1>
         <Filters
           filters={filters}

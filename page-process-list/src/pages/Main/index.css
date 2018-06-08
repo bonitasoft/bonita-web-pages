@@ -1,3 +1,28 @@
 .Main > h1 {
   margin-bottom: 25px;
 }
+
+.Main {
+  transition: transform 0.3s, opacity 0.3s;
+  transform: translate3d(0, 0, 0);
+}
+
+.Main.transition-appear {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.Main.transition-appear.transition-appear-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.Main.transition-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.Main.transition-leave.transition-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
