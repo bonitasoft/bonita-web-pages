@@ -56,10 +56,13 @@ describe('Process API', () => {
       const spyCategories = jest.spyOn(CategoryApi, 'fetchByProcess');
       spyCategories.mockImplementation(() => Promise.resolve(mockupCategories));
 
-      const { unpopulated, populated } = await ProcessApi.fetchProcesses({
-        page: 0,
-        count: 10
-      });
+      const { unpopulated, populated } = await ProcessApi.fetchProcesses(
+        {
+          page: 0,
+          count: 10
+        },
+        {}
+      );
 
       responses.unpopulated = await unpopulated;
       responses.populated = await populated;

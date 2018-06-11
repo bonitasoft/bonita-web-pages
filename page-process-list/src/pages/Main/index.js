@@ -8,7 +8,6 @@ import { Filters, List, Pagination } from './components';
 class Main extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       processes: [],
       categories: {
@@ -23,6 +22,7 @@ class Main extends Component {
       },
       pagination: { page: 0, size: 25, total: 0 }, // avoid NaN errors
       filters: {
+        queryParams: '',
         categoryId: '0',
         search: '',
         order: 'ASC'
@@ -33,25 +33,42 @@ class Main extends Component {
     this.getCategories = this.getCategories.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
+    this.buildParamForUser = this.buildParamForUser.bind(this);
   }
 
   componentDidMount() {
-    this.getPage();
+    this.getPage(0, this.state.filters, this.props.session.user_id);
     this.getCategories();
   }
 
   getPage(page = 0, _filters) {
-    const { pagination, filters } = this.state;
+    const { pagination } = this.state;
+    const params = this.buildParamForUser(_filters);
 
-    ProcessApi.fetchProcesses(
-      { ...pagination, page },
-      { ...filters, ..._filters }
-    ).then(({ unpopulated, populated }) => {
-      unpopulated.then(({ processes, pagination }) =>
-        this.setState({ processes, pagination })
-      );
-      populated.then(({ processes }) => this.setState({ processes }));
-    });
+    ProcessApi.fetchProcesses({ ...pagination, page }, params).then(
+      ({ unpopulated, populated }) => {
+        unpopulated.then(({ processes, pagination }) =>
+          this.setState({ processes, pagination })
+        );
+        populated.then(({ processes }) => this.setState({ processes }));
+      }
+    );
+  }
+
+  buildParamForUser(_filters) {
+    const query = ['activationState=ENABLED'];
+    let params = { ...this.state.filters, ..._filters };
+
+    if (params.categoryId && params.categoryId !== '0') {
+      query.push(`categoryId=${params.categoryId}`);
+    }
+    if (this.props.session.user_id && this.props.session.user_id !== '0') {
+      query.push(`user_id=${this.props.session.user_id}`);
+    }
+
+    params.queryParams = query.join('&f=');
+    this.setState({ filters: params });
+    return params;
   }
 
   getCategories() {
@@ -74,14 +91,12 @@ class Main extends Component {
 
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
-
-    this.getPage(0, { order });
+    this.getPage(0, { order }, this.props.session);
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
   render() {
     const { processes, categories, pagination, filters } = this.state;
-
     return (
       <div className="Main container border">
         <h1>Processes</h1>
