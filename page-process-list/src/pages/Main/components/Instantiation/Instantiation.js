@@ -13,13 +13,8 @@ export default class Instantiation extends Component {
   onFormSubmited(message) {
       const messageData =  message.data;
       var jsonMessage = typeof messageData === 'string' ? JSON.parse(messageData) : messageData;
-        if (jsonMessage.action === 'Start process') {
-            if (jsonMessage.message === 'error') {
-                console.log('[Error] Process instantiation failure.');
-            } else if (jsonMessage.message === 'success') {
+        if (jsonMessage.action === 'Start process' && jsonMessage.message === 'success') {
                 this.props.history.push('/');
-                console.log('[SUCCESS] Process instantiation success.');
-            }
         }
     };
 
