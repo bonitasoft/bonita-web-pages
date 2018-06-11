@@ -13,7 +13,6 @@ import {
 import { Link } from 'react-router-dom';
 
 class List extends Component {
-
   render() {
     const { processes, pagination, filters } = this.props;
     const { page, size, total } = pagination;

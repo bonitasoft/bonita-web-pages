@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import { shallow } from 'enzyme';
-import { HashRouter } from "react-router-dom";
+import { HashRouter } from 'react-router-dom';
 
 describe('App', () => {
   it('should display main page if session is loaded', () => {
