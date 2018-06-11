@@ -61,8 +61,7 @@ describe('Process API', () => {
           page: 0,
           count: 10
         },
-        {},
-        1
+        {}
       );
 
       responses.unpopulated = await unpopulated;

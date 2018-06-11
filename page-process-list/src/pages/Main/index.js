@@ -22,6 +22,7 @@ class Main extends Component {
       },
       pagination: { page: 0, size: 25, total: 0 }, // avoid NaN errors
       filters: {
+        queryParams: '',
         categoryId: '0',
         search: '',
         order: 'ASC'
@@ -32,6 +33,7 @@ class Main extends Component {
     this.getCategories = this.getCategories.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
+    this.buildParamForUser = this.buildParamForUser.bind(this);
   }
 
   componentDidMount() {
@@ -39,18 +41,34 @@ class Main extends Component {
     this.getCategories();
   }
 
-  getPage(page = 0, _filters, userId) {
-    const { pagination, filters } = this.state;
-    ProcessApi.fetchProcesses(
-      { ...pagination, page },
-      { ...filters, ..._filters },
-      userId
-    ).then(({ unpopulated, populated }) => {
-      unpopulated.then(({ processes, pagination }) =>
-        this.setState({ processes, pagination })
-      );
-      populated.then(({ processes }) => this.setState({ processes }));
-    });
+  getPage(page = 0, _filters) {
+    const { pagination } = this.state;
+    const params = this.buildParamForUser(_filters);
+
+    ProcessApi.fetchProcesses({ ...pagination, page }, params).then(
+      ({ unpopulated, populated }) => {
+        unpopulated.then(({ processes, pagination }) =>
+          this.setState({ processes, pagination })
+        );
+        populated.then(({ processes }) => this.setState({ processes }));
+      }
+    );
+  }
+
+  buildParamForUser(_filters) {
+    const query = ['activationState=ENABLED'];
+    let params = { ...this.state.filters, ..._filters };
+
+    if (params.categoryId && params.categoryId !== '0') {
+      query.push(`categoryId=${params.categoryId}`);
+    }
+    if (this.props.session.user_id && this.props.session.user_id !== '0') {
+      query.push(`user_id=${this.props.session.user_id}`);
+    }
+
+    params.queryParams = query.join('&f=');
+    this.setState({ filters: params });
+    return params;
   }
 
   getCategories() {
@@ -65,7 +83,7 @@ class Main extends Component {
   }
 
   updateFilters(_filters) {
-    this.getPage(0, _filters, this.props.session.user_id);
+    this.getPage(0, _filters);
     this.setState(prevState => ({
       filters: { ...prevState.filters, ..._filters }
     }));
