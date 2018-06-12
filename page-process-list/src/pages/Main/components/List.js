@@ -72,7 +72,9 @@ class List extends Component {
                       }
                     >
                       <Link
-                        to={`/instantiation/${process.name}/${process.version}?id=${process.id}&autoInstantiate=false`}
+                        to={`/instantiation/${process.name}/${
+                          process.version
+                        }?id=${process.id}&autoInstantiate=false`}
                       >
                         <Glyphicon glyph="play" />
                       </Link>
