@@ -3,11 +3,6 @@ import Filters from './Filters';
 
 import { shallow, mount } from 'enzyme';
 
-import jsdom from 'jsdom';
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.document = doc;
-global.window = doc.defaultView;
-
 const mockupState = {
   categories: [...Array(25).keys()].reduce(
     (categories, i) => {

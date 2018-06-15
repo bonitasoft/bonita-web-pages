@@ -4,11 +4,6 @@ import { Pager } from 'react-bootstrap';
 
 import { shallow, mount } from 'enzyme';
 
-import jsdom from 'jsdom';
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.document = doc;
-global.window = doc.defaultView;
-
 describe('<Pagination />', () => {
   const changePageMock = jest.fn();
 
