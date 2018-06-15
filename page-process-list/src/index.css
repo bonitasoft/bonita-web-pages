@@ -1,20 +1,17 @@
-body,
-html {
-  width: 100%;
+html,
+body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-}
-
 .ProcessList .Instantiation {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  display: flex;
+  border: none;
+  transition: transform 0.3s, opacity 0.3s;
 }
 
 .loader {
@@ -53,4 +50,16 @@ html {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.transition-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.transition-wrapper .transition-item {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
 }

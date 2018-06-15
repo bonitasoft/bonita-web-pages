@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Instantiation.css';
+import { Link } from 'react-router-dom';
+import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default class Instantiation extends Component {
   constructor(props) {
@@ -33,13 +35,28 @@ export default class Instantiation extends Component {
     const { processName, processVersion } = this.props.match.params;
 
     return (
-      <iframe
-        className="Instantiation container border"
-        src={`../../../../process/${processName}/${processVersion}/content/${
-          this.props.location.search
-        }`}
-        title="Instantiation"
-      />
+      <div className="Instantiation transition-item">
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip> Cancel</Tooltip>}
+          delayShow="2000"
+        >
+          <Link to="/">
+            <div className="cancel-bar">
+              <div className="cancel-bar-content">
+                <Glyphicon glyph="chevron-left" />
+              </div>
+            </div>
+          </Link>
+        </OverlayTrigger>
+
+        <iframe
+            src={`../../../../process/${processName}/${processVersion}/content/${
+                this.props.location.search
+                }`}
+            title="Instantiation"
+        />
+      </div>
     );
   }
 }
