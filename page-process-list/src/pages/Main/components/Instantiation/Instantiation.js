@@ -38,8 +38,8 @@ export default class Instantiation extends Component {
       <div className="Instantiation transition-item">
         <OverlayTrigger
           placement="right"
-          overlay={<Tooltip> Cancel</Tooltip>}
-          delayShow="2000"
+          overlay={<Tooltip id="cancel-instantiation"> Cancel</Tooltip>}
+          delayShow={2000}
         >
           <Link to="/">
             <div className="cancel-bar">
@@ -51,10 +51,10 @@ export default class Instantiation extends Component {
         </OverlayTrigger>
 
         <iframe
-            src={`../../../../process/${processName}/${processVersion}/content/${
-                this.props.location.search
-                }`}
-            title="Instantiation"
+          src={`../../../../process/${processName}/${processVersion}/content/${
+            this.props.location.search
+          }`}
+          title="Instantiation"
         />
       </div>
     );
