@@ -29,7 +29,7 @@ describe('Instantiation page', () => {
       ...props,
       history: { push: jest.fn() }
     };
-    const wrapper = shallow(<Instantiation {...testProps} />);
+    shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
@@ -48,7 +48,7 @@ describe('Instantiation page', () => {
       ...props,
       history: { push: jest.fn() }
     };
-    const wrapper = shallow(<Instantiation {...testProps} />);
+    shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
@@ -67,7 +67,7 @@ describe('Instantiation page', () => {
       ...props,
       history: { push: jest.fn() }
     };
-    const wrapper = shallow(<Instantiation {...testProps} />);
+    shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
@@ -81,15 +81,22 @@ describe('Instantiation page', () => {
     expect(testProps.history.push).not.toHaveBeenCalled();
   });
 
-  it('should not update history on success random message.', async () => {
-    window.addEventListener = jest.fn(() => 'EventMock');
+  it('should deleted message listener when component is unmount.', async () => {
     window.removeEventListener = jest.fn();
+    window.addEventListener = jest.fn();
 
     const wrapper = shallow(<Instantiation {...props} />);
+    let onFormSubmitedMethod = wrapper.instance().onFormSubmited;
+    expect(window.addEventListener).toHaveBeenCalledWith(
+      'message',
+      onFormSubmitedMethod,
+      false
+    );
     wrapper.unmount();
+
     expect(window.removeEventListener).toHaveBeenCalledWith(
       'message',
-      'EventMock'
+      onFormSubmitedMethod
     );
   });
 });
