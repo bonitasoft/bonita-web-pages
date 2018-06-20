@@ -8,15 +8,11 @@ export default class Instantiation extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmited = this.onFormSubmited.bind(this);
-    this.messageListener = window.addEventListener(
-      'message',
-      this.onFormSubmited,
-      false
-    );
+    window.addEventListener('message', this.onFormSubmited, false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('message', this.messageListener);
+    window.removeEventListener('message', this.onFormSubmited);
   }
 
   onFormSubmited(message) {
