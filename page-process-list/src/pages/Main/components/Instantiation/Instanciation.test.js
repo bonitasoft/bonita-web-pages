@@ -2,6 +2,7 @@ import React from 'react';
 
 import Instantiation from './Instantiation';
 import { shallow } from 'enzyme';
+import { Alerts } from '../../../../common';
 
 describe('Instantiation page', () => {
   const props = {
@@ -98,5 +99,55 @@ describe('Instantiation page', () => {
       'message',
       onFormSubmitedMethod
     );
+  });
+
+  describe('Toast', () => {
+    beforeEach(() => {
+      Alerts.success = jest.fn();
+      Alerts.error = jest.fn();
+    });
+
+    it('should display message when successful.', async () => {
+      const testProps = {
+        ...props,
+        history: { push: jest.fn() }
+      };
+      const wrapper = shallow(<Instantiation {...testProps} />);
+
+      // Simulate a message being sent
+      var message = {
+        action: 'Start process',
+        message: 'success',
+        dataFromSuccess: {
+            caseId: 300
+        }
+      };
+
+      window.postMessage(message, '*');
+      //New to add this Promise to allows message to be read
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(Alerts.success).toHaveBeenCalledWith('The case 300 has been started successfully.');
+      expect(Alerts.error).not.toHaveBeenCalled();
+    });
+
+    it('should display error for failures.', async () => {
+      const testProps = {
+        ...props,
+        history: { push: jest.fn() }
+      };
+      const wrapper = shallow(<Instantiation {...testProps} />);
+
+      // Simulate a message being sent
+      var message = {
+        action: 'Start process',
+        message: 'failed'
+      };
+
+      window.postMessage(message, '*');
+      //New to add this Promise to allows message to be read
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(Alerts.success).not.toHaveBeenCalled();
+      expect(Alerts.error).toHaveBeenCalledWith('Error while starting the case.');
+    });
   });
 });

@@ -4,6 +4,7 @@ import { Main } from './pages';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Instantiation from './pages/Main/components/Instantiation/Instantiation';
 import PageTransition from 'react-router-page-transition';
+import { Alerts } from './common';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <HashRouter>
         <div className="ProcessList">
+          <Alerts className="ProcessList-alerts" />
           <Route
             render={({ location }) => (
               <PageTransition timeout={500}>
