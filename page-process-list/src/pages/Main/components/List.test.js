@@ -20,6 +20,7 @@ const mockupProcesses = Array(25).fill({
 });
 
 describe('<List />', () => {
+  const toggleOrderMock = jest.fn();
   it('should render as many processes as given', () => {
     const wrapper = shallow(
       <List
@@ -73,15 +74,14 @@ describe('<List />', () => {
         toggleOrder={toggleOrderMock}
       />
     );
-    expect(wrapper.find('.List-pagination-top').text()).toBe('no processes');
+    expect(wrapper.find('.text-muted').text()).toBe('No processes to display');
+    expect(wrapper.find('Table')).toHaveLength(0);
   });
-
-  const toggleOrderMock = jest.fn();
 
   it('should toggle order when name column header is clicked', () => {
     const wrapper = shallow(
       <List
-        processes={[]}
+        processes={mockupProcesses}
         pagination={{ page: 0, size: 25, total: 10 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}

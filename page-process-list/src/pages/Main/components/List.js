@@ -17,22 +17,17 @@ class List extends Component {
     const { processes, pagination, filters } = this.props;
     const { page, size, total } = pagination;
 
-    // indexes of first and last elements on the page
-    const start = page * size;
-    const end = start + (processes.length - 1);
+    var panelBodyContent;
+    var paginationStatus = '';
 
-    const paginationStatus =
-      total !== 0 ? `${start + 1}-${end + 1} of ${total}` : 'no processes';
+    if (processes && processes.length > 0) {
+      // indexes of first and last elements on the page
+      const start = page * size;
+      const end = start + (processes.length - 1);
 
-    return (
-      <Panel className="List">
-        <Panel.Heading>
-          <Panel.Title componentClass="h3">List</Panel.Title>
-          <div className="List-heading-right">
-            <p className="List-pagination-top">{paginationStatus}</p>
-          </div>
-        </Panel.Heading>
-        <Panel.Body>
+      paginationStatus = `${start + 1}-${end + 1} of ${total}`;
+      panelBodyContent = (
+        <div>
           <Table striped responsive hover>
             <thead>
               <tr>
@@ -47,6 +42,7 @@ class List extends Component {
                 <th>Version</th>
                 <th>Categories</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -84,8 +80,26 @@ class List extends Component {
               ))}
             </tbody>
           </Table>
-        </Panel.Body>
-        <p className="List-pagination-bottom">{paginationStatus}</p>
+          <p className="List-pagination-bottom">{paginationStatus}</p>
+        </div>
+      );
+    } else {
+      panelBodyContent = (
+        <p className="text-muted animated fadeIn ng-binding">
+          No processes to display
+        </p>
+      );
+    }
+
+    return (
+      <Panel className="List">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">List</Panel.Title>
+          <div className="List-heading-right">
+            <p className="List-pagination-top">{paginationStatus}</p>
+          </div>
+        </Panel.Heading>
+        <Panel.Body>{panelBodyContent}</Panel.Body>
       </Panel>
     );
   }
