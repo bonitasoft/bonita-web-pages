@@ -97,7 +97,7 @@ class Main extends Component {
   }
 
   updateFilters(_filters) {
-    this.getPage(0, _filters);
+    this.getProcesses(0, _filters);
     this.setState(prevState => ({
       filters: { ...prevState.filters, ..._filters }
     }));
@@ -105,7 +105,7 @@ class Main extends Component {
 
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
-    this.getPage(0, { order }, this.props.session);
+    this.getProcesses(0, { order }, this.props.session);
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
