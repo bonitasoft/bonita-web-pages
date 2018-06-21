@@ -11,10 +11,11 @@ import {
   Tooltip
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 class List extends Component {
   render() {
-    const { processes, pagination, filters } = this.props;
+    const { processes, pagination, filters, onChangePage } = this.props;
     const { page, size, total } = pagination;
 
     var panelBodyContent;
@@ -80,7 +81,21 @@ class List extends Component {
               ))}
             </tbody>
           </Table>
-          <p className="List-pagination-bottom">{paginationStatus}</p>
+          <div className="List-pagination-bottom">
+            <div>
+              <p>{paginationStatus}</p>
+            </div>
+            <div className="List-pagination-bottom-element">
+              <Pagination
+                className="List-pagination-bottom"
+                activePage={page + 1}
+                itemsCountPerPage={size}
+                totalItemsCount={total}
+                pageRangeDisplayed={5}
+                onChange={onChangePage}
+              />
+            </div>
+          </div>
         </div>
       );
     } else {

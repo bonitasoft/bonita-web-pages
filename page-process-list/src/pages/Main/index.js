@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import { ProcessApi, CategoryApi } from '../../api';
-import { Filters, List, Pagination } from './components';
+import { Filters, List } from './components';
 
 class Main extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Main extends Component {
           id: '0'
         }
       },
-      pagination: { page: 0, size: 25, total: 0 }, // avoid NaN errors
+      pagination: { page: 0, size: 10, total: 0 }, // avoid NaN errors
       filters: {
         queryParams: '',
         categoryId: '0',
@@ -29,7 +29,8 @@ class Main extends Component {
       }
     };
 
-    this.getPage = this.getPage.bind(this);
+    this.getProcesses = this.getProcesses.bind(this);
+    this.onPaginationChange = this.onPaginationChange.bind(this);
     this.getCategories = this.getCategories.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
@@ -37,11 +38,11 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.getPage(0, this.state.filters, this.props.session.user_id);
+    this.getProcesses(0, this.state.filters, this.props.session.user_id);
     this.getCategories();
   }
 
-  getPage(page = 0, _filters) {
+  getProcesses(page = 0, _filters) {
     const { pagination } = this.state;
     const params = this.buildParamForUser(_filters);
 
@@ -53,6 +54,19 @@ class Main extends Component {
         populated.then(({ processes }) => this.setState({ processes }));
       }
     );
+  }
+
+  onPaginationChange(pageFromPager, _filters) {
+    this.getProcesses(
+      this.formatPageNumberForBonitaAPI(pageFromPager),
+      _filters
+    );
+  }
+
+  formatPageNumberForBonitaAPI(page) {
+    // As our pager manage pages starting by 1,
+    // and bonita API start by 0, we need to convert the page number
+    return page !== 0 ? page - 1 : page;
   }
 
   buildParamForUser(_filters) {
@@ -83,7 +97,7 @@ class Main extends Component {
   }
 
   updateFilters(_filters) {
-    this.getPage(0, _filters);
+    this.getProcesses(0, _filters);
     this.setState(prevState => ({
       filters: { ...prevState.filters, ..._filters }
     }));
@@ -91,7 +105,7 @@ class Main extends Component {
 
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
-    this.getPage(0, { order }, this.props.session);
+    this.getProcesses(0, { order }, this.props.session);
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
@@ -110,9 +124,8 @@ class Main extends Component {
           pagination={pagination}
           filters={filters}
           toggleOrder={this.toggleOrder}
-          changePage={this.props.changePage}
+          onChangePage={this.onPaginationChange}
         />
-        <Pagination pagination={pagination} onChangePage={this.getPage} />
       </div>
     );
   }
