@@ -1,3 +1,12 @@
+plugins {
+    id 'com.bonitasoft.gradle.bonita-base-plugin' version '0.1.17'
+}
+
+bonitaBase {
+    //this update the links inside the README.md when doing a release
+    releaseHooks { updateFiles 'gradle.properties'}
+}
+
 subprojects {
     apply plugin: BonitaPagePlugin
     apply plugin: 'maven-publish'
