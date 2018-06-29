@@ -23,8 +23,7 @@ node {
 
     stage('Release') {
         //TAG_VERSION
-        branch = branch ?: 'master'
-        releaseType = releaseType ?: 'Development'
+        branch = 'master'
 
         withCredentials([usernamePassword(
                 credentialsId: 'github',
@@ -32,23 +31,8 @@ node {
                 usernameVariable: 'GIT_USERNAME')]) {
             sh "git branch --force $branch origin/$branch"
             sh "git checkout $branch"
-            CURRENT_VERSION = sh(
-                    script: './gradlew currentVersion -Prelease.useHighestVersion' +
-                            '| grep Project ' +
-                            '| cut -f 3 -d  \' \' ' +
-                            '| cut -f1 -d \'-\' ',
-                    returnStdout: true
-            ).trim()
-            if (releaseType == "Development") {
-                sh "./gradlew markNextVersion " +
-                        "-Prelease.version=${CURRENT_VERSION} " +
-                        "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
-            } else {
 
-                sh "./gradlew release " +
-                        "-Prelease.versionIncrementer=increment${releaseType} " +
-                        "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
-            }
+            sh "./gradlew release -Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD} -Prelease.forceVersion=${tag_version}"
         }
     }
 
