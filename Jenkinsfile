@@ -7,7 +7,14 @@ ansiColor('xterm') {
         def isBaseBranch = currentBranch == 'master'
 
         slackStage('🌍 Setup', isBaseBranch) {
-            checkout scm
+            // all this just to fetch tags since default behaviour has changed in jenkins
+            checkout([
+                    $class: 'GitSCM',
+                    branches: scm.branches,
+                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '']],
+                    userRemoteConfigs: scm.userRemoteConfigs,
+            ])
         }
 
         slackStage('🔧 Build', isBaseBranch) {

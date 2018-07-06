@@ -22,18 +22,16 @@ export default class Instantiation extends Component {
       typeof messageData === 'string' ? JSON.parse(messageData) : messageData;
     if (jsonMessage.action === 'Start process') {
       if (jsonMessage.message === 'success') {
-          this.props.history.push('/');
-          var caseId = '';
-          if (jsonMessage.dataFromSuccess) {
-              caseId = jsonMessage.dataFromSuccess.caseId;
-          }
-          Alerts.success(
-              'The case ' + caseId + ' has been started successfully.'
-          );
-      } else {
-        Alerts.error(
-            'Error while starting the case.'
+        this.props.history.push('/');
+        var caseId = '';
+        if (jsonMessage.dataFromSuccess) {
+          caseId = jsonMessage.dataFromSuccess.caseId;
+        }
+        Alerts.success(
+          'The case ' + caseId + ' has been started successfully.'
         );
+      } else {
+        Alerts.error('Error while starting the case.');
       }
     }
   }

@@ -119,14 +119,16 @@ describe('Instantiation page', () => {
         action: 'Start process',
         message: 'success',
         dataFromSuccess: {
-            caseId: 300
+          caseId: 300
         }
       };
 
       window.postMessage(message, '*');
       //New to add this Promise to allows message to be read
       await new Promise(resolve => setTimeout(resolve, 0));
-      expect(Alerts.success).toHaveBeenCalledWith('The case 300 has been started successfully.');
+      expect(Alerts.success).toHaveBeenCalledWith(
+        'The case 300 has been started successfully.'
+      );
       expect(Alerts.error).not.toHaveBeenCalled();
     });
 
@@ -147,7 +149,9 @@ describe('Instantiation page', () => {
       //New to add this Promise to allows message to be read
       await new Promise(resolve => setTimeout(resolve, 0));
       expect(Alerts.success).not.toHaveBeenCalled();
-      expect(Alerts.error).toHaveBeenCalledWith('Error while starting the case.');
+      expect(Alerts.error).toHaveBeenCalledWith(
+        'Error while starting the case.'
+      );
     });
   });
 });
