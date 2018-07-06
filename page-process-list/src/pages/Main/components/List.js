@@ -51,7 +51,7 @@ class List extends Component {
                 <tr className="List-process" key={process.id}>
                   <td>{process.displayName}</td>
                   <td>{process.version}</td>
-                  <td>
+                  <td className="hide-on-mobile">
                     {process.categories.map(category => (
                       <Label key={category.id} bsStyle="default">
                         {category.displayName}
