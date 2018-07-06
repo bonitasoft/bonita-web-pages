@@ -4,8 +4,8 @@ node {
     }
 
     stage('Release') {
-        branch = 'master'
-
+        branch = branch ?: 'master'
+        releaseType = releaseType ?: 'Development'
 
         withCredentials([usernamePassword(
                 credentialsId: 'github',
@@ -14,8 +14,16 @@ node {
             sh "git branch --force $branch origin/$branch"
             sh "git checkout $branch"
 
-            sh "./gradlew release" +
-                    "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD} -Prelease.version=${tag_version}"
+            if(tagVersion){
+                sh "./gradlew release" +
+                        "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD} -Prelease.version=${tagVersion}"
+            } else{
+                if (releaseType == "Development") {
+                    releaseType = "Dev"
+                }
+                sh "./gradlew release${releaseType} " +
+                        "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
+            }
         }
     }
 
