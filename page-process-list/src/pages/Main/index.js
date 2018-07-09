@@ -4,6 +4,7 @@ import './index.css';
 
 import { ProcessApi, CategoryApi } from '../../api';
 import { Filters, List } from './components';
+import {withRouter} from "react-router-dom";
 
 class Main extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class Main extends Component {
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
     this.buildParamForUser = this.buildParamForUser.bind(this);
+    this.startProcess = this.startProcess.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +55,14 @@ class Main extends Component {
         );
         populated.then(({ processes }) => this.setState({ processes }));
       }
+    );
+  }
+
+  startProcess(process) {
+    this.props.history.push(
+      `/instantiation/${process.name}/${process.version}?id=${
+        process.id
+      }&autoInstantiate=false`
     );
   }
 
@@ -125,10 +135,11 @@ class Main extends Component {
           filters={filters}
           toggleOrder={this.toggleOrder}
           onChangePage={this.onPaginationChange}
+          startProcess={this.startProcess}
         />
       </div>
     );
   }
 }
 
-export default Main;
+export default withRouter(Main);
