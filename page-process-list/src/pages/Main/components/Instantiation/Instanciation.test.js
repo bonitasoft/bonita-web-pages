@@ -13,15 +13,27 @@ describe('Instantiation page', () => {
       }
     },
     location: {
+      href:
+        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1',
       search: '?id=1&autoInstantiate=false'
     }
   };
 
-  it('should display instantiation form', () => {
+  it('should display instantiation form into portal', () => {
     const wrapper = shallow(<Instantiation {...props} />);
 
     expect(wrapper.find('iframe').prop('src')).toEqual(
-      '../../../../process/My process name/1.0/content/?id=1&autoInstantiate=false'
+      'http://localhost:8080/bonita/portal/resource/process/My process name/1.0/content/?id=1&autoInstantiate=false'
+    );
+  });
+
+  it('should display instantiation form into LA', () => {
+    props.location.href =
+      'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/';
+    const wrapper = shallow(<Instantiation {...props} />);
+
+    expect(wrapper.find('iframe').prop('src')).toEqual(
+      'http://localhost:8080/customWar/portal/resource/process/My process name/1.0/content/?id=1&autoInstantiate=false'
     );
   });
 
@@ -119,14 +131,16 @@ describe('Instantiation page', () => {
         action: 'Start process',
         message: 'success',
         dataFromSuccess: {
-            caseId: 300
+          caseId: 300
         }
       };
 
       window.postMessage(message, '*');
       //New to add this Promise to allows message to be read
       await new Promise(resolve => setTimeout(resolve, 0));
-      expect(Alerts.success).toHaveBeenCalledWith('The case 300 has been started successfully.');
+      expect(Alerts.success).toHaveBeenCalledWith(
+        'The case 300 has been started successfully.'
+      );
       expect(Alerts.error).not.toHaveBeenCalled();
     });
 
@@ -147,7 +161,9 @@ describe('Instantiation page', () => {
       //New to add this Promise to allows message to be read
       await new Promise(resolve => setTimeout(resolve, 0));
       expect(Alerts.success).not.toHaveBeenCalled();
-      expect(Alerts.error).toHaveBeenCalledWith('Error while starting the case.');
+      expect(Alerts.error).toHaveBeenCalledWith(
+        'Error while starting the case.'
+      );
     });
   });
 });

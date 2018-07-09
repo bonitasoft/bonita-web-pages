@@ -9,11 +9,18 @@ export default class Instantiation extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmited = this.onFormSubmited.bind(this);
+    this.getUrlContext = this.getUrlContext.bind(this);
     window.addEventListener('message', this.onFormSubmited, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener('message', this.onFormSubmited);
+  }
+
+  getUrlContext() {
+    var locationHref = this.props.location.href;
+    var indexOfPortal = locationHref.indexOf('/portal');
+    return locationHref.substring(0, indexOfPortal);
   }
 
   onFormSubmited(message) {
@@ -22,18 +29,16 @@ export default class Instantiation extends Component {
       typeof messageData === 'string' ? JSON.parse(messageData) : messageData;
     if (jsonMessage.action === 'Start process') {
       if (jsonMessage.message === 'success') {
-          this.props.history.push('/');
-          var caseId = '';
-          if (jsonMessage.dataFromSuccess) {
-              caseId = jsonMessage.dataFromSuccess.caseId;
-          }
-          Alerts.success(
-              'The case ' + caseId + ' has been started successfully.'
-          );
-      } else {
-        Alerts.error(
-            'Error while starting the case.'
+        this.props.history.push('/');
+        var caseId = '';
+        if (jsonMessage.dataFromSuccess) {
+          caseId = jsonMessage.dataFromSuccess.caseId;
+        }
+        Alerts.success(
+          'The case ' + caseId + ' has been started successfully.'
         );
+      } else {
+        Alerts.error('Error while starting the case.');
       }
     }
   }
@@ -58,7 +63,7 @@ export default class Instantiation extends Component {
         </OverlayTrigger>
 
         <iframe
-          src={`../../../../process/${processName}/${processVersion}/content/${
+          src={`${this.getUrlContext()}/portal/resource/process/${processName}/${processVersion}/content/${
             this.props.location.search
           }`}
           title="Instantiation"
