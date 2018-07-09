@@ -101,7 +101,7 @@ class List extends Component {
     } else {
       panelBodyContent = (
         <p className="text-muted animated fadeIn ng-binding">
-          No processes to display
+          No process to display
         </p>
       );
     }

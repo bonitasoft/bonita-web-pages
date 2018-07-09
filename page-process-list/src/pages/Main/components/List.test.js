@@ -74,7 +74,7 @@ describe('<List />', () => {
         toggleOrder={toggleOrderMock}
       />
     );
-    expect(wrapper.find('.text-muted').text()).toBe('No processes to display');
+    expect(wrapper.find('.text-muted').text()).toBe('No process to display');
     expect(wrapper.find('Table')).toHaveLength(0);
   });
 

@@ -13,7 +13,7 @@ class Main extends Component {
       categories: {
         0: {
           createdBy: 'a',
-          displayName: 'All Categories',
+          displayName: 'All processes',
           name: 'all',
           description: 'All Categories among processes',
           creation_date: 'a',
