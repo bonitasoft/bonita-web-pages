@@ -12,11 +12,13 @@
     }
   },
   "dependencies": {
+    "@bonita/bonita-theme": "file:../common/bonita-theme",
     "bootstrap": "^3.3.7",
     "history": "^4.7.2",
     "jsdom": "^11.11.0",
     "fetch-mock": "^6.4.3",
     "lodash.assignin": "^4.2.0",
+    "npm-run-all": "^4.1.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
@@ -26,8 +28,10 @@
     "react-js-pagination": "^3.0.2"
   },
   "scripts": {
+    "build-theme": "bonita-theme",
     "start": "react-scripts start",
-    "build:only": "react-scripts build",
+    "build:only": "npm-run-all build-js build-theme",
+    "build-js": "react-scripts build",
     "eject": "react-scripts eject",
     "lint:fix": "prettier --single-quote --write \"src/**/*.{js,jsx,json,css}\"",
     "lint:check": "eslint src/**/*.js",
