@@ -17,11 +17,29 @@ describe('Instantiation page', () => {
     }
   };
 
-  it('should display instantiation form', () => {
+  it('should display instantiation form into portal', () => {
+    Object.defineProperty(window.location, 'href', {
+      writable: true,
+      value:
+        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1'
+    });
     const wrapper = shallow(<Instantiation {...props} />);
 
     expect(wrapper.find('iframe').prop('src')).toEqual(
-      '../../../../process/My process name/1.0/content/?id=1&autoInstantiate=false'
+      'http://localhost:8080/bonita/portal/resource/process/My process name/1.0/content/?id=1&autoInstantiate=false'
+    );
+  });
+
+  it('should display instantiation form into LA', () => {
+    Object.defineProperty(window.location, 'href', {
+      writable: true,
+      value:
+        'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/'
+    });
+    const wrapper = shallow(<Instantiation {...props} />);
+
+    expect(wrapper.find('iframe').prop('src')).toEqual(
+      'http://localhost:8080/customWar/portal/resource/process/My process name/1.0/content/?id=1&autoInstantiate=false'
     );
   });
 

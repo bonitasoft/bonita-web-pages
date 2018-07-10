@@ -9,11 +9,18 @@ export default class Instantiation extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmited = this.onFormSubmited.bind(this);
+    this.getUrlContext = this.getUrlContext.bind(this);
     window.addEventListener('message', this.onFormSubmited, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener('message', this.onFormSubmited);
+  }
+
+  getUrlContext() {
+    var locationHref = window.location.href;
+    var indexOfPortal = locationHref.indexOf('/portal');
+    return locationHref.substring(0, indexOfPortal);
   }
 
   onFormSubmited(message) {
@@ -56,7 +63,7 @@ export default class Instantiation extends Component {
         </OverlayTrigger>
 
         <iframe
-          src={`../../../../process/${processName}/${processVersion}/content/${
+          src={`${this.getUrlContext()}/portal/resource/process/${processName}/${processVersion}/content/${
             this.props.location.search
           }`}
           title="Instantiation"
