@@ -13,13 +13,16 @@ describe('Instantiation page', () => {
       }
     },
     location: {
-      href:
-        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1',
       search: '?id=1&autoInstantiate=false'
     }
   };
 
   it('should display instantiation form into portal', () => {
+    Object.defineProperty(window.location, 'href', {
+      writable: true,
+      value:
+        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1'
+    });
     const wrapper = shallow(<Instantiation {...props} />);
 
     expect(wrapper.find('iframe').prop('src')).toEqual(
@@ -28,8 +31,11 @@ describe('Instantiation page', () => {
   });
 
   it('should display instantiation form into LA', () => {
-    props.location.href =
-      'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/';
+    Object.defineProperty(window.location, 'href', {
+      writable: true,
+      value:
+        'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/'
+    });
     const wrapper = shallow(<Instantiation {...props} />);
 
     expect(wrapper.find('iframe').prop('src')).toEqual(

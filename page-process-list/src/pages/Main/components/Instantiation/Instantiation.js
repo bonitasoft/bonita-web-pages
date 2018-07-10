@@ -18,7 +18,7 @@ export default class Instantiation extends Component {
   }
 
   getUrlContext() {
-    var locationHref = this.props.location.href;
+    var locationHref = window.location.href;
     var indexOfPortal = locationHref.indexOf('/portal');
     return locationHref.substring(0, indexOfPortal);
   }
