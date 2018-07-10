@@ -10,10 +10,18 @@ import {
   OverlayTrigger,
   Tooltip
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 
 class List extends Component {
+    constructor(props){
+        super(props);
+        this.onRowClick = this.onRowClick.bind(this);
+    }
+
+    onRowClick(process){
+        this.props.startProcess(process);
+    }
+
   render() {
     const { processes, pagination, filters, onChangePage } = this.props;
     const { page, size, total } = pagination;
@@ -41,25 +49,29 @@ class List extends Component {
                   />
                 </th>
                 <th>Version</th>
-                <th>Categories</th>
-                <th>Description</th>
+                <th className="hide-on-mobile">Categories</th>
+                <th className="hide-on-mobile">Description</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {processes.map(process => (
-                <tr className="List-process" key={process.id}>
+                <tr
+                  className="List-process start-process"
+                  key={process.id}
+                  onClick={() => this.onRowClick(process)}
+                >
                   <td>{process.displayName}</td>
                   <td>{process.version}</td>
-                  <td>
+                  <td className="hide-on-mobile">
                     {process.categories.map(category => (
                       <Label key={category.id} bsStyle="default">
                         {category.displayName}
                       </Label>
                     ))}
                   </td>
-                  <td>{process.description}</td>
-                  <td>
+                  <td className="hide-on-mobile">{process.description}</td>
+                  <td className="process-action">
                     <OverlayTrigger
                       placement="top"
                       overlay={
@@ -68,13 +80,7 @@ class List extends Component {
                         </Tooltip>
                       }
                     >
-                      <Link
-                        to={`/instantiation/${process.name}/${
-                          process.version
-                        }?id=${process.id}&autoInstantiate=false`}
-                      >
-                        <Glyphicon glyph="play" />
-                      </Link>
+                      <Glyphicon glyph="play" />
                     </OverlayTrigger>
                   </td>
                 </tr>
@@ -101,7 +107,7 @@ class List extends Component {
     } else {
       panelBodyContent = (
         <p className="text-muted animated fadeIn ng-binding">
-          No processes to display
+          No process to display
         </p>
       );
     }

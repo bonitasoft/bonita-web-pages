@@ -21,6 +21,7 @@ const mockupProcesses = Array(25).fill({
 
 describe('<List />', () => {
   const toggleOrderMock = jest.fn();
+  const startProcess = jest.fn();
   it('should render as many processes as given', () => {
     const wrapper = shallow(
       <List
@@ -28,8 +29,10 @@ describe('<List />', () => {
         pagination={{}}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
       />
     );
+
     expect(wrapper.find('.List-process')).toHaveLength(mockupProcesses.length);
   });
 
@@ -40,6 +43,7 @@ describe('<List />', () => {
         pagination={{}}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
       />
     );
 
@@ -60,6 +64,7 @@ describe('<List />', () => {
         pagination={{ page: 1, size: 25, total: 100 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
       />
     );
     expect(wrapper.find('.List-pagination-top').text()).toBe('26-50 of 100');
@@ -72,9 +77,11 @@ describe('<List />', () => {
         pagination={{ page: 0, size: 25, total: 0 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
       />
     );
-    expect(wrapper.find('.text-muted').text()).toBe('No processes to display');
+
+    expect(wrapper.find('.text-muted').text()).toBe('No process to display');
     expect(wrapper.find('Table')).toHaveLength(0);
   });
 
@@ -85,10 +92,26 @@ describe('<List />', () => {
         pagination={{ page: 0, size: 25, total: 10 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
       />
     );
     wrapper.find('.List-name').prop('onClick')();
 
     expect(toggleOrderMock.mock.calls.length).toBe(1);
   });
+
+    it('should push props history when table row is clicked', () => {
+        const wrapper = shallow(
+            <List
+                processes={mockupProcesses}
+                pagination={{ page: 0, size: 25, total: 10 }}
+                filters={{ order: 'DESC' }}
+                toggleOrder={toggleOrderMock}
+                startProcess={startProcess}
+            />
+        );
+        wrapper.find('.List-process').first().prop('onClick')();
+
+        expect(startProcess.mock.calls.length).toBe(1);
+    });
 });
