@@ -3,8 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import { ProcessApi, CategoryApi } from '../../api';
+import FormApi from '../../api/FormApi';
 import { Filters, List } from './components';
-import {withRouter} from "react-router-dom";
+import Alert from '../../common/alerts';
+import { withRouter } from 'react-router-dom';
+import ConfirmModal from './components/Instantiation/ConfirmModal';
 
 class Main extends Component {
   constructor(props) {
@@ -27,7 +30,8 @@ class Main extends Component {
         categoryId: '0',
         search: '',
         order: 'ASC'
-      }
+      },
+      show: false
     };
 
     this.getProcesses = this.getProcesses.bind(this);
@@ -37,6 +41,8 @@ class Main extends Component {
     this.toggleOrder = this.toggleOrder.bind(this);
     this.buildParamForUser = this.buildParamForUser.bind(this);
     this.startProcess = this.startProcess.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.instantiateProcess = this.instantiateProcess.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +52,7 @@ class Main extends Component {
 
   getProcesses(page = 0, _filters) {
     const { pagination } = this.state;
+    console.log('pouet');
     const params = this.buildParamForUser(_filters);
 
     ProcessApi.fetchProcesses({ ...pagination, page }, params).then(
@@ -58,12 +65,32 @@ class Main extends Component {
     );
   }
 
-  startProcess(process) {
-    this.props.history.push(
-      `/instantiation/${process.name}/${process.version}?id=${
-        process.id
-      }&autoInstantiate=false`
-    );
+  async hasInstantiationFormMapping(process) {
+    const greetingPromise = FormApi.fetchStartFormMapping(process.id);
+    const data = await Promise.resolve(greetingPromise);
+    return data[0] && data[0].target !== 'NONE';
+  }
+
+  async instantiateProcess() {
+    const caseId = await ProcessApi.instantiateProcess(this.state.process.id);
+    this.handleClose();
+    if (caseId) {
+      Alert.success(`The case ${caseId} has been started successfully.`);
+    } else {
+      Alert.error("The process hasn't been started.");
+    }
+  }
+
+  async startProcess(process) {
+    if (await this.hasInstantiationFormMapping(process)) {
+      this.props.history.push(
+        `/instantiation/${process.name}/${process.version}?id=${
+          process.id
+        }&autoInstantiate=false`
+      );
+    } else {
+      this.setState({ process: process, show: true });
+    }
   }
 
   onPaginationChange(pageFromPager, _filters) {
@@ -119,8 +146,15 @@ class Main extends Component {
     this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
   }
 
+  handleClose() {
+    this.setState({ show: false });
+  }
+
   render() {
     const { processes, categories, pagination, filters } = this.state;
+    const message = this.state.process
+      ? `Start a new case for process ${this.state.process.displayName}`
+      : '';
     return (
       <div className="Main container border transition-item">
         <h1>Processes</h1>
@@ -136,6 +170,12 @@ class Main extends Component {
           toggleOrder={this.toggleOrder}
           onChangePage={this.onPaginationChange}
           startProcess={this.startProcess}
+        />
+        <ConfirmModal
+          show={this.state.show}
+          handleClose={this.handleClose}
+          onConfirm={this.instantiateProcess}
+          message={<h4>{message}</h4>}
         />
       </div>
     );
