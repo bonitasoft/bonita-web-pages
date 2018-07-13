@@ -1,35 +1,12 @@
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class BonitaPagePlugin implements Plugin<Project> {
+class BonitaPagePlugin extends BonitaNodePlugin {
 
     @Override
     void apply(Project project) {
+        super.apply(project)
         def extension = project.extensions.create('bonitaPage', BonitaPagePluginExtension)
-        project.plugins.apply('com.moowork.node')
         project.plugins.apply('distribution')
-        def currentDir = project.rootProject.projectDir
-
-        project.beforeEvaluate {
-            project.node {
-                version = extension.nodeVersion
-                npmVersion = extension.npmVersion
-            }
-        }
-
-        project.node {
-            download = true
-
-            workDir = project.file("${currentDir}/.gradle/nodejs")
-            npmWorkDir = project.file("${currentDir}/.gradle/npm")
-        }
-
-        project.tasks.npm_install.configure {
-            group 'Bonita'
-            description 'Install node moodule for this project'
-            inputs.files('package.json', 'package-lock.json')
-            outputs.dirs('node_modules')
-        }
 
         def buildPage = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
             group 'Bonita'

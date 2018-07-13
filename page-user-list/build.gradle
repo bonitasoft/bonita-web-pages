@@ -6,3 +6,6 @@ bonitaPage {
 
 //Vue.js uses the build directory already so to avoid conflicts when Gradle is cleaning :
 project.buildDir = 'build-gradle'
+
+project.evaluationDependsOn(':common:bonita-theme')
+project.tasks.npm_install.dependsOn project(':common:bonita-theme').tasks.npm_install
