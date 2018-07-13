@@ -2,7 +2,7 @@ plugins {
     id 'com.bonitasoft.gradle.bonita-release' version '0.1.23'
 }
 
-subprojects {
+configure(subprojects.findAll{it.name.contains('page-')}) {
     apply plugin: BonitaPagePlugin
     apply plugin: 'maven-publish'
 

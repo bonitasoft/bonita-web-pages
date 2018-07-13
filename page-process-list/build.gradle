@@ -9,3 +9,6 @@ project.buildDir = 'build-gradle'
 project.tasks.buildPage.configure {
     inputs.dir('public')
 }
+project.evaluationDependsOn(':common:bonita-theme')
+project.tasks.npmInstall.dependsOn project(':common:bonita-theme').tasks.npmInstall
+

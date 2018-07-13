@@ -4,7 +4,7 @@ import './index.css';
 
 import { ProcessApi, CategoryApi } from '../../api';
 import { Filters, List } from './components';
-import {withRouter} from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 class Main extends Component {
   constructor(props) {

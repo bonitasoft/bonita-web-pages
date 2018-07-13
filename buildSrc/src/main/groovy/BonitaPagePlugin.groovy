@@ -24,14 +24,14 @@ class BonitaPagePlugin implements Plugin<Project> {
             npmWorkDir = project.file("${currentDir}/.gradle/npm")
         }
 
-        project.tasks.npm_install.configure {
+        project.tasks.npmInstall.configure {
             group 'Bonita'
             description 'Install node moodule for this project'
             inputs.files('package.json', 'package-lock.json')
             outputs.dirs('node_modules')
         }
 
-        def buildPage = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
+        def buildPage = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npmInstall], 'buildPage') {
             group 'Bonita'
             description 'Build a ZIP which contains an custom-page to be imported in living application'
             args = ['run', 'build:only']
@@ -49,13 +49,13 @@ class BonitaPagePlugin implements Plugin<Project> {
             description 'Format all files in directory /src with prettier'
         }
 
-        def lintCheck = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'lintCheck') {
+        def lintCheck = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npmInstall], 'lintCheck') {
             group 'Bonita'
             args = ['run', 'lint:check']
             description 'Check if format issues exist on directory src'
         }
 
-        def test = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'test') {
+        def test = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npmInstall], 'test') {
             group 'Bonita'
             args = ['run', 'test']
             description 'Run test of project'
