@@ -22,7 +22,7 @@ class BonitaNodePlugin implements Plugin<Project> {
             npmWorkDir = project.file("${currentDir}/.gradle/npm")
         }
 
-        project.tasks.npmInstall.configure {
+        project.tasks.npm_install.configure {
             group 'Bonita'
             description 'Install node moodule for this project'
             inputs.files('package.json', 'package-lock.json')
