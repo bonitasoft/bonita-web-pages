@@ -52,6 +52,7 @@ class Main extends Component {
 
   getProcesses(page = 0, _filters) {
     const { pagination } = this.state;
+    console.log('pouet');
     const params = this.buildParamForUser(_filters);
 
     ProcessApi.fetchProcesses({ ...pagination, page }, params).then(
