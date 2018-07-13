@@ -39,6 +39,16 @@ class ProcessApi {
       ).then(processes => ({ processes }))
     };
   }
+
+  async instantiateProcess(processId) {
+    const instantiateProcessPromise = this.apiClient
+      .post(`../API/bpm/process/${processId}/instantiation`)
+      .then(response => response.json());
+    const instantiateProcessData = await Promise.resolve(
+      instantiateProcessPromise
+    );
+    return instantiateProcessData.caseId;
+  }
 }
 
 export default new ProcessApi(apiClient);

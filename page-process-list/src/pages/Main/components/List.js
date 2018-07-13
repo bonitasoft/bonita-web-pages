@@ -13,14 +13,14 @@ import {
 import Pagination from 'react-js-pagination';
 
 class List extends Component {
-    constructor(props){
-        super(props);
-        this.onRowClick = this.onRowClick.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.onRowClick = this.onRowClick.bind(this);
+  }
 
-    onRowClick(process){
-        this.props.startProcess(process);
-    }
+  onRowClick(process) {
+    this.props.startProcess(process);
+  }
 
   render() {
     const { processes, pagination, filters, onChangePage } = this.props;

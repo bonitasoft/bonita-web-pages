@@ -100,18 +100,21 @@ describe('<List />', () => {
     expect(toggleOrderMock.mock.calls.length).toBe(1);
   });
 
-    it('should push props history when table row is clicked', () => {
-        const wrapper = shallow(
-            <List
-                processes={mockupProcesses}
-                pagination={{ page: 0, size: 25, total: 10 }}
-                filters={{ order: 'DESC' }}
-                toggleOrder={toggleOrderMock}
-                startProcess={startProcess}
-            />
-        );
-        wrapper.find('.List-process').first().prop('onClick')();
+  it('should push props history when table row is clicked', () => {
+    const wrapper = shallow(
+      <List
+        processes={mockupProcesses}
+        pagination={{ page: 0, size: 25, total: 10 }}
+        filters={{ order: 'DESC' }}
+        toggleOrder={toggleOrderMock}
+        startProcess={startProcess}
+      />
+    );
+    wrapper
+      .find('.List-process')
+      .first()
+      .prop('onClick')();
 
-        expect(startProcess.mock.calls.length).toBe(1);
-    });
+    expect(startProcess.mock.calls.length).toBe(1);
+  });
 });
