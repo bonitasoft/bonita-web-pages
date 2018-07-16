@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Filters.css';
+import { t } from 'i18next';
 
 import {
   Panel,
@@ -46,11 +47,10 @@ class Filters extends Component {
   render() {
     const { categories, filters } = this.props;
     const { search } = this.state;
-
     return (
       <Panel className="Filters">
         <Panel.Heading>
-          <Panel.Title componentClass="h3">Filters</Panel.Title>
+          <Panel.Title componentClass="h3">{t('Filters')}</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
           <Form
@@ -83,7 +83,7 @@ class Filters extends Component {
             <FormGroup xs={8} md={6} className="Filters-search">
               <FormControl
                 type="text"
-                placeholder="Search..."
+                placeholder={t('Search') + '...'}
                 value={search}
                 onChange={e => this.setState({ search: e.target.value })}
                 inputRef={ref => (this.searchInput = ref)}

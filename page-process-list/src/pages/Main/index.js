@@ -8,6 +8,7 @@ import { Filters, List } from './components';
 import Alert from '../../common/alerts';
 import { withRouter } from 'react-router-dom';
 import ConfirmModal from './components/Instantiation/ConfirmModal';
+import { t } from 'i18next';
 
 class Main extends Component {
   constructor(props) {
@@ -17,9 +18,8 @@ class Main extends Component {
       categories: {
         0: {
           createdBy: 'a',
-          displayName: 'All processes',
+          displayName: t('AllProcesses'),
           name: 'all',
-          description: 'All Categories among processes',
           creation_date: 'a',
           id: '0'
         }
@@ -156,7 +156,7 @@ class Main extends Component {
       : '';
     return (
       <div className="Main container border transition-item">
-        <h1>Processes</h1>
+        <h1>{t('Processes')}</h1>
         <Filters
           filters={filters}
           categories={categories}
