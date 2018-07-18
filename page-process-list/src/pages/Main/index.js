@@ -74,9 +74,13 @@ class Main extends Component {
     const caseId = await ProcessApi.instantiateProcess(this.state.process.id);
     this.handleClose();
     if (caseId) {
-      Alert.success(`The case ${caseId} has been started successfully.`);
+      Alert.success(
+        t('The case {{caseId}} has been started successfully.', {
+          caseId: caseId
+        })
+      );
     } else {
-      Alert.error("The process hasn't been started.");
+      Alert.error(t('Error while starting the case.'));
     }
   }
 
