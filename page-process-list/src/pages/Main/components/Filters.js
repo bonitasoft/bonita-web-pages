@@ -67,6 +67,7 @@ class Filters extends Component {
               key="Filters-category"
               className="Filters-category"
               id="Filters-category"
+              bsStyle="primary"
             >
               {Object.values(categories).map(category => (
                 <MenuItem
@@ -97,6 +98,7 @@ class Filters extends Component {
               </Button>
               <Button
                 className="Filters-search-submit"
+                bsStyle="primary"
                 onClick={this.updateSearch}
               >
                 <Glyphicon glyph="search" />
