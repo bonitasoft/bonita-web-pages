@@ -71,12 +71,12 @@ class Main extends Component {
   }
 
   async instantiateProcess() {
-    const caseId = await ProcessApi.instantiateProcess(this.state.process.id);
+    const response = await ProcessApi.instantiateProcess(this.state.process.id);
     this.handleClose();
-    if (caseId) {
+    if (response.caseId) {
       Alert.success(
         t('The case {{caseId}} has been started successfully.', {
-          caseId: caseId
+          caseId: response.caseId
         })
       );
     } else {

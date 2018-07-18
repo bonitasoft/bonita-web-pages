@@ -41,13 +41,14 @@ class ProcessApi {
   }
 
   async instantiateProcess(processId) {
-    const instantiateProcessPromise = this.apiClient
+    return this.apiClient
       .post(`../API/bpm/process/${processId}/instantiation`)
-      .then(response => response.json());
-    const instantiateProcessData = await Promise.resolve(
-      instantiateProcessPromise
-    );
-    return instantiateProcessData.caseId;
+      .then(response => {
+        return response.json();
+      })
+      .catch(function(response) {
+        return response;
+      });
   }
 }
 
