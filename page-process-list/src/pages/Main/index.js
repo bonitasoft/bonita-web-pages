@@ -156,7 +156,9 @@ class Main extends Component {
   render() {
     const { processes, categories, pagination, filters } = this.state;
     const message = this.state.process
-      ? `Start a new case for process ${this.state.process.displayName}`
+      ? t('Start a new case for process {{displayName}}', {
+          displayName: this.state.process.displayName
+        })
       : '';
     return (
       <div className="Main container border transition-item">

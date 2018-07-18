@@ -53,7 +53,7 @@ export default class Instantiation extends Component {
       <div className="Instantiation transition-item">
         <OverlayTrigger
           placement="right"
-          overlay={<Tooltip id="cancel-instantiation"> Cancel</Tooltip>}
+          overlay={<Tooltip id="cancel-instantiation"> {t('Cancel')} </Tooltip>}
           delayShow={2000}
         >
           <Link to="/">

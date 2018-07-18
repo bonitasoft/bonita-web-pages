@@ -16,7 +16,11 @@ export default () => {
         of: 'of',
         'The case {{caseId}} has been started successfully.':
           'The case {{caseId}} has been started successfully.',
-        'Error while starting the case.': 'Error while starting the case.'
+        'Error while starting the case.': 'Error while starting the case.',
+        Start: 'Start',
+        Cancel: 'Cancel',
+        'Start a new case for process {{displayName}}':
+          'Start a new case for process {{displayName}}'
       }
     },
     fr: {
@@ -36,7 +40,11 @@ export default () => {
         'The case {{caseId}} has been started successfully.':
           'Le cas {{caseId}} a bien été démarré.',
         'Error while starting the case.':
-          'Le démarrage du cas à rencontrer une erreur.'
+          'Le démarrage du cas à rencontrer une erreur.',
+        Start: 'Démarrer',
+        Cancel: 'Annuler',
+        'Start a new case for process {{displayName}}':
+          "Démarage d'un nouveau cas pour le processus {{displayName}}"
       }
     },
     es: {
@@ -55,7 +63,11 @@ export default () => {
         of: 'de',
         'The case {{caseId}} has been started successfully.':
           'El caso {{caseId}} se ha iniciado con éxito.',
-        'Error while starting the case.': 'Error al iniciar el caso.'
+        'Error while starting the case.': 'Error al iniciar el caso.',
+        Start: 'Inicio',
+        Cancel: 'Cancelar',
+        'Start a new case for process {{displayName}}':
+          'Comience un nuevo caso para el procesos {{displayName}}'
       }
     }
   };
