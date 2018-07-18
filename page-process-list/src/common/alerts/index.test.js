@@ -52,7 +52,7 @@ describe('Alerts', () => {
     });
     expect(alertsInState).toContainEqual({
       message: 'an error',
-      severity: 'error'
+      severity: 'danger'
     });
   });
 

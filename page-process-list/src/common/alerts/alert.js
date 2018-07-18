@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './alert.css';
+import { Glyphicon } from 'react-bootstrap';
 
 export default class Alert extends Component {
   constructor(props) {
@@ -17,12 +18,33 @@ export default class Alert extends Component {
   }
 
   render() {
+    let glyph = '';
+    switch (this.props.severity) {
+      case 'success':
+        glyph = 'ok-circle';
+        break;
+      case 'danger':
+        glyph = 'ban-circle';
+        break;
+      case 'info':
+        glyph = 'info-sign';
+        break;
+      case 'warning':
+        glyph = 'exclamation-sign';
+        break;
+      default:
+        glyph = '';
+        break;
+    }
     return (
       <div
-        className={`Alert is-${this.props.severity} ${
+        className={`Alert alert alert-${this.props.severity} ${
           this.state.closed ? 'is-closed' : ''
         }`}
       >
+        <span className="Alert-icon">
+          <Glyphicon glyph={glyph} />
+        </span>
         <p>{this.props.message}</p>
         <span className="Alert-closeBtn" onClick={this.handleClose}>
           ×

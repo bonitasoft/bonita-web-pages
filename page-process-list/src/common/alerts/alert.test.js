@@ -5,11 +5,12 @@ import React from 'react';
 describe('Alert', () => {
   it('should display an error alert', () => {
     const wrapper = shallow(
-      <Alert message={'There was an error'} severity={'error'} />
+      <Alert message={'There was an error'} severity={'danger'} />
     );
 
     expect(wrapper.find('p').text()).toBe('There was an error');
-    expect(wrapper.find('.Alert').hasClass('is-error')).toBe(true);
+    expect(wrapper.find('.Alert').hasClass('alert-danger')).toBe(true);
+    expect(wrapper.find('Glyphicon').get(0).props.glyph).toEqual('ban-circle');
   });
 
   it('should display a success alert', () => {
@@ -18,7 +19,8 @@ describe('Alert', () => {
     );
 
     expect(wrapper.find('p').text()).toBe('That works !');
-    expect(wrapper.find('.Alert').hasClass('is-success')).toBe(true);
+    expect(wrapper.find('.Alert').hasClass('alert-success')).toBe(true);
+    expect(wrapper.find('Glyphicon').get(0).props.glyph).toEqual('ok-circle');
   });
 
   it('should display a warning alert', () => {
@@ -27,7 +29,10 @@ describe('Alert', () => {
     );
 
     expect(wrapper.find('p').text()).toBe('Careful dude');
-    expect(wrapper.find('.Alert').hasClass('is-warning')).toBe(true);
+    expect(wrapper.find('.Alert').hasClass('alert-warning')).toBe(true);
+    expect(wrapper.find('Glyphicon').get(0).props.glyph).toEqual(
+      'exclamation-sign'
+    );
   });
 
   it('should have a button to close it', () => {

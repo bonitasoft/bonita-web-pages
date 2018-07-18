@@ -66,7 +66,7 @@ describe('Alert service', () => {
     expect(first(service.alerts).key).toBeDefined();
     expect(first(service.alerts).value).toEqual({
       message: 'an error',
-      severity: 'error'
+      severity: 'danger'
     });
   });
 

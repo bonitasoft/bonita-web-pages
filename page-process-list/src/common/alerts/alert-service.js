@@ -44,7 +44,7 @@ class AlertService {
   }
 
   error(message, delayMs = 5000) {
-    return this._push(message, 'error', delayMs);
+    return this._push(message, 'danger', delayMs);
   }
 
   info(message, delayMs = 3000) {
