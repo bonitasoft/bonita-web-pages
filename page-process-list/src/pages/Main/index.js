@@ -8,6 +8,7 @@ import { Filters, List } from './components';
 import Alert from '../../common/alerts';
 import { withRouter } from 'react-router-dom';
 import ConfirmModal from './components/Instantiation/ConfirmModal';
+import { t } from 'i18next';
 
 class Main extends Component {
   constructor(props) {
@@ -17,9 +18,8 @@ class Main extends Component {
       categories: {
         0: {
           createdBy: 'a',
-          displayName: 'All processes',
+          displayName: t('AllProcesses'),
           name: 'all',
-          description: 'All Categories among processes',
           creation_date: 'a',
           id: '0'
         }
@@ -74,9 +74,13 @@ class Main extends Component {
     const caseId = await ProcessApi.instantiateProcess(this.state.process.id);
     this.handleClose();
     if (caseId) {
-      Alert.success(`The case ${caseId} has been started successfully.`);
+      Alert.success(
+        t('The case {{caseId}} has been started successfully.', {
+          caseId: caseId
+        })
+      );
     } else {
-      Alert.error("The process hasn't been started.");
+      Alert.error(t('Error while starting the case.'));
     }
   }
 
@@ -152,11 +156,13 @@ class Main extends Component {
   render() {
     const { processes, categories, pagination, filters } = this.state;
     const message = this.state.process
-      ? `Start a new case for process ${this.state.process.displayName}`
+      ? t('Start a new case for process {{displayName}}', {
+          displayName: this.state.process.displayName
+        })
       : '';
     return (
       <div className="Main container border transition-item">
-        <h1>Processes</h1>
+        <h1>{t('Processes')}</h1>
         <Filters
           filters={filters}
           categories={categories}

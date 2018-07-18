@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
+import { t } from 'i18next';
 
 export default class ConfirmModal extends Component {
   render() {
@@ -22,10 +23,10 @@ export default class ConfirmModal extends Component {
         {body}
         <Modal.Footer>
           <Button className="btn-start" onClick={this.props.onConfirm}>
-            Start
+            {t('Start')}
           </Button>
           <Button className="btn-cancel" onClick={this.props.handleClose}>
-            Cancel
+            {t('Cancel')}
           </Button>
         </Modal.Footer>
       </Modal>

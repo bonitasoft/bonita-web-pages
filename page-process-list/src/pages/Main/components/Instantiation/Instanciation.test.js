@@ -145,7 +145,7 @@ describe('Instantiation page', () => {
       //New to add this Promise to allows message to be read
       await new Promise(resolve => setTimeout(resolve, 0));
       expect(Alerts.success).toHaveBeenCalledWith(
-        'The case 300 has been started successfully.'
+        'The case {{caseId}} has been started successfully.'
       );
       expect(Alerts.error).not.toHaveBeenCalled();
     });

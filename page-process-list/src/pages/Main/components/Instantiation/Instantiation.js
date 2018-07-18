@@ -4,6 +4,7 @@ import './Instantiation.css';
 import { Link } from 'react-router-dom';
 import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Alerts } from '../../../../common';
+import { t } from 'i18next';
 
 export default class Instantiation extends Component {
   constructor(props) {
@@ -35,10 +36,12 @@ export default class Instantiation extends Component {
           caseId = jsonMessage.dataFromSuccess.caseId;
         }
         Alerts.success(
-          'The case ' + caseId + ' has been started successfully.'
+          t('The case {{caseId}} has been started successfully.', {
+            caseId: caseId
+          })
         );
       } else {
-        Alerts.error('Error while starting the case.');
+        Alerts.error(t('Error while starting the case.'));
       }
     }
   }
@@ -50,7 +53,7 @@ export default class Instantiation extends Component {
       <div className="Instantiation transition-item">
         <OverlayTrigger
           placement="right"
-          overlay={<Tooltip id="cancel-instantiation"> Cancel</Tooltip>}
+          overlay={<Tooltip id="cancel-instantiation"> {t('Cancel')} </Tooltip>}
           delayShow={2000}
         >
           <Link to="/">

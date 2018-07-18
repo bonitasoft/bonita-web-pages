@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
+import { t } from 'i18next';
 
 import {
   Panel,
@@ -33,24 +34,24 @@ class List extends Component {
       // indexes of first and last elements on the page
       const start = page * size;
       const end = start + (processes.length - 1);
-
-      paginationStatus = `${start + 1}-${end + 1} of ${total}`;
+      const of = t('of');
+      paginationStatus = `${start + 1}-${end + 1} ${of} ${total}`;
       panelBodyContent = (
         <div>
           <Table striped responsive hover>
             <thead>
               <tr>
                 <th className="List-name" onClick={this.props.toggleOrder}>
-                  <span>Name</span>
+                  <span>{t('Name')}</span>
                   <Glyphicon
                     glyph={
                       { ASC: 'chevron-up', DESC: 'chevron-down' }[filters.order]
                     }
                   />
                 </th>
-                <th>Version</th>
-                <th className="hide-on-mobile">Categories</th>
-                <th className="hide-on-mobile">Description</th>
+                <th>{t('Version')}</th>
+                <th className="hide-on-mobile">{t('Categories')}</th>
+                <th className="hide-on-mobile">{t('Description')}</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -76,7 +77,7 @@ class List extends Component {
                       placement="top"
                       overlay={
                         <Tooltip id={`new_case_${process.id}`}>
-                          Start a new case
+                          {t('Start a new case')}
                         </Tooltip>
                       }
                     >
@@ -107,7 +108,7 @@ class List extends Component {
     } else {
       panelBodyContent = (
         <p className="text-muted animated fadeIn ng-binding">
-          No process to display
+          {t('No process to display')}
         </p>
       );
     }
@@ -115,7 +116,7 @@ class List extends Component {
     return (
       <Panel className="List">
         <Panel.Heading>
-          <Panel.Title componentClass="h3">List</Panel.Title>
+          <Panel.Title componentClass="h3">{t('List')}</Panel.Title>
           <div className="List-heading-right">
             <p className="List-pagination-top">{paginationStatus}</p>
           </div>
