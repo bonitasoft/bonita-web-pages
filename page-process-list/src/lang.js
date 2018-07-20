@@ -30,21 +30,21 @@ export default () => {
         Search: 'Rechercher',
         Name: 'Nom',
         Version: 'Version',
-        Categories: 'Categories',
+        Categories: 'Catégories',
         Description: 'Description',
-        'Start a new case': 'Commencer un nouveau cas',
+        'Start a new case': 'Démarrer un nouveau cas',
         AllProcesses: 'Tous',
-        'No process to display': "Aucun processus n'est disponible",
+        'No process to display': 'Aucun processus ne correspond à la recherche',
         List: 'Liste',
         of: 'de',
         'The case {{caseId}} has been started successfully.':
           'Le cas {{caseId}} a bien été démarré.',
         'Error while starting the case.':
-          'Le démarrage du cas à rencontrer une erreur.',
+          'Une erreur est survenue au démarrage du cas.',
         Start: 'Démarrer',
         Cancel: 'Annuler',
         'Start a new case for process {{displayName}}':
-          "Démarage d'un nouveau cas pour le processus {{displayName}}"
+          'Démarrer un nouveau cas pour le processus {{displayName}}'
       }
     },
     es: {
