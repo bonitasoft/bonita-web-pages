@@ -1,8 +1,20 @@
 plugins {
-    id 'com.bonitasoft.gradle.bonita-release' version '0.1.23'
+    id 'com.bonitasoft.gradle.bonita-release' version '0.1.26'
 }
 
-subprojects {
+apply plugin: 'com.bonitasoft.gradle.bonita-uid'
+UIDesigner { version "1.8.6" }
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven { url 'http://repositories.rd.lan/maven/all/' }
+        mavenCentral()
+        jcenter()
+    }
+}
+
+configure(subprojects.findAll{it.name.contains('page-process-list') || it.name.contains('page-user-list')}) {
     apply plugin: BonitaPagePlugin
     apply plugin: 'maven-publish'
 
