@@ -2,13 +2,303 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatus",
   "name" : "tenantStatus",
-  "lastUpdate" : 1532337298390,
-  "rows" : [ [ ] ],
+  "lastUpdate" : 1532358216254,
+  "rows" : [ [ {
+    "type" : "container",
+    "dimension" : {
+      "xs" : 12
+    },
+    "propertyValues" : {
+      "cssClasses" : {
+        "type" : "constant",
+        "value" : ""
+      },
+      "hidden" : {
+        "type" : "expression",
+        "value" : "!isTechnicalUser"
+      },
+      "repeatedCollection" : {
+        "type" : "variable",
+        "value" : ""
+      }
+    },
+    "reference" : "2ee379a1-0571-43dc-8873-d0780f3d4e70",
+    "id" : "pbContainer",
+    "rows" : [ [ {
+      "type" : "component",
+      "dimension" : {
+        "xs" : 12
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : ""
+        },
+        "hidden" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "text" : {
+          "type" : "interpolation",
+          "value" : "BPM services"
+        },
+        "level" : {
+          "type" : "constant",
+          "value" : "Level 1"
+        },
+        "alignment" : {
+          "type" : "constant",
+          "value" : "left"
+        }
+      },
+      "reference" : "233bf7f6-4e64-4e51-afec-86afea0cfb32",
+      "id" : "pbTitle"
+    } ], [ {
+      "type" : "container",
+      "dimension" : {
+        "xs" : 12
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : ""
+        },
+        "hidden" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "repeatedCollection" : {
+          "type" : "variable",
+          "value" : ""
+        }
+      },
+      "reference" : "10d1f3aa-d9a1-4921-9a17-ad5fd7d49b3b",
+      "id" : "pbContainer",
+      "rows" : [ [ {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 2
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "61f372a7-c6b5-477b-bd33-593769702f11",
+        "id" : "pbContainer",
+        "rows" : [ [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "srcType" : {
+              "type" : "constant",
+              "value" : "Asset"
+            },
+            "url" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "assetName" : {
+              "type" : "expression",
+              "value" : "status.img"
+            },
+            "alt" : {
+              "type" : "interpolation",
+              "value" : "status.img"
+            }
+          },
+          "reference" : "4cff073c-1e60-4844-9fc7-05164a66f5e2",
+          "id" : "pbImage"
+        } ] ]
+      }, {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 10
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "eaf6f35d-7305-4722-a333-cfbe6b09c566",
+        "id" : "pbContainer",
+        "rows" : [ [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : "tenantStateLabel text-upperCase"
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "allowHTML" : {
+              "type" : "constant",
+              "value" : true
+            },
+            "text" : {
+              "type" : "interpolation",
+              "value" : "<b>Status:</b> {{status.state | uiTranslate}}"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            }
+          },
+          "reference" : "38176792-3218-4b3a-afbe-95382c80646f",
+          "id" : "pbText"
+        } ], [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "allowHTML" : {
+              "type" : "constant",
+              "value" : true
+            },
+            "text" : {
+              "type" : "interpolation",
+              "value" : "<p>You need to pause the BPM services when you make an update to your environment that cannot be done while there are active users. When the services are paused : </p>  <ul> <li>Only the technical user can log in to the Portal.</li> <li>Users who are currently logged in, including Administrator users, are automatically logged out.</li> <li>Users who are filling in forms when the services are paused will lose any information that has not been submitted.</li> <li>All processes are automatically paused.</li> </ul> When you resume the services, tell your users that they can log back in to the Portal."
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            }
+          },
+          "reference" : "e026035f-e43c-4360-aedf-bcff878e8cf6",
+          "id" : "pbText"
+        } ], [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "disabled" : {
+              "type" : "expression",
+              "value" : "!isTechnicalUser"
+            },
+            "label" : {
+              "type" : "interpolation",
+              "value" : "{{status.btnLabel}}"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "primary"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "PUT"
+            },
+            "url" : {
+              "type" : "interpolation",
+              "value" : "../API/system/tenant/1"
+            },
+            "dataToSend" : {
+              "type" : "expression",
+              "value" : "sendDataOnClick"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation",
+              "value" : "{{parentUrl}}"
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            }
+          },
+          "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
+          "id" : "pbButton"
+        } ] ]
+      } ] ]
+    } ] ]
+  } ] ],
   "assets" : [ {
     "id" : "9c263032-7532-41a0-9c1b-65bf6bc78a49",
     "name" : "style.css",
     "type" : "css",
     "order" : 0,
+    "external" : false
+  }, {
+    "id" : "8bdb0ca4-d040-4499-907a-a7d6ba37a38d",
+    "name" : "running.jpg",
+    "type" : "img",
+    "order" : 3,
+    "external" : false
+  }, {
+    "id" : "e24de8cb-63dc-4fd1-8900-e8a70bfe4a1a",
+    "name" : "paused.jpg",
+    "type" : "img",
+    "order" : 2,
     "external" : false
   }, {
     "id" : "9d38d1cd-f18c-433d-b139-cc187011e44c",
@@ -18,7 +308,48 @@
     "external" : false
   } ],
   "inactiveAssets" : [ ],
-  "data" : { },
+  "data" : {
+    "tenantStatus" : {
+      "type" : "url",
+      "value" : "../API/system/tenant/1",
+      "exposed" : false
+    },
+    "session" : {
+      "type" : "url",
+      "value" : "../API/system/session/unusedId",
+      "exposed" : false
+    },
+    "isTechnicalUser" : {
+      "type" : "expression",
+      "value" : "return $data.session.is_technical_user === 'true';",
+      "exposed" : false
+    },
+    "status" : {
+      "type" : "expression",
+      "value" : "if($data.isPaused){\n    return {state: \"Paused\", btnLabel:\"Resume\", img: \"paused.jpg\"};\n}\nreturn {state: \"Running\", btnLabel:\"Pause\", img: \"running.jpg\"};",
+      "exposed" : false
+    },
+    "sendDataOnClick" : {
+      "type" : "expression",
+      "value" : "var paused = !($data.isPaused);\nconsole.log(paused);\nreturn {paused: paused.toString()};",
+      "exposed" : false
+    },
+    "isPaused" : {
+      "type" : "expression",
+      "value" : "return $data.tenantStatus.paused === 'true';",
+      "exposed" : false
+    },
+    "url" : {
+      "type" : "expression",
+      "value" : "console.log(window.location.href);\nreturn window.location.href;",
+      "exposed" : false
+    },
+    "parentUrl" : {
+      "type" : "expression",
+      "value" : "return window.parent.location.href;",
+      "exposed" : false
+    }
+  },
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "type" : "page"
 }
