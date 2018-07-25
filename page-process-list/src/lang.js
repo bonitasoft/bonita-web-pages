@@ -4,7 +4,7 @@ export default () => {
             translations: {
                 Filters: 'Filters',
                 Processes: 'Processes',
-                Search: '',
+                Search: 'Search',
                 Name: 'Name',
                 Version: 'Version',
                 Categories: 'Categories',
