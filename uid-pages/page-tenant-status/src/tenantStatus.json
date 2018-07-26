@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatus",
   "name" : "tenantStatus",
-  "lastUpdate" : 1532358216254,
+  "lastUpdate" : 1532613916825,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -248,11 +248,11 @@
             },
             "dataToSend" : {
               "type" : "expression",
-              "value" : "sendDataOnClick"
+              "value" : "expressions.checkBeforeSubmit()"
             },
             "dataFromSuccess" : {
               "type" : "variable",
-              "value" : ""
+              "value" : "response.success"
             },
             "dataFromError" : {
               "type" : "variable",
@@ -260,7 +260,7 @@
             },
             "targetUrlOnSuccess" : {
               "type" : "interpolation",
-              "value" : "{{parentUrl}}"
+              "value" : ""
             },
             "collectionToModify" : {
               "type" : "variable"
@@ -311,7 +311,7 @@
   "data" : {
     "tenantStatus" : {
       "type" : "url",
-      "value" : "../API/system/tenant/1",
+      "value" : "../API/system/tenant/1&t={{response.timestamp}}",
       "exposed" : false
     },
     "session" : {
@@ -339,14 +339,19 @@
       "value" : "return $data.tenantStatus.paused === 'true';",
       "exposed" : false
     },
-    "url" : {
-      "type" : "expression",
-      "value" : "console.log(window.location.href);\nreturn window.location.href;",
+    "response" : {
+      "type" : "json",
+      "value" : "{\"success\":\"none\", \"timestamp\":0}",
       "exposed" : false
     },
-    "parentUrl" : {
+    "exp_response" : {
       "type" : "expression",
-      "value" : "return window.parent.location.href;",
+      "value" : "if(!$data.response.success ){\n    $data.response.success = \"none\";\n    $data.response.timestamp =  new Date();\n}",
+      "exposed" : false
+    },
+    "expressions" : {
+      "type" : "expression",
+      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        var paused = !($data.isPaused);\n        console.log(paused);\n        if(confirm(\"Are your sure you want to deactivate the tenant?\")){\n            return {paused: paused.toString()};\n        }\n    }\n}",
       "exposed" : false
     }
   },
