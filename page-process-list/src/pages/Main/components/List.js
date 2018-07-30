@@ -52,7 +52,7 @@ class List extends Component {
                 <th>{t('Version')}</th>
                 <th className="hide-on-mobile">{t('Categories')}</th>
                 <th className="hide-on-mobile">{t('Description')}</th>
-                <th>Actions</th>
+                <th>{t('Actions')}</th>
               </tr>
             </thead>
             <tbody>
