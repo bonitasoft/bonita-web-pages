@@ -1,12 +1,6 @@
 import { apiClient, Pagination, Url } from '../common';
 import CategoryApi from './CategoryApi';
-
-const sessionTimeoutInterceptor = response => {
-  if (response.status === 401) {
-    window.parent.location.reload();
-  }
-  return Promise.reject(response);
-};
+import { sessionTimeoutInterceptor } from '../common/SessionTimeoutInterceptor';
 
 class ProcessApi {
   constructor(client) {

@@ -1,11 +1,5 @@
 import { apiClient, Url } from '../common';
-
-const sessionTimeoutInterceptor = response => {
-  if (response.status === 401) {
-    window.parent.location.reload();
-  }
-  return Promise.reject(response);
-};
+import { sessionTimeoutInterceptor } from '../common/SessionTimeoutInterceptor';
 
 class CategoryApi {
   constructor(client) {
