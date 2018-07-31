@@ -1,8 +1,10 @@
 import { apiClient } from '../common';
+import { sessionTimeoutInterceptor } from '../common/SessionTimeoutInterceptor';
 
 class FormApi {
   constructor(client) {
     this.apiClient = client;
+    this.apiClient.register({ responseError: sessionTimeoutInterceptor });
   }
 
   async fetchStartFormMapping(processId) {

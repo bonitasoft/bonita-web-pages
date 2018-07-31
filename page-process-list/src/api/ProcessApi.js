@@ -1,9 +1,11 @@
 import { apiClient, Pagination, Url } from '../common';
 import CategoryApi from './CategoryApi';
+import { sessionTimeoutInterceptor } from '../common/SessionTimeoutInterceptor';
 
 class ProcessApi {
   constructor(client) {
     this.apiClient = client;
+    this.apiClient.register({ responseError: sessionTimeoutInterceptor });
   }
 
   async fetchProcesses(

@@ -1,8 +1,10 @@
 import { apiClient, Url } from '../common';
+import { sessionTimeoutInterceptor } from '../common/SessionTimeoutInterceptor';
 
 class CategoryApi {
   constructor(client) {
     this.apiClient = client;
+    this.apiClient.register({ responseError: sessionTimeoutInterceptor });
     this.cache = {};
   }
 
