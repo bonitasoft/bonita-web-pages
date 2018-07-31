@@ -12,19 +12,11 @@ allprojects {
         mavenCentral()
         jcenter()
     }
-}
-
-configure(subprojects.findAll{it.name.contains('page-process-list') || it.name.contains('page-user-list')}) {
-    apply plugin: BonitaPagePlugin
     apply plugin: 'maven-publish'
+    apply plugin: 'distribution'
 
     group 'org.bonitasoft.web.pages'
 
-    bonitaPage {
-        nodeVersion = '8.9.4'
-        npmVersion = '5.6.0'
-        frontendBuildDir = 'dist'
-    }
 
     publishing {
         repositories {
@@ -42,4 +34,16 @@ configure(subprojects.findAll{it.name.contains('page-process-list') || it.name.c
             distributionZip(MavenPublication) { artifact distZip }
         }
     }
+}
+
+configure(subprojects.findAll{it.name.contains('page-process-list') || it.name.contains('page-user-list')}) {
+    apply plugin: BonitaPagePlugin
+
+    bonitaPage {
+        nodeVersion = '8.9.4'
+        npmVersion = '5.6.0'
+        frontendBuildDir = 'dist'
+    }
+
+
 }
