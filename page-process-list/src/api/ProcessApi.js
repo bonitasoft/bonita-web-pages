@@ -1,9 +1,17 @@
 import { apiClient, Pagination, Url } from '../common';
 import CategoryApi from './CategoryApi';
 
+const sessionTimeoutInterceptor = response => {
+  if (response.status === 401) {
+    window.parent.location.reload();
+  }
+  return Promise.reject(response);
+};
+
 class ProcessApi {
   constructor(client) {
     this.apiClient = client;
+    this.apiClient.register({ responseError: sessionTimeoutInterceptor });
   }
 
   async fetchProcesses(

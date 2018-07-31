@@ -1,8 +1,16 @@
 import { apiClient } from '../common';
 
+const sessionTimeoutInterceptor = response => {
+  if (response.status === 401) {
+    window.parent.location.reload();
+  }
+  return Promise.reject(response);
+};
+
 class SystemApi {
   constructor(client) {
     this.apiClient = client;
+    this.apiClient.register({ responseError: sessionTimeoutInterceptor });
   }
 
   async fetchSession() {
