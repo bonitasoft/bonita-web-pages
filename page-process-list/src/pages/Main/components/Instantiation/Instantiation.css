@@ -1,45 +1,42 @@
 .Instantiation iframe {
-  flex: 1 1 auto;
-  height: 100vh;
-  border: none;
+    flex: 1 1 auto;
+    height: 100vh;
+    border: none;
 }
 
 @media (max-width: 480px) {
-  .Instantiation .cancel-bar {
+  .Instantiation > :first-child {
     display: none;
   }
 }
 
 .Instantiation .cancel-bar {
-  height: 100vh;
-  width: 2vw;
-  box-shadow: 5px 0 8px #888888;
-  margin-right: 10px;
-}
-
-.Instantiation .cancel-bar-content {
-  position: absolute;
-  top: 50vh;
-  width: 2vw;
-  text-align: center;
+    flex: 0 0 auto;
+    width: 35px;
+    height: 100vh;
+    box-shadow: 5px 0 8px #888888;
+    margin-right: calc(35px / 10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Instantiation.transition-appear {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
 }
 
 .Instantiation.transition-appear.transition-appear-active {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
 }
 
 .Instantiation.transition-leave {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
 }
 
 .Instantiation.transition-leave.transition-leave-active {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
 }
