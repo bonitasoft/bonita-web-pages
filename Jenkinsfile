@@ -22,7 +22,6 @@ ansiColor('xterm') {
                 gradle 'clean build'
             } finally {
                 archiveArtifacts '**/build*/distributions/*.zip'
-                archiveArtifacts '**/build*/*.zip'
             }
         }
 
