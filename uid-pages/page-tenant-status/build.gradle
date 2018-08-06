@@ -1,21 +1,13 @@
 apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
 group 'org.bonitasoft.web.pages'
 
-distZip.dependsOn buildUIDPage
-
-distributions {
-    all {
-        contents {
-            from "${project.buildDir}/${project.name}-${project.version}.zip"
-            into '/'
-        }
-    }
-}
+publish.dependsOn buildUIDPage
+publishToMavenLocal.dependsOn buildUIDPage
 
 publishing {
     publications {
         create('zip', MavenPublication) {
-            artifact distZip
+            artifact file("${project.buildDir}/${project.name}-${project.version}.zip")
         }
     }
 }
