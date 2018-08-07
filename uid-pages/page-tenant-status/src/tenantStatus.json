@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatus",
   "name" : "tenantStatus",
-  "lastUpdate" : 1533557193735,
+  "lastUpdate" : 1533648937544,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -375,7 +375,7 @@
     },
     "sendDataOnClick" : {
       "type" : "expression",
-      "value" : "var paused = !($data.isPaused);\nconsole.log(paused);\nreturn {paused: paused.toString()};",
+      "value" : "var paused = !($data.isPaused);\nreturn {paused: paused.toString()};",
       "exposed" : false
     },
     "isPaused" : {
@@ -395,7 +395,7 @@
     },
     "expressions" : {
       "type" : "expression",
-      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        var paused = !($data.isPaused);\n        console.log(paused);\n        if(confirm(\"Are your sure you want to deactivate the tenant?\")){\n            return {paused: paused.toString()};\n        }\n    }\n}",
+      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        var paused = !($data.isPaused);\n        if(confirm(\"Are your sure you want to deactivate the tenant?\")){\n            return {paused: paused.toString()};\n        }\n    }\n}",
       "exposed" : false
     }
   },
