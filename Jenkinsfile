@@ -47,7 +47,7 @@ def slackStage(def name, boolean isBaseBranch, Closure body) {
     } catch (e) {
         if (isBaseBranch) {
             def attachment = [
-                    title     : "${env.BRANCH_NAME} build is failing!",
+                    title     : "bonita-web-pages/${env.BRANCH_NAME} build is failing!",
                     title_link: env.BUILD_URL,
                     text      : "Stage ${name} has failed"
             ]
