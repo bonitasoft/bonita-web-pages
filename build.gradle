@@ -1,20 +1,24 @@
 plugins {
     id 'com.bonitasoft.gradle.bonita-release' version '0.1.26'
+    id 'com.bonitasoft.deployer.bonita-resources-deployer' version '0.1.23'
 }
 
 apply plugin: 'com.bonitasoft.gradle.bonita-uid'
 UIDesigner { version "1.8.6" }
 
 allprojects {
+    apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
+    apply plugin: 'distribution'
+    apply plugin: 'maven-publish'
+
+    group 'org.bonitasoft.web.pages'
+
     repositories {
         mavenLocal()
         maven { url 'http://repositories.rd.lan/maven/all/' }
         mavenCentral()
         jcenter()
     }
-
-    apply plugin: 'distribution'
-    apply plugin: 'maven-publish'
 
     publishing {
         repositories {
@@ -29,11 +33,12 @@ allprojects {
         }
     }
 
-    group 'org.bonitasoft.web.pages'
+    bonitaConfiguration { targetUrl = "http://localhost:8080/bonita/" }
 }
 
 configure(subprojects.findAll { it.name.contains('page-process-list') || it.name.contains('page-user-list') }) {
     apply plugin: BonitaPagePlugin
+    apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
 
     bonitaPage {
         nodeVersion = '8.9.4'
@@ -47,5 +52,8 @@ configure(subprojects.findAll { it.name.contains('page-process-list') || it.name
         }
     }
 
-
+    deployPage.dependsOn build
+    bonitaArtifacts {
+        page  =  distZip
+    }
 }

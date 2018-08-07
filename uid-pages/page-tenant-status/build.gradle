@@ -1,4 +1,5 @@
 apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
+apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
 group 'org.bonitasoft.web.pages'
 
 publish.dependsOn buildUIDPage
@@ -11,3 +12,9 @@ publishing {
         }
     }
 }
+
+deployPage.dependsOn buildUIDPage
+bonitaArtifacts {
+    page  =  file("${project.buildDir}/${project.name}-${project.version}.zip")
+}
+
