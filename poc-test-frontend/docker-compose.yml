@@ -1,0 +1,27 @@
+# lint this file using
+# https://gitlab.com/ci/lint
+cypress-e2e:
+  image: cypress/base
+  stage: test
+  script:
+  - npm install
+  - $(npm bin)/cypress run
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+    - cypress/screenshots
+    - cypress/videos
+
+cypress-e2e-chrome:
+  image: cypress/browsers:chrome62
+  stage: test
+  script:
+  - npm install
+  - $(npm bin)/cypress run --browser chrome
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+    - cypress/screenshots
+    - cypress/videos
