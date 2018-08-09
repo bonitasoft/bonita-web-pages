@@ -1,0 +1,27 @@
+plugins {
+    id 'com.moowork.node'
+}
+
+subprojects {
+    apply plugin: 'com.moowork.node'
+    task unzip(type: Copy) {
+        dependsOn('buildUIDPage')
+        println "task unzip ${project.name}"
+        def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
+        def outputDir = file("${buildDir}/dist")
+
+        from zipTree(zipFile)
+        into outputDir
+    }
+
+    task openTests(dependsOn: unzip, type: NpmTask) {
+
+        println "openTest ${project.name}"
+        args = ['run', "open", '--', '--project', project.name]
+    }
+
+    task runTests(dependsOn: unzip, type: NpmTask) {
+        println "runTest ${project.name}"
+        args = ['test', '--', '--project', project.name]
+    }
+}
