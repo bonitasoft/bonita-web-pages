@@ -1,8 +1,6 @@
-> Test artifact create by UI-Designer = ❤️
+> Test artifact create by UI-Designer = ❤
 
-Testing a uid-page is based on [Cypress Test Runner](https://docs.cypress.io/guides/overview/why-cypress.html#)
-### Install Cypress to run or write test
-Run ``npm install``
+Testing an uid-page is based on [Cypress Test Runner](https://docs.cypress.io/guides/overview/why-cypress.html#)
 
 ### Architecture
 For each page you can find same type of architecture.
@@ -23,6 +21,10 @@ page/
     build.gradle
     cypress.json
   ```  
+
+### Install Cypress to run or write test
+Run ``npm install``
+
 ### Gradle task
 
 Two gradle tasks are available to write and run you test.
@@ -38,3 +40,14 @@ Consult official documentation to find kow to write a test.
  ``cy.visit('build/dist/resources/index.html');``
  
  In _dist_ folder, you can find your page unzipped (with _unzip_ gradle task).
+ 
+ 
+ ### Use [cucumber plugin](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor)
+ In package.json, following configuration indicate the location of business definition. 
+ ```
+ "cypress-cucumber-preprocessor": {
+     "step_definitions": "step_definitions/"
+   }
+ ```
+ 
+ After define and customize, you can create a test file ``yourTest.feature`` in **test** folder.
