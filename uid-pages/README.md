@@ -28,7 +28,8 @@ Run ``npm install``
 
 Two gradle tasks are available to write and run you test.
 * task ``openTests`` will be open each test file on [Cypress Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#) present in **test/spec** folder.
-_Warning: This task can be run only from a page folder.
+
+_Warning: This task can be run only from a page folder._
 
 * task ``runTests`` run each test file on present in **test/spec** folder. This task can be run on uid-pages folder to run test for all-subproject.
   
