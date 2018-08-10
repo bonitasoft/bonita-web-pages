@@ -7,17 +7,16 @@ For each page you can find same type of architecture.
 ```
 page/
     build/  
-    cypress/
-            fixtures/
-            integration/
+    cypress/            
             plugins/
-            support/
-            videos/
+            support/            
     src/
         assets/
         pageId.json
     test/
-        pageId.spec.js
+        mockServer/
+        specs/
+            pageId.spec.js
     build.gradle
     cypress.json
   ```  
@@ -28,10 +27,10 @@ Run ``npm install``
 ### Gradle task
 
 Two gradle tasks are available to write and run you test.
-* task ``openTests`` will be open each test file on [Cypress Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#) present in **test** folder.
+* task ``openTests`` will be open each test file on [Cypress Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html#) present in **test/spec** folder.
 _Warning: This task can be run only from a page folder.
 
-* task ``runTests`` run each test file on present in **test** folder. This task can be run on uid-pages folder to run test for all-subproject.
+* task ``runTests`` run each test file on present in **test/spec** folder. This task can be run on uid-pages folder to run test for all-subproject.
   
 ### Write a test
 Consult official documentation to find kow to write a test.
