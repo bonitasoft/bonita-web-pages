@@ -2,7 +2,14 @@ plugins {
     id 'com.moowork.node'
 }
 
-subprojects {
+def runTest = task runTest {
+
+}
+
+def parentProject = project
+
+subprojects { subProject ->
+
     apply plugin: 'com.moowork.node'
     task unzip(type: Copy) {
         dependsOn('buildUIDPage')
@@ -14,13 +21,12 @@ subprojects {
         into outputDir
     }
 
-    task openTests(dependsOn: unzip, type: NpmTask) {
-        println "openTest ${project.name}"
-        args = ['run', "open", '--', '--project', project.name]
+    parentProject.task([dependsOn: unzip, type: NpmTask],"openTest-"+subProject.name) {
+        args = ['run', 'open', '--', '--project', subProject.name]
     }
 
-    task runTests(dependsOn: unzip, type: NpmTask) {
-        println "runTest ${project.name}"
-        args = ['test', '--', '--project', project.name]
+    def subProjectRunTest = parentProject.task([dependsOn: unzip, type: NpmTask],"runTest-"+subProject.name) {
+        args = ['test', '--', '--project', subProject.name]
     }
+    runTest.dependsOn subProjectRunTest
 }
