@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatus",
   "name" : "tenantStatus",
-  "lastUpdate" : 1533653161996,
+  "lastUpdate" : 1533734971454,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -221,7 +221,7 @@
             },
             "text" : {
               "type" : "interpolation",
-              "value" : "You need to pause the BPM services when you make an update to your environment that cannot be done while there are active users. When the services are paused:"
+              "value" : "You need to pause the BPM services when you make an update to your environment that cannot be done while there are active users."
             },
             "alignment" : {
               "type" : "constant",
@@ -250,6 +250,35 @@
             },
             "text" : {
               "type" : "interpolation",
+              "value" : "When the services are paused:"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            }
+          },
+          "reference" : "99e8f310-eefb-4f38-b575-69c2c28bfb0a",
+          "id" : "pbText"
+        } ], [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "allowHTML" : {
+              "type" : "constant",
+              "value" : true
+            },
+            "text" : {
+              "type" : "interpolation",
               "value" : "<ul>\n<li>{{'Only the technical user can log in to the Portal.' | uiTranslate}}\n</li>\n<li>{{'Users who are currently logged in, including Administrator users, are automatically logged out.' | uiTranslate}}\n</li>\n<li>{{'Users who are filling in forms when the services are paused will lose any information that has not been submitted.' | uiTranslate}}\n</li>\n<li>{{'All processes are automatically paused.' | uiTranslate}}\n</li>\n</ul>"
             },
             "alignment" : {
@@ -257,7 +286,7 @@
               "value" : "left"
             }
           },
-          "reference" : "a23cff23-b8d0-4cf1-8803-fba27abc7747",
+          "reference" : "9dcc9758-9424-43d6-95f2-b5b5707f15d1",
           "id" : "pbText"
         } ], [ {
           "type" : "component",
@@ -286,7 +315,7 @@
               "value" : "left"
             }
           },
-          "reference" : "a6bf99fa-6a34-494e-9057-e4653fba564d",
+          "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
           "id" : "pbText"
         } ], [ {
           "type" : "component",
@@ -453,7 +482,7 @@
     },
     "expressions" : {
       "type" : "expression",
-      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        var paused = !($data.isPaused);\n        if(confirm(\"Are your sure you want to deactivate the tenant?\")){\n            return {paused: paused.toString()};\n        }\n    }\n}",
+      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        var paused = !($data.isPaused);\n        if(confirm(\"Are your sure you want to deactivate the tenant?\")){\n            $data.isCheckBeforeSubmitOpen = true;\n            return {paused: paused.toString()};\n        }\n    }\n}",
       "exposed" : false
     }
   },
