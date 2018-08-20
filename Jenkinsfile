@@ -19,7 +19,7 @@ ansiColor('xterm') {
 
         slackStage('🔧 Build', isBaseBranch) {
             try {
-                gradle 'clean build'
+                gradle 'clean build runIntegrationTests'
             } finally {
                 archiveArtifacts '**/build*/distributions/*.zip'
                 archiveArtifacts '**/build*/*.zip'

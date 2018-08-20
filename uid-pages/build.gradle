@@ -2,7 +2,7 @@ plugins {
     id 'com.moowork.node'
 }
 
-def runTest = task runTest {
+def runIntegrationTests = task runIntegrationTests {
 
 }
 
@@ -28,5 +28,5 @@ subprojects { subProject ->
     def subProjectRunTest = parentProject.task([dependsOn: unzip, type: NpmTask],"runTest-"+subProject.name) {
         args = ['test', '--', '--project', subProject.name]
     }
-    runTest.dependsOn subProjectRunTest
+    runIntegrationTests.dependsOn subProjectRunTest
 }
