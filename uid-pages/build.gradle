@@ -2,7 +2,28 @@ plugins {
     id 'com.moowork.node'
 }
 
-def runIntegrationTests = task runIntegrationTests {
+project.beforeEvaluate {
+    project.node {
+        version = '8.9.4'
+        npmVersion = '5.6.0'
+    }
+}
+
+project.node {
+    download = true
+    def currentDir = project.rootProject.projectDir
+    workDir = project.file("${currentDir}/.gradle/nodejs")
+    npmWorkDir = project.file("${currentDir}/.gradle/npm")
+}
+
+project.tasks.npm_install.configure {
+    group 'Bonita'
+    description 'Install node moodule for this project'
+    inputs.files('package.json', 'package-lock.json')
+    outputs.dirs('node_modules')
+}
+
+def runIntegrationTests = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'runIntegrationTests') {
 
 }
 
