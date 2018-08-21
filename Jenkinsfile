@@ -2,7 +2,7 @@
 import static groovy.json.JsonOutput.toJson
 
 ansiColor('xterm') {
-    node {
+    node('web-pages') {
         def currentBranch = env.BRANCH_NAME
         def isBaseBranch = currentBranch == 'master'
 
@@ -18,11 +18,13 @@ ansiColor('xterm') {
         }
 
         slackStage('🔧 Build', isBaseBranch) {
-            try {
-                gradle 'clean build runIntegrationTests'
-            } finally {
-                archiveArtifacts '**/build*/distributions/*.zip'
-                archiveArtifacts '**/build*/*.zip'
+            wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24',parallelBuild: true]) {
+                try {
+                    gradle 'clean build runIntegrationTests --stacktrace --info'
+                } finally {
+                    archiveArtifacts '**/build*/distributions/*.zip'
+                    archiveArtifacts '**/build*/*.zip'
+                }
             }
         }
 

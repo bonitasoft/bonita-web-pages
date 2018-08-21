@@ -23,7 +23,7 @@ project.tasks.npm_install.configure {
     outputs.dirs('node_modules')
 }
 
-def runIntegrationTests = project.task([type: com.moowork.gradle.node.npm.NpmTask, dependsOn: project.tasks.npm_install], 'runIntegrationTests') {
+def runIntegrationTests = task runIntegrationTests {
 
 }
 
@@ -42,11 +42,11 @@ subprojects { subProject ->
         into outputDir
     }
 
-    parentProject.task([dependsOn: unzip, type: NpmTask],"openTest-"+subProject.name) {
+    parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest-"+subProject.name) {
         args = ['run', 'open', '--', '--project', subProject.name]
     }
 
-    def subProjectRunTest = parentProject.task([dependsOn: unzip, type: NpmTask],"runTest-"+subProject.name) {
+    def subProjectRunTest = parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTest-"+subProject.name) {
         args = ['test', '--', '--project', subProject.name]
     }
     runIntegrationTests.dependsOn subProjectRunTest
