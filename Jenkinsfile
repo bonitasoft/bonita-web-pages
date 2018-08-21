@@ -24,6 +24,7 @@ ansiColor('xterm') {
                 } finally {
                     archiveArtifacts '**/build*/distributions/*.zip'
                     archiveArtifacts '**/build*/*.zip'
+                    archiveArtifacts '**/build*/tests/videos/*.mp4'
                 }
             }
         }
