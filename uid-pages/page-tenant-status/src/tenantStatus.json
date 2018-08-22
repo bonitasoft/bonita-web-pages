@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatus",
   "name" : "tenantStatus",
-  "lastUpdate" : 1534931728438,
+  "lastUpdate" : 1534942338613,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -482,7 +482,7 @@
     },
     "expressions" : {
       "type" : "expression",
-      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        if($data.confirmation !== $data.isPaused) {\n            $data.confirmation = $data.isPaused;\n            var paused;\n            if(confirm(\"Are your sure you want to \" + ($data.isPaused ? \"activate\" : \"deactivate\") + \" the tenant?\")){\n                paused = !($data.isPaused);\n            } else {\n                paused = $data.isPaused;\n            }\n            return {paused: paused.toString()};\n        } else {\n            $data.confirmation = undefined;\n        }\n    }\n}",
+      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        if ($data.confirmation !== $data.isPaused) {\n            $data.confirmation = $data.isPaused;\n            var paused;\n            var message = $data.isPaused \n            ? \"Are your sure you want to deactivate the tenant?\" \n            : \"Confirm services resumption?\";\n            if (confirm(message)) {\n                paused = !($data.isPaused);\n            } else {\n                paused = $data.isPaused;\n            }\n            return {paused: paused.toString()};\n        } else {\n            $data.confirmation = undefined;\n        }\n    }\n};",
       "exposed" : false
     },
     "confirmation" : {
