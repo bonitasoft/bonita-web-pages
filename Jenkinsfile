@@ -20,11 +20,9 @@ ansiColor('xterm') {
         slackStage('🔧 Build', isBaseBranch) {
             wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24',parallelBuild: true]) {
                 try {
-                    gradle 'clean build runIntegrationTests --stacktrace --info'
+                    gradle 'clean build runIntegrationTests'
                 } finally {
-                    archiveArtifacts '**/build*/distributions/*.zip'
-                    archiveArtifacts '**/build*/*.zip'
-                    archiveArtifacts '**/build*/tests/videos/*.mp4'
+                    archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip'
                 }
             }
         }
