@@ -22,7 +22,8 @@ ansiColor('xterm') {
                 try {
                     gradle 'clean build runIntegrationTests'
                 } finally {
-                    archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip'
+                    archiveArtifacts '**/build*/distributions/*.zip'
+                    archiveArtifacts '**/build*/*.zip'
                 }
             }
         }
