@@ -1,8 +1,10 @@
 #!/usr/bin/env groovy
 import static groovy.json.JsonOutput.toJson
 
+properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3']]])
+
 ansiColor('xterm') {
-    node {
+    node('web-pages') {
         def currentBranch = env.BRANCH_NAME
         def isBaseBranch = currentBranch == 'master'
 
@@ -18,11 +20,13 @@ ansiColor('xterm') {
         }
 
         slackStage('🔧 Build', isBaseBranch) {
-            try {
-                gradle 'clean build'
-            } finally {
-                archiveArtifacts '**/build*/distributions/*.zip'
-                archiveArtifacts '**/build*/*.zip'
+            wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24', parallelBuild: true]) {
+                try {
+                    gradle 'clean build runIntegrationTests'
+                } finally {
+                    junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
+                    archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'
+                }
             }
         }
 
