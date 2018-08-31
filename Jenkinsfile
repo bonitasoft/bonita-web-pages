@@ -24,6 +24,7 @@ ansiColor('xterm') {
                 try {
                     gradle 'clean build runIntegrationTests'
                 } finally {
+                    junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
                     archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'
                 }
             }
