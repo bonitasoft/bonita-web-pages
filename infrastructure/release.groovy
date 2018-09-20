@@ -15,7 +15,7 @@ node {
             sh "git checkout $branch"
 
             if(tagVersion){
-                sh "./gradlew release" +
+                sh "./gradlew release " +
                         "-Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD} -Prelease.version=${tagVersion}"
             } else{
                 if (releaseType == "Development") {
