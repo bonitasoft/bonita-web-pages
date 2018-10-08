@@ -22,13 +22,10 @@ describe('Url', () => {
     }
   };
   equivalence.url = {
-    string: `http://localhost:3000/bonita/portal/${equivalence.queries.string}${
+    string: `/bonita/portal/${equivalence.queries.string}${
       equivalence.fragments.string
     }`,
     object: {
-      protocol: 'http:',
-      hostname: 'localhost',
-      port: '3000',
       pathname: '/bonita/portal/',
       queries: equivalence.queries.object,
       fragments: equivalence.fragments.object
@@ -42,11 +39,8 @@ describe('Url', () => {
     });
 
     it('should decompose url without params', () => {
-      const url = new Url('http://dev.localhost:3000/bonita/portal');
+      const url = new Url('../bonita/portal');
       expect(url).toEqual({
-        protocol: 'http:',
-        hostname: 'dev.localhost',
-        port: '3000',
         pathname: '/bonita/portal',
         queries: {},
         fragments: {}
@@ -63,16 +57,10 @@ describe('Url', () => {
       expect(url1).toEqual(equivalence.url.object);
 
       const url2 = new Url(equivalence.url.string, {
-        protocol: 'https:',
-        hostname: 'bonita',
-        port: '1337',
         queries: {},
         fragments: {}
       });
       expect(url2).toEqual({
-        protocol: 'https:',
-        hostname: 'bonita',
-        port: '1337',
         pathname: equivalence.url.object.pathname,
         queries: {},
         fragments: {}
@@ -83,7 +71,7 @@ describe('Url', () => {
   describe('getPath', () => {
     it('should recompose path', () => {
       const url = new Url(equivalence.url.string);
-      expect(url.getPath()).toEqual('http://localhost:3000/bonita/portal/');
+      expect(url.getPath()).toEqual('/bonita/portal/');
     });
   });
 
