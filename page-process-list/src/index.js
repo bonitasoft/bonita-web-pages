@@ -6,6 +6,7 @@ import i18n from './i18n';
 import './index.css';
 import App from './App';
 import SystemApi from './api/SystemApi';
+import 'core-js';
 
 SystemApi.fetchSession().then(session => {
   ReactDOM.render(

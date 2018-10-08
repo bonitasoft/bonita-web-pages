@@ -8,7 +8,7 @@ class Url {
       const parser = document.createElement('a');
       parser.href = url;
 
-      props = ['protocol', 'hostname', 'port', 'pathname'].reduce(
+      props = ['pathname'].reduce(
         (buffer, key) => {
           buffer[key] = parser[key];
           return buffer;
@@ -40,9 +40,9 @@ class Url {
   }
 
   getPath() {
-    const { protocol, hostname, port, pathname } = this;
+    const { pathname } = this;
 
-    return `${protocol}//${hostname}:${port}${pathname}`;
+    return pathname;
   }
 
   static parseQueries(str) {
