@@ -7,15 +7,7 @@ publish.dependsOn buildUIDPage
 publishToMavenLocal.dependsOn buildUIDPage
 
 dependencies {
-    page project(':uid-pages:widgets:timelineWidget')
-}
-
-publishing {
-    publications {
-        create('zip', MavenPublication) {
-            artifact file("${project.buildDir}/${project.name}-${project.version}.zip")
-        }
-    }
+    page project(':widgets:timelineWidget')
 }
 
 deployPage.dependsOn buildUIDPage
