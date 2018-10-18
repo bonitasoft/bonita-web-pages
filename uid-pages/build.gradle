@@ -28,28 +28,28 @@ def runIntegrationTests = task runIntegrationTests {}
 def parentProject = project
 
 subprojects { subProject ->
+    if (file("cypress.json").exists()){
+        apply plugin: 'com.moowork.node'
+        task unzip(type: Copy) {
+            dependsOn('buildUIDPage')
+            def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
+            def outputDir = file("${buildDir}/dist")
 
-    apply plugin: 'com.moowork.node'
-    task unzip(type: Copy) {
-        dependsOn('buildUIDPage')
-        println "task unzip ${project.name}"
-        def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
-        def outputDir = file("${buildDir}/dist")
+            from zipTree(zipFile)
+            into outputDir
+        }
 
-        from zipTree(zipFile)
-        into outputDir
+        parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest-" + subProject.name) {
+            args = ['run', 'open', '--', '--project', subProject.name]
+            group 'ui designer'
+        }
+
+        def subProjectRunTest = parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTest-" + subProject.name) {
+            args = ['test', '--', '--project', subProject.name]
+            group 'Bonita'
+        }
+        runIntegrationTests.dependsOn subProjectRunTest
     }
-
-    parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest-" + subProject.name) {
-        args = ['run', 'open', '--', '--project', subProject.name]
-        group 'ui designer'
-    }
-
-    def subProjectRunTest = parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTest-" + subProject.name) {
-        args = ['test', '--', '--project', subProject.name]
-        group 'Bonita'
-    }
-    runIntegrationTests.dependsOn subProjectRunTest
 
     apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
