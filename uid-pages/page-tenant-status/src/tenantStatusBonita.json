@@ -564,6 +564,313 @@
         "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
         "id" : "pbText"
       } ] ]
+    } ], [ {
+      "type" : "modalContainer",
+      "dimension" : {
+        "xs" : 12,
+        "sm" : 12,
+        "md" : 12,
+        "lg" : 12
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : ""
+        },
+        "hidden" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "modalId" : {
+          "type" : "constant",
+          "value" : "confirmStateChange"
+        },
+        "animation" : {
+          "type" : "constant",
+          "value" : true
+        }
+      },
+      "reference" : "ce2d4c4a-6283-4da9-befc-ae2109f0ebf3",
+      "id" : "pbModalContainer",
+      "container" : {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12
+        },
+        "propertyValues" : { },
+        "reference" : "06fea9fb-f44f-45a2-bfe1-8ad8a8af989c",
+        "id" : "pbContainer",
+        "rows" : [ [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : "text-danger"
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "text" : {
+              "type" : "interpolation",
+              "value" : "{{message}}"
+            },
+            "level" : {
+              "type" : "constant",
+              "value" : "Level 3"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "center"
+            }
+          },
+          "reference" : "dff1fd18-214b-4008-b1cd-452fe358abd6",
+          "id" : "pbTitle"
+        } ], [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 9,
+            "lg" : 9,
+            "md" : 9,
+            "sm" : 9
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "disabled" : {
+              "type" : "expression",
+              "value" : "!isTechnicalUser"
+            },
+            "label" : {
+              "type" : "interpolation",
+              "value" : "{{status.btnLabel}}"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "right"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "primary"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "PUT"
+            },
+            "url" : {
+              "type" : "interpolation",
+              "value" : "../API/system/tenant/1"
+            },
+            "dataToSend" : {
+              "type" : "expression",
+              "value" : "sendDataOnClick"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : "response.success"
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation",
+              "value" : ""
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : true
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : ""
+            }
+          },
+          "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
+          "id" : "pbButton"
+        }, {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 3,
+            "sm" : 3,
+            "md" : 3,
+            "lg" : 3
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "disabled" : {
+              "type" : "expression",
+              "value" : "!isTechnicalUser"
+            },
+            "label" : {
+              "type" : "interpolation",
+              "value" : "Cancel"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "default"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "Close modal"
+            },
+            "url" : {
+              "type" : "interpolation"
+            },
+            "dataToSend" : {
+              "type" : "constant"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation"
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            }
+          },
+          "reference" : "2d528e64-cdfc-4be8-8f08-88e3b3cf2f53",
+          "id" : "pbButton"
+        } ] ]
+      }
+    } ], [ {
+      "type" : "component",
+      "dimension" : {
+        "xs" : 12,
+        "sm" : 12,
+        "md" : 12,
+        "lg" : 6
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : ""
+        },
+        "hidden" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "disabled" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "label" : {
+          "type" : "interpolation",
+          "value" : "{{status.btnLabel}}"
+        },
+        "alignment" : {
+          "type" : "constant",
+          "value" : "center"
+        },
+        "buttonStyle" : {
+          "type" : "constant",
+          "value" : "primary"
+        },
+        "action" : {
+          "type" : "constant",
+          "value" : "Open modal"
+        },
+        "url" : {
+          "type" : "interpolation"
+        },
+        "dataToSend" : {
+          "type" : "constant"
+        },
+        "dataFromSuccess" : {
+          "type" : "variable",
+          "value" : ""
+        },
+        "closeOnSuccess" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "dataFromError" : {
+          "type" : "variable",
+          "value" : ""
+        },
+        "targetUrlOnSuccess" : {
+          "type" : "interpolation"
+        },
+        "collectionToModify" : {
+          "type" : "variable"
+        },
+        "modalId" : {
+          "type" : "constant",
+          "value" : "confirmStateChange"
+        },
+        "collectionPosition" : {
+          "type" : "constant",
+          "value" : "Last"
+        },
+        "valueToAdd" : {
+          "type" : "constant"
+        },
+        "removeItem" : {
+          "type" : "variable"
+        }
+      },
+      "reference" : "77bdddde-8fd3-443e-8ba7-b19716c9deec",
+      "id" : "pbButton"
     } ] ]
   }, {
     "type" : "container",
@@ -658,13 +965,13 @@
       "value" : "if(!$data.response.success ){\n    $data.response.success = \"none\";\n    $data.response.timestamp =  new Date();\n}",
       "exposed" : false
     },
-    "expressions" : {
-      "type" : "expression",
-      "value" : "return {\n    \"checkBeforeSubmit\":function(){\n        if ($data.confirmation !== $data.isPaused) {\n            $data.confirmation = $data.isPaused;\n            var paused;\n            var message = $data.isPaused \n            ? \"Confirm services resumption?\" \n            : \"Are your sure you want to deactivate the tenant?\";\n            if (confirm(message)) {\n                paused = !($data.isPaused);\n            } else {\n                paused = $data.isPaused;\n            }\n            return {paused: paused.toString()};\n        } else {\n            $data.confirmation = undefined;\n        }\n    }\n};",
-      "exposed" : false
-    },
     "confirmation" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "message" : {
+      "type" : "expression",
+      "value" : "return $data.isPaused \n            ? \"Confirm services resumption?\" \n            : \"Are your sure you want to deactivate the tenant?\";",
       "exposed" : false
     }
   },
