@@ -52,39 +52,40 @@ class List extends Component {
                 <th>{t('Version')}</th>
                 <th className="hide-on-mobile">{t('Categories')}</th>
                 <th className="hide-on-mobile">{t('Description')}</th>
-                <th>{t('Actions')}</th>
+                <th>{t('Action')}</th>
               </tr>
             </thead>
             <tbody>
               {processes.map(process => (
-                <tr
-                  className="List-process start-process"
+                <OverlayTrigger
+                  placement="top"
+                  delayShow={500}
                   key={process.id}
-                  onClick={() => this.onRowClick(process)}
+                  overlay={
+                    <Tooltip id={`new_case_${process.id}`}>
+                      {t('Start a new case')}
+                    </Tooltip>
+                  }
                 >
-                  <td>{process.displayName}</td>
-                  <td>{process.version}</td>
-                  <td className="hide-on-mobile">
-                    {process.categories.map(category => (
-                      <Label key={category.id} bsStyle="default">
-                        {category.displayName}
-                      </Label>
-                    ))}
-                  </td>
-                  <td className="hide-on-mobile">{process.description}</td>
-                  <td className="process-action">
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`new_case_${process.id}`}>
-                          {t('Start a new case')}
-                        </Tooltip>
-                      }
-                    >
+                  <tr
+                    className="List-process start-process"
+                    onClick={() => this.onRowClick(process)}
+                  >
+                    <td>{process.displayName}</td>
+                    <td>{process.version}</td>
+                    <td className="hide-on-mobile">
+                      {process.categories.map(category => (
+                        <Label key={category.id} bsStyle="default">
+                          {category.displayName}
+                        </Label>
+                      ))}
+                    </td>
+                    <td className="hide-on-mobile">{process.description}</td>
+                    <td className="process-action">
                       <Glyphicon glyph="play" />
-                    </OverlayTrigger>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                </OverlayTrigger>
               ))}
             </tbody>
           </Table>
