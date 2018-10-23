@@ -4,14 +4,15 @@ import './Filters.css';
 import { t } from 'i18next';
 
 import {
-  Panel,
-  DropdownButton,
   Button,
-  MenuItem,
+  DropdownButton,
   Form,
-  FormGroup,
   FormControl,
-  Glyphicon
+  FormGroup,
+  Glyphicon,
+  HelpBlock,
+  MenuItem,
+  Panel
 } from 'react-bootstrap';
 
 class Filters extends Component {
@@ -53,12 +54,7 @@ class Filters extends Component {
           <Panel.Title componentClass="h3">{t('Filters')}</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
-          <Form
-            onSubmit={e => {
-              e.preventDefault() /*to avoid page refresh*/;
-              this.updateSearch();
-            }}
-          >
+          <div>
             <DropdownButton
               xs={4}
               md={6}
@@ -80,22 +76,29 @@ class Filters extends Component {
                 </MenuItem>
               ))}
             </DropdownButton>
-
+          </div>
+          <Form
+            onSubmit={e => {
+              e.preventDefault() /*to avoid page refresh*/;
+              this.updateSearch();
+            }}
+          >
             <FormGroup xs={8} md={6} className="Filters-search">
               <FormControl
+                id="searchInput"
                 type="text"
                 placeholder={t('Search') + '...'}
                 value={search}
                 onChange={e => this.setState({ search: e.target.value })}
                 inputRef={ref => (this.searchInput = ref)}
               />
-              <Button
+              <div
                 className="Filters-search-clear"
                 style={{ visibility: search === '' ? 'hidden' : 'initial' }}
                 onClick={this.clearSearch}
               >
                 <Glyphicon glyph="remove" />
-              </Button>
+              </div>
               <Button
                 className="Filters-search-submit"
                 bsStyle="primary"
@@ -103,6 +106,11 @@ class Filters extends Component {
               >
                 <Glyphicon glyph="search" />
               </Button>
+              <div className="search-tooltip hide-on-mobile">
+                <HelpBlock htmlFor="searchInput">
+                  {t('On process name or version')}
+                </HelpBlock>
+              </div>
             </FormGroup>
           </Form>
         </Panel.Body>

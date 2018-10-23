@@ -9,7 +9,7 @@ export default () => {
         Version: 'Version',
         Categories: 'Categories',
         Description: 'Description',
-        Actions: 'Actions',
+        Action: 'Action',
         'Start a new case': 'Start a new case',
         AllProcesses: 'All processes',
         'No process to display': 'No process to display',
@@ -21,7 +21,8 @@ export default () => {
         Start: 'Start',
         Cancel: 'Cancel',
         'Start a new case for process {{displayName}}':
-          'Start a new case for process {{displayName}}'
+          'Start a new case for process {{displayName}}',
+        'On process name or version': 'On process name or version'
       }
     },
     fr: {
@@ -34,7 +35,7 @@ export default () => {
         Categories: 'Catégories',
         Description: 'Description',
         'Start a new case': 'Démarrer un nouveau cas',
-        Actions: 'Actions',
+        Action: 'Action',
         AllProcesses: 'Tous',
         'No process to display': 'Aucun processus ne correspond à la recherche',
         List: 'Liste',
@@ -46,7 +47,8 @@ export default () => {
         Start: 'Démarrer',
         Cancel: 'Annuler',
         'Start a new case for process {{displayName}}':
-          'Démarrer un nouveau cas pour le processus {{displayName}}'
+          'Démarrer un nouveau cas pour le processus {{displayName}}',
+        'On process name or version': 'Sur le nom ou la version du processus'
       }
     },
     es: {
@@ -59,7 +61,7 @@ export default () => {
         Categories: 'Categorías',
         Description: 'Descripción',
         'Start a new case': 'Comenzar un nuevo caso',
-        Actions: 'Acciones',
+        Action: 'Acción',
         AllProcesses: 'Todos',
         'No process to display': 'Sin proceso para mostrar',
         List: 'Lista',
@@ -70,7 +72,8 @@ export default () => {
         Start: 'Inicio',
         Cancel: 'Cancelar',
         'Start a new case for process {{displayName}}':
-          'Comenzar un nuevo caso para el proceso {{displayName}}'
+          'Comenzar un nuevo caso para el proceso {{displayName}}',
+        'On process name or version': 'En el nombre o en la versión del proceso'
       }
     }
   };
