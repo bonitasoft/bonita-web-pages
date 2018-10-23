@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatusBonita",
   "name" : "tenantStatusBonita",
-  "lastUpdate" : 1540461059937,
+  "lastUpdate" : 1540289023271,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -601,7 +601,7 @@
         "reference" : "06fea9fb-f44f-45a2-bfe1-8ad8a8af989c",
         "id" : "pbContainer",
         "rows" : [ [ {
-          "type" : "component",
+          "type" : "container",
           "dimension" : {
             "xs" : 12,
             "sm" : 12,
@@ -611,186 +611,293 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "text-danger"
+              "value" : "modal-header"
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "text" : {
-              "type" : "interpolation",
-              "value" : "{{message}}"
-            },
-            "level" : {
-              "type" : "constant",
-              "value" : "Level 3"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "center"
+            "repeatedCollection" : {
+              "type" : "variable",
+              "value" : ""
             }
           },
-          "reference" : "dff1fd18-214b-4008-b1cd-452fe358abd6",
-          "id" : "pbTitle"
+          "reference" : "614e8e82-6670-4e39-a34d-f967fab65f55",
+          "id" : "pbContainer",
+          "rows" : [ [ {
+            "type" : "component",
+            "dimension" : {
+              "xs" : 12,
+              "sm" : 12,
+              "md" : 12,
+              "lg" : 12
+            },
+            "propertyValues" : {
+              "cssClasses" : {
+                "type" : "constant",
+                "value" : "text-danger"
+              },
+              "hidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "text" : {
+                "type" : "interpolation",
+                "value" : "{{titleTenant}}"
+              },
+              "level" : {
+                "type" : "constant",
+                "value" : "Level 2"
+              },
+              "alignment" : {
+                "type" : "constant",
+                "value" : "left"
+              }
+            },
+            "reference" : "9c639cdb-9939-40e4-a552-70739bd05a9b",
+            "id" : "pbTitle"
+          } ] ]
         } ], [ {
-          "type" : "component",
+          "type" : "container",
           "dimension" : {
-            "xs" : 9,
-            "lg" : 9,
-            "md" : 9,
-            "sm" : 9
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : ""
+              "value" : "modal-body"
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "disabled" : {
-              "type" : "expression",
-              "value" : "!isTechnicalUser"
-            },
-            "label" : {
-              "type" : "interpolation",
-              "value" : "{{status.btnLabel}}"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "right"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "primary"
-            },
-            "action" : {
-              "type" : "constant",
-              "value" : "PUT"
-            },
-            "url" : {
-              "type" : "interpolation",
-              "value" : "../API/system/tenant/1"
-            },
-            "dataToSend" : {
-              "type" : "expression",
-              "value" : "sendDataOnClick"
-            },
-            "dataFromSuccess" : {
+            "repeatedCollection" : {
               "type" : "variable",
-              "value" : "response.success"
-            },
-            "dataFromError" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "targetUrlOnSuccess" : {
-              "type" : "interpolation",
-              "value" : ""
-            },
-            "collectionToModify" : {
-              "type" : "variable"
-            },
-            "collectionPosition" : {
-              "type" : "constant",
-              "value" : "Last"
-            },
-            "valueToAdd" : {
-              "type" : "constant"
-            },
-            "removeItem" : {
-              "type" : "variable"
-            },
-            "closeOnSuccess" : {
-              "type" : "constant",
-              "value" : true
-            },
-            "modalId" : {
-              "type" : "constant",
               "value" : ""
             }
           },
-          "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
-          "id" : "pbButton"
-        }, {
-          "type" : "component",
+          "reference" : "a7543428-aa5b-4fcf-ac4d-f510a5a0073a",
+          "id" : "pbContainer",
+          "rows" : [ [ {
+            "type" : "component",
+            "dimension" : {
+              "xs" : 12,
+              "sm" : 12,
+              "md" : 12,
+              "lg" : 12
+            },
+            "propertyValues" : {
+              "cssClasses" : {
+                "type" : "constant",
+                "value" : ""
+              },
+              "hidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "allowHTML" : {
+                "type" : "constant",
+                "value" : true
+              },
+              "text" : {
+                "type" : "interpolation",
+                "value" : "{{messageTenant}}"
+              },
+              "alignment" : {
+                "type" : "constant",
+                "value" : "left"
+              }
+            },
+            "reference" : "12302e77-091f-4dae-a485-01fe63c27767",
+            "id" : "pbText"
+          } ] ]
+        } ], [ {
+          "type" : "container",
           "dimension" : {
-            "xs" : 3,
-            "sm" : 3,
-            "md" : 3,
-            "lg" : 3
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : ""
+              "value" : "modal-footer"
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "disabled" : {
-              "type" : "expression",
-              "value" : "!isTechnicalUser"
-            },
-            "label" : {
-              "type" : "interpolation",
-              "value" : "Cancel"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "left"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "default"
-            },
-            "action" : {
-              "type" : "constant",
-              "value" : "Close modal"
-            },
-            "url" : {
-              "type" : "interpolation"
-            },
-            "dataToSend" : {
-              "type" : "constant"
-            },
-            "dataFromSuccess" : {
+            "repeatedCollection" : {
               "type" : "variable",
               "value" : ""
-            },
-            "closeOnSuccess" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "dataFromError" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "targetUrlOnSuccess" : {
-              "type" : "interpolation"
-            },
-            "collectionToModify" : {
-              "type" : "variable"
-            },
-            "modalId" : {
-              "type" : "constant",
-              "value" : ""
-            },
-            "collectionPosition" : {
-              "type" : "constant",
-              "value" : "Last"
-            },
-            "valueToAdd" : {
-              "type" : "constant"
-            },
-            "removeItem" : {
-              "type" : "variable"
             }
           },
-          "reference" : "2d528e64-cdfc-4be8-8f08-88e3b3cf2f53",
-          "id" : "pbButton"
+          "reference" : "529aae9a-46ab-4686-8bf5-ea9f970fb7a1",
+          "id" : "pbContainer",
+          "rows" : [ [ {
+            "type" : "component",
+            "dimension" : {
+              "xs" : 9,
+              "lg" : 6,
+              "md" : 9,
+              "sm" : 9
+            },
+            "propertyValues" : {
+              "cssClasses" : {
+                "type" : "constant",
+                "value" : ""
+              },
+              "hidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "disabled" : {
+                "type" : "expression",
+                "value" : "!isTechnicalUser"
+              },
+              "label" : {
+                "type" : "interpolation",
+                "value" : "{{status.btnLabel}}"
+              },
+              "alignment" : {
+                "type" : "constant",
+                "value" : "right"
+              },
+              "buttonStyle" : {
+                "type" : "constant",
+                "value" : "primary"
+              },
+              "action" : {
+                "type" : "constant",
+                "value" : "PUT"
+              },
+              "url" : {
+                "type" : "interpolation",
+                "value" : "../API/system/tenant/1"
+              },
+              "dataToSend" : {
+                "type" : "expression",
+                "value" : "sendDataOnClick"
+              },
+              "dataFromSuccess" : {
+                "type" : "variable",
+                "value" : "response.success"
+              },
+              "dataFromError" : {
+                "type" : "variable",
+                "value" : ""
+              },
+              "targetUrlOnSuccess" : {
+                "type" : "interpolation",
+                "value" : ""
+              },
+              "collectionToModify" : {
+                "type" : "variable"
+              },
+              "collectionPosition" : {
+                "type" : "constant",
+                "value" : "Last"
+              },
+              "valueToAdd" : {
+                "type" : "constant"
+              },
+              "removeItem" : {
+                "type" : "variable"
+              },
+              "closeOnSuccess" : {
+                "type" : "constant",
+                "value" : true
+              },
+              "modalId" : {
+                "type" : "constant",
+                "value" : ""
+              }
+            },
+            "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
+            "id" : "pbButton"
+          }, {
+            "type" : "component",
+            "dimension" : {
+              "xs" : 3,
+              "sm" : 3,
+              "md" : 3,
+              "lg" : 6
+            },
+            "propertyValues" : {
+              "cssClasses" : {
+                "type" : "constant",
+                "value" : ""
+              },
+              "hidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "disabled" : {
+                "type" : "expression",
+                "value" : "!isTechnicalUser"
+              },
+              "label" : {
+                "type" : "interpolation",
+                "value" : "Cancel"
+              },
+              "alignment" : {
+                "type" : "constant",
+                "value" : "left"
+              },
+              "buttonStyle" : {
+                "type" : "constant",
+                "value" : "default"
+              },
+              "action" : {
+                "type" : "constant",
+                "value" : "Close modal"
+              },
+              "url" : {
+                "type" : "interpolation"
+              },
+              "dataToSend" : {
+                "type" : "constant"
+              },
+              "dataFromSuccess" : {
+                "type" : "variable",
+                "value" : ""
+              },
+              "closeOnSuccess" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "dataFromError" : {
+                "type" : "variable",
+                "value" : ""
+              },
+              "targetUrlOnSuccess" : {
+                "type" : "interpolation"
+              },
+              "collectionToModify" : {
+                "type" : "variable"
+              },
+              "modalId" : {
+                "type" : "constant",
+                "value" : ""
+              },
+              "collectionPosition" : {
+                "type" : "constant",
+                "value" : "Last"
+              },
+              "valueToAdd" : {
+                "type" : "constant"
+              },
+              "removeItem" : {
+                "type" : "variable"
+              }
+            },
+            "reference" : "2d528e64-cdfc-4be8-8f08-88e3b3cf2f53",
+            "id" : "pbButton"
+          } ] ]
         } ] ]
       }
     } ], [ {
@@ -969,9 +1076,14 @@
       "type" : "constant",
       "exposed" : false
     },
-    "message" : {
+    "titleTenant" : {
       "type" : "expression",
-      "value" : "return $data.isPaused \n            ? \"Confirm services resumption?\" \n            : \"Are your sure you want to deactivate the tenant?\";",
+      "value" : "return $data.isPaused \n        ? \"Confirm services resumption?\" \n        : \"Confirm services pause?\";",
+      "exposed" : false
+    },
+    "messageTenant" : {
+      "type" : "expression",
+      "value" : "return $data.isPaused \n        ? \"Services will resume. Users will be able to log in.\" \n        : \"Services will be paused for maintenance.\";",
       "exposed" : false
     }
   },
