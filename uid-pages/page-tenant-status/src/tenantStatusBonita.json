@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatusBonita",
   "name" : "tenantStatusBonita",
-  "lastUpdate" : 1540297809799,
+  "lastUpdate" : 1540386759770,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -284,7 +284,7 @@
           "dimension" : {
             "xs" : 12,
             "sm" : 10,
-            "md" : 8,
+            "md" : 7,
             "lg" : 4
           },
           "propertyValues" : {
@@ -373,7 +373,7 @@
           "dimension" : {
             "xs" : 12,
             "lg" : 4,
-            "md" : 2,
+            "md" : 3,
             "sm" : 12
           },
           "propertyValues" : {
@@ -391,7 +391,7 @@
             },
             "label" : {
               "type" : "interpolation",
-              "value" : "{{status.btnLabel}}"
+              "value" : "{{status.btnLabel.toUpperCase()}}"
             },
             "alignment" : {
               "type" : "constant",
@@ -635,7 +635,7 @@
     },
     "status" : {
       "type" : "expression",
-      "value" : "if($data.isPaused){\n    return {state: \"Paused\", btnLabel:\"Resume\", img: \"paused.jpg\"};\n}\nreturn {state: \"Running\", btnLabel:\"Pause\", img: \"running.jpg\"};",
+      "value" : "if($data.isPaused){\n    return {state: \"Paused\", btnLabel:uiTranslate(\"Resume\"), img: \"paused.jpg\"};\n}\nreturn {state: \"Running\", btnLabel:uiTranslate(\"Pause\"), img: \"running.jpg\"};",
       "exposed" : false
     },
     "sendDataOnClick" : {
