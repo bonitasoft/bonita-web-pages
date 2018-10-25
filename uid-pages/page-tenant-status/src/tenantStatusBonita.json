@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatusBonita",
   "name" : "tenantStatusBonita",
-  "lastUpdate" : 1537971516785,
+  "lastUpdate" : 1540461059937,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -284,8 +284,8 @@
           "dimension" : {
             "xs" : 12,
             "sm" : 10,
-            "md" : 10,
-            "lg" : 10
+            "md" : 7,
+            "lg" : 7
           },
           "propertyValues" : {
             "cssClasses" : {
@@ -368,6 +368,79 @@
             "reference" : "e026035f-e43c-4360-aedf-bcff878e8cf6",
             "id" : "pbText"
           } ] ]
+        }, {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12,
+            "lg" : 3,
+            "md" : 3,
+            "sm" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "disabled" : {
+              "type" : "expression",
+              "value" : "!isTechnicalUser"
+            },
+            "label" : {
+              "type" : "interpolation",
+              "value" : "{{status.btnLabel.toUpperCase()}}"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "center"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "primary"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "PUT"
+            },
+            "url" : {
+              "type" : "interpolation",
+              "value" : "../API/system/tenant/1"
+            },
+            "dataToSend" : {
+              "type" : "expression",
+              "value" : "expressions.checkBeforeSubmit()"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : "response.success"
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation",
+              "value" : ""
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            }
+          },
+          "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
+          "id" : "pbButton"
         } ] ]
       } ] ]
     } ], [ {
@@ -491,79 +564,6 @@
         "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
         "id" : "pbText"
       } ] ]
-    } ], [ {
-      "type" : "component",
-      "dimension" : {
-        "xs" : 12,
-        "lg" : 12,
-        "md" : 12,
-        "sm" : 12
-      },
-      "propertyValues" : {
-        "cssClasses" : {
-          "type" : "constant",
-          "value" : ""
-        },
-        "hidden" : {
-          "type" : "constant",
-          "value" : false
-        },
-        "disabled" : {
-          "type" : "expression",
-          "value" : "!isTechnicalUser"
-        },
-        "label" : {
-          "type" : "interpolation",
-          "value" : "{{status.btnLabel}}"
-        },
-        "alignment" : {
-          "type" : "constant",
-          "value" : "center"
-        },
-        "buttonStyle" : {
-          "type" : "constant",
-          "value" : "primary"
-        },
-        "action" : {
-          "type" : "constant",
-          "value" : "PUT"
-        },
-        "url" : {
-          "type" : "interpolation",
-          "value" : "../API/system/tenant/1"
-        },
-        "dataToSend" : {
-          "type" : "expression",
-          "value" : "expressions.checkBeforeSubmit()"
-        },
-        "dataFromSuccess" : {
-          "type" : "variable",
-          "value" : "response.success"
-        },
-        "dataFromError" : {
-          "type" : "variable",
-          "value" : ""
-        },
-        "targetUrlOnSuccess" : {
-          "type" : "interpolation",
-          "value" : ""
-        },
-        "collectionToModify" : {
-          "type" : "variable"
-        },
-        "collectionPosition" : {
-          "type" : "constant",
-          "value" : "Last"
-        },
-        "valueToAdd" : {
-          "type" : "constant"
-        },
-        "removeItem" : {
-          "type" : "variable"
-        }
-      },
-      "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
-      "id" : "pbButton"
     } ] ]
   }, {
     "type" : "container",
@@ -635,7 +635,7 @@
     },
     "status" : {
       "type" : "expression",
-      "value" : "if($data.isPaused){\n    return {state: \"Paused\", btnLabel:\"Resume\", img: \"paused.jpg\"};\n}\nreturn {state: \"Running\", btnLabel:\"Pause\", img: \"running.jpg\"};",
+      "value" : "if($data.isPaused){\n    return {state: \"Paused\", btnLabel:uiTranslate(\"Resume\"), img: \"paused.jpg\"};\n}\nreturn {state: \"Running\", btnLabel:uiTranslate(\"Pause\"), img: \"running.jpg\"};",
       "exposed" : false
     },
     "sendDataOnClick" : {

@@ -31,7 +31,7 @@ describe('page-tenant-status', () => {
       cy.wait(['@tenantRunning', '@technicalUser']);
 
 
-      cy.get('.ng-binding').should('have.text','Pause');
+      cy.get('.ng-binding').should('have.text','PAUSE');
       cy.get('.img-responsive').should('have.attr','src','assets/img/running.jpg');
     });
 
@@ -39,7 +39,7 @@ describe('page-tenant-status', () => {
       cy.route('GET', 'build/dist/API/system/tenant/*', 'fixture:tenantPaused').as('tenantPaused');
       cy.wait(['@tenantPaused', '@technicalUser']);
 
-      cy.get('.ng-binding').should('have.text','Resume');
+      cy.get('.ng-binding').should('have.text','RESUME');
       cy.get('.img-responsive').should('have.attr','src','assets/img/paused.jpg');
     });
   });
