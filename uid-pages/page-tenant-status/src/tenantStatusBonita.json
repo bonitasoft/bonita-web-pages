@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "tenantStatusBonita",
   "name" : "tenantStatusBonita",
-  "lastUpdate" : 1540289023271,
+  "lastUpdate" : 1540979435926,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -372,9 +372,9 @@
           "type" : "component",
           "dimension" : {
             "xs" : 12,
-            "lg" : 3,
+            "sm" : 12,
             "md" : 3,
-            "sm" : 12
+            "lg" : 3
           },
           "propertyValues" : {
             "cssClasses" : {
@@ -386,8 +386,8 @@
               "value" : false
             },
             "disabled" : {
-              "type" : "expression",
-              "value" : "!isTechnicalUser"
+              "type" : "constant",
+              "value" : false
             },
             "label" : {
               "type" : "interpolation",
@@ -403,30 +403,35 @@
             },
             "action" : {
               "type" : "constant",
-              "value" : "PUT"
+              "value" : "Open modal"
             },
             "url" : {
-              "type" : "interpolation",
-              "value" : "../API/system/tenant/1"
+              "type" : "interpolation"
             },
             "dataToSend" : {
-              "type" : "expression",
-              "value" : "expressions.checkBeforeSubmit()"
+              "type" : "constant"
             },
             "dataFromSuccess" : {
               "type" : "variable",
-              "value" : "response.success"
+              "value" : ""
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : false
             },
             "dataFromError" : {
               "type" : "variable",
               "value" : ""
             },
             "targetUrlOnSuccess" : {
-              "type" : "interpolation",
-              "value" : ""
+              "type" : "interpolation"
             },
             "collectionToModify" : {
               "type" : "variable"
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : "confirmStateChange"
             },
             "collectionPosition" : {
               "type" : "constant",
@@ -439,7 +444,7 @@
               "type" : "variable"
             }
           },
-          "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
+          "reference" : "77bdddde-8fd3-443e-8ba7-b19716c9deec",
           "id" : "pbButton"
         } ] ]
       } ] ]
@@ -900,84 +905,6 @@
           } ] ]
         } ] ]
       }
-    } ], [ {
-      "type" : "component",
-      "dimension" : {
-        "xs" : 12,
-        "sm" : 12,
-        "md" : 12,
-        "lg" : 6
-      },
-      "propertyValues" : {
-        "cssClasses" : {
-          "type" : "constant",
-          "value" : ""
-        },
-        "hidden" : {
-          "type" : "constant",
-          "value" : false
-        },
-        "disabled" : {
-          "type" : "constant",
-          "value" : false
-        },
-        "label" : {
-          "type" : "interpolation",
-          "value" : "{{status.btnLabel}}"
-        },
-        "alignment" : {
-          "type" : "constant",
-          "value" : "center"
-        },
-        "buttonStyle" : {
-          "type" : "constant",
-          "value" : "primary"
-        },
-        "action" : {
-          "type" : "constant",
-          "value" : "Open modal"
-        },
-        "url" : {
-          "type" : "interpolation"
-        },
-        "dataToSend" : {
-          "type" : "constant"
-        },
-        "dataFromSuccess" : {
-          "type" : "variable",
-          "value" : ""
-        },
-        "closeOnSuccess" : {
-          "type" : "constant",
-          "value" : false
-        },
-        "dataFromError" : {
-          "type" : "variable",
-          "value" : ""
-        },
-        "targetUrlOnSuccess" : {
-          "type" : "interpolation"
-        },
-        "collectionToModify" : {
-          "type" : "variable"
-        },
-        "modalId" : {
-          "type" : "constant",
-          "value" : "confirmStateChange"
-        },
-        "collectionPosition" : {
-          "type" : "constant",
-          "value" : "Last"
-        },
-        "valueToAdd" : {
-          "type" : "constant"
-        },
-        "removeItem" : {
-          "type" : "variable"
-        }
-      },
-      "reference" : "77bdddde-8fd3-443e-8ba7-b19716c9deec",
-      "id" : "pbButton"
     } ] ]
   }, {
     "type" : "container",
@@ -1078,12 +1005,12 @@
     },
     "titleTenant" : {
       "type" : "expression",
-      "value" : "return $data.isPaused \n        ? \"Confirm services resumption?\" \n        : \"Confirm services pause?\";",
+      "value" : "return $data.isPaused \r\n        ? uiTranslate(\"Are your sure you want to activate the services?\") \r\n        : uiTranslate(\"Are your sure you want to deactivate the services?\");",
       "exposed" : false
     },
     "messageTenant" : {
       "type" : "expression",
-      "value" : "return $data.isPaused \n        ? \"Services will resume. Users will be able to log in.\" \n        : \"Services will be paused for maintenance.\";",
+      "value" : "return $data.isPaused \r\n        ? uiTranslate(\"Services will resume. Users will be able to log in.\") \r\n        : uiTranslate(\"Services will be paused for maintenance.\");",
       "exposed" : false
     }
   },
