@@ -6,7 +6,8 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 ansiColor('xterm') {
     node('web-pages') {
         def currentBranch = env.BRANCH_NAME
-        def isBaseBranch = currentBranch == 'master'
+        def basesBranches = ['master','dev']
+        def isBaseBranch = basesBranches.contains(currentBranch)
 
         slackStage('🌍 Setup', isBaseBranch) {
             // all this just to fetch tags since default behaviour has changed in jenkins
