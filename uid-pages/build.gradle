@@ -51,9 +51,7 @@ subprojects { subProject ->
         runIntegrationTests.dependsOn subProjectRunTest
     }
 
-    apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
-    publish.dependsOn buildUIDPage
     publishToMavenLocal.dependsOn buildUIDPage
 
     publishing {
@@ -62,10 +60,5 @@ subprojects { subProject ->
                 artifact file("${project.buildDir}/${project.name}-${project.version}.zip")
             }
         }
-    }
-
-    deployPage.dependsOn buildUIDPage
-    bonitaArtifacts {
-        page  =  file("${subProject.buildDir}/${subProject.name}-${project.version}.zip")
     }
 }
