@@ -1,11 +1,7 @@
 apply plugin: BonitaPagePlugin
 
-bonitaPage {
-    frontendBuildDir = 'build'
-}
+bonitaPage { frontendBuildDir = 'build' }
 
 // Workaround to manage React-CLI non conventional build directory
 project.buildDir = 'build-gradle'
-project.tasks.buildPage.configure {
-    inputs.dir('public')
-}
+project.tasks.buildPage.configure { inputs.dir('public') }

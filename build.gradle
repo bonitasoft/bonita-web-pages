@@ -1,16 +1,13 @@
 plugins {
-    id 'com.bonitasoft.gradle.bonita-release' version '0.1.34'
-    id 'com.bonitasoft.deployer.bonita-resources-deployer' version '0.1.28'
+    id 'com.bonitasoft.gradle.bonita-release' version '0.1.37'
 }
 
 apply plugin: 'com.bonitasoft.gradle.bonita-uid'
 UIDesigner {
-    minVersion "1.8.28"
-    isCommunity true
+    version "1.8.28"
 }
 
 allprojects {
-    apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
     apply plugin: 'distribution'
     apply plugin: 'maven-publish'
 
@@ -35,13 +32,10 @@ allprojects {
             }
         }
     }
-
-    bonitaConfiguration { targetUrl = "http://localhost:8080/bonita/" }
 }
 
 configure(subprojects.findAll { it.name.contains('page-process-list') || it.name.contains('page-user-list') }) {
     apply plugin: BonitaPagePlugin
-    apply plugin: 'com.bonitasoft.deployer.bonita-resources-deployer'
 
     bonitaPage {
         nodeVersion = '8.9.4'
@@ -53,10 +47,5 @@ configure(subprojects.findAll { it.name.contains('page-process-list') || it.name
         publications {
             distributionZip(MavenPublication) { artifact distZip }
         }
-    }
-
-    deployPage.dependsOn build
-    bonitaArtifacts {
-        page  =  distZip
     }
 }
