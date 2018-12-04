@@ -1,6 +1,4 @@
-plugins {
-    id 'com.moowork.node'
-}
+plugins { id 'com.moowork.node' }
 
 project.beforeEvaluate {
     project.node {
@@ -56,9 +54,7 @@ subprojects { subProject ->
 
     publishing {
         publications {
-            create('zip', MavenPublication) {
-                artifact file("${project.buildDir}/${project.name}-${project.version}.zip")
-            }
+            create('zip', MavenPublication) { artifact file("${project.buildDir}/${project.name}-${project.version}.zip") }
         }
     }
 }
