@@ -2,7 +2,7 @@
   "designerVersion" : "1.7.61",
   "id" : "importExportOrganization",
   "name" : "importExportOrganization",
-  "lastUpdate" : 1543938220458,
+  "lastUpdate" : 1544029542700,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -94,7 +94,7 @@
       "propertyValues" : {
         "cssClasses" : {
           "type" : "constant",
-          "value" : ""
+          "value" : "panel panel-default"
         },
         "hidden" : {
           "type" : "constant",
@@ -105,7 +105,7 @@
           "value" : ""
         }
       },
-      "reference" : "724ecc45-5136-4b58-ae79-fe5ec6ecca27",
+      "reference" : "83125ad3-50c6-4b2d-84e5-c5c05e714502",
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "container",
@@ -118,7 +118,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "panel panel-default"
+            "value" : "panel-body"
           },
           "hidden" : {
             "type" : "constant",
@@ -129,10 +129,10 @@
             "value" : ""
           }
         },
-        "reference" : "a5c6143e-8ab1-4096-b271-78bcd1113e45",
+        "reference" : "7d2c1a46-3d24-48fd-9d92-d8bf186e9c55",
         "id" : "pbContainer",
         "rows" : [ [ {
-          "type" : "container",
+          "type" : "component",
           "dimension" : {
             "xs" : 12,
             "sm" : 12,
@@ -142,221 +142,284 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "panel-body"
+              "value" : ""
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "repeatedCollection" : {
-              "type" : "variable",
-              "value" : ""
+            "text" : {
+              "type" : "interpolation",
+              "value" : "{{'Install organization' | translate}}"
+            },
+            "level" : {
+              "type" : "constant",
+              "value" : "Level 4"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
             }
           },
-          "reference" : "9e378b69-dc3e-437a-8b3f-c5f078bff546",
-          "id" : "pbContainer",
-          "rows" : [ [ {
-            "type" : "component",
+          "reference" : "be0e8fbb-81e0-49c3-b298-0abf1b16c9de",
+          "id" : "pbTitle"
+        } ], [ {
+          "type" : "formContainer",
+          "dimension" : {
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            }
+          },
+          "reference" : "5d65d108-2387-4429-81c7-6f3ba8683f8c",
+          "id" : "pbFormContainer",
+          "container" : {
+            "type" : "container",
             "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 12,
-              "lg" : 12
+              "xs" : 12
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
+            "propertyValues" : { },
+            "reference" : "e53372fd-30e9-49a1-b495-ce4faf5f3da5",
+            "id" : "pbContainer",
+            "rows" : [ [ {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 10,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
               },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "{{'Click here to choose your .xml file' | translate}}"
+                },
+                "url" : {
+                  "type" : "constant",
+                  "value" : "../API/formFileUpload"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "filePath"
+                },
+                "errorContent" : {
+                  "type" : "variable",
+                  "value" : "uploadError"
+                }
               },
-              "text" : {
-                "type" : "interpolation",
-                "value" : "{{'Install organization' | translate}}"
+              "reference" : "dd4ab639-e20c-43d0-941b-7829a6918d14",
+              "id" : "pbUpload"
+            } ], [ {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
               },
-              "level" : {
-                "type" : "constant",
-                "value" : "Level 4"
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'Data from the new organization will be merged with existing data.' | translate}}\n<br/>\n{{'In case of conflict, priority is given to the new data.' | translate }}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
               },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "left"
-              }
+              "reference" : "d626f762-afb4-4ae3-8e9d-94c6df5116c7",
+              "id" : "pbText"
+            } ], [ {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "!installError"
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'Upload error.' | translate}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "f8916b1c-e645-4d0b-9fdc-666621c94dbe",
+              "id" : "pbText"
+            } ] ]
+          }
+        } ], [ {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
             },
-            "reference" : "be0e8fbb-81e0-49c3-b298-0abf1b16c9de",
-            "id" : "pbTitle"
-          } ], [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 12,
-              "lg" : 12
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "allowHTML" : {
-                "type" : "constant",
-                "value" : true
-              },
-              "text" : {
-                "type" : "interpolation",
-                "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'Data from the new organization will be merged with existing data.' | translate}}\n<br/>\n{{'In case of conflict, priority is given to the new data.' | translate }}"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "left"
-              }
+            "disabled" : {
+              "type" : "expression",
+              "value" : "!filePath || !filePath.tempPath"
             },
-            "reference" : "d626f762-afb4-4ae3-8e9d-94c6df5116c7",
-            "id" : "pbText"
-          } ], [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 10,
-              "sm" : 10,
-              "md" : 10,
-              "lg" : 10
+            "label" : {
+              "type" : "interpolation",
+              "value" : "{{'Install' | translate}}"
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "required" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "labelHidden" : {
-                "type" : "constant",
-                "value" : true
-              },
-              "label" : {
-                "type" : "interpolation",
-                "value" : "Default label"
-              },
-              "labelPosition" : {
-                "type" : "constant",
-                "value" : "top"
-              },
-              "labelWidth" : {
-                "type" : "constant",
-                "value" : 4
-              },
-              "placeholder" : {
-                "type" : "interpolation"
-              },
-              "url" : {
-                "type" : "constant",
-                "value" : "../API/formFileUpload"
-              },
-              "value" : {
-                "type" : "variable",
-                "value" : "filePath"
-              },
-              "errorContent" : {
-                "type" : "variable",
-                "value" : "uploadError"
-              }
+            "alignment" : {
+              "type" : "constant",
+              "value" : "right"
             },
-            "reference" : "dd4ab639-e20c-43d0-941b-7829a6918d14",
-            "id" : "pbUpload"
-          }, {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 2,
-              "sm" : 2,
-              "md" : 2,
-              "lg" : 2
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "primary"
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "disabled" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "label" : {
-                "type" : "interpolation",
-                "value" : "{{'Install' | translate}}"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "right"
-              },
-              "buttonStyle" : {
-                "type" : "constant",
-                "value" : "primary"
-              },
-              "action" : {
-                "type" : "constant",
-                "value" : "POST"
-              },
-              "url" : {
-                "type" : "interpolation",
-                "value" : "/services/organization/import"
-              },
-              "dataToSend" : {
-                "type" : "expression",
-                "value" : "organizationDataUpload"
-              },
-              "dataFromSuccess" : {
-                "type" : "variable",
-                "value" : ""
-              },
-              "closeOnSuccess" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "dataFromError" : {
-                "type" : "variable",
-                "value" : ""
-              },
-              "targetUrlOnSuccess" : {
-                "type" : "interpolation"
-              },
-              "collectionToModify" : {
-                "type" : "variable"
-              },
-              "modalId" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "collectionPosition" : {
-                "type" : "constant",
-                "value" : "Last"
-              },
-              "valueToAdd" : {
-                "type" : "constant"
-              },
-              "removeItem" : {
-                "type" : "variable"
-              }
+            "action" : {
+              "type" : "constant",
+              "value" : "POST"
             },
-            "reference" : "2e782ff4-16a6-459c-8dd0-07194f7a0a87",
-            "id" : "pbButton"
-          } ] ]
+            "url" : {
+              "type" : "interpolation",
+              "value" : "../API/services/organization/import"
+            },
+            "dataToSend" : {
+              "type" : "expression",
+              "value" : "organizationDataUpload"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : "installError"
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation"
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            }
+          },
+          "reference" : "2e782ff4-16a6-459c-8dd0-07194f7a0a87",
+          "id" : "pbButton"
         } ] ]
-      } ], [ {
+      } ] ]
+    } ], [ {
+      "type" : "container",
+      "dimension" : {
+        "xs" : 12,
+        "sm" : 12,
+        "md" : 12,
+        "lg" : 12
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : "panel panel-default"
+        },
+        "hidden" : {
+          "type" : "constant",
+          "value" : false
+        },
+        "repeatedCollection" : {
+          "type" : "variable",
+          "value" : ""
+        }
+      },
+      "reference" : "92a711c5-9869-4f56-935d-a52519268322",
+      "id" : "pbContainer",
+      "rows" : [ [ {
         "type" : "container",
         "dimension" : {
           "xs" : 12,
@@ -367,7 +430,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "panel panel-default"
+            "value" : "panel-body"
           },
           "hidden" : {
             "type" : "constant",
@@ -378,130 +441,105 @@
             "value" : ""
           }
         },
-        "reference" : "92a711c5-9869-4f56-935d-a52519268322",
+        "reference" : "8e24f09d-235e-4e28-a168-e8e8af67a9c3",
         "id" : "pbContainer",
         "rows" : [ [ {
-          "type" : "container",
+          "type" : "component",
           "dimension" : {
             "xs" : 12,
-            "sm" : 12,
-            "md" : 12,
-            "lg" : 12
+            "sm" : 10,
+            "md" : 10,
+            "lg" : 10
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "panel-body"
+              "value" : ""
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "repeatedCollection" : {
-              "type" : "variable",
-              "value" : ""
+            "text" : {
+              "type" : "interpolation",
+              "value" : "{{'Export the installed organization' | translate}}"
+            },
+            "level" : {
+              "type" : "constant",
+              "value" : "Level 4"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
             }
           },
-          "reference" : "8e24f09d-235e-4e28-a168-e8e8af67a9c3",
-          "id" : "pbContainer",
-          "rows" : [ [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 10,
-              "md" : 10,
-              "lg" : 10
+          "reference" : "ee29d3e1-67cf-4754-acde-961ed508312c",
+          "id" : "pbTitle"
+        }, {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 12,
+            "sm" : 12,
+            "md" : 2,
+            "lg" : 2
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : ""
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "text" : {
-                "type" : "interpolation",
-                "value" : "{{'Export the installed organization' | translate}}"
-              },
-              "level" : {
-                "type" : "constant",
-                "value" : "Level 4"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "left"
-              }
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
             },
-            "reference" : "ee29d3e1-67cf-4754-acde-961ed508312c",
-            "id" : "pbTitle"
-          }, {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 2,
-              "lg" : 2
+            "text" : {
+              "type" : "interpolation",
+              "value" : "{{'Export' | translate}}"
             },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "text" : {
-                "type" : "interpolation",
-                "value" : "{{'Export' | translate}}"
-              },
-              "type" : {
-                "type" : "constant",
-                "value" : "URL"
-              },
-              "targetUrl" : {
-                "type" : "constant",
-                "value" : "/portal/exportOrganization"
-              },
-              "pageToken" : {
-                "type" : "constant"
-              },
-              "processName" : {
-                "type" : "constant"
-              },
-              "processVersion" : {
-                "type" : "constant"
-              },
-              "taskId" : {
-                "type" : "constant"
-              },
-              "caseId" : {
-                "type" : "constant"
-              },
-              "target" : {
-                "type" : "constant",
-                "value" : "_blank"
-              },
-              "appToken" : {
-                "type" : "constant"
-              },
-              "urlParams" : {
-                "type" : "constant"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "right"
-              },
-              "buttonStyle" : {
-                "type" : "constant",
-                "value" : "primary"
-              }
+            "type" : {
+              "type" : "constant",
+              "value" : "URL"
             },
-            "reference" : "c29646af-a18e-4e8a-a289-6d1ebbfaaa58",
-            "id" : "pbLink"
-          } ] ]
+            "targetUrl" : {
+              "type" : "constant",
+              "value" : "../API/exportOrganization"
+            },
+            "pageToken" : {
+              "type" : "constant"
+            },
+            "processName" : {
+              "type" : "constant"
+            },
+            "processVersion" : {
+              "type" : "constant"
+            },
+            "taskId" : {
+              "type" : "constant"
+            },
+            "caseId" : {
+              "type" : "constant"
+            },
+            "target" : {
+              "type" : "constant",
+              "value" : "_blank"
+            },
+            "appToken" : {
+              "type" : "constant"
+            },
+            "urlParams" : {
+              "type" : "constant"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "right"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "primary"
+            }
+          },
+          "reference" : "c29646af-a18e-4e8a-a289-6d1ebbfaaa58",
+          "id" : "pbLink"
         } ] ]
       } ] ]
     } ] ]
@@ -562,7 +600,11 @@
     },
     "organizationDataUpload" : {
       "type" : "expression",
-      "value" : "return {organizationDataUpload: $data.filePath};",
+      "value" : "return {organizationDataUpload: $data.filePath.tempPath};",
+      "exposed" : false
+    },
+    "installError" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
