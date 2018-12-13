@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import { apiClient } from '../common';
+import { apiClient, Pagination, Order } from '../common';
 
 export class UserAPI {
   constructor(client) {
@@ -21,9 +21,13 @@ export class UserAPI {
     // this.client.register({ responseError: sessionTimeoutInterceptor });
   }
 
-  async getUsers() {
-    const response = await this.client.get(`../API/identity/user?p=0&c=9999`);
-    return response.json();
+  async getUsers(pagination, order) {
+    const orderCompleted = Order.from(order.sortBy, order.sortDesc);
+    const response = await this.client.get(`../API/identity/user?p=${pagination.page}&c=${pagination.size}&o=${orderCompleted.sortBy}%20${orderCompleted.sortOrder}`);
+    return {
+      data: await response.json(),
+      pagination: Pagination.from(response.headers.get('content-range'))
+    }
   }
 }
 

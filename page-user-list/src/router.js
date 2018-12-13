@@ -13,19 +13,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-//IE fetch compatibility
-import 'whatwg-fetch'
-import App from './App.vue';
-import router from './router';
+import Router from 'vue-router';
+import List from './views/List.vue';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+Vue.use(Router);
 
-Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
-
-new Vue({
-  router: router,
-  render: h => h(App)
-}).$mount('#app');
+export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: '/users',
+      name: 'User list',
+      component: List,
+      props: (route) => ({
+        page: route.query.page,
+        items: route.query.items,
+        sortBy: route.query.sortBy,
+        sortOrder: route.query.sortOrder
+      })
+    },
+    {
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    }
+  ]
+});

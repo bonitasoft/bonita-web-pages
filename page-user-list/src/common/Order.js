@@ -12,20 +12,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-//IE fetch compatibility
-import 'whatwg-fetch'
-import App from './App.vue';
-import router from './router';
+export default class Order {
+  constructor(sortBy, sortOrder) {
+    this.sortBy = sortBy;
+    this.sortOrder = sortOrder;
+    this.sortDesc = (sortOrder === 'DESC');
+  }
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
-Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
-
-new Vue({
-  router: router,
-  render: h => h(App)
-}).$mount('#app');
+  static from(sortBy, sortDesc) {
+    return new Order(sortBy, sortDesc ? 'DESC' : 'ASC');
+  }
+}

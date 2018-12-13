@@ -14,9 +14,9 @@
  */
 export default class Pagination {
   constructor(page, size, total) {
-    this.page = page;
-    this.size = size; // = bonita `c` parameter (count)
-    this.total = total;
+    this.page = parseInt(page, 10);
+    this.size = parseInt(size, 10); // = bonita `c` parameter (count)
+    this.total = parseInt(total, 10);
   }
 
   static from(contentRange) {
@@ -25,9 +25,9 @@ export default class Pagination {
       return {};
     }
     return new Pagination(
-      parseInt(match[1]),
-      parseInt(match[2]),
-      parseInt(match[3])
+      parseInt(match[1], 10),
+      parseInt(match[2], 10),
+      parseInt(match[3], 10)
     );
   }
 }
