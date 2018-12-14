@@ -1,30 +1,36 @@
+import attachFiles from "cypress-form-data-with-file-upload";
+
 const url = 'build/dist/resources/index.html';
-
-/*then(`I\'m user with {string} bos_local`, (text) => {
-  cy.setCookie('BOS_Locale', text);
+given('No file is selected', () => {
+    cy.get('.form-control').should('have.attr','placeholder','Click here to choose your .xml file');
 });
 
-when('I open tenant-status page', () => {
-  cy.visit(url);
+when(`I\'m user with {string} bos_local`, (text) => {
+    cy.setCookie('BOS_Locale', text);
 });
 
-given('Server tenant is running', () => {
-  cy.server();
-  cy.route('GET', 'build/dist/API/system/tenant/*', 'fixture:tenantRunning').as('tenant');
+when('I open the import-export organization page', () => {
+    cy.server();
+    cy.visit(url);
 });
 
-given('Server tenant is paused', () => {
-  cy.server();
-  cy.route('GET', 'build/dist/API/system/tenant/*', 'fixture:tenantPaused').as('tenant');
+then('I can download the file', () => {
+    cy.get('pb-link > .text-right > .ng-binding').should('have.attr', 'href', '../API/exportOrganization');
+    cy.get('pb-link > .text-right > .ng-binding').should('have.attr', 'target', '_blank');
 });
 
-given('I\'m logged as technical user', () => {
-  cy.server();
-  cy.route('GET', 'build/dist/API/system/session/unusedId', 'fixture:technicalUser').as('session');
+then('I see the "Incorrect extension" message', () => {
+    cy.get('.form-control').should('have.attr','placeholder','Incorrect extension');
 });
 
-then(`I see {string} button`, (text) => {
-  cy.wait(['@tenant', '@session']);
-  cy.get('.ng-binding').should('have.text', text);
-});*/
+then('I see {string} label on the install button', (text) => {
+    cy.get('pb-button > .text-right > .ng-binding').should('have.text', text);
+});
 
+then('I see {string} label on the export button', (text) => {
+    cy.get('pb-link > .text-right > .ng-binding').should('have.text', text);
+});
+
+then('I see the "Install" button being disabled', () => {
+    cy.get('pb-button > .text-right > .ng-binding').should('be.disabled');
+});
