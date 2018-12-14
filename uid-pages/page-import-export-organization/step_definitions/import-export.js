@@ -1,6 +1,5 @@
-import attachFiles from "cypress-form-data-with-file-upload";
-
 const url = 'build/dist/resources/index.html';
+
 given('No file is selected', () => {
     cy.get('.form-control').should('have.attr','placeholder','Click here to choose your .xml file');
 });
