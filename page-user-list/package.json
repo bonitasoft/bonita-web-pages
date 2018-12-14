@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build:only": "vue-cli-service build",
+    "build": "npm-run-all lint:check test build:only",
     "lint:fix": "vue-cli-service lint",
     "lint:check": "vue-cli-service lint --no-fix",
     "test:e2e": "vue-cli-service test:e2e",
