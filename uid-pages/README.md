@@ -7,11 +7,11 @@
 
 it produces the artifact in the build directory under the name projectname-version.zip
 
-## Development
+## Development (From the project root)
 
 You can start a dev environment using
 
-``gradle runUID``
+``gradle runUID`` (From the project root directory)
 
 project property can specify where bonita is located and the credentials to log in with.
 
