@@ -1,4 +1,29 @@
-> Test artifact create by UI-Designer = ❤
+
+# Gradle tasks for UI designer artifacts
+
+## Build the artifact
+
+``gradle buildUIDPage`` or ``gradle buildUIDWidget`` or ``gradle buildUIDFragment``
+
+it produces the artifact in the build directory under the name projectname-version.zip
+
+## Development
+
+You can start a dev environment using
+
+``gradle runUID``
+
+project property can specify where bonita is located and the credentials to log in with.
+
+``gradle runUID -PbonitaUrl=http://localhost:8080 -PbonitaUser=walter.bates -PbonitaPassword=bpm``
+
+## Page migration
+
+Migrate a page in the specified uid version using
+
+``gradle migrateUIDPage``
+
+## Tests
 
 Testing an uid-page is based on [Cypress Test Runner](https://docs.cypress.io/guides/overview/why-cypress.html#)
 
