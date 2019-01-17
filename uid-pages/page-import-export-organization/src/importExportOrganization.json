@@ -1,8 +1,9 @@
 {
-  "designerVersion" : "1.7.61",
+  "designerVersion" : "1.8.29",
+  "previousDesignerVersion" : "1.7.61",
   "id" : "importExportOrganization",
   "name" : "importExportOrganization",
-  "lastUpdate" : 1544795303849,
+  "lastUpdate" : 1547714424314,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -26,6 +27,7 @@
       }
     },
     "reference" : "1a0335e4-ed29-4b57-9089-0acbef17932b",
+    "hasValidationError" : false,
     "id" : "pbContainer",
     "rows" : [ [ ] ]
   }, {
@@ -51,6 +53,7 @@
       }
     },
     "reference" : "2ee379a1-0571-43dc-8873-d0780f3d4e70",
+    "hasValidationError" : false,
     "id" : "pbContainer",
     "rows" : [ [ {
       "type" : "component",
@@ -82,6 +85,7 @@
         }
       },
       "reference" : "92bdb27f-7f75-478f-951e-72afb62b9a3d",
+      "hasValidationError" : false,
       "id" : "pbTitle"
     } ], [ {
       "type" : "container",
@@ -106,6 +110,7 @@
         }
       },
       "reference" : "83125ad3-50c6-4b2d-84e5-c5c05e714502",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "container",
@@ -130,6 +135,7 @@
           }
         },
         "reference" : "7d2c1a46-3d24-48fd-9d92-d8bf186e9c55",
+        "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [ [ {
           "type" : "component",
@@ -162,6 +168,7 @@
             }
           },
           "reference" : "be0e8fbb-81e0-49c3-b298-0abf1b16c9de",
+          "hasValidationError" : false,
           "id" : "pbTitle"
         } ], [ {
           "type" : "formContainer",
@@ -182,6 +189,7 @@
             }
           },
           "reference" : "5d65d108-2387-4429-81c7-6f3ba8683f8c",
+          "hasValidationError" : false,
           "id" : "pbFormContainer",
           "container" : {
             "type" : "container",
@@ -190,6 +198,7 @@
             },
             "propertyValues" : { },
             "reference" : "e53372fd-30e9-49a1-b495-ce4faf5f3da5",
+            "hasValidationError" : false,
             "id" : "pbContainer",
             "rows" : [ [ {
               "type" : "component",
@@ -242,10 +251,11 @@
                 },
                 "errorContent" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "uploadError"
                 }
               },
               "reference" : "dd4ab639-e20c-43d0-941b-7829a6918d14",
+              "hasValidationError" : false,
               "id" : "pbUpload"
             } ], [ {
               "type" : "component",
@@ -278,6 +288,7 @@
                 }
               },
               "reference" : "d626f762-afb4-4ae3-8e9d-94c6df5116c7",
+              "hasValidationError" : false,
               "id" : "pbText"
             } ], [ {
               "type" : "component",
@@ -294,7 +305,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!installError || installSuccess"
+                  "value" : "statusCodeInstall !== 500"
                 },
                 "allowHTML" : {
                   "type" : "constant",
@@ -302,7 +313,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Install error.' | translate}} {{installError.message | translate}}"
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An internal error has happened.' | translate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -310,6 +321,7 @@
                 }
               },
               "reference" : "4ad790ca-3280-4af8-92a1-d15ba045bbde",
+              "hasValidationError" : false,
               "id" : "pbText"
             } ], [ {
               "type" : "component",
@@ -326,7 +338,40 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!installSuccess || installError"
+                  "value" : "statusCodeInstall !== 403"
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'You don't have the rights to install the organisation.' | translate}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "d1f67461-b49b-48d0-b4e5-83bce05b94d7",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            } ], [ {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "statusCodeInstall !== 200"
                 },
                 "allowHTML" : {
                   "type" : "constant",
@@ -342,6 +387,7 @@
                 }
               },
               "reference" : "0a1e0e8d-575f-4da8-b6c1-4176ce4a70e4",
+              "hasValidationError" : false,
               "id" : "pbText"
             } ] ]
           }
@@ -421,9 +467,14 @@
             },
             "removeItem" : {
               "type" : "variable"
+            },
+            "responseStatusCode" : {
+              "type" : "variable",
+              "value" : "statusCodeInstall"
             }
           },
           "reference" : "2e782ff4-16a6-459c-8dd0-07194f7a0a87",
+          "hasValidationError" : false,
           "id" : "pbButton"
         } ] ]
       } ] ]
@@ -450,6 +501,7 @@
         }
       },
       "reference" : "92a711c5-9869-4f56-935d-a52519268322",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "container",
@@ -474,6 +526,7 @@
           }
         },
         "reference" : "8e24f09d-235e-4e28-a168-e8e8af67a9c3",
+        "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [ [ {
           "type" : "component",
@@ -506,6 +559,7 @@
             }
           },
           "reference" : "ee29d3e1-67cf-4754-acde-961ed508312c",
+          "hasValidationError" : false,
           "id" : "pbTitle"
         }, {
           "type" : "component",
@@ -571,6 +625,7 @@
             }
           },
           "reference" : "c29646af-a18e-4e8a-a289-6d1ebbfaaa58",
+          "hasValidationError" : false,
           "id" : "pbLink"
         } ] ]
       } ] ]
@@ -598,8 +653,42 @@
       }
     },
     "reference" : "ba5a4978-555b-4a41-88e4-5a868df47833",
+    "hasValidationError" : false,
     "id" : "pbContainer",
     "rows" : [ [ ] ]
+  } ], [ {
+    "type" : "component",
+    "dimension" : {
+      "xs" : 12,
+      "sm" : 12,
+      "md" : 12,
+      "lg" : 12
+    },
+    "propertyValues" : {
+      "cssClasses" : {
+        "type" : "constant",
+        "value" : ""
+      },
+      "hidden" : {
+        "type" : "constant",
+        "value" : false
+      },
+      "allowHTML" : {
+        "type" : "constant",
+        "value" : true
+      },
+      "text" : {
+        "type" : "interpolation",
+        "value" : "installSuccess : {{installSuccess}}\ninstallError : {{installError}}\nstatusCodeInstall : {{statusCodeInstall}}"
+      },
+      "alignment" : {
+        "type" : "constant",
+        "value" : "left"
+      }
+    },
+    "reference" : "7aebe9a0-ba55-4cc6-b2b0-792bad8d5375",
+    "hasValidationError" : false,
+    "id" : "pbText"
   } ] ],
   "assets" : [ {
     "id" : "9c263032-7532-41a0-9c1b-65bf6bc78a49",
@@ -639,8 +728,13 @@
       "type" : "constant",
       "value" : "",
       "exposed" : false
+    },
+    "statusCodeInstall" : {
+      "type" : "constant",
+      "exposed" : false
     }
   },
+  "hasValidationError" : false,
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "type" : "page",
   "description" : "Page allowing to import or export organization",
