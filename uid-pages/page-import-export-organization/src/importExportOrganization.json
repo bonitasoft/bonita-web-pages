@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.61",
   "id" : "importExportOrganization",
   "name" : "importExportOrganization",
-  "lastUpdate" : 1548671308113,
+  "lastUpdate" : 1549029753607,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -313,7 +313,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error occurred when installing the organization. Consult the logs for more information.' | translate}}"
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -321,6 +321,39 @@
                 }
               },
               "reference" : "4ad790ca-3280-4af8-92a1-d15ba045bbde",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            } ], [ {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "statusCodeInstall !== 400"
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Invalid file format. For more information, check the log file.' | translate}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "734acf96-0791-44ca-9c60-6bcc25900da0",
               "hasValidationError" : false,
               "id" : "pbText"
             } ], [ {
@@ -346,7 +379,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"You don't have the rights to install the organization.\" | translate}}"
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
