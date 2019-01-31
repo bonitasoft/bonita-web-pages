@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.61",
   "id" : "importExportOrganization",
   "name" : "importExportOrganization",
-  "lastUpdate" : 1547830966611,
+  "lastUpdate" : 1548671308113,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -313,7 +313,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An internal error has happened.' | translate}}"
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error occurred when installing the organization. Consult the logs for more information.' | translate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -346,7 +346,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"You don't have the rights to install the organisation.\" | translate}}"
+                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"You don't have the rights to install the organization.\" | translate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -438,7 +438,7 @@
             },
             "dataFromSuccess" : {
               "type" : "variable",
-              "value" : "installSuccess.value"
+              "value" : ""
             },
             "closeOnSuccess" : {
               "type" : "constant",
@@ -446,7 +446,7 @@
             },
             "dataFromError" : {
               "type" : "variable",
-              "value" : "installError"
+              "value" : ""
             },
             "targetUrlOnSuccess" : {
               "type" : "interpolation"
@@ -685,15 +685,6 @@
     "organizationDataUpload" : {
       "type" : "expression",
       "value" : "return {organizationDataUpload: $data.filePath.tempPath};",
-      "exposed" : false
-    },
-    "installError" : {
-      "type" : "constant",
-      "exposed" : false
-    },
-    "installSuccess" : {
-      "type" : "constant",
-      "value" : "",
       "exposed" : false
     },
     "statusCodeInstall" : {
