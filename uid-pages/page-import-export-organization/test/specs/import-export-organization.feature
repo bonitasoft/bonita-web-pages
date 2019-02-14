@@ -26,5 +26,5 @@ Feature: The Import-Export Organization
   Scenario: Import-export organization is running in Spanish
     Given I'm user with "es" bos_local
     When I open the import-export organization page
-    Then I see "Installar" label on the install button
+    Then I see "Instalar" label on the install button
     And I see "Exportar" label on the export button
