@@ -1,9 +1,9 @@
 {
-  "designerVersion" : "1.7.25",
-  "previousDesignerVersion" : "1.5.10",
+  "designerVersion" : "1.8.29",
+  "previousDesignerVersion" : "1.7.25",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1539335199992,
+  "lastUpdate" : 1551110434162,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -27,6 +27,7 @@
       }
     },
     "reference" : "fc41a356-8998-452a-9ba6-d0461c025697",
+    "hasValidationError" : false,
     "id" : "pbContainer",
     "rows" : [ [ {
       "type" : "component",
@@ -59,6 +60,7 @@
         }
       },
       "reference" : "e42cf1f2-ba06-44f3-85f3-2b5df2165019",
+      "hasValidationError" : false,
       "id" : "pbTitle"
     } ], [ {
       "type" : "component",
@@ -91,6 +93,7 @@
         }
       },
       "reference" : "b3296a56-0223-423c-a701-e4a120a7f51a",
+      "hasValidationError" : false,
       "id" : "pbText"
     } ], [ {
       "type" : "container",
@@ -114,6 +117,7 @@
         }
       },
       "reference" : "91aa69b7-40d4-4efe-91f1-3b0cc5905dce",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "component",
@@ -146,6 +150,7 @@
           }
         },
         "reference" : "897d91e3-4c78-4a0c-a250-d0ecdadf7d39",
+        "hasValidationError" : false,
         "id" : "pbText"
       } ] ]
     } ], [ {
@@ -171,6 +176,7 @@
         }
       },
       "reference" : "1c1c80a1-d0eb-4f30-bcfe-1098085a0040",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "component",
@@ -235,6 +241,7 @@
           }
         },
         "reference" : "3b5b7ed7-ad8a-44fc-a3c6-b4cb063c5e2d",
+        "hasValidationError" : false,
         "id" : "pbSelect"
       } ], [ {
         "type" : "component",
@@ -270,6 +277,7 @@
           }
         },
         "reference" : "2161bfa5-d310-4c9a-ba3a-d7e4f79d2be0",
+        "hasValidationError" : false,
         "id" : "pbTable"
       } ] ]
     } ], [ {
@@ -303,6 +311,7 @@
         }
       },
       "reference" : "6838fb22-a20b-43c0-ad88-60454ea26638",
+      "hasValidationError" : false,
       "id" : "pbText"
     } ], [ {
       "type" : "container",
@@ -326,6 +335,7 @@
         }
       },
       "reference" : "ed91c941-f419-4937-9563-03880a62aee4",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "component",
@@ -358,6 +368,7 @@
           }
         },
         "reference" : "e118a5fc-c787-4a72-b47f-d400791668e5",
+        "hasValidationError" : false,
         "id" : "pbText"
       } ] ]
     } ], [ {
@@ -383,6 +394,7 @@
         }
       },
       "reference" : "6f5594fa-aa76-448a-bb1b-2bb878062e70",
+      "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
         "type" : "component",
@@ -398,12 +410,12 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "$item.isInternal==='false'"
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<i class=\"glyphicon glyphicon-link\"></i> {{$item.fileName}}"
+            "value" : "<i class=\"glyphicon glyphicon-download-alt\" aria-hidden=\"true\"></i> {{$item.fileName}}"
           },
           "type" : {
             "type" : "constant",
@@ -412,6 +424,72 @@
           "targetUrl" : {
             "type" : "expression",
             "value" : "\"../API/\" + $item.url"
+          },
+          "pageToken" : {
+            "type" : "constant"
+          },
+          "processName" : {
+            "type" : "constant"
+          },
+          "processVersion" : {
+            "type" : "constant"
+          },
+          "taskId" : {
+            "type" : "constant"
+          },
+          "caseId" : {
+            "type" : "constant"
+          },
+          "target" : {
+            "type" : "constant",
+            "value" : "_blank"
+          },
+          "appToken" : {
+            "type" : "constant"
+          },
+          "urlParams" : {
+            "type" : "constant"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
+          }
+        },
+        "reference" : "5cf64da4-1997-4e0b-9697-390ea9575b40",
+        "hasValidationError" : false,
+        "id" : "pbLink"
+      } ], [ {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "$item.isInternal==='true'"
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<i class=\"glyphicon glyphicon-download-alt\"></i> {{$item.name}}"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "URL"
+          },
+          "targetUrl" : {
+            "type" : "expression",
+            "value" : "$item.url"
           },
           "pageToken" : {
             "type" : "constant"
@@ -448,6 +526,7 @@
           }
         },
         "reference" : "f8e8d2cd-73d9-44a3-a4a2-b0e9212059a2",
+        "hasValidationError" : false,
         "id" : "pbLink"
       } ] ]
     } ], [ {
@@ -481,6 +560,7 @@
         }
       },
       "reference" : "de35d1f4-89c8-4c75-84ca-40fb651481f7",
+      "hasValidationError" : false,
       "id" : "pbText"
     } ], [ {
       "type" : "component",
@@ -561,6 +641,7 @@
         }
       },
       "reference" : "a51d8918-bd2b-41a9-9526-c2b8377ec655",
+      "hasValidationError" : false,
       "id" : "timelineWidget"
     } ] ]
   } ], [ {
@@ -586,6 +667,7 @@
       }
     },
     "reference" : "b2e49c49-3849-4965-a368-a1797c166c76",
+    "hasValidationError" : false,
     "id" : "pbContainer",
     "rows" : [ [ {
       "type" : "component",
@@ -618,6 +700,7 @@
         }
       },
       "reference" : "25414521-3c21-4d7e-83dd-c50103b09657",
+      "hasValidationError" : false,
       "id" : "pbText"
     } ] ]
   } ] ],
@@ -659,7 +742,7 @@
     },
     "caseOverview" : {
       "type" : "expression",
-      "value" : "function values(object){\n    if(!object){\n        return [];\n    }\n    return  Object.keys(object).map(function(key){\n        return $data.context[key];\n    });    \n}\n\nvar businessDataRefs =  values($data.context).filter(function(ref){\n        return ref && ref.type;\n    }).map(function(businessDataRef){\n        return {\n          \"name\" : businessDataRef.name + \" (\"+ businessDataRef.type +\")\",\n          \"link\" : businessDataRef.link\n        };\n    });\n\nvar documentRefs = values($data.context).filter(function(ref){\n        if(ref && ref.fileName){\n            return ref.fileName;\n        }\n    }).map(function(ref){\n        return ref;\n    });\n\nvar flattenDocRefs = [].concat.apply([],documentRefs);\n \nreturn {\n    \"found\" : !!$data.case,\n    \"id\" : $data.case.id,\n    \"sourceObjectId\" : $data.case.rootCaseId ?  $data.case.rootCaseId  : $data.case.id ,\n    \"processName\" : $data.case.processDefinitionId.displayName + \" (\"+ $data.case.processDefinitionId.version+\")\",\n    \"businessDataRefs\" : businessDataRefs,\n    \"selectedBusinessDataRef\" : businessDataRefs[0],\n    \"documentRefs\" : flattenDocRefs \n};",
+      "value" : "function values(object){\n    if(!object){\n        return [];\n    }\n    return  Object.keys(object).map(function(key){\n        return $data.context[key];\n    });    \n}\n\nvar businessDataRefs =  values($data.context).filter(function(ref){\n        return ref && ref.type;\n    }).map(function(businessDataRef){\n        return {\n          \"name\" : businessDataRef.name + \" (\"+ businessDataRef.type +\")\",\n          \"link\" : businessDataRef.link\n        };\n    });\n\nconsole.log($data.openedContext);\nvar documentRefs = $data.openedContext ? $data.openedCaseDocuments : $data.archivedDocuments;\n\nreturn {\n    \"found\" : !!$data.case,\n    \"id\" : $data.case.id,\n    \"sourceObjectId\" : $data.case.rootCaseId ?  $data.case.rootCaseId  : $data.case.id ,\n    \"processName\" : $data.case.processDefinitionId.displayName + \" (\"+ $data.case.processDefinitionId.version+\")\",\n    \"businessDataRefs\" : businessDataRefs,\n    \"selectedBusinessDataRef\" : businessDataRefs[0],\n    \"documentRefs\" : documentRefs \n};",
       "exposed" : false
     },
     "selectedBusinessData" : {
@@ -716,8 +799,19 @@
       "type" : "expression",
       "value" : "return $data.archivedContext ? $data.archivedContext : $data.openedContext;",
       "exposed" : false
+    },
+    "archivedDocuments" : {
+      "type" : "url",
+      "value" : "../API/bpm/archivedCaseDocument?f=caseId={{caseId}}",
+      "exposed" : false
+    },
+    "openedCaseDocuments" : {
+      "type" : "url",
+      "value" : "../API/bpm/caseDocument?f=caseId={{caseId}}",
+      "exposed" : false
     }
   },
+  "hasValidationError" : false,
   "uuid" : "981aadcf-631a-4742-9507-59e85e93c39e",
   "type" : "form",
   "description" : "List all business data related to the root case. List all the tasks done by the participants so far as well as the pending ones.",
