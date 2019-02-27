@@ -8,7 +8,7 @@ when(`I\'m user with {string} bos_local`, (text) => {
     cy.setCookie('BOS_Locale', text);
 });
 
-when('I open the import-export organization page', () => {
+when('I open the install-export organization page', () => {
     cy.server();
     cy.visit(url);
 });
