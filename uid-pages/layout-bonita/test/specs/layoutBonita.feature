@@ -1,6 +1,6 @@
-Feature: The bonita layout v1
+Feature: The Bonita layout
 
-  Scenario: The bonita layout is running in English
-    When I open the bonita layout with the "appName1" application selected
+  Scenario: The Bonita layout is running in English
+    When I open the Bonita layout with the "appName1" application selected
     Then The application displayName is "app1"
     And The page displayName is "process"

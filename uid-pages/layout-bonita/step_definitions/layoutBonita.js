@@ -1,6 +1,6 @@
 const url = 'build/dist/resources/index.html';
 
-when('I open the bonita layout with the {string} application selected', () => {
+when('I open the Bonita layout with the {string} application selected', () => {
     cy.server();
     cy.fixture('app1.json').as('app1');
     cy.fixture('pageList.json').as('pageList');
