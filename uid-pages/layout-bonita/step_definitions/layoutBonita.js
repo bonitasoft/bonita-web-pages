@@ -19,9 +19,9 @@ when('I open the Bonita layout with the {string} application selected', () => {
 });
 
 then( 'The application displayName is {string}', (appName) => {
-    cy.get('.navbar-brand').should('have.text', appName);
+    cy.get('pb-link > .text-left > .ng-binding').should('have.text', appName);
 });
 
 then('The page displayName is {string}', (pageName) => {
-    cy.get('li.ng-scope > .ng-binding').should('have.text', pageName);
+    cy.get('li.ng-scope > .ng-scope').should('have.text', pageName);
 });
