@@ -12,21 +12,30 @@ given('I have the {string} application selected', () => {
         method: 'GET',
         url: 'build/dist/API/living/application/*',
         response: '@app1',
-    }).as('app1Route');
+    });
     cy.route({
         method: 'GET',
         url: 'build/dist/API/living/application-menu/**',
         response: '@pageList'
-    }).as('pageListRoute');
+    });
 });
 
-given('A user is connected', () => {
-    cy.fixture('json/unusedId.json').as('unusedId');
+given('A user is connected without sso', () => {
+    cy.fixture('json/unusedIdNoSSO.json').as('unusedIdNoSSO');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/system/session/*',
-        response: '@unusedId'
-    }).as('unusedIdRoute');
+        response: '@unusedIdNoSSO'
+    });
+});
+
+given('A user is connected with sso', () => {
+    cy.fixture('json/unusedIdSSO.json').as('unusedIdSSO');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/session/*',
+        response: '@unusedIdSSO'
+    });
 });
 
 given('The user has a first and last name defined', () => {
@@ -35,7 +44,16 @@ given('The user has a first and last name defined', () => {
         method: 'GET',
         url: '/build/dist/API/identity/user/*',
         response: '@userFull'
-    }).as('userFullRoute');
+    });
+});
+
+given('The user has a first, a last name, but no image defined', () => {
+    cy.fixture('json/userNoImage.json').as('userNoImage');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/identity/user/*',
+        response: '@userNoImage'
+    });
 });
 
 given('The user doesn\'t have a {string} info available', (unavailableInfo) => {
@@ -59,12 +77,36 @@ given('The user doesn\'t have a {string} info available', (unavailableInfo) => {
     }
 });
 
+given('I have languages available', () => {
+    cy.fixture('json/i18locale.json').as('i18locale');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/i18nlocale*',
+        response: '@i18locale'
+    });
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
 });
 
+when('I click the user name', () => {
+    cy.get('.text-right > .ng-binding').click();
+});
+
+when ('I click the user name in dropdown', () => {
+    cy.get('.shownOnlyInMobile > li > a').eq(0).click();
+});
+
+when('I select {string} in language picker', (languageSelected) => {
+    cy.get('.form-control').select(languageSelected);
+});
+
+when('I press the save button', () => {
+    cy.get('button').contains('Save').click();
+});
+
 when('I click the burger', () => {
-    cy.get('li.ng-scope > .ng-scope').should('not.be.visible');
     cy.get('.navbar-toggle').click();
 });
 
@@ -103,6 +145,71 @@ then('The image has the correct source', () => {
     cy.get('img.img-responsive.ng-scope').should('have.attr','src', '../theme/images/logo.png');
 });
 
+then('The current session modal is visible', () => {
+    cy.get('.modal').should('be.visible');
+});
+
+then('The user first and last name {string} are visible', (firstAndLastName) => {
+    cy.get('pb-title > h4').eq(0).should('have.text', firstAndLastName)
+});
+
+then('The user name {string} is shown', (userName) => {
+    cy.get('pb-text > p').eq(0).should('have.text', userName);
+});
+
+then('The user email {string} is shown', (userEmail) => {
+    cy.get('pb-text > p').eq(1).should('have.text', userEmail)
+});
+
+then('The language select is visible', () => {
+    cy.get('.form-control').should('be.visible');
+});
+
+then('The logout button is visible', () => {
+    cy.get('button').contains('Logout').should('be.visible');
+});
+
+then('The save and cancel buttons are visible', () => {
+    cy.get('button').contains('Save').should('be.visible');
+    cy.get('button').contains('Cancel').should('be.visible');
+});
+
+then('The logout button is hidden', () => {
+    cy.get('button').contains('Logout').should('not.be.visible');
+});
+
+then('The user image exists', () => {
+    cy.get('.AvatarUpload-preview pb-image > img').should('exist');
+});
+
+then('The user image doesn\'t exist', () => {
+    cy.get('.AvatarUpload-preview pb-image > img').should('not.exist');
+});
+
+then('The empty border doesn\'t exist', () => {
+    cy.get('.AvatarUpload-preview.AvatarUpload-preview--empty').should('not.exist');
+});
+
+then('The empty border is visible', () => {
+    cy.get('.AvatarUpload-preview.AvatarUpload-preview--empty').should('be.visible');
+});
+
+then('The user image has the correct source', () => {
+    cy.get('.AvatarUpload-preview pb-image > img').should('have.attr', 'src', '../API/avatars/1');
+});
+
+then('The save button is disabled', () => {
+    cy.get('button').contains('Save').should('be.disabled');
+});
+
+then('The save button is enabled', () => {
+    cy.get('button').contains('Save').should('not.be.disabled');
+});
+
+then('The language in BOS_Locale is {string}', (languageSelected) => {
+    cy.getCookie('BOS_Locale').should('have.property', 'value', 'fr')
+});
+
 then('The burger shows correctly', () => {
     cy.get('.navbar-toggle > span').should((navbarToggleSpans) => {
         expect(navbarToggleSpans).to.have.length(3);
@@ -110,6 +217,14 @@ then('The burger shows correctly', () => {
             expect(navbarToggleSpans.eq(spanIndex)).to.have.class('icon-bar');
         }
     });
+});
+
+then('I see the dropdown that opened', () => {
+    cy.get('.navbar-responsive-collapse').should('be.visible');
+});
+
+then('I don\'t see the dropdown', () => {
+    cy.get('.navbar-responsive-collapse').should('not.be.visible');
 });
 
 then('I see the page name dropdown', () => {
