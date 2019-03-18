@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.25",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1551110434162,
+  "lastUpdate" : 1552740147957,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -757,7 +757,7 @@
     },
     "case" : {
       "type" : "expression",
-      "value" : "return $data.archivedCase.length > 0 ? $data.archivedCase[0] : $data.openCase;",
+      "value" : "return  (!$data.openCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;",
       "exposed" : false
     },
     "businessDataKeys" : {
@@ -797,7 +797,7 @@
     },
     "context" : {
       "type" : "expression",
-      "value" : "return $data.archivedContext ? $data.archivedContext : $data.openedContext;",
+      "value" : "return (!$data.openCase && $data.archivedContext) ? $data.archivedContext : $data.openedContext;",
       "exposed" : false
     },
     "archivedDocuments" : {
