@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.25",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1552577763720,
+  "lastUpdate" : 1553009733913,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1076,7 +1076,7 @@
               },
               "dataFromSuccess" : {
                 "type" : "variable",
-                "value" : ""
+                "value" : "logoutSuccess"
               },
               "closeOnSuccess" : {
                 "type" : "constant",
@@ -1360,6 +1360,15 @@
     "storageLanguage" : {
       "type" : "expression",
       "value" : "return $cookies.BOS_Locale;\n",
+      "exposed" : false
+    },
+    "logoutSuccess" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "windowReload" : {
+      "type" : "expression",
+      "value" : "if ($data.logoutSuccess) {\n    window.location.reload();\n}",
       "exposed" : false
     }
   },
