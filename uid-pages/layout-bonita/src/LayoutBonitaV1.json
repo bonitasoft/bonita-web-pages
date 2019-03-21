@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.25",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1553009733913,
+  "lastUpdate" : 1553161733346,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1041,7 +1041,7 @@
               },
               "hidden" : {
                 "type" : "expression",
-                "value" : "!isSSO"
+                "value" : "!logoutHidden"
               },
               "disabled" : {
                 "type" : "constant",
@@ -1347,11 +1347,6 @@
       "value" : "{\"actions\":[]}",
       "exposed" : false
     },
-    "isSSO" : {
-      "type" : "expression",
-      "value" : "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') === -1;",
-      "exposed" : false
-    },
     "professionalData" : {
       "type" : "url",
       "value" : "../API/identity/user/{{session.user_id}}?d=professional_data",
@@ -1369,6 +1364,11 @@
     "windowReload" : {
       "type" : "expression",
       "value" : "if ($data.logoutSuccess) {\n    window.location.reload();\n}",
+      "exposed" : false
+    },
+    "logoutHidden" : {
+      "type" : "expression",
+      "value" : "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') === -1;",
       "exposed" : false
     }
   },
