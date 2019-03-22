@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.7.25",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1553161733346,
+  "lastUpdate" : 1553268948940,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -694,7 +694,7 @@
               },
               "text" : {
                 "type" : "interpolation",
-                "value" : "{{professionalData.userName}}"
+                "value" : "{{loggedUser.userName}}"
               },
               "alignment" : {
                 "type" : "constant",
@@ -727,7 +727,7 @@
               },
               "text" : {
                 "type" : "interpolation",
-                "value" : "{{professionalData.professional_data.email}}"
+                "value" : "{{loggedUser.professional_data.email}}"
               },
               "alignment" : {
                 "type" : "constant",
@@ -738,32 +738,6 @@
             "hasValidationError" : false,
             "id" : "pbText"
           } ] ]
-        }, {
-          "type" : "container",
-          "dimension" : {
-            "xs" : 4,
-            "sm" : 4,
-            "md" : 4,
-            "lg" : 4
-          },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "AvatarUpload-preview AvatarUpload-preview--empty"
-            },
-            "hidden" : {
-              "type" : "expression",
-              "value" : "professionalData.icon"
-            },
-            "repeatedCollection" : {
-              "type" : "variable",
-              "value" : ""
-            }
-          },
-          "reference" : "94584a3c-cd26-4c6f-a721-8e474a846440",
-          "hasValidationError" : false,
-          "id" : "pbContainer",
-          "rows" : [ [ ] ]
         }, {
           "type" : "component",
           "dimension" : {
@@ -778,8 +752,8 @@
               "value" : "remove-padding-and-margin AvatarUpload-preview"
             },
             "hidden" : {
-              "type" : "expression",
-              "value" : "!professionalData.icon"
+              "type" : "constant",
+              "value" : false
             },
             "srcType" : {
               "type" : "constant",
@@ -787,7 +761,7 @@
             },
             "url" : {
               "type" : "expression",
-              "value" : "professionalData.icon"
+              "value" : "userIconPath"
             },
             "assetName" : {
               "type" : "constant"
@@ -1315,7 +1289,7 @@
     },
     "userName" : {
       "type" : "expression",
-      "value" : "if ($data.professionalData && $data.professionalData.firstname && $data.professionalData.lastname) {\n    return $data.professionalData.firstname + \" \" + $data.professionalData.lastname;\n} else {\n    return $data.session.user_name;\n}",
+      "value" : "if ($data.loggedUser && $data.loggedUser.firstname && $data.loggedUser.lastname) {\n    return $data.loggedUser.firstname + \" \" + $data.loggedUser.lastname;\n} else {\n    return $data.session.user_name;\n}",
       "exposed" : false
     },
     "appName" : {
@@ -1347,11 +1321,6 @@
       "value" : "{\"actions\":[]}",
       "exposed" : false
     },
-    "professionalData" : {
-      "type" : "url",
-      "value" : "../API/identity/user/{{session.user_id}}?d=professional_data",
-      "exposed" : false
-    },
     "storageLanguage" : {
       "type" : "expression",
       "value" : "return $cookies.BOS_Locale;\n",
@@ -1369,6 +1338,16 @@
     "logoutHidden" : {
       "type" : "expression",
       "value" : "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') === -1;",
+      "exposed" : false
+    },
+    "userIconPath" : {
+      "type" : "expression",
+      "value" : "var isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!=\"icons/default/icon_user.png\";\n\nreturn isCustomIconPath ? $data.loggedUser.icon : \"../theme/icons/default/icon_user.png\";",
+      "exposed" : false
+    },
+    "loggedUser" : {
+      "type" : "url",
+      "value" : "../API/identity/user/{{session.user_id}}?d=professional_data",
       "exposed" : false
     }
   },
