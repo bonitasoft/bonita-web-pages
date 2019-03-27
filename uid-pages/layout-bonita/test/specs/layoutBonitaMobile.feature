@@ -96,9 +96,7 @@ Feature: The Bonita layout in mobile resolution
     And I click the burger
     And I click the user name in dropdown
     Then The current session modal is visible
-    And The user image exists
-    And The empty border doesn't exist
-    And The user image has the correct source
+    And I see "../API/avatars/1" as the user modal icon
 
   Scenario: The current session modal doesn't show an image
     Given The resolution is set to mobile
@@ -109,8 +107,8 @@ Feature: The Bonita layout in mobile resolution
     And I click the burger
     And I click the user name in dropdown
     Then The current session modal is visible
-    And The user image doesn't exist
-    And The empty border is visible
+    And I see "../theme/icons/default/icon_user.png" as the user modal icon
+
 
   Scenario: The language is changed in current session modal
     Given The resolution is set to mobile

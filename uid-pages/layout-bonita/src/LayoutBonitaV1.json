@@ -1,9 +1,9 @@
 {
-  "designerVersion" : "1.8.29",
-  "previousDesignerVersion" : "1.7.25",
+  "designerVersion" : "1.9.24",
+  "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1553268948940,
+  "lastUpdate" : 1553682633315,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -40,7 +40,7 @@
       "propertyValues" : {
         "cssClasses" : {
           "type" : "constant",
-          "value" : "notShownInMobile"
+          "value" : "hidden-xs"
         },
         "hidden" : {
           "type" : "constant",
@@ -82,15 +82,15 @@
         "rows" : [ [ {
           "type" : "component",
           "dimension" : {
-            "xs" : 10,
-            "sm" : 6,
+            "xs" : 4,
+            "sm" : 4,
             "md" : 4,
             "lg" : 4
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "resizedImage"
+              "value" : "resized-image"
             },
             "hidden" : {
               "type" : "constant",
@@ -109,7 +109,8 @@
               "value" : ""
             },
             "alt" : {
-              "type" : "interpolation"
+              "type" : "interpolation",
+              "value" : ""
             }
           },
           "reference" : "2a0f4509-b5d1-4f69-8746-3d366ce04782",
@@ -118,15 +119,15 @@
         }, {
           "type" : "component",
           "dimension" : {
-            "xs" : 12,
-            "sm" : 9,
-            "md" : 9,
-            "lg" : 9
+            "xs" : 8,
+            "sm" : 8,
+            "md" : 8,
+            "lg" : 8
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "appNameTitle"
+              "value" : "app-name-title"
             },
             "hidden" : {
               "type" : "constant",
@@ -185,7 +186,7 @@
       }, {
         "type" : "container",
         "dimension" : {
-          "xs" : 12,
+          "xs" : 6,
           "sm" : 6,
           "md" : 6,
           "lg" : 6
@@ -193,7 +194,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "remove-padding-and-margin vertical-centered"
+            "value" : "remove-padding-and-margin row-centered row-align-right"
           },
           "hidden" : {
             "type" : "constant",
@@ -210,15 +211,15 @@
         "rows" : [ [ {
           "type" : "component",
           "dimension" : {
-            "xs" : 8,
-            "sm" : 11,
-            "md" : 11,
-            "lg" : 11
+            "xs" : 11,
+            "sm" : 10,
+            "md" : 10,
+            "lg" : 10
           },
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "remove-padding-and-margin userMenu"
+              "value" : "remove-padding-and-margin user-menu"
             },
             "hidden" : {
               "type" : "constant",
@@ -294,7 +295,7 @@
         }, {
           "type" : "component",
           "dimension" : {
-            "xs" : 4,
+            "xs" : 12,
             "sm" : 1,
             "md" : 1,
             "lg" : 1
@@ -302,7 +303,90 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "remove-padding-and-margin userMenu"
+              "value" : "remove-padding-and-margin user-menu"
+            },
+            "hidden" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "disabled" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "label" : {
+              "type" : "interpolation",
+              "value" : "<div class=\"image-cropper\">   <img src=\"{{userIconPath}}\" alt=\"avatar\" class=\"user-icon\"> </div>"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "link"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "Open modal"
+            },
+            "url" : {
+              "type" : "interpolation"
+            },
+            "responseStatusCode" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "dataToSend" : {
+              "type" : "constant"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation"
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : "currentSessionModal"
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
+            }
+          },
+          "reference" : "150555db-2bcf-4189-b199-5c34528d0c2f",
+          "hasValidationError" : false,
+          "id" : "pbButton"
+        }, {
+          "type" : "component",
+          "dimension" : {
+            "xs" : 1,
+            "sm" : 1,
+            "md" : 1,
+            "lg" : 1
+          },
+          "propertyValues" : {
+            "cssClasses" : {
+              "type" : "constant",
+              "value" : "remove-padding-and-margin user-menu"
             },
             "hidden" : {
               "type" : "constant",
@@ -577,7 +661,7 @@
             },
             "level" : {
               "type" : "constant",
-              "value" : "Level 4"
+              "value" : "Level 3"
             },
             "alignment" : {
               "type" : "constant",
@@ -616,7 +700,7 @@
         "rows" : [ [ {
           "type" : "container",
           "dimension" : {
-            "xs" : 8,
+            "xs" : 12,
             "sm" : 8,
             "md" : 8,
             "lg" : 8
@@ -643,7 +727,7 @@
             "dimension" : {
               "xs" : 12,
               "sm" : 12,
-              "md" : 6,
+              "md" : 12,
               "lg" : 12
             },
             "propertyValues" : {
@@ -657,7 +741,7 @@
               },
               "text" : {
                 "type" : "interpolation",
-                "value" : "User"
+                "value" : "User details"
               },
               "level" : {
                 "type" : "constant",
@@ -699,6 +783,22 @@
               "alignment" : {
                 "type" : "constant",
                 "value" : "left"
+              },
+              "labelHidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "label" : {
+                "type" : "interpolation",
+                "value" : "Username"
+              },
+              "labelPosition" : {
+                "type" : "constant",
+                "value" : "left"
+              },
+              "labelWidth" : {
+                "type" : "constant",
+                "value" : 4
               }
             },
             "reference" : "2e455e59-1b00-432d-8e53-1401f5ae5723",
@@ -732,6 +832,22 @@
               "alignment" : {
                 "type" : "constant",
                 "value" : "left"
+              },
+              "labelHidden" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "label" : {
+                "type" : "interpolation",
+                "value" : "Mail address"
+              },
+              "labelPosition" : {
+                "type" : "constant",
+                "value" : "left"
+              },
+              "labelWidth" : {
+                "type" : "constant",
+                "value" : 4
               }
             },
             "reference" : "a88f2d95-ca07-47d0-800d-4e8b8053c6a7",
@@ -741,7 +857,7 @@
         }, {
           "type" : "component",
           "dimension" : {
-            "xs" : 4,
+            "xs" : 12,
             "sm" : 4,
             "md" : 4,
             "lg" : 4
@@ -749,37 +865,51 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "remove-padding-and-margin AvatarUpload-preview"
+              "value" : ""
             },
             "hidden" : {
               "type" : "constant",
               "value" : false
             },
-            "srcType" : {
+            "labelHidden" : {
               "type" : "constant",
-              "value" : "URL"
+              "value" : true
             },
-            "url" : {
-              "type" : "expression",
-              "value" : "userIconPath"
+            "label" : {
+              "type" : "interpolation",
+              "value" : "Default label"
             },
-            "assetName" : {
-              "type" : "constant"
+            "labelPosition" : {
+              "type" : "constant",
+              "value" : "top"
             },
-            "alt" : {
-              "type" : "interpolation"
+            "labelWidth" : {
+              "type" : "constant",
+              "value" : 4
+            },
+            "allowHTML" : {
+              "type" : "constant",
+              "value" : true
+            },
+            "text" : {
+              "type" : "interpolation",
+              "value" : "<div class=\"image-cropper  image-cropper--large\"><img src=\"{{userIconPath}}\" alt=\"avatar\" class=\"user-icon\"></div>"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
             }
           },
-          "reference" : "d0e7a0f8-4ef3-4968-9f31-35f8ff3acd4b",
+          "reference" : "384cec0b-3098-4b8f-b89c-926f4d55fc48",
           "hasValidationError" : false,
-          "id" : "pbImage"
+          "id" : "pbText"
         } ], [ {
           "type" : "container",
           "dimension" : {
             "xs" : 8,
-            "sm" : 8,
-            "md" : 8,
-            "lg" : 8
+            "sm" : 12,
+            "md" : 12,
+            "lg" : 12
           },
           "propertyValues" : {
             "cssClasses" : {
@@ -832,9 +962,9 @@
             "hasValidationError" : false,
             "id" : "pbTitle"
           } ], [ {
-            "type" : "container",
+            "type" : "component",
             "dimension" : {
-              "xs" : 11,
+              "xs" : 12,
               "sm" : 6,
               "md" : 6,
               "lg" : 6
@@ -848,106 +978,54 @@
                 "type" : "constant",
                 "value" : false
               },
-              "repeatedCollection" : {
-                "type" : "variable",
-                "value" : ""
-              }
-            },
-            "reference" : "8c79197c-a439-4270-be45-73afe887bef0",
-            "hasValidationError" : false,
-            "id" : "pbContainer",
-            "rows" : [ [ {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "remove-padding-and-margin-right"
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "remove-padding-and-margin-right"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "placeholder" : {
-                  "type" : "interpolation",
-                  "value" : "Select a language"
-                },
-                "availableValues" : {
-                  "type" : "expression",
-                  "value" : "languageList"
-                },
-                "displayedKey" : {
-                  "type" : "constant",
-                  "value" : "name"
-                },
-                "returnedKey" : {
-                  "type" : "expression",
-                  "value" : "locale"
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "selectedLanguage"
-                }
-              },
-              "reference" : "151aa916-30b2-4757-936d-811fd48995d0",
-              "hasValidationError" : false,
-              "id" : "pbSelect"
-            } ] ]
-          }, {
-            "type" : "container",
-            "dimension" : {
-              "xs" : 1,
-              "sm" : 6,
-              "md" : 6,
-              "lg" : 6
-            },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
+              "disabled" : {
                 "type" : "constant",
                 "value" : false
               },
-              "repeatedCollection" : {
+              "required" : {
+                "type" : "constant",
+                "value" : false
+              },
+              "labelHidden" : {
+                "type" : "constant",
+                "value" : true
+              },
+              "label" : {
+                "type" : "interpolation",
+                "value" : "remove-padding-and-margin-right"
+              },
+              "labelPosition" : {
+                "type" : "constant",
+                "value" : "top"
+              },
+              "labelWidth" : {
+                "type" : "constant",
+                "value" : 4
+              },
+              "placeholder" : {
+                "type" : "interpolation",
+                "value" : "Select a language"
+              },
+              "availableValues" : {
+                "type" : "expression",
+                "value" : "languageList"
+              },
+              "displayedKey" : {
+                "type" : "constant",
+                "value" : "name"
+              },
+              "returnedKey" : {
+                "type" : "expression",
+                "value" : "locale"
+              },
+              "value" : {
                 "type" : "variable",
-                "value" : ""
+                "value" : "selectedLanguage"
               }
             },
-            "reference" : "d25e4cd7-97e9-4e77-804f-df167ebcb1f0",
+            "reference" : "151aa916-30b2-4757-936d-811fd48995d0",
             "hasValidationError" : false,
-            "id" : "pbContainer",
-            "rows" : [ [ ] ]
+            "id" : "pbSelect"
           } ] ]
         } ] ]
       } ], [ {

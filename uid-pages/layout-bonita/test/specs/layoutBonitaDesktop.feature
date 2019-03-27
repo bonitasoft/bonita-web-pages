@@ -7,11 +7,12 @@ Feature: The Bonita layout in desktop resolution
     And The "first" page displayName is "process"
     And The "second" page displayName is "home"
 
-  Scenario: The Bonita layout shows the user name correctly
+  Scenario: The Bonita layout shows the user icon correctly
     Given I have the "appName1" application selected
     And A user is connected without sso
+    And The user has a first and last name defined
     When I visit the index page
-    Then I see "walter.bates" as the user name
+    Then I see "../API/avatars/1" as the user menu icon
 
   Scenario: The Bonita layout shows the first and last name and not the user name
     Given I have the "appName1" application selected
@@ -19,7 +20,9 @@ Feature: The Bonita layout in desktop resolution
     And The user has a first and last name defined
     When I visit the index page
     Then I see "Walter Bates" as the user name
+    And I see "../API/avatars/1" as the user menu icon
     And I don't see "walter.bates" as the user name
+
 
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given I have the "appName1" application selected
@@ -76,26 +79,32 @@ Feature: The Bonita layout in desktop resolution
     Then The current session modal is visible
     And The logout button is hidden
 
-  Scenario: The current session modal has the image correctly set
+  Scenario: The current session modal has the user icon correctly set
     Given I have the "appName1" application selected
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And The user image exists
-    And The empty border doesn't exist
-    And The user image has the correct source
+    And I see "../API/avatars/1" as the user modal icon
 
-  Scenario: The current session modal doesn't show an image
+  Scenario: The current session modal show default user icon if empty
     Given I have the "appName1" application selected
     And A user is connected without sso
     And The user has a first, a last name, but no image defined
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And The user image doesn't exist
-    And The empty border is visible
+    And I see "../theme/icons/default/icon_user.png" as the user modal icon
+
+  Scenario: The current session modal show the default user icon
+    Given I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a default icon
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And I see "../theme/icons/default/icon_user.png" as the user modal icon
 
   Scenario: The language is changed in current session modal
     Given I have the "appName1" application selected
