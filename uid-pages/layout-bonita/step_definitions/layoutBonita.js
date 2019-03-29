@@ -86,6 +86,10 @@ given('I have languages available', () => {
     });
 });
 
+given('Multiple applications are available for the user', () => {
+    cy.fixture('json/appsList.json').as('appsList');
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
 });
