@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1553847790835,
+  "lastUpdate" : 1553878244172,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -360,7 +360,7 @@
             },
             "modalId" : {
               "type" : "constant",
-              "value" : "currentSessionModal"
+              "value" : "currentSessionModalId"
             },
             "collectionPosition" : {
               "type" : "constant",
@@ -543,7 +543,7 @@
       "propertyValues" : {
         "cssClasses" : {
           "type" : "constant",
-          "value" : ""
+          "value" : "remove-padding-and-margin"
         },
         "hidden" : {
           "type" : "constant",
@@ -569,7 +569,7 @@
     "propertyValues" : {
       "cssClasses" : {
         "type" : "constant",
-        "value" : "layout-footer"
+        "value" : "layout-footer remove-padding-and-margin"
       },
       "hidden" : {
         "type" : "constant",
@@ -1930,9 +1930,9 @@
       "exposed" : false
     },
     "loggedUser" : {
-      "type": "url",
-      "value": "../API/identity/user/{{session.user_id}}?d=professional_data",
-      "exposed": false
+      "type" : "url",
+      "value" : "../API/identity/user/{{session.user_id}}?d=professional_data",
+      "exposed" : false
     },
     "appsList" : {
       "type" : "url",
@@ -1946,7 +1946,7 @@
     },
     "appName" : {
       "type" : "expression",
-      "value" : "return $data.pathArray[$data.pathArray.length - 3];",
+      "value" : "return $data.application[0].displayName;",
       "exposed" : false
     },
     "appsListGroupByThree" : {
@@ -1957,6 +1957,16 @@
     "safeList" : {
       "type" : "expression",
       "value" : "return $data.appsList ? $data.appsListGroupByThree : [];",
+      "exposed" : false
+    },
+    "appToken" : {
+      "type" : "expression",
+      "value" : "return  $data.pathArray[$data.pathArray.length-3];",
+      "exposed" : false
+    },
+    "application" : {
+      "type" : "url",
+      "value" : "../API/living/application/?c=1&f=token%3D{{appToken}}",
       "exposed" : false
     }
   },
