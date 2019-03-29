@@ -97,6 +97,30 @@ given('I have languages available', () => {
 
 given('Multiple applications are available for the user', () => {
     cy.fixture('json/appsList.json').as('appsList');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=',
+        response: '@appsList'
+    });
+});
+
+given('The filter responses is defined', () => {
+    cy.fixture('json/filteredAppsList.json').as('filteredAppsList');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=My first',
+        response: '@filteredAppsList'
+    });
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=app1',
+        response: '@filteredAppsList'
+    });
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=1.0.5',
+        response: '@filteredAppsList'
+    });
 });
 
 when('I visit the index page', () => {
@@ -125,6 +149,30 @@ when('I click the burger', () => {
 
 when('I should not see the first line', () => {
     cy.get('div.notShownInMobile').should('not.be.visible');
+});
+
+when('I click the app selection icon', () => {
+    cy.get('.ng-binding > .glyphicon').click();
+});
+
+when('I click the app selection icon in dropdown', () => {
+    cy.get('a > .glyphicon').click();
+});
+
+when('I filter the app selection by {string}', (filter) => {
+    cy.get('.form-control').type(filter);
+});
+
+when('I erase the input field', () => {
+    cy.get('.form-control').clear();
+});
+
+when('I click the close button', () => {
+    cy.get('button').contains('Close').click();
+});
+
+when('I hover over the appName', () => {
+    cy.get('pb-link p').eq(0).trigger('mouseover');
 });
 
 then( 'The application displayName is {string}', (appName) => {
@@ -256,4 +304,26 @@ then('I don\'t see {string} as the user name in the dropdown menu', (userName) =
 
 then('I see the app selection icon in the dropdown menu', () => {
     cy.get('a > .glyphicon').should('have.attr', 'class', 'glyphicon glyphicon-th');
+});
+
+then('The app selection modal is visible', () => {
+    cy.get('.modal-content').should('be.visible');
+});
+
+then('I see my apps', () => {
+    cy.get('pb-link p').eq(0).should('have.text', 'My first app');
+    cy.get('pb-link p').eq(1).should('have.text', 'My second app');
+});
+
+then('I see only the filtered applications', () => {
+    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
+    cy.get('pb-link p').eq(1).should('not.be.visible');
+});
+
+then('The app selection modal is not visible', () => {
+    cy.get('.modal-content').should('not.be.visible');
+});
+
+then('The app description should be correct', () => {
+    cy.get('pb-link p').eq(0).should('have.attr','title', 'My first app description');
 });
