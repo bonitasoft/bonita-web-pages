@@ -143,11 +143,11 @@ then('I see {string} as the user name', (userName) => {
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {
-    cy.get('.user-menu .user-icon').should('have.attr', 'src', userIcon);
+    cy.get('.user-menu .image-circle img').should('have.attr', 'src', userIcon);
 });
 
 then('I see {string} as the user modal icon', (userIcon) => {
-    cy.get('.modal-content .user-icon').should('have.attr', 'src', userIcon);
+    cy.get('.modal-content .image-circle--large img').should('have.attr', 'src', userIcon);
 });
 
 then('I don\'t see {string} as the user name', (userName) => {
