@@ -68,40 +68,47 @@ body > div.container-fluid > div.row:nth-child(2){
   border-radius: 0;
 }
 
-.AvatarUpload-preview {
-    height: 150px;
-    width: 150px;
+.resized-image {
+    width: 162px;
 }
 
-.AvatarUpload-preview--empty {
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
-}
-
-.resizedImage {
-    max-width: none;
-    width: 165px;
-}
-
-.appNameTitle a {
+.app-name-title a {
     font-size: 1.5em;
 }
 
-.vertical-centered {
-    margin-top: 0.5em;
-}
-
-.row-centered > .row {
+.row-centered .row {
     display: flex;
     align-items: center;
 }
 
-.userMenu button {
+.row-align-right .row {
+    margin-top: 0.5em;
+    justify-content: flex-end;
+}
+
+.user-menu button {
     font-size: 1.1em;
 }
 
-@media screen and (max-width: 767px) {
-    .notShownInMobile {
-        display: none;
-    }
+.image-circle {
+  border-radius: 100%;
+  display: flex;
+  flex: 0 0 30px;
+  height: 30px;
+  aligne: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 30px;
+  border: solid 1px lightgrey;
+}
+
+.image-circle--large {
+    flex: 0 0 150px;
+    height: 150px;
+    width: 150px;
+}
+
+.image-circle img {
+  height: 100%;
 }
