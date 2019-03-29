@@ -47,6 +47,15 @@ given('The user has a first and last name defined', () => {
     });
 });
 
+given('The user has a default icon', () => {
+    cy.fixture('json/userDefaultImage.json').as('userDefaultImage');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/identity/user/*',
+        response: '@userDefaultImage'
+    });
+});
+
 given('The user has a first, a last name, but no image defined', () => {
     cy.fixture('json/userNoImage.json').as('userNoImage');
     cy.route({
@@ -137,6 +146,14 @@ then('I see {string} as the user name', (userName) => {
     cy.get('.text-right > .ng-binding').should('have.text', userName);
 });
 
+then('I see {string} as the user menu icon', (userIcon) => {
+    cy.get('.user-menu .image-circle img').should('have.attr', 'src', userIcon);
+});
+
+then('I see {string} as the user modal icon', (userIcon) => {
+    cy.get('.modal-content .image-circle--large img').should('have.attr', 'src', userIcon);
+});
+
 then('I don\'t see {string} as the user name', (userName) => {
     cy.get('.text-right > .ng-binding').should('not.have.text', userName);
 });
@@ -148,21 +165,20 @@ then('I see the app selection icon', () => {
 then('The image has the correct source', () => {
     cy.get('img.img-responsive.ng-scope').should('have.attr','src', '../theme/images/logo.png');
 });
-
 then('The current session modal is visible', () => {
     cy.get('.modal').should('be.visible');
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {
-    cy.get('pb-title > h4').eq(0).should('have.text', firstAndLastName)
+    cy.get('pb-title > h3').eq(0).should('have.text', firstAndLastName)
 });
 
 then('The user name {string} is shown', (userName) => {
-    cy.get('pb-text > p').eq(0).should('have.text', userName);
+    cy.get('pb-text p').eq(0).should('have.text', userName);
 });
 
 then('The user email {string} is shown', (userEmail) => {
-    cy.get('pb-text > p').eq(1).should('have.text', userEmail)
+    cy.get('pb-text p').eq(1).should('have.text', userEmail)
 });
 
 then('The language select is visible', () => {
@@ -180,26 +196,6 @@ then('The save and cancel buttons are visible', () => {
 
 then('The logout button is hidden', () => {
     cy.get('button').contains('Logout').should('not.be.visible');
-});
-
-then('The user image exists', () => {
-    cy.get('.AvatarUpload-preview pb-image > img').should('exist');
-});
-
-then('The user image doesn\'t exist', () => {
-    cy.get('.AvatarUpload-preview pb-image > img').should('not.exist');
-});
-
-then('The empty border doesn\'t exist', () => {
-    cy.get('.AvatarUpload-preview.AvatarUpload-preview--empty').should('not.exist');
-});
-
-then('The empty border is visible', () => {
-    cy.get('.AvatarUpload-preview.AvatarUpload-preview--empty').should('be.visible');
-});
-
-then('The user image has the correct source', () => {
-    cy.get('.AvatarUpload-preview pb-image > img').should('have.attr', 'src', '../API/avatars/1');
 });
 
 then('The save button is disabled', () => {
