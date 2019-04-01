@@ -3,7 +3,7 @@ Feature: The Bonita layout in desktop resolution
   Scenario: The Bonita layout is running
     Given I have the "appName1" application selected
     When I visit the index page
-    Then The application displayName is "dist"
+    Then The application displayName is "app1"
     And The "first" page displayName is "process"
     And The "second" page displayName is "home"
 
@@ -119,3 +119,44 @@ Feature: The Bonita layout in desktop resolution
     Then The save button is enabled
     When I press the save button
     Then The language in BOS_Locale is "fr"
+
+  Scenario: The app selection modal is shown correctly
+    Given I have the "appName1" application selected
+    And Multiple applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    And I see my apps
+
+  Scenario: The app selection modal filter works correctly
+    Given I have the "appName1" application selected
+    And Multiple applications are available for the user
+    And The filter responses is defined
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    When I filter the app selection by "My first"
+    Then I see only the filtered applications
+    When I erase the input field
+    And I filter the app selection by "app1"
+    Then I see only the filtered applications
+    When I erase the input field
+    And I filter the app selection by "1.0.5"
+    Then I see only the filtered applications
+
+  Scenario: The app selection modal closes correctly
+    Given I have the "appName1" application selected
+    And Multiple applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    When I click the close button
+    Then The app selection modal is not visible
+
+  Scenario: The app description popup is shown correctly
+    Given I have the "appName1" application selected
+    And Multiple applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    And The app description should be correct
