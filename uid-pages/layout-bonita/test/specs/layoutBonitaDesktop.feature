@@ -3,7 +3,7 @@ Feature: The Bonita layout in desktop resolution
   Scenario: The Bonita layout is running
     Given I have the "appName1" application selected
     When I visit the index page
-    Then The application displayName is "dist"
+    Then The application displayName is "app1"
     And The "first" page displayName is "process"
     And The "second" page displayName is "home"
 
