@@ -38,6 +38,14 @@ given('A user is connected with sso', () => {
     });
 });
 
+given('A logo is available in the theme', () => {
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/theme/images/logo.png',
+        response: 'logo content'
+    });
+});
+
 given('The user has a first and last name defined', () => {
     cy.fixture('json/userFull.json').as('userFull');
     cy.route({
@@ -213,6 +221,11 @@ then('I see the app selection icon', () => {
 then('The image has the correct source', () => {
     cy.get('img.img-responsive.ng-scope').should('have.attr','src', '../theme/images/logo.png');
 });
+
+then('The image is not displayed', () => {
+    cy.get('img.img-responsive.ng-scope').should('not.be.visible');
+});
+
 then('The current session modal is visible', () => {
     cy.get('.modal').should('be.visible');
 });

@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1554450634401,
+  "lastUpdate" : 1554454184587,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -93,16 +93,16 @@
               "value" : "resized-image"
             },
             "hidden" : {
-              "type" : "constant",
-              "value" : false
+              "type" : "expression",
+              "value" : "!logoRequest"
             },
             "srcType" : {
               "type" : "constant",
               "value" : "URL"
             },
             "url" : {
-              "type" : "constant",
-              "value" : "../theme/images/logo.png"
+              "type" : "expression",
+              "value" : "logoURL"
             },
             "assetName" : {
               "type" : "constant",
@@ -1976,6 +1976,16 @@
     "pageToken" : {
       "type" : "expression",
       "value" : "return $data.pathArray[$data.pathArray.length-2];",
+      "exposed" : false
+    },
+    "logoURL" : {
+      "type" : "constant",
+      "value" : "../theme/images/logo.png",
+      "exposed" : false
+    },
+    "logoRequest" : {
+      "type" : "url",
+      "value" : "{{logoURL}}",
       "exposed" : false
     }
   },
