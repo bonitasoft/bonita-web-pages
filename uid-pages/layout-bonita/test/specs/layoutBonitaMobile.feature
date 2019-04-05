@@ -141,20 +141,25 @@ Feature: The Bonita layout in mobile resolution
     Given The resolution is set to mobile
     And I have the "appName1" application selected
     And Multiple applications are available for the user
-    And The filter responses is defined
+    And The filter responses are defined
+    And Incorrect name filter response is defined
     When I visit the index page
     And I click the burger
     Then I see the dropdown that opened
     When I click the app selection icon in dropdown
     Then The app selection modal is visible
     When I filter the app selection by "My first"
-    Then I see only the filtered applications
+    Then I see only the filtered applications by "name"
     When I erase the input field
     And I filter the app selection by "app1"
-    Then I see only the filtered applications
+    Then I see only the filtered applications by "token"
     When I erase the input field
     And I filter the app selection by "1.0.5"
-    Then I see only the filtered applications
+    Then I see only the filtered applications by "version"
+    When I erase the input field
+    And I filter the app selection by "Incorrect name"
+    Then I don't see any apps
+    And The no app is available text is "No application available using these filters"
 
   Scenario: The app selection modal closes correctly
     Given The resolution is set to mobile
@@ -167,3 +172,109 @@ Feature: The Bonita layout in mobile resolution
     Then The app selection modal is visible
     When I click the close button
     Then The app selection modal is not visible
+
+  Scenario: The app filter by profile is hidden
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I don't see the filter dropdown
+    And I see my apps
+
+  Scenario: The apps are filtered by the user profile
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    And The filter responses are defined for the user profile
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I see the filter dropdown
+    And I select the "User" profile in dropdown
+    And I see only my user apps
+
+  Scenario: The apps are filtered by the administrator profile
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    And The filter responses are defined for the administrator profile
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I see the filter dropdown
+    And I select the "Administrator" profile in dropdown
+    And I see only my administrator apps
+
+  Scenario: The apps aren't filtered when selecting the all option
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    And The filter responses are defined for all profiles
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I see the filter dropdown
+    And I select the "All" profile in dropdown
+    And I see my apps
+
+  Scenario: The apps are filtered by both user profile and app name
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    And The filter responses are defined for the administrator profile
+    And The response for both administrator profile and app name is defined
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I see the filter dropdown
+    And I select the "Administrator" profile in dropdown
+    And I see only my administrator apps
+    When I filter the app selection by "My first"
+    Then I see only the app with correct profile and name
+
+  Scenario: No app is displayed when the filter is incorrect
+    Given The resolution is set to mobile
+    And I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    And The filter responses are defined for the administrator profile
+    And Incorrect name filter response is defined
+    When I visit the index page
+    And I click the burger
+    Then I see the dropdown that opened
+    When I click the app selection icon in dropdown
+    Then The app selection modal is visible
+    And I see the filter dropdown
+    And I select the "Administrator" profile in dropdown
+    And I see only my administrator apps
+    When I filter the app selection by "Incorrect name"
+    Then I don't see any apps
+    And The no app is available text is "No application available using these filters"
