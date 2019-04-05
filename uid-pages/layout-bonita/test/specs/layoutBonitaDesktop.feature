@@ -45,8 +45,14 @@ Feature: The Bonita layout in desktop resolution
 
   Scenario: The Bonita layout image has the correct source
     Given I have the "appName1" application selected
+    Given A logo is available in the theme
     When I visit the index page
     Then The image has the correct source
+
+  Scenario: The Bonita layout image is not displayed
+    Given I have the "appName1" application selected
+    When I visit the index page
+    Then The image is not displayed
 
   Scenario: The Bonita layout shows the current session modal
     Given I have the "appName1" application selected
