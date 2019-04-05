@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1554107463996,
+  "lastUpdate" : 1554450634401,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -475,8 +475,8 @@
           "value" : "remove-padding-and-margin"
         },
         "hidden" : {
-          "type" : "constant",
-          "value" : false
+          "type" : "expression",
+          "value" : "!application"
         },
         "targetUrl" : {
           "type" : "variable",
@@ -484,26 +484,30 @@
         },
         "userName" : {
           "type" : "expression",
-          "value" : "session"
-        },
-        "session" : {
-          "type" : "interpolation",
-          "value" : "{{session}}"
-        },
-        "currentSessionModal" : {
-          "type" : "constant",
-          "value" : "currentSessionModal"
+          "value" : "userName"
         },
         "currentSessionModalId" : {
-          "type" : "constant",
+          "type" : "interpolation",
           "value" : "currentSessionModalId"
         },
         "appSelectionModalId" : {
           "type" : "constant",
           "value" : "appSelectionModalId"
+        },
+        "application" : {
+          "type" : "expression",
+          "value" : "application[0]"
+        },
+        "pageToken" : {
+          "type" : "expression",
+          "value" : "pageToken"
+        },
+        "userId" : {
+          "type" : "expression",
+          "value" : "loggedUser.id"
         }
       },
-      "reference" : "eeaa35e7-91e5-4e69-b010-6e79b36f42f2",
+      "reference" : "a4a02132-16c7-4812-b19d-c3e3d71c1a12",
       "hasValidationError" : false,
       "id" : "customLayoutMenuBonitaV1"
     } ] ]
@@ -1967,6 +1971,11 @@
     "application" : {
       "type" : "url",
       "value" : "../API/living/application/?c=1&f=token%3D{{appToken}}",
+      "exposed" : false
+    },
+    "pageToken" : {
+      "type" : "expression",
+      "value" : "return $data.pathArray[$data.pathArray.length-2];",
       "exposed" : false
     }
   },
