@@ -151,7 +151,7 @@ given('The profiles list is defined', () => {
     cy.fixture('json/profilesList.json').as('profilesList');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4&f=hasNavigation=true',
+        url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4',
         response: '@profilesList'
     });
 });
@@ -245,15 +245,17 @@ when('I hover over the appName', () => {
 });
 
 when('I select the {string} profile in dropdown', (profileName) => {
-    cy.get('pb-select .form-control').select(profileName);
     switch(profileName) {
         case 'All':
+            cy.get('pb-select .form-control').select('0');
             cy.wait('@filteredAppsListByAllProfilesRoute');
             break;
         case 'User':
+            cy.get('pb-select .form-control').select('1');
             cy.wait('@filteredAppsListByUserProfileRoute');
             break;
         case 'Administrator':
+            cy.get('pb-select .form-control').select('2');
             cy.wait('@filteredAppsListByAdminProfileRoute');
             break;
     }
