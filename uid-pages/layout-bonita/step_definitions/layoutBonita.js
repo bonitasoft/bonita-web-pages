@@ -112,23 +112,84 @@ given('Multiple applications are available for the user', () => {
     });
 });
 
-given('The filter responses is defined', () => {
-    cy.fixture('json/filteredAppsList.json').as('filteredAppsList');
+given('The filter responses are defined', () => {
+    cy.fixture('json/filteredAppsListMyFirst.json').as('filteredAppsListMyFirst');
+    cy.fixture('json/filteredAppsList105.json').as('filteredAppsList105');
+    cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/living/application?c=9999&s=My first',
-        response: '@filteredAppsList'
-    });
+        response: '@filteredAppsListMyFirst'
+    }).as('filteredAppsListMyFirstRoute');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/living/application?c=9999&s=app1',
-        response: '@filteredAppsList'
-    });
+        response: '@filteredAppsListapp1'
+    }).as('filteredAppsListMyFirstRoute');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/living/application?c=9999&s=1.0.5',
-        response: '@filteredAppsList'
+        response: '@filteredAppsList105'
+    }).as('filteredAppsList105Route');
+});
+
+given('Incorrect name filter response is defined', () => {
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=Incorrect name',
+        response: '@emptyResult'
+    }).as('emptyResultRoute');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=9999&s=Incorrect name&f=profileId=2',
+        response: '@emptyResult'
+    }).as('emptyResultRoute');
+});
+
+given('The profiles list is defined', () => {
+    cy.fixture('json/profilesList.json').as('profilesList');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4',
+        response: '@profilesList'
     });
+});
+
+given('The filter responses are defined for all profiles', () => {
+    cy.fixture('json/filteredAppsListForAllProfiles.json').as('filteredAppsListByAllProfiles');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application?c=9999&s=',
+        response: '@filteredAppsListByAllProfiles'
+    }).as('filteredAppsListByAllProfilesRoute');
+});
+
+given('The filter responses are defined for the user profile', () => {
+    cy.fixture('json/filteredAppsListForUserProfile.json').as('filteredAppsListByUserProfile');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application?c=9999&s=&f=profileId=1',
+        response: '@filteredAppsListByUserProfile'
+    }).as('filteredAppsListByUserProfileRoute');
+});
+
+given('The filter responses are defined for the administrator profile', () => {
+    cy.fixture('json/filteredAppsListForAdminProfile.json').as('filteredAppsListByAdminProfile');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application?c=9999&s=&f=profileId=2',
+        response: '@filteredAppsListByAdminProfile'
+    }).as('filteredAppsListByAdminProfileRoute');
+});
+
+given('The response for both administrator profile and app name is defined', () => {
+    cy.fixture('json/filteredAppsListAdminProfileMyFirst.json').as('filteredAppsListAdminProfileMyFirst');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application?c=9999&s=My first&f=profileId=2',
+        response: '@filteredAppsListAdminProfileMyFirst'
+    }).as('filteredAppsListAdminProfileMyFirstRoute');
 });
 
 when('I visit the index page', () => {
@@ -156,7 +217,7 @@ when('I click the burger', () => {
 });
 
 when('I should not see the first line', () => {
-    cy.get('div.notShownInMobile').should('not.be.visible');
+    cy.get('div.notShownInMobile').should('not.exist');
 });
 
 when('I click the app selection icon', () => {
@@ -168,11 +229,11 @@ when('I click the app selection icon in dropdown', () => {
 });
 
 when('I filter the app selection by {string}', (filter) => {
-    cy.get('.form-control').type(filter);
+    cy.get('pb-input .form-control').type(filter);
 });
 
 when('I erase the input field', () => {
-    cy.get('.form-control').clear();
+    cy.get('pb-input .form-control').clear();
 });
 
 when('I click the close button', () => {
@@ -181,6 +242,23 @@ when('I click the close button', () => {
 
 when('I hover over the appName', () => {
     cy.get('pb-link p').eq(0).trigger('mouseover');
+});
+
+when('I select the {string} profile in dropdown', (profileName) => {
+    switch(profileName) {
+        case 'All':
+            cy.get('pb-select .form-control').select('0');
+            cy.wait('@filteredAppsListByAllProfilesRoute');
+            break;
+        case 'User':
+            cy.get('pb-select .form-control').select('1');
+            cy.wait('@filteredAppsListByUserProfileRoute');
+            break;
+        case 'Administrator':
+            cy.get('pb-select .form-control').select('2');
+            cy.wait('@filteredAppsListByAdminProfileRoute');
+            break;
+    }
 });
 
 then( 'The application displayName is {string}', (appName) => {
@@ -256,7 +334,7 @@ then('The save and cancel buttons are visible', () => {
 });
 
 then('The logout button is hidden', () => {
-    cy.get('button').contains('Logout').should('not.be.visible');
+    cy.get('button').contains('Logout').should('not.exist');
 });
 
 then('The save button is disabled', () => {
@@ -326,17 +404,63 @@ then('The app selection modal is visible', () => {
 then('I see my apps', () => {
     cy.get('pb-link p').eq(0).should('have.text', 'My first app');
     cy.get('pb-link p').eq(1).should('have.text', 'My second app');
+    cy.get('pb-link p').eq(2).should('have.text', 'My app administrator');
+    cy.get('pb-link p').eq(3).should('have.text', 'My first app administrator');
 });
 
-then('I see only the filtered applications', () => {
+then('I see only the filtered applications by {string}', (type) => {
     cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
-    cy.get('pb-link p').eq(1).should('not.be.visible');
+    switch (type) {
+        case 'name':
+            cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My first app administrator');
+            break;
+        case 'token':
+            cy.get('pb-link p').eq(1).should('not.exist');
+            break;
+        case 'version':
+            cy.get('pb-link p').eq(1).should('not.exist');
+            break;
+    }
+    cy.get('pb-link p').eq(2).should('not.exist');
 });
 
 then('The app selection modal is not visible', () => {
-    cy.get('.modal-content').should('not.be.visible');
+    cy.get('.modal-content').should('not.exist');
 });
 
 then('The app description should be correct', () => {
     cy.get('pb-link p').eq(0).should('have.attr','title', 'My first app description');
+});
+
+then('I see the filter dropdown', () => {
+    cy.get('pb-select .form-control').should('be.visible');
+});
+
+then('I don\'t see the filter dropdown', () => {
+    cy.get('pb-select .form-control').should('not.exist');
+});
+
+then('I see only my user apps', () => {
+    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
+    cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My second app');
+    cy.get('pb-link p').eq(2).should('not.exist');
+});
+
+then('I see only my administrator apps', () => {
+    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My app administrator');
+    cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My first app administrator');
+    cy.get('pb-link p').eq(2).should('not.exist');
+});
+
+then('I see only the app with correct profile and name', () => {
+    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app administrator');
+    cy.get('pb-link p').eq(1).should('not.exist');
+});
+
+then('I don\'t see any apps', () => {
+    cy.get('pb-link p').should('have.length', 0);
+});
+
+then('The no app is available text is {string}', (noAppMessage) => {
+    cy.get('.text-center').should('have.text', noAppMessage);
 });

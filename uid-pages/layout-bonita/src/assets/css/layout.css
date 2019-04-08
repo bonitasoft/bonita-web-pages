@@ -16,31 +16,31 @@
 */
 
 html, body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 body > div.container-fluid {
-  display: table;
+    display: table;
 
-  width: 100%;
-  height: 100%;
-  
-  margin: 0;
-  padding: 0;
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
 }
 
 body > div.container-fluid > div.row {
-  display: table-row;
+    display: table-row;
 }
 
 body > div.container-fluid > div.row:nth-child(2),
-body > div.container-fluid > div.row:nth-child(2) div, 
+body > div.container-fluid > div.row:nth-child(2) div,
 body > div.container-fluid > div.row:nth-child(2) iframe {
-  height: 100%;
+    height: 100%;
 }
 
 body > div.container-fluid > div.row:nth-child(2){
@@ -49,23 +49,23 @@ body > div.container-fluid > div.row:nth-child(2){
 }
 
 .remove-padding-and-margin.component{
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .remove-padding-and-margin-left.component{
-  margin-left: 0;
-  padding-left: 0;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .remove-padding-and-margin-right.component{
-  margin-right: 0;
-  padding-right: 0;
+    margin-right: 0;
+    padding-right: 0;
 }
 
 .navbar {
-  margin-bottom: 0;
-  border-radius: 0;
+    margin-bottom: 0;
+    border-radius: 0;
 }
 
 .row-centered .row {
@@ -92,15 +92,15 @@ body > div.container-fluid > div.row:nth-child(2){
 }
 
 .image-circle {
-  border-radius: 100%;
-  display: flex;
-  flex: 0 0 32px;
-  height: 32px;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  width: 32px;
-  border: solid 1px lightgrey;
+    border-radius: 100%;
+    display: flex;
+    flex: 0 0 32px;
+    height: 32px;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    width: 32px;
+    border: solid 1px lightgrey;
 }
 
 .image-circle--large {
@@ -114,7 +114,7 @@ body > div.container-fluid > div.row:nth-child(2){
 }
 
 .app-item-container {
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 .app-item {
@@ -123,18 +123,9 @@ body > div.container-fluid > div.row:nth-child(2){
     border-radius: 4px;
 }
 
-.max-description-app-width p  {
-   font-size: 0.9em;
-   line-height: 1.2em;
-   max-height: 2.4em;
-   display: -webkit-box;
-   -webkit-line-clamp: 2;
-   -webkit-box-orient: vertical;
-}
-
 .app-token-style {
-   font-size: 0.9em;
-   color: gray;
+    font-size: 0.9em;
+    color: gray;
 }
 
 .max-modal-width {
@@ -145,25 +136,20 @@ body > div.container-fluid > div.row:nth-child(2){
     padding: 30px;
 }
 
-.max-title-app-width a{
-    padding-bottom: 0;
-    min-height: 5.0em;
-}
-
-.max-title-app-width p{
+.max-title-app-width p {
     font-weight: bold;
     white-space: normal;
-    /* styles for '...' */ 
+    /* styles for '...' */
     /* hide text if it more than N lines  */
     overflow: hidden;
     /* for set '...' in absolute position */
-    position: relative; 
+    position: relative;
     /* use this value to count block height */
     line-height: 1.2em;
     /* max-height = line-height (1) * lines max number (3) */
-    max-height: 3.6em;
+    max-height: 2.4em;
     /* fix problem when last visible word doesn't adjoin right side  */
-    text-align: justify;  
+    text-align: left;
     /* place for '...' */
     margin-right: -1em;
     padding-right: 1em;
@@ -196,14 +182,37 @@ body > div.container-fluid > div.row:nth-child(2){
     background: white;
 }
 
-@media screen and (max-width: 767px) {
-    .not-shown-in-mobile {
-        display: none;
-    }
+.infinite-scroll {
+    max-height: 300px;
+}
 
+.modal-body {
+    overflow-y: scroll;
+    max-height: 61vh;
+}
+
+/* Small devices */
+@media screen and (max-width: 767px) {
     .max-title-app-width a {
         overflow: hidden;
-        font-size: 1.4em;
         font-size: 1.17em;
+        padding: 0px;
+    }
+    
+    p.width-100 {
+        width: 100%;
+        padding-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+/* Bigger than Small devices */
+@media screen and (min-width: 768px) {
+    .max-title-app-width {
+        padding-left: 0px;
+    }
+    .max-title-app-width a {
+        padding-bottom: 0;
+        min-height: 4.0em;
     }
 }
