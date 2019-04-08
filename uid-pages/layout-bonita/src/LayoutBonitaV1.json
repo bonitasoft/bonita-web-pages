@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1554454184587,
+  "lastUpdate" : 1554726428455,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -2149,12 +2149,12 @@
     },
     "profilePossibilities" : {
       "type" : "url",
-      "value" : "../API/portal/profile?p=0&c=100&f=user_id={{loggedUser.id}}&f=hasNavigation=true",
+      "value" : "../API/portal/profile?p=0&c=100&f=user_id={{loggedUser.id}}",
       "exposed" : false
     },
     "allProfilePossibilities" : {
       "type" : "expression",
-      "value" : "var newArray = [];\nif ($data.profilePossibilities && $data.profilePossibilities.length > newArray.length + 1){\n    var i = 0;\n    newArray[i] = {\"name\": \"All\"};\n    for (i=1; i < $data.profilePossibilities.length + 1; i++) {\n        newArray[i] = $data.profilePossibilities[i-1];\n    }\n    return newArray;\n}",
+      "value" : "var allProfiles = [{\"name\": uiTranslate(\"All\")}].concat($data.profilePossibilities);\n\nreturn allProfiles;",
       "exposed" : false
     }
   },
