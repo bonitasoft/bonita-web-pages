@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1554726428455,
+  "lastUpdate" : 1554815173891,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1754,8 +1754,8 @@
               },
               "propertyValues" : {
                 "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "app-item"
+                  "type" : "expression",
+                  "value" : "applicationContainerClasses($item)"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -1772,10 +1772,10 @@
               "rows" : [ [ {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
+                  "xs" : 10,
                   "sm" : 12,
-                  "md" : 12,
-                  "lg" : 12
+                  "md" : 10,
+                  "lg" : 10
                 },
                 "propertyValues" : {
                   "cssClasses" : {
@@ -2155,6 +2155,16 @@
     "allProfilePossibilities" : {
       "type" : "expression",
       "value" : "var allProfiles = [{\"name\": uiTranslate(\"All\")}].concat($data.profilePossibilities);\n\nreturn allProfiles;",
+      "exposed" : false
+    },
+    "currentText" : {
+      "type" : "expression",
+      "value" : "return \"app-item-current--text\";",
+      "exposed" : false
+    },
+    "applicationContainerClasses" : {
+      "type" : "expression",
+      "value" : "return function (currentApp){\n    if(currentApp.token === $data.appToken){\n        return \"app-item-current--container\" ;\n    }else{\n        return \"app-item\";\n    }\n};\n",
       "exposed" : false
     }
   },
