@@ -1,11 +1,16 @@
 plugins {
-    id 'com.bonitasoft.gradle.bonita-release' version '0.1.39'
+    id 'com.bonitasoft.gradle.bonita-release' version '0.1.42'
     id 'com.bonitasoft.deployer.bonita-resources-deployer' version '0.1.25'
 }
 
 apply plugin: 'com.bonitasoft.gradle.bonita-uid'
 UIDesigner {
     version "1.9.28"
+}
+
+bonitaRelease {
+    // do not create a commit after the release (need to modify release.groovy to remove that)
+   createCommitAfter = false
 }
 
 allprojects {
