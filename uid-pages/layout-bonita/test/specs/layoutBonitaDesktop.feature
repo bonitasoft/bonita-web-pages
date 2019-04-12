@@ -272,3 +272,13 @@ Feature: The Bonita layout in desktop resolution
     When I filter the app selection by "Incorrect name"
     Then I don't see any apps
     And The no app is available text is "No application available using these filters"
+
+  Scenario: The current app is the only one has the app item current class defined
+    Given I have the "appName1" application selected
+    And Multiple applications are available for the user
+    And The profiles list is defined
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    And The current application has the class "app-item--current"
+    And The other applications don't have the class ".app-item--current"

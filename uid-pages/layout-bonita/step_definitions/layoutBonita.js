@@ -406,6 +406,7 @@ then('I see my apps', () => {
     cy.get('pb-link p').eq(1).should('have.text', 'My second app');
     cy.get('pb-link p').eq(2).should('have.text', 'My app administrator');
     cy.get('pb-link p').eq(3).should('have.text', 'My first app administrator');
+    cy.get('pb-link p').eq(4).should('have.text', 'Current application');
 });
 
 then('I see only the filtered applications by {string}', (type) => {
@@ -463,4 +464,12 @@ then('I don\'t see any apps', () => {
 
 then('The no app is available text is {string}', (noAppMessage) => {
     cy.get('.text-center').should('have.text', noAppMessage);
+});
+
+then('The current application has the class {string}', (currentAppClass) => {
+    cy.get('.app-item').contains('.app-item', 'Current application').should('have.class', currentAppClass);
+});
+
+then('The other applications don\'t have the class {string}', (currentAppClass) => {
+    cy.get('.app-item').not(currentAppClass).should('have.length', 4);
 });
