@@ -194,9 +194,6 @@ given('The response for both administrator profile and app name is defined', () 
 
 when('I visit the index page', () => {
     cy.visit(url);
-/*    cy.window().then((win) => {
-        cy.stub(win, 'location').returns('http://localhost:8080/bonita/apps/app1/home/');
-    });*/
 });
 
 when('I click the user name', () => {
@@ -409,6 +406,7 @@ then('I see my apps', () => {
     cy.get('pb-link p').eq(1).should('have.text', 'My second app');
     cy.get('pb-link p').eq(2).should('have.text', 'My app administrator');
     cy.get('pb-link p').eq(3).should('have.text', 'My first app administrator');
+    cy.get('pb-link p').eq(4).should('have.text', 'Current application');
 });
 
 then('I see only the filtered applications by {string}', (type) => {
@@ -425,10 +423,6 @@ then('I see only the filtered applications by {string}', (type) => {
             break;
     }
     cy.get('pb-link p').eq(2).should('not.exist');
-});
-
-then('I see only the current application with special display', (type) => {
-    cy.get('.app-item--current').should('have.length', 1)
 });
 
 then('The app selection modal is not visible', () => {
@@ -470,4 +464,12 @@ then('I don\'t see any apps', () => {
 
 then('The no app is available text is {string}', (noAppMessage) => {
     cy.get('.text-center').should('have.text', noAppMessage);
+});
+
+then('The current application has the class {string}', (currentAppClass) => {
+    cy.get('.app-item').contains('.app-item', 'Current application').should('have.class', currentAppClass);
+});
+
+then('The other applications don\'t have the class {string}', (currentAppClass) => {
+    cy.get('.app-item').not(currentAppClass).should('have.length', 4);
 });
