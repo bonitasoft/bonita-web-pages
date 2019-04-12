@@ -194,6 +194,9 @@ given('The response for both administrator profile and app name is defined', () 
 
 when('I visit the index page', () => {
     cy.visit(url);
+/*    cy.window().then((win) => {
+        cy.stub(win, 'location').returns('http://localhost:8080/bonita/apps/app1/home/');
+    });*/
 });
 
 when('I click the user name', () => {
@@ -422,6 +425,10 @@ then('I see only the filtered applications by {string}', (type) => {
             break;
     }
     cy.get('pb-link p').eq(2).should('not.exist');
+});
+
+then('I see only the current application with special display', (type) => {
+    cy.get('.app-item--current').should('have.length', 1)
 });
 
 then('The app selection modal is not visible', () => {
