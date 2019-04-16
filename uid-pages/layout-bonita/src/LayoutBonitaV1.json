@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1555073865098,
+  "lastUpdate" : 1555335869091,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -2165,6 +2165,11 @@
     "applicationContainerClasses" : {
       "type" : "expression",
       "value" : "return function (currentApp){\n    if(currentApp.token === $data.appToken){\n        return \"app-item app-item--current\" ;\n    }else{\n        return \"app-item\";\n    }\n};\n",
+      "exposed" : false
+    },
+    "setWindowAppName" : {
+      "type" : "expression",
+      "value" : "if ($data.appName) {\n    window.document.title = $data.appName;\n}",
       "exposed" : false
     }
   },
