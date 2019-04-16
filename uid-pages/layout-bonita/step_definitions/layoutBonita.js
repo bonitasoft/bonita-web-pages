@@ -473,3 +473,11 @@ then('The current application has the class {string}', (currentAppClass) => {
 then('The other applications don\'t have the class {string}', (currentAppClass) => {
     cy.get('.app-item').not(currentAppClass).should('have.length', 4);
 });
+
+then('The favicon link should be set to {string}', (faviconURL) => {
+    cy.get('link[rel=icon]').should('have.attr', 'href', faviconURL);
+});
+
+then('The app title should be set to {string}', (appName) => {
+    cy.get('title').contains(appName);
+});
