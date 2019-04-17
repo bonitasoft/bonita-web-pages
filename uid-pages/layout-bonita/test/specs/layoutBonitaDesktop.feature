@@ -282,3 +282,13 @@ Feature: The Bonita layout in desktop resolution
     Then The app selection modal is visible
     And The current application has the class "app-item--current"
     And The other applications don't have the class ".app-item--current"
+
+  Scenario: The favicon link should be set correctly
+    Given I have the "appName1" application selected
+    When I visit the index page
+    Then The favicon link should be set to "../theme/icons/default/favicon.ico"
+
+  Scenario: The app title should be set correctly
+    Given I have the "appName1" application selected
+    When I visit the index page
+    Then The app title should be set to "app1"

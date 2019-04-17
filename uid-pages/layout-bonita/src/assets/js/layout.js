@@ -27,3 +27,10 @@ function initMessageListener() {
 };
 
 initMessageListener();
+
+window.addEventListener('load', function() {
+    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.rel = 'icon';
+    link.href = '../theme/icons/default/favicon.ico';
+    document.getElementsByTagName('head')[0].appendChild(link);
+})
