@@ -23,7 +23,6 @@ Feature: The Bonita layout in desktop resolution
     And I see "../API/avatars/1" as the user menu icon
     And I don't see "walter.bates" as the user name
 
-
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given I have the "appName1" application selected
     And A user is connected without sso
@@ -31,7 +30,7 @@ Feature: The Bonita layout in desktop resolution
     When I visit the index page
     Then I see "walter.bates" as the user name
 
-  Scenario: The Bonita layout shows the user name when a lastname isn't available in mobile resolution
+  Scenario: The Bonita layout shows the user name when a lastname isn't available
     Given I have the "appName1" application selected
     And A user is connected without sso
     And The user doesn't have a "lastname" info available
@@ -93,15 +92,6 @@ Feature: The Bonita layout in desktop resolution
     And I click the user name
     Then The current session modal is visible
     And I see "../API/avatars/1" as the user modal icon
-
-  Scenario: The current session modal show default user icon if empty
-    Given I have the "appName1" application selected
-    And A user is connected without sso
-    And The user has a first, a last name, but no image defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And I see "../theme/icons/default/icon_user.png" as the user modal icon
 
   Scenario: The current session modal show the default user icon
     Given I have the "appName1" application selected

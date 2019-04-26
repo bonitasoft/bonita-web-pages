@@ -109,7 +109,6 @@ Feature: The Bonita layout in mobile resolution
     Then The current session modal is visible
     And I see "../theme/icons/default/icon_user.png" as the user modal icon
 
-
   Scenario: The language is changed in current session modal
     Given The resolution is set to mobile
     And I have the "appName1" application selected
