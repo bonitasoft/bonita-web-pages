@@ -109,7 +109,6 @@ Feature: The Bonita layout in mobile resolution
     Then The current session modal is visible
     And I see "../theme/icons/default/icon_user.png" as the user modal icon
 
-
   Scenario: The language is changed in current session modal
     Given The resolution is set to mobile
     And I have the "appName1" application selected
@@ -125,6 +124,16 @@ Feature: The Bonita layout in mobile resolution
     Then The save button is enabled
     When I press the save button
     Then The language in BOS_Locale is "fr"
+
+  Scenario: The current session modal closes correctly
+    Given I have the "appName1" application selected
+    And A user is connected without sso
+    And The user has a first and last name defined
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    When I click the cancel button
+    Then The current session modal is not visible
 
   Scenario: The app selection modal is shown correctly
     Given The resolution is set to mobile
