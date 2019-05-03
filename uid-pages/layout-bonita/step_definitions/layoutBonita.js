@@ -240,6 +240,10 @@ when('I click the close button', () => {
     cy.get('button').contains('Close').click();
 });
 
+when('I click the cancel button', () => {
+    cy.get('button').contains('Cancel').click();
+});
+
 when('I hover over the appName', () => {
     cy.get('pb-link p').eq(0).trigger('mouseover');
 });
@@ -260,6 +264,8 @@ when('I select the {string} profile in dropdown', (profileName) => {
             break;
     }
 });
+
+
 
 then( 'The application displayName is {string}', (appName) => {
     cy.get('pb-link > .text-left > .ng-binding').should('have.text', appName);
@@ -346,7 +352,11 @@ then('The save button is enabled', () => {
 });
 
 then('The language in BOS_Locale is {string}', (languageSelected) => {
-    cy.getCookie('BOS_Locale').should('have.property', 'value', 'fr')
+    cy.getCookie('BOS_Locale').should('have.property', 'value', languageSelected);
+});
+
+then('The current session modal is not visible', () => {
+    cy.get('.modal').should('not.exist');
 });
 
 then('The burger shows correctly', () => {
