@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1555335869091,
+  "lastUpdate" : 1557911128004,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1067,7 +1067,7 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [ [ {
-          "type" : "container",
+          "type" : "component",
           "dimension" : {
             "xs" : 4,
             "sm" : 5,
@@ -1080,102 +1080,76 @@
               "value" : ""
             },
             "hidden" : {
+              "type" : "expression",
+              "value" : "!logoutHidden"
+            },
+            "disabled" : {
               "type" : "constant",
               "value" : false
             },
-            "repeatedCollection" : {
+            "label" : {
+              "type" : "interpolation",
+              "value" : "Logout"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "left"
+            },
+            "buttonStyle" : {
+              "type" : "constant",
+              "value" : "danger"
+            },
+            "action" : {
+              "type" : "constant",
+              "value" : "POST"
+            },
+            "url" : {
+              "type" : "interpolation",
+              "value" : "../../../logoutservice?_l=fr"
+            },
+            "responseStatusCode" : {
               "type" : "variable",
               "value" : ""
+            },
+            "dataToSend" : {
+              "type" : "constant"
+            },
+            "dataFromSuccess" : {
+              "type" : "variable",
+              "value" : "logoutSuccess"
+            },
+            "closeOnSuccess" : {
+              "type" : "constant",
+              "value" : false
+            },
+            "dataFromError" : {
+              "type" : "variable",
+              "value" : ""
+            },
+            "targetUrlOnSuccess" : {
+              "type" : "interpolation"
+            },
+            "collectionToModify" : {
+              "type" : "variable"
+            },
+            "modalId" : {
+              "type" : "constant",
+              "value" : ""
+            },
+            "collectionPosition" : {
+              "type" : "constant",
+              "value" : "Last"
+            },
+            "valueToAdd" : {
+              "type" : "constant"
+            },
+            "removeItem" : {
+              "type" : "variable"
             }
           },
-          "reference" : "2752e34b-d3f4-4437-b4b7-9933df62db67",
+          "reference" : "bd53a803-dc45-49fd-8fc5-1e5a83daaa7a",
           "hasValidationError" : false,
-          "id" : "pbContainer",
-          "rows" : [ [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 12,
-              "lg" : 12
-            },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "expression",
-                "value" : "!logoutHidden"
-              },
-              "disabled" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "label" : {
-                "type" : "interpolation",
-                "value" : "Logout"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "left"
-              },
-              "buttonStyle" : {
-                "type" : "constant",
-                "value" : "danger"
-              },
-              "action" : {
-                "type" : "constant",
-                "value" : "POST"
-              },
-              "url" : {
-                "type" : "interpolation",
-                "value" : "../../../logoutservice?_l=fr"
-              },
-              "responseStatusCode" : {
-                "type" : "variable",
-                "value" : ""
-              },
-              "dataToSend" : {
-                "type" : "constant"
-              },
-              "dataFromSuccess" : {
-                "type" : "variable",
-                "value" : "logoutSuccess"
-              },
-              "closeOnSuccess" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "dataFromError" : {
-                "type" : "variable",
-                "value" : ""
-              },
-              "targetUrlOnSuccess" : {
-                "type" : "interpolation"
-              },
-              "collectionToModify" : {
-                "type" : "variable"
-              },
-              "modalId" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "collectionPosition" : {
-                "type" : "constant",
-                "value" : "Last"
-              },
-              "valueToAdd" : {
-                "type" : "constant"
-              },
-              "removeItem" : {
-                "type" : "variable"
-              }
-            },
-            "reference" : "bd53a803-dc45-49fd-8fc5-1e5a83daaa7a",
-            "hasValidationError" : false,
-            "id" : "pbButton"
-          } ] ]
+          "id" : "pbButton"
         }, {
           "type" : "component",
           "dimension" : {
@@ -1621,7 +1595,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "modal-body"
+            "value" : "modal-body infinite-scroll"
           },
           "hidden" : {
             "type" : "constant",
