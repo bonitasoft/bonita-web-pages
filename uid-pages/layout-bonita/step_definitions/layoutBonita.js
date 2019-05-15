@@ -125,7 +125,7 @@ given('The filter responses are defined', () => {
         method: 'GET',
         url: '/build/dist/API/living/application?c=9999&s=app1',
         response: '@filteredAppsListapp1'
-    }).as('filteredAppsListMyFirstRoute');
+    }).as('filteredAppsListapp1Route');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/living/application?c=9999&s=1.0.5',
@@ -420,15 +420,20 @@ then('I see my apps', () => {
 });
 
 then('I see only the filtered applications by {string}', (type) => {
-    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
     switch (type) {
         case 'name':
+            cy.wait('@filteredAppsListMyFirstRoute');
+            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
             cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My first app administrator');
             break;
         case 'token':
+            cy.wait('@filteredAppsListapp1Route');
+            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
             cy.get('pb-link p').eq(1).should('not.exist');
             break;
         case 'version':
+            cy.wait('@filteredAppsList105Route');
+            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
             cy.get('pb-link p').eq(1).should('not.exist');
             break;
     }
@@ -464,6 +469,7 @@ then('I see only my administrator apps', () => {
 });
 
 then('I see only the app with correct profile and name', () => {
+    cy.wait('@filteredAppsListAdminProfileMyFirstRoute');
     cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app administrator');
     cy.get('pb-link p').eq(1).should('not.exist');
 });
