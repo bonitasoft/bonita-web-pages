@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "resourcesPage",
   "name" : "ResourcesPage",
-  "lastUpdate" : 1557837162727,
+  "lastUpdate" : 1557930294640,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -178,8 +178,8 @@
     }, {
       "type" : "component",
       "dimension" : {
-        "xs" : 4,
-        "sm" : 12,
+        "xs" : 12,
+        "sm" : 6,
         "md" : 4,
         "lg" : 4
       },
@@ -243,8 +243,8 @@
     }, {
       "type" : "component",
       "dimension" : {
-        "xs" : 4,
-        "sm" : 12,
+        "xs" : 12,
+        "sm" : 6,
         "md" : 4,
         "lg" : 4
       },
@@ -925,7 +925,7 @@
   "data" : {
     "resourcesAPI" : {
       "type" : "url",
-      "value" : "../API/portal/page?p=0&c=999&o={{sortResourcesBy}}&f=contentType%3D{{resourceTypeFilter}}",
+      "value" : "../API/portal/page?p=0&c=999&f=contentType%3D{{resourceType || ''}}&o={{sortResourcesBy}}",
       "exposed" : false
     },
     "getLastUpdatedTime" : {
@@ -940,11 +940,6 @@
     },
     "resourceType" : {
       "type" : "constant",
-      "exposed" : false
-    },
-    "resourceTypeFilter" : {
-      "type" : "expression",
-      "value" : "if($data.resourceType){\n    return $data.resourceType;\n}else{\n    return \"\";\n}\n",
       "exposed" : false
     },
     "resourcesList" : {
@@ -963,7 +958,7 @@
     },
     "sortResourcesBy" : {
       "type" : "expression",
-      "value" : "if($data.sortValue == \"lastUpdateDate%20DESC\"){\n    return $data.sortValue + \"%20DESC\";\n}else if($data.sortValue == \"lastUpdateDate%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20DESC\" ){\n    return $data.sortValue + \"%20DESC\";\n}else{\n    return \"lastUpdateDate%20DESC\";\n}",
+      "value" : "if($data.sortValue == \"lastUpdateDate%20DESC\"){\n    return $data.sortValue + \"%20DESC\" ;\n}else if($data.sortValue == \"lastUpdateDate%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20DESC\" ){\n    return $data.sortValue + \"%20DESC\";\n}else{\n    return \"lastUpdateDate%20DESC\";\n}",
       "exposed" : false
     }
   },
