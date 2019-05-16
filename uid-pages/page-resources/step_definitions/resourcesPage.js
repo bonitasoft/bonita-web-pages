@@ -67,3 +67,6 @@ when('The user select {string} type', (type) => {
  });
 
 
+given('The sort responses are defined for the order of resources to be shown in the list', () => {
+
+});

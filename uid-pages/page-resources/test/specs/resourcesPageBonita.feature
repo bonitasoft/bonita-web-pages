@@ -24,3 +24,11 @@ Feature: The resources page
     Then The user sees only the list of page resources
     And The user won't be able to see the list of other type of resources
 
+  Scenario: The resources page has sort by option
+    Given The user has resources
+    And The sort responses are defined for the order of resources to be shown in the list
+    When The user visits the reources page
+    Then The user sees the list of resources
+    And The user sees the sort by dropdown
+    And The user select "Alphabetical order (A-Z)"
+    Then The user sees the list in alphabetical ascending order
