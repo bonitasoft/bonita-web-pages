@@ -77,16 +77,20 @@ body{
     color: #dd0033;
 }
 
-.customPadding{
-    padding: 10px 6px 0 0;    
-}
-
 .noPadding{
     padding: 0;    
 }
 .scrollInBody{
     overflow-y: auto;
     height: 80vh;
+}
+
+.padding-top-10{
+    padding-top: 10px;    
+}
+
+.padding-bottom-10{
+    padding-bottom: 10px;
 }
 
 .itemContainer{
@@ -107,7 +111,7 @@ body{
     transition: 0.3s;
   /*  border: 1px solid lightgray; */
     overflow: hidden;
-    height: 5em;
+    height: 4.5em;
 }
 
 
@@ -116,7 +120,7 @@ body{
 }
 
 .itemImageContainer{
-    width: 50px;
+    width: 35px;
     position: relative;
     display: inline-block;
     overflow: hidden;
@@ -145,20 +149,21 @@ body{
     text-align: left;
     display: inline-block;
     vertical-align: top;
-    font-weight: 550;
+    font-weight: 600;
+    width: 100%;
 }
 
 .itemDescription p {
     overflow: hidden;
-    position: relative; 
-    line-height: 1em;
-    max-height: 1em; 
+    position: absolute; 
+    line-height: 1.2em;
+    max-height: 1.2em; 
     margin-right: -1em;
     padding-right: 1em;
     font-size: 0.89em;
     vertical-align: text-top;
     text-align: justify;
-    bottom: 15px;
+    top: -10px;
 }
 
 .itemDescription p:before {
@@ -183,57 +188,15 @@ body{
     font-size: 12px;
 }
 
-.customPadding{
-    padding: 10px 6px 0 0;    
-}
-
-
 .lastUpadtedDate p{
-    font-size: 0.8em;
-    text-align: center;
+    font-size: 0.89em;
+    padding: 10px 6px 0 0;
 }
 
-.more .btn-link:active, .more .btn-link:focus{
-        outline: 0;
-    }
-
-
-/*========================== Responsiveness ===========================*/
-
-@media (max-width: 767px){
-    
-    .app-item {
-        height: 6em;
-    }
-    
-    .itemImageContainer{
-        width: 20px;
-        
-    }
-    
-    .itemImageContainer img {
-        max-width: 100%;
-    }
-    
-    .itemName h5 {
-        width: 14em;
-    }
-    
-    .itemDescription p {
-        bottom: 25px;
-    }
-    
-  
-    .more{
-        position: absolute;
-        bottom: -5px;
-        right: 0;
-    }
-    
-    
-    .lastUpadtedDate p{
-        position: absolute;
-        top: 15px;
-        left:  -10px;
-    }
+.more button, .more .btn-link:active, .more .btn-link:focus{
+    outline: 0;
+    position: absolute;
+    right: 0;
+    padding: 10px 0;    
 }
+
