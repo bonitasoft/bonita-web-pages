@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "resourcesPage",
   "name" : "ResourcesPage",
-  "lastUpdate" : 1558361755386,
+  "lastUpdate" : 1558425902064,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -977,7 +977,7 @@
   "data" : {
     "resourcesAPI" : {
       "type" : "url",
-      "value" : "../API/portal/page?p=0&c=999&f=contentType%3D{{resourceType || ''}}&o={{sortResourcesBy}}",
+      "value" : "../API/portal/page?p=0&c=999&f=contentType%3D{{resourceType || ''}}&o={{sortValue || ''}}",
       "exposed" : false
     },
     "getLastUpdatedTime" : {
@@ -1010,7 +1010,7 @@
     },
     "sortResourcesBy" : {
       "type" : "expression",
-      "value" : "if($data.sortValue == \"lastUpdateDate%20DESC\"){\n    return $data.sortValue + \"%20DESC\" ;\n}else if($data.sortValue == \"lastUpdateDate%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20ASC\"){\n    return $data.sortValue + \"%20ASC\";\n}else if($data.sortValue == \"displayName%20DESC\" ){\n    return $data.sortValue + \"%20DESC\" ;\n}else{\n    return \"lastUpdateDate%20DESC\";\n}\n\n",
+      "value" : "if($data.sortValue == \"lastUpdateDate%20DESC\"){\n    return $data.sortValue;\n}else if($data.sortValue == \"lastUpdateDate%20ASC\"){\n    return $data.sortValue;\n}else if($data.sortValue == \"displayName%20ASC\"){\n    return $data.sortValue;\n}else if($data.sortValue == \"displayName%20DESC\" ){\n    return $data.sortValue;\n}else{\n    return \"lastUpdateDate%20DESC\";\n}\n\n",
       "exposed" : false
     }
   },

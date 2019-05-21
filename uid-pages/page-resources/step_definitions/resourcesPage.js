@@ -7,7 +7,7 @@ given('The user has resources', () => {
         method: 'GET',
         url: 'build/dist/API/portal/page?*',
         response: '@resourceList'
-    });
+    }).as('resourcesListRoute');
 });
 
 when('The user visits the resources page', () => {
@@ -15,6 +15,7 @@ when('The user visits the resources page', () => {
 })
 
 then('The user sees the list of resources', () => {
+    cy.wait('@resourcesListRoute');
     cy.get('.app-item').should('have.length', 3);
 })
 
@@ -59,7 +60,7 @@ then('The user sees the filter dropdown', () => {
 });
 
 when('The user select {string} type', (type) => {
-    cy.get('.form-control').eq(0).select(type);
+    cy.get('select[name="pbSelect0"]').eq(0).select(type);
 });
 
  then('The user sees only the list of {string} type resources', () => {
@@ -75,18 +76,27 @@ when('The user select {string} type', (type) => {
 
 
 given('The sort responses are defined for the order of resources to be shown in the list', () => {
-    cy.fixture('json/sortedResourcesByUpdatedDateDESC.json').as('sortedResourcesByUpdatedDateDESC');
+    cy.fixture('json/sortBy.json').as('sortBy');
     cy.route({
-        method: 'GET',
-        url: 'build/dist/API/portal/page?p=0&c=999&o=lastUpdateDate%20DESC*',
-        response: '@sortedResourcesByUpdatedDateDESC'
-    }).as('sortedResourcesByUpdatedDateDESCRoute');
+       method: 'GET',
+       url: 'build/dist/API/portal/page?p=0&c=999&f=contentType=&o=displayName DESC',
+       response: '@sortBy'
+    }).as('sortByRoute');
 });
 
-then('The user sees the sort by dropdown', () => {
-    cy.get('select[name="pbSelect"]').should('be.visible');
+then('The user sees the sort by dropdown list', () => {
+    cy.get('pb-select select[name="pbSelect1').should('be.visible');
 });
 
-when('The user select {string} option', (sorting) => {
-    cy.get('pb-select select[name="pbSelect1"]').eq(0).select(sorting);
+when('The user select {string} sorting option', (option) => {
+    cy.get('select[name="pbSelect1"]').eq(0).select(option);
 });
+
+then('The user sees the list of resources by {string} in descending order', () => {
+    cy.wait('@sortByRoute');
+    cy.get('.itemName').should('have.length', 3);
+    cy.get('.itemName').eq(0).contains('TESTTESTTESTTESTTESTTESTTESTTESTTEST');
+    cy.get('.itemName').eq(1).contains('REST API extension example')
+    cy.get('.itemName').eq(2).contains('API extension viewer page');
+});
+

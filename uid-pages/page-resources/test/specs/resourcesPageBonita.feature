@@ -16,7 +16,7 @@ Feature: The resources page
     And The "third" resource displays "Page generated with Bonita UI designer" as description
 
 
-  Scenario: The resources page has filter option
+  Scenario: The resources page has filter option by its type
     Given The user has resources
     And The filter responses are defined for the type of resources
     When The user visits the resources page
@@ -31,7 +31,6 @@ Feature: The resources page
     And The sort responses are defined for the order of resources to be shown in the list
     When The user visits the resources page
     Then The user sees the list of resources
-    And The user sees the sort by dropdown
-    When The user select "Last update - newest first" option.
-    Then The user sees the list of resources by last updated date in descending order
-
+    And The user sees the sort by dropdown list
+    When The user select "Reverse alphabetical order (Z-A)" sorting option
+    Then The user sees the list of resources by "alphabetical" in descending order
