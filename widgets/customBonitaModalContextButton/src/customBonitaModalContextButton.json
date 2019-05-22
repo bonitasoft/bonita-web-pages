@@ -1,0 +1,203 @@
+{
+  "designerVersion" : "1.9.32",
+  "id" : "customBonitaModalContextButton",
+  "name" : "modalContextButton",
+  "lastUpdate" : 1558441301030,
+  "template" : "<div class=\"text-{{ properties.alignment }}\">\n    <button\n        ng-class=\"'btn btn-' + properties.buttonStyle\"\n        ng-click=\"ctrl.action()\"\n        type=\"button\"\n        ng-disabled=\"properties.disabled || ctrl.busy\" ng-bind-html=\"properties.label | uiTranslate\"></button>\n</div>\n",
+  "icon" : "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 20'><g><path fill='#CBD5E1' d='M47,15.2c0,0.7-1.7,1.8-1.7,1.8S4.8,17,3.7,17c-1.6,0-3.6-1.9-3.6-1.9s0.7,4.8,4,5c2.4,0.1,42.4,0,42.4,0 s3.5-0.2,3.5-3.6c0-1.3,0.1-11.5,0.1-12.4c-0.1-2-4-4-4-4L47,1.8C47,1.8,47,14.5,47,15.2z'/><path fill='#fff' d='M3.9,1h40.3C45.7,1,47,2.2,47,3.6v10.8c0,1.4-1.3,2.6-2.9,2.6H3.9C2.3,17,1,15.8,1,14.4V3.6 C1,2.2,2.3,1,3.9,1z M3,0C1.3,0,0,1.3,0,3v12c0,1.7,1.3,3,3,3h42c1.7,0,3-1.3,3-3V3c0-1.7-1.3-3-3-3H3z'/></g></svg>",
+  "controller" : "function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {\n\n  'use strict';\n\n  var vm = this;\n\n  this.action = function action() {\n    if ($scope.properties.action === 'Remove from collection') {\n      removeFromCollection();\n      closeModal($scope.properties.closeOnSuccess);\n    } else if ($scope.properties.action === 'Add to collection') {\n      addToCollection();\n      closeModal($scope.properties.closeOnSuccess);\n    } else if ($scope.properties.action === 'Start process') {\n      startProcess();\n    } else if ($scope.properties.action === 'Submit task') {\n      submitTask();\n    } else if ($scope.properties.action === 'Open modal') {\n      closeModal($scope.properties.closeOnSuccess);\n      openModal($scope.properties.modalId);\n    } else if ($scope.properties.action === 'Close modal') {\n      closeModal(true);\n    } else if ($scope.properties.url) {\n      doRequest($scope.properties.action, $scope.properties.url);\n    }\n  };\n\n  function openModal(modalId) {\n    $scope.properties.modalContextReference = $scope.properties.modalContext;\n    modalService.open(modalId);\n  }\n\n  function closeModal(shouldClose) {\n    if(shouldClose)\n      modalService.close();\n  }\n\n  function removeFromCollection() {\n    if ($scope.properties.collectionToModify) {\n      if (!Array.isArray($scope.properties.collectionToModify)) {\n        throw 'Collection property for widget button should be an array, but was ' + $scope.properties.collectionToModify;\n      }\n      var index = -1;\n      if ($scope.properties.collectionPosition === 'First') {\n        index = 0;\n      } else if ($scope.properties.collectionPosition === 'Last') {\n        index = $scope.properties.collectionToModify.length - 1;\n      } else if ($scope.properties.collectionPosition === 'Item') {\n        index = $scope.properties.collectionToModify.indexOf($scope.properties.removeItem);\n      }\n\n      // Only remove element for valid index\n      if (index !== -1) {\n        $scope.properties.collectionToModify.splice(index, 1);\n      }\n    }\n  }\n\n  function addToCollection() {\n    if (!$scope.properties.collectionToModify) {\n      $scope.properties.collectionToModify = [];\n    }\n    if (!Array.isArray($scope.properties.collectionToModify)) {\n      throw 'Collection property for widget button should be an array, but was ' + $scope.properties.collectionToModify;\n    }\n    var item = angular.copy($scope.properties.valueToAdd);\n\n    if ($scope.properties.collectionPosition === 'First') {\n      $scope.properties.collectionToModify.unshift(item);\n    } else {\n      $scope.properties.collectionToModify.push(item);\n    }\n  }\n\n  function startProcess() {\n    var id = getUrlParam('id');\n    if (id) {\n      var prom = doRequest('POST', '../API/bpm/process/' + id + '/instantiation', getUserParam()).then(function() {\n        localStorageService.delete($window.location.href);\n      });\n\n    } else {\n      $log.log('Impossible to retrieve the process definition id value from the URL');\n    }\n  }\n\n  /**\n   * Execute a get/post request to an URL\n   * It also bind custom data from success|error to a data\n   * @return {void}\n   */\n  function doRequest(method, url, params) {\n    vm.busy = true;\n    var req = {\n      method: method,\n      url: url,\n      data: angular.copy($scope.properties.dataToSend),\n      params: params\n    };\n\n    return $http(req)\n      .success(function(data, status) {\n        $scope.properties.dataFromSuccess = data;\n        $scope.properties.responseStatusCode = status;\n        $scope.properties.dataFromError = undefined;\n        notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status});\n        if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {\n          redirectIfNeeded();\n        }\n        closeModal($scope.properties.closeOnSuccess);\n      })\n      .error(function(data, status) {\n        $scope.properties.dataFromError = data;\n        $scope.properties.responseStatusCode = status;\n        $scope.properties.dataFromSuccess = undefined;\n        notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});\n      })\n      .finally(function() {\n        vm.busy = false;\n      });\n  }\n\n  function redirectIfNeeded() {\n    var iframeId = $window.frameElement ? $window.frameElement.id : null;\n    //Redirect only if we are not in the portal or a living app\n    if (!iframeId || iframeId && iframeId.indexOf('bonitaframe') !== 0) {\n      $window.location.assign($scope.properties.targetUrlOnSuccess);\n    }\n  }\n\n  function notifyParentFrame(additionalProperties) {\n    if ($window.parent !== $window.self) {\n      var dataToSend = angular.extend({}, $scope.properties, additionalProperties);\n      $window.parent.postMessage(JSON.stringify(dataToSend), '*');\n    }\n  }\n\n  function getUserParam() {\n    var userId = getUrlParam('user');\n    if (userId) {\n      return { 'user': userId };\n    }\n    return {};\n  }\n\n  /**\n   * Extract the param value from a URL query\n   * e.g. if param = \"id\", it extracts the id value in the following cases:\n   *  1. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?id=8880000\n   *  2. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?param=value&id=8880000&locale=en\n   *  3. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?param=value&id=8880000&locale=en#hash=value\n   * @returns {id}\n   */\n  function getUrlParam(param) {\n    var paramValue = $location.absUrl().match('[//?&]' + param + '=([^&#]*)($|[&#])');\n    if (paramValue) {\n      return paramValue[1];\n    }\n    return '';\n  }\n\n  function submitTask() {\n    var id;\n    id = getUrlParam('id');\n    if (id) {\n      var params = getUserParam();\n\t    params.assign = $scope.properties.assign;\n      doRequest('POST', '../API/bpm/userTask/' + getUrlParam('id') + '/execution', params).then(function() {\n        localStorageService.delete($window.location.href);\n      });\n    } else {\n      $log.log('Impossible to retrieve the task id value from the URL');\n    }\n  }\n\n}\n",
+  "description" : "Trigger for an action in a page or form",
+  "custom" : true,
+  "order" : 12,
+  "properties" : [ {
+    "label" : "Disabled",
+    "name" : "disabled",
+    "type" : "boolean",
+    "defaultValue" : false,
+    "bond" : "expression"
+  }, {
+    "label" : "Label",
+    "name" : "label",
+    "type" : "text",
+    "defaultValue" : "Submit",
+    "bond" : "interpolation"
+  }, {
+    "label" : "Alignment",
+    "name" : "alignment",
+    "type" : "choice",
+    "defaultValue" : "left",
+    "choiceValues" : [ "left", "center", "right" ],
+    "bond" : "constant"
+  }, {
+    "label" : "Style",
+    "name" : "buttonStyle",
+    "type" : "choice",
+    "defaultValue" : "default",
+    "choiceValues" : [ "default", "primary", "success", "info", "warning", "danger", "link" ],
+    "bond" : "constant"
+  }, {
+    "label" : "Action",
+    "name" : "action",
+    "type" : "choice",
+    "defaultValue" : "Submit task",
+    "choiceValues" : [ {
+      "value" : "Submit task",
+      "label" : "Submit task",
+      "group" : "Bonita BPM"
+    }, {
+      "value" : "Start process",
+      "label" : "Start process",
+      "group" : "Bonita BPM"
+    }, {
+      "value" : "POST",
+      "label" : "POST",
+      "group" : "HTTP request"
+    }, {
+      "value" : "PUT",
+      "label" : "PUT",
+      "group" : "HTTP request"
+    }, {
+      "value" : "GET",
+      "label" : "GET",
+      "group" : "HTTP request"
+    }, {
+      "value" : "DELETE",
+      "label" : "DELETE",
+      "group" : "HTTP request"
+    }, {
+      "value" : "Add to collection",
+      "label" : "Add to collection",
+      "group" : "Collection"
+    }, {
+      "value" : "Remove from collection",
+      "label" : "Remove from collection",
+      "group" : "Collection"
+    }, {
+      "value" : "Open modal",
+      "label" : "Open modal",
+      "group" : "Modal"
+    }, {
+      "value" : "Close modal",
+      "label" : "Close modal",
+      "group" : "Modal"
+    } ],
+    "bond" : "constant"
+  }, {
+    "label" : "Assign before Submit",
+    "name" : "assign",
+    "help" : "Automatically assign the Task to the current user before the execution",
+    "showFor" : "['Submit task'].indexOf(properties.action.value) > -1",
+    "type" : "boolean",
+    "defaultValue" : false,
+    "bond" : "expression"
+  }, {
+    "label" : "URL to call",
+    "name" : "url",
+    "caption" : "Send data to this URL when the button is clicked",
+    "help" : "URL used to perform the HTTP request when this button is clicked.",
+    "showFor" : "['POST', 'PUT', 'GET', 'DELETE'].indexOf(properties.action.value) > -1",
+    "type" : "text",
+    "bond" : "interpolation"
+  }, {
+    "label" : "HTTP status code",
+    "name" : "responseStatusCode",
+    "help" : "Holds the HTTP status code of the response",
+    "showFor" : "['POST', 'PUT', 'GET', 'DELETE', 'Submit task', 'Start process'].indexOf(properties.action.value) > -1",
+    "type" : "text",
+    "bond" : "variable"
+  }, {
+    "label" : "Data sent on click",
+    "name" : "dataToSend",
+    "help" : "Can be used to fulfill a contract",
+    "showFor" : "properties.action.value === 'POST' || properties.action.value === 'PUT' || properties.action.value === 'Submit task' || properties.action.value ===  'Start process'",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "Successful response value",
+    "name" : "dataFromSuccess",
+    "help" : "Holds the response when the request is successful",
+    "showFor" : "['POST', 'PUT', 'GET', 'DELETE', 'Submit task', 'Start process'].indexOf(properties.action.value) > -1",
+    "type" : "text",
+    "bond" : "variable"
+  }, {
+    "label" : "Close modal on success",
+    "name" : "closeOnSuccess",
+    "help" : "Close modal when the action is successful",
+    "showFor" : "['POST', 'PUT', 'GET', 'DELETE', 'Submit task', 'Start process', 'Remove from collection', 'Add to collection', 'Open modal'].indexOf(properties.action.value) > -1",
+    "type" : "boolean",
+    "defaultValue" : false,
+    "bond" : "expression"
+  }, {
+    "label" : "Failed response value",
+    "name" : "dataFromError",
+    "help" : "Holds the response when the request has failed",
+    "showFor" : "['POST', 'PUT', 'GET', 'DELETE', 'Submit task', 'Start process'].indexOf(properties.action.value) > -1",
+    "type" : "text",
+    "bond" : "variable"
+  }, {
+    "label" : "Target URL on success",
+    "name" : "targetUrlOnSuccess",
+    "help" : "Next page to display, for applications. In the Portal, it is ignored as navigation is managed automatically",
+    "showFor" : "['POST', 'PUT', 'DELETE', 'Submit task', 'Start process'].indexOf(properties.action.value) > -1",
+    "type" : "text",
+    "bond" : "interpolation"
+  }, {
+    "label" : "Collection",
+    "name" : "collectionToModify",
+    "caption" : "Variable of type array",
+    "help" : "Use $collection to act on the collection of a repeated content",
+    "showFor" : "properties.action.value === 'Remove from collection' || properties.action.value === 'Add to collection'",
+    "type" : "collection",
+    "bond" : "variable"
+  }, {
+    "label" : "Modal Id",
+    "name" : "modalId",
+    "showFor" : "properties.action.value === 'Open modal'",
+    "type" : "text",
+    "defaultValue" : "",
+    "bond" : "expression"
+  }, {
+    "label" : "Add",
+    "name" : "collectionPosition",
+    "showFor" : "properties.action.value === 'Add to collection'",
+    "type" : "choice",
+    "defaultValue" : "Last",
+    "choiceValues" : [ "First", "Last" ],
+    "bond" : "constant"
+  }, {
+    "label" : "Value to add",
+    "name" : "valueToAdd",
+    "showFor" : "properties.action.value === 'Add to collection'",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "Remove",
+    "name" : "collectionPosition",
+    "showFor" : "properties.action.value === 'Remove from collection'",
+    "type" : "choice",
+    "defaultValue" : "Last",
+    "choiceValues" : [ "First", "Item", "Last" ],
+    "bond" : "constant"
+  }, {
+    "label" : "Item to remove",
+    "name" : "removeItem",
+    "help" : "Use $item to remove the current item in a repeated collection",
+    "showFor" : "properties.action.value === 'Remove from collection' && properties.collectionPosition.value === 'Item'",
+    "type" : "text",
+    "bond" : "variable"
+  }, {
+    "label" : "Modal context",
+    "name" : "modalContext",
+    "type" : "collection",
+    "bond" : "expression"
+  }, {
+    "label" : "Modal context reference",
+    "name" : "modalContextReference",
+    "type" : "text",
+    "bond" : "variable"
+  } ],
+  "assets" : [ ],
+  "requiredModules" : [ ],
+  "type" : "widget",
+  "hasHelp" : true
+}
