@@ -100,3 +100,10 @@ then('The user sees the list of resources by {string} in descending order', () =
     cy.get('.itemName').eq(2).contains('API extension viewer page');
 });
 
+when('The user clicks on more button', () => {
+    cy.get('.text-right > button').eq(0).click();
+});
+
+then('The resource details modal will be visible', () => {
+   cy.get('.modal').should('be.visible');
+});

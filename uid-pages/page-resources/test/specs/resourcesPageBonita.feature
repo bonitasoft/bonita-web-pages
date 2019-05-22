@@ -34,3 +34,10 @@ Feature: The resources page
     And The user sees the sort by dropdown list
     When The user select "Reverse alphabetical order (Z-A)" sorting option
     Then The user sees the list of resources by "alphabetical" in descending order
+
+  Scenario: The user can see the resource details in a modal
+    Given The user has resources
+    When The user visits the resources page
+    Then The user sees the list of resources
+    And The user clicks on more button
+    Then The resource details modal will be visible
