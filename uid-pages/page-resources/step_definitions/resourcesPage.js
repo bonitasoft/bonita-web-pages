@@ -104,6 +104,34 @@ when('The user clicks on more button', () => {
     cy.get('.text-right > button').eq(0).click();
 });
 
-then('The resource details modal will be visible', () => {
+then('The resource details modal will be opened', () => {
    cy.get('.modal').should('be.visible');
+});
+
+then('The modal title shows correctly', () => {
+   cy.get('.modalItemTitle h4').should('be.visible');
+});
+
+then('The user sees the action buttons', () => {
+   cy.get('.customButton button').should('be.visible');
+});
+
+then('The content type icon shows correctly', () => {
+   cy.get('.modalItemImageContainer img').should('be.visible');
+});
+
+then('The resource title shows correctly', () => {
+   cy.get('.modalItemTitle h4').contains('REST API extension example').should('be.visible');
+});
+
+then('The resource details shows correctly', () => {
+    cy.get('.modalDetailsContainer div').should('be.visible');
+});
+
+when('The user clicks on close button', () => {
+   cy.get('.modal-footer .hidden-xs').eq(0).click();
+});
+
+then('The modal window will be closed', () => {
+   cy.get('.modal-dialog.modal-content').should('not.exist');
 });

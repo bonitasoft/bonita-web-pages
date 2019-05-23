@@ -40,4 +40,17 @@ Feature: The resources page
     When The user visits the resources page
     Then The user sees the list of resources
     And The user clicks on more button
-    Then The resource details modal will be visible
+    Then The resource details modal will be opened
+
+    Scenario: The modal shows the details correctly
+      Given The user has resources
+      When The user visits the resources page
+      Then The user sees the list of resources
+      And The user clicks on more button
+      Then The resource details modal will be opened
+      And The modal title shows correctly
+      And The user sees the action buttons
+      And The content type icon shows correctly
+      And The resource title shows correctly
+      When The user clicks on close button
+      Then The modal window will be closed
