@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1558079461313,
+  "lastUpdate" : 1559032677814,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -496,7 +496,7 @@
         },
         "application" : {
           "type" : "expression",
-          "value" : "application[0]"
+          "value" : "application[0] || {}"
         },
         "pageToken" : {
           "type" : "expression",
@@ -2054,7 +2054,7 @@
     },
     "userIconPath" : {
       "type" : "expression",
-      "value" : "var isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!=\"icons/default/icon_user.png\";\n\nreturn isCustomIconPath ? $data.loggedUser.icon : \"../theme/icons/default/icon_user.png\";",
+      "value" : "if (!$data.loggedUser) {\n    return \"\";\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!=\"icons/default/icon_user.png\";\n\nreturn isCustomIconPath ? $data.loggedUser.icon : \"../theme/icons/default/icon_user.png\";",
       "exposed" : false
     },
     "loggedUser" : {
@@ -2074,12 +2074,12 @@
     },
     "appName" : {
       "type" : "expression",
-      "value" : "return $data.application[0].displayName;",
+      "value" : "if (!$data.application || !$data.application[0]) {\n    return \"\";\n}\nreturn $data.application[0].displayName;",
       "exposed" : false
     },
     "appsListGroupByThree" : {
       "type" : "expression",
-      "value" : "var i = 0;\nvar result = [];\nwhile (i < $data.appsList.length) {\n    if (i%3 === 0) {\n        result.push([]);\n    }\n    result[Math.floor(i/3)].push($data.appsList[i]);\n    i++;\n}\n\nreturn result;",
+      "value" : "if (!$data.appsList) {\n    return [];\n}\n\nvar i = 0;\nvar result = [];\nwhile (i < $data.appsList.length) {\n    if (i%3 === 0) {\n        result.push([]);\n    }\n    result[Math.floor(i/3)].push($data.appsList[i]);\n    i++;\n}\n\nreturn result;",
       "exposed" : false
     },
     "safeList" : {
