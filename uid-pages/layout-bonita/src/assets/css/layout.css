@@ -43,22 +43,22 @@ body > div.container-fluid > div.row:nth-child(2) iframe {
     height: 100%;
 }
 
-body > div.container-fluid > div.row:nth-child(2){
+body > div.container-fluid > div.row:nth-child(2) {
     /* Required for IE9 - IE10 */
     display: table-cell;
 }
 
-.remove-padding-and-margin.component{
+.remove-padding-and-margin.component {
     margin: 0;
     padding: 0;
 }
 
-.remove-padding-and-margin-left.component{
+.remove-padding-and-margin-left.component {
     margin-left: 0;
     padding-left: 0;
 }
 
-.remove-padding-and-margin-right.component{
+.remove-padding-and-margin-right.component {
     margin-right: 0;
     padding-right: 0;
 }
@@ -79,7 +79,7 @@ body > div.container-fluid > div.row:nth-child(2){
     justify-content: flex-end;
 }
 
-.resized-image img{
+.resized-image img {
     max-width: none;
     height: 38.5px;
     padding-bottom: 0.6em;
@@ -89,7 +89,7 @@ body > div.container-fluid > div.row:nth-child(2){
     font-size: 1.6em;
 }
 
-.app-name-title a:hover{
+.app-name-title a:hover {
     text-decoration: none;
 }
 
@@ -98,7 +98,7 @@ body > div.container-fluid > div.row:nth-child(2){
     text-decoration: none;
 }
 
-.user-menu button:hover{
+.user-menu button:hover {
     text-decoration: none;
 }
 
@@ -134,15 +134,13 @@ body > div.container-fluid > div.row:nth-child(2){
     border-radius: 4px;
 }
 
-.app-item--current{
+.app-item--current {
     border-color: #798d8f;
     box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
 }
 
 .max-description-app-width p  {
     font-size: 0.6em;
-    /*line-height: 0.9em;
-    max-height: 1.8em;*/
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -164,76 +162,38 @@ body > div.container-fluid > div.row:nth-child(2){
 .max-title-app-width p {
     font-weight: bold;
     white-space: normal;
-    /* styles for '...' */
-    /* hide text if it more than N lines  */
     overflow: hidden;
-    /* for set '...' in absolute position */
     position: relative;
-    /* use this value to count block height */
     line-height: 1.2em;
-    /* max-height = line-height (1) * lines max number (3) */
     max-height: 2.4em;
-    /* fix problem when last visible word doesn't adjoin right side  */
     text-align: left;
-    /* place for '...' */
     margin-right: -1em;
     padding-right: 1em;
 }
 
-/* create the ... */
 .max-title-app-width p:before {
-    /* points in the end */
     content: '...';
-    /* absolute position */
     position: absolute;
-    /* set position to right bottom corner of block */
     right: 0;
     bottom: 0;
 }
 
-/* hide ... if we have text, which is less than or equal to max lines */
 .max-title-app-width p:after {
-    /* points in the end */
     content: '';
-    /* absolute position */
     position: absolute;
-    /* set position to right bottom corner of text */
     right: 0;
-    /* set width and height */
     width: 1em;
     height: 1em;
     margin-top: 0.2em;
-    /* bg color = bg color under block */
     background: white;
 }
 
-.modal-body.infinite-scroll{
+.modal-body.infinite-scroll {
     overflow-y: auto;
     max-height: 61vh;
 }
 
-/* Small devices */
-@media screen and (max-width: 767px) {
-    .max-title-app-width a {
-        overflow: hidden;
-        font-size: 1.17em;
-        padding: 0px;
-    }
-    
-    p.width-100 {
-        width: 100%;
-        padding-left: 0px;
-        margin-right: 0px;
-    }
-}
-
-/* Bigger than Small devices */
-@media screen and (min-width: 768px) {
-    .max-title-app-width {
-        padding-left: 0px;
-    }
-    .max-title-app-width a {
-        padding-bottom: 0;
-        min-height: 4.0em;
-    }
+.max-title-app-width a {
+    padding-bottom: 0;
+    min-height: 3.6em;
 }
