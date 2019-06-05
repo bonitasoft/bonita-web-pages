@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV1",
   "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1559640492900,
+  "lastUpdate" : 1559744271433,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -40,7 +40,7 @@
       "propertyValues" : {
         "cssClasses" : {
           "type" : "constant",
-          "value" : "hidden-xs"
+          "value" : "hidden-xs remove-padding-and-margin row-centered"
         },
         "hidden" : {
           "type" : "constant",
@@ -51,415 +51,375 @@
           "value" : ""
         }
       },
-      "reference" : "770db3bf-4773-469c-a65f-bdd9d2c4e295",
+      "reference" : "3f8f6bbc-4eb5-4d2a-823b-e61c1aec5713",
       "hasValidationError" : false,
       "id" : "pbContainer",
       "rows" : [ [ {
-        "type" : "container",
+        "type" : "component",
         "dimension" : {
-          "xs" : 6,
-          "sm" : 6,
-          "md" : 6,
-          "lg" : 6
+          "xs" : 2,
+          "sm" : 2,
+          "md" : 2,
+          "lg" : 2
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "remove-padding-and-margin row-centered"
+            "value" : "resized-image"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!logoRequest"
           },
-          "repeatedCollection" : {
-            "type" : "variable",
+          "srcType" : {
+            "type" : "constant",
+            "value" : "URL"
+          },
+          "url" : {
+            "type" : "expression",
+            "value" : "logoURL"
+          },
+          "assetName" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "alt" : {
+            "type" : "interpolation",
             "value" : ""
           }
         },
-        "reference" : "968e3dd8-1d05-46c1-8421-05e55d9a5399",
+        "reference" : "2a0f4509-b5d1-4f69-8746-3d366ce04782",
         "hasValidationError" : false,
-        "id" : "pbContainer",
-        "rows" : [ [ {
-          "type" : "component",
-          "dimension" : {
-            "xs" : 4,
-            "sm" : 4,
-            "md" : 4,
-            "lg" : 4
-          },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "resized-image"
-            },
-            "hidden" : {
-              "type" : "expression",
-              "value" : "!logoRequest"
-            },
-            "srcType" : {
-              "type" : "constant",
-              "value" : "URL"
-            },
-            "url" : {
-              "type" : "expression",
-              "value" : "logoURL"
-            },
-            "assetName" : {
-              "type" : "constant",
-              "value" : ""
-            },
-            "alt" : {
-              "type" : "interpolation",
-              "value" : ""
-            }
-          },
-          "reference" : "2a0f4509-b5d1-4f69-8746-3d366ce04782",
-          "hasValidationError" : false,
-          "id" : "pbImage"
-        }, {
-          "type" : "component",
-          "dimension" : {
-            "xs" : 8,
-            "sm" : 8,
-            "md" : 8,
-            "lg" : 8
-          },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "remove-padding-and-margin app-name-title"
-            },
-            "hidden" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "text" : {
-              "type" : "interpolation",
-              "value" : "{{appName}}"
-            },
-            "type" : {
-              "type" : "constant",
-              "value" : "page"
-            },
-            "targetUrl" : {
-              "type" : "constant",
-              "value" : "http://"
-            },
-            "pageToken" : {
-              "type" : "constant",
-              "value" : ""
-            },
-            "processName" : {
-              "type" : "constant"
-            },
-            "processVersion" : {
-              "type" : "constant"
-            },
-            "taskId" : {
-              "type" : "constant"
-            },
-            "caseId" : {
-              "type" : "constant"
-            },
-            "target" : {
-              "type" : "constant",
-              "value" : "_self"
-            },
-            "appToken" : {
-              "type" : "constant"
-            },
-            "urlParams" : {
-              "type" : "constant"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "left"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "link"
-            }
-          },
-          "reference" : "90561f46-80ea-4864-aa7f-5a117aee2bb9",
-          "hasValidationError" : false,
-          "id" : "pbLink"
-        } ] ]
+        "id" : "pbImage"
       }, {
-        "type" : "container",
+        "type" : "component",
         "dimension" : {
-          "xs" : 6,
-          "sm" : 6,
-          "md" : 6,
-          "lg" : 6
+          "xs" : 4,
+          "sm" : 4,
+          "md" : 4,
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "remove-padding-and-margin row-centered row-align-right"
+            "value" : "remove-padding-and-margin app-name-title"
           },
           "hidden" : {
             "type" : "constant",
             "value" : false
           },
-          "repeatedCollection" : {
-            "type" : "variable",
+          "text" : {
+            "type" : "interpolation",
+            "value" : "{{appName}}"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "page"
+          },
+          "targetUrl" : {
+            "type" : "constant",
+            "value" : "http://"
+          },
+          "pageToken" : {
+            "type" : "constant",
             "value" : ""
+          },
+          "processName" : {
+            "type" : "constant"
+          },
+          "processVersion" : {
+            "type" : "constant"
+          },
+          "taskId" : {
+            "type" : "constant"
+          },
+          "caseId" : {
+            "type" : "constant"
+          },
+          "target" : {
+            "type" : "constant",
+            "value" : "_self"
+          },
+          "appToken" : {
+            "type" : "constant"
+          },
+          "urlParams" : {
+            "type" : "constant"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
           }
         },
-        "reference" : "a2a14555-d4d8-4cc6-8446-542ba03759af",
+        "reference" : "90561f46-80ea-4864-aa7f-5a117aee2bb9",
         "hasValidationError" : false,
-        "id" : "pbContainer",
-        "rows" : [ [ {
-          "type" : "component",
-          "dimension" : {
-            "xs" : 11,
-            "sm" : 10,
-            "md" : 10,
-            "lg" : 10
+        "id" : "pbLink"
+      }, {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 4,
+          "sm" : 4,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "remove-padding-and-margin user-menu user-menu-name"
           },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "remove-padding-and-margin user-menu"
-            },
-            "hidden" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "disabled" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "label" : {
-              "type" : "interpolation",
-              "value" : "{{userName}}"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "right"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "link"
-            },
-            "action" : {
-              "type" : "constant",
-              "value" : "Open modal"
-            },
-            "url" : {
-              "type" : "interpolation"
-            },
-            "responseStatusCode" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "dataToSend" : {
-              "type" : "constant"
-            },
-            "dataFromSuccess" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "closeOnSuccess" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "dataFromError" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "targetUrlOnSuccess" : {
-              "type" : "interpolation"
-            },
-            "collectionToModify" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "modalId" : {
-              "type" : "constant",
-              "value" : "currentSessionModalId"
-            },
-            "collectionPosition" : {
-              "type" : "constant",
-              "value" : "Last"
-            },
-            "valueToAdd" : {
-              "type" : "constant"
-            },
-            "removeItem" : {
-              "type" : "variable"
-            }
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
           },
-          "reference" : "d8824a0f-860e-490c-8ca1-e8fac6681921",
-          "hasValidationError" : false,
-          "id" : "pbButton"
-        }, {
-          "type" : "component",
-          "dimension" : {
-            "xs" : 12,
-            "sm" : 1,
-            "md" : 1,
-            "lg" : 1
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
           },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "remove-padding-and-margin user-menu"
-            },
-            "hidden" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "disabled" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "label" : {
-              "type" : "interpolation",
-              "value" : "<div class=\"image-circle\" ><img src=\"{{userIconPath}}\" alt=\"User icon\"></div>"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "left"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "link"
-            },
-            "action" : {
-              "type" : "constant",
-              "value" : "Open modal"
-            },
-            "url" : {
-              "type" : "interpolation"
-            },
-            "responseStatusCode" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "dataToSend" : {
-              "type" : "constant"
-            },
-            "dataFromSuccess" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "closeOnSuccess" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "dataFromError" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "targetUrlOnSuccess" : {
-              "type" : "interpolation"
-            },
-            "collectionToModify" : {
-              "type" : "variable"
-            },
-            "modalId" : {
-              "type" : "constant",
-              "value" : "currentSessionModalId"
-            },
-            "collectionPosition" : {
-              "type" : "constant",
-              "value" : "Last"
-            },
-            "valueToAdd" : {
-              "type" : "constant"
-            },
-            "removeItem" : {
-              "type" : "variable"
-            }
+          "label" : {
+            "type" : "interpolation",
+            "value" : "{{userName}}"
           },
-          "reference" : "150555db-2bcf-4189-b199-5c34528d0c2f",
-          "hasValidationError" : false,
-          "id" : "pbButton"
-        }, {
-          "type" : "component",
-          "dimension" : {
-            "xs" : 1,
-            "sm" : 1,
-            "md" : 1,
-            "lg" : 1
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
           },
-          "propertyValues" : {
-            "cssClasses" : {
-              "type" : "constant",
-              "value" : "remove-padding-and-margin user-menu"
-            },
-            "hidden" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "disabled" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "label" : {
-              "type" : "interpolation",
-              "value" : "<span class=\"glyphicon glyphicon-th\"></span>"
-            },
-            "alignment" : {
-              "type" : "constant",
-              "value" : "left"
-            },
-            "buttonStyle" : {
-              "type" : "constant",
-              "value" : "link"
-            },
-            "action" : {
-              "type" : "constant",
-              "value" : "Open modal"
-            },
-            "url" : {
-              "type" : "interpolation"
-            },
-            "responseStatusCode" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "dataToSend" : {
-              "type" : "constant"
-            },
-            "dataFromSuccess" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "closeOnSuccess" : {
-              "type" : "constant",
-              "value" : false
-            },
-            "dataFromError" : {
-              "type" : "variable",
-              "value" : ""
-            },
-            "targetUrlOnSuccess" : {
-              "type" : "interpolation"
-            },
-            "collectionToModify" : {
-              "type" : "variable"
-            },
-            "modalId" : {
-              "type" : "constant",
-              "value" : "appSelectionModalId"
-            },
-            "collectionPosition" : {
-              "type" : "constant",
-              "value" : "Last"
-            },
-            "valueToAdd" : {
-              "type" : "constant"
-            },
-            "removeItem" : {
-              "type" : "variable"
-            }
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
           },
-          "reference" : "4c5989ff-b12c-4742-bda1-baa9ecdafa22",
-          "hasValidationError" : false,
-          "id" : "pbButton"
-        } ] ]
+          "action" : {
+            "type" : "constant",
+            "value" : "Open modal"
+          },
+          "url" : {
+            "type" : "interpolation"
+          },
+          "responseStatusCode" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "dataToSend" : {
+            "type" : "constant"
+          },
+          "dataFromSuccess" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "closeOnSuccess" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "dataFromError" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "targetUrlOnSuccess" : {
+            "type" : "interpolation"
+          },
+          "collectionToModify" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "currentSessionModalId"
+          },
+          "collectionPosition" : {
+            "type" : "constant",
+            "value" : "Last"
+          },
+          "valueToAdd" : {
+            "type" : "constant"
+          },
+          "removeItem" : {
+            "type" : "variable"
+          },
+          "assign" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "d8824a0f-860e-490c-8ca1-e8fac6681921",
+        "hasValidationError" : false,
+        "id" : "pbButton"
+      }, {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 1,
+          "sm" : 1,
+          "md" : 1,
+          "lg" : 1
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "remove-padding-and-margin user-menu"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"image-circle\" ><img src=\"{{userIconPath}}\" alt=\"User icon\"></div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Open modal"
+          },
+          "url" : {
+            "type" : "interpolation"
+          },
+          "responseStatusCode" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "dataToSend" : {
+            "type" : "constant"
+          },
+          "dataFromSuccess" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "closeOnSuccess" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "dataFromError" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "targetUrlOnSuccess" : {
+            "type" : "interpolation"
+          },
+          "collectionToModify" : {
+            "type" : "variable"
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "currentSessionModalId"
+          },
+          "collectionPosition" : {
+            "type" : "constant",
+            "value" : "Last"
+          },
+          "valueToAdd" : {
+            "type" : "constant"
+          },
+          "removeItem" : {
+            "type" : "variable"
+          },
+          "assign" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "150555db-2bcf-4189-b199-5c34528d0c2f",
+        "hasValidationError" : false,
+        "id" : "pbButton"
+      }, {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 1,
+          "sm" : 1,
+          "md" : 1,
+          "lg" : 1
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "remove-padding-and-margin user-menu"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "<span class=\"glyphicon glyphicon-th\"></span>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Open modal"
+          },
+          "url" : {
+            "type" : "interpolation"
+          },
+          "responseStatusCode" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "dataToSend" : {
+            "type" : "constant"
+          },
+          "dataFromSuccess" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "closeOnSuccess" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "dataFromError" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "targetUrlOnSuccess" : {
+            "type" : "interpolation"
+          },
+          "collectionToModify" : {
+            "type" : "variable"
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "appSelectionModalId"
+          },
+          "collectionPosition" : {
+            "type" : "constant",
+            "value" : "Last"
+          },
+          "valueToAdd" : {
+            "type" : "constant"
+          },
+          "removeItem" : {
+            "type" : "variable"
+          },
+          "assign" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "4c5989ff-b12c-4742-bda1-baa9ecdafa22",
+        "hasValidationError" : false,
+        "id" : "pbButton"
       } ] ]
     } ], [ {
       "type" : "component",
