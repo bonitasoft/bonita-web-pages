@@ -11,42 +11,39 @@
      
     This CSS file manages the layout behaviour,   
     It allows to display the content container in full height, 
-    and header and footer with fixed size.
+    and header and footer fixed on the top and on the bottom of the page.
 
+    Note: All the CSS rules defined in this file override the values defined in UIDesigner properties panel.
 */
-
-html, body {
-    height: 100%;
-}
-
+html,
 body {
-    overflow: hidden;
+	height: 100vh;
 }
 
-body > div.container-fluid {
-    display: table;
-
-    width: 100%;
-    height: 100%;
-
-    margin: 0;
-    padding: 0;
+/*
+    Begin (flexbox vertical layout)
+    Force the layout-content to take all the available space between the layout-header and the layout-footer 
+*/
+body > .container-fluid {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
 }
 
-body > div.container-fluid > div.row {
-    display: table-row;
-}
-
-body > div.container-fluid > div.row:nth-child(2),
+body > .container-fluid > div.row:nth-child(2),
 body > div.container-fluid > div.row:nth-child(2) div,
-body > div.container-fluid > div.row:nth-child(2) iframe {
-    height: 100%;
+.living-application-iframe :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-body > div.container-fluid > div.row:nth-child(2) {
-    /* Required for IE9 - IE10 */
-    display: table-cell;
+body > div.container-fluid > div.row:nth-child(2) iframe {
+    flex: 1;
 }
+/*
+    End (flexbox vertical layout)
+*/
 
 .remove-padding-and-margin.component {
     margin: 0;
@@ -63,20 +60,11 @@ body > div.container-fluid > div.row:nth-child(2) {
     padding-right: 0;
 }
 
+/* Begin (Page header) */
+
 .navbar {
     margin-bottom: 0;
     border-radius: 0;
-}
-
-.row-centered .row {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5em;
-    
-}
-
-.row-align-right .row {
-    justify-content: flex-end;
 }
 
 .resized-image img {
@@ -85,8 +73,34 @@ body > div.container-fluid > div.row:nth-child(2) {
     padding-bottom: 0.6em;
 }
 
+.row-centered > .row {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5em;
+}
+
+/* Application title */
+.row-centered > .row > div:nth-child(2) {
+    flex: 2 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+/* User name */
+.row-centered > .row > div:nth-child(3) {
+    flex: 1 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+.app-name-title {
+    width: 100%;
+}
+
 .app-name-title a {
     font-size: 1.6em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
 }
 
 .app-name-title a:hover {
@@ -100,6 +114,18 @@ body > div.container-fluid > div.row:nth-child(2) {
 
 .user-menu button:hover {
     text-decoration: none;
+}
+
+.user-menu-name {
+    width: 100%; 
+}
+
+.user-menu-name button {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;    
+    text-align: right;
 }
 
 .image-circle {
@@ -197,3 +223,5 @@ body > div.container-fluid > div.row:nth-child(2) {
     padding-bottom: 0;
     min-height: 3.6em;
 }
+/* End (Page header) */
+
