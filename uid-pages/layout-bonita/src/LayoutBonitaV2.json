@@ -1,9 +1,9 @@
 {
   "designerVersion" : "1.9.24",
   "previousDesignerVersion" : "1.8.29",
-  "id" : "LayoutBonitaV1",
-  "name" : "BonitaLayoutV1",
-  "lastUpdate" : 1559811237031,
+  "id" : "LayoutBonitaV2",
+  "name" : "BonitaLayoutV2",
+  "lastUpdate" : 1560507194917,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -105,8 +105,8 @@
             "value" : "remove-padding-and-margin app-name-title"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!homePage"
           },
           "text" : {
             "type" : "interpolation",
@@ -121,8 +121,8 @@
             "value" : "http://"
           },
           "pageToken" : {
-            "type" : "constant",
-            "value" : ""
+            "type" : "expression",
+            "value" : "homePage.token"
           },
           "processName" : {
             "type" : "constant"
@@ -141,7 +141,8 @@
             "value" : "_self"
           },
           "appToken" : {
-            "type" : "constant"
+            "type" : "expression",
+            "value" : "application[0].token"
           },
           "urlParams" : {
             "type" : "constant"
@@ -465,11 +466,15 @@
         "userId" : {
           "type" : "expression",
           "value" : "loggedUser.id"
+        },
+        "homePageToken" : {
+          "type" : "expression",
+          "value" : "homePage.token"
         }
       },
       "reference" : "a4a02132-16c7-4812-b19d-c3e3d71c1a12",
       "hasValidationError" : false,
-      "id" : "customLayoutMenuBonitaV1"
+      "id" : "customLayoutMenuBonitaV2"
     } ] ]
   } ], [ {
     "type" : "container",
@@ -2105,11 +2110,16 @@
       "type" : "expression",
       "value" : "if ($data.appName) {\n    window.document.title = $data.appName;\n}",
       "exposed" : false
+    },
+    "homePage" : {
+      "type" : "url",
+      "value" : "../API/living/application-page/{{application[0].homePageId}}",
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "type" : "layout",
-  "description" : "This is the Bonita living application layout V1. It contains a horizontal menu widget with a logo and the name of the application, logged user's information and logout button, access to all applications of the logged user, and an iframe widget, that displays the application pages. It is responsive. Since it is created with the UI Designer, you can export it and edit it in the UI Designer.",
-  "displayName" : "Bonita layout"
+  "description" : "",
+  "displayName" : "Bonita layout V2"
 }
