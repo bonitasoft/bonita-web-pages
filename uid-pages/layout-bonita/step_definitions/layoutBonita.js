@@ -1,10 +1,12 @@
 const url = 'build/dist/resources/index.html';
 
 given('The resolution is set to mobile', () => {
-    cy.viewport(767, 1000);
+    /* 766 instead of 767 because bootstrap issue with hidden-xs
+    *  hidden-xs break point is <767 whereas it should be <768 */
+    cy.viewport(766, 1000);
 });
 
-given('I have the {string} application selected', () => {
+given('The URL target to the application {string}', () => {
     cy.server();
     cy.fixture('json/app1.json').as('app1');
     cy.fixture('json/pageList.json').as('pageList');
@@ -12,7 +14,7 @@ given('I have the {string} application selected', () => {
         method: 'GET',
         url: 'build/dist/API/living/application/*',
         response: '@app1',
-    });
+    }).as('app1Route');
     cy.route({
         method: 'GET',
         url: 'build/dist/API/living/application-menu/**',
@@ -192,6 +194,15 @@ given('The response for both administrator profile and app name is defined', () 
     }).as('filteredAppsListAdminProfileMyFirstRoute');
 });
 
+given('I have the application home page token defined', () => {
+    cy.fixture('json/homePage.json').as('homePage');
+    cy.route({
+        method: "GET",
+        url: 'build/dist/API/living/application-page/107',
+        response: '@homePage'
+    }).as('homePageRoute');
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
 });
@@ -260,8 +271,6 @@ when('I select the {string} profile in dropdown', (profileName) => {
             break;
     }
 });
-
-
 
 then( 'The application displayName is {string}', (appName) => {
     cy.get('pb-link > .text-left > .ng-binding').should('have.text', appName);
@@ -492,4 +501,20 @@ then('The favicon link should be set to {string}', (faviconURL) => {
 
 then('The app title should be set to {string}', (appName) => {
     cy.get('title').contains(appName);
+});
+
+then('I can see the application name as {string}', (appTitle) => {
+    cy.get('.app-name-title a').should('have.text', appTitle);
+});
+
+then('Application name has {string} as application href', (homePageHref) => {
+    cy.get('.app-name-title a').should('have.attr', 'href', homePageHref);
+});
+
+when('I click on the appName', () => {
+    cy.get('.navbar-brand').click();
+});
+
+then('Application name has {string} as application href in mobile view', (homePageHref) => {
+    cy.url().should('include', homePageHref);
 });

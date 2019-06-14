@@ -2,13 +2,16 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The application name should be shown in the menu bar
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
+    And I have the application home page token defined
     When I visit the index page
     Then The application displayName is "app1" and is shown in the navbar
+    When I click on the appName
+    Then Application name has "homePageToken" as application href in mobile view
 
   Scenario: The burger is opened and closed when clicking the icon two times
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     When I visit the index page
     And I click the burger
     Then I see the dropdown that opened
@@ -17,7 +20,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user doesn't have a "firstname" info available
     When I visit the index page
@@ -26,7 +29,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The Bonita layout shows the user name when a lastname isn't available
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user doesn't have a "lastname" info available
     When I visit the index page
@@ -35,7 +38,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The Bonita layout shows the first and last name and not the user name
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
@@ -45,14 +48,14 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The Bonita layout shows the app selection correctly
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     When I visit the index page
     And I click the burger
     Then I see the app selection icon in the dropdown menu
 
   Scenario: The Bonita layout shows the current session modal
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
@@ -62,7 +65,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The current session modal is shown correctly without sso
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
@@ -78,7 +81,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The current session modal is shown correctly with sso
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected with sso
     And The user has a first and last name defined
     When I visit the index page
@@ -89,7 +92,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The current session modal has the image correctly set
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
@@ -100,7 +103,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The current session modal doesn't show an image
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first, a last name, but no image defined
     When I visit the index page
@@ -111,7 +114,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The language is changed in current session modal
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And I have languages available
@@ -126,7 +129,7 @@ Feature: The Bonita layout in mobile resolution
     Then The language in BOS_Locale is "fr"
 
   Scenario: The current session modal closes correctly
-    Given I have the "appName1" application selected
+    Given The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
@@ -137,7 +140,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The app selection modal is shown correctly
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And Multiple applications are available for the user
     When I visit the index page
     And I click the burger
@@ -148,7 +151,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The app selection modal filter works correctly
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And Multiple applications are available for the user
     And The filter responses are defined
     And Incorrect name filter response is defined
@@ -172,7 +175,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The app selection modal closes correctly
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And Multiple applications are available for the user
     When I visit the index page
     And I click the burger
@@ -184,7 +187,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The app filter by profile is hidden
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -198,7 +201,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The apps are filtered by the user profile
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -215,7 +218,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The apps are filtered by the administrator profile
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -232,7 +235,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The apps aren't filtered when selecting the all option
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -249,7 +252,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The apps are filtered by both user profile and app name
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -269,7 +272,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: No app is displayed when the filter is incorrect
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
     And Multiple applications are available for the user
@@ -290,7 +293,7 @@ Feature: The Bonita layout in mobile resolution
 
   Scenario: The current app is the only one has the app item current class defined
     Given The resolution is set to mobile
-    And I have the "appName1" application selected
+    And The URL target to the application "appName1"
     And Multiple applications are available for the user
     And The profiles list is defined
     When I visit the index page
@@ -301,11 +304,11 @@ Feature: The Bonita layout in mobile resolution
     And The other applications don't have the class ".app-item--current"
 
   Scenario: The favicon link should be set correctly
-    Given I have the "appName1" application selected
+    Given The URL target to the application "appName1"
     When I visit the index page
     Then The favicon link should be set to "../theme/icons/default/favicon.ico"
 
   Scenario: The app title should be set correctly
-    Given I have the "appName1" application selected
+    Given The URL target to the application "appName1"
     When I visit the index page
     Then The app title should be set to "app1"
