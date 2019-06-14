@@ -201,7 +201,7 @@ when('I click the user name', () => {
 });
 
 when ('I click the user name in dropdown', () => {
-    cy.get('.shownOnlyInMobile > li > a').eq(0).click();
+    cy.get('.visible-xs > li > a').eq(0).click();
 });
 
 when('I select {string} in language picker', (languageSelected) => {
@@ -214,10 +214,6 @@ when('I press the save button', () => {
 
 when('I click the burger', () => {
     cy.get('.navbar-toggle').click();
-});
-
-when('I should not see the first line', () => {
-    cy.get('div.notShownInMobile').should('not.exist');
 });
 
 when('I click the app selection icon', () => {
@@ -396,11 +392,11 @@ then('The application displayName is {string} and is shown in the navbar', (appN
 });
 
 then('I see {string} as the user name in the dropdown menu', (userName) => {
-    cy.get('.shownOnlyInMobile > li > a').eq(0).should('have.text', userName);
+    cy.get('.visible-xs > li > a').eq(0).should('have.text', userName);
 });
 
 then('I don\'t see {string} as the user name in the dropdown menu', (userName) => {
-    cy.get('.shownOnlyInMobile > li > a').eq(0).should('not.have.text', userName);
+    cy.get('.visible-xs > li > a').eq(0).should('not.have.text', userName);
 });
 
 then('I see the app selection icon in the dropdown menu', () => {
