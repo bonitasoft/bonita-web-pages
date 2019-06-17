@@ -252,7 +252,7 @@ when('I click the cancel button', () => {
 });
 
 when('I hover over the appName', () => {
-    cy.get('pb-link p').eq(0).trigger('mouseover');
+    cy.get('.app-name-in-list a').eq(0).trigger('mouseover');
 });
 
 when('I select the {string} profile in dropdown', (profileName) => {
@@ -416,41 +416,70 @@ then('The app selection modal is visible', () => {
     cy.get('.modal-content').should('be.visible');
 });
 
-then('I see my apps', () => {
-    cy.get('pb-link p').eq(0).should('have.text', 'My first app');
-    cy.get('pb-link p').eq(1).should('have.text', 'My second app');
-    cy.get('pb-link p').eq(2).should('have.text', 'My app administrator');
-    cy.get('pb-link p').eq(3).should('have.text', 'My first app administrator');
-    cy.get('pb-link p').eq(4).should('have.text', 'Current application');
+then('I see my apps in mobile', () => {
+    var appNameSelectorForMobile = '.app-name-in-list--multiline a';
+    cy.get(appNameSelectorForMobile).eq(0).should('have.text', 'My first app');
+    cy.get(appNameSelectorForMobile).eq(1).should('have.text', 'My second app');
+    cy.get(appNameSelectorForMobile).eq(2).should('have.text', 'My app administrator');
+    cy.get(appNameSelectorForMobile).eq(3).should('have.text', 'My first app administrator');
+    cy.get(appNameSelectorForMobile).eq(4).should('have.text', 'Current application');
 });
 
-then('I see only the filtered applications by {string}', (type) => {
+then('I don\'t see the desktop names', () => {
+    var appNameSelectorForDestop = '.app-name-in-list a';
+    cy.get(appNameSelectorForDestop).eq(0).should('be.hidden');
+    cy.get(appNameSelectorForDestop).eq(1).should('be.hidden');
+    cy.get(appNameSelectorForDestop).eq(2).should('be.hidden');
+    cy.get(appNameSelectorForDestop).eq(3).should('be.hidden');
+    cy.get(appNameSelectorForDestop).eq(4).should('be.hidden');
+});
+
+then('I see my apps in desktop', () => {
+    var appNameSelectorForDestop = '.app-name-in-list a';
+    cy.get(appNameSelectorForDestop).eq(0).should('have.text', 'My first app');
+    cy.get(appNameSelectorForDestop).eq(1).should('have.text', 'My second app');
+    cy.get(appNameSelectorForDestop).eq(2).should('have.text', 'My app administrator');
+    cy.get(appNameSelectorForDestop).eq(3).should('have.text', 'My first app administrator');
+    cy.get(appNameSelectorForDestop).eq(4).should('have.text', 'Current application');
+});
+
+then('I don\'t see the mobile names', () => {
+    var appNameSelectorForMobile = '.app-name-in-list--multiline a';
+    cy.get(appNameSelectorForMobile).eq(0).should('be.hidden');
+    cy.get(appNameSelectorForMobile).eq(1).should('be.hidden');
+    cy.get(appNameSelectorForMobile).eq(2).should('be.hidden');
+    cy.get(appNameSelectorForMobile).eq(3).should('be.hidden');
+    cy.get(appNameSelectorForMobile).eq(4).should('be.hidden');
+});
+
+then ('I see only the filtered applications by {string} in desktop', (type)=> {
+    var appNameSelectorForDestop = '.app-name-in-list a';
     switch (type) {
         case 'name':
             cy.wait('@filteredAppsListMyFirstRoute');
-            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
-            cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My first app administrator');
+            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', 'My first app');
+            cy.get(appNameSelectorForDestop).eq(1).should('be.visible').should('have.text', 'My first app administrator');
             break;
         case 'token':
             cy.wait('@filteredAppsListapp1Route');
-            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
-            cy.get('pb-link p').eq(1).should('not.exist');
+            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', 'My first app');
+            cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
             break;
         case 'version':
             cy.wait('@filteredAppsList105Route');
-            cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
-            cy.get('pb-link p').eq(1).should('not.exist');
+            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', 'My first app');
+            cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
             break;
     }
-    cy.get('pb-link p').eq(2).should('not.exist');
+    cy.get(appNameSelectorForDestop).eq(2).should('not.exist');
 });
 
 then('The app selection modal is not visible', () => {
     cy.get('.modal-content').should('not.exist');
 });
 
-then('The app description should be correct', () => {
-    cy.get('pb-link p').eq(0).should('have.attr','title', 'My first app description');
+then('The app on-hover text should be {string}', (appHover) => {
+    cy.get('.app-name-in-list p').eq(0).should('have.attr','title', appHover);
 });
 
 then('I see the filter dropdown', () => {
@@ -462,25 +491,25 @@ then('I don\'t see the filter dropdown', () => {
 });
 
 then('I see only my user apps', () => {
-    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app');
-    cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My second app');
-    cy.get('pb-link p').eq(2).should('not.exist');
+    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app');
+    cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My second app');
+    cy.get('.app-name-in-list a').eq(2).should('not.exist');
 });
 
 then('I see only my administrator apps', () => {
-    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My app administrator');
-    cy.get('pb-link p').eq(1).should('be.visible').should('have.text', 'My first app administrator');
-    cy.get('pb-link p').eq(2).should('not.exist');
+    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My app administrator');
+    cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My first app administrator');
+    cy.get('.app-name-in-list a').eq(2).should('not.exist');
 });
 
 then('I see only the app with correct profile and name', () => {
     cy.wait('@filteredAppsListAdminProfileMyFirstRoute');
-    cy.get('pb-link p').eq(0).should('be.visible').should('have.text', 'My first app administrator');
-    cy.get('pb-link p').eq(1).should('not.exist');
+    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app administrator');
+    cy.get('.app-name-in-list a').eq(1).should('not.exist');
 });
 
 then('I don\'t see any apps', () => {
-    cy.get('pb-link p').should('have.length', 0);
+    cy.get('.app-name-in-list a').should('have.length', 0);
 });
 
 then('The no app is available text is {string}', (noAppMessage) => {
@@ -504,11 +533,11 @@ then('The app title should be set to {string}', (appName) => {
 });
 
 then('I can see the application name as {string}', (appTitle) => {
-    cy.get('.app-name-title a').should('have.text', appTitle);
+    cy.get('.app-title a').should('have.text', appTitle);
 });
 
 then('Application name has {string} as application href', (homePageHref) => {
-    cy.get('.app-name-title a').should('have.attr', 'href', homePageHref);
+    cy.get('.app-title a').should('have.attr', 'href', homePageHref);
 });
 
 when('I click on the appName', () => {
