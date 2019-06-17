@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV2",
   "name" : "BonitaLayoutV2",
-  "lastUpdate" : 1560507194917,
+  "lastUpdate" : 1560775033227,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -102,7 +102,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "remove-padding-and-margin app-name-title"
+            "value" : "remove-padding-and-margin app-title"
           },
           "hidden" : {
             "type" : "expression",
@@ -1662,7 +1662,7 @@
             "type" : "container",
             "dimension" : {
               "xs" : 12,
-              "sm" : 4,
+              "sm" : 12,
               "md" : 4,
               "lg" : 4
             },
@@ -1711,15 +1711,15 @@
               "rows" : [ [ {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 10,
+                  "xs" : 12,
                   "sm" : 12,
                   "md" : 12,
-                  "lg" : 10
+                  "lg" : 12
                 },
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : "max-title-app-width"
+                    "value" : "app-name-in-list remove-padding-and-margin hidden-xs"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -1727,7 +1727,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<p title=\"{{$item.description}}\">{{$item.displayName}}</p>"
+                    "value" : "<p title=\"{{$item.displayName}}\">{{$item.displayName}}</p>"
                   },
                   "type" : {
                     "type" : "constant",
@@ -1785,7 +1785,73 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : "app-token-style"
+                    "value" : "app-name-in-list--multiline visible-xs"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "{{$item.displayName}}"
+                  },
+                  "type" : {
+                    "type" : "constant",
+                    "value" : "URL"
+                  },
+                  "targetUrl" : {
+                    "type" : "expression",
+                    "value" : "'../../'+$item.token"
+                  },
+                  "pageToken" : {
+                    "type" : "constant"
+                  },
+                  "processName" : {
+                    "type" : "constant"
+                  },
+                  "processVersion" : {
+                    "type" : "constant"
+                  },
+                  "taskId" : {
+                    "type" : "constant"
+                  },
+                  "caseId" : {
+                    "type" : "constant"
+                  },
+                  "target" : {
+                    "type" : "constant",
+                    "value" : "_self"
+                  },
+                  "appToken" : {
+                    "type" : "constant"
+                  },
+                  "urlParams" : {
+                    "type" : "constant"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  },
+                  "buttonStyle" : {
+                    "type" : "constant",
+                    "value" : "link"
+                  }
+                },
+                "reference" : "6aa8edfb-91b8-45b1-81e4-65299f03dbfa",
+                "hasValidationError" : false,
+                "id" : "pbLink"
+              } ], [ {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "app-version-in-list"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -1930,6 +1996,10 @@
             },
             "removeItem" : {
               "type" : "variable"
+            },
+            "assign" : {
+              "type" : "constant",
+              "value" : false
             }
           },
           "reference" : "e1ca0f27-599a-43ed-84a9-596b17a2fffc",
@@ -2103,7 +2173,7 @@
     },
     "applicationContainerClasses" : {
       "type" : "expression",
-      "value" : "return function (currentApp){\n    if(currentApp.token === $data.appToken){\n        return \"app-item app-item--current\" ;\n    }else{\n        return \"app-item\";\n    }\n};\n",
+      "value" : "return function (currentApp){\n    var cssClasses = \"app-item \";\n    \n    if(currentApp.token === $data.appToken){\n        cssClasses += \"app-item--current\";\n    }\n    \n    return cssClasses;\n};\n",
       "exposed" : false
     },
     "setWindowAppName" : {

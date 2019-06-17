@@ -1,132 +1,4 @@
-Feature: The Bonita layout in desktop resolution
-
-  Scenario: The Bonita layout is running
-    Given The URL target to the application "appName1"
-    And I have the application home page token defined
-    When I visit the index page
-    Then The application displayName is "app1"
-    And The "first" page displayName is "process"
-    And The "second" page displayName is "home"
-    And Application name has "/bonita/apps/app1/homePageToken" as application href
-
-  Scenario: The Bonita layout shows the user icon correctly
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    Then I see "../API/avatars/1" as the user menu icon
-
-  Scenario: The Bonita layout shows the first and last name and not the user name
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    Then I see "Walter Bates" as the user name
-    And I see "../API/avatars/1" as the user menu icon
-    And I don't see "walter.bates" as the user name
-
-  Scenario: The Bonita layout shows the user name when a firstname isn't available
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user doesn't have a "firstname" info available
-    When I visit the index page
-    Then I see "walter.bates" as the user name
-
-  Scenario: The Bonita layout shows the user name when a lastname isn't available
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user doesn't have a "lastname" info available
-    When I visit the index page
-    Then I see "walter.bates" as the user name
-
-  Scenario: The Bonita layout shows the app selection correctly
-    Given The URL target to the application "appName1"
-    When I visit the index page
-    Then I see the app selection icon
-
-  Scenario: The Bonita layout image has the correct source
-    Given The URL target to the application "appName1"
-    Given A logo is available in the theme
-    When I visit the index page
-    Then The image has the correct source
-
-  Scenario: The Bonita layout image is not displayed
-    Given The URL target to the application "appName1"
-    When I visit the index page
-    Then The image is not displayed
-
-  Scenario: The Bonita layout shows the current session modal
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-
-  Scenario: The current session modal is shown correctly without sso
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And The user first and last name "Walter Bates" are visible
-    And The user name "walter.bates" is shown
-    And The user email "walter.bates@email.com" is shown
-    And The language select is visible
-    And The logout button is visible
-    And The save and cancel buttons are visible
-
-  Scenario: The current session modal is shown correctly with sso
-    Given The URL target to the application "appName1"
-    And A user is connected with sso
-    And The user has a first and last name defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And The logout button is hidden
-
-  Scenario: The current session modal has the user icon correctly set
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And I see "../API/avatars/1" as the user modal icon
-
-  Scenario: The current session modal show the default user icon
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a default icon
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And I see "../theme/icons/default/icon_user.png" as the user modal icon
-
-  Scenario: The language is changed in current session modal
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    And I have languages available
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    And The save button is disabled
-    When I select "Français" in language picker
-    Then The save button is enabled
-    When I press the save button
-    Then The language in BOS_Locale is "fr"
-
-  Scenario: The current session modal closes correctly
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    When I visit the index page
-    And I click the user name
-    Then The current session modal is visible
-    When I click the cancel button
-    Then The current session modal is not visible
+Feature: The Bonita layout app list modal in desktop resolution
 
   Scenario: The app selection modal is shown correctly
     Given The URL target to the application "appName1"
@@ -134,7 +6,8 @@ Feature: The Bonita layout in desktop resolution
     When I visit the index page
     And I click the app selection icon
     Then The app selection modal is visible
-    And I see my apps
+    And I see my apps in desktop
+    And I don't see the mobile names
 
   Scenario: The app selection modal filter works correctly
     Given The URL target to the application "appName1"
@@ -145,13 +18,13 @@ Feature: The Bonita layout in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     When I filter the app selection by "My first"
-    Then I see only the filtered applications by "name"
+    Then I see only the filtered applications by "name" in desktop
     When I erase the input field
     And I filter the app selection by "app1"
-    Then I see only the filtered applications by "token"
+    Then I see only the filtered applications by "token" in desktop
     When I erase the input field
     And I filter the app selection by "1.0.5"
-    Then I see only the filtered applications by "version"
+    Then I see only the filtered applications by "version" in desktop
     When I erase the input field
     And I filter the app selection by "Incorrect name"
     Then I don't see any apps
@@ -172,7 +45,7 @@ Feature: The Bonita layout in desktop resolution
     When I visit the index page
     And I click the app selection icon
     Then The app selection modal is visible
-    And The app description should be correct
+    And The app on-hover text should be "My first app"
 
   Scenario: The app filter by profile is visible
     Given The URL target to the application "appName1"
@@ -185,7 +58,7 @@ Feature: The Bonita layout in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I see my apps
+    And I see my apps in desktop
 
   Scenario: The app filter by profile is hidden
     Given The URL target to the application "appName1"
@@ -196,7 +69,7 @@ Feature: The Bonita layout in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I don't see the filter dropdown
-    And I see my apps
+    And I see my apps in desktop
 
   Scenario: The apps are filtered by the user profile
     Given The URL target to the application "appName1"
@@ -238,7 +111,7 @@ Feature: The Bonita layout in desktop resolution
     Then The app selection modal is visible
     And I see the filter dropdown
     And I select the "All" profile in dropdown
-    And I see my apps
+    And I see my apps in desktop
 
   Scenario: The apps are filtered by both user profile and app name
     Given The URL target to the application "appName1"
@@ -284,13 +157,3 @@ Feature: The Bonita layout in desktop resolution
     Then The app selection modal is visible
     And The current application has the class "app-item--current"
     And The other applications don't have the class ".app-item--current"
-
-  Scenario: The favicon link should be set correctly
-    Given The URL target to the application "appName1"
-    When I visit the index page
-    Then The favicon link should be set to "../theme/icons/default/favicon.ico"
-
-  Scenario: The app title should be set correctly
-    Given The URL target to the application "appName1"
-    When I visit the index page
-    Then The app title should be set to "app1"
