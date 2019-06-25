@@ -20,7 +20,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     And The user email "walter.bates@email.com" is shown
     And The language select is visible
     And The logout button is visible
-    And The save and cancel buttons are visible
+    And The apply and close buttons are visible
 
   Scenario: The current session modal is shown correctly with sso
     Given The URL target to the application "appName1"
@@ -57,10 +57,10 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And The save button is disabled
+    And The apply button is disabled
     When I select "Français" in language picker
-    Then The save button is enabled
-    When I press the save button
+    Then The apply button is enabled
+    When I press the apply button
     Then The language in BOS_Locale is "fr"
 
   Scenario: The current session modal closes correctly
@@ -70,5 +70,5 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    When I click the cancel button
+    When I click the close button
     Then The current session modal is not visible

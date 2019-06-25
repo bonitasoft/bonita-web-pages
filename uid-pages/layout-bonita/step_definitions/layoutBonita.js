@@ -219,8 +219,8 @@ when('I select {string} in language picker', (languageSelected) => {
     cy.get('.form-control').select(languageSelected);
 });
 
-when('I press the save button', () => {
-    cy.get('button').contains('Save').click();
+when('I press the apply button', () => {
+    cy.get('button').contains('Apply').click();
 });
 
 when('I click the burger', () => {
@@ -245,10 +245,6 @@ when('I erase the input field', () => {
 
 when('I click the close button', () => {
     cy.get('button').contains('Close').click();
-});
-
-when('I click the cancel button', () => {
-    cy.get('button').contains('Cancel').click();
 });
 
 when('I hover over the appName', () => {
@@ -324,11 +320,11 @@ then('The user first and last name {string} are visible', (firstAndLastName) => 
 });
 
 then('The user name {string} is shown', (userName) => {
-    cy.get('pb-text p').eq(0).should('have.text', userName);
+    cy.get('.user-details--break-word p').eq(0).should('have.text', userName);
 });
 
 then('The user email {string} is shown', (userEmail) => {
-    cy.get('pb-text p').eq(1).should('have.text', userEmail)
+    cy.get('.user-details--break-word p').eq(1).should('have.text', userEmail)
 });
 
 then('The language select is visible', () => {
@@ -339,21 +335,21 @@ then('The logout button is visible', () => {
     cy.get('button').contains('Logout').should('be.visible');
 });
 
-then('The save and cancel buttons are visible', () => {
-    cy.get('button').contains('Save').should('be.visible');
-    cy.get('button').contains('Cancel').should('be.visible');
+then('The apply and close buttons are visible', () => {
+    cy.get('button').contains('Apply').should('be.visible');
+    cy.get('button').contains('Close').should('be.visible');
 });
 
 then('The logout button is hidden', () => {
     cy.get('button').contains('Logout').should('not.exist');
 });
 
-then('The save button is disabled', () => {
-    cy.get('button').contains('Save').should('be.disabled');
+then('The apply button is disabled', () => {
+    cy.get('button').contains('Apply').should('be.disabled');
 });
 
-then('The save button is enabled', () => {
-    cy.get('button').contains('Save').should('not.be.disabled');
+then('The apply button is enabled', () => {
+    cy.get('button').contains('Apply').should('not.be.disabled');
 });
 
 then('The language in BOS_Locale is {string}', (languageSelected) => {
