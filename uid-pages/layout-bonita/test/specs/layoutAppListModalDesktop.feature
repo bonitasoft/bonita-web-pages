@@ -60,17 +60,6 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I see the filter dropdown
     And I see my apps in desktop
 
-  Scenario: The app filter by profile is hidden
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    And Multiple applications are available for the user
-    When I visit the index page
-    And I click the app selection icon
-    Then The app selection modal is visible
-    And I don't see the filter dropdown
-    And I see my apps in desktop
-
   Scenario: The apps are filtered by the user profile
     Given The URL target to the application "appName1"
     And A user is connected without sso

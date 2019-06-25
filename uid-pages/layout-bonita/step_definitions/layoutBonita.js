@@ -486,10 +486,6 @@ then('I see the filter dropdown', () => {
     cy.get('pb-select .form-control').should('be.visible');
 });
 
-then('I don\'t see the filter dropdown', () => {
-    cy.get('pb-select .form-control').should('not.exist');
-});
-
 then('I see only my user apps', () => {
     cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app');
     cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My second app');
