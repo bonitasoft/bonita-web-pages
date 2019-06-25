@@ -60,17 +60,6 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I see the filter dropdown
     And I see my apps in desktop
 
-  Scenario: The app filter by profile is hidden
-    Given The URL target to the application "appName1"
-    And A user is connected without sso
-    And The user has a first and last name defined
-    And Multiple applications are available for the user
-    When I visit the index page
-    And I click the app selection icon
-    Then The app selection modal is visible
-    And I don't see the filter dropdown
-    And I see my apps in desktop
-
   Scenario: The apps are filtered by the user profile
     Given The URL target to the application "appName1"
     And A user is connected without sso
@@ -82,7 +71,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I select the "User" profile in dropdown
+    And I select "User" in dropdown
     And I see only my user apps
 
   Scenario: The apps are filtered by the administrator profile
@@ -96,7 +85,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I select the "Administrator" profile in dropdown
+    And I select "Administrator" in dropdown
     And I see only my administrator apps
 
   Scenario: The apps aren't filtered when selecting the all option
@@ -110,7 +99,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I select the "All" profile in dropdown
+    And I select "All profiles" in dropdown
     And I see my apps in desktop
 
   Scenario: The apps are filtered by both user profile and app name
@@ -125,7 +114,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I select the "Administrator" profile in dropdown
+    And I select "Administrator" in dropdown
     And I see only my administrator apps
     When I filter the app selection by "My first"
     Then I see only the app with correct profile and name
@@ -142,7 +131,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     And I see the filter dropdown
-    And I select the "Administrator" profile in dropdown
+    And I select "Administrator" in dropdown
     And I see only my administrator apps
     When I filter the app selection by "Incorrect name"
     Then I don't see any apps

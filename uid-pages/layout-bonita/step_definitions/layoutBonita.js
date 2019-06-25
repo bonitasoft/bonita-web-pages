@@ -255,9 +255,9 @@ when('I hover over the appName', () => {
     cy.get('.app-name-in-list a').eq(0).trigger('mouseover');
 });
 
-when('I select the {string} profile in dropdown', (profileName) => {
+when('I select {string} in dropdown', (profileName) => {
     switch(profileName) {
-        case 'All':
+        case 'All profile':
             cy.get('pb-select .form-control').select('0');
             cy.wait('@filteredAppsListByAllProfilesRoute');
             break;
@@ -484,10 +484,6 @@ then('The app on-hover text should be {string}', (appHover) => {
 
 then('I see the filter dropdown', () => {
     cy.get('pb-select .form-control').should('be.visible');
-});
-
-then('I don\'t see the filter dropdown', () => {
-    cy.get('pb-select .form-control').should('not.exist');
 });
 
 then('I see only my user apps', () => {
