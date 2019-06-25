@@ -255,9 +255,9 @@ when('I hover over the appName', () => {
     cy.get('.app-name-in-list a').eq(0).trigger('mouseover');
 });
 
-when('I select the {string} profile in dropdown', (profileName) => {
+when('I select {string} in dropdown', (profileName) => {
     switch(profileName) {
-        case 'All':
+        case 'All profile':
             cy.get('pb-select .form-control').select('0');
             cy.wait('@filteredAppsListByAllProfilesRoute');
             break;
