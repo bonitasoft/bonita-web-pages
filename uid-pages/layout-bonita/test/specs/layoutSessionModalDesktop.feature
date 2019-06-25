@@ -43,11 +43,11 @@ Feature: The Bonita layout current session modal in desktop resolution
   Scenario: The current session modal show the default user icon
     Given The URL target to the application "appName1"
     And A user is connected without sso
-    And The user has a default icon
+    And The user has the default icon
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And I see "../theme/icons/default/icon_user.png" as the user modal icon
+    And I see default user icon as the user modal icon
 
   Scenario: The language is changed in current session modal
     Given The URL target to the application "appName1"

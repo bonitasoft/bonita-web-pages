@@ -57,7 +57,7 @@ given('The user has a first and last name defined', () => {
     });
 });
 
-given('The user has a default icon', () => {
+given('The user has the default icon', () => {
     cy.fixture('json/userDefaultImage.json').as('userDefaultImage');
     cy.route({
         method: 'GET',
@@ -288,11 +288,19 @@ then('I see {string} as the user name', (userName) => {
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {
-    cy.get('.user-menu .image-circle img').should('have.attr', 'src', userIcon);
+    cy.get('.user-menu.image-circle img').should('have.attr', 'src', userIcon);
 });
 
 then('I see {string} as the user modal icon', (userIcon) => {
     cy.get('.modal-content .image-circle--large img').should('have.attr', 'src', userIcon);
+});
+
+then('I see default user icon as the user menu icon', () => {
+    cy.get('.user-menu i.fa').should('exist');
+});
+
+then('I see default user icon as the user modal icon', () => {
+    cy.get('.modal-content i.fa').should('exist');
 });
 
 then('I don\'t see {string} as the user name', (userName) => {

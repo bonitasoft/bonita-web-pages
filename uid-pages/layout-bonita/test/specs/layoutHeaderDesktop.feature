@@ -39,6 +39,13 @@ Feature: The Bonita layout header in desktop resolution
     When I visit the index page
     Then I see "walter.bates" as the user name
 
+  Scenario: The Bonita layout shows the user default icon
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And The user has the default icon
+    When I visit the index page
+    And I see default user icon as the user menu icon
+
   Scenario: The Bonita layout shows the app selection correctly
     Given The URL target to the application "appName1"
     When I visit the index page
