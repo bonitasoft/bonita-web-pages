@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV2",
   "name" : "BonitaLayoutV2",
-  "lastUpdate" : 1561466103819,
+  "lastUpdate" : 1561558957953,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -258,7 +258,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "remove-padding-and-margin user-menu"
+            "value" : "remove-padding-and-margin user-menu image-circle"
           },
           "hidden" : {
             "type" : "constant",
@@ -270,7 +270,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "<div class=\"image-circle\" ><img src=\"{{userIconPath}}\" alt=\"User icon\"></div>"
+            "value" : "{{userIconHtmlContent}}"
           },
           "alignment" : {
             "type" : "constant",
@@ -686,7 +686,7 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "hidden-xs"
+              "value" : "hidden-xs userIcon--large image-circle image-circle--large"
             },
             "hidden" : {
               "type" : "constant",
@@ -714,7 +714,7 @@
             },
             "text" : {
               "type" : "interpolation",
-              "value" : "<div class=\"image-circle image-circle--large\"><img src=\"{{userIconPath}}\"></div>"
+              "value" : "{{userIconHtmlContent}}"
             },
             "alignment" : {
               "type" : "constant",
@@ -2099,11 +2099,6 @@
       "value" : "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') === -1;",
       "exposed" : false
     },
-    "userIconPath" : {
-      "type" : "expression",
-      "value" : "if (!$data.loggedUser) {\n    return \"\";\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!=\"icons/default/icon_user.png\";\n\nreturn isCustomIconPath ? $data.loggedUser.icon : \"../theme/icons/default/icon_user.png\";",
-      "exposed" : false
-    },
     "loggedUser" : {
       "type" : "url",
       "value" : "../API/identity/user/{{session.user_id}}?d=professional_data",
@@ -2196,6 +2191,11 @@
     "homePage" : {
       "type" : "url",
       "value" : "../API/living/application-page/{{application[0].homePageId}}",
+      "exposed" : false
+    },
+    "userIconHtmlContent" : {
+      "type" : "expression",
+      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<img src=\"${$data.loggedUser.icon}\" alt=\"User icon\">`;\n\nconst htmlContentForDefaultIcon = '<i class=\"fa fa-user-circle\"></i>';\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
     }
   },
