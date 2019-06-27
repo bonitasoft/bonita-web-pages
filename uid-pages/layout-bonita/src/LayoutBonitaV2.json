@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV2",
   "name" : "BonitaLayoutV2",
-  "lastUpdate" : 1561558957953,
+  "lastUpdate" : 1561622584675,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -182,7 +182,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "{{userName}}"
+            "value" : "<span title=\"{{userName}}\">{{userName}}</span>"
           },
           "alignment" : {
             "type" : "constant",
@@ -2195,7 +2195,7 @@
     },
     "userIconHtmlContent" : {
       "type" : "expression",
-      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<img src=\"${$data.loggedUser.icon}\" alt=\"User icon\">`;\n\nconst htmlContentForDefaultIcon = '<i class=\"fa fa-user-circle\"></i>';\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
+      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\">`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
     }
   },
