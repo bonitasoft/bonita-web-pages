@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV2",
   "name" : "BonitaLayoutV2",
-  "lastUpdate" : 1561622584675,
+  "lastUpdate" : 1562139122082,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -627,7 +627,7 @@
           "propertyValues" : {
             "cssClasses" : {
               "type" : "constant",
-              "value" : "user-details--break-word"
+              "value" : "user-details--break-all"
             },
             "hidden" : {
               "type" : "constant",
@@ -793,7 +793,7 @@
             "propertyValues" : {
               "cssClasses" : {
                 "type" : "constant",
-                "value" : "user-details--break-word"
+                "value" : "user-details--break-all"
               },
               "hidden" : {
                 "type" : "constant",
@@ -842,7 +842,7 @@
             "propertyValues" : {
               "cssClasses" : {
                 "type" : "constant",
-                "value" : "user-details--break-word"
+                "value" : "user-details--break-all"
               },
               "hidden" : {
                 "type" : "constant",
@@ -2195,7 +2195,7 @@
     },
     "userIconHtmlContent" : {
       "type" : "expression",
-      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\">`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
+      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
     }
   },
