@@ -328,11 +328,11 @@ then('The user first and last name {string} are visible', (firstAndLastName) => 
 });
 
 then('The user name {string} is shown', (userName) => {
-    cy.get('.user-details--break-word p').eq(0).should('have.text', userName);
+    cy.get('.user-details--break-all p').eq(0).should('have.text', userName);
 });
 
 then('The user email {string} is shown', (userEmail) => {
-    cy.get('.user-details--break-word p').eq(1).should('have.text', userEmail)
+    cy.get('.user-details--break-all p').eq(1).should('have.text', userEmail)
 });
 
 then('The language select is visible', () => {
