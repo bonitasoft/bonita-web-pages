@@ -109,7 +109,7 @@ given('Multiple applications are available for the user', () => {
     cy.fixture('json/appsList.json').as('appsList');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=',
+        url: '/build/dist/API/living/application?c=9999',
         response: '@appsList'
     });
 });
@@ -155,14 +155,14 @@ given('The profiles list is defined', () => {
         method: 'GET',
         url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4',
         response: '@profilesList'
-    });
+    }).as('profilesListRoute');
 });
 
 given('The filter responses are defined for all profiles', () => {
     cy.fixture('json/filteredAppsListForAllProfiles.json').as('filteredAppsListByAllProfiles');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=',
+        url: 'build/dist/API/living/application?c=9999',
         response: '@filteredAppsListByAllProfiles'
     }).as('filteredAppsListByAllProfilesRoute');
 });
@@ -171,7 +171,7 @@ given('The filter responses are defined for the user profile', () => {
     cy.fixture('json/filteredAppsListForUserProfile.json').as('filteredAppsListByUserProfile');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=&f=profileId=1',
+        url: 'build/dist/API/living/application?c=9999&f=profileId=1',
         response: '@filteredAppsListByUserProfile'
     }).as('filteredAppsListByUserProfileRoute');
 });
@@ -180,7 +180,7 @@ given('The filter responses are defined for the administrator profile', () => {
     cy.fixture('json/filteredAppsListForAdminProfile.json').as('filteredAppsListByAdminProfile');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=&f=profileId=2',
+        url: 'build/dist/API/living/application?c=9999&f=profileId=2',
         response: '@filteredAppsListByAdminProfile'
     }).as('filteredAppsListByAdminProfileRoute');
 });
@@ -201,6 +201,24 @@ given('I have the application home page token defined', () => {
         url: 'build/dist/API/living/application-page/107',
         response: '@homePage'
     }).as('homePageRoute');
+});
+
+given('Multiple applications are available for the user, some without access rights', () => {
+    cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
+    cy.route({
+        method: "GET",
+        url: 'build/dist/API/living/application?c=9999',
+        response: '@appsListWithUnauthorizedApp'
+    }).as('appsListWithUnauthorizedAppRoute');
+});
+
+given('Unauthorized applications response is defined', () => {
+    cy.fixture('json/filteredAppsListNoAccess.json').as('filteredAppsListNoAccess');
+    cy.route({
+        method: "GET",
+        url: 'build/dist/API/living/application?c=9999&s=noAccess',
+        response: '@filteredAppsListNoAccess'
+    }).as('filteredAppsListNoAccessRoute');
 });
 
 when('I visit the index page', () => {
@@ -252,6 +270,7 @@ when('I hover over the appName', () => {
 });
 
 when('I select {string} in dropdown', (profileName) => {
+    cy.wait('@profilesListRoute');
     switch(profileName) {
         case 'All profile':
             cy.get('pb-select .form-control').select('0');
@@ -546,4 +565,8 @@ when('I click on the appName', () => {
 
 then('Application name has {string} as application href in mobile view', (homePageHref) => {
     cy.url().should('include', homePageHref);
+});
+
+then('I don\'t see the apps without access rights', () => {
+    cy.get('.app-name-in-list p').contains('App without access rights').should('not.exist');
 });
