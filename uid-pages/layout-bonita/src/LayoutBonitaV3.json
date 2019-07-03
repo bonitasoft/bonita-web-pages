@@ -1,9 +1,9 @@
 {
   "designerVersion" : "1.9.24",
   "previousDesignerVersion" : "1.8.29",
-  "id" : "LayoutBonitaV2",
-  "name" : "BonitaLayoutV2",
-  "lastUpdate" : 1562139122082,
+  "id" : "LayoutBonitaV3",
+  "name" : "BonitaLayoutV3",
+  "lastUpdate" : 1562230371248,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1068,7 +1068,7 @@
               },
               "collectionToModify" : {
                 "type" : "variable",
-                "value" : "temp.actions"
+                "value" : "eventList.actions"
               },
               "modalId" : {
                 "type" : "constant",
@@ -1466,7 +1466,7 @@
               },
               "availableValues" : {
                 "type" : "expression",
-                "value" : "allProfilePossibilities"
+                "value" : "profileDropdownOptions"
               },
               "displayedKey" : {
                 "type" : "constant",
@@ -1539,7 +1539,7 @@
               },
               "value" : {
                 "type" : "variable",
-                "value" : "filterNameApplication"
+                "value" : "searchFilterValue"
               },
               "type" : {
                 "type" : "constant",
@@ -1587,7 +1587,7 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [ [ {
-          "type" : "container",
+          "type" : "component",
           "dimension" : {
             "xs" : 12,
             "sm" : 12,
@@ -1600,51 +1600,25 @@
               "value" : ""
             },
             "hidden" : {
-              "type" : "constant",
-              "value" : false
+              "type" : "expression",
+              "value" : "authorizedAppsList.length"
             },
-            "repeatedCollection" : {
-              "type" : "variable",
-              "value" : ""
+            "text" : {
+              "type" : "interpolation",
+              "value" : "No application available using these filters"
+            },
+            "level" : {
+              "type" : "constant",
+              "value" : "Level 4"
+            },
+            "alignment" : {
+              "type" : "constant",
+              "value" : "center"
             }
           },
-          "reference" : "71e5d034-3684-4739-abc4-1af6b92aeaa6",
+          "reference" : "0835d6e6-6d89-4f9d-a245-aafa304f0ba3",
           "hasValidationError" : false,
-          "id" : "pbContainer",
-          "rows" : [ [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 12,
-              "lg" : 12
-            },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "expression",
-                "value" : "appsList.length > 0"
-              },
-              "text" : {
-                "type" : "interpolation",
-                "value" : "No application available using these filters"
-              },
-              "level" : {
-                "type" : "constant",
-                "value" : "Level 4"
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "center"
-              }
-            },
-            "reference" : "0835d6e6-6d89-4f9d-a245-aafa304f0ba3",
-            "hasValidationError" : false,
-            "id" : "pbTitle"
-          } ] ]
+          "id" : "pbTitle"
         } ], [ {
           "type" : "container",
           "dimension" : {
@@ -1664,7 +1638,7 @@
             },
             "repeatedCollection" : {
               "type" : "variable",
-              "value" : "safeList"
+              "value" : "appsListGroupByThree"
             }
           },
           "reference" : "016eeaf9-e435-4a82-a271-57c38ad4288e",
@@ -2072,12 +2046,7 @@
     },
     "setLocal" : {
       "type" : "expression",
-      "value" : "if($data.temp.actions && $data.temp.actions.length > 0){\n    var action=$data.temp.actions[0];\n    if(action===\"locale\"){\n        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/\";;\n        document.location.reload();\n    }\n}",
-      "exposed" : false
-    },
-    "temp" : {
-      "type" : "json",
-      "value" : "{\"actions\":[]}",
+      "value" : "if($data.eventList.actions && $data.eventList.actions.length > 0){\n    var action=$data.eventList.actions[0];\n    if(action===\"locale\"){\n        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/\";;\n        document.location.reload();\n    }\n}",
       "exposed" : false
     },
     "storageLanguage" : {
@@ -2106,12 +2075,7 @@
     },
     "appsList" : {
       "type" : "url",
-      "value" : "../API/living/application?c=9999&s={{filterNameApplication || ''}}{{filterByProfile}}",
-      "exposed" : false
-    },
-    "filterNameApplication" : {
-      "type" : "constant",
-      "value" : "",
+      "value" : "../API/living/application?c=9999{{queryParamSearchFilter}}{{queryParamProfileFilter}}",
       "exposed" : false
     },
     "appName" : {
@@ -2121,12 +2085,7 @@
     },
     "appsListGroupByThree" : {
       "type" : "expression",
-      "value" : "if (!$data.appsList) {\n    return [];\n}\n\nvar i = 0;\nvar result = [];\nwhile (i < $data.appsList.length) {\n    if (i%3 === 0) {\n        result.push([]);\n    }\n    result[Math.floor(i/3)].push($data.appsList[i]);\n    i++;\n}\n\nreturn result;",
-      "exposed" : false
-    },
-    "safeList" : {
-      "type" : "expression",
-      "value" : "return $data.appsList ? $data.appsListGroupByThree : [];",
+      "value" : "if (!$data.appsList || !$data.currentUserProfileList) {\n    return [];\n}\n\nvar i = 0;\nvar result = [];\nwhile (i < $data.authorizedAppsList.length) {\n    if (i%3 === 0) {\n        result.push([]);\n    }\n    result[Math.floor(i/3)].push($data.authorizedAppsList[i]);\n    i++;\n}\n\nreturn result;",
       "exposed" : false
     },
     "appToken" : {
@@ -2158,21 +2117,6 @@
       "type" : "constant",
       "exposed" : false
     },
-    "filterByProfile" : {
-      "type" : "expression",
-      "value" : "if(!$data.selectedProfile) {\n    return \"\";\n}\nreturn \"&f=profileId=\"+$data.selectedProfile;",
-      "exposed" : false
-    },
-    "profilePossibilities" : {
-      "type" : "url",
-      "value" : "../API/portal/profile?p=0&c=100&f=user_id={{loggedUser.id}}",
-      "exposed" : false
-    },
-    "allProfilePossibilities" : {
-      "type" : "expression",
-      "value" : "var allProfiles = [{\"name\": uiTranslate(\"All profiles\")}].concat($data.profilePossibilities);\n\nreturn allProfiles;",
-      "exposed" : false
-    },
     "currentText" : {
       "type" : "expression",
       "value" : "return \"app-item-current--text\";",
@@ -2197,11 +2141,45 @@
       "type" : "expression",
       "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
+    },
+    "authorizedAppsList" : {
+      "type" : "expression",
+      "value" : "if (!$data.currentUserProfileList || !$data.appsList) {\n    return [];\n}\n\nfunction isAppAuthorized(application) {\n    return $data.currentUserProfileList.map((profile) => profile.id).includes(application.profileId);\n}\n\nreturn $data.appsList.filter(application => isAppAuthorized(application));",
+      "exposed" : false
+    },
+    "profileDropdownOptions" : {
+      "type" : "expression",
+      "value" : "return [{\"name\": uiTranslate(\"All profiles\")}].concat($data.currentUserProfileList);",
+      "exposed" : false
+    },
+    "queryParamProfileFilter" : {
+      "type" : "expression",
+      "value" : "if(!$data.selectedProfile) {\n    return \"\";\n}\nreturn \"&f=profileId=\"+$data.selectedProfile;",
+      "exposed" : false
+    },
+    "queryParamSearchFilter" : {
+      "type" : "expression",
+      "value" : "if(!$data.searchFilterValue) {\n    return \"\";\n}\nreturn \"&s=\"+$data.searchFilterValue;",
+      "exposed" : false
+    },
+    "searchFilterValue" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "currentUserProfileList" : {
+      "type" : "url",
+      "value" : "../API/portal/profile?p=0&c=100&f=user_id={{loggedUser.id}}",
+      "exposed" : false
+    },
+    "eventList" : {
+      "type" : "json",
+      "value" : "{\"actions\":[]}",
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "type" : "layout",
   "description" : "",
-  "displayName" : "Bonita layout V2"
+  "displayName" : "Bonita layout V3"
 }
