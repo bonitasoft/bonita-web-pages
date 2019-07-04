@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1554818287964,
+  "lastUpdate" : 1562676236737,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -48,7 +48,7 @@
         },
         "text" : {
           "type" : "interpolation",
-          "value" : "{{\"Case id\" | translate}} : {{caseOverview.id}} - {{\"Process\" | translate}} : {{caseOverview.processName}}"
+          "value" : "{{\"Case id\" | translate}} : {{caseOverview.sourceObjectId || caseOverview.id}} - {{\"Process\" | translate}} : {{caseOverview.processName}}"
         },
         "level" : {
           "type" : "constant",
@@ -60,6 +60,39 @@
         }
       },
       "reference" : "e42cf1f2-ba06-44f3-85f3-2b5df2165019",
+      "hasValidationError" : false,
+      "id" : "pbTitle"
+    } ], [ {
+      "type" : "component",
+      "dimension" : {
+        "xs" : 12,
+        "sm" : 12,
+        "md" : 12,
+        "lg" : 12
+      },
+      "propertyValues" : {
+        "cssClasses" : {
+          "type" : "constant",
+          "value" : ""
+        },
+        "hidden" : {
+          "type" : "expression",
+          "value" : "!archivedContext"
+        },
+        "text" : {
+          "type" : "interpolation",
+          "value" : "{{\"Archived case id\" | translate}} : {{caseOverview.id}}"
+        },
+        "level" : {
+          "type" : "constant",
+          "value" : "Level 3"
+        },
+        "alignment" : {
+          "type" : "constant",
+          "value" : "left"
+        }
+      },
+      "reference" : "ac4373f2-99a4-4dde-9ec7-7420b332bd7b",
       "hasValidationError" : false,
       "id" : "pbTitle"
     } ], [ {
