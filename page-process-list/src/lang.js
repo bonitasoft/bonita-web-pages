@@ -89,6 +89,56 @@ export default () => {
           'Comenzar un nuevo caso para el proceso {{displayName}}',
         'On process name or version': 'En el nombre o en la versión del proceso'
       }
+    },
+    ja: {
+      translations: {
+        Filters: '',
+        Processes: '',
+        Search: '',
+        Name: '',
+        Version: '',
+        Categories: '',
+        Description: '',
+        'Start a new case': '',
+        Action: '',
+        AllProcesses: '',
+        'No process to display': '',
+        List: '',
+        of: '',
+        'The case {{caseId}} has been started successfully.':
+            '',
+        'Error while starting the case.': '',
+        Start: '',
+        Cancel: '',
+        'Start a new case for process {{displayName}}':
+            '',
+        'On process name or version': ''
+      }
+    },
+    pt: {
+      translations: {
+        Filters: '',
+        Processes: '',
+        Search: '',
+        Name: '',
+        Version: '',
+        Categories: '',
+        Description: '',
+        'Start a new case': '',
+        Action: '',
+        AllProcesses: '',
+        'No process to display': '',
+        List: '',
+        of: '',
+        'The case {{caseId}} has been started successfully.':
+            '',
+        'Error while starting the case.': '',
+        Start: '',
+        Cancel: '',
+        'Start a new case for process {{displayName}}':
+            '',
+        'On process name or version': ''
+      }
     }
   };
 };
