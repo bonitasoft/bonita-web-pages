@@ -29,13 +29,11 @@ export default () => {
         'No process to display': 'No process to display',
         List: 'List',
         of: 'of',
-        'The case {{caseId}} has been started successfully.':
-          'The case {{caseId}} has been started successfully.',
+        'The case {{caseId}} has been started successfully.': 'The case {{caseId}} has been started successfully.',
         'Error while starting the case.': 'Error while starting the case.',
         Start: 'Start',
         Cancel: 'Cancel',
-        'Start a new case for process {{displayName}}':
-          'Start a new case for process {{displayName}}',
+        'Start a new case for process {{displayName}}': 'Start a new case for process {{displayName}}',
         'On process name or version': 'On process name or version'
       }
     },
@@ -54,14 +52,11 @@ export default () => {
         'No process to display': 'Aucun processus ne correspond à la recherche',
         List: 'Liste',
         of: 'de',
-        'The case {{caseId}} has been started successfully.':
-          'Le cas {{caseId}} a bien été démarré.',
-        'Error while starting the case.':
-          'Une erreur est survenue au démarrage du cas.',
+        'The case {{caseId}} has been started successfully.': 'Le cas {{caseId}} a bien été démarré.',
+        'Error while starting the case.': 'Une erreur est survenue au démarrage du cas.',
         Start: 'Démarrer',
         Cancel: 'Annuler',
-        'Start a new case for process {{displayName}}':
-          'Démarrer un nouveau cas pour le processus {{displayName}}',
+        'Start a new case for process {{displayName}}': 'Démarrer un nouveau cas pour le processus {{displayName}}',
         'On process name or version': 'Sur le nom ou la version du processus'
       }
     },
@@ -80,13 +75,11 @@ export default () => {
         'No process to display': 'Sin proceso para mostrar',
         List: 'Lista',
         of: 'de',
-        'The case {{caseId}} has been started successfully.':
-          'El caso {{caseId}} se ha iniciado con éxito.',
+        'The case {{caseId}} has been started successfully.': 'El caso {{caseId}} se ha iniciado con éxito.',
         'Error while starting the case.': 'Error al iniciar el caso.',
         Start: 'Inicio',
         Cancel: 'Cancelar',
-        'Start a new case for process {{displayName}}':
-          'Comenzar un nuevo caso para el proceso {{displayName}}',
+        'Start a new case for process {{displayName}}': 'Comenzar un nuevo caso para el proceso {{displayName}}',
         'On process name or version': 'En el nombre o en la versión del proceso'
       }
     },
@@ -105,13 +98,11 @@ export default () => {
         'No process to display': '',
         List: '',
         of: '',
-        'The case {{caseId}} has been started successfully.':
-            '',
+        'The case {{caseId}} has been started successfully.': '',
         'Error while starting the case.': '',
         Start: '',
         Cancel: '',
-        'Start a new case for process {{displayName}}':
-            '',
+        'Start a new case for process {{displayName}}': '',
         'On process name or version': ''
       }
     },
@@ -130,13 +121,11 @@ export default () => {
         'No process to display': 'Sem processo para exibir',
         List: 'Lista',
         of: 'de',
-        'The case {{caseId}} has been started successfully.':
-            'O caso {{caseId}} iniciou com sucesso.',
+        'The case {{caseId}} has been started successfully.': 'O caso {{caseId}} iniciou com sucesso.',
         'Error while starting the case.': 'Erro enquanto iniciando o caso.',
         Start: 'Início',
         Cancel: 'Cancelar',
-        'Start a new case for process {{displayName}}':
-            'Inicia um novo caso para o processo {{displayName}}',
+        'Start a new case for process {{displayName}}': 'Inicia um novo caso para o processo {{displayName}}',
         'On process name or version': 'Nome ou versão do processo'
       }
     }
