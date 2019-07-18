@@ -1,0 +1,1 @@
+Feature: The default application home page V1
