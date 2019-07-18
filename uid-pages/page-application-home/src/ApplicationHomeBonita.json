@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.5",
   "id" : "ApplicationHomeBonita",
   "name" : "applicationHomeBonita",
-  "lastUpdate" : 1563453587284,
+  "lastUpdate" : 1563460450054,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -14,7 +14,7 @@
     "propertyValues" : {
       "cssClasses" : {
         "type" : "constant",
-        "value" : "customContainer jumbotron col-lg-offset-3 col-md-offset-3 col-sm-offset-3"
+        "value" : "jumbotron col-lg-offset-3 col-md-offset-3 col-sm-offset-3 customContainer"
       },
       "hidden" : {
         "type" : "constant",
@@ -47,7 +47,7 @@
         },
         "text" : {
           "type" : "interpolation",
-          "value" : "{{pageTitle}}"
+          "value" : "This is the default application home page"
         },
         "level" : {
           "type" : "constant",
@@ -133,7 +133,7 @@
         },
         "text" : {
           "type" : "interpolation",
-          "value" : "<p>{{applicationDescription}}</p>\n<ul>\n<li>{{layout}}</li>\n<li>{{pages}}</li>\n<li>{{processes}}</li>\n<li>{{restAPIExtensions}}</li>\n<li>{{theme}}</li>"
+          "value" : "<p>An application is a collection of pages and processes that meets a business need. It contains some or all of the following:</p>\n{{links}}"
         },
         "alignment" : {
           "type" : "constant",
@@ -215,7 +215,7 @@
         },
         "text" : {
           "type" : "interpolation",
-          "value" : "{{defineNewApplicationDetails}}"
+          "value" : "{{newApplication}}"
         },
         "alignment" : {
           "type" : "constant",
@@ -242,44 +242,14 @@
   } ],
   "inactiveAssets" : [ ],
   "data" : {
-    "pageTitle" : {
+    "links" : {
       "type" : "expression",
-      "value" : "return \"This is the default application home page\";",
+      "value" : "\r\nvar layout = '<ul>' +\r\n                '<li>' +\r\n                    '<a href=\"https://documentation.bonitasoft.com/bonita/7.9/layouts\" target=\"_blank\" class=\"text-info\">Layout</a>: ' +\r\n                    'the frame in which application pages are displayed.' +\r\n                '</li>';\r\n\r\nvar pages =     '<li>' +\r\n                    '<a href=\"https://documentation.bonitasoft.com/bonita/7.9/pages\" target=\"_blank\" class=\"text-info\">Pages</a>: ' +\r\n                     'the user interface components of the application. An application must contain at least one page.</li>';\r\n\r\nvar processes = '<li>' +\r\n                    '<a href=\"https://documentation.bonitasoft.com/bonita/7.5/processes\" target=\"_blank\" class=\"text-info\">Processes</a>: ' +\r\n                    'the logic execution components of the application. An application must contain at least one process. ' +\r\n                    'A process can contain <a href=\"https://documentation.bonitasoft.com/bonita/7.5/forms\" target=\"_blank\" class=\"text-info\">forms</a>, ' +\r\n                    'which are the user interface of the process.' +\r\n                '</li>';\r\n\r\nvar restAPI =   '<li>' +\r\n                    '<a href=\"https://documentation.bonitasoft.com/bonita/7.5/rest-api-extensions\" target=\"_blank\" class=\"text-info\">REST API extensions</a>: ' +\r\n                    'called from pages or forms to retrieve data to be presented to the user.' +\r\n                '</li>';\r\nvar theme =     '<li>' +\r\n                    '<a href=\"https://documentation.bonitasoft.com/bonita/7.5/themes\" target=\"_blank\" class=\"text-info\">Theme</a> : ' +\r\n                    'the appearance of application pages, including fonts and colors.' +\r\n                '</li>' +\r\n            '</ul>';\r\n\r\nreturn layout + pages + processes + restAPI + theme;",
       "exposed" : false
     },
-    "applicationDescription" : {
-      "type" : "constant",
-      "value" : "An application is a collection of pages and processes that meets a business need. It contains some or all of the following:",
-      "exposed" : false
-    },
-    "pages" : {
-      "type" : "constant",
-      "value" : "<a href=\"https://documentation.bonitasoft.com/bonita/7.9/pages\" target=\"_blank\" class=\"text-info\">Pages</a>: the user interface components of the application. An application must contain at least one page.",
-      "exposed" : false
-    },
-    "processes" : {
-      "type" : "constant",
-      "value" : "<a href=\"https://documentation.bonitasoft.com/bonita/7.9/processes\" target=\"_blank\" class=\"text-info\">Processes</a>: the logic execution components of the application. An application must contain at least one process. A process can contain <a href=\"https://documentation.bonitasoft.com/bonita/7.5/forms\" target=\"_blank\" class=\"text-info\">forms</a>, which are the user interface of the process.",
-      "exposed" : false
-    },
-    "restAPIExtensions" : {
-      "type" : "constant",
-      "value" : "<a href=\"https://documentation.bonitasoft.com/bonita/7.9/rest-api-extensions\" target=\"_blank\" class=\"text-info\">REST API extensions</a>: called from pages or forms to retrieve data to be presented to the user.",
-      "exposed" : false
-    },
-    "layout" : {
-      "type" : "constant",
-      "value" : "<a href=\"https://documentation.bonitasoft.com/bonita/7.9/layouts\" target=\"_blank\" class=\"text-info\">Layout</a>: the frame in which application pages are displayed.",
-      "exposed" : false
-    },
-    "theme" : {
-      "type" : "constant",
-      "value" : "<a href=\"https://documentation.bonitasoft.com/bonita/7.9/themes\" target=\"_blank\" class=\"text-info\">Theme</a> : the appearance of application pages, including fonts and colors.",
-      "exposed" : false
-    },
-    "defineNewApplicationDetails" : {
-      "type" : "constant",
-      "value" : "<p> Since Bonita 7.5.0, the definition of applications should be done from the studio, which makes it more straightforward to develop and package with other application artifacts. For Enterprise, Efficiency and Performance editions, a graphical editor is provided on top of xml source code. For more details, go to <a href=\"https://documentation.bonitasoft.com/bonita/7.9/applicationCreation\" target=\"_blank\" class=\"text-info\"> Application descriptors” </a> </p> <p> All links to the documentation should be done through bos redirect. </p>",
+    "newApplication" : {
+      "type" : "expression",
+      "value" : "var text = '<p> ' +\r\n                'Since Bonita 7.5.0, the definition of applications should be done from the studio, ' +\r\n                'which makes it more straightforward to develop and package with other application artifacts. ' +\r\n                'For Enterprise, Efficiency and Performance editions, a graphical editor is provided on top of xml source code. ' +\r\n                'For more details, go to ' +\r\n                '<a href=\"https://documentation.bonitasoft.com/bonita/7.9/applicationCreation\" target=\"_blank\" class=\"text-info\"> ' +\r\n                    'Application descriptors” ' +\r\n                '</a> ' +\r\n            '</p>';\r\n\r\nreturn text;",
       "exposed" : false
     }
   },
