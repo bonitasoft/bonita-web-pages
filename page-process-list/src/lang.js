@@ -113,7 +113,7 @@ export default () => {
         'On process name or version': ''
       }
     },
-    pt: {
+    pt_BR: {
       translations: {
         Filters: 'Filtros',
         Processes: 'Processos',

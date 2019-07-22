@@ -19,8 +19,9 @@ import lang from './lang';
 i18n.use(LanguageDetector).init({
   // we init with resources
   resources: lang(),
-  fallbackLng: 'de',
+  fallbackLng: 'en',
   debug: true,
+  returnEmptyString: false,
 
   // have a common namespace used around the full app
   ns: ['translations'],
