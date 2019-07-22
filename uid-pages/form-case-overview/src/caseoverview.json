@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1563805457498,
+  "lastUpdate" : 1563811448914,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -162,7 +162,8 @@
           "value" : "caseOverview.businessDataRefs.length  > 0"
         },
         "repeatedCollection" : {
-          "type" : "variable"
+          "type" : "variable",
+          "value" : ""
         }
       },
       "reference" : "91aa69b7-40d4-4efe-91f1-3b0cc5905dce",
@@ -1080,7 +1081,7 @@
     },
     "businessDataKeys" : {
       "type" : "expression",
-      "value" : "function objectIdAsString(header, headers) {\n    return header.endsWith(\"_string\") && headers.includes(header.replace(\"_string\", \"\"));\n}\n\nvar businessData = $data.selectedBusinessData.length ? $data.selectedBusinessData[0] :  $data.selectedBusinessData;\n\nreturn Object.keys(businessData).filter(function(header, index, headers){\n    return  !objectIdAsString(header, headers);\n}).filter(function(header){\n    return  header !== \"persistenceId\"\n            && header.indexOf(\"persistenceVersion\") === -1 \n            && header !== \"links\" \n});",
+      "value" : "/* Identifies if the passed key is a string version of an object id,\n * as the Rest API duplicates the object ids with \"_string\" version\n */\nfunction isOjectIdAsString(header, headers) {\n    return header.endsWith(\"_string\") && headers.includes(header.replace(\"_string\", \"\"));\n}\n\nvar businessData = $data.selectedBusinessData.length ? $data.selectedBusinessData[0] :  $data.selectedBusinessData;\n\nreturn Object.keys(businessData).filter(function(header, index, headers){\n    return  !isOjectIdAsString(header, headers);\n}).filter(function(header){\n    return  header !== \"persistenceId\"\n            && header.indexOf(\"persistenceVersion\") === -1 \n            && header !== \"links\" \n});",
       "exposed" : false
     },
     "archivedTasks" : {
