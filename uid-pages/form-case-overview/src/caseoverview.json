@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1562835530988,
+  "lastUpdate" : 1563805457498,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -327,7 +327,7 @@
           },
           "headers" : {
             "type" : "expression",
-            "value" : "businessDataHeaders"
+            "value" : "businessDataKeys"
           },
           "content" : {
             "type" : "expression",
@@ -338,7 +338,8 @@
             "value" : "businessDataKeys"
           },
           "selectedRow" : {
-            "type" : "variable"
+            "type" : "variable",
+            "value" : ""
           }
         },
         "reference" : "2161bfa5-d310-4c9a-ba3a-d7e4f79d2be0",
@@ -1072,11 +1073,6 @@
       "value" : "../{{caseOverview.selectedBusinessDataRef.link}}",
       "exposed" : false
     },
-    "businessDataHeaders" : {
-      "type" : "expression",
-      "value" : "return $data.businessDataKeys.map(function(key){\n    return key.replace(\"_string\",\"\");\n});",
-      "exposed" : false
-    },
     "case" : {
       "type" : "expression",
       "value" : "return  (!$data.openCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;",
@@ -1084,7 +1080,7 @@
     },
     "businessDataKeys" : {
       "type" : "expression",
-      "value" : "var businessData = $data.selectedBusinessData.length ? $data.selectedBusinessData[0] :  $data.selectedBusinessData;\n\nreturn Object.keys(businessData).filter(function(header){\n    return  header  !== \"persistenceId\" \n            && header.indexOf(\"persistenceVersion\") === -1 \n            && header !== \"links\";\n});",
+      "value" : "function objectIdAsString(header, headers) {\n    return header.endsWith(\"_string\") && headers.includes(header.replace(\"_string\", \"\"));\n}\n\nvar businessData = $data.selectedBusinessData.length ? $data.selectedBusinessData[0] :  $data.selectedBusinessData;\n\nreturn Object.keys(businessData).filter(function(header, index, headers){\n    return  !objectIdAsString(header, headers);\n}).filter(function(header){\n    return  header !== \"persistenceId\"\n            && header.indexOf(\"persistenceVersion\") === -1 \n            && header !== \"links\" \n});",
       "exposed" : false
     },
     "archivedTasks" : {
