@@ -32,7 +32,7 @@ class Main extends Component {
       categories: {
         0: {
           createdBy: 'a',
-          displayName: t('AllProcesses'),
+          displayName: t('AllCategories'),
           name: 'all',
           creation_date: 'a',
           id: '0'
