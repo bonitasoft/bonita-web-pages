@@ -78,6 +78,7 @@ class Filters extends Component {
               className="Filters-category"
               id="Filters-category"
               bsStyle="primary"
+              disabled={Object.values(categories).length < 2}
             >
               {Object.values(categories).map(category => (
                 <MenuItem
