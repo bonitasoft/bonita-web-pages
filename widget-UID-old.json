@@ -1,0 +1,74 @@
+{
+  "designerVersion" : "1.5.10",
+  "id" : "customLayoutMenuBonitaV2",
+  "name" : "BonitaLayoutMenuV2",
+  "lastUpdate" : 1560520669514,
+  "template" : "<div class=\"navbar navbar-inverse\" role=\"navigation\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand visible-xs\" ng-click=\"ctrl.displayPage(properties.homePageToken)\" href=\"../{{properties.homePageToken}}/\">{{ctrl.applicationName}}</a>\n            <button type=\"button\" ng-init=\"navCollapsed = true\" ng-click=\"navCollapsed = !navCollapsed\" class=\"navbar-toggle\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div collapse=\"navCollapsed\" class=\"collapse navbar-responsive-collapse navbar-collapse\">\n            <ul class=\"nav navbar-nav\">\n                <li ng-class=\"{active:ctrl.pageToken===menu.applicationPageId.token}\" ng-repeat=\"menu in ctrl.filterChildren(-1)\" dropdown>\n                    <a ng-if=\"!ctrl.isParentMenu(menu)\" ng-click=\"ctrl.displayPage(menu.applicationPageId.token)\" href=\"../{{menu.applicationPageId.token}}/\"><span class=\"maxTitleWidth\">{{menu.displayName}}</span></a>\n                    <a ng-if=\"ctrl.isParentMenu(menu)\" href=\"javascript:void(0);\" dropdown-toggle>{{menu.displayName}}<span class=\"caret\"></span></a>\n                    <ul ng-if=\"ctrl.isParentMenu(menu)\"  class=\"dropdown-menu\">\n                        <li ng-repeat=\"childMenu in ctrl.filterChildren(menu.id)\">\n                            <a ng-click=\"ctrl.displayPage(childMenu.applicationPageId.token)\" href=\"../{{childMenu.applicationPageId.token}}/\">{{childMenu.displayName}}</a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav visible-xs\">\n                <hr ng-show=\"ctrl.applicationMenuList.length>0\"/>\n                <li><a ng-click=\"ctrl.openCurrentSessionModal()\"><span class=\"max-title-width\">{{properties.userName}}</span></a></li>\n                <li><a ng-click=\"ctrl.openAppSelectionModal()\"><span class=\"glyphicon glyphicon-th\"></span></a></li>\n            </ul>\n        </div>\n    </div>\n</div>",
+  "controller" : "function WidgetlivingApplicationMenuController($scope, $http, $window, $location, $timeout, modalService) {\n   var ctrl = this;\n   \n   ctrl.filterChildren = function (parentId) {\n        return (ctrl.applicationMenuList||[]).filter(function(menu){\n            return menu.parentMenuId === '' + parentId;\n        });\n        \n    };\n   \n   ctrl.isParentMenu = function(menu) {\n        return menu.parentMenuId==-1 && menu.applicationPageId==-1;\n    };\n    \n    \n   ctrl.displayPage = function(token) {\n        var previousToken = ctrl.pageToken;\n        var previousPath = window.location.pathname;\n        \n        ctrl.pageToken = token;\n        var urlPath = previousPath.substring(0, previousPath.length-previousToken.length-1) + token + '/' + $window.location.search;\n        \n        var stateObject = { title: \"\" + token + \"\", url: \"\" +  urlPath  + \"\"};\n        if (typeof ($window.history.pushState) != \"undefined\") {\n            $window.history.pushState(stateObject, stateObject.title, stateObject.url );\n        } else {\n            alert(\"Browser does not support HTML5.\");\n        }\n        //make sure the user is still logged in before refreshing the iframe\n        verifySession().then(setTargetedUrl, refreshPage);\n        \n        return false;\n    };\n   \n    ctrl.openCurrentSessionModal = function() {\n        modalService.open($scope.properties.currentSessionModalId);\n    };\n    \n    ctrl.openAppSelectionModal = function() {\n        modalService.open($scope.properties.appSelectionModalId);\n    };\n   \n    //handle the browser back button\n    $window.addEventListener('popstate', function(e) {\n        parseCurrentURL();\n        //make sure the user is still logged in before refreshing the iframe\n        setTargetedUrl();\n        refreshPage();\n    });\n\n    function parseCurrentURL() {\n        var pathArray = $window.location.pathname.split( '/' );\n        ctrl.applicationToken = pathArray[pathArray.length-3];\n        ctrl.pageToken = pathArray[pathArray.length-2];\n    }\n   \n    function setApplicationMenuList(application) {\n        return $http.get('../API/living/application-menu/?c=100&f=applicationId%3D'+application.id+'&d=applicationPageId&o=menuIndex+ASC')\n            .success(function(data) { \n                ctrl.applicationMenuList = data;\n            });\n    }\n\n    function searchSeparator() {\n        return $window.location.search ? \"&\" : \"?\";\n    }\n\n    function setTargetedUrl() {\n      // angular hack to force the variable bound to refresh\n      // so we change it's value to undefined and then delay to the correct value\n      $scope.properties.targetUrl = undefined;\n        $timeout(function(){\n            $scope.properties.targetUrl = \"../../../portal/resource/app/\"+ctrl.applicationToken+\"/\"+ ctrl.pageToken+\"/content/\"+ $window.location.search + searchSeparator() + \"app=\" + ctrl.applicationToken;\n        }, 0);\n    }\n    \n    function refreshPage() {\n        $window.location.reload();\n    }\n\n    function verifySession() {\n        var userIdentity = '../API/identity/user/' +  $scope.properties.userId;\n        return $http.get(userIdentity);\n    }\n    \n    function setApplication(){\n        var application = $scope.properties.application;\n        ctrl.applicationToken = application.token;\n        ctrl.pageToken = $scope.properties.pageToken;\n        ctrl.applicationName = $scope.properties.application.displayName;\n        setApplicationMenuList(application);\n        setTargetedUrl();\n    }\n    \n    setApplication();\n\n}",
+  "description" : "This is the default bonita portal menu.",
+  "custom" : true,
+  "properties" : [ {
+    "label" : "URL targeted by the menu",
+    "name" : "targetUrl",
+    "type" : "text",
+    "bond" : "variable"
+  }, {
+    "label" : "Username",
+    "name" : "userName",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "Current session modal Id",
+    "name" : "currentSessionModalId",
+    "type" : "text",
+    "bond" : "interpolation"
+  }, {
+    "label" : "App selection modal Id",
+    "name" : "appSelectionModalId",
+    "type" : "text",
+    "bond" : "constant"
+  }, {
+    "label" : "Application",
+    "name" : "application",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "Page token",
+    "name" : "pageToken",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "User id",
+    "name" : "userId",
+    "type" : "text",
+    "bond" : "expression"
+  }, {
+    "label" : "Home page token",
+    "name" : "homePageToken",
+    "type" : "text",
+    "bond" : "expression"
+  } ],
+  "assets" : [ {
+    "id" : "b566d5f3-6ee0-4874-a0c6-a3ab37504f7c",
+    "name" : "ui-bootstrap-tpls-0.13.0.min.js",
+    "type" : "js",
+    "order" : 1,
+    "external" : false
+  }, {
+    "id" : "44cb1989-1338-4d4c-9160-bb311e7dff6c",
+    "name" : "config-html5.js",
+    "type" : "js",
+    "order" : 2,
+    "external" : false
+  }, {
+    "id" : "6e0f00f6-66ff-41ca-b85f-3b205a037557",
+    "name" : "style.css",
+    "type" : "css",
+    "order" : 3,
+    "external" : false
+  } ],
+  "requiredModules" : [ "ui.bootstrap" ],
+  "authRules" : [ "GET|living/application", "GET|living/application-menu", "GET|living/application-page" ],
+  "type" : "widget",
+  "hasHelp" : false
+}
