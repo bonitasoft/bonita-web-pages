@@ -2139,7 +2139,7 @@
     },
     "userIconHtmlContent" : {
       "type" : "expression",
-      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
+      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
     },
     "authorizedAppsList" : {
