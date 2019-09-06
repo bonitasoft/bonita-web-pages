@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "LayoutBonitaV3",
   "name" : "BonitaLayoutV3",
-  "lastUpdate" : 1562230371248,
+  "lastUpdate" : 1567514202832,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1437,8 +1437,8 @@
                 "value" : false
               },
               "disabled" : {
-                "type" : "constant",
-                "value" : false
+                "type" : "expression",
+                "value" : "currentUserProfileList.length <=1"
               },
               "required" : {
                 "type" : "constant",
@@ -1462,7 +1462,7 @@
               },
               "placeholder" : {
                 "type" : "interpolation",
-                "value" : "All profiles"
+                "value" : "{{profilePlaceholder}}"
               },
               "availableValues" : {
                 "type" : "expression",
@@ -2139,7 +2139,7 @@
     },
     "userIconHtmlContent" : {
       "type" : "expression",
-      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"User icon\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
+      "value" : "if (!$data.loggedUser) {\n    return '';\n}\n\nvar isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';\n\nconst htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;\n\nconst htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;\n\nreturn isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;",
       "exposed" : false
     },
     "authorizedAppsList" : {
@@ -2174,6 +2174,11 @@
     "eventList" : {
       "type" : "json",
       "value" : "{\"actions\":[]}",
+      "exposed" : false
+    },
+    "profilePlaceholder" : {
+      "type" : "expression",
+      "value" : "if ($data.currentUserProfileList && $data.currentUserProfileList.length <= 1) {\n    return $data.currentUserProfileList[0].name;\n}\n\nreturn \"All profiles\";",
       "exposed" : false
     }
   },
