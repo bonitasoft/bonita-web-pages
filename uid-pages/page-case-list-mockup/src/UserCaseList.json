@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1569244215106,
+  "lastUpdate" : 1569244550390,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1769,10 +1769,12 @@
                       "value" : "Process name"
                     },
                     "availableValues" : {
-                      "type" : "constant"
+                      "type" : "expression",
+                      "value" : "archivedCaseAPI"
                     },
                     "displayedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "processDefinitionId.displayName"
                     },
                     "returnedKey" : {
                       "type" : "constant"
@@ -1831,10 +1833,12 @@
                       "value" : "Started by"
                     },
                     "availableValues" : {
-                      "type" : "constant"
+                      "type" : "expression",
+                      "value" : "archivedCaseAPI"
                     },
                     "displayedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "started_by.firstname +  \" \" + started_by.lastname"
                     },
                     "returnedKey" : {
                       "type" : "constant"
