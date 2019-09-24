@@ -3,45 +3,19 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1569247201384,
+  "lastUpdate" : 1569315839439,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
       "xs" : 12,
-      "sm" : 1,
-      "md" : 1,
-      "lg" : 2
+      "sm" : 12,
+      "md" : 12,
+      "lg" : 12
     },
     "propertyValues" : {
       "cssClasses" : {
         "type" : "constant",
-        "value" : ""
-      },
-      "hidden" : {
-        "type" : "constant",
-        "value" : false
-      },
-      "repeatedCollection" : {
-        "type" : "variable",
-        "value" : ""
-      }
-    },
-    "reference" : "42875fbf-4343-4ffc-ba82-059ccd44759a",
-    "hasValidationError" : false,
-    "id" : "pbContainer",
-    "rows" : [ [ ] ]
-  }, {
-    "type" : "container",
-    "dimension" : {
-      "xs" : 12,
-      "sm" : 10,
-      "md" : 10,
-      "lg" : 8
-    },
-    "propertyValues" : {
-      "cssClasses" : {
-        "type" : "constant",
-        "value" : ""
+        "value" : "col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1"
       },
       "hidden" : {
         "type" : "constant",
@@ -153,55 +127,6 @@
           "hasValidationError" : false,
           "id" : "pbContainer",
           "rows" : [ [ {
-            "type" : "component",
-            "dimension" : {
-              "xs" : 12,
-              "sm" : 12,
-              "md" : 12,
-              "lg" : 12
-            },
-            "propertyValues" : {
-              "cssClasses" : {
-                "type" : "constant",
-                "value" : ""
-              },
-              "hidden" : {
-                "type" : "constant",
-                "value" : false
-              },
-              "labelHidden" : {
-                "type" : "constant",
-                "value" : true
-              },
-              "label" : {
-                "type" : "interpolation",
-                "value" : "Default label"
-              },
-              "labelPosition" : {
-                "type" : "constant",
-                "value" : "top"
-              },
-              "labelWidth" : {
-                "type" : "constant",
-                "value" : 4
-              },
-              "allowHTML" : {
-                "type" : "constant",
-                "value" : true
-              },
-              "text" : {
-                "type" : "interpolation",
-                "value" : ""
-              },
-              "alignment" : {
-                "type" : "constant",
-                "value" : "left"
-              }
-            },
-            "reference" : "21379263-eb0e-4ac5-bc16-b30b4b5cfc80",
-            "hasValidationError" : false,
-            "id" : "pbText"
-          } ], [ {
             "type" : "container",
             "dimension" : {
               "xs" : 12,
@@ -323,11 +248,11 @@
                     },
                     "availableValues" : {
                       "type" : "expression",
-                      "value" : "openCaseAPI"
+                      "value" : "processAPIURL"
                     },
                     "displayedKey" : {
                       "type" : "constant",
-                      "value" : "processDefinitionId.displayName"
+                      "value" : "displayName"
                     },
                     "returnedKey" : {
                       "type" : "constant"
@@ -387,11 +312,11 @@
                     },
                     "availableValues" : {
                       "type" : "expression",
-                      "value" : "openCaseAPI"
+                      "value" : "startedBy"
                     },
                     "displayedKey" : {
                       "type" : "constant",
-                      "value" : "started_by.firstname + \" \"  + started_by.lastname"
+                      "value" : "startedBy"
                     },
                     "returnedKey" : {
                       "type" : "constant"
@@ -450,17 +375,20 @@
                       "value" : "Sort by"
                     },
                     "availableValues" : {
-                      "type" : "constant"
+                      "type" : "expression",
+                      "value" : "sortBy"
                     },
                     "displayedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "displayKey"
                     },
                     "returnedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "returnKey"
                     },
                     "value" : {
                       "type" : "variable",
-                      "value" : ""
+                      "value" : "sortByValue"
                     }
                   },
                   "reference" : "bbae43b5-2035-40b9-89f2-62367d7c5bc3",
@@ -3012,32 +2940,6 @@
         }
       } ]
     } ] ]
-  }, {
-    "type" : "container",
-    "dimension" : {
-      "xs" : 12,
-      "sm" : 1,
-      "md" : 1,
-      "lg" : 2
-    },
-    "propertyValues" : {
-      "cssClasses" : {
-        "type" : "constant",
-        "value" : ""
-      },
-      "hidden" : {
-        "type" : "constant",
-        "value" : false
-      },
-      "repeatedCollection" : {
-        "type" : "variable",
-        "value" : ""
-      }
-    },
-    "reference" : "f26cbd5d-a84f-4e1b-989f-a834eed45424",
-    "hasValidationError" : false,
-    "id" : "pbContainer",
-    "rows" : [ [ ] ]
   } ] ],
   "assets" : [ {
     "id" : "9c263032-7532-41a0-9c1b-65bf6bc78a49",
@@ -3072,6 +2974,25 @@
     "archivedCaseAPIURL" : {
       "type" : "constant",
       "value" : "../API/bpm/archivedCase?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D4&o=sourceObjectId+DESC",
+      "exposed" : false
+    },
+    "startedBy" : {
+      "type" : "json",
+      "value" : "[\n    {\n        \"startedBy\": \"Me\"\n    },\n    {\n        \"startedBy\": \"All\"\n    }\n]",
+      "exposed" : false
+    },
+    "processAPIURL" : {
+      "type" : "url",
+      "value" : "../API/bpm/process?p=0&c=10&s=&o=displayName%20ASC&f=activationState=ENABLED&f=user_id=4",
+      "exposed" : false
+    },
+    "sortBy" : {
+      "type" : "json",
+      "value" : "[   \n    { \"displayKey\": \"Last update - newest first\", \"returnKey\": \"lastUpdateDate%20DESC\" },\n    { \"displayKey\": \"Last update - oldest first\", \"returnKey\": \"lastUpdateDate%20ASC\" },\n    { \"displayKey\": \"Alphabetical order (A-Z)\", \"returnKey\": \"displayName%20ASC\" },\n    { \"displayKey\": \"Reverse alphabetical order (Z-A)\", \"returnKey\": \"displayName%20DESC\" }\n]",
+      "exposed" : false
+    },
+    "sortByValue" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
