@@ -43,36 +43,23 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     z-index: 9999;
 }
 
-/* Resources page CSS starts here */
+/* Case list page CSS starts here */
 
-.itemContainer {
-    pointer-events: none;
-}
-
-.itemContainer > * {
-    border-radius: 5px;
-    padding: 0.3rem 1rem;
-    opacity: 0.9;
-    pointer-events: auto;
-    transition: 300ms opacity, 300ms transform;
-}
-
-.app-item {
+.case-item {
     border-bottom: 1px solid lightgray;
     /*box-shadow: 0 1px 2px 0;*/
     transition: 0.3s;
     overflow: hidden;
-    padding: 0 auto;
-    margin: 0 auto;
+    padding-top: 0.5rem;
 }
 
-.app-item:hover {
-    box-shadow: 0 2px 4px 0;
+.case-item p  {
+    margin-bottom: 0;
 }
 
-.scrollInBody {
-    overflow-y: auto;
-    height: 65vh;
+.case-item:hover {
+    box-shadow: 0 0 5px;
+    margin-top: 0px;
 }
 
 .case-property-label {
@@ -80,11 +67,16 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     opacity:0.6;
 }
 
-.case-property-text {
+.case-property-value {
     font-size: 12px;
 }
 
-.remove-margin-top-and-bottom .component {
-    margin-top: 0;
-    margin-bottom: 0;
+.search-keys-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.search-keys-container>div {
+    padding-bottom: 0.5em;
 }
