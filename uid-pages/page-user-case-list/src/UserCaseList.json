@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1569598787917,
+  "lastUpdate" : 1569832975681,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1407,22 +1407,23 @@
                     },
                     "placeholder" : {
                       "type" : "interpolation",
-                      "value" : "Process name"
+                      "value" : "All processes"
                     },
                     "availableValues" : {
                       "type" : "expression",
-                      "value" : "archivedCases"
+                      "value" : "caseListConfiguration.processesOptions"
                     },
                     "displayedKey" : {
                       "type" : "constant",
-                      "value" : "processDefinitionId.displayName"
+                      "value" : "displayName"
                     },
                     "returnedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "id"
                     },
                     "value" : {
                       "type" : "variable",
-                      "value" : ""
+                      "value" : "archivedCasesFilters.processDefinitionId"
                     }
                   },
                   "reference" : "daebf4c2-b336-40cf-8923-a93fc2fbadea",
@@ -1475,83 +1476,22 @@
                     },
                     "availableValues" : {
                       "type" : "expression",
-                      "value" : "archivedCases"
+                      "value" : "caseListConfiguration.sortByOptions"
                     },
                     "displayedKey" : {
                       "type" : "constant",
-                      "value" : "started_by.firstname +  \" \" + started_by.lastname"
+                      "value" : "displayKey"
                     },
                     "returnedKey" : {
-                      "type" : "constant"
+                      "type" : "constant",
+                      "value" : "returnKey"
                     },
                     "value" : {
                       "type" : "variable",
-                      "value" : ""
+                      "value" : "archivedCasesFilters.sortOrder"
                     }
                   },
                   "reference" : "c9684465-8d85-45e4-962b-fdd178d00ff9",
-                  "hasValidationError" : false,
-                  "id" : "pbSelect"
-                }, {
-                  "type" : "component",
-                  "dimension" : {
-                    "xs" : 12,
-                    "sm" : 12,
-                    "md" : 3,
-                    "lg" : 3
-                  },
-                  "propertyValues" : {
-                    "cssClasses" : {
-                      "type" : "constant",
-                      "value" : ""
-                    },
-                    "hidden" : {
-                      "type" : "constant",
-                      "value" : false
-                    },
-                    "disabled" : {
-                      "type" : "constant",
-                      "value" : false
-                    },
-                    "required" : {
-                      "type" : "constant",
-                      "value" : false
-                    },
-                    "labelHidden" : {
-                      "type" : "constant",
-                      "value" : true
-                    },
-                    "label" : {
-                      "type" : "interpolation",
-                      "value" : "Sort by"
-                    },
-                    "labelPosition" : {
-                      "type" : "constant",
-                      "value" : "top"
-                    },
-                    "labelWidth" : {
-                      "type" : "constant",
-                      "value" : 4
-                    },
-                    "placeholder" : {
-                      "type" : "interpolation",
-                      "value" : "Sort by"
-                    },
-                    "availableValues" : {
-                      "type" : "constant"
-                    },
-                    "displayedKey" : {
-                      "type" : "constant"
-                    },
-                    "returnedKey" : {
-                      "type" : "constant"
-                    },
-                    "value" : {
-                      "type" : "variable",
-                      "value" : ""
-                    }
-                  },
-                  "reference" : "9d9b5cb9-bff5-4dde-b190-1e115867fb1f",
                   "hasValidationError" : false,
                   "id" : "pbSelect"
                 }, {
@@ -1609,7 +1549,7 @@
                     },
                     "value" : {
                       "type" : "variable",
-                      "value" : ""
+                      "value" : "archivedCasesFilters.searchValue"
                     },
                     "type" : {
                       "type" : "constant",
@@ -1629,6 +1569,43 @@
                   "reference" : "759d3abc-af1c-4f29-9f48-f4a454321916",
                   "hasValidationError" : false,
                   "id" : "pbInput"
+                }, {
+                  "type" : "component",
+                  "dimension" : {
+                    "xs" : 12,
+                    "sm" : 12,
+                    "md" : 3,
+                    "lg" : 3
+                  },
+                  "propertyValues" : {
+                    "cssClasses" : {
+                      "type" : "constant",
+                      "value" : ""
+                    },
+                    "hidden" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "disabled" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "required" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "label" : {
+                      "type" : "interpolation",
+                      "value" : "Only started by me"
+                    },
+                    "value" : {
+                      "type" : "variable",
+                      "value" : "archivedCasesFilters.startedByMe"
+                    }
+                  },
+                  "reference" : "7353ae83-654d-4765-b276-abfa496f888d",
+                  "hasValidationError" : false,
+                  "id" : "pbCheckbox"
                 } ] ]
               } ], [ {
                 "type" : "container",
@@ -1698,7 +1675,7 @@
                     },
                     "url" : {
                       "type" : "interpolation",
-                      "value" : "{{archivedCasesURL}}"
+                      "value" : "../API/bpm/case{{archivedCasesQueryParameters(0)}}"
                     },
                     "responseStatusCode" : {
                       "type" : "variable",
@@ -2676,7 +2653,7 @@
     },
     "archivedCases" : {
       "type" : "url",
-      "value" : "../API/bpm/archivedCase?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D4&o=sourceObjectId+DESC",
+      "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}",
       "exposed" : false
     },
     "processes" : {
@@ -2726,6 +2703,16 @@
     "caseListConfiguration" : {
       "type" : "expression",
       "value" : "return { \n    \"pageId\": 0, \n    \"numberOfCasesPerPage\": 10,\n    \"processesOptions\": \n        [{ \"displayName\": uiTranslate(\"All processes\")}].concat($data.processes),\n    \"sortByOptions\": [   \n        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },\n        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },\n        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },\n        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" }\n    ]\n};",
+      "exposed" : false
+    },
+    "archivedCasesFilters" : {
+      "type" : "json",
+      "value" : "{\n    \"processDefinitionId\": \"\",\n    \"startedByMe\": false,\n    \"sortOrder\": \"\",\n    \"searchValue\": \"\"\n}",
+      "exposed" : false
+    },
+    "archivedCasesQueryParameters" : {
+      "type" : "expression",
+      "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.caseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
       "exposed" : false
     }
   },
