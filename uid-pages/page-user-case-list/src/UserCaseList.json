@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1569832975681,
+  "lastUpdate" : 1569836296351,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -774,7 +774,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{\"Process display name (Version)\"|uiTranslate}}</div>\n<div class=\"case-property-value\">\n{{$item.processDefinitionId.displayName}} ({{$item.processDefinitionId.version}})\n</div>"
+                          "value" : "<div class=\"case-property-label\">{{\"Process display name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.processDefinitionId.displayName}} ({{$item.processDefinitionId.version}})\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1124,11 +1124,11 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "text-primary"
                   },
                   "hidden" : {
                     "type" : "constant",
-                    "value" : true
+                    "value" : false
                   },
                   "labelHidden" : {
                     "type" : "constant",
@@ -1152,11 +1152,11 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "displayedOpenCases: \n {{displayedOpenCases.length}}\ncaseListConfiguration.pageId: {{caseListConfiguration.pageId}}"
+                    "value" : "<div class=\"case-property-label\">\nCases shown: {{displayedOpenCases.length}}\n</div>"
                   },
                   "alignment" : {
                     "type" : "constant",
-                    "value" : "left"
+                    "value" : "right"
                   }
                 },
                 "reference" : "79df8224-e8a1-4460-85f5-86c00cc3e837",
@@ -1675,7 +1675,7 @@
                     },
                     "url" : {
                       "type" : "interpolation",
-                      "value" : "../API/bpm/case{{archivedCasesQueryParameters(0)}}"
+                      "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}"
                     },
                     "responseStatusCode" : {
                       "type" : "variable",
@@ -1732,7 +1732,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : "itemContainer"
+                    "value" : ""
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -1740,7 +1740,7 @@
                   },
                   "repeatedCollection" : {
                     "type" : "variable",
-                    "value" : "archivedCases"
+                    "value" : "displayedArchivedCases"
                   }
                 },
                 "reference" : "ebae583c-8756-43db-92bc-8981d09c5299",
@@ -1757,7 +1757,7 @@
                   "propertyValues" : {
                     "cssClasses" : {
                       "type" : "constant",
-                      "value" : "app-item"
+                      "value" : "case-item"
                     },
                     "hidden" : {
                       "type" : "constant",
@@ -1835,7 +1835,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Archived Case ID</div>\n<a href=\"#\" class=\"case-property-text\">\n{{$item.id}}\n</a>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Archived Case ID\"|uiTranslate}}\n</div>\n<a href=\"#\" class=\"case-property-value\">\n{{$item.id}}\n</a>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1910,7 +1910,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Open Case ID</div>\n<div class=\"case-property-text\">\n{{$item.rootCaseId}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Open Case ID\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.rootCaseId}}\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1926,8 +1926,8 @@
                     "dimension" : {
                       "xs" : 3,
                       "sm" : 3,
-                      "md" : 2,
-                      "lg" : 2
+                      "md" : 4,
+                      "lg" : 3
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1985,7 +1985,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Process name</div>\n<div class=\"case-property-text\">\n{{$item.processDefinitionId.displayName}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Process display name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.processDefinitionId.displayName}}\n({{$item.processDefinitionId.version}})\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1993,81 +1993,6 @@
                         }
                       },
                       "reference" : "e521279c-7638-47bd-b4b9-57a09ce135d0",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    } ] ]
-                  }, {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 2,
-                      "sm" : 1,
-                      "md" : 2,
-                      "lg" : 1
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "7f656e8a-1930-40f6-b590-d8d2f812e234",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [ [ {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Version</div>\n<div class=\"case-property-text\">\n{{$item.processDefinitionId.version}}\n</div>"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "8a86b49a-16a8-4519-b63d-8da0cf19d86b",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     } ] ]
@@ -2135,7 +2060,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Start date</div>\n<div class=\"case-property-text\">\n{{$item.start.replace(\" \", \"T\")|uiDate:'short'}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Start date\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.start.replace(\" \", \"T\")|uiDate:'short'}}\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2210,7 +2135,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">Started by</div>\n<div class=\"case-property-text\">\n{{$item.started_by.firstname}} {{$item.started_by.lastname}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Started by\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.started_by.firstname}} {{$item.started_by.lastname}}\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2246,63 +2171,14 @@
                     "reference" : "c5585749-1a3f-427d-910e-d6710452fcfc",
                     "hasValidationError" : false,
                     "id" : "pbContainer",
-                    "rows" : [ [ {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{$item.searchIndex1Label}}</div>\n<div class=\"case-property-text\">\n{{$item.searchIndex1Value}}\n</div>"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "b69ff2bb-1a88-4e56-a7c9-429a871939aa",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    } ] ]
+                    "rows" : [ [ ] ]
                   }, {
                     "type" : "container",
                     "dimension" : {
                       "xs" : 4,
                       "sm" : 2,
                       "md" : 2,
-                      "lg" : 2
+                      "lg" : 10
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -2360,7 +2236,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{$item.searchIndex2Label}}</div>\n<div class=\"case-property-text\">\n{{$item.searchIndex2Value}}\n</div>"
+                          "value" : "{{searchKeysHTML($item)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2371,233 +2247,145 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     } ] ]
-                  }, {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 4,
-                      "sm" : 3,
-                      "md" : 2,
-                      "lg" : 2
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : "remove-margin-top-and-bottom"
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "$item.searchIndex3Value == \"\""
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "625fd473-57f0-45d7-86b4-059122411053",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [ [ {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{$item.searchIndex3Label}}</div>\n<div class=\"case-property-text\">\n{{$item.searchIndex3Value}}\n</div>"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "f8f4f7c7-575d-4fc1-abb3-c2f214197c5f",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    } ] ]
-                  }, {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 4,
-                      "sm" : 2,
-                      "md" : 3,
-                      "lg" : 2
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : "remove-margin-top-and-bottom"
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "$item.searchIndex4Value == \"\""
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "3ab04040-36fb-4c02-aa73-6e6e1042e24b",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [ [ {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{$item.searchIndex4Label}}</div>\n<div class=\"case-property-text\">\n{{$item.searchIndex4Value}}\n</div>"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "5b8cd1e3-94fe-4c0a-9539-9092092d52f5",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    } ] ]
-                  }, {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 4,
-                      "sm" : 2,
-                      "md" : 3,
-                      "lg" : 2
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : "remove-margin-top-and-bottom"
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "$item.searchIndex5Value == \"\""
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "7b2754a5-060b-46f5-815d-6e17881c0745",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [ [ {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{$item.searchIndex5Label}}</div>\n<div class=\"case-property-text\">\n{{$item.searchIndex5Value}}\n</div>"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "7155eea2-4e2d-411a-b62a-df611a506b31",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    } ] ]
                   } ] ]
                 } ] ]
+              } ], [ {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "text-primary"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<div class=\"case-property-label\">\nCases shown: {{displayedArchivedCases.length}}\n</div>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "right"
+                  }
+                },
+                "reference" : "60363ff2-1d9f-4cc7-9692-3c4137e66a7c",
+                "hasValidationError" : false,
+                "id" : "pbText"
+              } ], [ {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "disabled" : {
+                    "type" : "expression",
+                    "value" : "displayedArchivedCases.length % caseListConfiguration.numberOfCasesPerPage > 0"
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Load more cases"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "center"
+                  },
+                  "buttonStyle" : {
+                    "type" : "constant",
+                    "value" : "link"
+                  },
+                  "action" : {
+                    "type" : "constant",
+                    "value" : "GET"
+                  },
+                  "assign" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "url" : {
+                    "type" : "interpolation",
+                    "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(caseListConfiguration.pageId)}}"
+                  },
+                  "responseStatusCode" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "dataToSend" : {
+                    "type" : "constant"
+                  },
+                  "dataFromSuccess" : {
+                    "type" : "variable",
+                    "value" : "archivedCasesNextResults"
+                  },
+                  "closeOnSuccess" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "dataFromError" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "targetUrlOnSuccess" : {
+                    "type" : "interpolation"
+                  },
+                  "collectionToModify" : {
+                    "type" : "variable"
+                  },
+                  "modalId" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "collectionPosition" : {
+                    "type" : "constant",
+                    "value" : "Last"
+                  },
+                  "valueToAdd" : {
+                    "type" : "constant"
+                  },
+                  "removeItem" : {
+                    "type" : "variable"
+                  }
+                },
+                "reference" : "474e7d50-427d-49dc-8ca3-93b0081d401d",
+                "hasValidationError" : false,
+                "id" : "pbButton"
               } ] ]
             } ] ]
           } ] ]
@@ -2678,7 +2466,7 @@
     },
     "eventHandler" : {
       "type" : "expression",
-      "value" : "// diplay the first page of open cases on page load or when the filter change\nif($data.openCases){\n    $data.displayedOpenCases = $data.openCases;\n    $data.caseListConfiguration.pageId = 1;\n    // set open cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases).\n    $data.openCases = undefined; \n}\n\n// add next page of open cases to the current list when user clicks on load more\nif($data.openCasesNextResults && $data.openCasesNextResults.length){\n    $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesNextResults);\n    $data.caseListConfiguration.pageId++;\n    $data.openCasesNextResults = [];\n}",
+      "value" : "//Open Cases\n// diplay the first page of open cases on page load or when the filter change\nif($data.openCases){\n    $data.displayedOpenCases = $data.openCases;\n    $data.caseListConfiguration.pageId = 1;\n    // set open cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases).\n    $data.openCases = undefined; \n}\n\n// add next page of open cases to the current list when user clicks on load more\nif($data.openCasesNextResults && $data.openCasesNextResults.length){\n    $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesNextResults);\n    $data.caseListConfiguration.pageId++;\n    $data.openCasesNextResults = [];\n}\n\n//Archived Cases\n// diplay the first page of archived cases on page load or when the filter change\nif($data.archivedCases){\n    $data.displayedArchivedCases = $data.archivedCases;\n    $data.caseListConfiguration.pageId = 1;\n    // set archived cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases).\n    $data.archivedCases = undefined; \n}\n\n// add next page of archived cases to the current list when user clicks on load more\nif($data.archivedCasesNextResults && $data.archivedCasesNextResults.length){\n    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesNextResults);\n    $data.caseListConfiguration.pageId++;\n    $data.archivedCasesNextResults = [];\n}",
       "exposed" : false
     },
     "processFilter" : {
@@ -2713,6 +2501,16 @@
     "archivedCasesQueryParameters" : {
       "type" : "expression",
       "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.caseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
+      "exposed" : false
+    },
+    "displayedArchivedCases" : {
+      "type" : "json",
+      "value" : "[]",
+      "exposed" : false
+    },
+    "archivedCasesNextResults" : {
+      "type" : "expression",
+      "value" : "return [];",
       "exposed" : false
     }
   },
