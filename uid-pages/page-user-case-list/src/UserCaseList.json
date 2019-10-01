@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1569916662041,
+  "lastUpdate" : 1569920031348,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -924,7 +924,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{\"Started by\"|uiTranslate}}</div>\n<div class=\"case-property-value\">\n{{$item.started_by.firstname}} {{$item.started_by.lastname}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">{{\"Started by\"|uiTranslate}}</div>\n<div class=\"case-property-value\">\n{{$item.startedBySubstitute.firstname}} {{$item.startedBySubstitute.lastname}}\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2135,7 +2135,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">\n{{\"Started by\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.started_by.firstname}} {{$item.started_by.lastname}}\n</div>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Started by\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.startedBySubstitute.firstname}} {{$item.startedBySubstitute.lastname}}\n</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2480,7 +2480,7 @@
     },
     "openCasesQueryParameters" : {
       "type" : "expression",
-      "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.caseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&n=activeFlowNodes&n=failedFlowNodes\";\n    \n    if($data.openCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.openCasesFilters.processDefinitionId;\n    }\n    \n    if($data.openCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.openCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.openCasesFilters.sortOrder;\n    }\n    \n    if($data.openCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.openCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
+      "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.caseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";\n    \n    if($data.openCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.openCasesFilters.processDefinitionId;\n    }\n    \n    if($data.openCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.openCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.openCasesFilters.sortOrder;\n    }\n    \n    if($data.openCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.openCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
       "exposed" : false
     },
     "session" : {
@@ -2500,7 +2500,7 @@
     },
     "archivedCasesQueryParameters" : {
       "type" : "expression",
-      "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.archivedCaseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
+      "value" : "return function(pageId){\n    var queryParameters = \"?c=\" + $data.archivedCaseListConfiguration.numberOfCasesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=started_by=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
       "exposed" : false
     },
     "displayedArchivedCases" : {
