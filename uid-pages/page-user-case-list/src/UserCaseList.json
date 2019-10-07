@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1570197766421,
+  "lastUpdate" : 1570456657658,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -699,7 +699,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{\"Case ID\"|uiTranslate}}</div>\n<a href=\"#\" class=\"case-property-value\">\n{{$item.id}}\n</a>"
+                          "value" : "<div class=\"case-property-label\">{{\"Case ID\"|uiTranslate}}</div>\n<a href=\"#\" class=\"case-property-value\">{{$item.id}}</a>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -774,7 +774,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">{{\"Process display name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">\n{{$item.processDefinitionId.displayName}} ({{$item.processDefinitionId.version}})\n</div>"
+                          "value" : "<div class=\"case-property-label\">{{\"Process display name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">{{$item.processDefinitionId.displayName}}({{$item.processDefinitionId.version}})</div>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1933,7 +1933,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<div class=\"case-property-label\">\n{{\"Archived Case ID\"|uiTranslate}}\n</div>\n<a href=\"#\" class=\"case-property-value\">\n{{$item.id}}\n</a>"
+                          "value" : "<div class=\"case-property-label\">\n{{\"Archived Case ID\"|uiTranslate}}\n</div>\n<a href=\"#\" class=\"case-property-value\">{{$item.id}}</a>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2598,7 +2598,7 @@
     },
     "archivedCasesQueryParameters" : {
       "type" : "expression",
-      "value" : "return function(pageId, firstCall){\n    var call = $data.archivedCaseListConfiguration.numberOfCasesPerPage;\n    \n    if(firstCall){\n        call *= 2;\n    }\n    \n    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=startedBySubstitute=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}\n\n",
+      "value" : "return function(pageId, firstCall){\n    var call = $data.archivedCaseListConfiguration.numberOfCasesPerPage;\n    \n    if(firstCall){\n        call *= 2;\n    }\n    \n    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;\n    \n    if($data.archivedCasesFilters.processDefinitionId){\n        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;\n    }\n    \n    if($data.archivedCasesFilters.startedByMe){\n        queryParameters += \"&f=startedBySubstitute=\" +  $data.session.user_id;\n    }\n    \n    if($data.archivedCasesFilters.sortOrder){\n        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;\n    }\n    \n    if($data.archivedCasesFilters.searchValue){\n        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;\n    }\n\n    return queryParameters;\n}",
       "exposed" : false
     },
     "displayedArchivedCases" : {
