@@ -1287,14 +1287,28 @@
       "exposed" : false
     },
     "timelineEvents" : {
-      "type" : "expression",
-      "value" : [
+      "type": "expression",
+      "value": [
         "function executedBy(task){",
-        "    return \"completed\" === task.state ? \"Executed by \" + task.executedBy.firstname + \" \" + task.executedBy.lastname : null;",
+        "    if (\"completed\" === task.state) {",
+        "        var executedByString = \"Executed by \";",
+        "        var userInfo = task.executedBy.firstname || task.executedBy.lastName ? task.executedBy.firstname + \" \" + task.executedBy.lastname : task.executedBy.userName;",
+        "        if (task.executedBy === '-1') {",
+        "            executedByString += \"System \";",
+        "        } else if (task.executedBySubstitute === '-1') {",
+        "            executedByString += \"System for \" + userInfo;",
+        "        } else {",
+        "            executedByString += userInfo;",
+        "        }",
+        "        return executedByString;",
+        "    } else {",
+        "        return null;",
+        "    }",
         "}",
         "",
         "function assignedTo(task){",
-        "    return task.assigned_id ? \"Assigned to \" +  task.assigned_id.firstname + \" \" +  task.assigned_id.lastname : null;",
+        "    var userInfo = task.assigned_id.firstname || task.assigned_id.lastName ? task.assigned_id.firstname + \" \" + task.assigned_id.lastname : task.assigned_id.userName;",
+        "    return task.assigned_id ? \"Assigned to \" + userInfo : null;",
         "}",
         "",
         "function iconFor(task){",
@@ -1334,7 +1348,7 @@
         "",
         "return [].concat(opened,archived);"
       ],
-      "exposed" : false
+      "exposed": false
     },
     "openedTasks" : {
       "type" : "url",
