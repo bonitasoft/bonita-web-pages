@@ -1,0 +1,25 @@
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" ng-click="ctrl.displayPage(ctrl.homePageToken)" href="../{{ctrl.homePageToken}}/">{{ctrl.applicationName}}</a>
+            <button ng-show="ctrl.applicationMenuList.length>0" type="button" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div collapse="navCollapsed" class="collapse navbar-responsive-collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active:ctrl.pageToken===menu.applicationPageId.token}" ng-repeat="menu in ctrl.filterChildren(-1)" dropdown>
+                    <a ng-if="!ctrl.isParentMenu(menu)" ng-click="ctrl.displayPage(menu.applicationPageId.token)" ng-href="../{{menu.applicationPageId.token}}/">{{menu.displayName}}</a>
+                    <a ng-if="ctrl.isParentMenu(menu)" href="javascript:void(0);" dropdown-toggle>{{menu.displayName}}<span class="caret"></span></a>
+                    <ul ng-if="ctrl.isParentMenu(menu)"  class="dropdown-menu">
+                        <li ng-repeat="childMenu in ctrl.filterChildren(menu.id)">
+                            <a ng-click="ctrl.displayPage(childMenu.applicationPageId.token)" ng-href="../{{childMenu.applicationPageId.token}}/">{{childMenu.displayName}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
