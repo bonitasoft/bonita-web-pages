@@ -47,6 +47,27 @@ given("The filter responses process name are defined", ()=>{
     }).as('filteredByProcessNameRoute');
 });
 
+given("No cases for {string} are available response is defined", (filterType)=>{
+    cy.fixture('json/emptyResult.json').as("emptyResult");
+    switch(filterType) {
+        case "process name":
+            cy.route({
+                method: 'GET',
+                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=5900913395173494779',
+                response: '@emptyResult',
+            }).as('emptyResultRoute');
+            break;
+        case "search":
+            cy.route({
+                method: 'GET',
+                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=5900913395173494779',
+                response: '@emptyResult',
+            }).as('emptyResultRoute');
+            break;
+    }
+
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });
@@ -71,7 +92,9 @@ function selectFilterProcessNameOption(filterValue){
             break;
         case 'Another My Pool':
             cy.get('select:visible').eq(0).select('1');
-            cy.wait('@filteredByProcessNameRoute');
+            break;
+        case 'Cancel Vacation Request':
+            cy.get('select:visible').eq(0).select('2');
             break;
     }
 }
@@ -160,4 +183,9 @@ then("I don't see the cases that are unmatched by the {string} filter", (filterT
             cy.get(".case-item:visible").eq(1).should("not.exist");
             break;
     }
+});
+
+then("No cases are available", ()=>{
+    cy.get(".case-item:visible").eq(0).should("not.exist");
+    cy.contains("No cases to display").should("be.visible");
 });
