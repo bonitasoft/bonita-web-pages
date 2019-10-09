@@ -29,11 +29,23 @@ given("A user session is available", ()=>{
     }).as('sessionRoute');
 });
 
-/*
-given("The list of open cases is filtered by process name", ()=>{
-
+given("A list of processes is available", ()=>{
+    cy.fixture('json/processes.json').as('processes');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/process*',
+        response: '@processes',
+    }).as('processesRoute');
 });
-*/
+
+given("The filter responses process name are defined", ()=>{
+    cy.fixture('json/filteredByProcessName.json').as("filteredByProcessName");
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=7672776979056865539',
+        response: '@filteredByProcessName',
+    }).as('filteredByProcessNameRoute');
+});
 
 when("I visit the user case list page", ()=>{
     cy.visit(url);
@@ -42,6 +54,27 @@ when("I visit the user case list page", ()=>{
 when("I click on {string} tab", (casesTab)=>{
     cy.get("tab-heading").contains(casesTab).click();
 });
+
+when("I select {string} in {string} filter", (filterValue, filterType)=>{
+    switch (filterType) {
+        case "process name":
+            selectFilterProcessNameOption(filterValue);
+            break;
+    }
+});
+
+function selectFilterProcessNameOption(filterValue){
+    switch(filterValue) {
+        case 'All processes':
+            cy.get("select:visible").eq(0).select('0');
+            cy.wait('@openCasesRoute');
+            break;
+        case 'Another My Pool':
+            cy.get('select:visible').eq(0).select('1');
+            cy.wait('@filteredByProcessNameRoute');
+            break;
+    }
+}
 
 then("A list of open cases is displayed", ()=>{
     cy.get(".case-item:visible").should("have.length", 2);
@@ -105,6 +138,26 @@ then("The {string} cases have the correct Ids", (caseType)=>{
                 cy.get(".case-property-label").contains("Started by");
                 cy.get(".case-property-value").contains("Walter Bates");
             });
+            break;
+    }
+});
+
+then("I see only the filtered open cases by {string}", (filterType)=>{
+    switch (filterType) {
+        case 'process name':
+            cy.get(".case-item:visible").eq(0).within(() => {
+                cy.get(".case-property-value").contains("2001");
+                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+            });
+            break;
+    }
+
+});
+
+then("I don't see the cases that are unmatched by the {string} filter", (filterType)=>{
+    switch (filterType) {
+        case 'process name':
+            cy.get(".case-item:visible").eq(1).should("not.exist");
             break;
     }
 });

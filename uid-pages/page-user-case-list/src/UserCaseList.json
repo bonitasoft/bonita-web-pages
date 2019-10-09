@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseList",
   "name" : "UserCaseList",
-  "lastUpdate" : 1570525873442,
+  "lastUpdate" : 1570613509384,
   "rows" : [ [ {
     "type" : "container",
     "dimension" : {
@@ -1124,11 +1124,44 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "displayedOpenCases.length"
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "No cases to display"
+                  },
+                  "level" : {
+                    "type" : "constant",
+                    "value" : "Level 4"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "center"
+                  }
+                },
+                "reference" : "52a2f9c1-edae-4691-aa03-623358618b87",
+                "hasValidationError" : false,
+                "id" : "pbTitle"
+              } ], [ {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
                     "value" : "text-primary"
                   },
                   "hidden" : {
-                    "type" : "constant",
-                    "value" : false
+                    "type" : "expression",
+                    "value" : "displayedOpenCases.length == 0"
                   },
                   "labelHidden" : {
                     "type" : "constant",
@@ -1176,106 +1209,8 @@
                     "value" : ""
                   },
                   "hidden" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "labelHidden" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "label" : {
-                    "type" : "interpolation",
-                    "value" : "Default label"
-                  },
-                  "labelPosition" : {
-                    "type" : "constant",
-                    "value" : "top"
-                  },
-                  "labelWidth" : {
-                    "type" : "constant",
-                    "value" : 4
-                  },
-                  "allowHTML" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "text" : {
-                    "type" : "interpolation",
-                    "value" : "Cases returned: {{numberOfCasesReturned}}"
-                  },
-                  "alignment" : {
-                    "type" : "constant",
-                    "value" : "left"
-                  }
-                },
-                "reference" : "6370296a-de4d-4112-ad97-a9b65e0dea4b",
-                "hasValidationError" : false,
-                "id" : "pbText"
-              } ], [ {
-                "type" : "component",
-                "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
-                  "md" : 12,
-                  "lg" : 12
-                },
-                "propertyValues" : {
-                  "cssClasses" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "hidden" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "labelHidden" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "label" : {
-                    "type" : "interpolation",
-                    "value" : "Default label"
-                  },
-                  "labelPosition" : {
-                    "type" : "constant",
-                    "value" : "top"
-                  },
-                  "labelWidth" : {
-                    "type" : "constant",
-                    "value" : 4
-                  },
-                  "allowHTML" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "text" : {
-                    "type" : "interpolation",
-                    "value" : "openCasesForNextPage: {{openCasesForNextPage.length}} <br/>\nDisplay Open Cases length :{{displayedOpenCases.length}} <br/>\nNumber of cases per page:  {{caseListConfiguration.numberOfCasesPerPage}} <br/>\nCases Returned: {{numberOfCasesReturned}}\n<br/>\nOpen Cases Next Results length: {{openCasesNextResults.length}}\n<br/>\ndisplayedOpenCases.length % caseListConfiguration.numberOfCasesPerPage > 0 || (numberOfCasesReturned == 0 || openCasesNextResults.length == 0)"
-                  },
-                  "alignment" : {
-                    "type" : "constant",
-                    "value" : "left"
-                  }
-                },
-                "reference" : "ff32c107-a313-43ce-93b6-c5011852a24e",
-                "hasValidationError" : false,
-                "id" : "pbText"
-              } ], [ {
-                "type" : "component",
-                "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
-                  "md" : 12,
-                  "lg" : 12
-                },
-                "propertyValues" : {
-                  "cssClasses" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "hidden" : {
-                    "type" : "constant",
-                    "value" : false
+                    "type" : "expression",
+                    "value" : "displayedOpenCases.length == 0"
                   },
                   "disabled" : {
                     "type" : "expression",
@@ -2544,7 +2479,7 @@
     },
     "processes" : {
       "type" : "url",
-      "value" : "../API/bpm/process?p=0&c=10&s=&o=displayName%20ASC&f=activationState=ENABLED&f=user_id=4",
+      "value" : "../API/bpm/process?o=displayName%20ASC&f=activationState=ENABLED&f=user_id={{session.user_id}}",
       "exposed" : false
     },
     "searchKeysHTML" : {
@@ -2564,7 +2499,7 @@
     },
     "eventHandler" : {
       "type" : "expression",
-      "value" : "//Open Cases\n// diplay the first page of open cases on page load or when the filter change\nif($data.openCases){\n    $data.displayedOpenCases = $data.openCases.slice(0, $data.caseListConfiguration.numberOfCasesPerPage);\n    $data.caseListConfiguration.pageId = 2;\n    // set open cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases).\n    //$data.openCasesNextResults = $data.openCases.slice($data.caseListConfiguration.numberOfCasesPerPage);\n    //$data.numberOfCasesReturned = $data.openCasesNextResults.length;\n    $data.openCasesForNextPage = $data.openCases.slice($data.caseListConfiguration.numberOfCasesPerPage);\n    //$data.numberOfCasesReturned = $data.displayedOpenCases.length;\n    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;\n    $data.openCases = undefined; \n}\n\n// add next page of open cases to the current list when user clicks on load more\nif($data.openCasesNextResults && $data.openCasesNextResults.length){\n    //$data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesNextResults.slice(0, $data.caseListConfiguration.numberOfCasesPerPage));\n    $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);\n    $data.caseListConfiguration.pageId++;\n    $data.openCasesForNextPage = $data.openCasesNextResults;\n    //$data.numberOfCasesReturned = $data.openCasesNextResults.length;\n    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;\n    $data.openCasesNextResults = undefined;\n}\n\nif($data.numberOfCasesReturned > 0 && $data.openCasesNextResults && $data.openCasesNextResults.length == 0){\n     $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);\n     $data.openCasesForNextPage = [];\n     $data.numberOfCasesReturned = 0;\n}\n\n//Archived Cases\n// diplay the first page of archived cases on page load or when the filter change\nif($data.archivedCases){\n    $data.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseListConfiguration.numberOfCasesPerPage);\n    $data.archivedCaseListConfiguration.pageId = 2;\n    // set archived cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases).\n    $data.archivedCasesForNextPage = $data.archivedCases.slice($data.archivedCaseListConfiguration.numberOfCasesPerPage);\n    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;\n    $data.archivedCases = undefined; \n}\n\n// add next page of archived cases to the current list when user clicks on load more\nif($data.archivedCasesNextResults && $data.archivedCasesNextResults.length){\n    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);\n    $data.archivedCaseListConfiguration.pageId++;\n    $data.archivedCasesForNextPage = $data.archivedCasesNextResults;\n    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;\n    $data.archivedCasesNextResults = undefined;\n}\n\nif($data.numberOfArchivedCasesReturned > 0 && $data.archivedCasesNextResults && $data.archivedCasesNextResults.length == 0){\n    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);\n    $data.archivedCasesForNextPage = [];\n    $data.numberOfArchivedCasesReturned = 0;\n}",
+      "value" : "//Open Cases\n// diplay the first page of open cases on page load or when the filter change\nif($data.openCases){\n    // display half the elements loaded\n    $data.displayedOpenCases = $data.openCases.slice(0, $data.caseListConfiguration.numberOfCasesPerPage);\n    // set the next page to be requested to 2 since the first page is in the memory\n    $data.caseListConfiguration.pageId = 2;\n    $data.openCasesForNextPage = $data.openCases.slice($data.caseListConfiguration.numberOfCasesPerPage);\n    // saving the other half to be displayed later\n    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;\n    // set open cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\n    $data.openCases = undefined; \n}\n\n// add next page of open cases to the list of next open cases to display\n// display the next cases from the memory\nif($data.openCasesNextResults && $data.openCasesNextResults.length){\n    $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);\n    $data.caseListConfiguration.pageId++;\n    $data.openCasesForNextPage = $data.openCasesNextResults;\n    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;\n    $data.openCasesNextResults = undefined;\n}\n\n// when there are no more cases in the memory\nif($data.numberOfCasesReturned > 0 && $data.openCasesNextResults && $data.openCasesNextResults.length == 0){\n     $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);\n     $data.openCasesForNextPage = undefined;\n     $data.openCasesNextResults = undefined;\n     $data.numberOfCasesReturned = 0;\n}\n\n//Archived Cases\n// diplay the first page of archived cases on page load or when the filter change\nif($data.archivedCases){\n    $data.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseListConfiguration.numberOfCasesPerPage);\n    $data.archivedCaseListConfiguration.pageId = 2;\n    // set archived cases to undefined as the script is triggered when click on load more cases button\n    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases).\n    $data.archivedCasesForNextPage = $data.archivedCases.slice($data.archivedCaseListConfiguration.numberOfCasesPerPage);\n    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;\n    $data.archivedCases = undefined; \n}\n\n// add next page of archived cases to the current list when user clicks on load more\nif($data.archivedCasesNextResults && $data.archivedCasesNextResults.length){\n    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);\n    $data.archivedCaseListConfiguration.pageId++;\n    $data.archivedCasesForNextPage = $data.archivedCasesNextResults;\n    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;\n    $data.archivedCasesNextResults = undefined;\n}\n\n// when there are no more cases in the memory\nif($data.numberOfArchivedCasesReturned > 0 && $data.archivedCasesNextResults && $data.archivedCasesNextResults.length == 0){\n    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);\n    $data.archivedCasesForNextPage = undefined;\n    $data.archivedCasesNextResults = undefined;\n    $data.numberOfArchivedCasesReturned = 0;\n}",
       "exposed" : false
     },
     "processFilter" : {
