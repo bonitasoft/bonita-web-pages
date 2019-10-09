@@ -16,9 +16,9 @@ Feature: The user open case list in desktop resolution
     And A list of archived cases is available
     And A user session is available
     When I visit the user case list page
-    Then The "open" cases have the correct Ids
+    Then The "open" cases have the correct information
     When I click on "Archived cases" tab
-    Then The "archived" cases have the correct Ids
+    Then The "archived" cases have the correct information
 
   Scenario: The user case list filter by process name works correctly
     Given A list of open cases is available
