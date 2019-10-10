@@ -42,10 +42,7 @@ RELEASE_VERSION=$1
 ###################################################################################################
 #  Create release
 ###################################################################################################
-# create release branch
-git checkout -B release/$RELEASE_VERSION
-
-# Commit and tag
-echo "--- Creating commit and tag"
+# create the tag and push it
 ./gradlew release -Prelease.version=$RELEASE_VERSION
+
 popd
