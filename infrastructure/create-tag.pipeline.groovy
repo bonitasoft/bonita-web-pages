@@ -18,7 +18,7 @@ pipeline {
         stage('Tag') {
             steps {
                 script {
-                    sh "./infrastructure/tag.sh ${tag} true"
+                    sh "./infrastructure/release.sh ${tag}"
                 }
             }
         }

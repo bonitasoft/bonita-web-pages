@@ -18,7 +18,7 @@ pipeline {
         stage('Tag') {
             steps {
                 script {
-                    sh "./infrastructure/release.sh ${params.newVersion} false"
+                    sh "./infrastructure/updateVersion.sh ${params.newVersion}"
                 }
             }
         }
