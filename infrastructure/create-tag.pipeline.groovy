@@ -7,19 +7,19 @@ pipeline {
         skipDefaultCheckout true
     }
     stages {
-        stage('Init') {
-            steps{
-                script{
-                    git branch: params.BASE_BRANCH, url: 'git@github.com:bonitasoft/bonita-web-pages.git'
-                }
-            }
-
+        stage('Checkout') {
+            checkout scm
         }
         stage('Tag') {
-            steps {
-                script {
-                    sh "./infrastructure/release.sh ${tag}"
-                }
+            branch = params.BASE_BRANCH
+            withCredentials([usernamePassword(
+                    credentialsId: 'github',
+                    passwordVariable: 'GIT_PASSWORD',
+                    usernameVariable: 'GIT_USERNAME')]) {
+                sh "git branch --force $branch origin/$branch"
+                sh "git checkout $branch"
+
+                sh "./infrastructure/release.sh ${tag}"
             }
         }
     }
