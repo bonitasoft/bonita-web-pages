@@ -1,26 +1,19 @@
-#!/usr/bin/env groovy
-def tag = params.TAG_NAME
-pipeline {
-    agent any
-    options {
-        timestamps()
-        skipDefaultCheckout true
+node {
+    stage('Checkout') {
+        checkout scm
     }
-    stages {
-        stage('Checkout') {
-            checkout scm
-        }
-        stage('Tag') {
-            branch = params.BASE_BRANCH
-            withCredentials([usernamePassword(
-                    credentialsId: 'github',
-                    passwordVariable: 'GIT_PASSWORD',
-                    usernameVariable: 'GIT_USERNAME')]) {
-                sh "git branch --force $branch origin/$branch"
-                sh "git checkout $branch"
 
-                sh "./infrastructure/release.sh ${tag}"
-            }
+    stage('Tag') {
+        tag = params.TAG_NAME
+        branch = params.BASE_BRANCH
+        withCredentials([usernamePassword(
+                credentialsId: 'github',
+                passwordVariable: 'GIT_PASSWORD',
+                usernameVariable: 'GIT_USERNAME')]) {
+            sh "git branch --force $branch origin/$branch"
+            sh "git checkout $branch"
+
+            sh "./gradlew release -Prelease.version=$tag"
         }
     }
 }
