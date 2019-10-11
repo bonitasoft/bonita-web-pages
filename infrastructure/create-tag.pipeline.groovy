@@ -13,7 +13,7 @@ node {
             sh "git branch --force $branch origin/$branch"
             sh "git checkout $branch"
 
-            sh "./gradlew release -Prelease.version=$tag"
+            sh "./gradlew release -Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD} -Prelease.version=$tag"
         }
     }
 }
