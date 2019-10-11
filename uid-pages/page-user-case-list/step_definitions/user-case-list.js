@@ -47,6 +47,33 @@ given("The filter responses process name are defined", ()=>{
     }).as('filteredByProcessNameRoute');
 });
 
+given("The filter responses sort by are defined", ()=>{
+    cy.fixture('json/openCasesSortedByProcessNameAsc.json').as("openCasesSortedByProcessNameAsc");
+    cy.fixture('json/openCasesSortedByProcessNameDesc.json').as("openCasesSortedByProcessNameDesc");
+    cy.fixture('json/openCasesSortedByStartDateNew.json').as("openCasesSortedByStartDateNew");
+    cy.fixture('json/openCases.json').as("openCases");
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=name+ASC',
+        response: '@openCasesSortedByProcessNameAsc',
+    }).as('openCasesSortedByProcessNameAscRoute');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=name+DESC',
+        response: '@openCasesSortedByProcessNameDesc',
+    }).as('openCasesSortedByProcessNameDescRoute');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=startDate+ASC',
+        response: '@openCasesSortedByStartDateNew',
+    }).as('openCasesSortedByStartDateNewRoute');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=startDate+DESC',
+        response: '@openCases',
+    }).as('openCasesSortedByStartDateOldRoute');
+});
+
 given("No cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as("emptyResult");
     switch(filterType) {
@@ -60,7 +87,7 @@ given("No cases for {string} are available response is defined", (filterType)=>{
         case "search":
             cy.route({
                 method: 'GET',
-                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=5900913395173494779',
+                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&s=Incorrect',
                 response: '@emptyResult',
             }).as('emptyResultRoute');
             break;
@@ -77,6 +104,21 @@ given("The filter response only started by me is defined", ()=>{
     }).as('filteredStartedByMeRoute');
 });
 
+given("The filter responses search are defined", ()=>{
+    cy.fixture('json/openCasesSearchPool3.json').as("openCasesSearchPool3");
+    cy.fixture('json/openCasesSearchKey.json').as("openCasesSearchKey");
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&s=Pool3',
+        response: '@openCasesSearchPool3',
+    }).as('openCasesSearchPool3Route');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&s=Long%20Search%20Value%205',
+        response: '@openCasesSearchKey',
+    }).as('openCasesSearchKeyRoute');
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });
@@ -89,6 +131,9 @@ when("I select {string} in {string} filter", (filterValue, filterType)=>{
     switch (filterType) {
         case "process name":
             selectFilterProcessNameOption(filterValue);
+            break;
+        case "sort by":
+            selectFilterSortByOption(filterValue);
             break;
     }
 });
@@ -108,13 +153,34 @@ function selectFilterProcessNameOption(filterValue){
     }
 }
 
+function selectFilterSortByOption(filterValue) {
+    switch(filterValue) {
+        case 'Start date - newest first':
+            cy.get("select:visible").eq(1).select('0');
+            break;
+        case 'Start date - oldest first':
+            cy.get('select:visible').eq(1).select('1');
+            break;
+        case 'Process name (Asc)':
+            cy.get('select:visible').eq(1).select('2');
+            break;
+        case 'Process name (Desc)':
+            cy.get('select:visible').eq(1).select('3');
+            break;
+    }
+}
+
 when('I click on filter only started by me', () => {
     cy.get('pb-checkbox input:visible').click({ multiple: true });
 });
 
 when("I filter only started by me", ()=>{
     cy.get(".checkbox:visible input").click();
-})
+});
+
+when("I search {string} in search filter", (searchValue)=>{
+    cy.get("pb-input input:visible").type(searchValue);
+});
 
 then("A list of open cases is displayed", ()=>{
     cy.get(".case-item:visible").should("have.length", 5);
@@ -154,6 +220,44 @@ then("The {string} cases have the correct information", (caseType)=>{
             cy.get(".case-item:visible").eq(1).within(() => {
                 // Check that the element exist.
                 cy.get(".case-property-label").contains("Case ID");
+                cy.get(".case-property-value").contains("32001");
+                cy.get(".case-property-label").contains("Process display name (Version)");
+                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-label").contains("Start date");
+                cy.get(".case-property-value").contains("8/13/19 10:07 AM");
+                cy.get(".case-property-label").contains("Started by");
+                cy.get(".case-property-value").contains("Walter Bates");
+                cy.get(".case-property-label").contains("Tasks");
+                cy.get(".case-property-value").contains("2");
+                cy.get(".case-property-label").contains("Long Search Key 1");
+                cy.get(".case-property-value").contains("Long Search Value 1");
+                cy.get(".case-property-label").contains("Long Search Key 2");
+                cy.get(".case-property-value").contains("Long Search Value 2");
+                cy.get(".case-property-label").contains("Long Search Key 3");
+                cy.get(".case-property-value").contains("Long Search Value 3");
+                cy.get(".case-property-label").contains("Long Search Key 4");
+                cy.get(".case-property-value").contains("Long Search Value 4");
+                cy.get(".case-property-label").contains("Long Search Key 5");
+                cy.get(".case-property-value").contains("Long Search Value 5");
+            });
+
+            cy.get(".case-item:visible").eq(2).within(() => {
+                // Check that the element exist.
+                cy.get(".case-property-label").contains("Case ID");
+                cy.get(".case-property-value").contains("22001");
+                cy.get(".case-property-label").contains("Process display name (Version)");
+                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-label").contains("Start date");
+                cy.get(".case-property-value").contains("8/14/19 10:07 AM");
+                cy.get(".case-property-label").contains("Started by");
+                cy.get(".case-property-value").contains("Walter Bates");
+                cy.get(".case-property-label").contains("Tasks");
+                cy.get(".case-property-value").contains("2");
+            });
+
+            cy.get(".case-item:visible").eq(3).within(() => {
+                // Check that the element exist.
+                cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("12001");
                 cy.get(".case-property-label").contains("Process display name (Version)");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
@@ -175,7 +279,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-value").contains("Long Search Value 5");
             });
 
-            cy.get(".case-item:visible").eq(2).within(() => {
+            cy.get(".case-item:visible").eq(4).within(() => {
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("8008");
                 cy.get(".case-property-label").contains("Process display name (Version)");
@@ -186,44 +290,6 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-value").contains("Walter Bates");
                 cy.get(".case-property-label").contains("Tasks");
                 cy.get(".case-property-value").contains("1");
-                cy.get(".case-property-label").contains("Long Search Key 1");
-                cy.get(".case-property-value").contains("Long Search Value 1");
-                cy.get(".case-property-label").contains("Long Search Key 2");
-                cy.get(".case-property-value").contains("Long Search Value 2");
-                cy.get(".case-property-label").contains("Long Search Key 3");
-                cy.get(".case-property-value").contains("Long Search Value 3");
-                cy.get(".case-property-label").contains("Long Search Key 4");
-                cy.get(".case-property-value").contains("Long Search Value 4");
-                cy.get(".case-property-label").contains("Long Search Key 5");
-                cy.get(".case-property-value").contains("Long Search Value 5");
-            });
-
-            cy.get(".case-item:visible").eq(3).within(() => {
-                // Check that the element exist.
-                cy.get(".case-property-label").contains("Case ID");
-                cy.get(".case-property-value").contains("22001");
-                cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
-                cy.get(".case-property-label").contains("Start date");
-                cy.get(".case-property-value").contains("8/14/19 10:07 AM");
-                cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Walter Bates");
-                cy.get(".case-property-label").contains("Tasks");
-                cy.get(".case-property-value").contains("2");
-            });
-
-            cy.get(".case-item:visible").eq(4).within(() => {
-                // Check that the element exist.
-                cy.get(".case-property-label").contains("Case ID");
-                cy.get(".case-property-value").contains("32001");
-                cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
-                cy.get(".case-property-label").contains("Start date");
-                cy.get(".case-property-value").contains("8/12/19 10:07 AM");
-                cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Walter Bates");
-                cy.get(".case-property-label").contains("Tasks");
-                cy.get(".case-property-value").contains("2");
                 cy.get(".case-property-label").contains("Long Search Key 1");
                 cy.get(".case-property-value").contains("Long Search Value 1");
                 cy.get(".case-property-label").contains("Long Search Key 2");
@@ -264,7 +330,7 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
             });
 
             cy.get(".case-item:visible").eq(1).within(() => {
-                cy.get(".case-property-value").contains("12001");
+                cy.get(".case-property-value").contains("32001");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
             });
 
@@ -274,30 +340,30 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
             });
 
             cy.get(".case-item:visible").eq(3).within(() => {
-                cy.get(".case-property-value").contains("32001");
+                cy.get(".case-property-value").contains("12001");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
             });
             break;
 
         case 'started by me':
             cy.get(".case-item:visible").eq(0).within(() => {
-                cy.get(".case-property-value").contains("12001");
+                cy.get(".case-property-value").contains("32001");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
             });
 
             cy.get(".case-item:visible").eq(1).within(() => {
-                cy.get(".case-property-value").contains("8008");
-                cy.get(".case-property-value").contains("Pool3");
-            });
-
-            cy.get(".case-item:visible").eq(2).within(() => {
                 cy.get(".case-property-value").contains("22001");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
             });
 
-            cy.get(".case-item:visible").eq(3).within(() => {
-                cy.get(".case-property-value").contains("32001");
+            cy.get(".case-item:visible").eq(2).within(() => {
+                cy.get(".case-property-value").contains("12001");
                 cy.get(".case-property-value").contains("Another My Pool(1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(3).within(() => {
+                cy.get(".case-property-value").contains("8008");
+                cy.get(".case-property-value").contains("Pool3");
             });
             break;
     }
@@ -315,4 +381,8 @@ then("I don't see the cases that are unmatched by the {string} filter", (filterT
 then("No cases are available", ()=>{
     cy.get(".case-item:visible").eq(0).should("not.exist");
     cy.contains("No cases to display").should("be.visible");
+});
+
+then('I erase the search filter', ()=> {
+    cy.get("pb-input input:visible").clear();
 });
