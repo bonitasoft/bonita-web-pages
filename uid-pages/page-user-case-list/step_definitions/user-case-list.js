@@ -15,7 +15,7 @@ given("A list of archived cases is available", ()=>{
     cy.fixture('json/archivedCases.json').as('archivedCases');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0*',
+        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
         response: '@archivedCases',
     }).as('archivedCasesRoute');
 });
@@ -52,42 +52,44 @@ given("The filter responses sort by are defined", ()=>{
     cy.fixture('json/openCasesSortedByProcessNameDesc.json').as("openCasesSortedByProcessNameDesc");
     cy.fixture('json/openCasesSortedByStartDateNew.json').as("openCasesSortedByStartDateNew");
     cy.fixture('json/openCases.json').as("openCases");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=name+ASC',
+        url: filterQueryURLPrefix + '&o=name+ASC',
         response: '@openCasesSortedByProcessNameAsc',
     }).as('openCasesSortedByProcessNameAscRoute');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=name+DESC',
+        url: filterQueryURLPrefix + '&o=name+DESC',
         response: '@openCasesSortedByProcessNameDesc',
     }).as('openCasesSortedByProcessNameDescRoute');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=startDate+ASC',
+        url: filterQueryURLPrefix + '&o=startDate+ASC',
         response: '@openCasesSortedByStartDateNew',
     }).as('openCasesSortedByStartDateNewRoute');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&o=startDate+DESC',
+        url: filterQueryURLPrefix + '&o=startDate+DESC',
         response: '@openCases',
     }).as('openCasesSortedByStartDateOldRoute');
 });
 
 given("No cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as("emptyResult");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
     switch(filterType) {
         case "process name":
             cy.route({
                 method: 'GET',
-                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=5900913395173494779',
+                url: filterQueryURLPrefix + '&f=processDefinitionId=5900913395173494779',
                 response: '@emptyResult',
             }).as('emptyResultRoute');
             break;
         case "search":
             cy.route({
                 method: 'GET',
-                url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&s=Incorrect',
+                url: filterQueryURLPrefix + '&s=Incorrect',
                 response: '@emptyResult',
             }).as('emptyResultRoute');
             break;
@@ -107,16 +109,37 @@ given("The filter response only started by me is defined", ()=>{
 given("The filter responses search are defined", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as("openCasesSearchPool3");
     cy.fixture('json/openCasesSearchKey.json').as("openCasesSearchKey");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&s=Pool3',
+        url: filterQueryURLPrefix + '&s=Pool3',
         response: '@openCasesSearchPool3',
     }).as('openCasesSearchPool3Route');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4&s=Long%20Search%20Value%205',
+        url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@openCasesSearchKey',
     }).as('openCasesSearchKeyRoute');
+});
+
+given("A list of open cases with several pages is available", ()=>{
+    function getOpenCasesQuery(casesPerPage, pageIndex) {
+        return 'build/dist/API/bpm/case?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    }
+
+    cy.fixture('json/openCasesPage0.json').as("openCasesPage0");
+    cy.fixture('json/openCases.json').as("openCasesPage1");
+    cy.route({
+        method: 'GET',
+        url: getOpenCasesQuery(20, 0),
+        response: '@openCasesPage0',
+    }).as('openCasesPage0Route');
+
+    cy.route({
+        method: 'GET',
+        url: getOpenCasesQuery(10, 1),
+        response:  '@openCasesPage1',
+    }).as('openCasesPage1Route');
 });
 
 when("I visit the user case list page", ()=>{
@@ -180,6 +203,10 @@ when("I filter only started by me", ()=>{
 
 when("I search {string} in search filter", (searchValue)=>{
     cy.get("pb-input input:visible").type(searchValue);
+});
+
+when("I click on Load more cases button", ()=>{
+    cy.get("button .btn-link:visible").click();
 });
 
 then("A list of open cases is displayed", ()=>{
@@ -367,22 +394,29 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
             });
             break;
     }
-
 });
 
 then("I don't see the cases that are unmatched by the {string} filter", (filterType)=>{
     switch (filterType) {
         case 'process name':
-            cy.get(".case-item:visible").eq(4).should("not.exist");
+            cy.get(".case-item:visible").should("have.length", 4);
             break;
     }
 });
 
 then("No cases are available", ()=>{
-    cy.get(".case-item:visible").eq(0).should("not.exist");
+    cy.get(".case-item:visible").should("have.length", 0);
     cy.contains("No cases to display").should("be.visible");
 });
 
 then('I erase the search filter', ()=> {
     cy.get("pb-input input:visible").clear();
+});
+
+then("A list of twenty open cases is displayed", ()=>{
+    cy.get(".case-item:visible").should("have.length", 20);
+});
+
+then("I see more cases added to the list", ()=>{
+    cy.get(".case-item:visible").should("have.length", 25);
 });

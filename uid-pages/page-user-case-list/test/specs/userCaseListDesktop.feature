@@ -81,3 +81,12 @@ Feature: The user open case list in desktop resolution
     When I filter only started by me
     Then I see only the filtered open cases by "started by me"
     And I don't see the cases that are unmatched by the "started by me" filter
+
+  Scenario: Load more cases button works correctly
+    Given A list of open cases with several pages is available
+    And A user session is available
+    When I visit the user case list page
+    Then A list of twenty open cases is displayed
+    When I click on Load more cases button
+    Then I see more cases added to the list
+    Then The Load more cases button is disabled
