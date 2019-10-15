@@ -38,13 +38,22 @@ given("A list of processes is available", ()=>{
     }).as('processesRoute');
 });
 
-given("The filter responses process name are defined", ()=>{
-    cy.fixture('json/filteredByProcessName.json').as("filteredByProcessName");
+given("The responses filtered by process name are defined for open cases", ()=>{
+    cy.fixture('json/openCasesFilteredByProcessName.json').as("openCasesFilteredByProcessName");
     cy.route({
         method: 'GET',
         url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=4713701278409746992',
-        response: '@filteredByProcessName',
-    }).as('filteredByProcessNameRoute');
+        response: '@openCasesFilteredByProcessName',
+    }).as('openCasesFilteredByProcessNameRoute');
+});
+
+given("The responses filtered by process name are defined for archived cases", ()=>{
+    cy.fixture('json/archivedCasesFilteredByProcessName.json').as("archivedCasesFilteredByProcessName");
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=processDefinitionId=4713701278409746992',
+        response: '@archivedCasesFilteredByProcessName',
+    }).as('archivedCasesFilteredByProcessNameRoute');
 });
 
 given("The filter responses sort by are defined", ()=>{
@@ -75,9 +84,31 @@ given("The filter responses sort by are defined", ()=>{
     }).as('openCasesSortedByStartDateOldRoute');
 });
 
-given("No cases for {string} are available response is defined", (filterType)=>{
+given("No open cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as("emptyResult");
     let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    switch(filterType) {
+        case "process name":
+            cy.route({
+                method: 'GET',
+                url: filterQueryURLPrefix + '&f=processDefinitionId=5900913395173494779',
+                response: '@emptyResult',
+            }).as('emptyResultRoute');
+            break;
+        case "search":
+            cy.route({
+                method: 'GET',
+                url: filterQueryURLPrefix + '&s=Incorrect',
+                response: '@emptyResult',
+            }).as('emptyResultRoute');
+            break;
+    }
+
+});
+
+given("No archived cases for {string} are available response is defined", (filterType)=>{
+    cy.fixture('json/emptyResult.json').as("emptyResult");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
     switch(filterType) {
         case "process name":
             cy.route({
@@ -158,10 +189,10 @@ when("I click on {string} tab", (casesTab)=>{
     cy.get("tab-heading").contains(casesTab).click();
 });
 
-when("I select {string} in {string} filter", (filterValue, filterType)=>{
+when("I select {string} in {string} filter for {string} cases", (filterValue, filterType, casesType)=>{
     switch (filterType) {
         case "process name":
-            selectFilterProcessNameOption(filterValue);
+            selectCasesFilterProcessNameOption(filterValue, casesType === "archived");
             break;
         case "sort by":
             selectFilterSortByOption(filterValue);
@@ -169,11 +200,15 @@ when("I select {string} in {string} filter", (filterValue, filterType)=>{
     }
 });
 
-function selectFilterProcessNameOption(filterValue){
+function selectCasesFilterProcessNameOption(filterValue, archived){
     switch(filterValue) {
         case 'All processes':
             cy.get("select:visible").eq(0).select('0');
-            cy.wait('@openCasesRoute');
+            if(archived) {
+                cy.wait('@archivedCasesRoute');
+            } else {
+                cy.wait('@openCasesRoute');
+            }
             break;
         case 'Another My Pool':
             cy.get('select:visible').eq(0).select('1');
@@ -237,7 +272,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("2001");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/12/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
@@ -261,7 +296,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("32001");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/13/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
@@ -285,7 +320,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("22001");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/14/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
@@ -299,7 +334,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("12001");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/15/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
@@ -322,7 +357,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("8008");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Pool3(1.0)");
+                cy.get(".case-property-value").contains("Pool3 (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("9/17/19 3:42 PM");
                 cy.get(".case-property-label").contains("Started by");
@@ -344,12 +379,10 @@ then("The {string} cases have the correct information", (caseType)=>{
 
         case "archived":
             cy.get(".case-item:visible").eq(0).within(() => {
-                cy.get(".case-property-label").contains("Archived Case ID");
-                cy.get(".case-property-value").contains("3010");
-                cy.get(".case-property-label").contains("Open Case ID");
-                cy.get(".case-property-value").contains("1004");
+                cy.get(".case-property-label").contains("Archived Case ID (original)");
+                cy.get(".case-property-value").contains("3010 (1004)");
                 cy.get(".case-property-label").contains("Process display name (Version)");
-                cy.get(".case-property-value").contains("Pool(1.0)");
+                cy.get(".case-property-value").contains("Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/9/19 2:21 PM");
                 cy.get(".case-property-label").contains("Started by");
@@ -362,42 +395,91 @@ then("The {string} cases have the correct information", (caseType)=>{
 then("I see only the filtered open cases by {string}", (filterType)=>{
     switch (filterType) {
         case 'process name':
-            cy.wait("@filteredByProcessNameRoute");
+            cy.wait("@openCasesFilteredByProcessNameRoute");
             cy.get(".case-item:visible").eq(0).within(() => {
                 cy.get(".case-property-value").contains("2001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(1).within(() => {
                 cy.get(".case-property-value").contains("32001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(2).within(() => {
                 cy.get(".case-property-value").contains("22001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(3).within(() => {
                 cy.get(".case-property-value").contains("12001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
             break;
 
         case 'started by me':
             cy.get(".case-item:visible").eq(0).within(() => {
                 cy.get(".case-property-value").contains("32001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(1).within(() => {
                 cy.get(".case-property-value").contains("22001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(2).within(() => {
                 cy.get(".case-property-value").contains("12001");
-                cy.get(".case-property-value").contains("Another My Pool(1.0)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(3).within(() => {
+                cy.get(".case-property-value").contains("8008");
+                cy.get(".case-property-value").contains("Pool3");
+            });
+            break;
+    }
+});
+
+then("I see only the filtered archived cases by {string}", (filterType)=>{
+    switch (filterType) {
+        case 'process name':
+            cy.wait("@archivedCasesFilteredByProcessNameRoute");
+            cy.get(".case-item:visible").eq(0).within(() => {
+                cy.get(".case-property-value").contains("3010 (1004)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(1).within(() => {
+                cy.get(".case-property-value").contains("4010 (2004)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(2).within(() => {
+                cy.get(".case-property-value").contains("5010 (3004)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(3).within(() => {
+                cy.get(".case-property-value").contains("6010 (4004)");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+            break;
+
+        case 'started by me':
+            cy.get(".case-item:visible").eq(0).within(() => {
+                cy.get(".case-property-value").contains("32001");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(1).within(() => {
+                cy.get(".case-property-value").contains("22001");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
+            });
+
+            cy.get(".case-item:visible").eq(2).within(() => {
+                cy.get(".case-property-value").contains("12001");
+                cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(3).within(() => {
@@ -416,9 +498,14 @@ then("I don't see the cases that are unmatched by the {string} filter", (filterT
     }
 });
 
-then("No cases are available", ()=>{
+then("No open cases are available", ()=>{
     cy.get(".case-item:visible").should("have.length", 0);
-    cy.contains("No cases to display").should("be.visible");
+    cy.contains("No open cases to display").should("be.visible");
+});
+
+then("No archived cases are available", ()=>{
+    cy.get(".case-item:visible").should("have.length", 0);
+    cy.contains("No archived cases to display").should("be.visible");
 });
 
 then('I erase the search filter', ()=> {
