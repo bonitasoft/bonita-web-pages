@@ -86,7 +86,9 @@ Feature: The user open case list in desktop resolution
     Given A list of open cases with several pages is available
     And A user session is available
     When I visit the user case list page
-    Then A list of twenty open cases is displayed
+    Then A list of "10" open cases is displayed
     When I click on Load more cases button
-    Then I see more cases added to the list
-    Then The Load more cases button is disabled
+    Then A list of "20" open cases is displayed
+    When I click on Load more cases button
+    Then A list of "25" open cases is displayed
+    And The Load more cases button is disabled

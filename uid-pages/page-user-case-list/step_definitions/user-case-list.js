@@ -123,12 +123,14 @@ given("The filter responses search are defined", ()=>{
 });
 
 given("A list of open cases with several pages is available", ()=>{
+    cy.server();
     function getOpenCasesQuery(casesPerPage, pageIndex) {
         return 'build/dist/API/bpm/case?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
     }
 
     cy.fixture('json/openCasesPage0.json').as("openCasesPage0");
     cy.fixture('json/openCases.json').as("openCasesPage1");
+    cy.fixture('json/emptyResult.json').as("emptyResult");
     cy.route({
         method: 'GET',
         url: getOpenCasesQuery(20, 0),
@@ -137,9 +139,15 @@ given("A list of open cases with several pages is available", ()=>{
 
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(10, 1),
+        url: getOpenCasesQuery(10, 2),
         response:  '@openCasesPage1',
     }).as('openCasesPage1Route');
+
+    cy.route({
+        method: 'GET',
+        url: getOpenCasesQuery(10, 3),
+        response:  '@emptyResult',
+    }).as('emptyResultRoute');
 });
 
 when("I visit the user case list page", ()=>{
@@ -206,7 +214,8 @@ when("I search {string} in search filter", (searchValue)=>{
 });
 
 when("I click on Load more cases button", ()=>{
-    cy.get("button .btn-link:visible").click();
+    cy.get(".btn-link:visible").contains("Load more cases").click();
+    cy.wait(200);
 });
 
 then("A list of open cases is displayed", ()=>{
@@ -413,10 +422,14 @@ then('I erase the search filter', ()=> {
     cy.get("pb-input input:visible").clear();
 });
 
-then("A list of twenty open cases is displayed", ()=>{
-    cy.get(".case-item:visible").should("have.length", 20);
+then("A list of {string} open cases is displayed", (numberOfCases)=>{
+    cy.get(".case-item:visible").should("have.length", numberOfCases);
 });
 
 then("I see more cases added to the list", ()=>{
     cy.get(".case-item:visible").should("have.length", 25);
+});
+
+then("The Load more cases button is disabled", ()=>{
+    cy.get(".btn-link:visible").contains("Load more cases").should("be.disabled");
 });
