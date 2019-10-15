@@ -92,3 +92,13 @@ Feature: The user open case list in desktop resolution
     When I click on Load more cases button
     Then A list of "25" open cases is displayed
     And The Load more cases button is disabled
+
+  Scenario: The refresh button works correctly
+    Given A list of open cases with several pages is available
+    And A user session is available
+    When I visit the user case list page
+    Then A list of "10" open cases is displayed
+    When I click on Load more cases button
+    Then A list of "20" open cases is displayed
+    When I click on refresh
+    Then A list of "10" open cases is displayed

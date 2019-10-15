@@ -215,7 +215,10 @@ when("I search {string} in search filter", (searchValue)=>{
 
 when("I click on Load more cases button", ()=>{
     cy.get(".btn-link:visible").contains("Load more cases").click();
-    cy.wait(200);
+});
+
+when("I click on refresh", ()=>{
+    cy.get("button i.glyphicon-repeat:visible").click();
 });
 
 then("A list of open cases is displayed", ()=>{
