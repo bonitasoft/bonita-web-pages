@@ -3,8 +3,7 @@ node {
         checkout scm
     }
 
-    stage('Udate version') {
-        tag = params.TAG_NAME
+    stage('Update version') {
         branch = params.BASE_BRANCH
         withCredentials([usernamePassword(
                 credentialsId: 'github',
@@ -13,7 +12,7 @@ node {
             sh "git branch --force $branch origin/$branch"
             sh "git checkout $branch"
 
-            sh "./gradlew markNextVersion -Pnext.snapshot=$NEW_VERSION -Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
+            sh "./gradlew markNextVersion -Pnext.snapshot=${params.newVersion} -Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
         }
     }
 }
