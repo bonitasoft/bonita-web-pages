@@ -56,7 +56,7 @@ given("The responses filtered by process name are defined for archived cases", (
     }).as('archivedCasesFilteredByProcessNameRoute');
 });
 
-given("The filter responses sort by are defined", ()=>{
+given("The filter responses sort by are defined for open cases", ()=>{
     cy.fixture('json/openCasesSortedByProcessNameAsc.json').as("openCasesSortedByProcessNameAsc");
     cy.fixture('json/openCasesSortedByProcessNameDesc.json').as("openCasesSortedByProcessNameDesc");
     cy.fixture('json/openCasesSortedByStartDateNew.json').as("openCasesSortedByStartDateNew");
@@ -82,6 +82,34 @@ given("The filter responses sort by are defined", ()=>{
         url: filterQueryURLPrefix + '&o=startDate+DESC',
         response: '@openCases',
     }).as('openCasesSortedByStartDateOldRoute');
+});
+
+given("The filter responses sort by are defined for archived cases", ()=>{
+    cy.fixture('json/archivedCasesSortedByProcessNameAsc.json').as("archivedCasesSortedByProcessNameAsc");
+    cy.fixture('json/archivedCasesSortedByProcessNameDesc.json').as("archivedCasesSortedByProcessNameDesc");
+    cy.fixture('json/archivedCasesSortedByStartDateNew.json').as("archivedCasesSortedByStartDateNew");
+    cy.fixture('json/archivedCases.json').as("archivedCases");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4';
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&o=name+ASC',
+        response: '@archivedCasesSortedByProcessNameAsc',
+    }).as('archivedCasesSortedByProcessNameAscRoute');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&o=name+DESC',
+        response: '@archivedCasesSortedByProcessNameDesc',
+    }).as('archivedCasesSortedByProcessNameDescRoute');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&o=startDate+ASC',
+        response: '@archivedCasesSortedByStartDateNew',
+    }).as('archivedCasesSortedByStartDateNewRoute');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&o=startDate+DESC',
+        response: '@archivedCases',
+    }).as('archivedCasesSortedByStartDateOldRoute');
 });
 
 given("No open cases for {string} are available response is defined", (filterType)=>{
@@ -128,16 +156,25 @@ given("No archived cases for {string} are available response is defined", (filte
 
 });
 
-given("The filter response only started by me is defined", ()=>{
-    cy.fixture('json/filteredStartedByMe.json').as("filteredStartedByMe");
+given("The filter response only started by me is defined for open cases", ()=>{
+    cy.fixture('json/openCasesFilteredStartedByMe.json').as("openCasesFilteredStartedByMe");
     cy.route({
         method: 'GET',
         url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4',
-        response: '@filteredStartedByMe',
-    }).as('filteredStartedByMeRoute');
+        response: '@openCasesFilteredStartedByMe',
+    }).as('openCasesFilteredStartedByMeRoute');
 });
 
-given("The filter responses search are defined", ()=>{
+given("The filter response only started by me is defined for archived cases", ()=>{
+    cy.fixture('json/archivedCasesFilteredStartedByMe.json').as("archivedCasesFilteredStartedByMe");
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4',
+        response: '@archivedCasesFilteredStartedByMe',
+    }).as('archivedCasesFilteredStartedByMeRoute');
+});
+
+given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as("openCasesSearchPool3");
     cy.fixture('json/openCasesSearchKey.json').as("openCasesSearchKey");
     let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
@@ -151,6 +188,22 @@ given("The filter responses search are defined", ()=>{
         url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@openCasesSearchKey',
     }).as('openCasesSearchKeyRoute');
+});
+
+given("The filter responses search are defined for archived cases", ()=>{
+    cy.fixture('json/archivedCasesSearchPool3.json').as("archivedCasesSearchPool3");
+    cy.fixture('json/archivedCasesSearchKey.json').as("archivedCasesSearchKey");
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4';
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&s=Pool3',
+        response: '@archivedCasesSearchPool3',
+    }).as('archivedCasesSearchPool3Route');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
+        response: '@archivedCasesSearchKey',
+    }).as('archivedCasesSearchKeyRoute');
 });
 
 given("A list of open cases with several pages is available", ()=>{
@@ -177,6 +230,34 @@ given("A list of open cases with several pages is available", ()=>{
     cy.route({
         method: 'GET',
         url: getOpenCasesQuery(10, 3),
+        response:  '@emptyResult',
+    }).as('emptyResultRoute');
+});
+
+given("A list of archived cases with several pages is available", ()=>{
+    cy.server();
+    function getArchivedCasesQuery(casesPerPage, pageIndex) {
+        return 'build/dist/API/bpm/archivedCase?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    }
+
+    cy.fixture('json/archivedCasesPage0.json').as("archivedCasesPage0");
+    cy.fixture('json/archivedCases.json').as("archivedCasesPage1");
+    cy.fixture('json/emptyResult.json').as("emptyResult");
+    cy.route({
+        method: 'GET',
+        url: getArchivedCasesQuery(20, 0),
+        response: '@archivedCasesPage0',
+    }).as('archivedCasesPage0Route');
+
+    cy.route({
+        method: 'GET',
+        url: getArchivedCasesQuery(10, 2),
+        response:  '@archivedCasesPage1',
+    }).as('archivedCasesPage1Route');
+
+    cy.route({
+        method: 'GET',
+        url: getArchivedCasesQuery(10, 3),
         response:  '@emptyResult',
     }).as('emptyResultRoute');
 });
@@ -261,7 +342,7 @@ then("A list of open cases is displayed", ()=>{
 });
 
 then("A list of archived cases is displayed", ()=>{
-    cy.get(".case-item:visible").should("have.length", 1);
+    cy.get(".case-item:visible").should("have.length", 4);
 });
 
 then("The {string} cases have the correct information", (caseType)=>{
@@ -386,7 +467,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/9/19 2:21 PM");
                 cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Walter Bates");
+                cy.get(".case-property-value").contains("Helen Kelly");
             });
             break;
     }
@@ -468,23 +549,18 @@ then("I see only the filtered archived cases by {string}", (filterType)=>{
 
         case 'started by me':
             cy.get(".case-item:visible").eq(0).within(() => {
-                cy.get(".case-property-value").contains("32001");
+                cy.get(".case-property-value").contains("12001 (3004)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(1).within(() => {
-                cy.get(".case-property-value").contains("22001");
+                cy.get(".case-property-value").contains("22001 (2004)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
             });
 
             cy.get(".case-item:visible").eq(2).within(() => {
-                cy.get(".case-property-value").contains("12001");
+                cy.get(".case-property-value").contains("32001 (1004)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
-            });
-
-            cy.get(".case-item:visible").eq(3).within(() => {
-                cy.get(".case-property-value").contains("8008");
-                cy.get(".case-property-value").contains("Pool3");
             });
             break;
     }
@@ -512,7 +588,7 @@ then('I erase the search filter', ()=> {
     cy.get("pb-input input:visible").clear();
 });
 
-then("A list of {string} open cases is displayed", (numberOfCases)=>{
+then("A list of {string} cases is displayed", (numberOfCases)=>{
     cy.get(".case-item:visible").should("have.length", numberOfCases);
 });
 
