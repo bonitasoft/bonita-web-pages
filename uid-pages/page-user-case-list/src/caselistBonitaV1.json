@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1571233752200,
+  "lastUpdate" : 1571300928244,
   "rows" : [
     [
       {
@@ -567,7 +567,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/case{{openCasesQueryParameters(0, true)}}"
+                                                "value" : "../API/bpm/case{{openCasesQueryParameters(0)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -676,15 +676,15 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 3,
+                                                    "xs" : 2,
                                                     "sm" : 2,
-                                                    "md" : 2,
+                                                    "md" : 1,
                                                     "lg" : 1
                                                   },
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : ""
+                                                      "value" : "no-padding-right"
                                                     },
                                                     "hidden" : {
                                                       "type" : "constant",
@@ -739,7 +739,7 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "<div class=\"case-property-label\">{{\"Case ID\"|uiTranslate}}</div>\n<a href=\"#\" class=\"case-property-value\">{{$item.id}}</a>"
+                                                            "value" : "<div class=\"case-property-label\">{{\"Case ID\"|uiTranslate}}</div>\n<div class=\"case-property-value\">{{$item.id}}</div>"
                                                           },
                                                           "alignment" : {
                                                             "type" : "constant",
@@ -756,9 +756,9 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 9,
-                                                    "sm" : 4,
-                                                    "md" : 3,
+                                                    "xs" : 4,
+                                                    "sm" : 3,
+                                                    "md" : 4,
                                                     "lg" : 5
                                                   },
                                                   "propertyValues" : {
@@ -819,7 +819,7 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "<div class=\"case-property-label\">{{\"Process display name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">{{$item.processDefinitionId.displayName}} ({{$item.processDefinitionId.version}})</div>"
+                                                            "value" : "<div class=\"case-property-label\">{{\"Process name (Version)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">{{$item.processDefinitionId.displayName}} ({{$item.processDefinitionId.version}})</div>"
                                                           },
                                                           "alignment" : {
                                                             "type" : "constant",
@@ -836,8 +836,8 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 6,
-                                                    "sm" : 2,
+                                                    "xs" : 3,
+                                                    "sm" : 3,
                                                     "md" : 2,
                                                     "lg" : 2
                                                   },
@@ -916,7 +916,7 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 6,
+                                                    "xs" : 3,
                                                     "sm" : 2,
                                                     "md" : 2,
                                                     "lg" : 2
@@ -996,7 +996,7 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 4,
+                                                    "xs" : 1,
                                                     "sm" : 1,
                                                     "md" : 2,
                                                     "lg" : 1
@@ -1004,7 +1004,7 @@
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : ""
+                                                      "value" : "hidden-xs"
                                                     },
                                                     "hidden" : {
                                                       "type" : "constant",
@@ -1076,7 +1076,7 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 8,
+                                                    "xs" : 12,
                                                     "sm" : 1,
                                                     "md" : 1,
                                                     "lg" : 1
@@ -1084,7 +1084,7 @@
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : ""
+                                                      "value" : "hidden-xs"
                                                     },
                                                     "hidden" : {
                                                       "type" : "constant",
@@ -1177,8 +1177,106 @@
                                                   "type" : "container",
                                                   "dimension" : {
                                                     "xs" : 12,
-                                                    "sm" : 2,
-                                                    "md" : 4,
+                                                    "sm" : 1,
+                                                    "md" : 1,
+                                                    "lg" : 1
+                                                  },
+                                                  "propertyValues" : {
+                                                    "cssClasses" : {
+                                                      "type" : "constant",
+                                                      "value" : "test"
+                                                    },
+                                                    "hidden" : {
+                                                      "type" : "constant",
+                                                      "value" : false
+                                                    },
+                                                    "repeatedCollection" : {
+                                                      "type" : "variable",
+                                                      "value" : ""
+                                                    }
+                                                  },
+                                                  "reference" : "13070a75-2b0a-4834-a31b-65185aa667a8",
+                                                  "hasValidationError" : false,
+                                                  "id" : "pbContainer",
+                                                  "rows" : [
+                                                    [
+                                                      {
+                                                        "type" : "component",
+                                                        "dimension" : {
+                                                          "xs" : 12,
+                                                          "sm" : 12,
+                                                          "md" : 2,
+                                                          "lg" : 12
+                                                        },
+                                                        "propertyValues" : {
+                                                          "cssClasses" : {
+                                                            "type" : "constant",
+                                                            "value" : "visible-xs"
+                                                          },
+                                                          "hidden" : {
+                                                            "type" : "constant",
+                                                            "value" : false
+                                                          },
+                                                          "text" : {
+                                                            "type" : "interpolation",
+                                                            "value" : "<i class=\"glyphicon glyphicon-eye-open case-property-value\" title=\"View case overview\"></i>"
+                                                          },
+                                                          "type" : {
+                                                            "type" : "constant",
+                                                            "value" : "overview"
+                                                          },
+                                                          "targetUrl" : {
+                                                            "type" : "constant",
+                                                            "value" : "http://"
+                                                          },
+                                                          "pageToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processName" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processVersion" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "taskId" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "caseId" : {
+                                                            "type" : "expression",
+                                                            "value" : "$item.id"
+                                                          },
+                                                          "target" : {
+                                                            "type" : "constant",
+                                                            "value" : "_self"
+                                                          },
+                                                          "appToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "urlParams" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "alignment" : {
+                                                            "type" : "constant",
+                                                            "value" : "left"
+                                                          },
+                                                          "buttonStyle" : {
+                                                            "type" : "constant",
+                                                            "value" : "link"
+                                                          }
+                                                        },
+                                                        "reference" : "d7ef5625-5ddd-4dfb-81f6-996c9631d03a",
+                                                        "hasValidationError" : false,
+                                                        "id" : "pbLink"
+                                                      }
+                                                    ]
+                                                  ]
+                                                },
+                                                {
+                                                  "type" : "container",
+                                                  "dimension" : {
+                                                    "xs" : 12,
+                                                    "sm" : 1,
+                                                    "md" : 1,
                                                     "lg" : 1
                                                   },
                                                   "propertyValues" : {
@@ -1195,7 +1293,7 @@
                                                       "value" : ""
                                                     }
                                                   },
-                                                  "reference" : "13070a75-2b0a-4834-a31b-65185aa667a8",
+                                                  "reference" : "341b3f8d-7cb9-4bff-9107-0066149c946f",
                                                   "hasValidationError" : false,
                                                   "id" : "pbContainer",
                                                   "rows" : [
@@ -1207,13 +1305,13 @@
                                                   "dimension" : {
                                                     "xs" : 12,
                                                     "sm" : 10,
-                                                    "md" : 4,
+                                                    "md" : 10,
                                                     "lg" : 10
                                                   },
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : ""
+                                                      "value" : "searchKeys"
                                                     },
                                                     "hidden" : {
                                                       "type" : "expression",
@@ -1281,34 +1379,105 @@
                                                       }
                                                     ]
                                                   ]
-                                                },
+                                                }
+                                              ],
+                                              [
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
                                                     "xs" : 12,
                                                     "sm" : 12,
-                                                    "md" : 4,
-                                                    "lg" : 1
+                                                    "md" : 12,
+                                                    "lg" : 12
                                                   },
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : ""
+                                                      "value" : "hidden-xs test"
                                                     },
                                                     "hidden" : {
                                                       "type" : "constant",
-                                                      "value" : false
+                                                      "value" : true
                                                     },
                                                     "repeatedCollection" : {
                                                       "type" : "variable",
                                                       "value" : ""
                                                     }
                                                   },
-                                                  "reference" : "341b3f8d-7cb9-4bff-9107-0066149c946f",
+                                                  "reference" : "733d98e9-7e5c-4c78-bbfb-eeb9db72e3d1",
                                                   "hasValidationError" : false,
                                                   "id" : "pbContainer",
                                                   "rows" : [
-                                                    [ ]
+                                                    [
+                                                      {
+                                                        "type" : "component",
+                                                        "dimension" : {
+                                                          "xs" : 12,
+                                                          "sm" : 12,
+                                                          "md" : 12,
+                                                          "lg" : 12
+                                                        },
+                                                        "propertyValues" : {
+                                                          "cssClasses" : {
+                                                            "type" : "constant",
+                                                            "value" : ""
+                                                          },
+                                                          "hidden" : {
+                                                            "type" : "constant",
+                                                            "value" : false
+                                                          },
+                                                          "text" : {
+                                                            "type" : "interpolation",
+                                                            "value" : "<i class=\"glyphicon glyphicon-eye-open case-property-value\" title=\"View case overview\"></i>"
+                                                          },
+                                                          "type" : {
+                                                            "type" : "constant",
+                                                            "value" : "overview"
+                                                          },
+                                                          "targetUrl" : {
+                                                            "type" : "constant",
+                                                            "value" : "http://"
+                                                          },
+                                                          "pageToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processName" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processVersion" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "taskId" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "caseId" : {
+                                                            "type" : "expression",
+                                                            "value" : "$item.id"
+                                                          },
+                                                          "target" : {
+                                                            "type" : "constant",
+                                                            "value" : "_self"
+                                                          },
+                                                          "appToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "urlParams" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "alignment" : {
+                                                            "type" : "constant",
+                                                            "value" : "left"
+                                                          },
+                                                          "buttonStyle" : {
+                                                            "type" : "constant",
+                                                            "value" : "link"
+                                                          }
+                                                        },
+                                                        "reference" : "f9cdda86-a593-42b8-b639-5d44d6edba1b",
+                                                        "hasValidationError" : false,
+                                                        "id" : "pbLink"
+                                                      }
+                                                    ]
                                                   ]
                                                 }
                                               ]
@@ -1945,7 +2114,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0, true)}}"
+                                                "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -2133,7 +2302,7 @@
                                                 {
                                                   "type" : "container",
                                                   "dimension" : {
-                                                    "xs" : 3,
+                                                    "xs" : 4,
                                                     "sm" : 3,
                                                     "md" : 3,
                                                     "lg" : 3
@@ -2555,7 +2724,7 @@
                                                   "dimension" : {
                                                     "xs" : 12,
                                                     "sm" : 2,
-                                                    "md" : 4,
+                                                    "md" : 2,
                                                     "lg" : 2
                                                   },
                                                   "propertyValues" : {
@@ -2583,14 +2752,14 @@
                                                   "type" : "container",
                                                   "dimension" : {
                                                     "xs" : 12,
-                                                    "sm" : 10,
-                                                    "md" : 4,
+                                                    "sm" : 9,
+                                                    "md" : 9,
                                                     "lg" : 9
                                                   },
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : "remove-margin-top-and-bottom"
+                                                      "value" : "searchKeys"
                                                     },
                                                     "hidden" : {
                                                       "type" : "expression",
@@ -2663,8 +2832,8 @@
                                                   "type" : "container",
                                                   "dimension" : {
                                                     "xs" : 12,
-                                                    "sm" : 12,
-                                                    "md" : 4,
+                                                    "sm" : 1,
+                                                    "md" : 1,
                                                     "lg" : 1
                                                   },
                                                   "propertyValues" : {
@@ -3040,14 +3209,15 @@
     "archivedCasesQueryParameters" : {
       "type" : "expression",
       "value" : [
-        "return function(pageId, firstCall){",
-        "    var call = $data.archivedCaseListConfiguration.numberOfCasesPerPage;",
+        "return function(pageId){",
+        "    var casesPerPage = $data.archivedCaseListConfiguration.numberOfCasesPerPage;",
         "    ",
-        "    if(firstCall){",
-        "        call *= 2;",
+        "    if(pageId == 0){",
+        "        //On first call we need to load next page",
+        "        casesPerPage *= 2;",
         "    }",
         "    ",
-        "    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
+        "    var queryParameters = \"?c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
         "    ",
         "    if($data.archivedCasesFilters.processDefinitionId){",
         "        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;",
@@ -3080,7 +3250,7 @@
     "openCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case{{openCasesQueryParameters(0, true)}}"
+        "../API/bpm/case{{openCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3131,12 +3301,14 @@
     "openCasesQueryParameters" : {
       "type" : "expression",
       "value" : [
-        "return function(pageId, firstCall){",
-        "    var call = $data.caseListConfiguration.numberOfCasesPerPage;",
-        "    if(firstCall){",
-        "        call *= 2;",
+        "return function(pageId){",
+        "    var casesPerPage = $data.caseListConfiguration.numberOfCasesPerPage;",
+        "    ",
+        "    if(pageId == 0){",
+        "        //on first call we need load next page",
+        "        casesPerPage *= 2;",
         "    }",
-        "    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
+        "    var queryParameters = \"?c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
         "    ",
         "    ",
         "    if($data.openCasesFilters.processDefinitionId){",
@@ -3206,6 +3378,8 @@
         "    \"sortByOptions\": [   ",
         "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
         "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
+        "        { \"displayKey\": \"End date - newest first\", \"returnKey\": \"endDate+DESC\" },",
+        "        { \"displayKey\": \"End date - oldest first\", \"returnKey\": \"endDate+ASC\" },",
         "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
         "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" }",
         "    ]",
@@ -3237,7 +3411,7 @@
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase{{archivedCasesQueryParameters(0, true)}}"
+        "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
