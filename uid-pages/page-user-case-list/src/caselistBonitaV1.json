@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1571233752200,
+  "lastUpdate" : 1571320135594,
   "rows" : [
     [
       {
@@ -567,7 +567,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/case{{openCasesQueryParameters(0, true)}}"
+                                                "value" : "../API/bpm/case?{{openCasesQueryParameters(0, true)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -1450,7 +1450,7 @@
                                         },
                                         "url" : {
                                           "type" : "interpolation",
-                                          "value" : "../API/bpm/case{{openCasesQueryParameters(caseListConfiguration.pageId)}}"
+                                          "value" : "../API/bpm/case?{{openCasesQueryParameters(caseListConfiguration.pageId)}}"
                                         },
                                         "responseStatusCode" : {
                                           "type" : "variable",
@@ -1945,7 +1945,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0, true)}}"
+                                                "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0, true)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -2927,7 +2927,7 @@
                                         },
                                         "url" : {
                                           "type" : "interpolation",
-                                          "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(archivedCaseListConfiguration.pageId)}}"
+                                          "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(archivedCaseListConfiguration.pageId)}}"
                                         },
                                         "responseStatusCode" : {
                                           "type" : "variable",
@@ -3047,7 +3047,7 @@
         "        call *= 2;",
         "    }",
         "    ",
-        "    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
+        "    var queryParameters = \"c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
         "    ",
         "    if($data.archivedCasesFilters.processDefinitionId){",
         "        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;",
@@ -3080,7 +3080,7 @@
     "openCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case{{openCasesQueryParameters(0, true)}}"
+        "../API/bpm/case?{{openCasesQueryParameters(0, true)}}"
       ],
       "exposed" : false
     },
@@ -3136,7 +3136,7 @@
         "    if(firstCall){",
         "        call *= 2;",
         "    }",
-        "    var queryParameters = \"?c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
+        "    var queryParameters = \"c=\" + call + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
         "    ",
         "    ",
         "    if($data.openCasesFilters.processDefinitionId){",
@@ -3237,7 +3237,7 @@
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase{{archivedCasesQueryParameters(0, true)}}"
+        "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0, true)}}"
       ],
       "exposed" : false
     },
