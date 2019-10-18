@@ -567,7 +567,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/case{{openCasesQueryParameters(0)}}"
+                                                "value" : "../API/bpm/case?{{openCasesQueryParameters(0)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -1452,7 +1452,7 @@
                                         },
                                         "url" : {
                                           "type" : "interpolation",
-                                          "value" : "../API/bpm/case{{openCasesQueryParameters(caseListConfiguration.pageId)}}"
+                                          "value" : "../API/bpm/case?{{openCasesQueryParameters(caseListConfiguration.pageId)}}"
                                         },
                                         "responseStatusCode" : {
                                           "type" : "variable",
@@ -1947,7 +1947,7 @@
                                               },
                                               "url" : {
                                                 "type" : "interpolation",
-                                                "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}"
+                                                "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0)}}"
                                               },
                                               "responseStatusCode" : {
                                                 "type" : "variable",
@@ -2813,7 +2813,7 @@
                                         },
                                         "url" : {
                                           "type" : "interpolation",
-                                          "value" : "../API/bpm/archivedCase{{archivedCasesQueryParameters(archivedCaseListConfiguration.pageId)}}"
+                                          "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(archivedCaseListConfiguration.pageId)}}"
                                         },
                                         "responseStatusCode" : {
                                           "type" : "variable",
@@ -2934,7 +2934,7 @@
         "        casesPerPage *= 2;",
         "    }",
         "    ",
-        "    var queryParameters = \"?c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
+        "    var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
         "    ",
         "    if($data.archivedCasesFilters.processDefinitionId){",
         "        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;",
@@ -2967,7 +2967,7 @@
     "openCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case{{openCasesQueryParameters(0)}}"
+        "../API/bpm/case?{{openCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3025,7 +3025,7 @@
         "        //on first call we need load next page",
         "        casesPerPage *= 2;",
         "    }",
-        "    var queryParameters = \"?c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
+        "    var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
         "    ",
         "    ",
         "    if($data.openCasesFilters.processDefinitionId){",
@@ -3128,7 +3128,7 @@
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase{{archivedCasesQueryParameters(0)}}"
+        "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
