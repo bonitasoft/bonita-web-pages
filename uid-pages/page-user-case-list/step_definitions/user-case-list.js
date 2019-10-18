@@ -462,7 +462,7 @@ then("The {string} cases have the correct information", (caseType)=>{
             cy.get(".case-item:visible").eq(0).within(() => {
                 cy.get(".case-property-label").contains("Archived Case ID (original)");
                 cy.get(".case-property-value").contains("3010 (1004)");
-                cy.get(".case-property-label").contains("Process display name (Version)");
+                cy.get(".case-property-label").contains("Process name (Version)");
                 cy.get(".case-property-value").contains("Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/9/19 2:21 PM");
