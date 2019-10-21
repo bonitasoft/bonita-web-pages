@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1571406050757,
+  "lastUpdate" : 1571652070048,
   "rows" : [
     [
       {
@@ -711,7 +711,59 @@
                                                         "propertyValues" : {
                                                           "cssClasses" : {
                                                             "type" : "constant",
-                                                            "value" : ""
+                                                            "value" : "case-property-label"
+                                                          },
+                                                          "hidden" : {
+                                                            "type" : "constant",
+                                                            "value" : false
+                                                          },
+                                                          "labelHidden" : {
+                                                            "type" : "constant",
+                                                            "value" : true
+                                                          },
+                                                          "label" : {
+                                                            "type" : "interpolation",
+                                                            "value" : "Default label"
+                                                          },
+                                                          "labelPosition" : {
+                                                            "type" : "constant",
+                                                            "value" : "top"
+                                                          },
+                                                          "labelWidth" : {
+                                                            "type" : "constant",
+                                                            "value" : 4
+                                                          },
+                                                          "allowHTML" : {
+                                                            "type" : "constant",
+                                                            "value" : true
+                                                          },
+                                                          "text" : {
+                                                            "type" : "interpolation",
+                                                            "value" : "{{\"Case ID\"|uiTranslate}}"
+                                                          },
+                                                          "alignment" : {
+                                                            "type" : "constant",
+                                                            "value" : "left"
+                                                          }
+                                                        },
+                                                        "reference" : "daf00cc7-2565-418f-a9d7-ddca2e9f1421",
+                                                        "hasValidationError" : false,
+                                                        "id" : "pbText"
+                                                      }
+                                                    ],
+                                                    [
+                                                      {
+                                                        "type" : "component",
+                                                        "dimension" : {
+                                                          "xs" : 12,
+                                                          "sm" : 12,
+                                                          "md" : 12,
+                                                          "lg" : 12
+                                                        },
+                                                        "propertyValues" : {
+                                                          "cssClasses" : {
+                                                            "type" : "constant",
+                                                            "value" : "case-property-value"
                                                           },
                                                           "hidden" : {
                                                             "type" : "constant",
@@ -719,7 +771,7 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "<div class=\"case-property-label\">{{\"Case ID\"|uiTranslate}}</div> <div class=\"case-property-value\">{{$item.id}}</div>"
+                                                            "value" : "{{$item.id}}"
                                                           },
                                                           "type" : {
                                                             "type" : "constant",
@@ -2063,7 +2115,7 @@
                                                   "propertyValues" : {
                                                     "cssClasses" : {
                                                       "type" : "constant",
-                                                      "value" : "no-padding-right"
+                                                      "value" : "caseID"
                                                     },
                                                     "hidden" : {
                                                       "type" : "constant",
@@ -2074,7 +2126,7 @@
                                                       "value" : ""
                                                     }
                                                   },
-                                                  "reference" : "66592b97-543a-46cd-bba3-064c92a8c395",
+                                                  "reference" : "5b10c302-fa5a-4c2b-802c-504dde32382f",
                                                   "hasValidationError" : false,
                                                   "id" : "pbContainer",
                                                   "rows" : [
@@ -2090,7 +2142,7 @@
                                                         "propertyValues" : {
                                                           "cssClasses" : {
                                                             "type" : "constant",
-                                                            "value" : ""
+                                                            "value" : "case-property-label"
                                                           },
                                                           "hidden" : {
                                                             "type" : "constant",
@@ -2118,16 +2170,86 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "<div class=\"case-property-label\">\n{{\"Archived Case ID (original)\"|uiTranslate}}\n</div>\n<div class=\"case-property-value\">{{$item.id}} ({{$item.sourceObjectId}})</div>"
+                                                            "value" : "{{\"Archived Case ID (original)\"|uiTranslate}}"
                                                           },
                                                           "alignment" : {
                                                             "type" : "constant",
                                                             "value" : "left"
                                                           }
                                                         },
-                                                        "reference" : "006782ec-c223-42c8-b9e3-be356db1cb68",
+                                                        "reference" : "f8410741-1a2f-4fc8-9fca-73c8b150d71a",
                                                         "hasValidationError" : false,
                                                         "id" : "pbText"
+                                                      }
+                                                    ],
+                                                    [
+                                                      {
+                                                        "type" : "component",
+                                                        "dimension" : {
+                                                          "xs" : 12,
+                                                          "sm" : 12,
+                                                          "md" : 12,
+                                                          "lg" : 12
+                                                        },
+                                                        "propertyValues" : {
+                                                          "cssClasses" : {
+                                                            "type" : "constant",
+                                                            "value" : "case-property-value"
+                                                          },
+                                                          "hidden" : {
+                                                            "type" : "constant",
+                                                            "value" : false
+                                                          },
+                                                          "text" : {
+                                                            "type" : "interpolation",
+                                                            "value" : "{{$item.id}} ({{$item.sourceObjectId}})"
+                                                          },
+                                                          "type" : {
+                                                            "type" : "constant",
+                                                            "value" : "overview"
+                                                          },
+                                                          "targetUrl" : {
+                                                            "type" : "constant",
+                                                            "value" : "http://"
+                                                          },
+                                                          "pageToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processName" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "processVersion" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "taskId" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "caseId" : {
+                                                            "type" : "expression",
+                                                            "value" : "$item.sourceObjectId"
+                                                          },
+                                                          "target" : {
+                                                            "type" : "constant",
+                                                            "value" : "_self"
+                                                          },
+                                                          "appToken" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "urlParams" : {
+                                                            "type" : "constant"
+                                                          },
+                                                          "alignment" : {
+                                                            "type" : "constant",
+                                                            "value" : "left"
+                                                          },
+                                                          "buttonStyle" : {
+                                                            "type" : "constant",
+                                                            "value" : "link"
+                                                          }
+                                                        },
+                                                        "reference" : "8703ca23-c81f-4e5d-a28e-879b36a7f444",
+                                                        "hasValidationError" : false,
+                                                        "id" : "pbLink"
                                                       }
                                                     ]
                                                   ]
