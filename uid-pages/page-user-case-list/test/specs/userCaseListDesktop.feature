@@ -11,7 +11,7 @@ Feature: The user open case list in desktop resolution
     When I click on "Open cases" tab
     Then A list of open cases is displayed
 
-  Scenario: The user case list displays the correct Ids
+  Scenario: The user case list displays the correct attributes
     Given A list of open cases is available
     And A list of archived cases is available
     And A user session is available
