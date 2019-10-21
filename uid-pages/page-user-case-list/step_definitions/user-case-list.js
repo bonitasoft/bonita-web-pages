@@ -357,7 +357,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/12/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Helen Kelly");
+                cy.get(".case-property-value").contains("Walter Bates");
                 cy.get(".case-property-label").contains("Tasks");
                 cy.get(".case-property-value").contains("2");
                 cy.get(".case-property-label").contains("Long Search Key 1");
