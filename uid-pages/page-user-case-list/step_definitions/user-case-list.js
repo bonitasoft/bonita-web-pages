@@ -358,7 +358,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 // Check that the element exist.
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("2001");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/12/19 10:07 AM");
@@ -382,7 +382,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 // Check that the element exist.
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("32001");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/13/19 10:07 AM");
@@ -406,7 +406,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 // Check that the element exist.
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("22001");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/14/19 10:07 AM");
@@ -420,7 +420,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 // Check that the element exist.
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("12001");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Another My Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/15/19 10:07 AM");
@@ -443,7 +443,7 @@ then("The {string} cases have the correct information", (caseType)=>{
             cy.get(".case-item:visible").eq(4).within(() => {
                 cy.get(".case-property-label").contains("Case ID");
                 cy.get(".case-property-value").contains("8008");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Pool3 (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("9/17/19 3:42 PM");
@@ -468,7 +468,7 @@ then("The {string} cases have the correct information", (caseType)=>{
             cy.get(".case-item:visible").eq(0).within(() => {
                 cy.get(".case-property-label").contains("Archived Case ID (original)");
                 cy.get(".case-property-value").contains("3010 (1004)");
-                cy.get(".case-property-label").contains("Process name (Version)");
+                cy.get(".case-property-label").contains("Process name (version)");
                 cy.get(".case-property-value").contains("Pool (1.0)");
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/9/19 2:21 PM");
