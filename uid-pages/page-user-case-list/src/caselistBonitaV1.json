@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1571757164271,
+  "lastUpdate" : 1571931775893,
   "rows" : [
     [
       {
@@ -1041,7 +1041,7 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "{{$item.started_by.firstname}} {{$item.started_by.lastname}}"
+                                                            "value" : "{{buildUserDisplayName($item.started_by)}}"
                                                           },
                                                           "alignment" : {
                                                             "type" : "constant",
@@ -2614,7 +2614,7 @@
                                                           },
                                                           "text" : {
                                                             "type" : "interpolation",
-                                                            "value" : "{{$item.started_by.firstname}} {{$item.started_by.lastname}}"
+                                                            "value" : "{{buildUserDisplayName($item.started_by)}}"
                                                           },
                                                           "alignment" : {
                                                             "type" : "constant",
@@ -3643,6 +3643,19 @@
       "type" : "expression",
       "value" : [
         "return [];"
+      ],
+      "exposed" : false
+    },
+    "buildUserDisplayName" : {
+      "type" : "expression",
+      "value" : [
+        "return function(user) {",
+        "    if (user && user.firstname && user.lastname) {",
+        "        return user.firstname + \" \" + user.lastname;",
+        "    } else {",
+        "        return user.userName;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
