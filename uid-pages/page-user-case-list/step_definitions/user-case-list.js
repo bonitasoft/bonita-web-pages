@@ -262,6 +262,12 @@ given("A list of archived cases with several pages is available", ()=>{
     }).as('emptyResultRoute');
 });
 
+given('The resolution is set to mobile', () => {
+    /* 766 instead of 767 because bootstrap issue with hidden-xs
+    *  hidden-xs break point is <767 whereas it should be <768 */
+    cy.viewport(766, 1000);
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });
@@ -598,4 +604,8 @@ then("I see more cases added to the list", ()=>{
 
 then("The Load more cases button is disabled", ()=>{
     cy.get(".btn-link:visible").contains("Load more cases").should("be.disabled");
+});
+
+then('The tasks field is not displayed in mobile view', () => {
+    cy.get(".case-property-label").contains("Tasks").should('not.be.visible');
 });
