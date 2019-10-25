@@ -363,7 +363,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/12/19 10:07 AM");
                 cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Walter Bates");
+                cy.get(".case-property-value").contains("walter.bates");
                 cy.get(".case-property-label").contains("Tasks");
                 cy.get(".case-property-value").contains("2");
                 cy.get(".case-property-label").contains("Long Search Key 1");
@@ -473,7 +473,12 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get(".case-property-label").contains("Start date");
                 cy.get(".case-property-value").contains("8/9/19 2:21 PM");
                 cy.get(".case-property-label").contains("Started by");
-                cy.get(".case-property-value").contains("Helen Kelly");
+                cy.get(".case-property-value").contains("helen.kelly");
+            });
+            cy.get(".case-item:visible").eq(1).within(() => {
+                cy.get(".case-property-label").contains("Archived Case ID (original)");
+                cy.get(".case-property-value").contains("12001 (3004)");
+                cy.get(".case-property-value").contains("Walter Bates");
             });
             break;
     }
