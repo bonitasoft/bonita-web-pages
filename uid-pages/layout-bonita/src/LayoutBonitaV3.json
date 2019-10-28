@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "LayoutBonitaV3",
   "name" : "BonitaLayoutV3",
-  "lastUpdate" : 1571932811622,
+  "lastUpdate" : 1572281758475,
   "rows" : [
     [
       {
@@ -172,13 +172,13 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 5,
-                      "lg" : 5
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "remove-padding-and-margin"
+                        "value" : "remove-padding-and-margin user-menu user-menu-name"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -205,7 +205,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "remove-padding-and-margin user-menu user-menu-name"
+                              "value" : "remove-padding-and-margin"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -294,7 +294,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "remove-padding-and-margin user-menu image-circle"
+                              "value" : "remove-padding-and-margin image-circle"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -384,7 +384,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "remove-padding-and-margin"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -2567,7 +2567,7 @@
     "isGuestUser" : {
       "type" : "expression",
       "value" : [
-        "return $data.session.is_guest_user;"
+        "return $data.session.is_guest_user === 'true';"
       ],
       "exposed" : false
     },
@@ -2579,7 +2579,7 @@
       "type" : "expression",
       "value" : [
         "if ($data.logoutSuccessAndLogin) {",
-        "    let location = window.location.href;",
+        "    let location = window.location.pathname + '?' + window.location.search;",
         "    window.location.assign('../../../login.jsp?redirectUrl=' + encodeURIComponent(location));",
         "}"
       ],
