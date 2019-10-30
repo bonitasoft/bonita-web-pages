@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1570457734874,
+  "lastUpdate" : 1572432403971,
   "rows" : [
     [
       {
@@ -1239,7 +1239,7 @@
         " \"title\": \"Case started\",",
         " \"startTime\": $data.case.start,",
         " \"description\":$data.case.processDefinitionId.displayDescription,",
-        " \"initiator\": $data.case.started_by.firstname + \" \" + $data.case.started_by.lastname",
+        " \"initiator\": $data.initiator",
         "};"
       ],
       "exposed" : false
@@ -1287,8 +1287,8 @@
       "exposed" : false
     },
     "timelineEvents" : {
-      "type": "expression",
-      "value": [
+      "type" : "expression",
+      "value" : [
         "function executedBy(task){",
         "    if (\"completed\" === task.state) {",
         "        var executedByString = \"Executed by \";",
@@ -1348,7 +1348,7 @@
         "",
         "return [].concat(opened,archived);"
       ],
-      "exposed": false
+      "exposed" : false
     },
     "openedTasks" : {
       "type" : "url",
@@ -1404,6 +1404,19 @@
       "type" : "expression",
       "value" : [
         "return  (!$data.openCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;"
+      ],
+      "exposed" : false
+    },
+    "initiator" : {
+      "type" : "expression",
+      "value" : [
+        "if (!$data.case.started_by.userName) {",
+        "    return \"System\";",
+        "} else if (!$data.case.started_by.firstname || !$data.case.started_by.lastname) {",
+        "    return $data.case.started_by.userName;",
+        "} else {",
+        "    return $data.case.started_by.firstname + \" \" + $data.case.started_by.lastname;",
+        "}"
       ],
       "exposed" : false
     }
