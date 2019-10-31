@@ -1,11 +1,11 @@
 {
   "designerVersion" : "1.10.12",
   "previousDesignerVersion" : "1.5.10",
-  "id" : "customLayoutMenuBonitaV2",
-  "name" : "BonitaLayoutMenuV2",
-  "lastUpdate" : 1570457741943,
-  "template" : "@customLayoutMenuBonitaV2.tpl.html",
-  "controller" : "@customLayoutMenuBonitaV2.ctrl.js",
+  "id" : "customLayoutMenuBonitaV3",
+  "name" : "BonitaLayoutMenuV3",
+  "lastUpdate" : 1572527850025,
+  "template" : "@customLayoutMenuBonitaV3.tpl.html",
+  "controller" : "@customLayoutMenuBonitaV3.ctrl.js",
   "description" : "This is the default bonita portal menu.",
   "custom" : true,
   "properties" : [
@@ -56,6 +56,30 @@
       "name" : "homePageToken",
       "type" : "text",
       "bond" : "expression"
+    },
+    {
+      "label" : "Is logged in user Guest",
+      "name" : "isGuestUser",
+      "help" : "Boolean indicating of the session is a guest session",
+      "type" : "boolean",
+      "defaultValue" : false,
+      "bond" : "expression"
+    },
+    {
+      "label" : "logout URL",
+      "name" : "logoutURL",
+      "caption" : "",
+      "help" : "URL used to logout when the login link is active (Guest session)",
+      "type" : "text",
+      "defaultValue" : "../../../logoutservice",
+      "bond" : "interpolation"
+    },
+    {
+      "label" : "Successful logout response value",
+      "name" : "successfulLogoutResponse",
+      "help" : "Can be used to specify the behavior after a successful logout",
+      "type" : "text",
+      "bond" : "variable"
     }
   ],
   "assets" : [

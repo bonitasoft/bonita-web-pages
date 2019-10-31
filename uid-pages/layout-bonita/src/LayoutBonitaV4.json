@@ -1,9 +1,9 @@
 {
   "designerVersion" : "1.10.18",
   "previousDesignerVersion" : "1.9.24",
-  "id" : "LayoutBonitaV3",
-  "name" : "BonitaLayoutV3",
-  "lastUpdate" : 1572281758475,
+  "id" : "LayoutBonitaV4",
+  "name" : "BonitaLayoutV4",
+  "lastUpdate" : 1572532448890,
   "rows" : [
     [
       {
@@ -416,7 +416,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../../../logoutservice"
+                              "value" : "{{logoutURL}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -606,11 +606,23 @@
                 "homePageToken" : {
                   "type" : "expression",
                   "value" : "homePage.token"
+                },
+                "isGuestUser" : {
+                  "type" : "expression",
+                  "value" : "isGuestUser"
+                },
+                "logoutURL" : {
+                  "type" : "interpolation",
+                  "value" : "{{logoutURL}}"
+                },
+                "successfulLogoutResponse" : {
+                  "type" : "variable",
+                  "value" : "logoutSuccessAndLogin"
                 }
               },
               "reference" : "a4a02132-16c7-4812-b19d-c3e3d71c1a12",
               "hasValidationError" : false,
-              "id" : "customLayoutMenuBonitaV2"
+              "id" : "customLayoutMenuBonitaV3"
             }
           ]
         ]
@@ -1352,7 +1364,7 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "../../../logoutservice?_l=fr"
+                          "value" : "{{logoutURL}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
@@ -2254,6 +2266,13 @@
       "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
       "name" : "layout.css",
       "type" : "css",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "346a853d-6737-4422-bfae-c8acf7476ca4",
+      "name" : "style.css",
+      "type" : "css",
       "order" : 5,
       "external" : false
     },
@@ -2584,11 +2603,18 @@
         "}"
       ],
       "exposed" : false
+    },
+    "logoutURL" : {
+      "type" : "constant",
+      "value" : [
+        "../../../logoutservice"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "type" : "layout",
   "description" : "",
-  "displayName" : "Bonita layout V3"
+  "displayName" : "Bonita layout V4"
 }

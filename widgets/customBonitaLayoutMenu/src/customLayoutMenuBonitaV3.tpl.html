@@ -22,8 +22,9 @@
             </ul>
             <ul class="nav navbar-nav visible-xs">
                 <hr ng-show="ctrl.applicationMenuList.length>0"/>
-                <li><a ng-click="ctrl.openCurrentSessionModal()"><span class="max-title-width">{{properties.userName}}</span></a></li>
-                <li><a ng-click="ctrl.openAppSelectionModal()"><span class="glyphicon glyphicon-th"></span></a></li>
+                <li ng-if="!properties.isGuestUser"><a ng-click="ctrl.openCurrentSessionModal()" class="btn btn-link btn-account"><span class="max-title-width">{{properties.userName}}</span></a></li>
+                <li ng-if="properties.isGuestUser"><a ng-click="ctrl.logoutAndUpdateSuccessfulLogoutVariable()" class="btn btn-link btn-account"><span class="max-title-width" translate>Login</span></a></li>
+                <li><a ng-click="ctrl.openAppSelectionModal()" class="btn btn-link btn-account"><span class="glyphicon glyphicon-th"></span></a></li>
             </ul>
         </div>
     </div>

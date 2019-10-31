@@ -39,6 +39,13 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     ctrl.openAppSelectionModal = function() {
         modalService.open($scope.properties.appSelectionModalId);
     };
+    
+    ctrl.logoutAndUpdateSuccessfulLogoutVariable = function() {
+        return $http.get($scope.properties.logoutURL)
+            .success(function(data) { 
+                $scope.properties.successfulLogoutResponse = data;
+            });
+    };
    
     //handle the browser back button
     $window.addEventListener('popstate', function(e) {
