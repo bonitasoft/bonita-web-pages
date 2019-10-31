@@ -39,6 +39,13 @@ Feature: The Bonita layout header in desktop resolution
     When I visit the index page
     Then I see "walter.bates" as the user name
 
+  Scenario: The Bonita layout shows the login link when guest user is connected
+    Given The URL target to the application "appName1"
+    And A user is connected as guest
+    When I visit the index page
+    Then The login link is displayed
+    And I don't see "guest" as the user name
+
   Scenario: The Bonita layout shows the user default icon
     Given The URL target to the application "appName1"
     And A user is connected without sso
