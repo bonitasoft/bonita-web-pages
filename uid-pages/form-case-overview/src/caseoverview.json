@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1572432403971,
+  "lastUpdate" : 1572536548088,
   "rows" : [
     [
       {
@@ -1160,7 +1160,7 @@
     "archivedCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase?c=1&d=started_by&d=processDefinitionId&f=sourceObjectId%3D{{caseId}}&p=0"
+        "../API/bpm/archivedCase?c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D{{caseId}}&p=0"
       ],
       "exposed" : false
     },
@@ -1239,7 +1239,7 @@
         " \"title\": \"Case started\",",
         " \"startTime\": $data.case.start,",
         " \"description\":$data.case.processDefinitionId.displayDescription,",
-        " \"initiator\": $data.initiator",
+        " \"initiator\": uiTranslate(\"Started by\") + \" \" + $data.getUserAndSubstituteDisplayName($data.case.started_by, $data.case.startedBySubstitute)",
         "};"
       ],
       "exposed" : false
@@ -1247,7 +1247,7 @@
     "archivedTasks" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&f=caseId%3D{{caseOverview.sourceObjectId}}&o=reached_state_date DESC"
+        "../API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute&f=caseId%3D{{caseOverview.sourceObjectId}}&o=reached_state_date DESC"
       ],
       "exposed" : false
     },
@@ -1291,15 +1291,8 @@
       "value" : [
         "function executedBy(task){",
         "    if (\"completed\" === task.state) {",
-        "        var executedByString = \"Executed by \";",
-        "        var userInfo = task.executedBy.firstname || task.executedBy.lastName ? task.executedBy.firstname + \" \" + task.executedBy.lastname : task.executedBy.userName;",
-        "        if (task.executedBy === '-1') {",
-        "            executedByString += \"System \";",
-        "        } else if (task.executedBySubstitute === '-1') {",
-        "            executedByString += \"System for \" + userInfo;",
-        "        } else {",
-        "            executedByString += userInfo;",
-        "        }",
+        "        var executedByString = uiTranslate(\"Executed by\") + \" \";",
+        "        executedByString += $data.getUserAndSubstituteDisplayName(task.executedBy, task.executedBySubstitute);",
         "        return executedByString;",
         "    } else {",
         "        return null;",
@@ -1353,7 +1346,7 @@
     "openedTasks" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/task?p=0&c=999&d=executedBy&d=assigned_id&f=caseId%3D{{caseOverview.sourceObjectId}}&f=type%3DUSER_TASK&o=last_update_date DESC"
+        "../API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute&d=assigned_id&f=caseId%3D{{caseOverview.sourceObjectId}}&f=type%3DUSER_TASK&o=last_update_date DESC"
       ],
       "exposed" : false
     },
@@ -1374,7 +1367,7 @@
     "openCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case/{{caseId}}?d=started_by&d=processDefinitionId"
+        "../API/bpm/case/{{caseId}}?d=started_by&d=startedBySubstitute&d=processDefinitionId"
       ],
       "exposed" : false
     },
@@ -1407,15 +1400,29 @@
       ],
       "exposed" : false
     },
-    "initiator" : {
+    "getUserAndSubstituteDisplayName" : {
       "type" : "expression",
       "value" : [
-        "if (!$data.case.started_by.userName) {",
-        "    return \"System\";",
-        "} else if (!$data.case.started_by.firstname || !$data.case.started_by.lastname) {",
-        "    return $data.case.started_by.userName;",
-        "} else {",
-        "    return $data.case.started_by.firstname + \" \" + $data.case.started_by.lastname;",
+        "function isSystem(user) {",
+        "    return user <= 0;",
+        "}",
+        "",
+        "function hasSubstitute(user, substitute) {",
+        "    return user.id && user.id !== substitute.id;",
+        "}",
+        "",
+        "function getDisplayName(user) {",
+        "    if (isSystem(user)) {",
+        "        return uiTranslate(\"System\");",
+        "    }",
+        "    return user.firstname && user.lastname ? user.firstname + \" \" + user.lastname : user.userName;",
+        "}",
+        "",
+        "return function(user, substitute) {",
+        "    if (hasSubstitute(user, substitute)) {",
+        "        return getDisplayName(substitute) + \" \" + uiTranslate(\"for\") + \" \" + getDisplayName(user);",
+        "    }",
+        "    return getDisplayName(user);",
         "}"
       ],
       "exposed" : false
