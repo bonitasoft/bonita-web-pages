@@ -37,7 +37,6 @@ Feature: Form case overview
     And The open case "30004" empty document server response is defined
     When I visit the open case index page
     Then I see case "Started by System"
-    And I don't see case "Started by Walter Bates"
 
   Scenario: The case overview shows case started by system for the user
     Given The open case "30004" started by system for user response is defined
@@ -45,8 +44,6 @@ Feature: Form case overview
     And The open case "30004" empty document server response is defined
     When I visit the open case index page
     Then I see case "Started by System for Walter Bates"
-    And I don't see case "Started by Walter Bates"
-    And I don't see case "Started by System"
 
   Scenario: The case overview shows case started by system for the user without first name
     Given The open case "30004" started by system for user without first name response is defined
@@ -54,9 +51,6 @@ Feature: Form case overview
     And The open case "30004" empty document server response is defined
     When I visit the open case index page
     Then I see case "Started by System for walter.bates"
-    And I don't see case "Started by Walter Bates"
-    And I don't see case "Started by System for Walter Bates"
-    And I don't see case "Started by System"
 
   Scenario: The case overview shows case started by system for the user without last name
     Given The open case "30004" started by system for user without last name response is defined
@@ -64,9 +58,6 @@ Feature: Form case overview
     And The open case "30004" empty document server response is defined
     When I visit the open case index page
     Then I see case "Started by System for walter.bates"
-    And I don't see case "Started by Walter Bates"
-    And I don't see case "Started by System for Walter Bates"
-    And I don't see case "Started by System"
 
   Scenario: The case overview shows case started by user for another user
     Given The open case "30004" started by user for another user
@@ -74,10 +65,6 @@ Feature: Form case overview
     And The open case "30004" empty document server response is defined
     When I visit the open case index page
     Then I see case "Started by Walter Bates for Helen Kelly"
-    And I don't see case "Started by System for walter.bates"
-    And I don't see case "Started by Walter Bates"
-    And I don't see case "Started by System for Walter Bates"
-    And I don't see case "Started by System"
 
   Scenario: The case overview shows task executed by user
     Given The open case "30004" server response is defined
@@ -94,7 +81,6 @@ Feature: Form case overview
     And A list of executed tasks by system for user server response is defined
     When I visit the open case index page
     Then I see task "Executed by System for Walter Bates"
-    And I don't see task "Executed by Walter Bates"
 
   Scenario: The case overview shows task executed by user for user
     Given The open case "30004" server response is defined
@@ -103,5 +89,3 @@ Feature: Form case overview
     And A list of executed tasks by user for user server response is defined
     When I visit the open case index page
     Then I see task "Executed by Walter Bates for Helen Kelly"
-    And I don't see task "Executed by System for Walter Bates"
-    And I don't see task "Executed by Walter Bates"

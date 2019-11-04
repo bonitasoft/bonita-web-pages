@@ -221,17 +221,7 @@ then('I see case {string}', (started) => {
     cy.get('.timeline-footer small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(started));
 });
 
-then('I don\'t see case {string}', (started) => {
-    // remove white spaces before checking that the strings are equal
-    cy.get('.timeline-footer small.text-muted').eq(1).should($el => expect($el.text().trim()).not.to.equal(started));
-});
-
 then('I see task {string}', (executed) => {
     // remove white spaces before checking that the strings are equal
     cy.get('li > div.timeline-panel small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(executed));
-});
-
-then('I don\'t see task {string}', (executed) => {
-    // remove white spaces before checking that the strings are equal
-    cy.get('li > div.timeline-panel small.text-muted').eq(1).should($el => expect($el.text().trim()).not.to.equal(executed));
 });
