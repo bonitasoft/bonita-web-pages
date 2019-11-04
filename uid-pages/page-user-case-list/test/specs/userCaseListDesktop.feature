@@ -151,6 +151,7 @@ Feature: The user open case list in desktop resolution
   Scenario: Load more open cases button works correctly
     Given A list of open cases with several pages is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     Then A list of "10" cases is displayed
     When I click on Load more cases button
@@ -162,6 +163,7 @@ Feature: The user open case list in desktop resolution
   Scenario: Load more archived cases button works correctly
     Given A list of archived cases with several pages is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     And I click on "Archived cases" tab
     Then A list of "10" cases is displayed
@@ -174,6 +176,7 @@ Feature: The user open case list in desktop resolution
   Scenario: The refresh button works correctly for open cases
     Given A list of open cases with several pages is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     Then A list of "10" cases is displayed
     When I click on Load more cases button
@@ -184,6 +187,7 @@ Feature: The user open case list in desktop resolution
   Scenario: The refresh button works correctly for archived cases
     Given A list of archived cases with several pages is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     And I click on "Archived cases" tab
     Then A list of "10" cases is displayed

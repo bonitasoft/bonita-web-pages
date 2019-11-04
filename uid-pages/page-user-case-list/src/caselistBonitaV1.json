@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1572430583165,
+  "lastUpdate" : 1572860312074,
   "rows" : [
     [
       {
@@ -235,7 +235,7 @@
                                   },
                                   "placeholder" : {
                                     "type" : "interpolation",
-                                    "value" : "All processes"
+                                    "value" : "{{\"All processes\" |uiTranslate}}   ({{\"all versions\"|uiTranslate}})"
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
@@ -243,7 +243,7 @@
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
-                                    "value" : "displayName"
+                                    "value" : "displayName + \" (\" + version + \")\""
                                   },
                                   "returnedKey" : {
                                     "type" : "constant",
@@ -1721,7 +1721,7 @@
                                   },
                                   "placeholder" : {
                                     "type" : "interpolation",
-                                    "value" : "All processes"
+                                    "value" : "{{\"All processes\" |uiTranslate}}   ({{\"all versions\"|uiTranslate}})"
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
@@ -1729,7 +1729,7 @@
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
-                                    "value" : "displayName"
+                                    "value" : "displayName + \" (\" + version + \")\""
                                   },
                                   "returnedKey" : {
                                     "type" : "constant",
@@ -3211,7 +3211,7 @@
     "processes" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process?c=9999&o=displayName%20ASC&f=activationState=ENABLED"
+        "../API/bpm/process?c=9999&o=displayName%20ASC"
       ],
       "exposed" : false
     },
@@ -3321,7 +3321,9 @@
         "    \"pageId\": 0, ",
         "    \"numberOfCasesPerPage\": 10,",
         "    \"processesOptions\": ",
-        "        [{ \"displayName\": uiTranslate(\"All processes\")}].concat($data.processes),",
+        "        [{ \"displayName\": uiTranslate(\"All processes\"),",
+        "            \"version\": uiTranslate(\"all versions\")",
+        "        }].concat($data.processes),",
         "    \"sortByOptions\": [",
         "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
         "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
@@ -3381,7 +3383,9 @@
         "    \"pageId\": 0, ",
         "    \"numberOfCasesPerPage\": 10,",
         "    \"processesOptions\": ",
-        "        [{ \"displayName\": uiTranslate(\"All processes\")}].concat($data.processes),",
+        "        [{ \"displayName\": uiTranslate(\"All processes\"),",
+        "            \"version\": uiTranslate(\"all versions\")",
+        "        }].concat($data.processes),",
         "    \"sortByOptions\": [   ",
         "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
         "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
