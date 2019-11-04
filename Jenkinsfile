@@ -5,9 +5,8 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 
 ansiColor('xterm') {
     node('web-pages') {
-        def currentBranch = env.BRANCH_NAME
-        def basesBranches = ['master','dev']
-        def isBaseBranch = basesBranches.contains(currentBranch)
+
+        def isBaseBranch = isBaseBranch()
 
         slackStage('🌍 Setup', isBaseBranch) {
             // all this just to fetch tags since default behaviour has changed in jenkins
@@ -37,6 +36,11 @@ ansiColor('xterm') {
             }
         }
     }
+}
+
+def isBaseBranch() {
+    def currentBranch = env.BRANCH_NAME
+    currentBranch == 'master' || currentBranch == 'dev' || currentBranch.startsWith('release-')
 }
 
 def gradle(args) {
