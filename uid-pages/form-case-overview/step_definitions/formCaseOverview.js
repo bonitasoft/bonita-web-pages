@@ -6,7 +6,7 @@ given('The archived case {string} server response is defined', (archivedCaseId) 
     cy.fixture('json/archivedCase.json').as('archivedCase');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=1&d=started_by&d=processDefinitionId&f=sourceObjectId=' + archivedCaseId + '&p=0',
+        url: 'build/dist/API/bpm/archivedCase?c=1&d=started_by?d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=' + archivedCaseId + '&p=0',
         response: '@archivedCase'
     }).as('archivedCaseRoute');
 });
@@ -36,7 +36,7 @@ given('The open case {string} server response is defined', (openCaseId) => {
     cy.fixture('json/openCase.json').as('openCase');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by&d=processDefinitionId',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
         response: '@openCase'
     }).as('openCaseRoute');
 });
@@ -82,6 +82,101 @@ given('The open case business data is defined', () => {
     }).as('businessDataRoute');
 });
 
+given('The open case {string} started by system response is defined', (openCaseId) => {
+    cy.server();
+    cy.fixture('json/openCaseStartedBySystem.json').as('openCaseStartedBySystem');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
+        response: '@openCaseStartedBySystem'
+    }).as('openCaseStartedBySystemRoute');
+});
+
+given('The open case {string} started by system for user response is defined', (openCaseId) => {
+    cy.server();
+    cy.fixture('json/openCaseStartedBySystemForUser.json').as('openCaseStartedBySystemForUser');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
+        response: '@openCaseStartedBySystemForUser'
+    }).as('openCaseStartedBySystemForUserRoute');
+});
+
+given('The open case {string} started by system for user without first name response is defined', (openCaseId) => {
+    cy.server();
+    cy.fixture('json/openCaseStartedBySystemForUserWithoutFirstName.json').as('openCaseStartedBySystemForUserWithoutFirstName');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
+        response: '@openCaseStartedBySystemForUserWithoutFirstName'
+    }).as('openCaseStartedBySystemForUserWithoutFirstNameRoute');
+});
+
+given('The open case {string} started by system for user without last name response is defined', (openCaseId) => {
+    cy.server();
+    cy.fixture('json/openCaseStartedBySystemForUserWithoutLastName.json').as('openCaseStartedBySystemForUserWithoutLastName');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
+        response: '@openCaseStartedBySystemForUserWithoutLastName'
+    }).as('openCaseStartedBySystemForUserWithoutLastNameRoute');
+});
+
+given('The open case {string} started by user for another user', (openCaseId) => {
+    cy.server();
+    cy.fixture('json/openCaseStartedByUserForUser.json').as('openCaseStartedByUserForUser');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case/' + openCaseId + '?d=started_by?d=startedBySubstitute&d=processDefinitionId',
+        response: '@openCaseStartedByUserForUser'
+    }).as('openCaseStartedByUserForUserRoute');
+});
+
+given('A list of executed tasks server response is defined', () => {
+    cy.fixture('json/openTask.json').as('openTask');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@openTask'
+    }).as('openTaskRoute');
+    cy.fixture('json/archivedTaskExecutedByUser.json').as('archivedTaskExecutedByUser');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@archivedTaskExecutedByUser'
+    }).as('archivedTaskExecutedByUserRoute');
+});
+
+given('A list of executed tasks by system for user server response is defined', () => {
+    cy.fixture('json/openTask.json').as('openTask');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@openTask'
+    }).as('openTaskRoute');
+    cy.fixture('json/archivedTaskExecutedBySystemForUser.json').as('archivedTaskExecutedBySystemForUser');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@archivedTaskExecutedBySystemForUser'
+    }).as('archivedTaskExecutedBySystemForUserRoute');
+});
+
+given('A list of executed tasks by user for user server response is defined', () => {
+    cy.fixture('json/openTask.json').as('openTask');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@openTask'
+    }).as('openTaskRoute');
+    cy.fixture('json/archivedTaskExecutedByUserForUser.json').as('archivedTaskExecutedByUserForUser');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*',
+        response: '@archivedTaskExecutedByUserForUser'
+    }).as('archivedTaskExecutedByUserForUserRoute');
+});
+
 when('I visit the archived case index page', () => {
     cy.visit(archivedCaseUrl);
 });
@@ -119,4 +214,14 @@ then('The incorrect BDM headers don\'t exist', () => {
     cy.get('th').contains('requesterBonitaBPMId_string').should('not.exist');
     cy.get('th').contains('links_string').should('not.exist');
     cy.get('th').contains('links').should('not.exist');
+});
+
+then('I see case {string}', (started) => {
+    // remove white spaces before checking that the strings are equal
+    cy.get('.timeline-footer small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(started));
+});
+
+then('I see task {string}', (executed) => {
+    // remove white spaces before checking that the strings are equal
+    cy.get('li > div.timeline-panel small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(executed));
 });

@@ -23,3 +23,69 @@ Feature: Form case overview
     When I visit the open case index page
     Then The correct BDM headers are visible
     And The incorrect BDM headers don't exist
+
+  Scenario: The case overview shows case started by the user
+    Given The open case "30004" server response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by Walter Bates"
+
+  Scenario: The case overview shows case started by system
+    Given The open case "30004" started by system response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by System"
+
+  Scenario: The case overview shows case started by system for the user
+    Given The open case "30004" started by system for user response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by System for Walter Bates"
+
+  Scenario: The case overview shows case started by system for the user without first name
+    Given The open case "30004" started by system for user without first name response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by System for walter.bates"
+
+  Scenario: The case overview shows case started by system for the user without last name
+    Given The open case "30004" started by system for user without last name response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by System for walter.bates"
+
+  Scenario: The case overview shows case started by user for another user
+    Given The open case "30004" started by user for another user
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    When I visit the open case index page
+    Then I see case "Started by Walter Bates for Helen Kelly"
+
+  Scenario: The case overview shows task executed by user
+    Given The open case "30004" server response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    And A list of executed tasks server response is defined
+    When I visit the open case index page
+    Then I see task "Executed by Walter Bates"
+
+  Scenario: The case overview shows task executed by system for user
+    Given The open case "30004" server response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    And A list of executed tasks by system for user server response is defined
+    When I visit the open case index page
+    Then I see task "Executed by System for Walter Bates"
+
+  Scenario: The case overview shows task executed by user for user
+    Given The open case "30004" server response is defined
+    And The open case "30004" context server response is defined
+    And The open case "30004" empty document server response is defined
+    And A list of executed tasks by user for user server response is defined
+    When I visit the open case index page
+    Then I see task "Executed by Walter Bates for Helen Kelly"
