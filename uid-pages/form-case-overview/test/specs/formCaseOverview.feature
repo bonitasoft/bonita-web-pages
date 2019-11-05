@@ -89,3 +89,11 @@ Feature: Form case overview
     And A list of executed tasks by user for user server response is defined
     When I visit the open case index page
     Then I see task "Executed by Walter Bates for Helen Kelly"
+
+  Scenario: No case is found with id
+    When I visit the open case index page
+    Then I see that "No case found with id: 30004"
+
+  Scenario: No id is specified
+    When I visit the open case index page without an id
+    Then I see that "Case id not provided. Unable to retrieve the case."
