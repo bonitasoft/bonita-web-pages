@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1572859246624,
+  "lastUpdate" : 1572948495405,
   "rows" : [
     [
       {
@@ -1044,7 +1044,7 @@
     ],
     [
       {
-        "type" : "container",
+        "type" : "component",
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
@@ -1058,70 +1058,92 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "caseOverview.found"
+            "value" : "caseOverview.found || !caseId"
           },
-          "repeatedCollection" : {
-            "type" : "variable",
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"No case found with id:\" | translate }} <b>{{caseId}}</b></div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
             "value" : ""
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
           }
         },
-        "reference" : "b2e49c49-3849-4965-a368-a1797c166c76",
+        "reference" : "25414521-3c21-4d7e-83dd-c50103b09657",
         "hasValidationError" : false,
-        "id" : "pbContainer",
-        "rows" : [
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<div class=\"alert alert-danger\" translate><i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i> {{\"No case found with id:\" | translate }}  <b>{{caseOverview.id}}</b></div>"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : ""
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                }
-              },
-              "reference" : "25414521-3c21-4d7e-83dd-c50103b09657",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ]
-        ]
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "caseOverview.found || caseId"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"Case id not provided. Unable to retrieve the case.\" | translate }}</div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "75f6d9be-ba04-4133-928a-506f61dc4a9e",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ]
   ],

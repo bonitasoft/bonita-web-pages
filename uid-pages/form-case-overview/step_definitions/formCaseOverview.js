@@ -1,5 +1,7 @@
 const archivedCaseUrl = 'build/dist/resources/index.html?id=30003';
 const openCaseUrl = 'build/dist/resources/index.html?id=30004';
+const caseUrlWithoutId = 'build/dist/resources/index.html?id=';
+const trimSpaces = (element) => element.text().trim();
 
 given('The archived case {string} server response is defined', (archivedCaseId) => {
     cy.server();
@@ -185,6 +187,10 @@ when('I visit the open case index page', () => {
     cy.visit(openCaseUrl);
 });
 
+when('I visit the open case index page without an id', () => {
+    cy.visit(caseUrlWithoutId);
+});
+
 then('I can see both IDs have correct values', () => {
     cy.wait('@archivedCaseEmptyContextRoute');
     cy.get('pb-title').contains('Case id').contains('10002');
@@ -218,10 +224,14 @@ then('The incorrect BDM headers don\'t exist', () => {
 
 then('I see case {string}', (started) => {
     // remove white spaces before checking that the strings are equal
-    cy.get('.timeline-footer small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(started));
+    cy.get('.timeline-footer small.text-muted').eq(1).should($el => expect(trimSpaces($el)).to.equal(started));
 });
 
 then('I see task {string}', (executed) => {
     // remove white spaces before checking that the strings are equal
-    cy.get('li > div.timeline-panel small.text-muted').eq(1).should($el => expect($el.text().trim()).to.equal(executed));
+    cy.get('li > div.timeline-panel small.text-muted').eq(1).should($el => expect(trimSpaces($el)).to.equal(executed));
+});
+
+then('I see that {string}', (displayedInformation) => {
+    cy.get('.alert.alert-info').should($el => expect(trimSpaces($el)).to.equal(displayedInformation));
 });
