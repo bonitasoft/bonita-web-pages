@@ -24,6 +24,8 @@ Feature: The Bonita layout header in desktop resolution
     Then I see "Walter Bates" as the user name
     And I see "../API/avatars/1" as the user menu icon
     And I don't see "walter.bates" as the user name
+    And I don't see "Sign in" as the user name
+
 
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given The URL target to the application "appName1"
