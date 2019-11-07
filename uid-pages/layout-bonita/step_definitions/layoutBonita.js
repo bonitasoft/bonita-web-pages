@@ -372,7 +372,7 @@ then('The language select is visible', () => {
 });
 
 then('The logout button is visible', () => {
-    cy.get('button').contains('Logout').should('be.visible');
+    cy.get('button').contains('Sign out').should('be.visible');
 });
 
 then('The apply and close buttons are visible', () => {
@@ -381,7 +381,7 @@ then('The apply and close buttons are visible', () => {
 });
 
 then('The logout button is hidden', () => {
-    cy.get('button').contains('Logout').should('not.exist');
+    cy.get('button').contains('Sign out').should('not.exist');
 });
 
 then('The apply button is disabled', () => {
