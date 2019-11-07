@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "caselistBonitaV1",
   "name" : "caselistBonitaV1",
-  "lastUpdate" : 1572860312074,
+  "lastUpdate" : 1572882008450,
   "rows" : [
     [
       {
@@ -2111,7 +2111,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "{{\"Archived Case ID (original)\"|uiTranslate}}"
+                                          "value" : "{{\"Archived case ID (original)\"|uiTranslate}}"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -3325,12 +3325,16 @@
         "            \"version\": uiTranslate(\"all versions\")",
         "        }].concat($data.processes),",
         "    \"sortByOptions\": [",
+        "        { \"displayKey\": \"Archived case ID (Asc)\", \"returnKey\": \"id+ASC\" },",
+        "        { \"displayKey\": \"Archived case ID (Desc)\", \"returnKey\": \"id+DESC\" },",
+        "        { \"displayKey\": \"Original case ID (Asc)\", \"returnKey\": \"sourceObjectId+ASC\" },",
+        "        { \"displayKey\": \"Original case ID (Desc)\", \"returnKey\": \"sourceObjectId+DESC\" },",
+        "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
+        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" },",
         "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
         "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
         "        { \"displayKey\": \"End date - newest first\", \"returnKey\": \"endDate+DESC\" },",
-        "        { \"displayKey\": \"End date - oldest first\", \"returnKey\": \"endDate+ASC\" },",
-        "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
-        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" }",
+        "        { \"displayKey\": \"End date - oldest first\", \"returnKey\": \"endDate+ASC\" }",
         "    ]",
         "};"
       ],
@@ -3387,10 +3391,12 @@
         "            \"version\": uiTranslate(\"all versions\")",
         "        }].concat($data.processes),",
         "    \"sortByOptions\": [   ",
-        "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
-        "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
+        "        { \"displayKey\": \"Case ID (Asc)\", \"returnKey\": \"id+ASC\" },",
+        "        { \"displayKey\": \"Case ID (Desc)\", \"returnKey\": \"id+DESC\" },",
         "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
-        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" }",
+        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" },",
+        "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
+        "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" }",
         "    ]",
         "};"
       ],
