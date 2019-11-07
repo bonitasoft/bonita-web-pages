@@ -72,3 +72,36 @@ Feature: The Bonita layout current session modal in desktop resolution
     Then The current session modal is visible
     When I click the close button
     Then The current session modal is not visible
+
+  Scenario: The current session modal shows current language when first opened
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And I have languages available
+    And The current language in BOS_Locale is "fr"
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And The current language is "Français"
+
+  Scenario: The current session modal resets current language when closed and reopened
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And I have languages available
+    And The current language in BOS_Locale is "en"
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    # Check language stays the same after closing the modal when clicking the close button
+    When I select "Français" in language picker
+    And I click the close button
+    Then The current session modal is not visible
+    When I click the user name
+    Then The current session modal is visible
+    And The current language is "English"
+    # Check language stays the same after closing the modal when clicking next to it
+    When I select "Français" in language picker
+    And I click next to the current session modal
+    Then The current session modal is not visible
+    When I click the user name
+    Then The current session modal is visible
+    And The current language is "English"

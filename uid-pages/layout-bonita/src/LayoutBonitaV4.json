@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "LayoutBonitaV4",
   "name" : "BonitaLayoutV4",
-  "lastUpdate" : 1573117080180,
+  "lastUpdate" : 1573141886591,
   "rows" : [
     [
       {
@@ -261,8 +261,8 @@
                               "value" : ""
                             },
                             "modalId" : {
-                              "type" : "constant",
-                              "value" : "currentSessionModalId"
+                              "type" : "expression",
+                              "value" : "resetCurrentLanguage()"
                             },
                             "collectionPosition" : {
                               "type" : "constant",
@@ -349,8 +349,8 @@
                               "type" : "variable"
                             },
                             "modalId" : {
-                              "type" : "constant",
-                              "value" : "currentSessionModalId"
+                              "type" : "expression",
+                              "value" : "resetCurrentLanguage()"
                             },
                             "collectionPosition" : {
                               "type" : "constant",
@@ -2331,6 +2331,9 @@
     },
     "selectedLanguage" : {
       "type" : "constant",
+      "value" : [
+        ""
+      ],
       "exposed" : false
     },
     "applicationContainerClasses" : {
@@ -2541,7 +2544,16 @@
     "storageLanguage" : {
       "type" : "expression",
       "value" : [
-        "return document.cookie.BOS_Locale;"
+        "function getCookie(name) {",
+        "    if (document.cookie) {",
+        "        var value = \"; \" + document.cookie;",
+        "        var parts = value.split(\"; \" + name + \"=\");",
+        "        if (parts.length == 2) return parts.pop().split(\";\").shift();",
+        "    }",
+        "    return \"\";",
+        "}",
+        "",
+        "return getCookie(\"BOS_Locale\");"
       ],
       "exposed" : false
     },
@@ -2629,6 +2641,39 @@
       "type" : "constant",
       "value" : [
         "../../../logoutservice"
+      ],
+      "exposed" : false
+    },
+    "resetCurrentLanguage" : {
+      "type" : "expression",
+      "value" : [
+        "return function() {",
+        "    if ($data.storageLanguage) {",
+        "        var languageName = \"\";",
+        "        switch($data.storageLanguage) {",
+        "            case \"en\":",
+        "                languageName = \"English\";",
+        "                break;",
+        "            case \"fr\":",
+        "                languageName = \"Français\";",
+        "                break;",
+        "            case \"es\":",
+        "                languageName = \"Español\";",
+        "                break;",
+        "            case \"pt_BR\":",
+        "                languageName = \"Português (Brasil)\";",
+        "                break;",
+        "            case \"ja\":",
+        "                languageName = \"日本語\";",
+        "                break;",
+        "            default:",
+        "                $data.selectedLanguage = \"\";",
+        "        }",
+        "        $data.selectedLanguage = {\"name\": languageName, \"locale\": $data.storageLanguage}; ",
+        "    }",
+        "",
+        "    return \"currentSessionModalId\";",
+        "}"
       ],
       "exposed" : false
     }

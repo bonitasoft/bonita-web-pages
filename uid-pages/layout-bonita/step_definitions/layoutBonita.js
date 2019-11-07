@@ -206,7 +206,7 @@ given('The response for both administrator profile and app name is defined', () 
 given('I have the application home page token defined', () => {
     cy.fixture('json/homePage.json').as('homePage');
     cy.route({
-        method: "GET",
+        method: 'GET',
         url: 'build/dist/API/living/application-page/107',
         response: '@homePage'
     }).as('homePageRoute');
@@ -215,7 +215,7 @@ given('I have the application home page token defined', () => {
 given('Multiple applications are available for the user, some without access rights', () => {
     cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
     cy.route({
-        method: "GET",
+        method: 'GET',
         url: 'build/dist/API/living/application?c=9999',
         response: '@appsListWithUnauthorizedApp'
     }).as('appsListWithUnauthorizedAppRoute');
@@ -224,14 +224,19 @@ given('Multiple applications are available for the user, some without access rig
 given('Unauthorized applications response is defined', () => {
     cy.fixture('json/filteredAppsListNoAccess.json').as('filteredAppsListNoAccess');
     cy.route({
-        method: "GET",
+        method: 'GET',
         url: 'build/dist/API/living/application?c=9999&s=noAccess',
         response: '@filteredAppsListNoAccess'
     }).as('filteredAppsListNoAccessRoute');
 });
 
+given('The current language in BOS_Locale is {string}', (language) => {
+    cy.setCookie('BOS_Locale', language);
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
+    cy.wait('@app1Route');
 });
 
 when('I click the user name', () => {
@@ -243,7 +248,20 @@ when ('I click the user name in dropdown', () => {
 });
 
 when('I select {string} in language picker', (languageSelected) => {
-    cy.get('.form-control').select(languageSelected);
+    switch (languageSelected) {
+        case 'English':
+            cy.get('.form-control').select('0');
+            break;
+        case 'Français':
+            cy.get('.form-control').select('1');
+            break;
+        case 'Español':
+            cy.get('.form-control').select('2');
+            break;
+        case '日本語':
+            cy.get('.form-control').select('3');
+            break;
+    }
 });
 
 when('I press the apply button', () => {
@@ -294,6 +312,10 @@ when('I select {string} in dropdown', (profileName) => {
             cy.wait('@filteredAppsListByAdminProfileRoute');
             break;
     }
+});
+
+when('I click next to the current session modal', () => {
+    cy.get('.modal.fade').click('right');
 });
 
 then( 'The application displayName is {string}', (appName) => {
@@ -586,4 +608,21 @@ then('Application name has {string} as application href in mobile view', (homePa
 
 then('I don\'t see the apps without access rights', () => {
     cy.get('.app-name-in-list p').contains('App without access rights').should('not.exist');
+});
+
+then('The current language is {string}', (language) => {
+    switch (language) {
+        case 'English':
+            cy.get('select').should('have.value','0');
+            break;
+        case 'Français':
+            cy.get('select').should('have.value','1');
+            break;
+        case 'Español':
+            cy.get('select').should('have.value','2');
+            break;
+        case '日本語':
+            cy.get('select').should('have.value','3');
+            break;
+    }
 });
