@@ -4,6 +4,7 @@ Feature: The user open case list in desktop resolution
     Given A list of open cases is available
     And A list of archived cases is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     Then A list of open cases is displayed
     When I click on "Archived cases" tab
@@ -15,6 +16,7 @@ Feature: The user open case list in desktop resolution
     Given A list of open cases is available
     And A list of archived cases is available
     And A user session is available
+    And A list of processes is available
     When I visit the user case list page
     Then The "open" cases have the correct information
     When I click on "Archived cases" tab
@@ -28,12 +30,12 @@ Feature: The user open case list in desktop resolution
     And No open cases for "process name" are available response is defined
     When I visit the user case list page
     Then A list of open cases is displayed
-    When I select "Another My Pool" in "process name" filter for "open" cases
+    When I select "Another My Pool (1.0)" in "process name" filter for "open" cases
     Then I see only the filtered open cases by "process name"
     And I don't see the cases that are unmatched by the "process name" filter
-    When I select "All processes" in "process name" filter for "open" cases
+    When I select "All processes (all versions)" in "process name" filter for "open" cases
     Then A list of open cases is displayed
-    When I select "Cancel Vacation Request" in "process name" filter for "open" cases
+    When I select "Cancel Vacation Request (1.0)" in "process name" filter for "open" cases
     Then No open cases are available
 
   Scenario: The user archived case list filter by process name works correctly
@@ -45,46 +47,75 @@ Feature: The user open case list in desktop resolution
     When I visit the user case list page
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
-    When I select "Another My Pool" in "process name" filter for "archived" cases
+    When I select "Another My Pool (1.0)" in "process name" filter for "archived" cases
     Then I see only the filtered archived cases by "process name"
     And I don't see the cases that are unmatched by the "process name" filter
-    When I select "All processes" in "process name" filter for "archived" cases
+    When I select "All processes (all versions)" in "process name" filter for "archived" cases
     Then A list of archived cases is displayed
-    When I select "Cancel Vacation Request" in "process name" filter for "archived" cases
+    When I select "Cancel Vacation Request (1.0)" in "process name" filter for "archived" cases
     Then No archived cases are available
 
   Scenario: The user open case list sort by works correctly
     Given A list of open cases is available
     And A user session is available
     And A list of processes is available
-    And The filter responses sort by are defined for open cases
+    And A list of open cases sorted by "openCasesSortedByCaseIdAsc" is available
+    And A list of open cases sorted by "openCasesSortedByCaseIdDesc" is available
+    And A list of open cases sorted by "openCasesSortedByProcessNameAsc" is available
+    And A list of open cases sorted by "openCasesSortedByProcessNameDesc" is available
+    And A list of open cases sorted by "openCasesSortedByStartDateNew" is available
+    And A list of open cases sorted by "openCases" is available
     When I visit the user case list page
     Then A list of open cases is displayed
-    When I select "Start date - newest first" in "sort by" filter for "open" cases
-    Then I see only the filtered open cases by "Start date - newest first"
-    When I select "Start date - oldest first" in "sort by" filter for "open" cases
-    Then I see only the filtered open cases by "Start date - oldest first"
-    When I select "Process name (Asc)" in "sort by" filter for "open" cases
-    Then I see only the filtered open cases by "Process name (Asc)"
-    When I select "Process name (Desc)" in "sort by" filter for "open" cases
-    Then I see only the filtered open cases by "Process name (Desc)"
+    When I select "Case ID (Asc)" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCasesSortedByCaseIdAsc" is displayed
+    When I select "Case ID (Desc)" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCasesSortedByCaseIdDesc" is displayed
+    When I select "Process name (Asc)" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCasesSortedByProcessNameAsc" is displayed
+    When I select "Process name (Desc)" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCasesSortedByProcessNameDesc" is displayed
+    When I select "Start date - newest first" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCasesSortedByStartDateNew" is displayed
+    When I select "Start date - oldest first" in "open cases sort by" filter for "open" cases
+    Then A list of open cases sorted by "openCases" is displayed
 
   Scenario: The user archived case list sort by works correctly
     Given A list of archived cases is available
     And A user session is available
     And A list of processes is available
-    And The filter responses sort by are defined for archived cases
+    And A list of archived cases sorted by "archivedCasesSortedByArchivedCaseIdDesc" is available
+    And A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdAsc" is available
+    And A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdDesc" is available
+    And A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is available
+    And A list of archived cases sorted by "archivedCasesSortedByProcessNameDesc" is available
+    And A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is available
+    And A list of archived cases sorted by "archivedCases" is available
+    And A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is available
+    And A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is available
     When I visit the user case list page
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
-    When I select "Start date - newest first" in "sort by" filter for "archived" cases
-    Then I see only the filtered archived cases by "Start date - newest first"
-    When I select "Start date - oldest first" in "sort by" filter for "archived" cases
-    Then I see only the filtered archived cases by "Start date - oldest first"
-    When I select "Process name (Asc)" in "sort by" filter for "archived" cases
-    Then I see only the filtered archived cases by "Process name (Asc)"
-    When I select "Process name (Desc)" in "sort by" filter for "archived" cases
-    Then I see only the filtered archived cases by "Process name (Desc)"
+    When I select "Archived case ID (Asc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCases" is displayed
+    When I select "Archived case ID (Desc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByArchivedCaseIdDesc" is displayed
+    When I select "Original case ID (Asc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdAsc" is displayed
+    When I select "Original case ID (Desc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdDesc" is displayed
+    When I select "Process name (Asc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is displayed
+    When I select "Process name (Desc)" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByProcessNameDesc" is displayed
+    When I select "Start date - newest first" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is displayed
+    When I select "Start date - oldest first" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCases" is displayed
+    When I select "End date - newest first" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is displayed
+    When I select "End date - oldest first" in "archived cases sort by" filter for "archived" cases
+    Then A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is displayed
 
   Scenario: Search by process name and search keys works correctly for open cases
     Given A list of open cases is available
