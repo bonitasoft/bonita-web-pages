@@ -23,20 +23,29 @@ given('The URL target to the application {string}', () => {
 });
 
 given('A user is connected without sso', () => {
-    cy.fixture('json/unusedIdNoSSO.json').as('unusedIdNoSSO');
+    cy.fixture('json/session.json').as('session');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/system/session/*',
-        response: '@unusedIdNoSSO'
+        response: '@session'
     });
 });
 
 given('A user is connected with sso', () => {
-    cy.fixture('json/unusedIdSSO.json').as('unusedIdSSO');
+    cy.fixture('json/sessionWithSSO.json').as('sessionWithSSO');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/system/session/*',
-        response: '@unusedIdSSO'
+        response: '@sessionWithSSO'
+    });
+});
+
+given('A user is connected as guest', () => {
+    cy.fixture('json/sessionAsGuest.json').as('sessionAsGuest');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/session/*',
+        response: '@sessionAsGuest'
     });
 });
 
@@ -306,6 +315,10 @@ then('I see {string} as the user name', (userName) => {
     cy.get('.text-right > .ng-binding').should('have.text', userName);
 });
 
+then('The login link is displayed', () => {
+    cy.get('.text-right > .ng-binding').should('have.text', 'Sign in');
+});
+
 then('I see {string} as the user menu icon', (userIcon) => {
     cy.get('.user-menu.image-circle img').should('have.attr', 'src', userIcon);
 });
@@ -359,7 +372,7 @@ then('The language select is visible', () => {
 });
 
 then('The logout button is visible', () => {
-    cy.get('button').contains('Logout').should('be.visible');
+    cy.get('button').contains('Sign out').should('be.visible');
 });
 
 then('The apply and close buttons are visible', () => {
@@ -368,7 +381,7 @@ then('The apply and close buttons are visible', () => {
 });
 
 then('The logout button is hidden', () => {
-    cy.get('button').contains('Logout').should('not.exist');
+    cy.get('button').contains('Sign out').should('not.exist');
 });
 
 then('The apply button is disabled', () => {
@@ -425,6 +438,10 @@ then('The application displayName is {string} and is shown in the navbar', (appN
 
 then('I see {string} as the user name in the dropdown menu', (userName) => {
     cy.get('.visible-xs > li > a').eq(0).should('have.text', userName);
+});
+
+then('The login link is displayed in the dropdown menu', () => {
+    cy.get('.visible-xs > li > a').eq(0).should('have.text', 'Sign in');
 });
 
 then('I don\'t see {string} as the user name in the dropdown menu', (userName) => {
