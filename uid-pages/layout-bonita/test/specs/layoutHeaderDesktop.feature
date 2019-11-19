@@ -26,7 +26,6 @@ Feature: The Bonita layout header in desktop resolution
     And I don't see "walter.bates" as the user name
     And I don't see "Sign in" as the user name
 
-
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given The URL target to the application "appName1"
     And A user is connected without sso
@@ -46,6 +45,13 @@ Feature: The Bonita layout header in desktop resolution
     And A user is connected as guest
     When I visit the index page
     Then The login link is displayed
+    And I don't see "guest" as the user name
+
+  Scenario: The login button is hidden if sso is active and guest user is connected
+    Given The URL target to the application "appName1"
+    And A user is connected as guest with sso
+    When I visit the index page
+    Then The login link is hidden
     And I don't see "guest" as the user name
 
   Scenario: The Bonita layout shows the user default icon
