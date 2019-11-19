@@ -388,7 +388,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "!isGuestUser || isSSOActivated"
+                              "value" : "!isGuestUser || logoutHidden"
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -1340,7 +1340,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "isSSOActivated"
+                          "value" : "logoutHidden"
                         },
                         "disabled" : {
                           "type" : "constant",
@@ -2569,7 +2569,7 @@
       ],
       "exposed" : false
     },
-    "isSSOActivated" : {
+    "logoutHidden" : {
       "type" : "expression",
       "value" : [
         "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') !== -1;"
