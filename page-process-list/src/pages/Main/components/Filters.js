@@ -121,7 +121,7 @@ class Filters extends Component {
               >
                 <Glyphicon glyph="search" />
               </Button>
-              <div className="search-tooltip hide-on-mobile">
+              <div className="search-tooltip hidden-xs">
                 <HelpBlock htmlFor="searchInput">
                   {t('On process name or version')}
                 </HelpBlock>
