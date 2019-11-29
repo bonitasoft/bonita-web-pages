@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "installExportOrganizationBonita",
   "name" : "installExportOrganizationBonita",
-  "lastUpdate" : 1570457731356,
+  "lastUpdate" : 1575021122182,
   "rows" : [
     [
       {
@@ -537,6 +537,58 @@
                                   "hasValidationError" : false,
                                   "id" : "pbText"
                                 }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "!installingOrganization"
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Default label"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "allowHTML" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "text" : {
+                                      "type" : "interpolation",
+                                      "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Installing organization.' | translate}}"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    }
+                                  },
+                                  "reference" : "f39ff79b-6309-445b-a7ae-e8c8ac4df60b",
+                                  "hasValidationError" : false,
+                                  "id" : "pbText"
+                                }
                               ]
                             ]
                           }
@@ -582,7 +634,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/services/organization/import"
+                              "value" : "{{installOrganization()}}"
                             },
                             "dataToSend" : {
                               "type" : "expression",
@@ -623,6 +675,10 @@
                             "responseStatusCode" : {
                               "type" : "variable",
                               "value" : "statusCodeInstall"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
                             }
                           },
                           "reference" : "2e782ff4-16a6-459c-8dd0-07194f7a0a87",
@@ -872,7 +928,40 @@
       "exposed" : false
     },
     "statusCodeInstall" : {
-      "type" : "constant",
+      "type" : "expression",
+      "value" : [
+        "return \"\";"
+      ],
+      "exposed" : false
+    },
+    "installOrganization" : {
+      "type" : "expression",
+      "value" : [
+        "return function() {",
+        "    $data.installingOrganization = true;",
+        "    return \"../API/services/organization/import\";",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "installingOrganization" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "finishInstallOrganization" : {
+      "type" : "expression",
+      "value" : [
+        "// After the organization is installed",
+        "if ($data.statusCodeInstall !== '' && $data.installingOrganization === true) {",
+        "    $data.installingOrganization = false;",
+        "    setTimeout(function() {",
+        "        $data.statusCodeInstall='';",
+        "    }, 3000);",
+        "}"
+      ],
       "exposed" : false
     }
   },
