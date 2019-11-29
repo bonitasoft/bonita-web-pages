@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.8.29",
   "id" : "installExportOrganizationBonita",
   "name" : "installExportOrganizationBonita",
-  "lastUpdate" : 1574412056327,
+  "lastUpdate" : 1575021122182,
   "rows" : [
     [
       {
@@ -938,10 +938,6 @@
       "type" : "expression",
       "value" : [
         "return function() {",
-        "    // Check if this is a not the first install in order to remove the information about the previous installation",
-        "    if ($data.statusCodeInstall !== '' && $data.installingOrganization === false) {",
-        "        $data.statusCodeInstall = '';",
-        "    }",
         "    $data.installingOrganization = true;",
         "    return \"../API/services/organization/import\";",
         "}"
@@ -961,6 +957,9 @@
         "// After the organization is installed",
         "if ($data.statusCodeInstall !== '' && $data.installingOrganization === true) {",
         "    $data.installingOrganization = false;",
+        "    setTimeout(function() {",
+        "        $data.statusCodeInstall='';",
+        "    }, 3000);",
         "}"
       ],
       "exposed" : false
