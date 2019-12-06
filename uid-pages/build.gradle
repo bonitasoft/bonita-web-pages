@@ -52,6 +52,10 @@ subprojects { subProject ->
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
     publishToMavenLocal.dependsOn buildUIDPage
 
+    if (file("src/assets/json/localization.json").exists()) {
+        apply plugin: 'com.bonitasoft.gradle.bonita-uid-page-crowdin'
+    }
+
     publishing {
         publications {
             create('zip', MavenPublication) { artifact file("${project.buildDir}/${project.name}-${project.version}.zip") }
