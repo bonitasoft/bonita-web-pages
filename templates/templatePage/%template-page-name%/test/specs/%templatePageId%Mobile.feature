@@ -1,7 +1,7 @@
-Feature: The %Template Page Name% in mobile resolution
+Feature: The %templatePageName% in desktop resolution
 
   Scenario: The %templatePageName% is running in mobile resolution
     Given The resolution is set to mobile
-    And %We mock something%
+    And %Something%
     When I visit the index page
-    Then %I'm checking something on the page%
+    Then %I see something on the page%
