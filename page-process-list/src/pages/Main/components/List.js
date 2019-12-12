@@ -52,7 +52,7 @@ class List extends Component {
       paginationStatus = `${start + 1}-${end + 1} ${of} ${total}`;
       panelBodyContent = (
         <div>
-          <Table striped responsive hover>
+          <Table striped hover>
             <thead>
               <tr>
                 <th className="List-name" onClick={this.props.toggleOrder}>
@@ -64,8 +64,8 @@ class List extends Component {
                   />
                 </th>
                 <th>{t('Version')}</th>
-                <th className="hide-on-mobile">{t('Categories')}</th>
-                <th className="hide-on-mobile">{t('Description')}</th>
+                <th className="hidden-xs">{t('Categories')}</th>
+                <th className="hidden-xs">{t('Description')}</th>
                 <th>{t('Action')}</th>
               </tr>
             </thead>
@@ -87,14 +87,14 @@ class List extends Component {
                   >
                     <td>{process.displayName}</td>
                     <td>{process.version}</td>
-                    <td className="hide-on-mobile">
+                    <td className="hidden-xs">
                       {process.categories.map(category => (
                         <Label key={category.id} bsStyle="default">
                           {category.displayName}
                         </Label>
                       ))}
                     </td>
-                    <td className="hide-on-mobile">{process.description}</td>
+                    <td className="hidden-xs">{process.description}</td>
                     <td className="process-action">
                       <Glyphicon glyph="play" />
                     </td>

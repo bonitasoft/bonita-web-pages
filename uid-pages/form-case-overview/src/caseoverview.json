@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1570457734874,
+  "lastUpdate" : 1572948495405,
   "rows" : [
     [
       {
@@ -1044,7 +1044,7 @@
     ],
     [
       {
-        "type" : "container",
+        "type" : "component",
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
@@ -1058,70 +1058,92 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "caseOverview.found"
+            "value" : "caseOverview.found || !caseId"
           },
-          "repeatedCollection" : {
-            "type" : "variable",
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"No case found with id:\" | translate }} <b>{{caseId}}</b></div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
             "value" : ""
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
           }
         },
-        "reference" : "b2e49c49-3849-4965-a368-a1797c166c76",
+        "reference" : "25414521-3c21-4d7e-83dd-c50103b09657",
         "hasValidationError" : false,
-        "id" : "pbContainer",
-        "rows" : [
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<div class=\"alert alert-danger\" translate><i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i> {{\"No case found with id:\" | translate }}  <b>{{caseOverview.id}}</b></div>"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : ""
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                }
-              },
-              "reference" : "25414521-3c21-4d7e-83dd-c50103b09657",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ]
-        ]
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "caseOverview.found || caseId"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"Case id not provided. Unable to retrieve the case.\" | translate }}</div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "75f6d9be-ba04-4133-928a-506f61dc4a9e",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ]
   ],
@@ -1160,7 +1182,7 @@
     "archivedCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase?c=1&d=started_by&d=processDefinitionId&f=sourceObjectId%3D{{caseId}}&p=0"
+        "../API/bpm/archivedCase?c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D{{caseId}}&p=0"
       ],
       "exposed" : false
     },
@@ -1239,7 +1261,7 @@
         " \"title\": \"Case started\",",
         " \"startTime\": $data.case.start,",
         " \"description\":$data.case.processDefinitionId.displayDescription,",
-        " \"initiator\": $data.case.started_by.firstname + \" \" + $data.case.started_by.lastname",
+        " \"initiator\": uiTranslate(\"Started by\") + \" \" + $data.getUserAndSubstituteDisplayName($data.case.started_by, $data.case.startedBySubstitute)",
         "};"
       ],
       "exposed" : false
@@ -1247,7 +1269,7 @@
     "archivedTasks" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&f=caseId%3D{{caseOverview.sourceObjectId}}&o=reached_state_date DESC"
+        "../API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute&f=caseId%3D{{caseOverview.sourceObjectId}}&o=reached_state_date DESC"
       ],
       "exposed" : false
     },
@@ -1287,19 +1309,12 @@
       "exposed" : false
     },
     "timelineEvents" : {
-      "type": "expression",
-      "value": [
+      "type" : "expression",
+      "value" : [
         "function executedBy(task){",
         "    if (\"completed\" === task.state) {",
-        "        var executedByString = \"Executed by \";",
-        "        var userInfo = task.executedBy.firstname || task.executedBy.lastName ? task.executedBy.firstname + \" \" + task.executedBy.lastname : task.executedBy.userName;",
-        "        if (task.executedBy === '-1') {",
-        "            executedByString += \"System \";",
-        "        } else if (task.executedBySubstitute === '-1') {",
-        "            executedByString += \"System for \" + userInfo;",
-        "        } else {",
-        "            executedByString += userInfo;",
-        "        }",
+        "        var executedByString = uiTranslate(\"Executed by\") + \" \";",
+        "        executedByString += $data.getUserAndSubstituteDisplayName(task.executedBy, task.executedBySubstitute);",
         "        return executedByString;",
         "    } else {",
         "        return null;",
@@ -1348,12 +1363,12 @@
         "",
         "return [].concat(opened,archived);"
       ],
-      "exposed": false
+      "exposed" : false
     },
     "openedTasks" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/task?p=0&c=999&d=executedBy&d=assigned_id&f=caseId%3D{{caseOverview.sourceObjectId}}&f=type%3DUSER_TASK&o=last_update_date DESC"
+        "../API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute&d=assigned_id&f=caseId%3D{{caseOverview.sourceObjectId}}&f=type%3DUSER_TASK&o=last_update_date DESC"
       ],
       "exposed" : false
     },
@@ -1374,7 +1389,7 @@
     "openCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case/{{caseId}}?d=started_by&d=processDefinitionId"
+        "../API/bpm/case/{{caseId}}?d=started_by&d=startedBySubstitute&d=processDefinitionId"
       ],
       "exposed" : false
     },
@@ -1404,6 +1419,33 @@
       "type" : "expression",
       "value" : [
         "return  (!$data.openCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;"
+      ],
+      "exposed" : false
+    },
+    "getUserAndSubstituteDisplayName" : {
+      "type" : "expression",
+      "value" : [
+        "function isSystem(user) {",
+        "    return user <= 0;",
+        "}",
+        "",
+        "function hasSubstitute(user, substitute) {",
+        "    return user.id && user.id !== substitute.id;",
+        "}",
+        "",
+        "function getDisplayName(user) {",
+        "    if (isSystem(user)) {",
+        "        return uiTranslate(\"System\");",
+        "    }",
+        "    return user.firstname && user.lastname ? user.firstname + \" \" + user.lastname : user.userName;",
+        "}",
+        "",
+        "return function(user, substitute) {",
+        "    if (hasSubstitute(user, substitute)) {",
+        "        return getDisplayName(substitute) + \" \" + uiTranslate(\"for\") + \" \" + getDisplayName(user);",
+        "    }",
+        "    return getDisplayName(user);",
+        "}"
       ],
       "exposed" : false
     }

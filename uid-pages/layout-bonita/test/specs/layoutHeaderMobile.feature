@@ -37,6 +37,15 @@ Feature: The Bonita layout in mobile resolution
     Then I see "Walter Bates" as the user name in the dropdown menu
     And I don't see "walter.bates" as the user name in the dropdown menu
 
+  Scenario: The Bonita layout shows the login link when guest user is connected
+    Given The resolution is set to mobile
+    And The URL target to the application "appName1"
+    And A user is connected as guest
+    When I visit the index page
+    And I click the burger
+    Then The login link is displayed in the dropdown menu
+    And I don't see "guest" as the user name in the dropdown menu
+
   Scenario: The Bonita layout shows the app selection correctly
     Given The resolution is set to mobile
     And The URL target to the application "appName1"
