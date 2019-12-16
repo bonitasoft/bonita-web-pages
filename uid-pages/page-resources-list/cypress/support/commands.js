@@ -38,3 +38,8 @@
 //     })
 // })
 
+// Cypress.Commands.add("resourceUpload", function(fileName) {
+//     cy.fixture(fileName).then(fileContent => {
+//         cy.get('.modal .file-upload>input').upload({fileContent, fileName, mimeType: 'application/zip'});
+//     });
+// });
