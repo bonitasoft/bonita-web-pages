@@ -1,6 +1,6 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
-const defaultFilters = '&d=updatedBy&f=isHidden=false';
+const defaultFilters = '&time=0&d=updatedBy&f=isHidden=false';
 const resourceUrl = 'API/portal/page?';
 const defaultRequestUrl = urlPrefix + resourceUrl + 'c=20&p=0' + defaultFilters;
 
@@ -37,6 +37,9 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse('', 'resources20Route', 'resources20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
+        case 'all types of resources':
+            createRouteWithResponse('', 'allResourcesRoute', 'allResources');
+            break;
     }
 
     function createRoute(queryParameter, routeName) {
@@ -64,6 +67,76 @@ given("The filter response {string} is defined", (filterType) => {
             response: responseValue
         }).as(routeName);
     }
+});
+
+given("The {string} is not involved in application response is defined", (resourceType) => {
+    let applicationResourceUrl = 'API/';
+    let applicationDeleteUrl = 'API/portal/page/';
+    switch (resourceType) {
+        case 'page':
+            applicationResourceUrl+='living/application-page?p=0&c=100&d=applicationId&f=pageId=1';
+            applicationDeleteUrl+='1';
+            break;
+        case 'layout':
+            applicationResourceUrl+='living/application?p=0&c=100&f=layoutId=2';
+            applicationDeleteUrl+='2';
+            break;
+        case 'form':
+            applicationResourceUrl+='form/mapping?c=100&p=0&d=processDefinitionId&f=pageId=3';
+            applicationDeleteUrl+='3';
+            break;
+        case 'theme':
+            applicationResourceUrl+='living/application?p=0&c=100&f=themeId=4';
+            applicationDeleteUrl+='4';
+            break;
+        case 'api extension':
+            applicationDeleteUrl+='5';
+            break;
+    }
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + applicationResourceUrl,
+        response: '@emptyResult'
+    }).as("emptyResultRoute");
+    cy.route({
+        method: 'DELETE',
+        url: urlPrefix + applicationDeleteUrl,
+        response: '@emptyResult'
+    }).as("deletePageRoute");
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + resourceUrl + "c=20&p=0&time=1*&d=updatedBy&f=isHidden=false"
+    }).as("refreshListRoute");
+});
+
+given("The {string} is involved in application response is defined", (resourceType) => {
+    let applicationResourceUrl = 'API/';
+    let applicationDeleteUrl = 'API/portal/page/';
+    switch (resourceType) {
+        case 'page':
+            applicationResourceUrl+='living/application-page?p=0&c=100&d=applicationId&f=pageId=1';
+            applicationDeleteUrl+='1';
+            break;
+        case 'layout':
+            applicationResourceUrl+='living/application?p=0&c=100&f=layoutId=2';
+            applicationDeleteUrl+='2';
+            break;
+        case 'form':
+            applicationResourceUrl+='form/mapping?c=100&p=0&d=processDefinitionId&f=pageId=3';
+            applicationDeleteUrl+='3';
+            break;
+        case 'theme':
+            applicationResourceUrl+='living/application?p=0&c=100&f=themeId=4';
+            applicationDeleteUrl+='4';
+            break;
+    }
+    cy.fixture('json/' + resourceType + 'Used.json').as(resourceType + 'Used');
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + applicationResourceUrl,
+        response: '@' + resourceType + 'Used'
+    }).as(resourceType + "UsedRoute");
 });
 
 when("I visit the index page", () => {
@@ -142,6 +215,18 @@ when("I click on install button in the page", () => {
 
 when("I click on close button in the modal", () => {
     cy.get('button').contains('Close').click();
+});
+
+when("I click on cancel button in the modal", () => {
+    cy.get('button').contains('Cancel').click();
+});
+
+when("I click on {string} button on the resource {string}", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).click();
+});
+
+when("I click on delete button in modal", () => {
+    cy.get('button').contains('Delete').click();
 });
 
 then("The resources have the correct information", () => {
@@ -282,6 +367,12 @@ then("The api call is made for {string}", (filterValue) => {
         case 'hide provided resources':
             cy.wait('@isNotProvidedRoute');
             break;
+        case 'delete page':
+            cy.wait('@deletePageRoute');
+            break;
+        case 'refresh list':
+            cy.wait('@refreshListRoute');
+            break;
     }
 });
 
@@ -293,6 +384,59 @@ then("The modal install button is disabled",() => {
     cy.get('.modal-footer button').contains('Install').should('be.disabled');
 });
 
+then("The delete button is disabled", () => {
+    cy.get('.modal-footer button').contains('Delete').should('be.disabled');
+});
+
 then("The modal is closed",() => {
     cy.get('.modal').should('not.visible');
+});
+
+then("The modal delete is displayed for {string}", (resourceName) => {
+    cy.get('.modal').contains('Delete ' + resourceName).should('be.visible');
+});
+
+then("The resource can be deleted message is displayed", () => {
+    cy.get('.modal').contains('This resource is not used in any application.').should('be.visible');
+    cy.get('.modal').contains('This resource cannot be deleted because it is used in the following application(s).').should('not.exist');
+    cy.get('.modal').contains('This form cannot be deleted because it is used in the following process(es).').should('not.exist');
+});
+
+then("The resource cannot be deleted message is displayed", () => {
+    cy.get('.modal').contains('This resource cannot be deleted because it is used in the following application(s).').should('be.visible');
+    cy.get('.modal').contains('This resource is not used in any application.').should('not.exist');
+    cy.get('.modal').contains('This form cannot be deleted because it is used in the following process(es).').should('not.exist');
+});
+
+then("The form cannot be deleted message is displayed", () => {
+    cy.get('.modal').contains('This form cannot be deleted because it is used in the following process(es).').should('be.visible');
+    cy.get('.modal').contains('This resource cannot be deleted because it is used in the following application(s).').should('not.exist');
+    cy.get('.modal').contains('This resource is not used in any application.').should('not.exist');
+});
+
+then("The api extension can be deleted message is displayed", () => {
+    cy.get('.modal').contains('Make sure this REST API extension is not used in any page or form before deletion.').should('be.visible');
+    cy.get('.modal').contains('This form cannot be deleted because it is used in the following process(es).').should('not.exist');
+    cy.get('.modal').contains('This resource cannot be deleted because it is used in the following application(s).').should('not.exist');
+    cy.get('.modal').contains('This resource is not used in any application.').should('not.exist');
+});
+
+then("The list of applications using the page is displayed", () => {
+    cy.get('.modal').contains('Application as page1').should('be.visible');
+    cy.get('.modal').contains('Application 2 as page2').should('be.visible');
+});
+
+then("The list of applications using the layout is displayed", () => {
+    cy.get('.modal').contains('Application as layout').should('be.visible');
+    cy.get('.modal').contains('Application 2 as layout').should('be.visible');
+});
+
+then("The list of processes using the form is displayed", () => {
+    cy.get('.modal').contains('taskInstance/VacationRequest/1.0/Close').should('be.visible');
+    cy.get('.modal').contains('taskInstance/CancelRequest/1.0/Remove').should('be.visible');
+});
+
+then("The list of processes using the theme is displayed", () => {
+    cy.get('.modal').contains('Application as theme').should('be.visible');
+    cy.get('.modal').contains('Application 2 as theme').should('be.visible');
 });
