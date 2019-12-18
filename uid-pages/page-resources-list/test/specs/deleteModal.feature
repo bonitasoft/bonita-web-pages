@@ -20,7 +20,7 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-  Scenario: The delete modal should not be able to delete a page
+  Scenario: The delete modal should not be able to delete a page used in an app
     Given The filter response "all types of resources" is defined
     And The "page" is involved in application response is defined
     When I visit the index page
@@ -42,7 +42,7 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-  Scenario: The delete modal should not be able to delete a layout
+  Scenario: The delete modal should not be able to delete a layout used in an app
     Given The filter response "all types of resources" is defined
     And The "layout" is involved in application response is defined
     When I visit the index page
@@ -64,7 +64,7 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-  Scenario: The delete modal should not be able to delete a form
+  Scenario: The delete modal should not be able to delete a form used in a process
     Given The filter response "all types of resources" is defined
     And The "form" is involved in application response is defined
     When I visit the index page
@@ -86,7 +86,7 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-  Scenario: The delete modal should not be able to delete a theme
+  Scenario: The delete modal should not be able to delete a theme used in an app
     Given The filter response "all types of resources" is defined
     And The "theme" is involved in application response is defined
     When I visit the index page
@@ -108,4 +108,40 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-#  Scenario: The delete modal should display error messages
+  Scenario: The trash button is disabled for provided resources
+    Given The filter response "default filter" is defined
+    When I visit the index page
+    Then The "trash" button is disabled for resource "3"
+
+  Scenario: The delete modal should display 500 error message
+    Given The filter response "default filter" is defined
+    And The delete status code "500" response is defined
+    When I visit the index page
+    And I click on "trash" button on the resource "1"
+    And I click on delete button in modal
+    Then I see "500" error message
+    When I click on cancel button in the modal
+    And I click on "trash" button on the resource "1"
+    Then I don't see any error message
+
+  Scenario: The delete modal should display 404 error message
+    Given The filter response "default filter" is defined
+    And The delete status code "404" response is defined
+    When I visit the index page
+    And I click on "trash" button on the resource "1"
+    And I click on delete button in modal
+    Then I see "404" error message
+    When I click on cancel button in the modal
+    And I click on "trash" button on the resource "1"
+    Then I don't see any error message
+
+  Scenario: The delete modal should display 403 error message
+    Given The filter response "default filter" is defined
+    And The delete status code "403" response is defined
+    When I visit the index page
+    And I click on "trash" button on the resource "1"
+    And I click on delete button in modal
+    Then I see "403" error message
+    When I click on cancel button in the modal
+    And I click on "trash" button on the resource "1"
+    Then I don't see any error message

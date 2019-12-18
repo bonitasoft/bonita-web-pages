@@ -139,6 +139,17 @@ given("The {string} is involved in application response is defined", (resourceTy
     }).as(resourceType + "UsedRoute");
 });
 
+given("The delete status code {string} response is defined", (statusCode) => {
+    let applicationDeleteUrl = 'API/portal/page/1';
+    cy.route({
+        method: 'DELETE',
+        url: urlPrefix + applicationDeleteUrl,
+        status: statusCode,
+        response: ''
+    }).as("deletePageRoute");
+});
+
+
 when("I visit the index page", () => {
     cy.visit(url);
 });
@@ -440,3 +451,27 @@ then("The list of processes using the theme is displayed", () => {
     cy.get('.modal').contains('Application as theme').should('be.visible');
     cy.get('.modal').contains('Application 2 as theme').should('be.visible');
 });
+
+then("The {string} button is disabled for resource {string}", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).click();
+});
+
+then("I see {string} error message", (statusCode) => {
+    switch (statusCode) {
+        case '500':
+            cy.get('.modal').contains('An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.get('.modal').contains('Resource not found. Maybe it was already deleted.').should('be.visible');
+            break;
+        case '403':
+            cy.get('.modal').contains('Access denied. For more information, check the log file.').should('be.visible');
+            break;
+    }
+    cy.get('.modal').contains('The resource has not been deleted.').should('be.visible');
+});
+
+then("I don't see any error message", () => {
+    cy.get('.modal .glyphicon').should('not.exist');
+});
+
