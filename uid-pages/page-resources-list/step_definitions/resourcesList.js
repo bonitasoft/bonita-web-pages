@@ -391,12 +391,8 @@ then("The Load more resources button is disabled", () => {
     cy.get('button').contains('Load more resources').should('be.disabled');
 });
 
-then("The modal install button is disabled",() => {
-    cy.get('.modal-footer button').contains('Install').should('be.disabled');
-});
-
-then("The delete button is disabled", () => {
-    cy.get('.modal-footer button').contains('Delete').should('be.disabled');
+then("The modal {string} button is disabled",(buttonLabel) => {
+    cy.get('.modal-footer button').contains(buttonLabel).should('be.disabled');
 });
 
 then("The modal is closed",() => {
