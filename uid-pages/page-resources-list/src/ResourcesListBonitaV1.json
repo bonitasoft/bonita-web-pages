@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "ResourcesListBonitaV1",
   "name" : "ResourcesListBonitaV1",
-  "lastUpdate" : 1576682604040,
+  "lastUpdate" : 1576763392437,
   "rows" : [
     [
       {
@@ -557,7 +557,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Resource name\"|uiTranslate}}"
+                              "value" : "{{\"Resource name\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{$item.urlToken}}\"></i>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1124,13 +1124,42 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
+                      "text" : {
                         "type" : "interpolation",
                         "value" : "<i class=\"glyphicon glyphicon-export\"></i>"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "URL"
+                      },
+                      "targetUrl" : {
+                        "type" : "expression",
+                        "value" : "'../API/pageDownload?id='+$item.id"
+                      },
+                      "pageToken" : {
+                        "type" : "constant"
+                      },
+                      "processName" : {
+                        "type" : "constant"
+                      },
+                      "processVersion" : {
+                        "type" : "constant"
+                      },
+                      "taskId" : {
+                        "type" : "constant"
+                      },
+                      "caseId" : {
+                        "type" : "constant"
+                      },
+                      "target" : {
+                        "type" : "constant",
+                        "value" : "_blank"
+                      },
+                      "appToken" : {
+                        "type" : "constant"
+                      },
+                      "urlParams" : {
+                        "type" : "constant"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1139,61 +1168,11 @@
                       "buttonStyle" : {
                         "type" : "constant",
                         "value" : "link"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Submit task"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "constant"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
                       }
                     },
-                    "reference" : "0a3a6bc1-5dcf-420b-a4a7-6f7ba372ccc9",
+                    "reference" : "91cd6800-ac6c-4728-8322-0749ae6f39dc",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "pbLink"
                   },
                   {
                     "type" : "component",
@@ -2530,6 +2509,58 @@
                               "reference" : "d02a2178-2cb2-4faa-8d2d-11a76b2853c9",
                               "hasValidationError" : false,
                               "id" : "pbUpload"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'Updating will delete this resource and replace it with the uploaded one.' | translate}} <br/>\n{{'Make sure both resources have the same token:' | translate}} \n '{{installData.item.urlToken}}'."
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "e7461aa3-5058-4c98-8feb-720d921b1e6e",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
                             }
                           ],
                           [
@@ -4078,7 +4109,7 @@
         "return function(pageId){\r",
         "    var resourcesPerPage = $data.resourceListConfiguration.numberOfResourcesPerPage;\r",
         "    \r",
-        "    if(pageId == 0){\r",
+        "    if(pageId === 0){\r",
         "        //on first call we need load next page\r",
         "        resourcesPerPage *= 2;\r",
         "    }\r",
@@ -4095,6 +4126,8 @@
         "    \r",
         "    if($data.resourcesFilters.sortOrder){\r",
         "        queryParameters += \"&o=\" + $data.resourcesFilters.sortOrder;\r",
+        "    } else {\r",
+        "        queryParameters += \"&o=lastUpdateDate+DESC\";\r",
         "    }\r",
         "    \r",
         "    if($data.resourcesFilters.searchValue){\r",
@@ -4215,15 +4248,25 @@
     "installCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isErrorOfType = function (failedInstallResponse, type) {",
+        "    if (failedInstallResponse.cause",
+        "        && (failedInstallResponse.cause.exception.indexOf(type) > -1",
+        "            || failedInstallResponse.cause.message.indexOf(type) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
+        "",
+        "",
         "return {",
         "    installItem : function(url) {",
         "        $data.installData.installingItem = true;",
         "        return url;",
         "    },",
         "    getErrorMessageFor500: function(failedInstallResponse) {",
-        "        if (failedInstallResponse.cause && failedInstallResponse.cause.exception.indexOf('AlreadyExistsException') > -1) {",
+        "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
         "            return uiTranslate(\"A resource already exists with the name defined in the resource's zip content.\");",
-        "        } else if (failedInstallResponse.cause && failedInstallResponse.cause.exception.indexOf('InvalidPageZip') > -1) {",
+        "        } else if (isErrorOfType(failedInstallResponse, 'InvalidPageZip')) {",
         "            return uiTranslate('Invalid file format. For more information, check the log file.');",
         "        }",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",

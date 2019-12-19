@@ -71,3 +71,8 @@ Feature: The resources list in desktop resolution
     Then A list of "20" resources is displayed
     When I click on Load more resources button
     Then The Load more resources button is disabled
+
+  Scenario: Should export a resource
+    Given The filter response "default filter" is defined
+    When I visit the index page
+    Then I can download the resource

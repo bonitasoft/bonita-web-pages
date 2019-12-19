@@ -3,42 +3,42 @@ const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0&d=updatedBy&f=isHidden=false';
 const resourceUrl = 'API/portal/page?';
 const defaultRequestUrl = urlPrefix + resourceUrl + 'c=20&p=0' + defaultFilters;
+const defaultSortOrder = '&o=lastUpdateDate+DESC';
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter':
-            createRouteWithResponse('', 'resourcesRoute', 'resources5');
+            createRouteWithResponse(defaultSortOrder, 'resourcesRoute', 'resources5');
             break;
         case 'hide provided resources':
-            createRoute('&f=isProvided=false', 'isNotProvidedRoute');
+            createRoute('&f=isProvided=false' + defaultSortOrder, 'isNotProvidedRoute');
             break;
         case 'content type':
-            createRoute('&f=contentType=page', 'resourcesPagesRoute');
-            createRouteWithResponse('&f=contentType=layout', 'emptyResultRoute', 'emptyResult');
+            createRoute('&f=contentType=page' + defaultSortOrder, 'resourcesPagesRoute');
+            createRouteWithResponse('&f=contentType=layout' + defaultSortOrder, 'emptyResultRoute', 'emptyResult');
             break;
         case 'sort by':
             createRoute('&o=displayName+ASC', 'sortByNameAscRoute');
             createRoute('&o=displayName+DESC', 'sortByNameDescRoute');
             createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
-            createRoute('&o=lastUpdateDate+DESC', 'sortByUpdateDateDescRoute');
             break;
         case 'search by name':
-            createRoute('&s=ApplicationHomeBonita', 'searchRoute');
-            createRouteWithResponse('&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
+            createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse('', 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination('', 'resources10Route', 'resources10', 2, 10);
-            createRouteWithResponseAndPagination('', 'resources5Route', 'resources5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'resources5Route', 'resources5', 3, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
-            createRouteWithResponse('', 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'all types of resources':
-            createRouteWithResponse('', 'allResourcesRoute', 'allResources');
+            createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
             break;
     }
 
@@ -106,7 +106,7 @@ given("The {string} is not involved in application response is defined", (resour
     }).as("deletePageRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + resourceUrl + "c=20&p=0&time=1*&d=updatedBy&f=isHidden=false"
+        url: urlPrefix + resourceUrl + "c=20&p=0&time=1*&d=updatedBy&f=isHidden=false&o=lastUpdateDate+DESC"
     }).as("refreshListRoute");
 });
 
@@ -251,6 +251,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('Walter Bates');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 2:00 PM');
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'custompage_userApplication')
     });
 
     cy.get('.resource-item').eq(1).within(() => {
@@ -263,6 +264,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('helen.kelly');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'custompage_myCustomThemeReadable')
     });
 
     cy.get('.resource-item').eq(2).within(() => {
@@ -358,7 +360,7 @@ then("No resources are available", () => {
 then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
         case 'Updated - newest first':
-            cy.wait('@sortByUpdateDateDescRoute');
+            cy.wait('@resourcesRoute');
             break;
         case 'Updated - oldest first':
             cy.wait('@sortByUpdateDateAscRoute');
@@ -471,3 +473,11 @@ then("I don't see any error message", () => {
     cy.get('.modal .glyphicon').should('not.exist');
 });
 
+then('I can download the resource', () => {
+    cy.get('pb-link a').eq(0).should('have.attr', 'href', '../API/pageDownload?id=1');
+    cy.get('pb-link a').eq(0).should('have.attr', 'target', '_blank');
+});
+
+then("The warning message is displayed with the token {string}", (pageToken) => {
+    cy.get('.modal').contains(pageToken).should('be.visible');
+});
