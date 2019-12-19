@@ -251,6 +251,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('Walter Bates');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 2:00 PM');
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'custompage_userApplication')
     });
 
     cy.get('.resource-item').eq(1).within(() => {
@@ -263,6 +264,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('helen.kelly');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'custompage_myCustomThemeReadable')
     });
 
     cy.get('.resource-item').eq(2).within(() => {
