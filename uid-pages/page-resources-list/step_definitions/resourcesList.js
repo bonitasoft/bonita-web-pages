@@ -475,3 +475,7 @@ then('I can download the resource', () => {
     cy.get('pb-link a').eq(0).should('have.attr', 'href', '../API/pageDownload?id=1');
     cy.get('pb-link a').eq(0).should('have.attr', 'target', '_blank');
 });
+
+then("The warning message is displayed with the token {string}", (pageToken) => {
+    cy.get('.modal').contains(pageToken).should('be.visible');
+});
