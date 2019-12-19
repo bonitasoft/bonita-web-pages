@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "ResourcesListBonitaV1",
   "name" : "ResourcesListBonitaV1",
-  "lastUpdate" : 1576682604040,
+  "lastUpdate" : 1576748750055,
   "rows" : [
     [
       {
@@ -1124,13 +1124,42 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
+                      "text" : {
                         "type" : "interpolation",
                         "value" : "<i class=\"glyphicon glyphicon-export\"></i>"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "URL"
+                      },
+                      "targetUrl" : {
+                        "type" : "expression",
+                        "value" : "'../API/pageDownload?id='+$item.id"
+                      },
+                      "pageToken" : {
+                        "type" : "constant"
+                      },
+                      "processName" : {
+                        "type" : "constant"
+                      },
+                      "processVersion" : {
+                        "type" : "constant"
+                      },
+                      "taskId" : {
+                        "type" : "constant"
+                      },
+                      "caseId" : {
+                        "type" : "constant"
+                      },
+                      "target" : {
+                        "type" : "constant",
+                        "value" : "_blank"
+                      },
+                      "appToken" : {
+                        "type" : "constant"
+                      },
+                      "urlParams" : {
+                        "type" : "constant"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1139,61 +1168,11 @@
                       "buttonStyle" : {
                         "type" : "constant",
                         "value" : "link"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Submit task"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "constant"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
                       }
                     },
-                    "reference" : "0a3a6bc1-5dcf-420b-a4a7-6f7ba372ccc9",
+                    "reference" : "91cd6800-ac6c-4728-8322-0749ae6f39dc",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "pbLink"
                   },
                   {
                     "type" : "component",
@@ -4078,7 +4057,7 @@
         "return function(pageId){\r",
         "    var resourcesPerPage = $data.resourceListConfiguration.numberOfResourcesPerPage;\r",
         "    \r",
-        "    if(pageId == 0){\r",
+        "    if(pageId === 0){\r",
         "        //on first call we need load next page\r",
         "        resourcesPerPage *= 2;\r",
         "    }\r",
@@ -4095,6 +4074,8 @@
         "    \r",
         "    if($data.resourcesFilters.sortOrder){\r",
         "        queryParameters += \"&o=\" + $data.resourcesFilters.sortOrder;\r",
+        "    } else {\r",
+        "        queryParameters += \"&o=lastUpdateDate+DESC\";\r",
         "    }\r",
         "    \r",
         "    if($data.resourcesFilters.searchValue){\r",
@@ -4215,15 +4196,25 @@
     "installCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isErrorOfType = function (failedInstallResponse, type) {",
+        "    if (failedInstallResponse.cause",
+        "        && (failedInstallResponse.cause.exception.indexOf(type) > -1",
+        "            || failedInstallResponse.cause.message.indexOf(type) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
+        "",
+        "",
         "return {",
         "    installItem : function(url) {",
         "        $data.installData.installingItem = true;",
         "        return url;",
         "    },",
         "    getErrorMessageFor500: function(failedInstallResponse) {",
-        "        if (failedInstallResponse.cause && failedInstallResponse.cause.exception.indexOf('AlreadyExistsException') > -1) {",
+        "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
         "            return uiTranslate(\"A resource already exists with the name defined in the resource's zip content.\");",
-        "        } else if (failedInstallResponse.cause && failedInstallResponse.cause.exception.indexOf('InvalidPageZip') > -1) {",
+        "        } else if (isErrorOfType(failedInstallResponse, 'InvalidPageZip')) {",
         "            return uiTranslate('Invalid file format. For more information, check the log file.');",
         "        }",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
