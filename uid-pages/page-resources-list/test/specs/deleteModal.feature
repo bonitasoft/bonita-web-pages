@@ -28,7 +28,7 @@ Feature: delete resource modal in desktop resolution
     Then The modal delete is displayed for "Page 1"
     And The resource cannot be deleted message is displayed
     And The list of applications using the page is displayed
-    And The delete button is disabled
+    And The modal "Delete" button is disabled
 
   Scenario: The delete modal should delete a layout
     Given The filter response "all types of resources" is defined
@@ -50,7 +50,7 @@ Feature: delete resource modal in desktop resolution
     Then The modal delete is displayed for "Layout 1"
     And The resource cannot be deleted message is displayed
     And The list of applications using the layout is displayed
-    And The delete button is disabled
+    And The modal "Delete" button is disabled
 
   Scenario: The delete modal should delete a form
     Given The filter response "all types of resources" is defined
@@ -72,7 +72,7 @@ Feature: delete resource modal in desktop resolution
     Then The modal delete is displayed for "Form 1"
     And The form cannot be deleted message is displayed
     And The list of processes using the form is displayed
-    And The delete button is disabled
+    And The modal "Delete" button is disabled
 
   Scenario: The delete modal should delete a theme
     Given The filter response "all types of resources" is defined
@@ -94,7 +94,7 @@ Feature: delete resource modal in desktop resolution
     Then The modal delete is displayed for "Theme 1"
     And The resource cannot be deleted message is displayed
     And The list of processes using the theme is displayed
-    And The delete button is disabled
+    And The modal "Delete" button is disabled
 
   Scenario: The delete modal should delete a rest api extension
     Given The filter response "all types of resources" is defined
