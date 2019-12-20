@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "ResourcesListBonitaV1",
   "name" : "ResourcesListBonitaV1",
-  "lastUpdate" : 1576770498047,
+  "lastUpdate" : 1576832642473,
   "rows" : [
     [
       {
@@ -2091,7 +2091,7 @@
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "itemDataUpload"
+                          "value" : "installCtrl.getInstallPayload()"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -2909,7 +2909,7 @@
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "itemDataUpload"
+                          "value" : "installCtrl.getInstallPayload()"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -4202,13 +4202,6 @@
       ],
       "exposed" : false
     },
-    "itemDataUpload" : {
-      "type" : "expression",
-      "value" : [
-        "return {pageZip: $data.installData.filePath.tempPath};"
-      ],
-      "exposed" : false
-    },
     "installCtrl" : {
       "type" : "expression",
       "value" : [
@@ -4245,6 +4238,9 @@
         "        $data.installData.item = item;",
         "        $data.installData.statusCode = '';",
         "        return \"updateItem\";",
+        "    },",
+        "    getInstallPayload : function(){",
+        "        return {pageZip: $data.installData.filePath.tempPath};",
         "    }",
         "};"
       ],
