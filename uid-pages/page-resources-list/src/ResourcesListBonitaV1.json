@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "ResourcesListBonitaV1",
   "name" : "ResourcesListBonitaV1",
-  "lastUpdate" : 1576850044001,
+  "lastUpdate" : 1577118450626,
   "rows" : [
     [
       {
@@ -557,7 +557,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Resource name\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign  hidden-xs\" title=\"{{$item.urlToken}}\"></i>"
+                              "value" : "{{\"Resource name\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign  hidden-xs\" title=\"{{\"Resource token:\"|uiTranslate}} {{$item.urlToken}}\"></i>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1042,7 +1042,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-pencil\"></i>"
+                        "value" : "<i class=\"glyphicon glyphicon-pencil\" {{installCtrl.isProvidedTooltip($item.isProvided)}}></i>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1197,7 +1197,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-trash\"></i>"
+                        "value" : "<i class=\"glyphicon glyphicon-trash\" {{installCtrl.isProvidedTooltip($item.isProvided)}}></i>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1313,6 +1313,43 @@
                     "reference" : "0423d62a-f6c6-4799-a2e2-188c60b4319f",
                     "hasValidationError" : false,
                     "id" : "pbText"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 3,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "is-provided-icon"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "$item.isProvided === \"false\""
+                      },
+                      "srcType" : {
+                        "type" : "constant",
+                        "value" : "Asset"
+                      },
+                      "url" : {
+                        "type" : "constant"
+                      },
+                      "assetName" : {
+                        "type" : "constant",
+                        "value" : "bonitasoftLogo.png"
+                      },
+                      "alt" : {
+                        "type" : "interpolation",
+                        "value" : "Provided"
+                      }
+                    },
+                    "reference" : "7fb0310f-0cf5-421d-aaed-52f32e7b97ff",
+                    "hasValidationError" : false,
+                    "id" : "pbImage"
                   }
                 ]
               ]
@@ -2971,7 +3008,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{installCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4057,6 +4094,13 @@
       "external" : false
     },
     {
+      "id" : "ff813414-514c-4cd1-a75f-174e07f0729b",
+      "name" : "bonitasoftLogo.png",
+      "type" : "img",
+      "order" : 1,
+      "external" : false
+    },
+    {
       "id" : "b6730737-756b-4e72-8e36-e281e0a09fc3",
       "name" : "style.css",
       "type" : "css",
@@ -4222,7 +4266,7 @@
         "    },",
         "    getErrorMessageFor500: function(failedInstallResponse) {",
         "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
-        "            return uiTranslate(\"A resource already exists with the name defined in the resource's zip content.\");",
+        "            return uiTranslate(\"Another resource already exists with the name defined in the resource's zip content. To update an existing resource, click the Update icon on the appropriate resource.\");",
         "        } else if (isErrorOfType(failedInstallResponse, 'InvalidPageZip')) {",
         "            return uiTranslate('Invalid file format. For more information, check the log file.');",
         "        }",
@@ -4239,8 +4283,18 @@
         "        $data.installData.statusCode = '';",
         "        return \"updateItem\";",
         "    },",
-        "    getInstallPayload : function(){",
+        "    getInstallPayload : function() {",
         "        return {pageZip: $data.installData.filePath.tempPath};",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "        var buttonLabel = $data.installData.statusCode === 200 ? \"Close\" : \"Cancel\";",
+        "        return buttonLabel;",
+        "    },",
+        "    isProvidedTooltip: function(isProvided) {",
+        "        if(isProvided === \"true\"){",
+        "            return 'title=\"'+ uiTranslate(\"This resource is provided.\") + '\"';",
+        "        }",
+        "        return \"\";",
         "    }",
         "};"
       ],
