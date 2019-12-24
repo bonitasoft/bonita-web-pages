@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserListBonitaV1",
   "name" : "UserListBonitaV1",
-  "lastUpdate" : 1576857985080,
+  "lastUpdate" : 1577182816425,
   "rows" : [
     [
       {
@@ -107,7 +107,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "create-button"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -439,7 +439,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "user-item"
+                  "value" : "item"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -493,7 +493,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-label"
+                              "value" : "item-property-label"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -545,7 +545,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-value"
+                              "value" : "item-property-value"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -573,7 +573,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{$item.firstname}}"
+                              "value" : "{{userListCtrl.isInformationEmpty($item.firstname)}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -625,7 +625,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-label"
+                              "value" : "item-property-label"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -677,7 +677,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-value"
+                              "value" : "item-property-value"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -705,7 +705,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{$item.lastname}}"
+                              "value" : "{{userListCtrl.isInformationEmpty($item.lastname)}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -724,8 +724,8 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 2,
-                      "lg" : 2
+                      "md" : 4,
+                      "lg" : 4
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -757,7 +757,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-label"
+                              "value" : "item-property-label"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -809,7 +809,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "user-property-value"
+                              "value" : "item-property-value"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -852,138 +852,6 @@
                     ]
                   },
                   {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 2,
-                      "lg" : 2
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "826a5ca5-5815-4042-87f8-9d72c0fb81ec",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "user-property-label"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Status\"|uiTranslate}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "51ba29d3-5050-4beb-92d6-bb6e87be9718",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "user-property-value"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{userListCtrl. getUserStatus($item.enabled)}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "f11ca835-cbef-4734-8403-ad3bf8ed543f",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ]
-                    ]
-                  },
-                  {
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
@@ -994,7 +862,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : ""
+                        "value" : "pl-0 pr-0 ml-0 mr-0"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -1002,18 +870,19 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-info-sign\"></i>"
+                        "value" : "<i class=\"glyphicon glyphicon-option-horizontal\"></i>"
                       },
                       "type" : {
                         "type" : "constant",
-                        "value" : "URL"
+                        "value" : "page"
                       },
                       "targetUrl" : {
                         "type" : "constant",
                         "value" : "http://"
                       },
                       "pageToken" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "user-details"
                       },
                       "processName" : {
                         "type" : "constant"
@@ -1032,10 +901,12 @@
                         "value" : "_blank"
                       },
                       "appToken" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : ""
                       },
                       "urlParams" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "userListCtrl.getUserDetailsParameters($item.id)"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1061,7 +932,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : ""
+                        "value" : "pl-0 pr-0 ml-0 mr-0"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -1324,6 +1195,12 @@
       "type" : "expression",
       "value" : [
         "return {",
+        "    isInformationEmpty(information) {",
+        "       if (!information) {",
+        "           return \"--\";",
+        "       }",
+        "       return information;",
+        "    },",
         "    getUserStatus(enabled){",
         "        if (enabled) {",
         "            return \"active\";",
@@ -1355,6 +1232,9 @@
         "        }",
         "    ",
         "        return queryParameters;",
+        "    },",
+        "    getUserDetailsParameters: function(id) {",
+        "        return {\"id\": id};",
         "    }",
         "};"
       ],

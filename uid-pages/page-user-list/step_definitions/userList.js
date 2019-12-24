@@ -114,68 +114,58 @@ when("I click on Load more users button", () => {
 });
 
 then("The users have the correct information", () => {
-    cy.get('.user-item').eq(0).within(() => {
+    cy.get('.item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.user-property-label').contains('First name');
-        cy.get('.user-property-value').contains('Giovanna');
-        cy.get('.user-property-label').contains('Last name');
-        cy.get('.user-property-value').contains('Almeida');
-        cy.get('.user-property-label').contains('Username');
-        cy.get('.user-property-value').contains('giovanna.almeida');
-        cy.get('.user-property-label').contains('Status');
-        cy.get('.user-property-value').contains('active');
+        cy.get('.item-property-label').contains('First name');
+        cy.get('.item-property-value').contains('Giovanna');
+        cy.get('.item-property-label').contains('Last name');
+        cy.get('.item-property-value').contains('Almeida');
+        cy.get('.item-property-label').contains('Username');
+        cy.get('.item-property-value').contains('giovanna.almeida');
     });
 
-    cy.get('.user-item').eq(1).within(() => {
+    cy.get('.item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.user-property-label').contains('First name');
-        cy.get('.user-property-value').contains('Daniela');
-        cy.get('.user-property-label').contains('Last name');
-        cy.get('.user-property-value').contains('Angelo');
-        cy.get('.user-property-label').contains('Username');
-        cy.get('.user-property-value').contains('daniela.angelo');
-        cy.get('.user-property-label').contains('Status');
-        cy.get('.user-property-value').contains('active');
+        cy.get('.item-property-label').contains('First name');
+        cy.get('.item-property-value').contains('Daniela');
+        cy.get('.item-property-label').contains('Last name');
+        cy.get('.item-property-value').contains('Angelo');
+        cy.get('.item-property-label').contains('Username');
+        cy.get('.item-property-value').contains('daniela.angelo');
     });
 
-    cy.get('.user-item').eq(2).within(() => {
+    cy.get('.item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.user-property-label').contains('First name');
-        cy.get('.user-property-value').contains('Walter');
-        cy.get('.user-property-label').contains('Last name');
-        cy.get('.user-property-value').contains('Bates');
-        cy.get('.user-property-label').contains('Username');
-        cy.get('.user-property-value').contains('walter.bates');
-        cy.get('.user-property-label').contains('Status');
-        cy.get('.user-property-value').contains('active');
+        cy.get('.item-property-label').contains('First name');
+        cy.get('.item-property-value').contains('Walter');
+        cy.get('.item-property-label').contains('Last name');
+        cy.get('.item-property-value').contains('Bates');
+        cy.get('.item-property-label').contains('Username');
+        cy.get('.item-property-value').contains('walter.bates');
     });
 
-    cy.get('.user-item').eq(3).within(() => {
+    cy.get('.item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.user-property-label').contains('First name');
-        cy.get('.user-property-value').contains('Isabel');
-        cy.get('.user-property-label').contains('Last name');
-        cy.get('.user-property-value').contains('Bleasdale');
-        cy.get('.user-property-label').contains('Username');
-        cy.get('.user-property-value').contains('isabel.bleasdale');
-        cy.get('.user-property-label').contains('Status');
-        cy.get('.user-property-value').contains('active');
+        cy.get('.item-property-label').contains('First name');
+        cy.get('.item-property-value').contains('Isabel');
+        cy.get('.item-property-label').contains('Last name');
+        cy.get('.item-property-value').contains('Bleasdale');
+        cy.get('.item-property-label').contains('Username');
+        cy.get('.item-property-value').contains('isabel.bleasdale');
     });
 
-    cy.get('.user-item').eq(4).within(() => {
-        cy.get('.user-property-label').contains('First name');
-        cy.get('.user-property-value').contains('Jan');
-        cy.get('.user-property-label').contains('Last name');
-        cy.get('.user-property-value').contains('Fisher');
-        cy.get('.user-property-label').contains('Username');
-        cy.get('.user-property-value').contains('jan.fisher');
-        cy.get('.user-property-label').contains('Status');
-        cy.get('.user-property-value').contains('active');
+    cy.get('.item').eq(4).within(() => {
+        cy.get('.item-property-label').contains('First name');
+        cy.get('.item-property-value').contains('Jan');
+        cy.get('.item-property-label').contains('Last name');
+        cy.get('.item-property-value').contains('Fisher');
+        cy.get('.item-property-label').contains('Username');
+        cy.get('.item-property-value').contains('jan.fisher');
     });
 });
 
 then("A list of {string} users is displayed", (nbrOfUsers) => {
-    cy.get('.user-item').should('have.length', nbrOfUsers);
+    cy.get('.item').should('have.length', nbrOfUsers);
 });
 
 then("The api call is made for {string}", (filterValue) => {
@@ -208,7 +198,7 @@ then("The api call is made for {string}", (filterValue) => {
 });
 
 then("No users are available", () => {
-    cy.get('.user-item').should('have.length', 0);
+    cy.get('.item').should('have.length', 0);
     cy.contains('No users to display').should('be.visible');
 });
 
