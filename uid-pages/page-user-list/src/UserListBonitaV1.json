@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserListBonitaV1",
   "name" : "UserListBonitaV1",
-  "lastUpdate" : 1577182816425,
+  "lastUpdate" : 1577202410195,
   "rows" : [
     [
       {
@@ -107,7 +107,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "create-button"
+                  "value" : "create-btn"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -944,7 +944,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-ban-circle\"></i>"
+                        "value" : "{{userListCtrl.getUserStatusIcon($item.enabled)}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -991,8 +991,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
+                        "type" : "expression",
+                        "value" : "changeStatusCtrl.initChangeStatusModal($item)"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -1171,6 +1171,178 @@
           [ ]
         ]
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "changeStatus"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "9482bc3a-9e05-4192-8e20-6ec7fd05d25d",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "70fa9a1b-fa09-49cc-bb00-c8fa313df5b7",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "cbadf1ab-0bd9-4f7d-98dd-1262d869f760",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{changeStatusCtrl.getChangeButtonLabel()}} {{changeStatusCtrl.getDisplayName(changeStatusData.item)}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "9fd4d3f2-6b15-4b64-bada-5a1a38206a62",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "ad745d1c-a5b9-4c64-bd94-471c0d32c6b4",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [ ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "cea3e93f-0c39-493a-b2f8-656542dc697d",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [ ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -1201,11 +1373,11 @@
         "       }",
         "       return information;",
         "    },",
-        "    getUserStatus(enabled){",
-        "        if (enabled) {",
-        "            return \"active\";",
+        "    getUserStatusIcon(enabled){",
+        "        if (enabled === \"true\") {",
+        "            return \"<i class='glyphicon glyphicon-remove' title='\"+ uiTranslate(\"Deactivate user\") +\"'></i>\";",
         "        }",
-        "        return \"inactive\";",
+        "        return \"<i class='glyphicon glyphicon-ok' title='\"+ uiTranslate(\"Activate user\") +\"'></i>\";",
         "    },",
         "    userQueryParameters: function(pageId){",
         "        var usersPerPage = $data.userListData.numberOfUsersPerPage;",
@@ -1315,6 +1487,42 @@
         "     $data.userListData.usersNextResults = undefined;",
         "     $data.userListData.numberOfUsersReturned = 0;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "changeStatusCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getErrorMessageFor500: function(failedInstallResponse) {",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
+        "    },",
+        "    initChangeStatusModal : function(item) {",
+        "        $data.changeStatusData.item = item;",
+        "        return \"changeStatus\";",
+        "    },",
+        "    getStatusPayload : function() {",
+        "        return {enabled : $data.changeStatusData.item.enabled};",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "        var buttonLabel = $data.changeStatusData.item.enabled === \"true\" ? \"Deactivate\" : \"Activate\";",
+        "        return buttonLabel;",
+        "    },",
+        "    getDisplayName: function(user) {",
+        "        return user.firstname && user.lastname ? user.firstname + \" \" + user.lastname : user.userName;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "changeStatusData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    item: undefined,",
+        "    statusCode : \"\",",
+        "    changingItem : false",
+        "};"
       ],
       "exposed" : false
     }
