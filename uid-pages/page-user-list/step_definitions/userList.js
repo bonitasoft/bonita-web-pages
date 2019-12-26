@@ -36,6 +36,9 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
+        case 'inactive user':
+            createRouteWithResponse('&o=lastname+ASC&f=enabled=false', 'inactiveUser1Route', 'inactiveUser1');
+            break;
     }
 
     function createRoute(queryParameter, routeName) {
@@ -63,6 +66,20 @@ given("The filter response {string} is defined", (filterType) => {
             response: responseValue
         }).as(routeName);
     }
+});
+
+given('Deactivate user response is defined', () => {
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'PUT',
+        url: urlPrefix + 'API/identity/user/21',
+        response: '@emptyResult'
+    }).as("deactivateUserRoute");
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult'
+    }).as("refreshListRoute");
 });
 
 when('I visit the user list page', () => {
@@ -113,6 +130,17 @@ when("I click on Load more users button", () => {
     cy.get('button').contains('Load more users').click();
 });
 
+when("I click on {string} button on the user {string}", (iconName, userNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(userNumber - 1).click();
+});
+
+when("I click on cancel button in the modal", () => {
+    cy.get('button').contains('Cancel').click();
+});
+when("I click on {string} button in modal", (buttonLabel) => {
+    cy.get('button').contains(buttonLabel).click();
+});
+
 then("The users have the correct information", () => {
     cy.get('.item').eq(0).within(() => {
         // Check that the element exist.
@@ -127,7 +155,7 @@ then("The users have the correct information", () => {
     cy.get('.item').eq(1).within(() => {
         // Check that the element exist.
         cy.get('.item-property-label').contains('First name');
-        cy.get('.item-property-value').contains('Daniela');
+        cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Angelo');
         cy.get('.item-property-label').contains('Username');
@@ -139,7 +167,7 @@ then("The users have the correct information", () => {
         cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Walter');
         cy.get('.item-property-label').contains('Last name');
-        cy.get('.item-property-value').contains('Bates');
+        cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('walter.bates');
     });
@@ -147,9 +175,9 @@ then("The users have the correct information", () => {
     cy.get('.item').eq(3).within(() => {
         // Check that the element exist.
         cy.get('.item-property-label').contains('First name');
-        cy.get('.item-property-value').contains('Isabel');
+        cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Last name');
-        cy.get('.item-property-value').contains('Bleasdale');
+        cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('isabel.bleasdale');
     });
@@ -194,6 +222,12 @@ then("The api call is made for {string}", (filterValue) => {
         case 'show inactive':
             cy.wait('@showInactiveRoute');
             break;
+        case 'deactivate user':
+            cy.wait('@deactivateUserRoute');
+            break;
+        case 'refresh list':
+            cy.wait('@refreshListRoute');
+            break;
     }
 });
 
@@ -204,4 +238,24 @@ then("No users are available", () => {
 
 then("The Load more users button is disabled", () => {
     cy.get('button').contains('Load more users').should('be.disabled');
+});
+
+then("The first user has the {string} button", (iconName) => {
+    cy.get('button .glyphicon-' + iconName).eq(0).should("be.visible");
+});
+
+then("The change status modal is displayed for {string}", (userName) => {
+    cy.get('.modal').contains('Deactivate ' + userName).should('be.visible');
+});
+
+then("The modal is closed",() => {
+    cy.get('.modal').should('not.be.visible');
+});
+
+then("The {string} title is displayed", (titleContent) => {
+    cy.get('.modal h3').contains(titleContent).should('be.visible');
+});
+
+then("The {string} button is displayed", (buttonLabel) => {
+    cy.get('.modal button').contains(buttonLabel).should('be.visible');
 });

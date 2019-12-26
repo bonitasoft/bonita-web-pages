@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserListBonitaV1",
   "name" : "UserListBonitaV1",
-  "lastUpdate" : 1577182816425,
+  "lastUpdate" : 1577353500313,
   "rows" : [
     [
       {
@@ -107,7 +107,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "create-button"
+                  "value" : "create-btn"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -944,7 +944,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-ban-circle\"></i>"
+                        "value" : "{{userListCtrl.getUserStatusIcon($item.enabled)}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -991,8 +991,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
+                        "type" : "expression",
+                        "value" : "changeStatusCtrl.initChangeStatusModal($item)"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -1171,6 +1171,496 @@
           [ ]
         ]
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "changeStatus"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "9482bc3a-9e05-4192-8e20-6ec7fd05d25d",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "70fa9a1b-fa09-49cc-bb00-c8fa313df5b7",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "cbadf1ab-0bd9-4f7d-98dd-1262d869f760",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{changeStatusCtrl.getChangeButtonLabel()}} {{changeStatusCtrl.getDisplayName(changeStatusData.item)}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "9fd4d3f2-6b15-4b64-bada-5a1a38206a62",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "ad745d1c-a5b9-4c64-bd94-471c0d32c6b4",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "text-warning"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Warning"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "38f036cc-2844-485e-bff3-33f1c2b48d90",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "changeStatusData.item.enabled === 'false'"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"If this is the only user able to perform a task, this will cause the interruption of a Process.\"|uiTranslate}}<br/>\n{{\"Before proceeding, you may want to go to the 'More' page of the process and check the actor mapping.\"|uiTranslate}}<br/>\n{{\"Are you sure you want to deactivate this user?\"|uiTranslate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ddfc2a68-6a2e-43de-8d68-8d97f57bbb41",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "changeStatusData.item.enabled === 'true'"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Are you sure you want to activate this user?\"|uiTranslate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "dd4c8b74-76e1-4eab-8516-46793afc6ccd",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "cea3e93f-0c39-493a-b2f8-656542dc697d",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 6,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "{{changeStatusCtrl.getChangeButtonLabel()}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "PUT"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation",
+                          "value" : "{{apiUserUrl}}/{{changeStatusData.item.id}}"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : "changeStatusData.statusCode"
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "changeStatusCtrl.getChangeStatusPayload()"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "21f87792-fdc1-4691-ba7c-534644efd3a7",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 6,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Cancel"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "2defe0dd-b4ac-4740-b69a-a708c30fe44e",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -1201,11 +1691,11 @@
         "       }",
         "       return information;",
         "    },",
-        "    getUserStatus(enabled){",
-        "        if (enabled) {",
-        "            return \"active\";",
+        "    getUserStatusIcon(enabled){",
+        "        if (enabled === \"true\") {",
+        "            return \"<i class='glyphicon glyphicon-remove' title='\"+ uiTranslate(\"Deactivate user\") +\"'></i>\";",
         "        }",
-        "        return \"inactive\";",
+        "        return \"<i class='glyphicon glyphicon-ok' title='\"+ uiTranslate(\"Activate user\") +\"'></i>\";",
         "    },",
         "    userQueryParameters: function(pageId){",
         "        var usersPerPage = $data.userListData.numberOfUsersPerPage;",
@@ -1314,6 +1804,53 @@
         "     $data.userListData.usersForNextPage = undefined;",
         "     $data.userListData.usersNextResults = undefined;",
         "     $data.userListData.numberOfUsersReturned = 0;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "changeStatusCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getErrorMessageFor500: function(failedInstallResponse) {",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
+        "    },",
+        "    initChangeStatusModal : function(item) {",
+        "        $data.changeStatusData.item = item;",
+        "        return \"changeStatus\";",
+        "    },",
+        "    getChangeStatusPayload : function() {",
+        "        var enabledString = $data.changeStatusData.item.enabled === \"true\" ? \"false\" : \"true\";",
+        "        return {enabled : enabledString};",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "        var buttonLabel = $data.changeStatusData.item.enabled === \"true\" ? \"Deactivate\" : \"Activate\";",
+        "        return buttonLabel;",
+        "    },",
+        "    getDisplayName: function(user) {",
+        "        return user.firstname && user.lastname ? user.firstname + \" \" + user.lastname : user.userName;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "changeStatusData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    item: undefined,",
+        "    statusCode : \"\"",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "changeStatusHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the status is changed",
+        "if($data.changeStatusData.statusCode !== ''){",
+        "    $data.userListData.timestamp = new Date().getTime();",
+        "    $data.changeStatusData.statusCode = '';",
         "}"
       ],
       "exposed" : false
