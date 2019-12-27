@@ -40,6 +40,8 @@ given("The filter response {string} is defined", (filterType) => {
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
             break;
+        default:
+            throw new Error("Unsupported case");
     }
 
     function createRoute(queryParameter, routeName) {
@@ -92,6 +94,8 @@ given("The {string} is not involved in application response is defined", (resour
         case 'api extension':
             applicationDeleteUrl+='5';
             break;
+        default:
+            throw new Error("Unsupported case");
     }
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
@@ -130,6 +134,8 @@ given("The {string} is involved in application response is defined", (resourceTy
             applicationResourceUrl+='living/application?p=0&c=100&f=themeId=4';
             applicationDeleteUrl+='4';
             break;
+        default:
+            throw new Error("Unsupported case");
     }
     cy.fixture('json/' + resourceType + 'Used.json').as(resourceType + 'Used');
     cy.route({
@@ -169,6 +175,8 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
         case 'search':
             searchForValue(filterValue);
             break;
+        default:
+            throw new Error("Unsupported case");
     }
 
     function selectFilterContentTypeOption(filterValue) {
@@ -183,6 +191,8 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             case 'Layouts':
                 cy.get('select').eq(0).select('3');
                 break;
+            default:
+                throw new Error("Unsupported case");
         }
     }
 
@@ -200,6 +210,8 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             case 'Updated - oldest first':
                 cy.get('select').eq(1).select('3');
                 break;
+            default:
+                throw new Error("Unsupported case");
         }
     }
 
@@ -349,6 +361,9 @@ then("I see only the filtered resources by {string}", (filterType) => {
                 cy.get('.case-property-value').contains('Pool3');
             });
             break;
+
+        default:
+            throw new Error("Unsupported case");
     }
 });
 
@@ -386,6 +401,8 @@ then("The api call is made for {string}", (filterValue) => {
         case 'refresh list':
             cy.wait('@refreshListRoute');
             break;
+        default:
+            throw new Error("Unsupported case");
     }
 });
 
@@ -465,6 +482,8 @@ then("I see {string} error message", (statusCode) => {
         case '403':
             cy.get('.modal').contains('Access denied. For more information, check the log file.').should('be.visible');
             break;
+        default:
+            throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The resource has not been deleted.').should('be.visible');
 });
