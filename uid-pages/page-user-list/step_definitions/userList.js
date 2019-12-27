@@ -39,6 +39,8 @@ given("The filter response {string} is defined", (filterType) => {
         case 'inactive user':
             createRouteWithResponse('&o=lastname+ASC&f=enabled=false', 'inactiveUser1Route', 'inactiveUser1');
             break;
+        default:
+            throw new Error("Unsupported case");
     }
 
     function createRoute(queryParameter, routeName) {
@@ -68,7 +70,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 });
 
-given('Deactivate user response is defined', () => {
+given("Deactivate user response is defined", () => {
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'PUT',
@@ -82,7 +84,50 @@ given('Deactivate user response is defined', () => {
     }).as("refreshListRoute");
 });
 
-when('I visit the user list page', () => {
+given("The deactivate status code {string} response is defined", (statusCode) => {
+    cy.route({
+        method: 'PUT',
+        url: urlPrefix + 'API/identity/user/21',
+        status: statusCode,
+        response: ''
+    }).as("deactivateUserWithError" + statusCode + "Route");
+});
+
+given("Create user response is defined", () => {
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + 'API/identity/user',
+        status: 200,
+        response: ''
+    }).as("createUserRoute");
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult'
+    }).as("refreshListRoute");
+});
+
+given("The create user status code {string} response is defined", (statusCode) => {
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + 'API/identity/user',
+        status: statusCode,
+        response: ''
+    }).as("createUserRoute");
+});
+
+given("The create user already exists response is defined", () => {
+    cy.fixture('json/userAlreadyExists.json').as('userAlreadyExists');
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + 'API/identity/user',
+        status: 403,
+        response: '@userAlreadyExists'
+    }).as("userAlreadyExistsRoute");
+});
+
+when("I visit the user list page", () => {
     cy.visit(url);
 });
 
@@ -94,6 +139,8 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
         case 'search':
             searchForValue(filterValue);
             break;
+        default:
+            throw new Error("Unsupported case");
     }
 
     function selectSortByOption(filterValue) {
@@ -110,6 +157,8 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             case 'Last name (Desc)':
                 cy.get('select').eq(0).select('3');
                 break;
+            default:
+                throw new Error("Unsupported case");
         }
     }
 
@@ -134,11 +183,41 @@ when("I click on {string} button on the user {string}", (iconName, userNumber) =
     cy.get('button .glyphicon-' + iconName).eq(userNumber - 1).click();
 });
 
-when("I click on cancel button in the modal", () => {
-    cy.get('button').contains('Cancel').click();
-});
 when("I click on {string} button in modal", (buttonLabel) => {
-    cy.get('button').contains(buttonLabel).click();
+    cy.get('.modal button').contains(buttonLabel).click();
+});
+
+when("I click on create button", () => {
+    cy.get('button').contains('Create').click();
+});
+
+when("I fill in the user information", () => {
+    cy.get('.modal input').eq(0).type('username');
+    cy.get('.modal input').eq(1).type('password');
+    cy.get('.modal input').eq(2).type('password');
+});
+
+when("I put different passwords", () => {
+    cy.get('.modal input').eq(1).type('password');
+    cy.get('.modal input').eq(2).type('passwordDontMatch');
+});
+
+when("I fill in the username", () => {
+    cy.get('.modal input').eq(0).type('username');
+});
+
+when("I fill in the password", () => {
+    cy.get('.modal input').eq(1).type('password');
+});
+
+when("I fill in the confirm password", () => {
+    cy.get('.modal input').eq(2).type('password');
+});
+
+when("I erase all fields", () => {
+    cy.get('.modal input').eq(0).clear();
+    cy.get('.modal input').eq(1).clear();
+    cy.get('.modal input').eq(2).clear();
 });
 
 then("The users have the correct information", () => {
@@ -228,6 +307,11 @@ then("The api call is made for {string}", (filterValue) => {
         case 'refresh list':
             cy.wait('@refreshListRoute');
             break;
+        case 'create user':
+            cy.wait('@createUserRoute');
+            break;
+        default:
+            throw new Error("Unsupported case");
     }
 });
 
@@ -258,4 +342,44 @@ then("The {string} title is displayed", (titleContent) => {
 
 then("The {string} button is displayed", (buttonLabel) => {
     cy.get('.modal button').contains(buttonLabel).should('be.visible');
+});
+
+then("I see status code {string} error message", (statusCode) => {
+    switch (statusCode) {
+        case '500':
+            cy.get('.modal').contains('An error has occurred.').should('be.visible');
+            break;
+        case '403':
+            cy.get('.modal').contains('Access denied.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The user has not been').should('be.visible');
+});
+
+then("I don't see any error message", () => {
+    cy.get('.modal .glyphicon').should('not.exist');
+});
+
+then("The create button in modal is disabled", () => {
+    cy.get('.modal button').contains('Create').should('be.disabled');
+});
+
+then("The create button in modal is enabled", () => {
+    cy.get('.modal button').contains('Create').should('be.enabled');
+});
+
+then("I see {string} error message", (errorMessage) => {
+    cy.get('.modal').contains(errorMessage).should('be.visible');
+});
+
+then("I don't see {string} error message", (errorMessage) => {
+    cy.get('.modal').contains(errorMessage).should('not.be.visible');
+});
+
+then("All create user modal information is cleared", () => {
+    cy.get('.modal input').eq(0).should('have.value', '');
+    cy.get('.modal input').eq(1).should('have.value', '');
+    cy.get('.modal input').eq(2).should('have.value', '');
 });
