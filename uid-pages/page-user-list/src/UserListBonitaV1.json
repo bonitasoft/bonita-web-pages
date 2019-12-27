@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserListBonitaV1",
   "name" : "UserListBonitaV1",
-  "lastUpdate" : 1577376245748,
+  "lastUpdate" : 1577441426764,
   "rows" : [
     [
       {
@@ -1675,7 +1675,7 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "{{apiUserUrl}}/{{changeStatusData.item.id}}4513"
+                          "value" : "{{apiUserUrl}}/{{changeStatusData.item.id}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
@@ -2666,7 +2666,7 @@
                                 },
                                 "closeOnSuccess" : {
                                   "type" : "constant",
-                                  "value" : false
+                                  "value" : true
                                 },
                                 "dataFromError" : {
                                   "type" : "variable",
@@ -3031,12 +3031,10 @@
       "type" : "expression",
       "value" : [
         "// After a user is created or updated",
-        "if($data.changeStatusData.statusCode !== '' || $data.createUserData.statusCode !== ''){",
-        "    setTimeout(function() {",
-        "        $data.userListData.timestamp = new Date().getTime();",
-        "        $data.createUserData.statusCode = '';",
-        "        $data.changeStatusData.statusCode = '';",
-        "    }, 2000);",
+        "if ($data.changeStatusData.statusCode === 200 || $data.createUserData.statusCode === 200) {",
+        "    $data.userListData.timestamp = new Date().getTime();",
+        "    $data.createUserData.statusCode = '';",
+        "    $data.changeStatusData.statusCode = '';",
         "}"
       ],
       "exposed" : false

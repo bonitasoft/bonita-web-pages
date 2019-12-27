@@ -13,7 +13,7 @@ Feature: change status modal in desktop resolution
     When I visit the user list page
     And I click on "remove" button on the user "1"
     Then The change status modal is displayed for "Giovanna Almeida"
-    When I click on cancel button in the modal
+    When I click on "Cancel" button in modal
     Then The modal is closed
 
   Scenario: The change status modal displays the correct user name
@@ -21,13 +21,13 @@ Feature: change status modal in desktop resolution
     When I visit the user list page
     And I click on "remove" button on the user "1"
     Then The change status modal is displayed for "Giovanna Almeida"
-    When I click on cancel button in the modal
+    When I click on "Cancel" button in modal
     And I click on "remove" button on the user "2"
     Then The change status modal is displayed for "daniela.angelo"
-    When I click on cancel button in the modal
+    When I click on "Cancel" button in modal
     And I click on "remove" button on the user "3"
     Then The change status modal is displayed for "walter.bates"
-    When I click on cancel button in the modal
+    When I click on "Cancel" button in modal
     And I click on "remove" button on the user "4"
     Then The change status modal is displayed for "isabel.bleasdale"
 
@@ -38,7 +38,7 @@ Feature: change status modal in desktop resolution
     And I click on "remove" button on the user "1"
     Then The "Deactivate" title is displayed
     And The "Deactivate" button is displayed
-    When I click on cancel button in the modal
+    When I click on "Cancel" button in modal
     And I filter show inactive users
     And I click on "ok" button on the user "1"
     Then The "Activate" title is displayed
@@ -53,3 +53,25 @@ Feature: change status modal in desktop resolution
     Then The api call is made for "deactivate user"
     And The api call is made for "refresh list"
     And The modal is closed
+
+  Scenario: The change status modal should display 500 error message
+    Given The filter response "default filter" is defined
+    And The deactivate status code "500" response is defined
+    When I visit the user list page
+    And I click on "remove" button on the user "1"
+    When I click on "Deactivate" button in modal
+    Then I see status code "500" error message
+    When I click on "Cancel" button in modal
+    And I click on "remove" button on the user "1"
+    Then I don't see any error message
+
+  Scenario: The change status modal should display 403 error message
+    Given The filter response "default filter" is defined
+    And The deactivate status code "403" response is defined
+    When I visit the user list page
+    And I click on "remove" button on the user "1"
+    When I click on "Deactivate" button in modal
+    Then I see status code "403" error message
+    When I click on "Cancel" button in modal
+    And I click on "remove" button on the user "1"
+    Then I don't see any error message
