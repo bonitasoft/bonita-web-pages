@@ -1,9 +1,9 @@
 {
   "designerVersion" : "1.10.18",
   "previousDesignerVersion" : "1.10.5",
-  "id" : "caselistBonitaV1",
-  "name" : "caselistBonitaV1",
-  "lastUpdate" : 1572882008450,
+  "id" : "UserCaseListBonitaV1",
+  "name" : "UserCaseListBonitaV1",
+  "lastUpdate" : 1577981680106,
   "rows" : [
     [
       {
@@ -239,7 +239,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "caseListConfiguration.processesOptions"
+                                    "value" : "openCaseData.processesOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -251,7 +251,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "openCasesFilters.processDefinitionId"
+                                    "value" : "openCaseData.filters.processDefinitionId"
                                   }
                                 },
                                 "reference" : "0a1a3cef-4e01-4472-a1e2-d0d5a8f4ebed",
@@ -305,7 +305,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "caseListConfiguration.sortByOptions"
+                                    "value" : "openCaseData.sortByOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -317,7 +317,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "openCasesFilters.sortOrder"
+                                    "value" : "openCaseData.filters.sortOrder"
                                   }
                                 },
                                 "reference" : "0f809f5a-4847-46ce-a86e-eef5002bfb15",
@@ -379,7 +379,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "openCasesFilters.searchValue"
+                                    "value" : "openCaseData.filters.searchValue"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -431,7 +431,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "openCasesFilters.startedByMe"
+                                    "value" : "openCaseData.filters.startedByMe"
                                   }
                                 },
                                 "reference" : "5780502c-9c82-4a5a-bb94-5ed138adf02c",
@@ -481,7 +481,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/case?{{openCasesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -552,7 +552,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "displayedOpenCases"
+                              "value" : "openCaseData.displayedOpenCases"
                             }
                           },
                           "reference" : "2a9ad11a-6010-4fca-ac64-a13e630926a8",
@@ -662,14 +662,15 @@
                                         },
                                         "type" : {
                                           "type" : "constant",
-                                          "value" : "overview"
+                                          "value" : "page"
                                         },
                                         "targetUrl" : {
                                           "type" : "constant",
                                           "value" : "http://"
                                         },
                                         "pageToken" : {
-                                          "type" : "constant"
+                                          "type" : "constant",
+                                          "value" : "caseDetails"
                                         },
                                         "processName" : {
                                           "type" : "constant"
@@ -692,7 +693,8 @@
                                           "type" : "constant"
                                         },
                                         "urlParams" : {
-                                          "type" : "constant"
+                                          "type" : "expression",
+                                          "value" : "caseDetailsQueryParameters.payload($item.id)"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -1448,7 +1450,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedOpenCases.length == 0"
+                              "value" : "openCaseData.displayedOpenCases.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -1472,7 +1474,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{displayedOpenCases.length}}\n</div>"
+                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{openCaseData.displayedOpenCases.length}}\n</div>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1500,7 +1502,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedOpenCases.length"
+                              "value" : "openCaseData.displayedOpenCases.length"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -1536,11 +1538,11 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedOpenCases.length == 0"
+                              "value" : "openCaseData.displayedOpenCases.length == 0"
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "displayedOpenCases.length % caseListConfiguration.numberOfCasesPerPage > 0 || (numberOfCasesReturned == 0 && openCasesNextResults.length == 0)"
+                              "value" : "openCaseData.displayedOpenCases.length % openCaseData.numberOfCasesPerPage > 0 || (numberOfCasesReturned == 0 && openCaseData.openCasesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -1564,7 +1566,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/case?{{openCasesQueryParameters(caseListConfiguration.pageId)}}"
+                              "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -1575,7 +1577,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "openCasesNextResults"
+                              "value" : "openCaseData.openCasesNextResults"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -1725,7 +1727,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "archivedCaseListConfiguration.processesOptions"
+                                    "value" : "archivedCaseData.processesOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -1737,7 +1739,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "archivedCasesFilters.processDefinitionId"
+                                    "value" : "archivedCaseData.filters.processDefinitionId"
                                   }
                                 },
                                 "reference" : "daebf4c2-b336-40cf-8923-a93fc2fbadea",
@@ -1791,7 +1793,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "archivedCaseListConfiguration.sortByOptions"
+                                    "value" : "archivedCaseData.sortByOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -1803,7 +1805,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "archivedCasesFilters.sortOrder"
+                                    "value" : "archivedCaseData.filters.sortOrder"
                                   }
                                 },
                                 "reference" : "c9684465-8d85-45e4-962b-fdd178d00ff9",
@@ -1865,7 +1867,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "archivedCasesFilters.searchValue"
+                                    "value" : "archivedCaseData.filters.searchValue"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -1917,7 +1919,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "archivedCasesFilters.startedByMe"
+                                    "value" : "archivedCaseData.filters.startedByMe"
                                   }
                                 },
                                 "reference" : "7353ae83-654d-4765-b276-abfa496f888d",
@@ -1967,7 +1969,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -2037,7 +2039,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "displayedArchivedCases"
+                              "value" : "archivedCaseData.displayedArchivedCases"
                             }
                           },
                           "reference" : "55e2d2aa-41a6-49e2-a1ae-5f913b77e3c1",
@@ -2933,7 +2935,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedArchivedCases.length == 0"
+                              "value" : "archivedCaseData.displayedArchivedCases.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -2957,7 +2959,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{displayedArchivedCases.length}}\n</div>"
+                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{archivedCaseData.displayedArchivedCases.length}}\n</div>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2985,7 +2987,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedArchivedCases.length"
+                              "value" : "archivedCaseData.displayedArchivedCases.length"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -3021,11 +3023,11 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "displayedArchivedCases.length == 0"
+                              "value" : "archivedCaseData.displayedArchivedCases.length == 0"
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "displayedArchivedCases.length % archivedCaseListConfiguration.numberOfCasesPerPage > 0 || (numberOfArchivedCasesReturned == 0 && archivedCasesNextResults.length == 0)"
+                              "value" : "archivedCaseData.displayedArchivedCases.length % archivedCaseData.numberOfCasesPerPage > 0 || (archivedCaseData.numberOfArchivedCasesReturned == 0 && archivedCaseData.archivedCasesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -3049,7 +3051,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/archivedCase?{{archivedCasesQueryParameters(archivedCaseListConfiguration.pageId)}}"
+                              "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -3060,7 +3062,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "archivedCasesNextResults"
+                              "value" : "archivedCaseData.archivedCasesNextResults"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -3153,58 +3155,48 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "archivedCasesQueryParameters" : {
+    "archivedCaseCtrl" : {
       "type" : "expression",
       "value" : [
-        "return function(pageId){",
-        "    var casesPerPage = $data.archivedCaseListConfiguration.numberOfCasesPerPage;",
-        "    ",
-        "    if(pageId == 0){",
-        "        //On first call we need to load next page",
-        "        casesPerPage *= 2;",
-        "    }",
-        "    ",
-        "    var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
-        "    ",
-        "    if($data.archivedCasesFilters.processDefinitionId){",
-        "        queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCasesFilters.processDefinitionId;",
-        "    }",
-        "    ",
-        "    if($data.archivedCasesFilters.startedByMe){",
-        "        queryParameters += \"&f=started_by=\" +  $data.session.user_id;",
-        "    }",
-        "    ",
-        "    if($data.archivedCasesFilters.sortOrder){",
-        "        queryParameters += \"&o=\" +  $data.archivedCasesFilters.sortOrder;",
-        "    }",
-        "    ",
-        "    if($data.archivedCasesFilters.searchValue){",
-        "        queryParameters += \"&s=\" +  $data.archivedCasesFilters.searchValue;",
-        "    }",
+        "return {",
+        "    archivedCasesQueryParameters: function(pageId) {",
+        "        if(!$data.archivedCaseData.numberOfCasesPerPage){",
+        "            return ;",
+        "        }",
+        "        var casesPerPage = $data.archivedCaseData.numberOfCasesPerPage;",
         "",
-        "    return queryParameters;",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "numberOfArchivedCasesReturned" : {
-      "type" : "constant",
-      "value" : [
-        "false"
+        "        if(pageId === 0){",
+        "            //On first call we need to load next page",
+        "            casesPerPage *= 2;",
+        "        }",
+        "        var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id;",
+        "        ",
+        "        if($data.archivedCaseData.filters.processDefinitionId){",
+        "            queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCaseData.filters.processDefinitionId;",
+        "        }",
+        "        ",
+        "        if($data.archivedCaseData.filters.startedByMe){",
+        "            queryParameters += \"&f=started_by=\" +  $data.session.user_id;",
+        "        }",
+        "        ",
+        "        if($data.archivedCaseData.filters.sortOrder){",
+        "            queryParameters += \"&o=\" +  $data.archivedCaseData.filters.sortOrder;",
+        "        }",
+        "        ",
+        "        if($data.archivedCaseData.filters.searchValue){",
+        "            queryParameters += \"&s=\" +  $data.archivedCaseData.filters.searchValue;",
+        "        }",
+        "    ",
+        "        return queryParameters;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     },
     "openCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case?{{openCasesQueryParameters(0)}}"
-      ],
-      "exposed" : false
-    },
-    "displayedArchivedCases" : {
-      "type" : "json",
-      "value" : [
-        "[]"
+        "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3212,18 +3204,6 @@
       "type" : "url",
       "value" : [
         "../API/bpm/process?c=9999&o=displayName%20ASC"
-      ],
-      "exposed" : false
-    },
-    "archivedCasesFilters" : {
-      "type" : "json",
-      "value" : [
-        "{",
-        "    \"processDefinitionId\": \"\",",
-        "    \"startedByMe\": false,",
-        "    \"sortOrder\": \"\",",
-        "    \"searchValue\": \"\"",
-        "}"
       ],
       "exposed" : false
     },
@@ -3238,44 +3218,39 @@
       "type" : "constant",
       "exposed" : false
     },
-    "displayedOpenCases" : {
-      "type" : "json",
-      "value" : [
-        "[]"
-      ],
-      "exposed" : false
-    },
-    "openCasesQueryParameters" : {
+    "openCaseCtrl" : {
       "type" : "expression",
       "value" : [
-        "return function(pageId){",
-        "    var casesPerPage = $data.caseListConfiguration.numberOfCasesPerPage;",
-        "    ",
-        "    if(pageId == 0){",
-        "        //on first call we need load next page",
-        "        casesPerPage *= 2;",
+        "return {",
+        "    openCasesQueryParameters: function(pageId) {",
+        "        var casesPerPage = $data.openCaseData.numberOfCasesPerPage;",
+        "        ",
+        "        if(pageId === 0){",
+        "            //on first call we need load next page",
+        "            casesPerPage *= 2;",
+        "        }",
+        "        var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
+        "        ",
+        "        ",
+        "        if($data.openCaseData.filters.processDefinitionId){",
+        "            queryParameters += \"&f=processDefinitionId=\" +  $data.openCaseData.filters.processDefinitionId;",
+        "        }",
+        "        ",
+        "        if($data.openCaseData.filters.startedByMe){",
+        "            queryParameters += \"&f=started_by=\" +  $data.session.user_id;",
+        "        }",
+        "        ",
+        "        if($data.openCaseData.filters.sortOrder){",
+        "            queryParameters += \"&o=\" +  $data.openCaseData.filters.sortOrder;",
+        "        }",
+        "        ",
+        "        if($data.openCaseData.filters.searchValue){",
+        "            queryParameters += \"&s=\" +  $data.openCaseData.filters.searchValue;",
+        "        }",
+        "        ",
+        "        return queryParameters;",
         "    }",
-        "    var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=\" + $data.session.user_id + \"&n=activeFlowNodes&n=failedFlowNodes\";",
-        "    ",
-        "    ",
-        "    if($data.openCasesFilters.processDefinitionId){",
-        "        queryParameters += \"&f=processDefinitionId=\" +  $data.openCasesFilters.processDefinitionId;",
-        "    }",
-        "    ",
-        "    if($data.openCasesFilters.startedByMe){",
-        "        queryParameters += \"&f=started_by=\" +  $data.session.user_id;",
-        "    }",
-        "    ",
-        "    if($data.openCasesFilters.sortOrder){",
-        "        queryParameters += \"&o=\" +  $data.openCasesFilters.sortOrder;",
-        "    }",
-        "    ",
-        "    if($data.openCasesFilters.searchValue){",
-        "        queryParameters += \"&s=\" +  $data.openCasesFilters.searchValue;",
-        "    }",
-        "",
-        "    return queryParameters;",
-        "}"
+        "};"
       ],
       "exposed" : false
     },
@@ -3314,91 +3289,10 @@
       ],
       "exposed" : false
     },
-    "archivedCaseListConfiguration" : {
-      "type" : "expression",
-      "value" : [
-        "return { ",
-        "    \"pageId\": 0, ",
-        "    \"numberOfCasesPerPage\": 10,",
-        "    \"processesOptions\": ",
-        "        [{ \"displayName\": uiTranslate(\"All processes\"),",
-        "            \"version\": uiTranslate(\"all versions\")",
-        "        }].concat($data.processes),",
-        "    \"sortByOptions\": [",
-        "        { \"displayKey\": \"Archived case ID (Asc)\", \"returnKey\": \"id+ASC\" },",
-        "        { \"displayKey\": \"Archived case ID (Desc)\", \"returnKey\": \"id+DESC\" },",
-        "        { \"displayKey\": \"Original case ID (Asc)\", \"returnKey\": \"sourceObjectId+ASC\" },",
-        "        { \"displayKey\": \"Original case ID (Desc)\", \"returnKey\": \"sourceObjectId+DESC\" },",
-        "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
-        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" },",
-        "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
-        "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" },",
-        "        { \"displayKey\": \"End date - newest first\", \"returnKey\": \"endDate+DESC\" },",
-        "        { \"displayKey\": \"End date - oldest first\", \"returnKey\": \"endDate+ASC\" }",
-        "    ]",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "archivedCasesForNextPage" : {
-      "type" : "expression",
-      "value" : [
-        "return [];"
-      ],
-      "exposed" : false
-    },
-    "openCasesNextResults" : {
-      "type" : "expression",
-      "value" : [
-        "return undefined;"
-      ],
-      "exposed" : false
-    },
-    "archivedCasesNextResults" : {
-      "type" : "expression",
-      "value" : [
-        "return undefined;"
-      ],
-      "exposed" : false
-    },
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase?{{archivedCasesQueryParameters(0)}}"
-      ],
-      "exposed" : false
-    },
-    "openCasesFilters" : {
-      "type" : "json",
-      "value" : [
-        "{",
-        "    \"processDefinitionId\": \"\",",
-        "    \"startedByMe\": false,",
-        "    \"sortOrder\": \"\",",
-        "    \"searchValue\": \"\"",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "caseListConfiguration" : {
-      "type" : "expression",
-      "value" : [
-        "return { ",
-        "    \"pageId\": 0, ",
-        "    \"numberOfCasesPerPage\": 10,",
-        "    \"processesOptions\": ",
-        "        [{ \"displayName\": uiTranslate(\"All processes\"),",
-        "            \"version\": uiTranslate(\"all versions\")",
-        "        }].concat($data.processes),",
-        "    \"sortByOptions\": [   ",
-        "        { \"displayKey\": \"Case ID (Asc)\", \"returnKey\": \"id+ASC\" },",
-        "        { \"displayKey\": \"Case ID (Desc)\", \"returnKey\": \"id+DESC\" },",
-        "        { \"displayKey\": \"Process name (Asc)\", \"returnKey\": \"name+ASC\" },",
-        "        { \"displayKey\": \"Process name (Desc)\", \"returnKey\": \"name+DESC\" },",
-        "        { \"displayKey\": \"Start date - newest first\", \"returnKey\": \"startDate+DESC\" },",
-        "        { \"displayKey\": \"Start date - oldest first\", \"returnKey\": \"startDate+ASC\" }",
-        "    ]",
-        "};"
+        "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3406,15 +3300,15 @@
       "type" : "expression",
       "value" : [
         "//Open Cases",
-        "// diplay the first page of open cases on page load or when the filter change",
+        "// display the first page of open cases on page load or when the filter change",
         "if($data.openCases){",
         "    // display half the elements loaded",
-        "    $data.displayedOpenCases = $data.openCases.slice(0, $data.caseListConfiguration.numberOfCasesPerPage);",
+        "    $data.openCaseData.displayedOpenCases = $data.openCases.slice(0, $data.openCaseData.numberOfCasesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.caseListConfiguration.pageId = 2;",
-        "    $data.openCasesForNextPage = $data.openCases.slice($data.caseListConfiguration.numberOfCasesPerPage);",
+        "    $data.openCaseData.pageId = 2;",
+        "    $data.openCaseData.openCasesForNextPage = $data.openCases.slice($data.openCaseData.numberOfCasesPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;",
+        "    $data.numberOfCasesReturned = $data.openCaseData.openCasesForNextPage.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
         "    $data.openCases = undefined; ",
@@ -3422,57 +3316,50 @@
         "",
         "// add next page of open cases to the list of next open cases to display",
         "// display the next cases from the memory",
-        "if($data.openCasesNextResults && $data.openCasesNextResults.length){",
-        "    $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);",
-        "    $data.caseListConfiguration.pageId++;",
-        "    $data.openCasesForNextPage = $data.openCasesNextResults;",
-        "    $data.numberOfCasesReturned = $data.openCasesForNextPage.length;",
-        "    $data.openCasesNextResults = undefined;",
+        "if($data.openCaseData.openCasesNextResults && $data.openCaseData.openCasesNextResults.length){",
+        "    $data.openCaseData.displayedOpenCases = $data.openCaseData.displayedOpenCases.concat($data.openCaseData.openCasesForNextPage);",
+        "    $data.openCaseData.pageId++;",
+        "    $data.openCaseData.openCasesForNextPage = $data.openCaseData.openCasesNextResults;",
+        "    $data.numberOfCasesReturned = $data.openCaseData.openCasesForNextPage.length;",
+        "    $data.openCaseData.openCasesNextResults = undefined;",
         "}",
         "",
         "// when there are no more cases in the memory",
-        "if($data.numberOfCasesReturned > 0 && $data.openCasesNextResults && $data.openCasesNextResults.length == 0){",
-        "     $data.displayedOpenCases = $data.displayedOpenCases.concat($data.openCasesForNextPage);",
-        "     $data.openCasesForNextPage = undefined;",
-        "     $data.openCasesNextResults = undefined;",
+        "if($data.numberOfCasesReturned > 0 && $data.openCaseData.openCasesNextResults && $data.openCaseData.openCasesNextResults.length == 0){",
+        "     $data.openCaseData.displayedOpenCases = $data.openCaseData.displayedOpenCases.concat($data.openCaseData.openCasesForNextPage);",
+        "     $data.openCaseData.openCasesForNextPage = undefined;",
+        "     $data.openCaseData.openCasesNextResults = undefined;",
         "     $data.numberOfCasesReturned = 0;",
         "}",
         "",
         "//Archived Cases",
         "// diplay the first page of archived cases on page load or when the filter change",
         "if($data.archivedCases){",
-        "    $data.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseListConfiguration.numberOfCasesPerPage);",
-        "    $data.archivedCaseListConfiguration.pageId = 2;",
+        "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseData.numberOfCasesPerPage);",
+        "    $data.archivedCaseData.pageId = 2;",
         "    // set archived cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases).",
-        "    $data.archivedCasesForNextPage = $data.archivedCases.slice($data.archivedCaseListConfiguration.numberOfCasesPerPage);",
-        "    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;",
+        "    $data.archivedCaseData.archivedCasesForNextPage = $data.archivedCases.slice($data.archivedCaseData.numberOfCasesPerPage);",
+        "    $data.archivedCaseData.numberOfArchivedCasesReturned = $data.archivedCaseData.archivedCasesForNextPage.length;",
         "    $data.archivedCases = undefined; ",
         "}",
         "",
         "// add next page of archived cases to the current list when user clicks on load more",
-        "if($data.archivedCasesNextResults && $data.archivedCasesNextResults.length){",
-        "    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);",
-        "    $data.archivedCaseListConfiguration.pageId++;",
-        "    $data.archivedCasesForNextPage = $data.archivedCasesNextResults;",
-        "    $data.numberOfArchivedCasesReturned = $data.archivedCasesForNextPage.length;",
-        "    $data.archivedCasesNextResults = undefined;",
+        "if($data.archivedCaseData.archivedCasesNextResults && $data.archivedCaseData.archivedCasesNextResults.length){",
+        "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCaseData.displayedArchivedCases.concat($data.archivedCaseData.archivedCasesForNextPage);",
+        "    $data.archivedCaseData.pageId++;",
+        "    $data.archivedCaseData.archivedCasesForNextPage = $data.archivedCaseData.archivedCasesNextResults;",
+        "    $data.archivedCaseData.numberOfArchivedCasesReturned = $data.archivedCaseData.archivedCasesForNextPage.length;",
+        "    $data.archivedCaseData.archivedCasesNextResults = undefined;",
         "}",
         "",
         "// when there are no more cases in the memory",
-        "if($data.numberOfArchivedCasesReturned > 0 && $data.archivedCasesNextResults && $data.archivedCasesNextResults.length == 0){",
-        "    $data.displayedArchivedCases = $data.displayedArchivedCases.concat($data.archivedCasesForNextPage);",
-        "    $data.archivedCasesForNextPage = undefined;",
-        "    $data.archivedCasesNextResults = undefined;",
-        "    $data.numberOfArchivedCasesReturned = 0;",
+        "if($data.archivedCaseData.numberOfArchivedCasesReturned > 0 && $data.archivedCaseData.archivedCasesNextResults && $data.archivedCaseData.archivedCasesNextResults.length == 0){",
+        "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCaseData.displayedArchivedCases.concat($data.archivedCaseData.archivedCasesForNextPage);",
+        "    $data.archivedCaseData.archivedCasesForNextPage = undefined;",
+        "    $data.archivedCaseData.archivedCasesNextResults = undefined;",
+        "    $data.archivedCaseData.numberOfArchivedCasesReturned = 0;",
         "}"
-      ],
-      "exposed" : false
-    },
-    "openCasesForNextPage" : {
-      "type" : "expression",
-      "value" : [
-        "return [];"
       ],
       "exposed" : false
     },
@@ -3485,6 +3372,84 @@
         "    } else {",
         "        return user.userName;",
         "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "caseDetailsQueryParameters" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    payload: function(id){",
+        "        return {\"id\": id};",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "archivedCaseData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    archivedCasesForNextPage: [],",
+        "    pageId: 0, ",
+        "    numberOfCasesPerPage: 10,",
+        "    processesOptions: ",
+        "        [{ displayName: uiTranslate(\"All processes\"),",
+        "            version: uiTranslate(\"all versions\")",
+        "        }].concat($data.processes),",
+        "    sortByOptions: [",
+        "        { displayKey: \"Archived case ID (Asc)\", returnKey: \"id+ASC\" },",
+        "        { displayKey: \"Archived case ID (Desc)\", returnKey: \"id+DESC\" },",
+        "        { displayKey: \"Original case ID (Asc)\", returnKey: \"sourceObjectId+ASC\" },",
+        "        { displayKey: \"Original case ID (Desc)\", returnKey: \"sourceObjectId+DESC\" },",
+        "        { displayKey: \"Process name (Asc)\", returnKey: \"name+ASC\" },",
+        "        { displayKey: \"Process name (Desc)\", returnKey: \"name+DESC\" },",
+        "        { displayKey: \"Start date - newest first\", returnKey: \"startDate+DESC\" },",
+        "        { displayKey: \"Start date - oldest first\", returnKey: \"startDate+ASC\" },",
+        "        { displayKey: \"End date - newest first\", returnKey: \"endDate+DESC\" },",
+        "        { displayKey: \"End date - oldest first\", returnKey: \"endDate+ASC\" }",
+        "    ],",
+        "    filters: {",
+        "        processDefinitionId: \"\",",
+        "        startedByMe: false,",
+        "        sortOrder: \"\",",
+        "        searchValue: \"\"",
+        "    },",
+        "    archivedCasesNextResults: undefined,",
+        "    displayedArchivedCases: [],",
+        "    numberOfArchivedCasesReturned: false",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "openCaseData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    openCasesForNextPage : [],",
+        "    pageId: 0, ",
+        "    numberOfCasesPerPage: 10,",
+        "    processesOptions: ",
+        "        [{ displayName: uiTranslate(\"All processes\"),",
+        "            version: uiTranslate(\"all versions\")",
+        "        }].concat($data.processes),",
+        "    sortByOptions: [   ",
+        "        { displayKey: \"Case ID (Asc)\", returnKey: \"id+ASC\" },",
+        "        { displayKey: \"Case ID (Desc)\", returnKey: \"id+DESC\" },",
+        "        { displayKey: \"Process name (Asc)\", returnKey: \"name+ASC\" },",
+        "        { displayKey: \"Process name (Desc)\", returnKey: \"name+DESC\" },",
+        "        { displayKey: \"Start date - newest first\", returnKey: \"startDate+DESC\" },",
+        "        { displayKey: \"Start date - oldest first\", returnKey: \"startDate+ASC\" }",
+        "    ],",
+        "    filters: {",
+        "        processDefinitionId: \"\",",
+        "        startedByMe: false,",
+        "        sortOrder: \"\",",
+        "        searchValue: \"\"",
+        "    },",
+        "    openCasesNextResults: undefined,",
+        "    displayedOpenCases: []",
         "};"
       ],
       "exposed" : false
