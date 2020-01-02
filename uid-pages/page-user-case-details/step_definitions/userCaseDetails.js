@@ -71,7 +71,7 @@ then("The case details have the correct information", () => {
     // Check that the element exist.
     cy.get('h5.text-left').contains('Case Id: 1').should('be.visible');
     cy.get('.item-label').contains('Process name (version)');
-    cy.get('.item-value').contains('Pool  (1.0)');
+    cy.get('.item-value').contains('Pool (1.0)');
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('started');
     cy.get('.item-label').contains('Started by');
