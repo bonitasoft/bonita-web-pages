@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "UserCaseListBonitaV1",
   "name" : "UserCaseListBonitaV1",
-  "lastUpdate" : 1577981680106,
+  "lastUpdate" : 1578062018398,
   "rows" : [
     [
       {
@@ -2147,14 +2147,15 @@
                                         },
                                         "type" : {
                                           "type" : "constant",
-                                          "value" : "overview"
+                                          "value" : "page"
                                         },
                                         "targetUrl" : {
                                           "type" : "constant",
                                           "value" : "http://"
                                         },
                                         "pageToken" : {
-                                          "type" : "constant"
+                                          "type" : "constant",
+                                          "value" : "caseDetails"
                                         },
                                         "processName" : {
                                           "type" : "constant"
@@ -2177,7 +2178,8 @@
                                           "type" : "constant"
                                         },
                                         "urlParams" : {
-                                          "type" : "constant"
+                                          "type" : "expression",
+                                          "value" : "caseDetailsQueryParameters.payload($item.id)"
                                         },
                                         "alignment" : {
                                           "type" : "constant",

@@ -5,6 +5,7 @@ const defaultFilters = 'd=processDefinitionId&d=started_by&n=activeFlowNodes&n=f
 const commentUrl = 'API/bpm/comment';
 const commentQueryParameters = '?p=0&c=10&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
+const archivedCaseListUrl = 'API/bpm/archivedCase/1?d=started_by&d=startedBySubstitute&d=processDefinitionId';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -21,6 +22,9 @@ given("The response {string} is defined", (responseType) => {
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
             createRouteWithResponse(commentUrl + '?p=0&c=10&o=postDate DESC&f=processInstanceId=1&d=userId&t=1*', 'commentsRoute', 'newComments');
+            break;
+        case 'archived case':
+            createRouteWithResponse(archivedCaseListUrl, 'archivedCaseRoute', 'archivedCase');
             break;
         default:
             throw new Error("Unsupported case");
@@ -131,4 +135,12 @@ then("There is a new comment", () => {
 
 then("The new comment input is empty", () => {
    cy.get("input").should("be.empty");
+});
+
+then("The state is {string}", (state) => {
+    cy.get('.item-value p').contains(state).should('be.visible');
+});
+
+then("There is no tasks", () => {
+    cy.get('.item-label').contains('Tasks').should('not.exist');
 });

@@ -34,3 +34,9 @@ Feature: The User Case Details in desktop resolution
     And I click on add comment button
     Then There is a new comment
     And The new comment input is empty
+
+  Scenario: The user case details should display an archived case
+    Given The response "archived case" is defined
+    When I visit the user case details page
+    Then The state is "completed"
+    And There is no tasks

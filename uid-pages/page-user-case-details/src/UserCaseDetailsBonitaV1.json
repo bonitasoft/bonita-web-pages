@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseDetailsBonitaV1",
   "name" : "UserCaseDetailsBonitaV1",
-  "lastUpdate" : 1577957006551,
+  "lastUpdate" : 1578061045555,
   "rows" : [
     [
       {
@@ -46,7 +46,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "mt-20"
+            "value" : ""
           },
           "hidden" : {
             "type" : "constant",
@@ -388,7 +388,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetails.processDefinitionId.displayName}} ({{caseDetails.processDefinitionId.version}})"
+                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().processDefinitionId.displayName}} ({{caseDetailsCtrl.getOpenOrArchivedCase().processDefinitionId.version}})"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -520,7 +520,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetails.state}}"
+                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().state}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -654,7 +654,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetailsCtrl.getUserDisplayName(caseDetails.started_by)}}"
+                        "value" : "{{caseDetailsCtrl.getUserDisplayName(caseDetailsCtrl.getOpenOrArchivedCase().started_by)}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -788,7 +788,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetails.start.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().start.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -920,7 +920,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetails.last_update_date.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().last_update_date.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -948,8 +948,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "archivedCaseDetails"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -1032,7 +1032,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetails.activeFlowNodes}}"
+                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().activeFlowNodes}}"
                       },
                       "type" : {
                         "type" : "constant",
@@ -1100,7 +1100,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!caseDetails.searchIndex1Label && !caseDetails.searchIndex2Label && !caseDetails.searchIndex3Label && !caseDetails.searchIndex4Label && !caseDetails.searchIndex5Label"
+                  "value" : "!caseDetailsCtrl.getOpenOrArchivedCase().searchIndex1Label && !caseDetailsCtrl.getOpenOrArchivedCase().searchIndex2Label && !caseDetailsCtrl.getOpenOrArchivedCase().searchIndex3Label && !caseDetailsCtrl.getOpenOrArchivedCase().searchIndex4Label && !caseDetailsCtrl.getOpenOrArchivedCase().searchIndex5Label"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -1214,7 +1214,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex1Label}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex1Label}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1266,7 +1266,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex1Value}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex1Value}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1346,7 +1346,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex2Label}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex2Label}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1398,7 +1398,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex2Value}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex2Value}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1480,7 +1480,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex3Label}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex3Label}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1532,7 +1532,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex3Value}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex3Value}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1612,7 +1612,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex4Label}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex4Label}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1664,7 +1664,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex4Value}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex4Value}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1746,7 +1746,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex5Label}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex5Label}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1798,7 +1798,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{caseDetails.searchIndex5Value}}"
+                              "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().searchIndex5Value}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2418,7 +2418,10 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    userDetailsQueryParameters: function(){",
+        "    userDetailsQueryParameters: function(isArchived){",
+        "        if(isArchived) {",
+        "            return $data.caseIdQueryParameter + \"?d=started_by&d=startedBySubstitute&d=processDefinitionId\";",
+        "        }",
         "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by&n=activeFlowNodes&n=failedFlowNodes\";",
         "    },",
         "    commentQueryParameters: function(){",
@@ -2441,6 +2444,12 @@
         "        }",
         "        ",
         "        return getDisplayName(user);",
+        "    },",
+        "    getOpenOrArchivedCase: function() {",
+        "        if($data.openCaseDetails && !$data.archivedCaseDetails) {",
+        "            return $data.openCaseDetails;",
+        "        }",
+        "        return $data.archivedCaseDetails;",
         "    }",
         "};"
       ],
@@ -2453,7 +2462,7 @@
       ],
       "exposed" : false
     },
-    "caseDetails" : {
+    "openCaseDetails" : {
       "type" : "url",
       "value" : [
         "../API/bpm/case/{{caseDetailsCtrl.userDetailsQueryParameters()}}"
@@ -2499,11 +2508,17 @@
         "};"
       ],
       "exposed" : false
+    },
+    "archivedCaseDetails" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{caseDetailsCtrl.userDetailsQueryParameters(true)}}"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "4cbe5636-5ca9-41a3-977d-ce91b92c6892",
   "type" : "page",
-  "description" : "This page provides the detail information of a case. It is dedicated to User-like profiles. You can export it and edit it in the UI Designer.",
-  "displayName" : "Bonita User Case Details"
+  "description" : "This page provides the detail information of a case. It is dedicated to User-like profiles. You can export it and edit it in the UI Designer."
 }
