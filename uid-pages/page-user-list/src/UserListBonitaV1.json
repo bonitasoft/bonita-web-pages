@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserListBonitaV1",
   "name" : "UserListBonitaV1",
-  "lastUpdate" : 1577441426764,
+  "lastUpdate" : 1578301142793,
   "rows" : [
     [
       {
@@ -119,7 +119,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "<i class=\"glyphicon glyphicon-plus\"></i> Create"
+                  "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Create\" | uiTranslate}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -2957,7 +2957,7 @@
         "        return {enabled : enabledString};",
         "    },",
         "    getChangeButtonLabel: function() {",
-        "        var buttonLabel = $data.changeStatusData.item.enabled === \"true\" ? \"Deactivate\" : \"Activate\";",
+        "        var buttonLabel = $data.changeStatusData.item.enabled === \"true\" ? uiTranslate(\"Deactivate\") : uiTranslate(\"Activate\");",
         "        return buttonLabel;",
         "    },",
         "    getDisplayName: function(user) {",
