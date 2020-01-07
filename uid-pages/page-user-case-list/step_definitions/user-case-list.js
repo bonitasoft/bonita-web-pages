@@ -429,7 +429,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/12/19 10:07 AM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('walter.bates');
-                cy.get('.case-property-label').contains('Tasks');
+                cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
@@ -453,7 +453,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/13/19 10:07 AM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('Walter Bates');
-                cy.get('.case-property-label').contains('Tasks');
+                cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
@@ -477,7 +477,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/14/19 10:07 AM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('Walter Bates');
-                cy.get('.case-property-label').contains('Tasks');
+                cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
             });
 
@@ -491,7 +491,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/15/19 10:07 AM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('Walter Bates');
-                cy.get('.case-property-label').contains('Tasks');
+                cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
@@ -514,7 +514,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('9/17/19 3:42 PM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('Walter Bates');
-                cy.get('.case-property-label').contains('Tasks');
+                cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('1');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
@@ -688,5 +688,5 @@ then("The Load more cases button is disabled", ()=>{
 });
 
 then('The tasks field is not displayed in mobile view', () => {
-    cy.get('.case-property-label').contains('Tasks').should('not.be.visible');
+    cy.get('.case-property-label').contains('Pending tasks').should('not.be.visible');
 });

@@ -1,11 +1,11 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const caseUrl = 'API/bpm/case/1?';
-const defaultFilters = 'd=processDefinitionId&d=started_by&n=activeFlowNodes&n=failedFlowNodes';
+const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
 const commentQueryParameters = '?p=0&c=10&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
-const archivedCaseListUrl = 'API/bpm/archivedCase/1?d=started_by&d=startedBySubstitute&d=processDefinitionId';
+const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -25,6 +25,10 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'archived case':
             createRouteWithResponse(archivedCaseListUrl, 'archivedCaseRoute', 'archivedCase');
+            break;
+        case 'available tasks':
+            createRouteWithResponse('API/system/session/unusedId', 'sessionRoute', 'session');
+            createRouteWithResponse('API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=4&f=caseId=1', 'availableTasksRoute', 'availableTasks');
             break;
         default:
             throw new Error("Unsupported case");
@@ -73,7 +77,7 @@ when("I click on add comment button", () => {
 
 then("The case details have the correct information", () => {
     // Check that the element exist.
-    cy.get('h5.text-left').contains('Case Id: 1').should('be.visible');
+    cy.get('h5.text-left').contains('Case id : 1').should('be.visible');
     cy.get('.item-label').contains('Process name (version)');
     cy.get('.item-value').contains('Pool (1.0)');
     cy.get('.item-label').contains('State');
@@ -84,8 +88,8 @@ then("The case details have the correct information", () => {
     cy.get('.item-value').contains('12/30/19 4:01 PM');
     cy.get('.item-label').contains('Last updated');
     cy.get('.item-value').contains('12/30/19 4:01 PM');
-    cy.get('.item-label').contains('Tasks');
-    cy.get('.item-value').contains('1');
+    cy.get('.item-label').contains('Available tasks');
+    cy.get('.item-value .btn-link').contains('1');
     cy.get('.item-label').contains('Search key 1');
     cy.get('.item-value').contains('Search value 1');
     cy.get('.item-label').contains('Search key 2');

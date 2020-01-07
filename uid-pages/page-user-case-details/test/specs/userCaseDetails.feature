@@ -2,6 +2,7 @@ Feature: The User Case Details in desktop resolution
 
   Scenario: The user case details displays the correct attributes
     Given The response "default details" is defined
+    Given The response "available tasks" is defined
     When I visit the user case details page
     Then The case details have the correct information
 
