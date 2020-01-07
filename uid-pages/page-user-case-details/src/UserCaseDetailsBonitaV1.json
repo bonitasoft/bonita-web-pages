@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "UserCaseDetailsBonitaV1",
   "name" : "UserCaseDetailsBonitaV1",
-  "lastUpdate" : 1578061045555,
+  "lastUpdate" : 1578330993552,
   "rows" : [
     [
       {
@@ -46,7 +46,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : ""
+            "value" : "mt-20"
           },
           "hidden" : {
             "type" : "constant",
@@ -131,46 +131,112 @@
               "id" : "pbLink"
             },
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
-                "xs" : 7,
+                "xs" : 8,
                 "sm" : 9,
-                "md" : 9,
-                "lg" : 9
+                "md" : 8,
+                "lg" : 8
               },
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "pl-0 ml-0"
+                  "value" : ""
                 },
                 "hidden" : {
                   "type" : "constant",
                   "value" : false
                 },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "Case Id: {{caseIdQueryParameter}}"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 5"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
-              "reference" : "8b476f54-0461-4506-a566-bef6c2780476",
+              "reference" : "45cee966-415a-4ec2-9c4c-8cf8b23f86a3",
               "hasValidationError" : false,
-              "id" : "pbTitle"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "pl-0 ml-0"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{caseDetailsCtrl.getCaseIdLabel()}} : {{caseIdQueryParameter}}"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 5"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "8b476f54-0461-4506-a566-bef6c2780476",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "pl-0 ml-0"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!caseDetailsCtrl.isArchived()"
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{\"Archived case id\" | uiTranslate}} : {{archivedCase[0].id}}"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 5"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "bc4c83ff-049a-40f6-9e0f-0cc6c4d613ca",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
+                  }
+                ]
+              ]
             },
             {
               "type" : "component",
               "dimension" : {
                 "xs" : 2,
                 "sm" : 2,
-                "md" : 2,
-                "lg" : 2
+                "md" : 3,
+                "lg" : 3
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -225,7 +291,7 @@
                 },
                 "buttonStyle" : {
                   "type" : "constant",
-                  "value" : "info"
+                  "value" : "primary"
                 }
               },
               "reference" : "ad3584fe-5046-40fe-a716-f21c6acaec35",
@@ -949,7 +1015,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "archivedCaseDetails"
+                  "value" : "caseDetailsCtrl.isArchived()"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -1000,7 +1066,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{\"Tasks\" | uiTranslate}}"
+                        "value" : "{{\"Available tasks\" | uiTranslate}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1032,18 +1098,19 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{caseDetailsCtrl.getOpenOrArchivedCase().activeFlowNodes}}"
+                        "value" : "{{availableTasks.length}}"
                       },
                       "type" : {
                         "type" : "constant",
-                        "value" : "page"
+                        "value" : "URL"
                       },
                       "targetUrl" : {
-                        "type" : "constant",
-                        "value" : "http://"
+                        "type" : "expression",
+                        "value" : "\"../../taskList/content/#?case=\" + caseIdQueryParameter"
                       },
                       "pageToken" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "taskList"
                       },
                       "processName" : {
                         "type" : "constant"
@@ -1065,7 +1132,8 @@
                         "type" : "constant"
                       },
                       "urlParams" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "caseDetailsData.taskListUrlParameters"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2417,12 +2485,14 @@
     "caseDetailsCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
+        "",
         "return {",
         "    userDetailsQueryParameters: function(isArchived){",
         "        if(isArchived) {",
-        "            return $data.caseIdQueryParameter + \"?d=started_by&d=startedBySubstitute&d=processDefinitionId\";",
+        "            return \"?d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=\" + $data.caseIdQueryParameter;",
         "        }",
-        "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by&n=activeFlowNodes&n=failedFlowNodes\";",
+        "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by\";",
         "    },",
         "    commentQueryParameters: function(){",
         "      return \"p=0&c=10&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
@@ -2446,10 +2516,13 @@
         "        return getDisplayName(user);",
         "    },",
         "    getOpenOrArchivedCase: function() {",
-        "        if($data.openCaseDetails && !$data.archivedCaseDetails) {",
-        "            return $data.openCaseDetails;",
-        "        }",
-        "        return $data.archivedCaseDetails;",
+        "        return  isArchived ? $data.archivedCase[0] : $data.openCase;",
+        "    },",
+        "    isArchived: function() {",
+        "        return isArchived;",
+        "    },",
+        "    getCaseIdLabel: function() {",
+        "        return isArchived ? uiTranslate('Original case id') : uiTranslate('Case id');",
         "    }",
         "};"
       ],
@@ -2459,13 +2532,6 @@
       "type" : "urlparameter",
       "value" : [
         "id"
-      ],
-      "exposed" : false
-    },
-    "openCaseDetails" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/case/{{caseDetailsCtrl.userDetailsQueryParameters()}}"
       ],
       "exposed" : false
     },
@@ -2509,10 +2575,43 @@
       ],
       "exposed" : false
     },
-    "archivedCaseDetails" : {
+    "openCase" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{caseDetailsCtrl.userDetailsQueryParameters()}}"
+      ],
+      "exposed" : false
+    },
+    "archivedCase" : {
       "type" : "url",
       "value" : [
         "../API/bpm/archivedCase/{{caseDetailsCtrl.userDetailsQueryParameters(true)}}"
+      ],
+      "exposed" : false
+    },
+    "caseDetailsData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    taskListUrlParameters : {",
+        "        \"case\": $data.caseIdQueryParameter",
+        "    },",
+        "    availableTasksUrl: \"../API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=\" + $data.session.user_id + \"&f=caseId=\" + $data.caseIdQueryParameter",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "availableTasks" : {
+      "type" : "url",
+      "value" : [
+        "{{!caseDetailsCtrl.isArchived() ? caseDetailsData.availableTasksUrl : undefined}}"
+      ],
+      "exposed" : false
+    },
+    "session" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
       ],
       "exposed" : false
     }
