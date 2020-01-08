@@ -6,11 +6,6 @@ Feature: The User Case Details in desktop resolution
     When I visit the user case details page
     Then The case details have the correct information
 
-  Scenario: The user case details display comments correctly
-    Given The response "comments" is defined
-    When I visit the user case details page
-    Then The comments have the correct information
-
   Scenario: The user case details displays no search keys
     Given The response "default details without search keys" is defined
     When I visit the user case details page
@@ -27,17 +22,29 @@ Feature: The User Case Details in desktop resolution
     And I click on case overview button
     Then The case overview url is displayed
 
+  Scenario: The user case details display comments correctly
+    Given The response "comments" is defined
+    When I visit the user case details page
+    Then The comments have the correct information
+    And "No (more) comments to display" is shown at the end of the comments
+    And There is no "System comment"
+
   Scenario: The user case details should add a new comment
     Given The response "add new comment" is defined
     When I visit the user case details page
     Then There are no comments
+    And The add comment button is "disabled"
     When I fill in the new comment
-    And I click on add comment button
+    Then The add comment button is "enabled"
+    When I click on add comment button
     Then There is a new comment
     And The new comment input is empty
+    Then The add comment button is "disabled"
 
   Scenario: The user case details should display an archived case
     Given The response "archived case" is defined
     When I visit the user case details page
     Then The state is "completed"
     And There is no tasks
+    And The input placeholder is "Comments cannot be added to archived cases"
+    And The input placeholder is not "Type new comment"

@@ -104,9 +104,6 @@ function sortOrderArchivedCasesParameter(sortType) {
         case 'archivedCases':
             return '&o=id+ASC';
 
-        case 'archivedCasesSortedByArchivedCaseIdDesc':
-            return '&o=id+DESC';
-
         case 'archivedCasesSortedByOriginalCaseIdAsc':
             return '&o=sourceObjectId+ASC';
 
@@ -355,35 +352,29 @@ function selectOpenCasesSortByOption(filterValue) {
 function selectArchivedCasesSortByOption(filterValue) {
     cy.server();
     switch(filterValue) {
-        case 'Archived case ID (Asc)':
+        case 'Original case ID (Asc)':
             cy.get('select:visible').eq(1).select('0');
             break;
-        case 'Archived case ID (Desc)':
+        case 'Original case ID (Desc)':
             cy.get('select:visible').eq(1).select('1');
             break;
-        case 'Original case ID (Asc)':
+        case 'Process name (Asc)':
             cy.get('select:visible').eq(1).select('2');
             break;
-        case 'Original case ID (Desc)':
+        case 'Process name (Desc)':
             cy.get('select:visible').eq(1).select('3');
             break;
-        case 'Process name (Asc)':
+        case 'Start date - newest first':
             cy.get('select:visible').eq(1).select('4');
             break;
-        case 'Process name (Desc)':
+        case 'Start date - oldest first':
             cy.get('select:visible').eq(1).select('5');
             break;
-        case 'Start date - newest first':
+        case 'End date - newest first':
             cy.get('select:visible').eq(1).select('6');
             break;
-        case 'Start date - oldest first':
-            cy.get('select:visible').eq(1).select('7');
-            break;
-        case 'End date - newest first':
-            cy.get('select:visible').eq(1).select('8');
-            break;
         case 'End date - oldest first':
-            cy.get('select:visible').eq(1).select('9');
+            cy.get('select:visible').eq(1).select('7');
             break;
     }
 }
@@ -531,8 +522,8 @@ then("The {string} cases have the correct information", (caseType)=>{
 
         case 'archived':
             cy.get('.case-item:visible').eq(0).within(() => {
-                cy.get('.case-property-label').contains('Archived case ID (original)');
-                cy.get('.case-property-value').contains('3010 (1004)');
+                cy.get('.case-property-label').contains('Case ID (original)');
+                cy.get('.case-property-value').contains('1004');
                 cy.get('.case-property-label').contains('Process name (version)');
                 cy.get('.case-property-value').contains('Pool (1.0)');
                 cy.get('.case-property-label').contains('Start date');
@@ -541,8 +532,8 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('helen.kelly');
             });
             cy.get('.case-item:visible').eq(1).within(() => {
-                cy.get('.case-property-label').contains('Archived case ID (original)');
-                cy.get('.case-property-value').contains('12001 (3004)');
+                cy.get('.case-property-label').contains('Case ID (original)');
+                cy.get('.case-property-value').contains('3004');
                 cy.get('.case-property-value').contains('Walter Bates');
             });
             break;
@@ -604,39 +595,39 @@ then("I see only the filtered archived cases by {string}", (filterType)=>{
         case 'process name':
             cy.wait('@archivedCasesFilteredByProcessNameRoute');
             cy.get('.case-item:visible').eq(0).within(() => {
-                cy.get('.case-property-value').contains('3010 (1004)');
+                cy.get('.case-property-value').contains('1004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
 
             cy.get('.case-item:visible').eq(1).within(() => {
-                cy.get('.case-property-value').contains('4010 (2004)');
+                cy.get('.case-property-value').contains('2004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
 
             cy.get('.case-item:visible').eq(2).within(() => {
-                cy.get('.case-property-value').contains('5010 (3004)');
+                cy.get('.case-property-value').contains('3004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
 
             cy.get('.case-item:visible').eq(3).within(() => {
-                cy.get('.case-property-value').contains('6010 (4004)');
+                cy.get('.case-property-value').contains('4004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
             break;
 
         case 'started by me':
             cy.get('.case-item:visible').eq(0).within(() => {
-                cy.get('.case-property-value').contains('12001 (3004)');
+                cy.get('.case-property-value').contains('3004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
 
             cy.get('.case-item:visible').eq(1).within(() => {
-                cy.get('.case-property-value').contains('22001 (2004)');
+                cy.get('.case-property-value').contains('2004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
 
             cy.get('.case-item:visible').eq(2).within(() => {
-                cy.get('.case-property-value').contains('32001 (1004)');
+                cy.get('.case-property-value').contains('1004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
             break;
