@@ -84,7 +84,6 @@ Feature: The user open case list in desktop resolution
     Given A list of archived cases is available
     And A user session is available
     And A list of processes is available
-    And A list of archived cases sorted by "archivedCasesSortedByArchivedCaseIdDesc" is available
     And A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdAsc" is available
     And A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdDesc" is available
     And A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is available
@@ -96,10 +95,6 @@ Feature: The user open case list in desktop resolution
     When I visit the user case list page
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
-    When I select "Archived case ID (Asc)" in "archived cases sort by" filter for "archived" cases
-    Then A list of archived cases sorted by "archivedCases" is displayed
-    When I select "Archived case ID (Desc)" in "archived cases sort by" filter for "archived" cases
-    Then A list of archived cases sorted by "archivedCasesSortedByArchivedCaseIdDesc" is displayed
     When I select "Original case ID (Asc)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdAsc" is displayed
     When I select "Original case ID (Desc)" in "archived cases sort by" filter for "archived" cases
