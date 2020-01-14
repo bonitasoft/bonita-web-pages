@@ -60,8 +60,9 @@ def slackStage(def name, boolean isBaseBranch, Closure body) {
                     title_link: env.BUILD_URL,
                     text      : "Stage ${name} has failed"
             ]
-
-            slackSend(color: 'danger', channel: '#web', attachments: toJson([attachment]))
+            
+            // Publish notification in portal-ci channel
+            slackSend(color: 'danger', channel: 'CRJSZM7QB', attachments: toJson([attachment]))            
         }
         throw e
     }
