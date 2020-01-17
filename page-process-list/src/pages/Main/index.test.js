@@ -136,30 +136,58 @@ describe('Main', () => {
       await wrapper.startProcess({
         version: '1.0',
         id: '12458725157',
-        displayName: 'MyProcess'
+        displayName: 'My Process'
       });
 
       expect(wrapper.state.show).toBe(true);
       expect(wrapper.state.process).toEqual({
         version: '1.0',
         id: '12458725157',
-        displayName: 'MyProcess'
+        displayName: 'My Process'
       });
       expect(push.mock.calls.length).toEqual(0);
     });
 
     it('should push to history when user start a process with instantiation form', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = { search: '?id=12&app=myAppToken' };
       wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
 
       await wrapper.startProcess({
         version: '1.0',
         id: '12458725157',
-        displayName: 'MyProcess'
+        displayName: 'My Process',
+        name: 'MyProcess'
       });
 
       expect(!wrapper.state.process);
       expect(wrapper.state.show).toBe(false);
       expect(push.mock.calls.length).toEqual(1);
+      expect(push.mock.calls[0][0]).toEqual(
+        '/instantiation/MyProcess/1.0?id=12458725157&autoInstantiate=false&app=myAppToken'
+      );
+    });
+
+    it('should push to history without empty app param when user start a process with instantiation form', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = { search: '?id=12' };
+      wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
+
+      await wrapper.startProcess({
+        version: '1.0',
+        id: '12458725157',
+        displayName: 'My Process',
+        name: 'MyProcess'
+      });
+
+      expect(!wrapper.state.process);
+      expect(wrapper.state.show).toBe(false);
+      expect(push.mock.calls.length).toEqual(1);
+      expect(push.mock.calls[0][0]).toEqual(
+        '/instantiation/MyProcess/1.0?id=12458725157&autoInstantiate=false'
+      );
     });
   });
 });

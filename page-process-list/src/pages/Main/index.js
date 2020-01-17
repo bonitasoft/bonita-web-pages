@@ -23,6 +23,7 @@ import Alert from '../../common/alerts';
 import { withRouter } from 'react-router-dom';
 import ConfirmModal from './components/Instantiation/ConfirmModal';
 import { t } from 'i18next';
+import queryString from 'query-string';
 
 class Main extends Component {
   constructor(props) {
@@ -100,10 +101,11 @@ class Main extends Component {
 
   async startProcess(process) {
     if (await this.hasInstantiationFormMapping(process)) {
+      let params = queryString.parse(window.location.search);
       this.props.history.push(
         `/instantiation/${process.name}/${process.version}?id=${
           process.id
-        }&autoInstantiate=false`
+        }&autoInstantiate=false${params.app ? '&app=' + params.app : ''}`
       );
     } else {
       this.setState({ process: process, show: true });
