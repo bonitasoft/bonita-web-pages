@@ -105,7 +105,7 @@ class Main extends Component {
       this.props.history.push(
         `/instantiation/${process.name}/${process.version}?id=${
           process.id
-        }&autoInstantiate=false&app=${params.app}`
+        }&autoInstantiate=false${params.app ? '&app=' + params.app : ''}`
       );
     } else {
       this.setState({ process: process, show: true });
