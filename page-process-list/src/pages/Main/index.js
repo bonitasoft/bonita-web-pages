@@ -22,11 +22,12 @@ import { Filters, List } from './components';
 import Alert from '../../common/alerts';
 import { withRouter } from 'react-router-dom';
 import ConfirmModal from './components/Instantiation/ConfirmModal';
-import { t } from 'i18next';
+import { withTranslation } from 'react-i18next';
 
 class Main extends Component {
   constructor(props) {
     super(props);
+    const { t } = this.props;
     this.state = {
       processes: [],
       categories: {
@@ -85,6 +86,7 @@ class Main extends Component {
   }
 
   async instantiateProcess() {
+    const { t } = this.props;
     const response = await ProcessApi.instantiateProcess(this.state.process.id);
     this.handleClose();
     if (response.caseId) {
@@ -168,6 +170,7 @@ class Main extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { processes, categories, pagination, filters } = this.state;
     const message = this.state.process
       ? t('Start a new case for process {{displayName}}', {
@@ -201,4 +204,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(Main);
+export default withRouter(withTranslation()(Main));

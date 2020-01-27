@@ -13,12 +13,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-import { t } from 'i18next';
 
-export default class ConfirmModal extends Component {
+class ConfirmModal extends Component {
   render() {
+    const { t } = this.props;
     const header = this.props.title ? (
       <Modal.Header closeButton>
         <Modal.Title>{this.props.title}</Modal.Title>
@@ -47,3 +48,4 @@ export default class ConfirmModal extends Component {
     );
   }
 }
+export default withTranslation()(ConfirmModal);

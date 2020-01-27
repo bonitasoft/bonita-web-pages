@@ -13,34 +13,42 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import i18n from 'i18next';
+import Backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import lang from './lang';
+import bonitaLanguageDetector from './bonitaLanguageDetector';
 
-i18n.use(LanguageDetector).init({
-  // we init with resources
-  resources: lang(),
-  fallbackLng: 'en',
-  debug: true,
-  returnEmptyString: false,
+const languageDetector = new LanguageDetector();
+languageDetector.addDetector(bonitaLanguageDetector);
 
-  // have a common namespace used around the full app
-  ns: ['translations'],
-  defaultNS: 'translations',
+i18n
+  .use(Backend)
+  .use(languageDetector)
+  .init({
+    // we init with resources
+    backend: {
+      loadPath: './locales/{{lng}}.json'
+    },
+    fallbackLng: 'en',
+    debug: true,
+    returnEmptyString: false,
 
-  keySeparator: false, // we use content as keys
+    // have a common namespace used around the full app
+    ns: ['translations'],
+    defaultNS: 'translations',
 
-  interpolation: {
-    escapeValue: false, // not needed for react!!
-    formatSeparator: ','
-  },
+    keySeparator: false, // we use content as keys
 
-  react: {
-    wait: true
-  },
-  detection: {
-    lookupCookie: 'BOS_Locale',
-    order: ['cookie']
-  }
-});
+    interpolation: {
+      escapeValue: false, // not needed for react!!
+      formatSeparator: ','
+    },
+
+    react: {
+      wait: true
+    },
+    detection: {
+      order: ['bonitaLanguageDetector']
+    }
+  });
 
 export default i18n;

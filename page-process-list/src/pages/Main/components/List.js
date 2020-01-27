@@ -15,7 +15,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.css';
-import { t } from 'i18next';
+import { withTranslation } from 'react-i18next';
 
 import {
   Panel,
@@ -38,7 +38,7 @@ class List extends Component {
   }
 
   render() {
-    const { processes, pagination, filters, onChangePage } = this.props;
+    const { processes, pagination, filters, onChangePage, t } = this.props;
     const { page, size, total } = pagination;
 
     var panelBodyContent;
@@ -180,4 +180,4 @@ List.propTypes = {
   toggleOrder: func
 };
 
-export default List;
+export default withTranslation()(List);

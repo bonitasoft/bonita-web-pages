@@ -13,14 +13,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Instantiation.css';
 import { Link } from 'react-router-dom';
 import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Alerts } from '../../../../common';
-import { t } from 'i18next';
 
-export default class Instantiation extends Component {
+class Instantiation extends Component {
   constructor(props) {
     super(props);
     this.onFormSubmited = this.onFormSubmited.bind(this);
@@ -39,6 +39,7 @@ export default class Instantiation extends Component {
   }
 
   onFormSubmited(message) {
+    const { t } = this.props;
     const messageData = message.data;
     var jsonMessage =
       typeof messageData === 'string' ? JSON.parse(messageData) : messageData;
@@ -62,7 +63,7 @@ export default class Instantiation extends Component {
 
   render() {
     const { processName, processVersion } = this.props.match.params;
-
+    const { t } = this.props;
     return (
       <div className="Instantiation transition-item">
         <OverlayTrigger
@@ -89,3 +90,4 @@ export default class Instantiation extends Component {
     );
   }
 }
+export default withTranslation()(Instantiation);

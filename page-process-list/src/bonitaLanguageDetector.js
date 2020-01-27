@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Bonitasoft S.A.
+ * Copyright (C) 2020 Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,23 +12,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
-import './index.css';
-import SystemApi from './api/SystemApi';
-import 'core-js';
+import Cookies from 'js-cookie';
 
-const App = React.lazy(() => import('./App'));
+export default {
+  name: 'bonitaLanguageDetector',
 
-SystemApi.fetchSession().then(session => {
-  ReactDOM.render(
-    <I18nextProvider i18n={i18n}>
-      <Suspense fallback={<span>{'Loading...'}</span>}>
-        <App session={session} />
-      </Suspense>
-    </I18nextProvider>,
-    document.getElementById('root')
-  );
-});
+  lookup(options) {
+    let reactLocale;
+
+    if (typeof document !== 'undefined') {
+      let locale = Cookies.get('BOS_Locale');
+
+      if (locale === 'pt_BR') {
+        reactLocale = 'pt-BR';
+      } else if (locale) {
+        reactLocale = locale;
+      }
+    }
+
+    return reactLocale;
+  },
+
+  cacheUserLanguage(lng, options) {}
+};

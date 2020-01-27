@@ -15,7 +15,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Filters.css';
-import { t } from 'i18next';
+import { withTranslation } from 'react-i18next';
 
 import {
   Button,
@@ -32,7 +32,6 @@ import {
 class Filters extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       search: props.filters.search
     };
@@ -60,7 +59,7 @@ class Filters extends Component {
   }
 
   render() {
-    const { categories, filters } = this.props;
+    const { categories, filters, t } = this.props;
     const { search } = this.state;
     return (
       <Panel className="Filters">
@@ -151,4 +150,4 @@ Filters.propTypes = {
   onChange: func
 };
 
-export default Filters;
+export default withTranslation()(Filters);
