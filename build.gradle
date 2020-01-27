@@ -1,11 +1,14 @@
 plugins {
-    id 'com.bonitasoft.gradle.bonita-release' version '0.1.46'
+    id "org.ajoberstar.grgit" version "2.2.1"
+    id 'com.bonitasoft.gradle.bonita-release' version '0.1.49'
     
     // plugin only available internally, used for quickly deploying into a runtime environment
     // id 'com.bonitasoft.deployer.bonita-resources-deployer' version '0.1.25'
 }
 
 apply plugin: 'com.bonitasoft.gradle.bonita-uid'
+apply from: 'crowdin.gradle'
+
 UIDesigner {
   version "1.10.28"
 }
