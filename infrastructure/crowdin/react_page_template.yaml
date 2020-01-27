@@ -1,0 +1,39 @@
+{
+  #
+  # Source files filter
+  # e.g. "/resources/en/*.json"
+  #
+  "source": "/ici-living-applications/pages/@PAGE_NAME@/public/locales/en.json",
+
+  #
+  # The dest allows you to specify a file name on Crowdin
+  # e.g. "/messages.json"
+  #
+  # The dest parameter only works for single files, and if you use it, the configuration file should also include the preserve_hierarchy parameter with true value.
+  #
+  "dest": "/@PAGE_NAME@/localization.json",
+
+  #
+  # File type
+  # e.g. "json"
+  #
+  "type": "json",
+
+  #
+  # Where translations live
+  # e.g. "/resources/%two_letters_code%/%original_file_name%"
+  #
+  "translation": "/ici-living-applications/pages/@PAGE_NAME@/public/locales/%two_letters_code%.json",
+
+  #
+  # Often software projects have custom names for locale directories. crowdin-cli allows you to map your own languages to be understandable by Crowdin.
+  #
+  "languages_mapping": {
+    "two_letters_code": {
+      "fr": "fr",
+      "es-ES": "es",
+      "ja": "jp",
+      "pt-BR": "pt-BR"
+    }
+  }
+}
