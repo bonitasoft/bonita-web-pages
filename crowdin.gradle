@@ -238,12 +238,22 @@ private void createPullRequest(String githubRepositoryName, String baseBranch, S
     try {
         logger.quiet("Listing bonitasoft organization repositories on GitHub");
         HttpConnector connector = new OkHttpConnector(new OkHttpClient());
-
-        logger.quiet("Connecting with oauth token to list private repositories");
+        
+        String githubUsername = project.property('org.ajoberstar.grgit.auth.username')
+        String githubPassword = project.property('org.ajoberstar.grgit.auth.password')
         String githubApiKey = project.property('githubApiKey')
-        GitHub gitHub = new GitHubBuilder()
-                .withOAuthToken(githubApiKey)
-                .withConnector(connector)
+        GitHubBuilder gitHubBuilder = new GitHubBuilder();
+        if (githubUsername != null) {
+            logger.quiet("Connecting with username and password");
+            gitHubBuilder.withPassword(githubUsername, githubPassword)
+        } else if (githubApiKey != null) {
+            logger.quiet("Connecting with oauth token");
+            gitHubBuilder.withOAuthToken(githubApiKey)
+        } else {
+            logger.quiet("Github credentials are missing");
+            throw new GradleException('PR creation failed! Missing credentials.')
+        }
+        GitHub gitHub = gitHubBuilder.withConnector(connector)
                 .build();
         logger.quiet("Connected!");
 
