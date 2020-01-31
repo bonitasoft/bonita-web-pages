@@ -274,8 +274,7 @@ private void createPullRequest(String githubRepositoryName, String baseBranch, S
             logger.quiet 'PR created!'
         }
     } catch (IOException e) {
-        logger.quiet 'PR creation failed!'
-        logger.quiet e
+        logger.quiet('PR creation failed!', e)
         throw new GradleException('PR creation failed!', e)
     }
 }
