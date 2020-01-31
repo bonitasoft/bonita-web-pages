@@ -239,9 +239,9 @@ private void createPullRequest(String githubRepositoryName, String baseBranch, S
         logger.quiet("Listing bonitasoft organization repositories on GitHub");
         HttpConnector connector = new OkHttpConnector(new OkHttpClient());
         
-        String githubUsername = project.property('org.ajoberstar.grgit.auth.username')
-        String githubPassword = project.property('org.ajoberstar.grgit.auth.password')
-        String githubApiKey = project.property('githubApiKey')
+        String githubUsername = project.findProperty('org.ajoberstar.grgit.auth.username')
+        String githubPassword = project.findProperty('org.ajoberstar.grgit.auth.password')
+        String githubApiKey = project.findProperty('githubApiKey')
         GitHubBuilder gitHubBuilder = new GitHubBuilder();
         if (githubUsername != null) {
             logger.quiet("Connecting with username and password");
