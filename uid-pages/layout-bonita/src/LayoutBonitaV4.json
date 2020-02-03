@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "LayoutBonitaV4",
   "name" : "BonitaLayoutV4",
-  "lastUpdate" : 1573141886591,
+  "lastUpdate" : 1574097921793,
   "rows" : [
     [
       {
@@ -388,7 +388,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "!isGuestUser"
+                              "value" : "!isGuestUser || logoutHidden"
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -1340,7 +1340,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!logoutHidden"
+                          "value" : "logoutHidden"
                         },
                         "disabled" : {
                           "type" : "constant",
@@ -2584,7 +2584,7 @@
     "logoutHidden" : {
       "type" : "expression",
       "value" : [
-        "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') === -1;"
+        "return JSON.parse($data.session.conf).indexOf('logout.link.hidden') !== -1;"
       ],
       "exposed" : false
     },

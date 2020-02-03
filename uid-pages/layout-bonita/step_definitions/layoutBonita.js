@@ -49,6 +49,15 @@ given('A user is connected as guest', () => {
     });
 });
 
+given('A user is connected as guest with sso', () => {
+    cy.fixture('json/sessionAsGuestWithSSO.json').as('sessionAsGuestWithSSO');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/session/*',
+        response: '@sessionAsGuestWithSSO'
+    });
+});
+
 given('A logo is available in the theme', () => {
     cy.route({
         method: 'GET',
@@ -339,6 +348,10 @@ then('I see {string} as the user name', (userName) => {
 
 then('The login link is displayed', () => {
     cy.get('.text-right > .ng-binding').should('have.text', 'Sign in');
+});
+
+then('The login link is hidden', () => {
+    cy.contains('Sign in').should('be.hidden');
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {
