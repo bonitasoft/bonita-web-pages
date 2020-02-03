@@ -2207,7 +2207,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "pendingFlowNodeData.processesOptions"
+                                    "value" : "pendingTaskData.processesOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -2219,7 +2219,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "pendingFlowNodeData.filters.processId"
+                                    "value" : "pendingTaskData.filters.processId"
                                   }
                                 },
                                 "reference" : "1233e04a-f3b3-436b-bca9-5f9b04a6b280",
@@ -2273,7 +2273,7 @@
                                   },
                                   "availableValues" : {
                                     "type" : "expression",
-                                    "value" : "pendingFlowNodeData.sortByOptions"
+                                    "value" : "pendingTaskData.sortByOptions"
                                   },
                                   "displayedKey" : {
                                     "type" : "constant",
@@ -2285,7 +2285,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "pendingFlowNodeData.filters.sortOrder"
+                                    "value" : "pendingTaskData.filters.sortOrder"
                                   }
                                 },
                                 "reference" : "b308a0a6-31bf-4abc-b377-c867b3961816",
@@ -2347,7 +2347,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "pendingFlowNodeData.filters.searchValue"
+                                    "value" : "pendingTaskData.filters.searchValue"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -2392,7 +2392,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "pendingFlowNodeData.displayedPendingFlowNodes"
+                              "value" : "pendingTaskData.displayedPendingFlowNodes"
                             }
                           },
                           "reference" : "bf9e5d97-7611-496b-94a3-843c151afd51",
@@ -3945,7 +3945,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "pendingFlowNodeData.displayedPendingFlowNodes.length"
+                              "value" : "pendingTaskData.displayedPendingFlowNodes.length"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -3981,11 +3981,11 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "pendingFlowNodeData.displayedPendingFlowNodes.length == 0"
+                              "value" : "pendingTaskData.displayedPendingFlowNodes.length == 0"
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "pendingFlowNodeData.displayedPendingFlowNodes.length % pendingFlowNodeData.numberOfFlowNodesPerPage> 0 || (pendingFlowNodeData.numberOfPendingFlowNodesReturned=== 0 && pendingFlowNodeData.pendingFlowNodesNextResults.length == 0)"
+                              "value" : "pendingTaskData.displayedPendingFlowNodes.length % pendingTaskData.numberOfFlowNodesPerPage> 0 || (pendingTaskData.numberOfPendingFlowNodesReturned=== 0 && pendingTaskData.pendingTasksNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -4009,7 +4009,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/humanTask?{{pendingFlowNodeCtrl.pendingFlowNodesQueryParameters(pendingFlowNodeData.pageId)}}"
+                              "value" : "../API/bpm/humanTask?{{pendingTaskCtrl.pendingTasksQueryParameters(pendingTaskData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -4020,7 +4020,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "pendingFlowNodeData.pendingFlowNodesNextResults"
+                              "value" : "pendingTaskData.pendingTasksNextResults"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -4269,19 +4269,19 @@
       ],
       "exposed" : false
     },
-    "pendingFlowNodeUrl" : {
+    "pendingTaskUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/humanTask?{{pendingFlowNodeCtrl.pendingFlowNodesQueryParameters(0)}}"
+        "../API/bpm/humanTask?{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
       ],
       "exposed" : false
     },
-    "pendingFlowNodeCtrl" : {
+    "pendingTaskCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    pendingFlowNodesQueryParameters: function(pageId) {",
-        "        var flowNodesPerPage = $data.pendingFlowNodeData.numberOfFlowNodesPerPage;",
+        "    pendingTasksQueryParameters: function(pageId) {",
+        "        var flowNodesPerPage = $data.pendingTaskData.numberOfFlowNodesPerPage;",
         "        ",
         "        if(pageId === 0){",
         "            //on first call we need load next page",
@@ -4290,16 +4290,16 @@
         "",
         "        var queryParameters = \"c=\" + flowNodesPerPage + \"&p=\" + pageId + \"&f=state=ready&d=rootContainerId&d=assigned_id\";",
         "        ",
-        "        if($data.pendingFlowNodeData.filters.processId){",
-        "            queryParameters += \"&f=processId=\" + $data.pendingFlowNodeData.filters.processId;",
+        "        if($data.pendingTaskData.filters.processId){",
+        "            queryParameters += \"&f=processId=\" + $data.pendingTaskData.filters.processId;",
         "        }",
         "        ",
-        "        if($data.pendingFlowNodeData.filters.sortOrder){",
-        "            queryParameters += \"&o=\" + $data.pendingFlowNodeData.filters.sortOrder;",
+        "        if($data.pendingTaskData.filters.sortOrder){",
+        "            queryParameters += \"&o=\" + $data.pendingTaskData.filters.sortOrder;",
         "        }",
         "        ",
-        "        if($data.pendingFlowNodeData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.pendingFlowNodeData.filters.searchValue;",
+        "        if($data.pendingTaskData.filters.searchValue){",
+        "            queryParameters += \"&s=\" +  $data.pendingTaskData.filters.searchValue;",
         "        }",
         "        ",
         "        return queryParameters;",
@@ -4308,7 +4308,7 @@
       ],
       "exposed" : false
     },
-    "pendingFlowNodeData" : {
+    "pendingTaskData" : {
       "type" : "expression",
       "value" : [
         "return {",
@@ -4334,46 +4334,46 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
-        "    pendingFlowNodesNextResults: undefined,",
+        "    pendingTasksNextResults: undefined,",
         "    displayedPendingFlowNodes: []",
         "};"
       ],
       "exposed" : false
     },
-    "pendingFlowNodeHandler" : {
+    "pendingTaskHandler" : {
       "type" : "expression",
       "value" : [
         "//Pending flowNodes",
         "// display the first page of pending flowNodes on page load or when the filter change",
-        "if($data.pendingFlowNodeUrl){",
+        "if($data.pendingTaskUrl){",
         "    // display half the elements loaded",
-        "    $data.pendingFlowNodeData.displayedPendingFlowNodes = $data.pendingFlowNodeUrl.slice(0, $data.pendingFlowNodeData.numberOfFlowNodesPerPage);",
+        "    $data.pendingTaskData.displayedPendingFlowNodes = $data.pendingTaskUrl.slice(0, $data.pendingTaskData.numberOfFlowNodesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.pendingFlowNodeData.pageId = 2;",
-        "    $data.pendingFlowNodeData.flowNodesForNextPage = $data.pendingFlowNodeUrl.slice($data.pendingFlowNodeData.numberOfFlowNodesPerPage);",
+        "    $data.pendingTaskData.pageId = 2;",
+        "    $data.pendingTaskData.flowNodesForNextPage = $data.pendingTaskUrl.slice($data.pendingTaskData.numberOfFlowNodesPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.pendingFlowNodeData.numberOfPendingFlowNodesReturned = $data.pendingFlowNodeData.flowNodesForNextPage.length;",
+        "    $data.pendingTaskData.numberOfPendingFlowNodesReturned = $data.pendingTaskData.flowNodesForNextPage.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.pendingFlowNodeUrl = undefined; ",
+        "    $data.pendingTaskUrl = undefined; ",
         "}",
         "",
         "// add next page of flowNodes to the list of next flowNodes to display",
         "// display the next flowNodes from the memory",
-        "if($data.pendingFlowNodeData.pendingFlowNodesNextResults && $data.pendingFlowNodeData.pendingFlowNodesNextResults.length){",
-        "    $data.pendingFlowNodeData.displayedPendingFlowNodes = $data.pendingFlowNodeData.displayedPendingFlowNodes.concat($data.pendingFlowNodeData.flowNodesForNextPage);",
-        "    $data.pendingFlowNodeData.pageId++;",
-        "    $data.pendingFlowNodeData.flowNodesForNextPage = $data.pendingFlowNodeData.pendingFlowNodesNextResults;",
-        "    $data.pendingFlowNodeData.numberOfPendingFlowNodesReturned = $data.pendingFlowNodeData.flowNodesForNextPage.length;",
-        "    $data.pendingFlowNodeData.pendingFlowNodesNextResults = undefined;",
+        "if($data.pendingTaskData.pendingTasksNextResults && $data.pendingTaskData.pendingTasksNextResults.length){",
+        "    $data.pendingTaskData.displayedPendingFlowNodes = $data.pendingTaskData.displayedPendingFlowNodes.concat($data.pendingTaskData.flowNodesForNextPage);",
+        "    $data.pendingTaskData.pageId++;",
+        "    $data.pendingTaskData.flowNodesForNextPage = $data.pendingTaskData.pendingTasksNextResults;",
+        "    $data.pendingTaskData.numberOfPendingFlowNodesReturned = $data.pendingTaskData.flowNodesForNextPage.length;",
+        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
         "}",
         "",
         "// when there are no more flowNodes in the memory",
-        "if($data.pendingFlowNodeData.numberOfPendingFlowNodesReturned > 0 && $data.pendingFlowNodeData.pendingFlowNodesNextResults && $data.pendingFlowNodeData.pendingFlowNodesNextResults.length == 0){",
-        "    $data.pendingFlowNodeData.displayedPendingFlowNodes = $data.pendingFlowNodeData.displayedPendingFlowNodes.concat($data.pendingFlowNodeData.flowNodesForNextPage);",
-        "    $data.pendingFlowNodeData.flowNodesForNextPage = undefined;",
-        "    $data.pendingFlowNodeData.pendingFlowNodesNextResults = undefined;",
-        "    $data.pendingFlowNodeData.numberOfPendingFlowNodesReturned = 0;",
+        "if($data.pendingTaskData.numberOfPendingFlowNodesReturned > 0 && $data.pendingTaskData.pendingTasksNextResults && $data.pendingTaskData.pendingTasksNextResults.length == 0){",
+        "    $data.pendingTaskData.displayedPendingFlowNodes = $data.pendingTaskData.displayedPendingFlowNodes.concat($data.pendingTaskData.flowNodesForNextPage);",
+        "    $data.pendingTaskData.flowNodesForNextPage = undefined;",
+        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
+        "    $data.pendingTaskData.numberOfPendingFlowNodesReturned = 0;",
         "}"
       ],
       "exposed" : false
