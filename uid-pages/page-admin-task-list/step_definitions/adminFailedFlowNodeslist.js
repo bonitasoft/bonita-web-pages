@@ -12,7 +12,7 @@ given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes5Route', 'failedFlowNodes5', 0, 999);
+            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes5Route', 'failedFlowNodes5');
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
@@ -82,7 +82,6 @@ given("The filter response {string} is defined", (filterType) => {
 
 when("I visit admin task list page", () => {
     cy.visit(url);
-    cy.wait(1000)
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
@@ -137,12 +136,12 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input').type(filterValue);
+        cy.get('pb-input input:visible').type(filterValue);
     }
 });
 
 when("I erase the search filter", () => {
-    cy.get('pb-input input').clear();
+    cy.get('pb-input input:visible').clear();
 });
 
 when("I click on Load more flow nodes button", () => {
@@ -262,8 +261,8 @@ then("The failed flow nodes list have the correct information", () => {
     });
 });
 
-then("A list of {string} failed flow nodes is displayed", (nbrOfFailedFlowNodes) => {
-    cy.get('.task-item').should('have.length', nbrOfFailedFlowNodes);
+then("A list of {string} items is displayed", (nbrOfItems) => {
+    cy.get('.task-item:visible').should('have.length', nbrOfItems);
 });
 
 then("The api call is made for {string}", (filterValue) => {
@@ -294,13 +293,13 @@ then("The api call is made for {string}", (filterValue) => {
     }
 });
 
-then("No tasks are available", () => {
+then("No failed flow nodes are available", () => {
     cy.get('.task-item').should('have.length', 0);
     cy.contains('No failed flow nodes to display').should('be.visible');
 });
 
 then("The more button has correct href with {string}", (flowNodeId) => {
-    cy.get('a').eq(3).should('have.attr', 'href', failedFlowNodeDetailsUrl + flowNodeId);
+    cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', failedFlowNodeDetailsUrl + flowNodeId);
 });
 
 then("The load more flow nodes button is disabled", () => {
