@@ -218,7 +218,9 @@ task crowdinGitBranchIfNeeded(group: 'crowdin') {
         if (!grgit.status().isClean()) {
             logger.quiet 'Git status detected changes'
             def baseBranch = gitBranchName()
+            logger.quiet("base Branch:  ${baseBranch}");
             def newGitBranch = "${baseBranch}/update-translations_${System.currentTimeMillis()}"
+            logger.quiet("new Git Branch: ${newGitBranch}");
             grgit.checkout {
                 branch = newGitBranch
                 createBranch = true
