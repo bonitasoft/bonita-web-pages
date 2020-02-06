@@ -87,7 +87,8 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
 });
 
 then("I see the failed flow nodes page", () => {
-    cy.get('.item-value').contains('60002');
+    cy.wait(3000);
+    cy.get('.item-value:visible').contains('60002');
 });
 
 then("The pending tasks list have the correct information", () => {

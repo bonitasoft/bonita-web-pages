@@ -154,7 +154,7 @@ then("The api call is made for {string} for done tasks", (filterValue) => {
 });
 
 then("I see the done tasks page", () => {
-    cy.get('.item-value').contains('140081');
+    cy.get('.item-value:visible').contains('140081');
 });
 
 then("The load more button has the correct text", () => {
