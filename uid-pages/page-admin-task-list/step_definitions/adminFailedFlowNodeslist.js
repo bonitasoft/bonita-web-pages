@@ -153,7 +153,7 @@ then("The failed flow nodes list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Low');
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60002');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('ALowScenario');
@@ -163,7 +163,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('User task');
         cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case Id');
+        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('3001');
         cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('generateRandomCases (1.0)');
@@ -175,7 +175,7 @@ then("The failed flow nodes list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Lowest');
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60003');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Lowest Scenario');
@@ -185,7 +185,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('User task');
         cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case Id');
+        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('4001');
         cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('generateCases (1.0)');
@@ -197,7 +197,7 @@ then("The failed flow nodes list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Highest');
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60004');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Highest Scenario');
@@ -207,7 +207,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('User task');
         cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case Id');
+        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('5001');
         cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('cases (1.0)');
@@ -219,7 +219,7 @@ then("The failed flow nodes list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('High');
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60005');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A High Scenario');
@@ -229,7 +229,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('User task');
         cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case Id');
+        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('6001');
         cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('donotgenerateRandomCases (1.0)');
@@ -241,7 +241,7 @@ then("The failed flow nodes list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Normal');
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60006');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Normal Scenario');
@@ -251,7 +251,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('User task');
         cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case Id');
+        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('7001');
         cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('donotgenerateCases (1.0)');
