@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskListBonitaV1",
   "name" : "AdminTaskListBonitaV1",
-  "lastUpdate" : 1580983108130,
+  "lastUpdate" : 1581090819915,
   "rows" : [
     [
       {
@@ -378,7 +378,7 @@
                                   },
                                   "placeholder" : {
                                     "type" : "interpolation",
-                                    "value" : "Search by name"
+                                    "value" : "Search by name or display name"
                                   },
                                   "value" : {
                                     "type" : "variable",
@@ -3361,7 +3361,7 @@
                                               },
                                               "text" : {
                                                 "type" : "interpolation",
-                                                "value" : "{{\"Due date\"|uiTranslate}}"
+                                                "value" : "{{\"Due date\"|uiTranslate}} \n<i class=\"glyphicon glyphicon-alert text-danger {{pendingTaskCtrl.hideDueDateOverdueIcon($item.dueDate)}} \" title=\"{{\"This task is overdue\"|uiTranslate}}\" ></i>"
                                               },
                                               "alignment" : {
                                                 "type" : "constant",
@@ -6226,6 +6226,15 @@
         "        }",
         "        ",
         "        return queryParameters;",
+        "    },",
+        "    hideDueDateOverdueIcon: function(dueDate){",
+        "        var currentTimestamp = new Date().getTime();",
+        "        var dueDateTimeStamp = new Date(dueDate).getTime();",
+        "        ",
+        "        if(!dueDate || dueDateTimeStamp > currentTimestamp){",
+        "            return \"hidden\";",
+        "        }",
+        "        return \"\";",
         "    }",
         "};"
       ],
