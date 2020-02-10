@@ -64,10 +64,10 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
             case 'Display name (Desc)':
                 cy.get('select:visible').eq(1).select('1');
                 break;
-            case 'Due date (Newest first)':
+            case 'Due date (Closest first)':
                 cy.get('select:visible').eq(1).select('2');
                 break;
-            case 'Due date (Oldest first)':
+            case 'Due date (Furthest first)':
                 cy.get('select:visible').eq(1).select('3');
                 break;
             case 'Priority (Lowest - Highest)':
@@ -98,7 +98,7 @@ then("The pending tasks list have the correct information", () => {
         cy.get('.item-value').contains('100227');
         cy.get('.item-label').contains('Failed on').should("not.exist");
         cy.get('.item-label').contains('Due date');
-        cy.get('.item-value').contains('1/22/20 5:51 PM');
+        cy.get('.item-value').contains('12/31/99 11:51 PM');
     });
 });
 
@@ -110,10 +110,10 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
         case 'Display name (Desc)':
             cy.wait('@sortByDisplayNameDescRoute');
             break;
-        case 'Due date (Newest first)':
+        case 'Due date (Closest first)':
             cy.wait('@sortByDueDateDescRoute');
             break;
-        case 'Due date (Oldest first)':
+        case 'Due date (Furthest first)':
             cy.wait('@sortByDueDateAscRoute');
             break;
         case 'Priority (Lowest - Highest)':
@@ -136,4 +136,9 @@ then("No pending tasks are available", () => {
     cy.get('.task-item').should('have.length', 0);
     cy.contains('No pending task to display').should('be.visible');
     cy.contains('No failed flow nodes to display').should('not.be.visible');
+});
+
+then("{string} items in the list are overdue", (overdueItems) => {
+    cy.get(".glyphicon.glyphicon-alert.text-danger:visible").should("have.length", overdueItems);
+    cy.get(".glyphicon.glyphicon-alert.text-danger:visible").should("have.attr", "title", "This task is overdue");
 });

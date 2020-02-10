@@ -18,10 +18,10 @@ Feature: The pending tasks list in desktop resolution
     Then The api call is made for "Display name (Asc)" for pending tasks
     When I put "Display name (Desc)" in "sort by" filter field for pending tasks
     Then The api call is made for "Display name (Desc)" for pending tasks
-    When I put "Due date (Newest first)" in "sort by" filter field for pending tasks
-    Then The api call is made for "Due date (Newest first)" for pending tasks
-    When I put "Due date (Oldest first)" in "sort by" filter field for pending tasks
-    Then The api call is made for "Due date (Oldest first)" for pending tasks
+    When I put "Due date (Closest first)" in "sort by" filter field for pending tasks
+    Then The api call is made for "Due date (Closest first)" for pending tasks
+    When I put "Due date (Furthest first)" in "sort by" filter field for pending tasks
+    Then The api call is made for "Due date (Furthest first)" for pending tasks
     When I put "Priority (Lowest - Highest)" in "sort by" filter field for pending tasks
     Then The api call is made for "Priority (Lowest - Highest)" for pending tasks
     When I put "Priority (Highest - Lowest)" in "sort by" filter field for pending tasks
@@ -38,4 +38,11 @@ Feature: The pending tasks list in desktop resolution
     When I visit admin task list page
     And I click on "Pending tasks" tab
     Then No pending tasks are available
+
+  Scenario: The overdue date decorator displays correctly
+    Given The filter response "default filter" is defined for pending tasks
+    When I visit admin task list page
+    And I click on "Pending tasks" tab
+    Then A list of "5" items is displayed
+    And "3" items in the list are overdue
 
