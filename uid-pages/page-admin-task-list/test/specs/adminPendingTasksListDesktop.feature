@@ -8,7 +8,7 @@ Feature: The pending tasks list in desktop resolution
     When I click on "Pending tasks" tab
     Then The pending tasks list have the correct information
 
-  Scenario: The failed flow nodes list sort by works correctly
+  Scenario: The pending tasks list sort by works correctly
     Given The filter response "default filter" is defined for pending tasks
     And The filter response "sort by" is defined for pending tasks
     When I visit admin task list page

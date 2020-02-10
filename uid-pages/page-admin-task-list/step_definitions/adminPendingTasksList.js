@@ -1,11 +1,7 @@
 const urlPrefix = 'build/dist/';
-const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=ready&d=rootContainerId&d=assigned_id';
 const pendingTasksUrl = 'API/bpm/humanTask?';
 const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=20&p=0' + defaultFilters;
-const processUrl = urlPrefix + 'API/bpm/process?';
-const processFilters = 'c=999&p=0&o=displayName ASC';
-const defaultSortOrder = '&o=lastUpdateDate+DESC';
 
 given("The filter response {string} is defined for pending tasks", (filterType) => {
     cy.server();
@@ -91,13 +87,14 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
 });
 
 then("I see the failed flow nodes page", () => {
-    cy.get('.item-value').contains('60002');
+    cy.wait(3000);
+    cy.get('.item-value:visible').contains('60002');
 });
 
 then("The pending tasks list have the correct information", () => {
     cy.get('.task-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Id');
+        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('100227');
         cy.get('.item-label').contains('Failed on').should("not.exist");
         cy.get('.item-label').contains('Due date');
