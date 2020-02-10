@@ -152,7 +152,7 @@ then("The failed flow nodes list have the correct information", () => {
     cy.get('.task-item').eq(0).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('Priority');
-        cy.get('.item-value').contains('Low');
+        cy.get('.item-value').contains('--');
         cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60002');
         cy.get('.item-label').contains('Name');
@@ -261,6 +261,10 @@ then("The failed flow nodes list have the correct information", () => {
     });
 });
 
+then("The failed flow nodes list have the correct item shown number", () => {
+    cy.get('.text-primary.item-label:visible').contains('Failed flow nodes shown: 5');
+});
+
 then("A list of {string} items is displayed", (nbrOfItems) => {
     cy.get('.task-item:visible').should('have.length', nbrOfItems);
 });
@@ -304,4 +308,11 @@ then("The more button has correct href with {string}", (flowNodeId) => {
 
 then("The load more flow nodes button is disabled", () => {
     cy.get('button').contains('Load more flow nodes').should('be.disabled');
+});
+
+then("The loading text is displayed", () => {
+    cy.contains('Load more failed flow nodes').should('not.be.visible');
+    cy.contains('Failed flow nodes shown: 5').should('not.be.visible');
+    cy.get('h4').should('not.exist');
+    cy.get('.text-center').contains('Loading failed flow nodes...').should('be.visible');
 });

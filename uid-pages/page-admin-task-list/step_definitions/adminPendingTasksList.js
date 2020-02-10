@@ -98,8 +98,12 @@ then("The pending tasks list have the correct information", () => {
         cy.get('.item-value').contains('100227');
         cy.get('.item-label').contains('Failed on').should("not.exist");
         cy.get('.item-label').contains('Due date');
-        cy.get('.item-value').contains('12/31/99 11:51 PM');
+        cy.get('.item-value').contains('--');
     });
+});
+
+then("The pending tasks list have the correct item shown number", () => {
+    cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: 5');
 });
 
 then("The api call is made for {string} for pending tasks", (filterValue) => {
@@ -134,8 +138,8 @@ then("The load more button has the correct text", () => {
 
 then("No pending tasks are available", () => {
     cy.get('.task-item').should('have.length', 0);
-    cy.contains('No pending task to display').should('be.visible');
-    cy.contains('No failed flow nodes to display').should('not.be.visible');
+    cy.get('h4').contains('No pending tasks to display').should('be.visible');
+    cy.get('h4').contains('No failed flow nodes to display').should('not.be.visible');
 });
 
 then("{string} items in the list are overdue", (overdueItems) => {
