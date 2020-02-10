@@ -111,10 +111,10 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
             cy.wait('@sortByDisplayNameDescRoute');
             break;
         case 'Due date (Closest first)':
-            cy.wait('@sortByDueDateDescRoute');
+            cy.wait('@sortByDueDateAscRoute');
             break;
         case 'Due date (Furthest first)':
-            cy.wait('@sortByDueDateAscRoute');
+            cy.wait('@sortByDueDateDescRoute');
             break;
         case 'Priority (Lowest - Highest)':
             cy.wait('@sortByPriorityAscRoute');
