@@ -87,7 +87,6 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
 });
 
 then("I see the failed flow nodes page", () => {
-    cy.wait(3000);
     cy.get('.item-value:visible').contains('60002');
 });
 
@@ -137,7 +136,7 @@ then("The load more button has the correct text", () => {
 });
 
 then("No pending tasks are available", () => {
-    cy.get('.task-item').should('have.length', 0);
+    cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4').contains('No pending tasks to display').should('be.visible');
     cy.get('h4').contains('No failed flow nodes to display').should('not.be.visible');
 });

@@ -82,6 +82,7 @@ given("The filter response {string} is defined", (filterType) => {
 
 when("I visit admin task list page", () => {
     cy.visit(url);
+    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
@@ -298,7 +299,7 @@ then("The api call is made for {string}", (filterValue) => {
 });
 
 then("No failed flow nodes are available", () => {
-    cy.get('.task-item').should('have.length', 0);
+    cy.get('.task-item:visible').should('have.length', 0);
     cy.contains('No failed flow nodes to display').should('be.visible');
 });
 

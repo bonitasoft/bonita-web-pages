@@ -167,7 +167,7 @@ then("The load more button has the correct text", () => {
 });
 
 then("No done tasks are available", () => {
-    cy.get('.task-item').should('have.length', 0);
+    cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4:visible').contains('No done tasks to display').should('be.visible');
     cy.get('h4:visible').contains('No failed flow nodes to display').should('not.be.visible');
 });
