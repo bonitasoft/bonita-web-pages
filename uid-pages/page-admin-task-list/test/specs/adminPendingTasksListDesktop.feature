@@ -7,6 +7,7 @@ Feature: The pending tasks list in desktop resolution
     Then I see the failed flow nodes page
     When I click on "Pending tasks" tab
     Then The pending tasks list have the correct information
+    And The pending tasks list have the correct item shown number
 
   Scenario: The pending tasks list sort by works correctly
     Given The filter response "default filter" is defined for pending tasks
@@ -29,12 +30,14 @@ Feature: The pending tasks list in desktop resolution
 
   Scenario: Load more button has the correct text
     Given The filter response "default filter" is defined for pending tasks
+    And The filter response "default filter" is defined
     When I visit admin task list page
     And I click on "Pending tasks" tab
     Then A list of "5" items is displayed
     And The load more button has the correct text
 
   Scenario: No pending task display correctly
+    Given The filter response "default filter" is defined
     When I visit admin task list page
     And I click on "Pending tasks" tab
     Then No pending tasks are available
@@ -45,4 +48,3 @@ Feature: The pending tasks list in desktop resolution
     And I click on "Pending tasks" tab
     Then A list of "5" items is displayed
     And "3" items in the list are overdue
-

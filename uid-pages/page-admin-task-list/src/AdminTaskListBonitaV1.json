@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskListBonitaV1",
   "name" : "AdminTaskListBonitaV1",
-  "lastUpdate" : 1581348142497,
+  "lastUpdate" : 1581498298202,
   "rows" : [
     [
       {
@@ -767,6 +767,58 @@
                                         }
                                       },
                                       "reference" : "b834b993-77b6-4615-a78d-62f817c6c223",
+                                      "hasValidationError" : false,
+                                      "id" : "pbText"
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : "item-value"
+                                        },
+                                        "hidden" : {
+                                          "type" : "expression",
+                                          "value" : "$item.priority"
+                                        },
+                                        "labelHidden" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "label" : {
+                                          "type" : "interpolation",
+                                          "value" : "Default label"
+                                        },
+                                        "labelPosition" : {
+                                          "type" : "constant",
+                                          "value" : "top"
+                                        },
+                                        "labelWidth" : {
+                                          "type" : "constant",
+                                          "value" : 4
+                                        },
+                                        "allowHTML" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "--"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "left"
+                                        }
+                                      },
+                                      "reference" : "5951c473-93fd-47ca-a8f2-52503e29aae9",
                                       "hasValidationError" : false,
                                       "id" : "pbText"
                                     }
@@ -1975,11 +2027,63 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
+                              "value" : "text-primary item-label pt-5"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length == 0 || isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "{{\"Failed flow nodes shown\"|uiTranslate}}: {{failedFlowNodeData.displayedFailedFlowNodes.length}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            }
+                          },
+                          "reference" : "45f7705c-7665-4ccb-87f3-c9f4c007425e",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
                               "value" : ""
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length"
+                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length || isLoading"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -2015,7 +2119,59 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length == 0"
+                              "value" : "!isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Loading failed flow nodes...' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "d6e10280-8813-432b-9a54-a484b285e9a7",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length == 0 || isLoading"
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -2737,6 +2893,58 @@
                                       "hasValidationError" : false,
                                       "id" : "pbText"
                                     }
+                                  ],
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : "item-value"
+                                        },
+                                        "hidden" : {
+                                          "type" : "expression",
+                                          "value" : "$item.priority"
+                                        },
+                                        "labelHidden" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "label" : {
+                                          "type" : "interpolation",
+                                          "value" : "Default label"
+                                        },
+                                        "labelPosition" : {
+                                          "type" : "constant",
+                                          "value" : "top"
+                                        },
+                                        "labelWidth" : {
+                                          "type" : "constant",
+                                          "value" : 4
+                                        },
+                                        "allowHTML" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "--"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "left"
+                                        }
+                                      },
+                                      "reference" : "84c0956f-e45c-416f-ae85-8e6bb159ef63",
+                                      "hasValidationError" : false,
+                                      "id" : "pbText"
+                                    }
                                   ]
                                 ]
                               },
@@ -3413,7 +3621,7 @@
                                               },
                                               "text" : {
                                                 "type" : "interpolation",
-                                                "value" : "{{$item.dueDate.replace(\" \", \"T\")|uiDate:'short'}}"
+                                                "value" : "{{isInformationEmpty($item.dueDate.replace(\" \", \"T\")) | uiDate: 'short'}}"
                                               },
                                               "alignment" : {
                                                 "type" : "constant",
@@ -3941,15 +4149,67 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
+                              "value" : "text-primary item-label pt-5"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "pendingTaskData.displayedPendingTasks.length == 0 || isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "{{\"Pending tasks shown\"|uiTranslate}}: {{pendingTaskData.displayedPendingTasks.length}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            }
+                          },
+                          "reference" : "f50c7aac-384b-4ceb-95d4-a202212340c2",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
                               "value" : ""
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length"
+                              "value" : "pendingTaskData.displayedPendingTasks.length || isLoading"
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "No pending task to display"
+                              "value" : "No pending tasks to display"
                             },
                             "level" : {
                               "type" : "constant",
@@ -3981,7 +4241,59 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length == 0"
+                              "value" : "!isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Loading pending tasks...' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "2f5daef0-3b3a-4b6e-a448-11219efc3ae6",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "pendingTaskData.displayedPendingTasks.length == 0 || isLoading"
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -4700,6 +5012,58 @@
                                         }
                                       },
                                       "reference" : "ec780b2c-19a8-4250-b1ec-dd43d7489e51",
+                                      "hasValidationError" : false,
+                                      "id" : "pbText"
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : "item-value"
+                                        },
+                                        "hidden" : {
+                                          "type" : "expression",
+                                          "value" : "$item.priority"
+                                        },
+                                        "labelHidden" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "label" : {
+                                          "type" : "interpolation",
+                                          "value" : "Default label"
+                                        },
+                                        "labelPosition" : {
+                                          "type" : "constant",
+                                          "value" : "top"
+                                        },
+                                        "labelWidth" : {
+                                          "type" : "constant",
+                                          "value" : 4
+                                        },
+                                        "allowHTML" : {
+                                          "type" : "constant",
+                                          "value" : true
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "--"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "left"
+                                        }
+                                      },
+                                      "reference" : "02b8f671-36be-4334-aed9-1e562e30a250",
                                       "hasValidationError" : false,
                                       "id" : "pbText"
                                     }
@@ -5907,15 +6271,67 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
+                              "value" : "text-primary item-label pt-5"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "doneTaskData.displayedDoneTasks.length == 0 || isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "{{\"Done tasks shown\"|uiTranslate}}: {{doneTaskData.displayedDoneTasks.length}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            }
+                          },
+                          "reference" : "2dba5b7c-c99b-4e2f-a617-5bc6b82bb834",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
                               "value" : ""
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length"
+                              "value" : "doneTaskData.displayedDoneTasks.length || isLoading"
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "No done task to display"
+                              "value" : "No done tasks to display"
                             },
                             "level" : {
                               "type" : "constant",
@@ -5947,7 +6363,59 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length == 0"
+                              "value" : "!isLoading"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Loading done tasks...' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "e0e3d495-7660-46ef-8b1f-e42358763eb6",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "doneTaskData.displayedDoneTasks.length == 0 || isLoading"
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -6169,7 +6637,8 @@
         "    $data.failedFlowNodeData.numberOfFailedFlowNodesReturned = $data.failedFlowNodeData.flowNodesForNextPage.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.failedFlowNodeUrl = undefined; ",
+        "    $data.failedFlowNodeUrl = undefined;",
+        "    $data.isLoading = false;",
         "}",
         "",
         "// add next page of flowNodes to the list of next flowNodes to display",
@@ -6421,6 +6890,25 @@
       "type" : "url",
       "value" : [
         "../API/bpm/archivedTask?{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
+      ],
+      "exposed" : false
+    },
+    "isInformationEmpty" : {
+      "type" : "expression",
+      "value" : [
+        "return function(information) {",
+        "    if (!information) {",
+        "        return \"--\";",
+        "    }",
+        "    return information;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "isLoading" : {
+      "type" : "expression",
+      "value" : [
+        "return true;"
       ],
       "exposed" : false
     }

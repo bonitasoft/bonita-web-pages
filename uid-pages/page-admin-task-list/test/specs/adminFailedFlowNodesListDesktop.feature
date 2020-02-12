@@ -4,6 +4,7 @@ Feature: The failed flow nodes list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit admin task list page
     Then The failed flow nodes list have the correct information
+    And The failed flow nodes list have the correct item shown number
 
   Scenario: The failed flow nodes list filtered by process name works correctly
     Given The filter response "default filter" is defined
@@ -70,3 +71,8 @@ Feature: The failed flow nodes list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more flow nodes button
     Then The load more flow nodes button is disabled
+
+  Scenario: Loading should be displayed on page load
+    When I visit admin task list page
+    Then No failed flow nodes are available
+    And The loading text is displayed

@@ -7,6 +7,7 @@ Feature: The done tasks list in desktop resolution
     Then I see the failed flow nodes page
     When I click on "Done tasks" tab
     Then The done tasks list have the correct information
+    And The done tasks list have the correct item shown number
 
   Scenario: Switching between tabs works correctly
     Given The filter response "default filter" is defined for done tasks
@@ -47,12 +48,14 @@ Feature: The done tasks list in desktop resolution
 
   Scenario: Load more button has the correct text
     Given The filter response "default filter" is defined for done tasks
+    And The filter response "default filter" is defined
     When I visit admin task list page
     And I click on "Done tasks" tab
     Then A list of "5" items is displayed
     And The load more button has the correct text
 
   Scenario: No done task display correctly
+    Given The filter response "default filter" is defined
     When I visit admin task list page
     And I click on "Done tasks" tab
     Then No done tasks are available
