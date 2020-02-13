@@ -19,8 +19,10 @@ Feature: The user open case list in desktop resolution
     And A list of processes is available
     When I visit the user case list page
     Then The "open" cases have the correct information
+    And The open case list have the correct item shown number
     When I click on "Archived cases" tab
     Then The "archived" cases have the correct information
+    And The archived case list have the correct item shown number
 
   Scenario: The user open case list filter by process name works correctly
     Given A list of open cases is available
@@ -188,6 +190,7 @@ Feature: The user open case list in desktop resolution
 
   Scenario: Load more archived cases button works correctly
     Given A list of archived cases with several pages is available
+    And A list of open cases is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
@@ -212,6 +215,7 @@ Feature: The user open case list in desktop resolution
 
   Scenario: The refresh button works correctly for archived cases
     Given A list of archived cases with several pages is available
+    And A list of open cases is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
@@ -221,3 +225,8 @@ Feature: The user open case list in desktop resolution
     Then A list of "20" cases is displayed
     When I click on refresh
     Then A list of "10" cases is displayed
+
+  Scenario: Loading should be displayed on page load
+    When I visit the user case list page
+    Then No open cases are available
+    And The loading text is displayed
