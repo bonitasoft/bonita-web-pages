@@ -271,6 +271,10 @@ then("The users have the correct information", () => {
     });
 });
 
+then("The user list have the correct item shown number", () => {
+    cy.get('.text-primary.item-property-label:visible').contains('Users shown: 5');
+});
+
 then("A list of {string} users is displayed", (nbrOfUsers) => {
     cy.get('.item').should('have.length', nbrOfUsers);
 });
@@ -382,4 +386,11 @@ then("All create user modal information is cleared", () => {
     cy.get('.modal input').eq(0).should('have.value', '');
     cy.get('.modal input').eq(1).should('have.value', '');
     cy.get('.modal input').eq(2).should('have.value', '');
+});
+
+then("The loading text is displayed", () => {
+    cy.contains('span','Load more users').should('not.be.visible');
+    cy.contains('p','Users shown: 5').should('not.be.visible');
+    cy.contains('h4', 'No users to display').should('not.exist');
+    cy.get('.text-center').contains('Loading users...').should('be.visible');
 });
