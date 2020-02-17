@@ -4,6 +4,7 @@ Feature: The users list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit the user list page
     Then The users have the correct information
+    And The user list have the correct item shown number
 
   Scenario: The users list sort by works correctly
     Given The filter response "default filter" is defined
@@ -65,3 +66,8 @@ Feature: The users list in desktop resolution
     Then A list of "20" users is displayed
     When I click on Load more users button
     Then The Load more users button is disabled
+
+  Scenario: Loading should be displayed on page load
+    When I visit the user list page
+    Then No users are available
+    And The loading text is displayed
