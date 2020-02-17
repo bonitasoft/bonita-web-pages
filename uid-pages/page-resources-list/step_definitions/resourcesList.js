@@ -500,3 +500,14 @@ then('I can download the resource', () => {
 then("The warning message is displayed with the token {string}", (pageToken) => {
     cy.get('.modal').contains(pageToken).should('be.visible');
 });
+
+then("The resources list have the correct item shown number", () => {
+    cy.get('.text-primary.resource-property-label:visible').contains('Resources shown: 5');
+});
+
+then("The loading text is displayed", () => {
+    cy.contains('span', 'Load more resources').should('not.be.visible');
+    cy.contains('div', 'Resources shown: 5').should('not.be.visible');
+    cy.contains('h4', 'No resources to display').should('not.exist');
+    cy.get('.text-center').contains('Loading resources...').should('be.visible');
+});

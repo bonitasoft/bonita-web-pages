@@ -4,6 +4,7 @@ Feature: The resources list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit the resources list page
     Then The resources have the correct information
+    And The resources list have the correct item shown number
 
   Scenario: The resources list filtered by content type works correctly
     Given The filter response "default filter" is defined
@@ -76,3 +77,8 @@ Feature: The resources list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit the index page
     Then I can download the resource
+
+  Scenario: Loading should be displayed on page load
+    When I visit the index page
+    Then No resources are available
+    And The loading text is displayed
