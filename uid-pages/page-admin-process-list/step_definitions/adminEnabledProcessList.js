@@ -162,7 +162,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-label').contains('Updated on');
         cy.get('.item-value').contains('2/19/20 10:29 AM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'More');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Helen Kelly');
     });
@@ -181,7 +181,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-label').contains('Updated on');
         cy.get('.item-value').contains('2/24/20 5:17 PM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'More');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: William Jobs');
     });
@@ -200,7 +200,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-label').contains('Updated on');
         cy.get('.item-value').contains('2/18/20 3:58 PM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'More');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
@@ -219,7 +219,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-label').contains('Updated on');
         cy.get('.item-value').contains('2/26/20 3:58 PM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'More');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
@@ -238,7 +238,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-label').contains('Updated on');
         cy.get('.item-value').contains('2/15/20 3:58 PM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'More');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Anthony Nichols');
     });
