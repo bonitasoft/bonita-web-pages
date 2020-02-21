@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1582210883212,
+  "lastUpdate" : 1582218230427,
   "rows" : [
     [
       {
@@ -3655,7 +3655,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{modalCtrl.getModalState(modalData.process.activationState)}} {{modalData.process.name}}"
+                          "value" : "{{modalCtrl.getModalState(modalData.process.activationState)}} {{modalData.process.name}} ({{modalData.process.version}})"
                         },
                         "level" : {
                           "type" : "constant",
@@ -3701,7 +3701,318 @@
                 "hasValidationError" : false,
                 "id" : "pbContainer",
                 "rows" : [
-                  [ ]
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "modalData.process.activationState === \"DISABLED\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Disabling this process will remove it from the list of processes that users can start.\" | uiTranslate}} <br/>\n{{\"Open cases of this process will continue to run normally\" | uiTranslate}} <br/>\n{{\"Are you sure you want to disable\" | uiTranslate}} {{modalData.process.name}} ({{modalData.process.version}})?"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "7f790d3d-b538-4fb5-961e-08b06a07f312",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "modalData.process.activationState === \"ENABLED\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Enabling this process will make it visible to the users who can start it\" | uiTranslate}} <br/>\n{{\"Are you sure you want to enable\" | uiTranslate}} {{modalData.process.name}} ({{modalData.process.version}})?"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "7a5ab820-04cb-4eac-a3d8-479c44556a75",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "modalData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{modalCtrl.getErrorMessageFor500(modalData.failedStateResponse)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "f8035f4d-af00-4c51-8948-349a903b4ac5",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "modalData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "7188e6a0-297c-4ca8-b8cf-921e16911b64",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!modalData.disablingProcess"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Disabling process...' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "6e4a77ab-16cd-43f7-9cd7-26e0c03ffc0b",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!modalData.enablingProcess"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Enabling process...' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "549027a0-aa44-40b9-a04d-e28b57aba283",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
                 ]
               }
             ],
@@ -3776,11 +4087,11 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "../API/bpm/process/{{modalData.process.id}}"
+                          "value" : "{{modalCtrl.changeStateProcess()}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
-                          "value" : ""
+                          "value" : "modalData.statusCode"
                         },
                         "dataToSend" : {
                           "type" : "expression",
@@ -3796,7 +4107,7 @@
                         },
                         "dataFromError" : {
                           "type" : "variable",
-                          "value" : ""
+                          "value" : "modalData.failedStateResponse"
                         },
                         "targetUrlOnSuccess" : {
                           "type" : "interpolation"
@@ -3951,7 +4262,8 @@
         "return {",
         "    enabledProcess: {},",
         "    enabledProcessesForNextPage: [],",
-        "    pageId: 0, ",
+        "    pageId: 0,",
+        "    timestamp: 0,",
         "    numberOfEnabledProcessesPerPage: 10,",
         "    numberOfEnabledProcessesReturned: 0,",
         "    sortByOptions: [   ",
@@ -4033,7 +4345,7 @@
         "            //on first call we need load next page\r",
         "            enabledProcessesPerPage *= 2;\r",
         "        }\r",
-        "        var queryParameters = \"c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&d=deployedBy&f=activationState=ENABLED\";\r",
+        "        var queryParameters = \"c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.enabledProcessData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
         "        \r",
         "        if($data.enabledProcessData.filters.sortOrder){\r",
         "            queryParameters += \"&o=\" + $data.enabledProcessData.filters.sortOrder;\r",
@@ -4058,6 +4370,7 @@
         "    disabledProcess: {},\r",
         "    disabledProcessesForNextPage: [],\r",
         "    pageId: 0, \r",
+        "    timestamp: 0,\r",
         "    numberOfDisabledProcessesPerPage: 10,\r",
         "    numberOfDisabledProcessesReturned: 0,\r",
         "    stateOptions: \r",
@@ -4097,7 +4410,7 @@
         "            //on first call we need load next page\r",
         "            disabledProcessesPerPage *= 2;\r",
         "        }\r",
-        "        var queryParameters = \"c=\" + disabledProcessesPerPage + \"&p=\" + pageId + \"&d=deployedBy&f=activationState=DISABLED\";\r",
+        "        var queryParameters = \"c=\" + disabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.disabledProcessData.timestamp + \"&d=deployedBy&f=activationState=DISABLED\";\r",
         "\r",
         "        if($data.disabledProcessData.filters.state){\r",
         "            queryParameters += \"&f=configurationState=\" +  $data.disabledProcessData.filters.state.toUpperCase();\r",
@@ -4186,6 +4499,15 @@
     "modalCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isErrorOfType = function (failedInstallResponse, type) {",
+        "    if (failedInstallResponse.cause",
+        "        && (failedInstallResponse.cause.exception.indexOf(type) > -1",
+        "            || failedInstallResponse.cause.message.indexOf(type) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
+        "",
         "return {",
         "    getModalState: function(state){",
         "        return state.toLowerCase() === \"enabled\" ? uiTranslate(\"Disable\") : uiTranslate(\"Enable\");",
@@ -4194,8 +4516,28 @@
         "        return state.toLowerCase() === \"enabled\" ? {activationState: \"DISABLED\"} : {activationState: \"ENABLED\"};",
         "    },",
         "    initStateModal: function(process){",
+        "        $data.modalData.statusCode = \"\";",
         "        $data.modalData.process = process;",
         "        return \"changeStateModal\";",
+        "    },",
+        "    getErrorMessageFor500: function(failedStateResponse) {",
+        "        if (isErrorOfType(failedStateResponse, 'SProcessDisablementException')) {",
+        "            return uiTranslate(\"This process is already disabled.\");",
+        "        } else if (isErrorOfType(failedStateResponse, 'SProcessEnablementException')) {",
+        "            return uiTranslate('This process is already enabled.');",
+        "        }",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
+        "    },",
+        "    changeStateProcess : function() {",
+        "        if (!$data.modalData.process || !$data.modalData.process.activationState) {",
+        "            return \"\";",
+        "        }",
+        "        if ($data.modalData.process.activationState.toLowerCase() === \"enabled\") {",
+        "            $data.modalData.disablingProcess = true;",
+        "        } else {",
+        "            $data.modalData.enablingProcess = true;",
+        "        }",
+        "        return \"../API/bpm/process/\" + $data.modalData.process.id;",
         "    }",
         "};"
       ],
@@ -4206,7 +4548,26 @@
       "value" : [
         "return {",
         "    process: {},",
+        "    failedStateResponse: undefined,",
+        "    statusCode: \"\",",
+        "    disablingProcess: false",
         "};"
+      ],
+      "exposed" : false
+    },
+    "modalHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is disabled or enabled\r",
+        "if($data.modalData.statusCode !== '' && ($data.modalData.disablingProcess || $data.modalData.enablingProcess)){\r",
+        "    $data.modalData.disablingProcess = false;\r",
+        "    $data.modalData.enablingProcess = false;\r",
+        "    $data.enabledProcessData.timestamp = new Date().getTime();\r",
+        "    $data.disabledProcessData.timestamp = new Date().getTime();\r",
+        "    setTimeout(function() {\r",
+        "        $data.modalData.statusCode = '';\r",
+        "    }, 2000);\r",
+        "}"
       ],
       "exposed" : false
     }

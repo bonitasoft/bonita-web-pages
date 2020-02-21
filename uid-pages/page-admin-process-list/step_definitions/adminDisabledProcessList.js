@@ -1,11 +1,11 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=DISABLED';
-const processListUrl = 'API/bpm/process?';
-const defaultRequestUrl = urlPrefix + processListUrl + 'c=20&p=0' + defaultFilters;
+const processListUrl = 'API/bpm/process';
+const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
 
-given("The filter response {string} is defined for disabled processes", (filterType) => {
+given("The page response {string} is defined for disabled processes", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter':
@@ -14,15 +14,17 @@ given("The filter response {string} is defined for disabled processes", (filterT
         case 'state':
             createRouteWithResponse(defaultRequestUrl,'&f=configurationState=RESOLVED' + defaultSortOrder, 'resolvedProcessesRoute', 'resolvedProcesses');
             break;
+        case 'delay enable':
+            cy.fixture('json/emptyResult.json').as('emptyResult');
+            cy.route({
+                method: 'PUT',
+                url: urlPrefix + processListUrl + '/4623447657350219626',
+                response: '@emptyResult',
+                delay: 2000
+            }).as('delayEnableRoute');
+            break;
         default:
             throw new Error("Unsupported case");
-    }
-
-    function createRoute(queryParameter, routeName) {
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-        }).as(routeName);
     }
 
     function createRouteWithResponse(url, queryParameter, routeName, response) {
@@ -72,6 +74,10 @@ when("I put {string} in {string} filter field in disabled processes list", (filt
                 throw new Error("Unsupported case");
         }
     }
+});
+
+when("I click on enable button in modal", () => {
+    cy.get('button').contains('Enable').click();
 });
 
 then("The disabled process list have the correct information", () => {
@@ -193,4 +199,24 @@ then("The api call is made for {string} processes", (filterValue) => {
 
 then("A list of {string} items is displayed", (nbrOfItems) => {
     cy.get('.process-item:visible').should('have.length', nbrOfItems);
+});
+
+then("The correct text is shown in enable modal", () => {
+    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('be.visible');
+    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('not.be.visible');
+    cy.contains('.modal', 'This process is already disabled.').should('not.be.visible');
+    cy.contains('.modal', 'This process is already enabled.').should('not.be.visible');
+    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.be.visible');
+    cy.contains('.modal', 'Disabling process...').should('not.be.visible');
+    cy.contains('.modal', 'Enabling process...').should('not.be.visible');
+});
+
+then("I see enabling message", () => {
+    cy.get('.glyphicon-cog.gly-spin').should('be.visible');
+    cy.contains('div','Enabling process...').should('be.visible');
+});
+
+then("The {string} button is disabled for item {string}", (iconName, processNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(processNumber - 1).click();
 });
