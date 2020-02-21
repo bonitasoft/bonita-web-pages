@@ -1,70 +1,92 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
-const processListUrl = 'API/bpm/process?';
-const defaultRequestUrl = urlPrefix + processListUrl + 'c=20&p=0' + defaultFilters;
+const processListUrl = 'API/bpm/process';
+const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
 
-given("The filter response {string} is defined", (filterType) => {
+given("The page response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'enabledProcesses5Route', 'enabledProcesses5');
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'sort by':
-            createRoute('&o=name+ASC', 'sortByNameAscRoute');
-            createRoute('&o=name+DESC', 'sortByNameDescRoute');
-            createRoute('&o=displayName+DESC', 'sortByDisplayNameDescRoute');
-            createRoute('&o=version+ASC', 'sortByVersionAscRoute');
-            createRoute('&o=version+DESC', 'sortByVersionDescRoute');
-            createRoute('&o=deploymentDate+ASC', 'sortByDeployedOnAscRoute');
-            createRoute('&o=deploymentDate+DESC', 'sortByDeployedOnDescRoute');
-            createRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
-            createRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
+            createDefaultRoute('&o=name+ASC', 'sortByNameAscRoute');
+            createDefaultRoute('&o=name+DESC', 'sortByNameDescRoute');
+            createDefaultRoute('&o=displayName+DESC', 'sortByDisplayNameDescRoute');
+            createDefaultRoute('&o=version+ASC', 'sortByVersionAscRoute');
+            createDefaultRoute('&o=version+DESC', 'sortByVersionDescRoute');
+            createDefaultRoute('&o=deploymentDate+ASC', 'sortByDeployedOnAscRoute');
+            createDefaultRoute('&o=deploymentDate+DESC', 'sortByDeployedOnDescRoute');
+            createDefaultRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
+            createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
             break;
         case 'search':
-            createRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
-            createRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
-            createRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createDefaultRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
+            createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
+            createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'', 'enabledProcesses20Route', 'enabledProcesses20');
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses10Route', 'enabledProcesses10', 2, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5', 3, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'enabledProcesses20Route', 'enabledProcesses20');
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'disable process':
+            createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/7150158626056333703', "processDisableRoute", 'emptyResult', "PUT");
+            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
+            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*&d=deployedBy&f=activationState=DISABLED' + defaultSortOrder, "refreshDisabledProcessesList", "GET");
+            break;
+        case 'disable state code 500':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '500');
+            break;
+        case 'disable state code 403':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '403');
+            break;
+        case 'delay disable':
+            cy.fixture('json/emptyResult.json').as('emptyResult');
+            cy.route({
+                method: 'PUT',
+                url: urlPrefix + processListUrl + '/7150158626056333703',
+                response: '@emptyResult',
+                delay: 2000
+            }).as('delayDisableRoute');
             break;
         default:
             throw new Error("Unsupported case");
     }
 
-    function createRoute(queryParameter, routeName) {
+    function createDefaultRoute(queryParameter, routeName) {
+        createRoute(defaultRequestUrl + queryParameter, routeName, "GET");
+    }
+
+    function createRoute(url, routeName, method) {
         cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
+            method: method,
+            url: url
         }).as(routeName);
     }
 
-    function createRouteWithResponse(url, queryParameter, routeName, response) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue
-        }).as(routeName);
+    function createRouteWithResponse(url, routeName, response) {
+        createRouteWithResponseAndMethod(url, routeName, response, "GET");
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + processListUrl + 'c=' + count + '&p=' + page + defaultFilters;
+        const loadMoreUrl = urlPrefix + processListUrl + '?c=' + count + '&p=' + page + "&time=0" + defaultFilters + queryParameter;
+        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET");
+    }
+
+    function createRouteWithResponseAndMethod(url, routeName, response, method) {
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200');
+    }
+
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -72,9 +94,10 @@ given("The filter response {string} is defined", (filterType) => {
         }
 
         cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            method: method,
+            url: url,
+            response: responseValue,
+            status: status
         }).as(routeName);
     }
 });
@@ -146,11 +169,23 @@ when("I click on load more processes button", () => {
     cy.get('button').contains('Load more processes').click();
 });
 
+when("I click on {string} button on the item {string}", (iconName, itemNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(itemNumber - 1).click();
+});
+
+when("I click on close button in the modal", () => {
+    cy.get('button').contains('Close').click();
+});
+
+when("I click on disable button in modal", () => {
+    cy.get('button').contains('Disable').click();
+});
+
 then("The enabled process list have the correct information", () => {
     cy.get('.process-item').eq(0).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
-        cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved')
+        cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('VacationRequest');
         cy.get('.item-label').contains('Display name');
@@ -242,7 +277,6 @@ then("The enabled process list have the correct information", () => {
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Anthony Nichols');
     });
-
 });
 
 then("The enabled process list have the correct item shown number", () => {
@@ -294,6 +328,13 @@ then("The api call is made for {string}", (filterValue) => {
         case '1.0':
             cy.wait('@searchByVersionRoute');
             break;
+        case 'disable process':
+            cy.wait('@processDisableRoute');
+            break;
+        case 'refresh list':
+            cy.wait('@refreshEnabledProcessesList');
+            cy.wait('@refreshDisabledProcessesList');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -306,4 +347,43 @@ then("No enabled processes are available", () => {
 
 then("The load more processes button is disabled", () => {
     cy.get('button').contains('Load more processes').should('be.disabled');
+});
+
+then("The {string} process modal is displayed for {string}", (fieldText, itemName) => {
+    cy.get('.modal').contains(fieldText + ' ' + itemName).should('be.visible');
+});
+
+then("The modal is closed",() => {
+    cy.get('.modal').should('not.visible');
+});
+
+then("The correct text is shown in disable modal", () => {
+    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('be.visible');
+    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('not.be.visible');
+    cy.contains('.modal', 'This process is already disabled.').should('not.be.visible');
+    cy.contains('.modal', 'This process is already enabled.').should('not.be.visible');
+    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.be.visible');
+    cy.contains('.modal', 'Disabling process...').should('not.be.visible');
+    cy.contains('.modal', 'Enabling process...').should('not.be.visible');
+});
+
+then("I see {string} error message", (errorCode) => {
+    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('be.visible');
+    switch (errorCode) {
+        case '500':
+            cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case '403':
+            cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+
+    }
+});
+
+then("I see disabling message", () => {
+    cy.get('.glyphicon-cog.gly-spin').should('be.visible');
+    cy.contains('div','Disabling process...').should('be.visible');
 });
