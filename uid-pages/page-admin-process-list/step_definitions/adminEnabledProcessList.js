@@ -58,6 +58,9 @@ given("The page response {string} is defined", (filterType) => {
                 delay: 2000
             }).as('delayDisableRoute');
             break;
+        case 'refresh enabled process list':
+            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -179,6 +182,14 @@ when("I click on close button in the modal", () => {
 
 when("I click on disable button in modal", () => {
     cy.get('button').contains('Disable').click();
+});
+
+when("I click on refresh button", () => {
+    cy.get('.glyphicon-repeat:visible').click();
+});
+
+when("I click on install button in the page", () => {
+    cy.get('button').contains('Install').click();
 });
 
 then("The enabled process list have the correct information", () => {
@@ -335,6 +346,9 @@ then("The api call is made for {string}", (filterValue) => {
             cy.wait('@refreshEnabledProcessesList');
             cy.wait('@refreshDisabledProcessesList');
             break;
+        case 'refresh enabled process list':
+            cy.wait('@refreshEnabledProcessesList');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -370,6 +384,7 @@ then("The correct text is shown in disable modal", () => {
 
 then("I see {string} error message", (errorCode) => {
     cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('be.visible');
+    cy.contains('.modal', 'The process has not been disabled.').should('be.visible');
     switch (errorCode) {
         case '500':
             cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('be.visible');
@@ -386,4 +401,8 @@ then("I see {string} error message", (errorCode) => {
 then("I see disabling message", () => {
     cy.get('.glyphicon-cog.gly-spin').should('be.visible');
     cy.contains('div','Disabling process...').should('be.visible');
+});
+
+then("The modal {string} button is disabled",(buttonLabel) => {
+    cy.get('.modal-footer button').contains(buttonLabel).should('be.disabled');
 });
