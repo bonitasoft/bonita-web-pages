@@ -123,3 +123,16 @@ Feature: The enabled process list in desktop resolution
     When I click on close button in the modal
     And I click on "ban-circle" button on the item "1"
     Then The correct text is shown in disable modal
+
+  Scenario: The refresh button works correctly
+    Given The page response "refresh enabled process list" is defined
+    When I visit admin process list page
+    And I click on refresh button
+    Then The api call is made for "refresh enabled process list"
+
+  Scenario: The install modal is displayed and closed
+    When I visit admin process list page
+    And I click on install button in the page
+    Then The modal "Install" button is disabled
+    When I click on close button in the modal
+    Then The modal is closed
