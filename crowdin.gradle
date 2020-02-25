@@ -148,7 +148,7 @@ task performUploadCrowdinSources(group: 'crowdin') {
 
 task uploadCrowdinSources(description: 'Upload sources to Crowdin.', group: 'crowdin') {
     dependsOn 'prepareForCrowdinUploadSources'
-    dependsOn 'performUploadCrowdinSources'
+    dependsOn 'performUploadCrowdinNeededSources'
     tasks.findByName('performUploadCrowdinSources').mustRunAfter 'prepareForCrowdinUploadSources'
 }
 
@@ -213,25 +213,44 @@ task integrateCrowdinUIDTranslations(group: 'crowdin') {
     uidPages.each { dependsOn "uid-pages:$it:integrateDownloadedI18nTranslations" }
 }
 
-task crowdinGitBranchIfNeeded(group: 'crowdin') {
+task switchToGitTranslationBranchIfExists(group: 'crowdin') {
+    doLast {
+        def baseBranch = gitBranchName()
+        logger.quiet("base Branch:  ${baseBranch}");
+        def translationGitBranch = "chore/${baseBranch}/update-translations"
+        if (grgit.branch.list().find { it.name == translationGitBranch }) {
+            logger.quiet("switching to Git Branch: ${translationGitBranch}");
+            grgit.checkout{
+                branch = translationGitBranch
+            }
+        }
+    }
+}
+
+task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
     doLast {
         if (!grgit.status().isClean()) {
             logger.quiet 'Git status detected changes'
             def baseBranch = gitBranchName()
-            logger.quiet("base Branch:  ${baseBranch}");
-            def newGitBranch = "chore/${baseBranch}/update-translations_${System.currentTimeMillis()}"
-            logger.quiet("new Git Branch: ${newGitBranch}");
-            grgit.checkout {
-                branch = newGitBranch
-                createBranch = true
-                startPoint = baseBranch
+            def translationGitBranch = "chore/${baseBranch}/update-translations"
+            logger.quiet("translation Branch:  ${translationGitBranch}");
+            def translationBranchExists = grgit.branch.list().find { it.name == translationGitBranch }
+            if (!translationBranchExists) {
+                logger.quiet("new Git Branch: ${translationGitBranch}");
+                grgit.checkout{
+                    branch = translationGitBranch
+                    createBranch = true
+                    startPoint = baseBranch
+                }
             }
             grgit.commit {
                 message = 'feat(l18n): update translations from Crowdin'
                 all = true
             }
             grgit.push()
-            createPullRequest('bonita-web-pages', baseBranch, newGitBranch)
+            if (!translationBranchExists) {
+                createPullRequest('bonita-web-pages', baseBranch, translationGitBranch)
+            }
         }
     }
 }
@@ -282,7 +301,8 @@ private void createPullRequest(String githubRepositoryName, String baseBranch, S
 }
 
 task integrateCrowdinTranslations(description: 'Integrate Crowdin translations.', group: 'crowdin') {
-    dependsOn 'integrateCrowdinUIDTranslations'
-    dependsOn 'crowdinGitBranchIfNeeded'
-    tasks.findByName('crowdinGitBranchIfNeeded').mustRunAfter 'integrateCrowdinUIDTranslations'
+    dependsOn 'switchToGitTranslationBranchIfExists'
+    dependsOn 'crowdinGitBranchAndPRIfNeeded'
+    tasks.findByName('integrateCrowdinUIDTranslations').mustRunAfter 'switchToGitTranslationBranchIfExists'
+    tasks.findByName('crowdinGitBranchAndPRIfNeeded').mustRunAfter 'integrateCrowdinUIDTranslations'
 }
