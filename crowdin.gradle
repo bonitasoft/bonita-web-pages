@@ -148,7 +148,7 @@ task performUploadCrowdinSources(group: 'crowdin') {
 
 task uploadCrowdinSources(description: 'Upload sources to Crowdin.', group: 'crowdin') {
     dependsOn 'prepareForCrowdinUploadSources'
-    dependsOn 'performUploadCrowdinNeededSources'
+    dependsOn 'performUploadCrowdinSources'
     tasks.findByName('performUploadCrowdinSources').mustRunAfter 'prepareForCrowdinUploadSources'
 }
 
