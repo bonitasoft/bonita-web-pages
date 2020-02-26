@@ -220,11 +220,15 @@ task switchToGitTranslationBranchIfExists(group: 'crowdin') {
         def baseBranch = gitBranchName()
         logger.quiet("base Branch:  ${baseBranch}");
         def translationGitBranch = "chore/${baseBranch}/update-translations"
-        if (grgit.branch.list().find { it.name == translationGitBranch }) {
+        try {
             logger.quiet("switching to Git Branch: ${translationGitBranch}");
             grgit.checkout{
-                branch = translationGitBranch
+                branch = "refs/remotes/origin/" + translationGitBranch
             }
+            logger.quiet("switched to Git Branch: ${translationGitBranch}");
+        } catch (Exception e) {
+            logger.quiet("Translation branch does not seem to exist yet.");
+            logger.quiet(e.getMessage());
         }
     }
 }
@@ -236,7 +240,7 @@ task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
             def baseBranch = gitBranchName()
             def translationGitBranch = "chore/${baseBranch}/update-translations"
             logger.quiet("translation Branch:  ${translationGitBranch}");
-            def translationBranchExists = grgit.branch.list().find { it.name == translationGitBranch }
+            def translationBranchExists = (grgit.branch.current().getName() == translationGitBranch)
             if (!translationBranchExists) {
                 logger.quiet("new Git Branch: ${translationGitBranch}");
                 grgit.checkout{
@@ -253,6 +257,8 @@ task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
             if (!translationBranchExists) {
                 createPullRequest('bonita-web-pages', baseBranch, translationGitBranch)
             }
+        } else {
+            logger.quiet("No translation changes to commit.");
         }
     }
 }
@@ -304,6 +310,7 @@ private void createPullRequest(String githubRepositoryName, String baseBranch, S
 
 task integrateCrowdinTranslations(description: 'Integrate Crowdin translations.', group: 'crowdin') {
     dependsOn 'switchToGitTranslationBranchIfExists'
+    dependsOn 'integrateCrowdinUIDTranslations'
     dependsOn 'crowdinGitBranchAndPRIfNeeded'
     tasks.findByName('integrateCrowdinUIDTranslations').mustRunAfter 'switchToGitTranslationBranchIfExists'
     tasks.findByName('crowdinGitBranchAndPRIfNeeded').mustRunAfter 'integrateCrowdinUIDTranslations'
