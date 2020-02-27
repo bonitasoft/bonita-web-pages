@@ -74,7 +74,7 @@ task generateCrowdinFile(group: 'crowdin') {
             generatedYaml = generatedYaml.replace('\\', '\\\\') // for the crowdin base path
             generatedYaml = generatedYaml.replace('/', '\\\\')
         }
-        logger.quiet(generatedYaml);
+        logger.quiet('generated crowdin yaml:\n' + generatedYaml);
         fileGenerated.text = generatedYaml
     }
 }
@@ -203,10 +203,8 @@ task performCrowdinDownloadTranslations(group: 'crowdin') {
 // no need to explicitly call the Crowdin Project Build as the CLI will trigger it
 task downloadCrowdinTranslations(description: 'Download translations to Crowdin.', group: 'crowdin') {
     dependsOn 'prepareForCrowdinTranslations'
-    dependsOn 'generateCrowdinFile'
     dependsOn 'performCrowdinDownloadTranslations'
-    tasks.findByName('generateCrowdinFile').mustRunAfter 'prepareForCrowdinTranslations'
-    tasks.findByName('performCrowdinDownloadTranslations').mustRunAfter 'generateCrowdinFile'
+    tasks.findByName('performCrowdinDownloadTranslations').mustRunAfter 'prepareForCrowdinTranslations'
 }
 
 
