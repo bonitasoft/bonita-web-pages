@@ -64,7 +64,7 @@ task generateCrowdinFile(group: 'crowdin') {
         // Files configuration
         crowdinConf.files = []
         uidPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'uid_page_template.yaml') }
-        //reactPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'react_page_template.yaml') }
+        reactPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'react_page_template.yaml') }
 
         // Generate YAML
         def generatedYaml = new Yaml().dump(crowdinConf)
@@ -167,7 +167,7 @@ task performUploadCrowdinTranslations(group: 'crowdin') {
     }
 }
 
-task prepareForCrowdinUploadTranslations(group: 'crowdin') {
+task prepareForCrowdinTranslations(group: 'crowdin') {
     dependsOn 'generateCrowdinFile'
     uidPages.each { dependsOn "uid-pages:$it:generateI18nTranslationsForUpload" }
     // Need to have the key files in order to upload the translations to Crowdin
@@ -175,9 +175,9 @@ task prepareForCrowdinUploadTranslations(group: 'crowdin') {
 }
 
 task uploadCrowdinTranslations(description: 'Upload translations to Crowdin.', group: 'crowdin') {
-    dependsOn 'prepareForCrowdinUploadTranslations'
+    dependsOn 'prepareForCrowdinTranslations'
     dependsOn 'performUploadCrowdinTranslations'
-    tasks.findByName('performUploadCrowdinTranslations').mustRunAfter 'prepareForCrowdinUploadTranslations'
+    tasks.findByName('performUploadCrowdinTranslations').mustRunAfter 'prepareForCrowdinTranslations'
 
     // Need to have the key files in order to upload the translations to Crowdin
     afterEvaluate {
@@ -202,8 +202,10 @@ task performCrowdinDownloadTranslations(group: 'crowdin') {
 
 // no need to explicitly call the Crowdin Project Build as the CLI will trigger it
 task downloadCrowdinTranslations(description: 'Download translations to Crowdin.', group: 'crowdin') {
+    dependsOn 'prepareForCrowdinTranslations'
     dependsOn 'generateCrowdinFile'
     dependsOn 'performCrowdinDownloadTranslations'
+    tasks.findByName('generateCrowdinFile').mustRunAfter 'prepareForCrowdinTranslations'
     tasks.findByName('performCrowdinDownloadTranslations').mustRunAfter 'generateCrowdinFile'
 }
 
