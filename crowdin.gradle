@@ -64,7 +64,7 @@ task generateCrowdinFile(group: 'crowdin') {
         // Files configuration
         crowdinConf.files = []
         uidPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'uid_page_template.yaml') }
-        //reactPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'react_page_template.yaml') }
+        reactPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'react_page_template.yaml') }
 
         // Generate YAML
         def generatedYaml = new Yaml().dump(crowdinConf)
