@@ -239,8 +239,10 @@ task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
             logger.quiet 'Git status detected changes'
             def baseBranch = gitBranchName()
             def translationGitBranch = "chore/${baseBranch}/update-translations"
+            def currentBranch = grgit.branch.current().getName()
             logger.quiet("translation Branch:  ${translationGitBranch}");
-            def translationBranchExists = (grgit.branch.current().getName() == translationGitBranch)
+            logger.quiet("current Branch:  ${currentBranch}");
+            def translationBranchExists = (currentBranch == translationGitBranch)
             if (!translationBranchExists) {
                 logger.quiet("new Git Branch: ${translationGitBranch}");
                 grgit.checkout{
