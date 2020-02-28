@@ -222,8 +222,16 @@ task switchToGitTranslationBranchIfExists(group: 'crowdin') {
         def translationGitBranch = "chore/${baseBranch}/update-translations"
         try {
             logger.quiet("switching to Git Branch: ${translationGitBranch}");
-            grgit.checkout{
-                branch = translationGitBranch
+            if(grgit.branch.list().find { it.name == translationGitBranch }) {
+                grgit.checkout{
+                    branch = translationGitBranch
+                }
+            } else {
+                grgit.checkout{
+                    branch = translationGitBranch
+                    createBranch = true
+                    startPoint = 'origin/' + translationGitBranch
+                }
             }
             logger.quiet("switched to Git Branch: ${translationGitBranch}");
         } catch (Exception e) {
