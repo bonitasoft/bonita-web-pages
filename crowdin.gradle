@@ -223,7 +223,7 @@ task switchToGitTranslationBranchIfExists(group: 'crowdin') {
         try {
             logger.quiet("switching to Git Branch: ${translationGitBranch}");
             grgit.checkout{
-                branch = "refs/remotes/origin/" + translationGitBranch
+                branch = translationGitBranch
             }
             logger.quiet("switched to Git Branch: ${translationGitBranch}");
         } catch (Exception e) {
