@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1582811192780,
+  "lastUpdate" : 1582899713854,
   "rows" : [
     [
       {
@@ -3217,14 +3217,15 @@
                                   },
                                   "type" : {
                                     "type" : "constant",
-                                    "value" : "URL"
+                                    "value" : "page"
                                   },
                                   "targetUrl" : {
                                     "type" : "constant",
                                     "value" : "http://"
                                   },
                                   "pageToken" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "process-details"
                                   },
                                   "processName" : {
                                     "type" : "constant"
@@ -3246,7 +3247,8 @@
                                     "type" : "constant"
                                   },
                                   "urlParams" : {
-                                    "type" : "constant"
+                                    "type" : "expression",
+                                    "value" : "disabledProcessCtrl.getDisabledProcessDetailsParameters($item.id)"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5258,6 +5260,9 @@
         "        }\r",
         "        \r",
         "        return queryParameters;\r",
+        "    },\r",
+        "    getDisabledProcessDetailsParameters: function(id){\r",
+        "        return {\"id\": id};\r",
         "    }\r",
         "};"
       ],
