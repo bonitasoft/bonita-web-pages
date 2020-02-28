@@ -223,17 +223,21 @@ task switchToGitTranslationBranchIfExists(group: 'crowdin') {
         try {
             logger.quiet("switching to Git Branch: ${translationGitBranch}");
             if(grgit.branch.list().find { it.name == translationGitBranch }) {
+                //if the branch exists locally, switch to it
                 grgit.checkout{
                     branch = translationGitBranch
                 }
+                grgit.pull()
+                logger.quiet("switched to Git Branch: ${translationGitBranch}");
             } else {
+                //if the branch does not exist locally, try to check it out on origin
                 grgit.checkout{
                     branch = translationGitBranch
                     createBranch = true
                     startPoint = 'origin/' + translationGitBranch
                 }
+                logger.quiet("create locale branch tracking origin/${translationGitBranch}");
             }
-            logger.quiet("switched to Git Branch: ${translationGitBranch}");
         } catch (Exception e) {
             logger.quiet("Translation branch does not seem to exist yet.");
             logger.quiet(e.getMessage());
