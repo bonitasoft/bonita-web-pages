@@ -12,7 +12,7 @@
     }
   },
   "dependencies": {
-    "@bonita/bonita-theme": "file:../common/bonita-theme",
+    "@bonitasoft/bonita-theme": "file:../common/bonita-theme",
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.7",
     "fetch-mock": "^6.4.3",
@@ -44,9 +44,10 @@
     "eject": "react-scripts eject",
     "lint:fix": "prettier --single-quote --write \"{src,public}/**/*.{js,jsx,json,css}\"",
     "lint:check": "eslint src/**/*.js",
-    "test": "cross-env CI=true react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
-    "test:cover": "react-scripts test --coverage --env=jsdom"
+    "test": "cross-env CI=true react-scripts test.md --env=jsdom",
+    "test:watch": "react-scripts test.md --env=jsdom",
+    "test:cover": "react-scripts test.md --coverage --env=jsdom",
+    "listDependenciesYarn": "license-checker --json --production > zip/bonita-page-process-list-yarn-dependencies.json"
   },
   "devDependencies": {
     "cross-env": "^5.1.5",
@@ -57,7 +58,8 @@
     "eslint-plugin-prettier": "^2.4.0",
     "i18next-scanner": "^2.6.3",
     "prettier": "^1.9.2",
-    "react-scripts": "^1.1.4"
+    "react-scripts": "^1.1.4",
+    "@bonitasoft/dependency-list-to-markdown": "^1.0.3"
   },
   "prettier": {
     "singleQuote": true
