@@ -11,6 +11,9 @@ given("The page response {string} is defined", (filterType) => {
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5');
             break;
+        case 'delayed default filter':
+            createRouteWithResponseAndDelay(defaultRequestUrl + defaultSortOrder, 'delayedEmptyResultRoute', 'emptyResult', 2000);
+            break;
         case 'sort by':
             createDefaultRoute('&o=name+ASC', 'sortByNameAscRoute');
             createDefaultRoute('&o=name+DESC', 'sortByNameDescRoute');
@@ -80,16 +83,20 @@ given("The page response {string} is defined", (filterType) => {
         createRouteWithResponseAndMethod(url, routeName, response, "GET");
     }
 
+    function createRouteWithResponseAndDelay(url, routeName, response, delay) {
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, "GET", '200', delay);
+    }
+
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + processListUrl + '?c=' + count + '&p=' + page + "&time=0" + defaultFilters + queryParameter;
-        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET");
+        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET", 0);
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
-        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200');
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200', 0);
     }
 
-    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status, delay) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -100,7 +107,8 @@ given("The page response {string} is defined", (filterType) => {
             method: method,
             url: url,
             response: responseValue,
-            status: status
+            status: status,
+            delay: delay
         }).as(routeName);
     }
 });
@@ -125,34 +133,34 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     function selectSortByOption(filterValue) {
         switch (filterValue) {
             case 'Name (Asc)':
-                cy.get('select').eq(0).select('0');
+                cy.get('select').eq(1).select('0');
                 break;
             case 'Name (Desc)':
-                cy.get('select').eq(0).select('1');
+                cy.get('select').eq(1).select('1');
                 break;
             case 'Display name (Asc)':
-                cy.get('select').eq(0).select('2');
+                cy.get('select').eq(1).select('2');
                 break;
             case 'Display name (Desc)':
-                cy.get('select').eq(0).select('3');
+                cy.get('select').eq(1).select('3');
                 break;
             case 'Version (Asc)':
-                cy.get('select').eq(0).select('4');
+                cy.get('select').eq(1).select('4');
                 break;
             case 'Version (Desc)':
-                cy.get('select').eq(0).select('5');
+                cy.get('select').eq(1).select('5');
                 break;
             case 'Installed on (Newest first)':
-                cy.get('select').eq(0).select('6');
+                cy.get('select').eq(1).select('6');
                 break;
             case 'Installed on (Oldest first)':
-                cy.get('select').eq(0).select('7');
+                cy.get('select').eq(1).select('7');
                 break;
             case 'Updated on (Newest first)':
-                cy.get('select').eq(0).select('8');
+                cy.get('select').eq(1).select('8');
                 break;
             case 'Updated on (Oldest first)':
-                cy.get('select').eq(0).select('9');
+                cy.get('select').eq(1).select('9');
                 break;
             default:
                 throw new Error("Unsupported case");
@@ -405,4 +413,11 @@ then("I see disabling message", () => {
 
 then("The modal {string} button is disabled",(buttonLabel) => {
     cy.get('.modal-footer button').contains(buttonLabel).should('be.disabled');
+});
+
+then("The loading text is displayed", () => {
+    cy.get('button').contains('Load more processes').should('not.be.visible');
+    cy.contains('Processes shown:').should('not.be.visible');
+    cy.get('.text-center').contains('Loading processes...').should('be.visible');
+    cy.get('h4').should('not.exist');
 });

@@ -136,3 +136,9 @@ Feature: The enabled process list in desktop resolution
     Then The modal "Install" button is disabled
     When I click on close button in the modal
     Then The modal is closed
+
+  Scenario: Loading should be displayed on page load
+    Given The page response "delayed default filter" is defined
+    When I visit admin process list page
+    Then The loading text is displayed
+    And No enabled processes are available
