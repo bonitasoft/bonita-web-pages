@@ -71,8 +71,3 @@ Feature: The failed flow nodes list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more flow nodes button
     Then The load more flow nodes button is disabled
-
-  Scenario: Loading should be displayed on page load
-    When I visit admin task list page
-    Then No failed flow nodes are available
-    And The loading text is displayed

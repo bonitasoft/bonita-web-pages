@@ -691,10 +691,3 @@ then("The archived case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 4').should('be.visible');
     cy.contains('div', 'Cases shown: 5').should('be.hidden');
 });
-
-then("The loading text is displayed", () => {
-    cy.contains('span','Load more cases').should('not.be.visible');
-    cy.contains('div','Cases shown: 5').should('not.be.visible');
-    cy.contains('h4', 'No open cases to display').should('not.exist');
-    cy.get('.text-center').contains('Loading open cases...').should('be.visible');
-});
