@@ -71,3 +71,14 @@ Feature: The failed flow nodes list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more flow nodes button
     Then The load more flow nodes button is disabled
+
+  Scenario: Load more button has the correct text
+    Given The filter response "default filter" is defined
+    When I visit admin task list page
+    Then A list of "5" items is displayed
+    And The load more flow nodes button has the correct text
+
+  Scenario: No failed flow nodes text display correctly
+    Given The filter response "empty default filter" is defined
+    When I visit admin task list page
+    Then Only the no failed flow node is displayed
