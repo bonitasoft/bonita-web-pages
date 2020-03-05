@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build and deploy') {
             steps {
-                sh("./gradlew clean publish -PaltDeploymentRepository=${ALT_DEPLOYMENT_REPOSITORY_TAG}")
+                sh("./gradlew clean build publish -x test -PaltDeploymentRepository=${ALT_DEPLOYMENT_REPOSITORY_TAG}")
             }
         }
     }
