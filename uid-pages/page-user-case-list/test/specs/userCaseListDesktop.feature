@@ -225,8 +225,3 @@ Feature: The user open case list in desktop resolution
     Then A list of "20" cases is displayed
     When I click on refresh
     Then A list of "10" cases is displayed
-
-  Scenario: Loading should be displayed on page load
-    When I visit the user case list page
-    Then No open cases are available
-    And The loading text is displayed

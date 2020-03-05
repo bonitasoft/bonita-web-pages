@@ -77,8 +77,3 @@ Feature: The resources list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit the index page
     Then I can download the resource
-
-  Scenario: Loading should be displayed on page load
-    When I visit the index page
-    Then No resources are available
-    And The loading text is displayed

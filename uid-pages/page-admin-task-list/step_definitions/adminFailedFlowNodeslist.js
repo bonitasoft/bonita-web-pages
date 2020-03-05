@@ -310,10 +310,3 @@ then("The more button has correct href with {string}", (flowNodeId) => {
 then("The load more flow nodes button is disabled", () => {
     cy.get('button').contains('Load more flow nodes').should('be.disabled');
 });
-
-then("The loading text is displayed", () => {
-    cy.contains('Load more failed flow nodes').should('not.be.visible');
-    cy.contains('Failed flow nodes shown: 5').should('not.be.visible');
-    cy.get('h4').should('not.exist');
-    cy.get('.text-center').contains('Loading failed flow nodes...').should('be.visible');
-});
