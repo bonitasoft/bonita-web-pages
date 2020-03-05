@@ -39,6 +39,9 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
+        case 'empty default filter':
+            createRouteWithResponse(defaultRequestUrl,'', 'emptyResultRoute', 'emptyResult');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -88,7 +91,7 @@ when("I visit admin task list page", () => {
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
     switch (filterType) {
         case 'process name':
-            selectFilterContentTypeOption(filterValue);
+            selectFilterProcessNameOption(filterValue);
             break;
         case 'sort by':
             selectSortByOption(filterValue);
@@ -100,7 +103,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             throw new Error("Unsupported case");
     }
 
-    function selectFilterContentTypeOption(filterValue) {
+    function selectFilterProcessNameOption(filterValue) {
         switch (filterValue) {
             case 'All processes (all versions)':
                 cy.get('select').eq(0).select('0');
@@ -309,4 +312,15 @@ then("The more button has correct href with {string}", (flowNodeId) => {
 
 then("The load more flow nodes button is disabled", () => {
     cy.get('button').contains('Load more flow nodes').should('be.disabled');
+});
+
+then("The load more flow nodes button has the correct text", () => {
+    cy.contains("button","Load more tasks").should("not.be.visible");
+    cy.contains("button","Load more flow nodes").should("be.visible");
+});
+
+then("Only the no failed flow node is displayed", () => {
+    cy.contains('h4:visible', 'No failed flow nodes to display').should('be.visible');
+    cy.contains('h4:visible', 'No done tasks to display').should('not.be.visible');
+    cy.contains('h4:visible', 'No pending tasks to display').should('not.be.visible');
 });

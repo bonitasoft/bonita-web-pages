@@ -19,6 +19,21 @@ Feature: The done tasks list in desktop resolution
     When I click on "Failed flow nodes" tab
     Then I see the failed flow nodes page
 
+  Scenario: The done tasks list filtered by process name works correctly
+    Given The filter response "default filter" is defined for done tasks
+    And The filter response "process name" is defined for done tasks
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then A list of "5" items is displayed
+    When I put "generateRandomCases (1.0)" in "process name" filter field for done tasks
+    Then The api call is made for "generateRandomCases (1.0)" for done tasks
+    And A list of "3" items is displayed
+    When I put "All processes (all versions)" in "process name" filter field for done tasks
+    Then A list of "5" items is displayed
+    When I put "New vacation request with means of transportation (2.0)" in "process name" filter field for done tasks
+    Then The api call is made for "New vacation request with means of transportation (2.0)" for done tasks
+    And No done tasks are available
+
   Scenario: The done tasks list sort by works correctly
     Given The filter response "default filter" is defined for done tasks
     And The filter response "sort by" is defined for done tasks
@@ -45,6 +60,48 @@ Feature: The done tasks list in desktop resolution
     Then The api call is made for "Case ID (Asc)" for done tasks
     When I put "Case ID (Desc)" in "sort by" filter field for done tasks
     Then The api call is made for "Case ID (Desc)" for done tasks
+
+  Scenario: The done tasks list search by name works correctly
+    Given The filter response "default filter" is defined for done tasks
+    And The filter response "search by name" is defined for done tasks
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then A list of "5" items is displayed
+    When I put "Alowscenario" in "search" filter field for done tasks
+    Then The api call is made for "Alowscenario" for done tasks
+    When I erase the search filter
+    Then A list of "5" items is displayed
+    When I put "Search term with no match" in "search" filter field for done tasks
+    Then No done tasks are available
+
+  Scenario: The done tasks row has the correct link to flow node details
+    Given The filter response "default filter" is defined for done tasks
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then The more button has correct href with "140081" for done tasks
+
+  Scenario: Load more button works correctly
+    Given The filter response "enable load more" is defined for done tasks
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then A list of "10" items is displayed
+    When I click on Load more tasks button
+    Then A list of "20" items is displayed
+    When I click on Load more tasks button
+    Then A list of "30" items is displayed
+    When I click on Load more tasks button
+    Then A list of "35" items is displayed
+    And The load more tasks button is disabled
+
+  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+    Given The filter response "enable 20 load more" is defined for done tasks
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then A list of "10" items is displayed
+    When I click on Load more tasks button
+    Then A list of "20" items is displayed
+    When I click on Load more tasks button
+    Then The load more tasks button is disabled
 
   Scenario: Load more button has the correct text
     Given The filter response "default filter" is defined for done tasks
