@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1582899713854,
+  "lastUpdate" : 1583486824433,
   "rows" : [
     [
       {
@@ -238,7 +238,7 @@
                     },
                     "title" : {
                       "type" : "interpolation",
-                      "value" : "<i class=\"glyphicon glyphicon-ok\"></i> {{\"Enabled\" | uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Enabled processes can be started and run. They cannot be deleted unless you disable them first.\" | uiTranslate}}\"></i>"
+                      "value" : "<span title=\"{{\"Enabled processes can be started and run. They cannot be deleted unless you disable them first.\" | uiTranslate}}\"><i class=\"glyphicon glyphicon-ok\"></i> {{\"Enabled\" | uiTranslate}} </span>"
                     }
                   },
                   "reference" : "a04dc175-ad09-445c-aa92-e3dc4e125008",
@@ -286,9 +286,75 @@
                                 "type" : "component",
                                 "dimension" : {
                                   "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 3,
+                                  "lg" : 3
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "filter-widget"
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Select"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation",
+                                    "value" : "Resolved and unresolved"
+                                  },
+                                  "availableValues" : {
+                                    "type" : "expression",
+                                    "value" : "enabledProcessData.stateOptions"
+                                  },
+                                  "displayedKey" : {
+                                    "type" : "constant",
+                                    "value" : "displayName"
+                                  },
+                                  "returnedKey" : {
+                                    "type" : "constant",
+                                    "value" : "returnKey"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "enabledProcessData.filters.state"
+                                  }
+                                },
+                                "reference" : "493bea3b-a5dc-4749-9516-fe348d1718e1",
+                                "hasValidationError" : false,
+                                "id" : "pbSelect"
+                              },
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
                                   "sm" : 4,
-                                  "md" : 4,
-                                  "lg" : 4
+                                  "md" : 3,
+                                  "lg" : 3
                                 },
                                 "propertyValues" : {
                                   "cssClasses" : {
@@ -353,8 +419,8 @@
                                 "dimension" : {
                                   "xs" : 12,
                                   "sm" : 4,
-                                  "md" : 4,
-                                  "lg" : 4
+                                  "md" : 3,
+                                  "lg" : 3
                                 },
                                 "propertyValues" : {
                                   "cssClasses" : {
@@ -429,8 +495,8 @@
                                 "dimension" : {
                                   "xs" : 12,
                                   "sm" : 4,
-                                  "md" : 4,
-                                  "lg" : 4
+                                  "md" : 3,
+                                  "lg" : 3
                                 },
                                 "propertyValues" : {
                                   "cssClasses" : {
@@ -1676,7 +1742,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0 || isLoading"
+                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -1865,7 +1931,7 @@
                     },
                     "title" : {
                       "type" : "interpolation",
-                      "value" : "<i class=\"glyphicon glyphicon-ban-circle\"></i> {{\"Disabled\" | uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Disabled processes neither can be started nor run. They must be resolved to be enabled.\" | uiTranslate}}\"></i>"
+                      "value" : "<span title=\"{{\"Disabled processes neither can be started nor run. They must be resolved to be enabled.\" | uiTranslate}}\"><i class=\"glyphicon glyphicon-ban-circle\"></i> {{\"Disabled\" | uiTranslate}}</span>"
                     }
                   },
                   "reference" : "82112b30-0aff-48f2-ab27-fe6fb75154d4",
@@ -2796,7 +2862,7 @@
                                     {
                                       "type" : "container",
                                       "dimension" : {
-                                        "xs" : 12,
+                                        "xs" : 6,
                                         "sm" : 12,
                                         "md" : 2,
                                         "lg" : 3
@@ -2928,7 +2994,7 @@
                                     {
                                       "type" : "container",
                                       "dimension" : {
-                                        "xs" : 12,
+                                        "xs" : 6,
                                         "sm" : 12,
                                         "md" : 3,
                                         "lg" : 2
@@ -3371,7 +3437,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0 || isLoading"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -3463,7 +3529,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || (numberOfDisabledProcessesReturned == 0 && disabledProcessData.disabledProcessesNextResults.length == 0)"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || (disabledProcessData.numberOfDisabledProcessesReturned == 0 && disabledProcessData.disabledProcessesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -4155,7 +4221,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -4245,7 +4311,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -4877,7 +4943,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -4967,7 +5033,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -5096,6 +5162,9 @@
         "    timestamp: 0,",
         "    numberOfEnabledProcessesPerPage: 10,",
         "    numberOfEnabledProcessesReturned: 0,",
+        "    stateOptions: ",
+        "        [{ displayName: uiTranslate(\"Resolved and unresolved\")}]",
+        "        .concat([{displayName: uiTranslate(\"Resolved only\"), returnKey: 'resolved'}, {displayName: uiTranslate(\"Unresolved only\"), returnKey: 'unresolved'}]),",
         "    sortByOptions: [   ",
         "        { displayKey: \"Name (Asc)\", returnKey: \"name+ASC\" },",
         "        { displayKey: \"Name (Desc)\", returnKey: \"name+DESC\" },",
@@ -5109,6 +5178,7 @@
         "        { displayKey: \"Updated on (Oldest first)\", returnKey: \"last_update_date+ASC\" }",
         "    ],",
         "    filters: {",
+        "        state: \"\",",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
@@ -5133,8 +5203,7 @@
         "    $data.enabledProcessData.numberOfEnabledProcessesReturned = $data.enabledProcessData.enabledProcessesForNextPage.length;",
         "    // set enabled processes to undefined as the script is triggered when click on load more processes button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedEnabledProcesses)",
-        "    $data.enabledProcessUrl = undefined; ",
-        "    $data.isLoading = false;",
+        "    $data.enabledProcessUrl = undefined;",
         "}",
         "",
         "// add next page of enabled processes to the list of next enabled processes to display",
@@ -5157,13 +5226,6 @@
       ],
       "exposed" : false
     },
-    "isLoading" : {
-      "type" : "expression",
-      "value" : [
-        "return true;"
-      ],
-      "exposed" : false
-    },
     "enabledProcessCtrl" : {
       "type" : "expression",
       "value" : [
@@ -5177,6 +5239,10 @@
         "        }\r",
         "        var queryParameters = \"c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.enabledProcessData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
         "        \r",
+        "        if($data.enabledProcessData.filters.state){\r",
+        "            queryParameters += \"&f=configurationState=\" +  $data.enabledProcessData.filters.state.toUpperCase();\r",
+        "        }\r",
+        "        \r",
         "        if($data.enabledProcessData.filters.sortOrder){\r",
         "            queryParameters += \"&o=\" + $data.enabledProcessData.filters.sortOrder;\r",
         "        }else{\r",
@@ -5186,7 +5252,6 @@
         "        if($data.enabledProcessData.filters.searchValue){\r",
         "            queryParameters += \"&s=\" +  $data.enabledProcessData.filters.searchValue;\r",
         "        }\r",
-        "        \r",
         "        return queryParameters;\r",
         "    },\r",
         "    getEnabledProcessDetailsParameters: function(id){\r",
@@ -5284,7 +5349,6 @@
         "    // set disabled processes to undefined as the script is triggered when click on load more processes button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedDisabledProcesses)\r",
         "    $data.disabledProcessUrl = undefined; \r",
-        "    $data.isLoading = false;\r",
         "}\r",
         "\r",
         "// add next page of enabled processes to the list of next enabled processes to display\r",
@@ -5441,7 +5505,7 @@
         "    },",
         "    getInstallPayload : function() {",
         "        return {fileupload: $data.installModalData.filePath.tempPath};",
-        "    },",
+        "    }",
         "};"
       ],
       "exposed" : false
