@@ -4,6 +4,7 @@ const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
 const processListUrl = 'API/bpm/process';
 const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
+const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/process-details?id=';
 
 given("The page response {string} is defined", (filterType) => {
     cy.server();
@@ -11,8 +12,8 @@ given("The page response {string} is defined", (filterType) => {
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5');
             break;
-        case 'delayed default filter':
-            createRouteWithResponseAndDelay(defaultRequestUrl + defaultSortOrder, 'delayedEmptyResultRoute', 'emptyResult', 2000);
+        case 'state':
+            createRouteWithResponse(defaultRequestUrl + '&f=configurationState=RESOLVED' + defaultSortOrder, 'enabledResolvedProcessesRoute', 'enabledResolvedProcesses');
             break;
         case 'sort by':
             createDefaultRoute('&o=name+ASC', 'sortByNameAscRoute');
@@ -83,20 +84,16 @@ given("The page response {string} is defined", (filterType) => {
         createRouteWithResponseAndMethod(url, routeName, response, "GET");
     }
 
-    function createRouteWithResponseAndDelay(url, routeName, response, delay) {
-        createRouteWithResponseAndMethodAndStatus(url, routeName, response, "GET", '200', delay);
-    }
-
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + processListUrl + '?c=' + count + '&p=' + page + "&time=0" + defaultFilters + queryParameter;
-        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET", 0);
+        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET");
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
-        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200', 0);
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200');
     }
 
-    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status, delay) {
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -107,8 +104,7 @@ given("The page response {string} is defined", (filterType) => {
             method: method,
             url: url,
             response: responseValue,
-            status: status,
-            delay: delay
+            status: status
         }).as(routeName);
     }
 });
@@ -120,6 +116,9 @@ when("I visit admin process list page", () => {
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
     switch (filterType) {
+        case 'state':
+            selectFilterContentTypeOption(filterValue);
+            break;
         case 'sort by':
             selectSortByOption(filterValue);
             break;
@@ -128,6 +127,20 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function selectFilterContentTypeOption(filterValue) {
+        switch (filterValue) {
+            case 'Resolved and unresolved':
+                cy.get('select:visible').eq(0).select('0');
+                break;
+            case 'Resolved only':
+                cy.get('select:visible').eq(0).select('1');
+                cy.wait('@enabledResolvedProcessesRoute');
+                break;
+            default:
+                throw new Error("Unsupported case");
+        }
     }
 
     function selectSortByOption(filterValue) {
@@ -217,13 +230,14 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-value').contains('2/19/20 10:29 AM');
         cy.get('.item-label').contains('No description');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
+        cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', processDetailsUrl + '7150158626056333703');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Helen Kelly');
     });
     cy.get('.process-item').eq(1).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
-        cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
+        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool');
         cy.get('.item-label').contains('Display name');
@@ -236,6 +250,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.item-value').contains('2/24/20 5:17 PM');
         cy.get('.item-label').contains('No description');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
+        cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', processDetailsUrl + '7881320656099632799');
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: William Jobs');
     });
@@ -280,7 +295,7 @@ then("The enabled process list have the correct information", () => {
     cy.get('.process-item').eq(4).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
-        cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
+        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool4');
         cy.get('.item-label').contains('Display name');
@@ -308,6 +323,9 @@ then("A list of {string} items is displayed", (nbrOfItems) => {
 
 then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
+        case 'Resolved only':
+            cy.wait('@enabledResolvedProcessesRoute');
+            break;
         case 'Name (Asc)':
             cy.wait('@sortByNameAscRoute');
             break;

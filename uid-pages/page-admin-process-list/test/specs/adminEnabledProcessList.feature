@@ -6,6 +6,16 @@ Feature: The enabled process list in desktop resolution
     Then The enabled process list have the correct information
     And The enabled process list have the correct item shown number
 
+  Scenario: The enabled process list filtered by state works correctly
+    Given The page response "default filter" is defined
+    And The page response "state" is defined
+    When I visit admin process list page
+    Then A list of "5" items is displayed
+    When I put "Resolved only" in "state" filter field
+    Then A list of "3" items is displayed
+    When I put "Resolved and unresolved" in "state" filter field
+    And A list of "5" items is displayed
+
   Scenario: The enabled process list sort by works correctly
     Given The page response "default filter" is defined
     And The page response "sort by" is defined
@@ -136,9 +146,3 @@ Feature: The enabled process list in desktop resolution
     Then The modal "Install" button is disabled
     When I click on close button in the modal
     Then The modal is closed
-
-  Scenario: Loading should be displayed on page load
-    Given The page response "delayed default filter" is defined
-    When I visit admin process list page
-    Then The loading text is displayed
-    And No enabled processes are available

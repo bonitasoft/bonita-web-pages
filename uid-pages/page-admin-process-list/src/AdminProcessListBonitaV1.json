@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1583339279538,
+  "lastUpdate" : 1583486824433,
   "rows" : [
     [
       {
@@ -1742,7 +1742,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0 || enabledProcessData.isLoading"
+                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -1794,7 +1794,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length || enabledProcessData.isLoading"
+                              "value" : "enabledProcessData.displayedEnabledProcesses.length"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -1812,58 +1812,6 @@
                           "reference" : "66517563-b9b9-458d-a47f-40f4d9b0e180",
                           "hasValidationError" : false,
                           "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "!enabledProcessData.isLoading"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Loading processes...' | translate}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "fb4301cd-e961-497b-955a-2c13290f4e0d",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
                         }
                       ],
                       [
@@ -3489,7 +3437,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0 || disabledProcessData.isLoading"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0"
                             },
                             "labelHidden" : {
                               "type" : "constant",
@@ -3541,7 +3489,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length || disabledProcessData.isLoading"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -3577,63 +3525,11 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "!disabledProcessData.isLoading"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<div class=\"glyphicon glyphicon-cog gly-spin text-info\"></div> {{'Loading processes...' | translate}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "07b1873f-4803-406c-aea1-4904c42c3e65",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
                               "value" : "disabledProcessData.displayedDisabledProcesses.length == 0"
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || (numberOfDisabledProcessesReturned == 0 && disabledProcessData.disabledProcessesNextResults.length == 0)"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || (disabledProcessData.numberOfDisabledProcessesReturned == 0 && disabledProcessData.disabledProcessesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -5287,8 +5183,7 @@
         "        searchValue: \"\"",
         "    },",
         "    enabledProcessesNextResults: undefined,",
-        "    displayedEnabledProcesses: [],",
-        "    isLoading: true",
+        "    displayedEnabledProcesses: []",
         "};"
       ],
       "exposed" : false
@@ -5309,7 +5204,6 @@
         "    // set enabled processes to undefined as the script is triggered when click on load more processes button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedEnabledProcesses)",
         "    $data.enabledProcessUrl = undefined;",
-        "    $data.enabledProcessData.isLoading = false;",
         "}",
         "",
         "// add next page of enabled processes to the list of next enabled processes to display",
@@ -5358,7 +5252,6 @@
         "        if($data.enabledProcessData.filters.searchValue){\r",
         "            queryParameters += \"&s=\" +  $data.enabledProcessData.filters.searchValue;\r",
         "        }\r",
-        "        \r",
         "        return queryParameters;\r",
         "    },\r",
         "    getEnabledProcessDetailsParameters: function(id){\r",
@@ -5399,8 +5292,7 @@
         "        searchValue: \"\"\r",
         "    },\r",
         "    disabledProcessesNextResults: undefined,\r",
-        "    displayedDisabledProcesses: [],\r",
-        "    isLoading: true\r",
+        "    displayedDisabledProcesses: []\r",
         "};"
       ],
       "exposed" : false
@@ -5457,7 +5349,6 @@
         "    // set disabled processes to undefined as the script is triggered when click on load more processes button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedDisabledProcesses)\r",
         "    $data.disabledProcessUrl = undefined; \r",
-        "    $data.disabledProcessData.isLoading = false;\r",
         "}\r",
         "\r",
         "// add next page of enabled processes to the list of next enabled processes to display\r",
@@ -5614,7 +5505,7 @@
         "    },",
         "    getInstallPayload : function() {",
         "        return {fileupload: $data.installModalData.filePath.tempPath};",
-        "    },",
+        "    }",
         "};"
       ],
       "exposed" : false
