@@ -237,7 +237,7 @@ then("The enabled process list have the correct information", () => {
     cy.get('.process-item').eq(1).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
-        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved');
+        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved. Click on "View process details" to complete the configuration.');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool');
         cy.get('.item-label').contains('Display name');
@@ -295,7 +295,7 @@ then("The enabled process list have the correct information", () => {
     cy.get('.process-item').eq(4).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
-        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved');
+        cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved. Click on "View process details" to complete the configuration.');
         cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool4');
         cy.get('.item-label').contains('Display name');
