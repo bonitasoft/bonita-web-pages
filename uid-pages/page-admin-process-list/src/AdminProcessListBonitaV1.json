@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1583506211744,
+  "lastUpdate" : 1583749338942,
   "rows" : [
     [
       {
@@ -3348,11 +3348,11 @@
                                   },
                                   "disabled" : {
                                     "type" : "expression",
-                                    "value" : "$item.configurationState == \"UNRESOLVED\""
+                                    "value" : "disabledProcessCtrl.isUnresolved($item.configurationState)"
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<i class=\"glyphicon glyphicon-ok\" title=\"{{\"Enable\" | uiTranslate}}\">"
+                                    "value" : "{{disabledProcessCtrl.getEnableButtonHTML(disabledProcessCtrl.isUnresolved($item.configurationState))}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5328,6 +5328,13 @@
         "    },\r",
         "    getDisabledProcessDetailsParameters: function(id){\r",
         "        return {\"id\": id};\r",
+        "    },\r",
+        "    isUnresolved: function(state){\r",
+        "       return state === \"UNRESOLVED\";\r",
+        "    },\r",
+        "    getEnableButtonHTML: function(isUnresolved){\r",
+        "        var enableTooltip = isUnresolved ? uiTranslate('This process is not fully configured. It cannot be enabled. Click on the \"View process details\" icon.') : uiTranslate('Enable');\r",
+        "        return \"<i class='glyphicon glyphicon-ok' title='\" + enableTooltip + \"'></i>\";\r",
         "    }\r",
         "};"
       ],
