@@ -227,7 +227,7 @@ then("The disabled process list have the correct information", () => {
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', processDetailsUrl + '4623447657350219626');
         cy.get('.glyphicon-ban-circle').should('not.exist');
-        cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
+        cy.get('.glyphicon-ok').should('have.attr', 'title', 'This process is not fully configured. It cannot be enabled. Click on the "View process details" icon.');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
     cy.get('.process-item').eq(1).within(() => {
@@ -268,7 +268,7 @@ then("The disabled process list have the correct information", () => {
         cy.get('.item-label').contains('No description');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('not.exist');
-        cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
+        cy.get('.glyphicon-ok').should('have.attr', 'title', 'This process is not fully configured. It cannot be enabled. Click on the "View process details" icon.');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Helen Kelly');
     });
     cy.get('.process-item').eq(3).within(() => {
