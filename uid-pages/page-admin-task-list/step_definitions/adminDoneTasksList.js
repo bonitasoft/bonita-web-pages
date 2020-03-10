@@ -34,6 +34,10 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
             createRoute(defaultSortOrder + '&s=Alowscenario', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
+        case 'filter by caseId':
+            createRoute('&f=caseId=2001' + defaultSortOrder, 'filterByCaseId2001Route');
+            createRoute('&f=caseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
+            break;
         case 'enable load more':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'', 'failedFlowNodes20Route', 'failedFlowNodes20');
             createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
@@ -96,6 +100,9 @@ when("I put {string} in {string} filter field for done tasks", (filterValue, fil
         case 'search':
             searchForValue(filterValue);
             break;
+        case 'caseId':
+            filterCaseIdForValue(filterValue);
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -155,7 +162,11 @@ when("I put {string} in {string} filter field for done tasks", (filterValue, fil
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').eq(1).type(filterValue);
+    }
+
+    function filterCaseIdForValue(filterValue) {
+        cy.get('pb-input input:visible').eq(0).type(filterValue);
     }
 });
 
@@ -232,6 +243,12 @@ then("The api call is made for {string} for done tasks", (filterValue) => {
             break;
         case 'Alowscenario':
             cy.wait('@searchRoute');
+            break;
+        case '2001':
+            cy.wait('@filterByCaseId2001Route');
+            break;
+        case '3001':
+            cy.wait('@filterByCaseId3001Route');
             break;
         default:
             throw new Error("Unsupported case");

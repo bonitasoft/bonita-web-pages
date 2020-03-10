@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskListBonitaV1",
   "name" : "AdminTaskListBonitaV1",
-  "lastUpdate" : 1583417967567,
+  "lastUpdate" : 1583833743755,
   "rows" : [
     [
       {
@@ -66,9 +66,9 @@
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "sm" : 7,
+                "md" : 8,
+                "lg" : 8
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -95,6 +95,82 @@
               "reference" : "81a9a16f-bcfc-4122-9fad-73b0cf295b40",
               "hasValidationError" : false,
               "id" : "pbTitle"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 5,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "mt-20"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Case ID"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Filter by case ID"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "caseId"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "370d0a26-9e87-47e1-a523-b898d53c7d30",
+              "hasValidationError" : false,
+              "id" : "pbInput"
             }
           ],
           [
@@ -6422,6 +6498,10 @@
         "        }",
         "        var queryParameters = \"c=\" + flowNodesPerPage + \"&p=\" + pageId + \"&f=state=failed&d=rootContainerId&d=assigned_id\";",
         "        ",
+        "        if($data.caseId){",
+        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "        }",
+        "        ",
         "        if($data.failedFlowNodeData.filters.processId){",
         "            queryParameters += \"&f=processId=\" + $data.failedFlowNodeData.filters.processId;",
         "        }",
@@ -6528,6 +6608,10 @@
         "        }",
         "",
         "        var queryParameters = \"c=\" + pendingTasksPerPage + \"&p=\" + pageId + \"&f=state=ready&d=rootContainerId&d=assigned_id\";",
+        "        ",
+        "        if($data.caseId){",
+        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "        }",
         "        ",
         "        if($data.pendingTaskData.filters.processId){",
         "            queryParameters += \"&f=processId=\" + $data.pendingTaskData.filters.processId;",
@@ -6675,6 +6759,10 @@
         "        }",
         "        var queryParameters = \"c=\" + doneTasksPerPage + \"&p=\" + pageId + \"&d=rootContainerId&d=assigned_id\";",
         "        ",
+        "        if($data.caseId){",
+        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "        }",
+        "        ",
         "        if($data.doneTaskData.filters.processId){",
         "            queryParameters += \"&f=processId=\" + $data.doneTaskData.filters.processId;",
         "        }",
@@ -6749,6 +6837,13 @@
         "    }",
         "    return information;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "caseId" : {
+      "type" : "urlparameter",
+      "value" : [
+        "caseId"
       ],
       "exposed" : false
     }

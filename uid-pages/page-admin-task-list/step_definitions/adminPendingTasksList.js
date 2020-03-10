@@ -28,6 +28,10 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             createRoute('&s=InvolveUser', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
+        case 'filter by caseId':
+            createRoute('&f=caseId=2001', 'filterByCaseId2001Route');
+            createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
+            break;
         case 'enable load more':
             createRouteWithResponse(defaultRequestUrl,'', 'pendingTasks20Route', 'pendingTasks20');
             createRouteWithResponseAndPagination('', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
@@ -94,6 +98,9 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
         case 'search':
             searchForValue(filterValue);
             break;
+        case 'caseId':
+            filterCaseIdForValue(filterValue);
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -141,7 +148,11 @@ when("I put {string} in {string} filter field for pending tasks", (filterValue, 
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').eq(1).type(filterValue);
+    }
+
+    function filterCaseIdForValue(filterValue) {
+        cy.get('pb-input input:visible').eq(0).type(filterValue);
     }
 });
 
@@ -210,6 +221,12 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
             break;
         case 'InvolveUser':
             cy.wait('@searchRoute');
+            break;
+        case '2001':
+            cy.wait('@filterByCaseId2001Route');
+            break;
+        case '3001':
+            cy.wait('@filterByCaseId3001Route');
             break;
         default:
             throw new Error("Unsupported case");
