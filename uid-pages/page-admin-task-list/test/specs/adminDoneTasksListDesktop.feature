@@ -117,3 +117,10 @@ Feature: The done tasks list in desktop resolution
     And I click on "Done tasks" tab
     Then No done tasks are available
 
+  Scenario: The done task list search by caseId works correctly
+    Given The filter response "filter by caseId" is defined for done tasks
+    When I visit admin task list page with caseId "2001" in URL parameter
+    Then The api call is made for "2001" for done tasks
+    When I erase the caseId filter
+    And I put "3001" in "caseId" filter field for done tasks
+    Then The api call is made for "3001" for done tasks

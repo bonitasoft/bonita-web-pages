@@ -29,6 +29,10 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&s=Alowscenario', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
+        case 'filter by caseId':
+            createRoute('&f=caseId=2001', 'filterByCaseId2001Route');
+            createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
+            break;
         case 'enable load more':
             createRouteWithResponse(defaultRequestUrl,'', 'failedFlowNodes20Route', 'failedFlowNodes20');
             createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
@@ -88,6 +92,11 @@ when("I visit admin task list page", () => {
     cy.wait(1000);
 });
 
+when("I visit admin task list page with caseId {string} in URL parameter", (caseId) => {
+    cy.visit(url + "?caseId=" + caseId);
+    cy.wait(1000);
+});
+
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
     switch (filterType) {
         case 'process name':
@@ -98,6 +107,9 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             break;
         case 'search':
             searchForValue(filterValue);
+            break;
+        case 'caseId':
+            filterCaseIdForValue(filterValue);
             break;
         default:
             throw new Error("Unsupported case");
@@ -140,12 +152,20 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').eq(1).type(filterValue);
+    }
+
+    function filterCaseIdForValue(filterValue) {
+        cy.get('pb-input input:visible').eq(0).type(filterValue);
     }
 });
 
 when("I erase the search filter", () => {
-    cy.get('pb-input input:visible').clear();
+    cy.get('pb-input input:visible').eq(1).clear();
+});
+
+when("I erase the caseId filter", () => {
+    cy.get('pb-input input:visible').eq(0).clear();
 });
 
 when("I click on Load more flow nodes button", () => {
@@ -295,6 +315,12 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'Alowscenario':
             cy.wait('@searchRoute');
+            break;
+        case '2001':
+            cy.wait('@filterByCaseId2001Route');
+            break;
+        case '3001':
+            cy.wait('@filterByCaseId3001Route');
             break;
         default:
             throw new Error("Unsupported case");
