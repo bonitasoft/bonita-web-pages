@@ -2,7 +2,6 @@ Feature: The Admin Case Details in desktop resolution
 
   Scenario: The admin case details displays the correct attributes
     Given The response "default details" is defined
-    Given The response "available tasks" is defined
     When I visit the admin case details page
     Then The case details have the correct information
 
@@ -45,6 +44,5 @@ Feature: The Admin Case Details in desktop resolution
     Given The response "archived case" is defined
     When I visit the admin case details page
     Then The state is "completed"
-    And There is no tasks
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"

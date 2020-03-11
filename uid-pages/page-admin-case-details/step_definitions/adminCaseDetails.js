@@ -78,8 +78,12 @@ when("I click on add comment button", () => {
 then("The case details have the correct information", () => {
     // Check that the element exist.
     cy.get('h3.text-left').contains('Case ID : 1').should('be.visible');
-    cy.get('.item-label').contains('Process name (version)');
-    cy.get('.item-value').contains('Pool (1.0)');
+    cy.get('.item-label').contains('Process name');
+    cy.get('.item-value').contains('Pool');
+    cy.get('.item-label').contains('Display name');
+    cy.get('.item-value').contains('Pool display name');
+    cy.get('.item-label').contains('Version');
+    cy.get('.item-value').contains('1.0');
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('started');
     cy.get('.item-label').contains('Started by');
@@ -88,9 +92,6 @@ then("The case details have the correct information", () => {
     cy.get('.item-value').contains('12/30/19 4:01 PM');
     cy.get('.item-label').contains('Last updated');
     cy.get('.item-value').contains('12/30/19 4:01 PM');
-    cy.get('.item-label').contains('Available tasks');
-    cy.get('.item-value .btn-link').contains('1');
-    cy.get('.item-value .btn-link').should('have.attr', 'href', '../../taskList/content/#?case=1');
     cy.get('.item-label').contains('Search key 1');
     cy.get('.item-value').contains('Search value 1');
     cy.get('.item-label').contains('Search key 2');
@@ -144,10 +145,6 @@ then("The new comment input is empty", () => {
 
 then("The state is {string}", (state) => {
     cy.get('.item-value p').contains(state).should('be.visible');
-});
-
-then("There is no tasks", () => {
-    cy.get('.item-label').contains('Tasks').should('not.exist');
 });
 
 then("The add comment button is {string}", (buttonState) => {
