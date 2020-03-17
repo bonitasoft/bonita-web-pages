@@ -30,6 +30,26 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse('API/system/session/unusedId', 'sessionRoute', 'session');
             createRouteWithResponse('API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=4&f=caseId=1', 'availableTasksRoute', 'availableTasks');
             break;
+        case 'monitor 9 tasks':
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '9TasksRoute', '9Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '9TasksRoute', '9Tasks');
+            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '9TasksRoute', '9Tasks');
+            break;
+        case 'monitor 10 tasks':
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10TasksRoute', '10Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10TasksRoute', '10Tasks');
+            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10TasksRoute', '10Tasks');
+            break;
+        case 'monitor 10+ tasks':
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10+TasksRoute', '10+Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10+TasksRoute', '10+Tasks');
+            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10+TasksRoute', '10+Tasks');
+            break;
+        case 'monitor 0 tasks':
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '0TasksRoute', '0Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '0TasksRoute', '0Tasks');
+            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '0TasksRoute', '0Tasks');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -117,6 +137,28 @@ then("The comments have the correct information", () => {
     cy.get('.item-value').contains('anthony.nichols');
 });
 
+then("The monitoring have the correct information for {string} tasks", (numberOfTasks) => {
+    // Check that the element exist.
+   switch (numberOfTasks) {
+       case "9":
+           cy.wait('@9TasksRoute');
+           cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
+           break;
+       case "10":
+           cy.wait('@10TasksRoute');
+           cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
+           break;
+       case "11":
+           cy.wait('@10+TasksRoute');
+           cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
+           break;
+       case "0":
+           cy.wait('@0TasksRoute');
+           cy.get('.item-value').contains('No task in the task list for this case.');
+           break;
+   }
+});
+
 then("There are no search keys", () => {
     // Check that there are no search keys
     cy.get('h5').contains('Search keys').should('not.exist');
@@ -165,4 +207,16 @@ then("The input placeholder is {string}", (placeholder) => {
 
 then("The input placeholder is not {string}", (placeholder) => {
     cy.get('input').should('not.have.attr', 'placeholder', placeholder);
+});
+
+then("The task list link has correct href", () => {
+    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/taskList?caseId=1');
+});
+
+then("The no task message is not visible", () =>{
+   cy.get('.item-value').contains('No task in the task list for this case.').should('not.visible');
+});
+
+then("The task list link is not visible", () =>{
+   cy.get('a.item-value').should('not.visible');
 });

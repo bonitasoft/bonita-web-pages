@@ -21,6 +21,29 @@ Feature: The Admin Case Details in desktop resolution
     And I click on case overview button
     Then The case overview url is displayed
 
+  Scenario: The admin case details display monitoring for less than 10 tasks correctly
+    Given The response "monitor 9 tasks" is defined
+    When I visit the admin case details page
+    Then The monitoring have the correct information for "9" tasks
+    And The task list link has correct href
+    And The no task message is not visible
+
+  Scenario: The admin case details display monitoring for exactly 10 tasks correctly
+    Given The response "monitor 10 tasks" is defined
+    When I visit the admin case details page
+    Then The monitoring have the correct information for "10" tasks
+
+  Scenario: The admin case details display monitoring for more than 10 tasks correctly
+    Given The response "monitor 10+ tasks" is defined
+    When I visit the admin case details page
+    Then The monitoring have the correct information for "11" tasks
+
+  Scenario: The admin case details display monitoring for no tasks correctly
+    Given The response "monitor 0 tasks" is defined
+    When I visit the admin case details page
+    Then The monitoring have the correct information for "0" tasks
+    And The task list link is not visible
+
   Scenario: The admin case details display comments correctly
     Given The response "comments" is defined
     When I visit the admin case details page
