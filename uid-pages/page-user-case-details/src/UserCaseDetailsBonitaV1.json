@@ -2349,13 +2349,16 @@
         "var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
         "",
         "return {",
-        "    userDetailsQueryParameters: function(isArchived){",
+        "    getUserDetailsQueryParameters: function(isArchived){",
         "        if(isArchived) {",
         "            return \"?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=\" + $data.caseIdQueryParameter;",
         "        }",
         "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by\";",
         "    },",
-        "    commentQueryParameters: function(){",
+        "    getCommentUrl: function(){",
+        "        return isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
+        "    },",
+        "    getCommentQueryParameters: function(){",
         "      return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
@@ -2396,7 +2399,7 @@
     "comments" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/comment?{{caseDetailsCtrl.commentQueryParameters()}}"
+        "{{caseDetailsCtrl.getCommentUrl()}}?{{caseDetailsCtrl.getCommentQueryParameters()}}"
       ],
       "exposed" : false
     },
@@ -2436,14 +2439,14 @@
     "openCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case/{{caseDetailsCtrl.userDetailsQueryParameters()}}"
+        "../API/bpm/case/{{caseDetailsCtrl.getUserDetailsQueryParameters()}}"
       ],
       "exposed" : false
     },
     "archivedCase" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase/{{caseDetailsCtrl.userDetailsQueryParameters(true)}}"
+        "../API/bpm/archivedCase/{{caseDetailsCtrl.getUserDetailsQueryParameters(true)}}"
       ],
       "exposed" : false
     },

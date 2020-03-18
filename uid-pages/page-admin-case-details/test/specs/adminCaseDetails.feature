@@ -65,7 +65,9 @@ Feature: The Admin Case Details in desktop resolution
 
   Scenario: The admin case details should display an archived case
     Given The response "archived case" is defined
+    And The response "archived comments" is defined
     When I visit the admin case details page
     Then The state is "completed"
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"
+    And The comments have the correct information

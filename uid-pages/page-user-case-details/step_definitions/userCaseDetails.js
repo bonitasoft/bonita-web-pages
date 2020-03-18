@@ -3,7 +3,8 @@ const url = urlPrefix + 'resources/index.html?id=1';
 const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
-const commentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
+const archivedCommentUrl = 'API/bpm/archivedComment';
+const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 
@@ -14,7 +15,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(caseUrl + defaultFilters, 'caseRoute', 'case');
             break;
         case 'comments':
-            createRouteWithResponse(commentUrl + commentQueryParameters, 'commentsRoute', 'comments');
+            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            break;
+        case 'archived comments':
+            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
             break;
         case 'default details without search keys':
             createRouteWithResponse(caseUrl + defaultFilters, 'caseWithoutSearchKeysRoute', 'caseWithoutSearchKeys');
