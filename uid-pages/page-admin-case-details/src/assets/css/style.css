@@ -53,7 +53,6 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     padding-right: 0;
 }
 
-
 .pt-0.component,
 .pt-0 a {
     padding-top: 0;
@@ -63,8 +62,8 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     padding-bottom: 0;
 }
 
-.mt-0.component {
-    margin-top: 0;
+.pb-20 {
+    padding-bottom: 20px;
 }
 
 .mb-0.component {
@@ -79,8 +78,27 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     margin-right: 0;
 }
 
+.mt-0.component {
+    margin-top: 0;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
 .mt-20 {
     margin-top: 20px;
+}
+
+.process-variable-item {
+    border-bottom: 1px solid lightgray;
+    overflow: hidden;
+    transition: 0.3s;
+    padding-top: 0.5rem;
+}
+
+.process-variable-item p  {
+    margin-bottom: 0;
 }
 
 .item-label p,
@@ -107,7 +125,7 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     padding: 0;
 }
 
-.item-value p:first-letter {
+.item-value.capitalize-first-letter p:first-letter {
     text-transform: uppercase;
 }
 
@@ -119,4 +137,47 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 .comments p {
     margin: 0 0 5px 10px;
+}
+
+.process-variable-value p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 15px;
+}
+
+.process-variable-value p:hover {
+    overflow: visible;
+    text-overflow: unset;
+    max-height: 100%;
+    white-space: inherit;
+
+}
+
+.process-variable-modal-value textarea{
+    min-height: 150px;
+}
+
+/* Spinner */
+.gly-spin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin{
+    0%{
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100%{
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
