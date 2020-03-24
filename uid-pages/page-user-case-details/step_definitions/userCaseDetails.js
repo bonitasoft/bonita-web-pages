@@ -5,7 +5,7 @@ const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
+const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 
 given("The response {string} is defined", (responseType) => {
@@ -94,7 +94,7 @@ then("The case details have the correct information", () => {
     cy.get('.item-value').contains('12/30/19 4:01 PM');
     cy.get('.item-label').contains('Available tasks');
     cy.get('.item-value .btn-link').contains('1');
-    cy.get('.item-value .btn-link').should('have.attr', 'href', '../../taskList/content/#?case=1');
+    cy.get('.item-value .btn-link').should('have.attr', 'href', '../../task-list/content/#?case=1');
     cy.get('.item-label').contains('Search key 1');
     cy.get('.item-value').contains('Search value 1');
     cy.get('.item-label').contains('Search key 2');

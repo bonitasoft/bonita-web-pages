@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskListBonitaV1",
   "name" : "AdminTaskListBonitaV1",
-  "lastUpdate" : 1583833743755,
+  "lastUpdate" : 1585074607138,
   "rows" : [
     [
       {
@@ -289,8 +289,8 @@
                                     "value" : false
                                   },
                                   "disabled" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "!failedFlowNodeData || failedFlowNodeData.length === 0"
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -2045,7 +2045,7 @@
                                         },
                                         "pageToken" : {
                                           "type" : "constant",
-                                          "value" : "adminFlowNodeDetails"
+                                          "value" : "admin-task-details"
                                         },
                                         "processName" : {
                                           "type" : "constant"
@@ -2358,8 +2358,8 @@
                                     "value" : false
                                   },
                                   "disabled" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "!pendingTaskData || pendingTaskData.length === 0"
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -4118,7 +4118,7 @@
                                         },
                                         "pageToken" : {
                                           "type" : "constant",
-                                          "value" : "adminFlowNodeDetails"
+                                          "value" : "admin-task-details"
                                         },
                                         "processName" : {
                                           "type" : "constant"
@@ -4430,8 +4430,8 @@
                                     "value" : false
                                   },
                                   "disabled" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "!doneTaskData || doneTaskData.length === 0"
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -4619,6 +4619,55 @@
                                 "reference" : "1968d910-e8ea-4e9e-815f-e377ee666c18",
                                 "hasValidationError" : false,
                                 "id" : "pbInput"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "{{!doneTaskData}} {{doneTaskData.length === 0}}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "31761e7a-4b47-4244-b218-796a87167095",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
                               }
                             ]
                           ]
@@ -6190,7 +6239,7 @@
                                         },
                                         "pageToken" : {
                                           "type" : "constant",
-                                          "value" : "adminFlowNodeDetails"
+                                          "value" : "admin-task-details"
                                         },
                                         "processName" : {
                                           "type" : "constant"

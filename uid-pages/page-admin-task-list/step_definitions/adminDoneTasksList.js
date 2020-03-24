@@ -6,7 +6,7 @@ const defaultRequestUrl = urlPrefix + doneTasksUrl + 'c=20&p=0' + defaultFilters
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=reached_state_date+DESC';
-const doneTaskDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/adminFlowNodeDetails?id=';
+const doneTaskDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 
 given("The filter response {string} is defined for done tasks", (filterType) => {
     cy.server();

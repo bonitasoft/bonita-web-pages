@@ -4,7 +4,7 @@ const defaultFilters = '&d=deployedBy&f=activationState=DISABLED';
 const processListUrl = 'API/bpm/process';
 const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
-const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/process-details?id=';
+const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
 
 given("The page response {string} is defined for disabled processes", (filterType) => {
     cy.server();

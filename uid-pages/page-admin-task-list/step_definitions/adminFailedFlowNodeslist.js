@@ -6,7 +6,7 @@ const defaultRequestUrl = urlPrefix + failedFlowNodesUrl + 'c=20&p=0' + defaultF
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
-const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/adminFlowNodeDetails?id=';
+const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
