@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminCaseDetailsBonitaV1",
   "name" : "AdminCaseDetailsBonitaV1",
-  "lastUpdate" : 1585066560802,
+  "lastUpdate" : 1585235566821,
   "rows" : [
     [
       {
@@ -93,7 +93,7 @@
                 },
                 "pageToken" : {
                   "type" : "constant",
-                  "value" : "caseList"
+                  "value" : "admin-case-list"
                 },
                 "processName" : {
                   "type" : "constant"
@@ -219,7 +219,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{'Case ID' | uiTranslate}} : {{caseIdQueryParameter}}"
+                  "value" : "{{'Case ID:' | uiTranslate}} {{caseIdQueryParameter}}"
                 },
                 "level" : {
                   "type" : "constant",
@@ -2105,7 +2105,7 @@
                             },
                             "pageToken" : {
                               "type" : "constant",
-                              "value" : "taskList"
+                              "value" : "admin-task-list"
                             },
                             "processName" : {
                               "type" : "constant"
@@ -3214,16 +3214,16 @@
                                                 "value" : "pl-0 pr-0 ml-0 mr-0"
                                               },
                                               "hidden" : {
-                                                "type" : "expression",
-                                                "value" : "!processVariableCtrl.isEditable($item.type)"
-                                              },
-                                              "disabled" : {
                                                 "type" : "constant",
                                                 "value" : false
                                               },
+                                              "disabled" : {
+                                                "type" : "expression",
+                                                "value" : "!processVariableCtrl.isEditable($item.type)"
+                                              },
                                               "label" : {
                                                 "type" : "interpolation",
-                                                "value" : "<i class=\"glyphicon glyphicon-pencil\" title=\"{{\"Edit\"| uiTranslate}} {{$item.name}}\"></i>"
+                                                "value" : "<i class=\"glyphicon glyphicon-pencil\" title=\"{{processVariableCtrl.getUpdateButtonTooltip($item)}}\"></i>"
                                               },
                                               "alignment" : {
                                                 "type" : "constant",
@@ -4145,7 +4145,7 @@
         "",
         "var getTaskNumberLabel = function(numberOfTasks){",
         "    return numberOfTasks > 10 ? \"10+\" : numberOfTasks; ",
-        "}",
+        "};",
         "",
         "return {",
         "    getUserDetailsQueryParameters: function(isArchived){",
@@ -4311,6 +4311,14 @@
     "processVariableCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isEditable = function(type) {",
+        "    return type === \"java.lang.String\" || ",
+        "           type === \"java.lang.Boolean\" ||",
+        "           type === \"java.lang.Integer\" ||",
+        "           type === \"java.lang.Double\" ||",
+        "           type === \"java.lang.Long\";",
+        "};",
+        "",
         "return {",
         "    getUpdateUrl : function() {",
         "        $data.processVariableData.updatingItem = true;",
@@ -4333,14 +4341,13 @@
         "        var buttonLabel = $data.processVariableData.statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "        return buttonLabel;",
         "    },",
-        "    isEditable: function(type){",
-        "        return type === \"java.lang.String\" || ",
-        "               type === \"java.lang.Boolean\" ||",
-        "               type === \"java.lang.Integer\" ||",
-        "               type === \"java.lang.Double\" ||",
-        "               type === \"java.lang.Long\";",
+        "    isEditable: function(type) {",
+        "       return isEditable(type); ",
+        "    },",
+        "    getUpdateButtonTooltip: function(item) {",
+        "       return isEditable(item.type) ? uiTranslate(\"Edit\") + \" \" + item.name : item.type + \" \" + uiTranslate(\"variables cannot be edited at runtime.\"); ",
         "    }",
-        "}"
+        "};"
       ],
       "exposed" : false
     },

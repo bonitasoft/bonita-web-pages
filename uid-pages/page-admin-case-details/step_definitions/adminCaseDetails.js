@@ -5,7 +5,7 @@ const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
+const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 
 given("The response {string} is defined", (responseType) => {
@@ -101,7 +101,7 @@ when("I click on add comment button", () => {
 
 then("The case details have the correct information", () => {
     // Check that the element exist.
-    cy.get('h3.text-left').contains('Case ID : 1').should('be.visible');
+    cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
     cy.get('.item-label').contains('Process name');
     cy.get('.item-value').contains('Pool');
     cy.get('.item-label').contains('Display name');
@@ -214,7 +214,7 @@ then("The input placeholder is not {string}", (placeholder) => {
 });
 
 then("The task list link has correct href", () => {
-    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/taskList?caseId=1');
+    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
 });
 
 then("The no task message is not visible", () =>{
