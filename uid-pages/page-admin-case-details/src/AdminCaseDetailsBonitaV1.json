@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminCaseDetailsBonitaV1",
   "name" : "AdminCaseDetailsBonitaV1",
-  "lastUpdate" : 1585235566821,
+  "lastUpdate" : 1585242928019,
   "rows" : [
     [
       {
@@ -3594,15 +3594,11 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : "process-variable-modal-value"
+                          "value" : ""
                         },
                         "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "processVariableCtrl.isBoolean(processVariableData.item.type)"
                         },
                         "required" : {
                           "type" : "constant",
@@ -3615,6 +3611,10 @@
                         "maxLength" : {
                           "type" : "constant",
                           "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : false
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -3632,14 +3632,100 @@
                           "type" : "constant",
                           "value" : 1
                         },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
                         "value" : {
+                          "type" : "variable",
+                          "value" : "processVariableData.item.value"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "4e1b0dd9-7da0-4120-9816-3a65c828ed68",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!processVariableCtrl.isBoolean(processVariableData.item.type)"
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Value"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "inline" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "availableValues" : {
+                          "type" : "constant",
+                          "value" : [
+                            "true",
+                            "false"
+                          ]
+                        },
+                        "displayedKey" : {
+                          "type" : "constant"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "selectedValue" : {
                           "type" : "variable",
                           "value" : "processVariableData.item.value"
                         }
                       },
-                      "reference" : "f6b2b4a0-6d99-4b10-b9f3-3f6385508cff",
+                      "reference" : "3df0c0f3-c4e5-4a52-a81f-f04d3ae4ccd0",
                       "hasValidationError" : false,
-                      "id" : "pbTextarea"
+                      "id" : "pbRadioButtons"
                     }
                   ],
                   [
@@ -4312,11 +4398,31 @@
       "type" : "expression",
       "value" : [
         "var isEditable = function(type) {",
-        "    return type === \"java.lang.String\" || ",
-        "           type === \"java.lang.Boolean\" ||",
-        "           type === \"java.lang.Integer\" ||",
-        "           type === \"java.lang.Double\" ||",
-        "           type === \"java.lang.Long\";",
+        "    return isString(type) || ",
+        "           isBoolean(type) ||",
+        "           isInteger(type) ||",
+        "           isDouble(type) || ",
+        "           isLong(type);",
+        "};",
+        "",
+        "var isString = function(type) {",
+        "    return type === \"java.lang.String\";",
+        "};",
+        "",
+        "var isBoolean = function(type) {",
+        "    return type === \"java.lang.Boolean\";",
+        "};",
+        "",
+        "var isInteger = function(type) {",
+        "    return type === \"java.lang.Integer\";",
+        "};",
+        "",
+        "var isDouble = function(type) {",
+        "    return type === \"java.lang.Double\";",
+        "};",
+        "",
+        "var isLong = function(type) {",
+        "    return type === \"java.lang.Long\";",
         "};",
         "",
         "return {",
@@ -4342,7 +4448,22 @@
         "        return buttonLabel;",
         "    },",
         "    isEditable: function(type) {",
-        "       return isEditable(type); ",
+        "       return isEditable(type);",
+        "    },",
+        "    isString: function(type) {",
+        "       return isString(type);",
+        "    },",
+        "    isBoolean: function(type) {",
+        "       return isBoolean(type);",
+        "    },",
+        "    isInteger: function(type) {",
+        "       return isInteger(type);",
+        "    },",
+        "    isDouble: function(type) {",
+        "       return isDouble(type);",
+        "    },",
+        "    isLong: function(type) {",
+        "       return isLong(type);",
         "    },",
         "    getUpdateButtonTooltip: function(item) {",
         "       return isEditable(item.type) ? uiTranslate(\"Edit\") + \" \" + item.name : item.type + \" \" + uiTranslate(\"variables cannot be edited at runtime.\"); ",
@@ -4356,11 +4477,11 @@
       "value" : [
         "return {",
         "    item: undefined,",
-        "    statusCode : \"\",",
-        "    updatingItem : false,",
+        "    statusCode: \"\",",
+        "    updatingItem: false,",
         "    timestamp: 0,",
         "    successUpdateResponse: undefined,",
-        "    failedUpdateResponse : undefined",
+        "    failedUpdateResponse: undefined",
         "};"
       ],
       "exposed" : false
