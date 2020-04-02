@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminCaseDetailsBonitaV1",
   "name" : "AdminCaseDetailsBonitaV1",
-  "lastUpdate" : 1585242928019,
+  "lastUpdate" : 1585841384177,
   "rows" : [
     [
       {
@@ -3768,7 +3768,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{processVariableCtrl.getErrorMessageFor500(processVariableData.failedUpdateResponse)}}"
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4435,7 +4435,7 @@
         "        $data.processVariableData.statusCode = '';",
         "        return \"updateItem\";",
         "    },",
-        "    getErrorMessageFor500: function(failedUpdateResponse) {",
+        "    getErrorMessageFor500: function() {",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
         "    },",
         "    getUpdatePayload : function(newValue) {",
