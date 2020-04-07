@@ -71,3 +71,58 @@ Feature: The Admin Case Details in desktop resolution
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"
     And The comments have the correct information
+
+  Scenario: The admin case details displays the process variables
+    Given The response "default details" is defined
+    And The response "process variables" is defined
+    When I visit the admin case details page
+    And I click on process variables tab
+    Then The process variables have the correct information
+
+  Scenario: The edit process variables works correctly for string variable
+    Given The response "default details" is defined
+    And The response "process variables" is defined
+    And The response "process variable update" is defined
+    When I visit the admin case details page
+    And I click on process variables tab
+    And I click on Edit button for process variable "1"
+    Then Edit modal for variable "1" is displayed
+    And The value for variable "1" is displayed correctly in the modal
+    When I modify the value for variable "1"
+    And I click on "Save" button in the modal
+    Then I see the updated successfully message
+    When I click on "Close" button in the modal
+    Then The modal is closed
+    And I see the value is updated for variable "1"
+
+  Scenario: The edit process variables works correctly for boolean variable
+    Given The response "default details" is defined
+    And The response "process variables" is defined
+    And The response "process variable update boolean" is defined
+    When I visit the admin case details page
+    And I click on process variables tab
+    And I click on Edit button for process variable "2"
+    Then Edit modal for variable "2" is displayed
+    And The value for variable "2" is displayed correctly in the modal
+    When I modify the value for variable "2"
+    And I click on "Save" button in the modal
+    Then I see the updated successfully message
+    When I click on "Close" button in the modal
+    Then The modal is closed
+    And I see the value is updated for variable "2"
+
+  Scenario: The edit modal should display 500 error message
+    Given The response "default details" is defined
+    And The response "process variables" is defined
+    And The response "500 error" is defined
+    When I visit the admin case details page
+    And I click on process variables tab
+    And I click on Edit button for process variable "1"
+    Then Edit modal for variable "1" is displayed
+    And The value for variable "1" is displayed correctly in the modal
+    When I modify the value for variable "1"
+    And I click on "Save" button in the modal
+    Then I see "500" error message
+    When I click on "Cancel" button in the modal
+    Then The modal is closed
+    And The value for variable 1 is not changed

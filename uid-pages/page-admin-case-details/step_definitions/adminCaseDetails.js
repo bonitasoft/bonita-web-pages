@@ -5,8 +5,10 @@ const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/caseList';
+const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
+const processVariableUrl = 'API/bpm/caseVariable?p=0&c=999&f=case_id=1';
+const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -54,6 +56,20 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '0TasksRoute', '0Tasks');
             createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '0TasksRoute', '0Tasks');
             break;
+        case 'process variables':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
+            break;
+        case 'process variable update':
+            createRouteWithResponseAndMethod(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'emptyResult', 'PUT');
+            createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
+            break;
+        case 'process variable update boolean':
+            createRouteWithResponseAndMethod(processVariableUpdateUrl + 'isUrgentRequest', 'processVariablesUpdateRoute', 'emptyResult', 'PUT');
+            createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
+            break;
+        case '500 error':
+            createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -74,11 +90,24 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
+        createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
         cy.fixture('json/' + response + '.json').as(response);
         cy.route({
-            method: 'GET',
+            method: method,
             url: urlPrefix + urlSuffix,
             response: '@' + response
+        }).as(routeName);
+    }
+
+    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
+        cy.route({
+            method: method,
+            url: urlPrefix + urlSuffix,
+            status: status,
+            response: ''
         }).as(routeName);
     }
 });
@@ -99,9 +128,36 @@ when("I click on add comment button", () => {
     cy.get('button').contains('Add comment').click();
 });
 
+when("I click on process variables tab", () => {
+    cy.get('a').contains('Process variables').click();
+});
+
+when("I click on Edit button for process variable {string}", (variableNumber) => {
+    cy.get('.glyphicon-pencil').eq(variableNumber - 1).click();
+});
+
+when("I modify the value for variable {string}", (variableNumber) => {
+    switch (variableNumber) {
+        case "1":
+            cy.get('.modal pb-input input').eq(1).clear();
+            cy.get('.modal pb-input input').eq(1).type('New description about the leave request.');
+            break;
+        case "2":
+            cy.get('.modal input').eq(1).check('true');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+
+});
+
+when("I click on {string} button in the modal", (buttonLabel) => {
+    cy.get('.modal button').contains(buttonLabel).click();
+});
+
 then("The case details have the correct information", () => {
     // Check that the element exist.
-    cy.get('h3.text-left').contains('Case ID : 1').should('be.visible');
+    cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
     cy.get('.item-label').contains('Process name');
     cy.get('.item-value').contains('Pool');
     cy.get('.item-label').contains('Display name');
@@ -143,24 +199,24 @@ then("The comments have the correct information", () => {
 
 then("The monitoring have the correct information for {string} tasks", (numberOfTasks) => {
     // Check that the element exist.
-   switch (numberOfTasks) {
-       case "9":
-           cy.wait('@9TasksRoute');
-           cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
-           break;
-       case "10":
-           cy.wait('@10TasksRoute');
-           cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
-           break;
-       case "11":
-           cy.wait('@10+TasksRoute');
-           cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
-           break;
-       case "0":
-           cy.wait('@0TasksRoute');
-           cy.get('.item-value').contains('No task in the task list for this case.');
-           break;
-   }
+    switch (numberOfTasks) {
+        case "9":
+            cy.wait('@9TasksRoute');
+            cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
+            break;
+        case "10":
+            cy.wait('@10TasksRoute');
+            cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
+            break;
+        case "11":
+            cy.wait('@10+TasksRoute');
+            cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
+            break;
+        case "0":
+            cy.wait('@0TasksRoute');
+            cy.get('.item-value').contains('No task in the task list for this case.');
+            break;
+    }
 });
 
 then("There are no search keys", () => {
@@ -186,7 +242,7 @@ then("There is a new comment", () => {
 });
 
 then("The new comment input is empty", () => {
-   cy.get("input").should("be.empty");
+    cy.get("input").should("be.empty");
 });
 
 then("The state is {string}", (state) => {
@@ -214,13 +270,144 @@ then("The input placeholder is not {string}", (placeholder) => {
 });
 
 then("The task list link has correct href", () => {
-    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/taskList?caseId=1');
+    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
 });
 
-then("The no task message is not visible", () =>{
-   cy.get('.item-value').contains('No task in the task list for this case.').should('not.visible');
+then("The no task message is not visible", () => {
+    cy.get('.item-value').contains('No task in the task list for this case.').should('not.visible');
 });
 
-then("The task list link is not visible", () =>{
-   cy.get('a.item-value').should('not.visible');
+then("The task list link is not visible", () => {
+    cy.get('a.item-value').should('not.visible');
+});
+
+then("The process variables have the correct information", () => {
+    // Check that the element exist.
+    cy.get('.process-variable-item').eq(0).within(() => {
+        cy.get('.item-label').eq(0).contains('Name');
+        cy.get('.item-value').eq(0).contains('description');
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.String');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('Description about the leave request.');
+        cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit description');
+    });
+    cy.get('.process-variable-item').eq(1).within(() => {
+        cy.get('.item-label').eq(0).contains('Name');
+        cy.get('.item-value').eq(0).contains('isUrgentRequest');
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Boolean');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('false');
+        cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit isUrgentRequest');
+    });
+    cy.get('.process-variable-item').eq(2).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.util.Collection');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('[Multiple description, about the leave request.]');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'java.util.Collection variables cannot be edited at runtime.');
+    });
+    cy.get('.process-variable-item').eq(3).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Integer');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('55');
+        cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit numberOfDays');
+    });
+    cy.get('.process-variable-item').eq(4).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Double');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('0.0');
+        cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit ticketFare');
+    });
+    cy.get('.process-variable-item').eq(5).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Long');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('123456789');
+        cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
+    });
+});
+
+then("Edit modal for variable {string} is displayed", (variableNumber) => {
+    var variableName = '';
+    switch (variableNumber) {
+        case "1":
+            variableName = 'description';
+            break;
+        case "2":
+            variableName = 'isUrgentRequest';
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.contains('.modal', 'Edit the value of ' + variableName).should('be.visible');
+});
+
+then("The value for variable {string} is displayed correctly in the modal", (variableNumber) => {
+    switch (variableNumber) {
+        case "1":
+            cy.get('.modal pb-input input').eq(1).should('have.value', 'Description about the leave request.');
+            break;
+        case "2":
+            cy.get('[type="radio"]').last().should('be.checked');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+});
+
+then("I see the updated successfully message", () => {
+    cy.contains('.modal', 'Process variable successfully updated.');
+});
+
+then("The modal is closed", () => {
+    cy.contains('.modal').should('not.be.visible');
+});
+
+then("I see the value is updated for variable {string}", (variableNumber) => {
+    var variableValue = '';
+    switch (variableNumber) {
+        case "1":
+            variableValue = 'New description about the leave request.';
+            break;
+        case "2":
+            variableValue = 'true';
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.process-variable-item').eq(variableNumber - 1).within(() => {
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains(variableValue);
+    });
+});
+
+then("I see {string} error message", (statusCode) => {
+    switch (statusCode) {
+        case '500':
+            cy.get('.modal').contains('An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case '403':
+            cy.get('.modal').contains('Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The process variable has not been updated.').should('be.visible');
+});
+
+then("The value for variable 1 is not changed", () => {
+    cy.get('.process-variable-item').eq(0).within(() => {
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('Description about the leave request.');
+    });
 });
