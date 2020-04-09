@@ -91,4 +91,7 @@ Feature: The failed flow nodes list in desktop resolution
     When I put "3001" in "caseId" filter field
     Then The api call is made for "3001"
 
-
+  Scenario: The failed flow nodes list process filter is disabled
+    Given The filter response "empty process list" is defined
+    When I visit admin task list page
+    Then The filter by process is disabled
