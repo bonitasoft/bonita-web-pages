@@ -16,8 +16,8 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
+            createRouteWithResponse(defaultRequestUrl, '&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
             break;
         case 'sort by':
             createRoute('&o=name+ASC', 'sortByNameAscRoute');
@@ -27,14 +27,14 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'search by name':
             createRoute('&s=Alowscenario', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
             createRoute('&f=caseId=2001', 'filterByCaseId2001Route');
             createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl,'', 'failedFlowNodes20Route', 'failedFlowNodes20');
+            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
             createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
             createRouteWithResponseAndPagination('', 'failedFlowNodes5Route', 'failedFlowNodes5', 3, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -44,7 +44,10 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'empty default filter':
-            createRouteWithResponse(defaultRequestUrl,'', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '', 'emptyResultRoute', 'emptyResult');
+            break;
+        case 'empty process list':
+            createRouteWithResponse(processUrl, processFilters, 'emptyResultRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -341,12 +344,16 @@ then("The load more flow nodes button is disabled", () => {
 });
 
 then("The load more flow nodes button has the correct text", () => {
-    cy.contains("button","Load more tasks").should("not.be.visible");
-    cy.contains("button","Load more flow nodes").should("be.visible");
+    cy.contains("button", "Load more tasks").should("not.be.visible");
+    cy.contains("button", "Load more flow nodes").should("be.visible");
 });
 
 then("Only the no failed flow node is displayed", () => {
     cy.contains('h4:visible', 'No failed flow nodes to display').should('be.visible');
     cy.contains('h4:visible', 'No done tasks to display').should('not.be.visible');
     cy.contains('h4:visible', 'No pending tasks to display').should('not.be.visible');
+});
+
+then("The filter by process is disabled", () => {
+    cy.get('select:visible').eq(0).should('be.disabled');
 });

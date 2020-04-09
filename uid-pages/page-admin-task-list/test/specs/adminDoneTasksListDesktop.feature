@@ -124,3 +124,9 @@ Feature: The done tasks list in desktop resolution
     When I erase the caseId filter
     And I put "3001" in "caseId" filter field for done tasks
     Then The api call is made for "3001" for done tasks
+
+  Scenario: The failed flow nodes list process filter is disabled
+    Given The filter response "empty process list" is defined
+    When I visit admin task list page
+    And I click on "Done tasks" tab
+    Then The filter by process is disabled
