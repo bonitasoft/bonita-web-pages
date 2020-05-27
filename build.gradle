@@ -18,7 +18,7 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url 'http://repositories.rd.lan/maven/all/' }
+        maven { url 'http://artifacts.rd.lan/maven/all/' }
         mavenCentral()
         jcenter()
     }
@@ -28,9 +28,9 @@ allprojects {
             maven {
                 name 'bonitaInternal'
                 if (project.version.endsWith('-SNAPSHOT')) {
-                    url 'http://repositories.rd.lan/maven/snapshots/'
+                    url 'http://artifacts.rd.lan/maven/snapshots/'
                 } else {
-                    url 'http://repositories.rd.lan/maven/releases/'
+                    url 'http://artifacts.rd.lan/maven/releases/'
                 }
             }
         }
