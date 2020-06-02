@@ -20,13 +20,9 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createPostRoute(commentUrl, 'addNewCommentRoute');
             createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=1*', 'commentsRoute', 'newComments');
             break;
-        case 'failed connectors':
+        case 'connectors':
             createRouteWithResponse(connectorUrl + 'FAILED', 'failedConnectorRoute', 'failedConnector');
-            break;
-        case 'to be executed connectors':
             createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'toBeExecutedConnector');
-            break;
-        case 'executed connectors':
             createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'emptyResult');
             break;
         default:

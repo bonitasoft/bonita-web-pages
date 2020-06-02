@@ -3,6 +3,8 @@ const url = urlPrefix + 'resources/index.html?id=2';
 const pendingTaskUrl = 'API/bpm/flowNode/2?';
 const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
+
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
@@ -89,11 +91,12 @@ then("The back button has correct href", () => {
     cy.get('a').contains('Back').should('have.attr', 'href', adminTaskListUrl);
 });
 
-then("The connectors have the correct information", () => {
-    // Check that the element exist.
-    cy.wait('@failedConnectorRoute');
-    cy.get('.item-label').contains('Failed');
-    cy.get('.item-value').contains('throwNewException');
-    cy.get('.item-label').contains('comment no. 2');
-    cy.get('.item-value').contains('helen.kelly');
+then("The connectors section have the correct information for pending tasks", () => {
+    cy.get('h4').contains('Connectors');
+    cy.get('h5').contains('Failed');
+    cy.get('.item-value').contains('No failed connector');
+    cy.get('h5').contains('To be executed');
+    cy.get('.item-value').contains('No pending connector');
+    cy.get('h5').contains('Executed');
+    cy.get('.item-value').contains('No executed connector');
 });

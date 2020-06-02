@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1589895953884,
+  "lastUpdate" : 1591110250800,
   "rows" : [
     [
       {
@@ -174,7 +174,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"ready\" || taskDetailsCtrl.getTaskDetails().state == \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"ready\" || taskDetailsCtrl.getOpenOrArchivedTask().state == \"completed\""
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -262,7 +262,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"ready\" || taskDetailsCtrl.getTaskDetails().state === \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"ready\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -350,7 +350,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"failed\" || taskDetailsCtrl.getTaskDetails().state === \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"failed\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -438,7 +438,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"failed\" || taskDetailsCtrl.getTaskDetails().state === \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"failed\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -526,7 +526,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state === \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -620,7 +620,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{taskDetailsCtrl.getTaskDetails().displayName}} ({{taskIdQueryParameter}})"
+                  "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().displayName}} ({{taskIdQueryParameter}})"
                 },
                 "level" : {
                   "type" : "constant",
@@ -632,42 +632,6 @@
                 }
               },
               "reference" : "b634a8c6-339b-485c-8da1-acc8932a6306",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "mt-0 mb-0"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"completed\""
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "Original Id: {{taskDetailsCtrl.getTaskDetails().sourceObjectId}}"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                }
-              },
-              "reference" : "8fba10f0-bd59-403c-937a-8a12670a57c4",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -827,7 +791,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().displayName}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().displayName}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -959,7 +923,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().type}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().type}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1067,7 +1031,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!taskDetailsCtrl.getTaskDetails().priority"
+                        "value" : "!taskDetailsCtrl.getOpenOrArchivedTask().priority"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1091,7 +1055,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().priority}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().priority}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1119,7 +1083,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getTaskDetails().priority"
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().priority"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1251,7 +1215,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!taskDetailsCtrl.getTaskDetails().dueDate"
+                        "value" : "!taskDetailsCtrl.getOpenOrArchivedTask().dueDate"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1275,7 +1239,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().dueDate.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().dueDate.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1303,7 +1267,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getTaskDetails().dueDate"
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().dueDate"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1441,7 +1405,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().caseId}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().caseId}}"
                       },
                       "type" : {
                         "type" : "constant",
@@ -1610,7 +1574,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().processId.name}} ({{taskDetailsCtrl.getTaskDetails().processId.version}})"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().processId.name}} ({{taskDetailsCtrl.getOpenOrArchivedTask().processId.version}})"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1742,7 +1706,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().processId.displayName}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().processId.displayName}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1876,7 +1840,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().state}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().state}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1905,7 +1869,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"failed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"failed\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -2008,7 +1972,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().last_update_date.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().last_update_date.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2037,7 +2001,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "taskDetailsCtrl.getTaskDetails().state !== \"completed\""
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"completed\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -2140,7 +2104,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().reached_state_date.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().reached_state_date.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2248,7 +2212,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!taskDetailsCtrl.getTaskDetails().assigned_id"
+                        "value" : "!taskDetailsCtrl.getOpenOrArchivedTask().assigned_id"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2272,7 +2236,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getUserDisplayName(taskDetailsCtrl.getTaskDetails().assigned_id)}}"
+                        "value" : "{{taskDetailsCtrl.getUserDisplayName(taskDetailsCtrl.getOpenOrArchivedTask().assigned_id)}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2300,7 +2264,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getTaskDetails().assigned_id"
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().assigned_id"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2432,7 +2396,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!taskDetailsCtrl.getTaskDetails().assigned_date"
+                        "value" : "!taskDetailsCtrl.getOpenOrArchivedTask().assigned_date"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2456,7 +2420,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getTaskDetails().assigned_date.replace(\" \", \"T\")|uiDate:'short'}}"
+                        "value" : "{{taskDetailsCtrl.getOpenOrArchivedTask().assigned_date.replace(\" \", \"T\")|uiDate:'short'}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2484,7 +2448,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getTaskDetails().assigned_id"
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().assigned_id"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2516,6 +2480,140 @@
                       }
                     },
                     "reference" : "917cca5e-16a3-4b24-9281-ed2cd275cf6a",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"completed\""
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "3427d9d7-acba-447a-9fa0-345be9fe57d6",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "item-label"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Executed by"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "7310c08f-19c9-4ddb-9269-8f67482edcd4",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "item-value"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{taskDetailsCtrl.getUserDisplayName(taskDetailsCtrl.getOpenOrArchivedTask().executedBy)}}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "35b75663-ee25-434d-b2f6-a210af355561",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -2776,8 +2874,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : ""
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3364,7 +3462,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "executedConnectorInstance.legth"
+                        "value" : "executedConnectorInstance.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -4513,16 +4611,18 @@
     "archivedTaskDetails" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedFlowNode/{{taskIdQueryParameter}}?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute"
+        "../API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3d{{taskIdQueryParameter}}&f=isTerminal%3dtrue&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute"
       ],
       "exposed" : false
     },
     "taskDetailsCtrl" : {
       "type" : "expression",
       "value" : [
+        "var isArchived = !$data.taskDetails && $data.archivedTaskDetails && $data.archivedTaskDetails.length > 0;",
+        "",
         "return {",
-        "    getTaskDetails: function() {",
-        "        return $data.archivedTaskDetails ? $data.archivedTaskDetails : $data.taskDetails;",
+        "    getOpenOrArchivedTask: function() {",
+        "        return  isArchived ? $data.archivedTaskDetails[0] : $data.taskDetails;",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -4543,13 +4643,7 @@
         "        return getDisplayName(user);",
         "    },",
         "    isDoneTask: function() {",
-        "        return $data.archivedTaskDetails;",
-        "    },",
-        "    getCommentUrl: function(){",
-        "        return $data.archivedTaskDetails ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
-        "    },",
-        "    getCommentQueryParameters: function(){",
-        "      return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.taskDetails.caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
+        "        return isArchived;",
         "    },",
         "    hideDueDateOverdueIcon: function(dueDate){",
         "        var currentTimestamp = new Date().getTime();",
@@ -4559,7 +4653,14 @@
         "            return \"hidden\";",
         "        }",
         "        return \"\";",
-        "    }",
+        "    },",
+        "    getCommentUrl: function(){",
+        "        return isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
+        "    },",
+        "    getCommentQueryParameters: function(){",
+        "        var caseId = this.getOpenOrArchivedTask() ? this.getOpenOrArchivedTask().caseId : \"\";",
+        "        return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
+        "    },",
         "};"
       ],
       "exposed" : false
@@ -4606,8 +4707,8 @@
     "commentPayload" : {
       "type" : "expression",
       "value" : [
-        "var taskDetails = $data.taskDetailsCtrl.getTaskDetails();",
-        "var caseId = (typeof taskDetails !== 'undefined') ? taskDetails.caseId : undefined;",
+        "var taskDetails = $data.taskDetailsCtrl.getOpenOrArchivedTask();",
+        "var caseId = taskDetails ? taskDetails.caseId : \"\";",
         "",
         "return {",
         "    processInstanceId: caseId,",
