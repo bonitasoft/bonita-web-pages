@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1591110250800,
+  "lastUpdate" : 1591191046248,
   "rows" : [
     [
       {
@@ -1413,7 +1413,7 @@
                       },
                       "targetUrl" : {
                         "type" : "expression",
-                        "value" : "\"../../admin-case-details/content/?id=\" + taskDetailsCtrl.getTaskDetails().caseId"
+                        "value" : "\"../../admin-case-details/content/?id=\" + taskDetailsCtrl.getOpenOrArchivedTask().caseId"
                       },
                       "pageToken" : {
                         "type" : "constant"
@@ -4668,7 +4668,7 @@
     "taskDetails" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/flowNode/{{taskIdQueryParameter}}?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute"
+        "{{(archivedTaskDetails && archivedTaskDetails.length === 0) ? '../API/bpm/flowNode/' + taskIdQueryParameter + '?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute' : undefined}}"
       ],
       "exposed" : false
     },

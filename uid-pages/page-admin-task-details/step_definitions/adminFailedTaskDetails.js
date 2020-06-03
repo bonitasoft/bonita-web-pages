@@ -6,10 +6,14 @@ const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
+const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=1&f=isTerminal=true&';
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
     switch (responseType) {
+        case 'empty done task':
+            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            break;
         case 'default details':
             createRouteWithResponse(failedTaskUrl + defaultFilters, 'failedTaskDetailsRoute', 'failedTaskDetails');
             break;
@@ -23,7 +27,7 @@ given("The response {string} is defined for failed tasks", (responseType) => {
         case 'connectors':
             createRouteWithResponse(connectorUrl + 'FAILED', 'failedConnectorRoute', 'failedConnector');
             createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'toBeExecutedConnector');
-            createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'emptyResult');
+            createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'executedConnector');
             break;
         default:
             throw new Error("Unsupported case");
@@ -82,7 +86,6 @@ when("I click on add comment button", () => {
 
 then("The failed task details have the correct information", () => {
     cy.get('h3').contains('1 failed task (1)');
-    cy.get('h4').contains('Original Id:').should('not.exist');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
     cy.get('.item-value').contains('1 failed task');
@@ -152,14 +155,20 @@ then("The new comment input is empty", () => {
 });
 
 then("The connectors section have the correct information", () => {
-    cy.get('h4').contains('Connectors');
-    cy.get('h5').contains('Failed');
+    cy.get('h4').eq(1).contains('Connectors');
+    cy.get('h5').eq(0).contains('Failed');
     cy.get('button.btn-link').contains('throwNewException');
-    cy.get('h5').contains('To be executed');
+    cy.get('h5').eq(1).contains('To be executed');
     cy.get('.item-value').contains('throwException');
     cy.get('.item-value').contains('throwNewException1');
     cy.get('.item-value').contains('throwNewException2');
     cy.get('.item-value').contains('throwNewException3');
-    cy.get('h5').contains('Executed');
+    cy.get('h5').eq(2).contains('Executed');
+    cy.get('.item-value').contains('throwNewException6');
+});
+
+then("The connectors section is empty", () => {
+    cy.get('.item-value').contains('No failed connector');
+    cy.get('.item-value').contains('No pending connector');
     cy.get('.item-value').contains('No executed connector');
 });

@@ -1,10 +1,11 @@
 const urlPrefix = 'build/dist/';
-const url = urlPrefix + 'resources/index.html?id=3';
-const doneTaskUrl = 'API/bpm/archivedFlowNode/3?';
-const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute';
+const url = urlPrefix + 'resources/index.html?id=81358';
+const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
+const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();
@@ -14,6 +15,11 @@ given("The response {string} is defined for done tasks", (responseType) => {
             break;
         case 'archived comments':
             createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            break;
+        case 'empty connectors':
+            createRouteWithResponse(connectorUrl + 'FAILED', 'failedConnectorRoute', 'emptyResult');
+            createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'emptyResult');
+            createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -63,8 +69,7 @@ when("I visit the admin done task details page", () => {
 });
 
 then("The done task details have the correct information", () => {
-    cy.get('h3').contains('InvolveUser (3)');
-    cy.get('h4').contains('Original Id: 81358');
+    cy.get('h3').contains('InvolveUser (81358)');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
     cy.get('.item-value').contains('InvolveUser');

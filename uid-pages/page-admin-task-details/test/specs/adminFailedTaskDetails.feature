@@ -1,17 +1,20 @@
 Feature: The Admin Failed Task Details in desktop resolution
 
   Scenario: The admin task details displays the correct attributes for failed tasks
-    Given The response "default details" is defined for failed tasks
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
     When I visit the admin failed task details page
     Then The failed task details have the correct information
 
   Scenario: The admin task details has the correct link to task list
-    Given The response "default details" is defined for failed tasks
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
     When I visit the admin failed task details page
     Then The back button has correct href
 
   Scenario: The admin failed task details display comments correctly
-    Given The response "default details" is defined for failed tasks
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
     And The response "comments" is defined for failed tasks
     When I visit the admin failed task details page
     Then The comments have the correct information
@@ -19,7 +22,8 @@ Feature: The Admin Failed Task Details in desktop resolution
     And There is no "System comment"
 
   Scenario: The admin failed task details should add a new comment
-    Given The response "default details" is defined for failed tasks
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
     And The response "comments" is defined for failed tasks
     And The response "add new comment" is defined for failed tasks
     When I visit the admin failed task details page
@@ -33,7 +37,15 @@ Feature: The Admin Failed Task Details in desktop resolution
     Then The add comment button is "disabled"
 
   Scenario: The admin failed task details displays the connectors correctly
-    Given The response "default details" is defined for failed tasks
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
     And The response "connectors" is defined for failed tasks
     When I visit the admin failed task details page
     Then The connectors section have the correct information
+
+  Scenario: The admin failed task details does not have the connectors
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin done task details page
+    Then The connectors section is empty
