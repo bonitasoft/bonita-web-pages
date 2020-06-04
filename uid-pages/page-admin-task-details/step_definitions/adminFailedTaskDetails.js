@@ -7,6 +7,7 @@ const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=1&f=isTerminal=true&';
+const failureConnector = 'API/bpm/connectorFailure/';
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
@@ -29,7 +30,11 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'toBeExecutedConnector');
             createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'executedConnector');
             break;
-        default:
+        case 'failure connector':
+            createRouteWithResponse(failureConnector + '80004', 'failureConnectorRoute', 'failureConnector');
+            break;
+
+            default:
             throw new Error("Unsupported case");
     }
 
@@ -83,6 +88,15 @@ when("I fill in the new comment", () => {
 when("I click on add comment button", () => {
     cy.get('button').contains('Add comment').click();
 });
+
+when("I click on failed connector button", () => {
+    cy.get('button').contains('failedConnectorName').click();
+});
+
+when("I click on close button in the modal", () => {
+    cy.get('.modal-footer button').contains('Close').click();
+});
+
 
 then("The failed task details have the correct information", () => {
     cy.get('h3').contains('1 failed task (1)');
@@ -157,7 +171,7 @@ then("The new comment input is empty", () => {
 then("The connectors section have the correct information", () => {
     cy.get('h4').eq(1).contains('Connectors');
     cy.get('h5').eq(0).contains('Failed');
-    cy.get('button.btn-link').contains('throwNewException');
+    cy.get('button.btn-link').contains('failedConnectorName');
     cy.get('h5').eq(1).contains('To be executed');
     cy.get('.item-value').contains('throwException');
     cy.get('.item-value').contains('throwNewException1');
@@ -169,6 +183,23 @@ then("The connectors section have the correct information", () => {
 
 then("The connectors section is empty", () => {
     cy.get('.item-value').contains('No failed connector');
+    cy.get('.connectors button').should('not.visible');
     cy.get('.item-value').contains('No pending connector');
     cy.get('.item-value').contains('No executed connector');
+});
+
+then("The failed connector modal is opened for {string}", (connectorName) => {
+    cy.get('.modal h3').contains('Failure details for connector ' + connectorName).should('be.visible');
+});
+
+then("The failed connector modal is closed",() => {
+    cy.get('.modal').should('not.visible');
+});
+
+then("The modal has the correct information", () => {
+    cy.get('.modal-header h3').contains('Failure details for connector failedConnectorName');
+    cy.get('.modal-body h4').contains('Error message');
+    cy.get('p.text-left').contains('Human Failed task');
+    cy.get('.modal-body h4').contains('Stack trace');
+    cy.get('textarea').should('have.value', 'org.bonitasoft.engine.commons.exceptions.SBonitaRuntimeException: java.lang.Exception: Human Failed task');
 });

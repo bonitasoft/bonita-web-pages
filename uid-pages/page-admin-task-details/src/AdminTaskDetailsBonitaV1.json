@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1591259043856,
+  "lastUpdate" : 1591283511946,
   "rows" : [
     [
       {
@@ -2794,7 +2794,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "failedConnectorInstance.length"
+                        "value" : "connectorsFailed.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2875,7 +2875,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : ""
+                        "value" : "!connectorsFailed.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -2906,7 +2906,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "failedConnectorInstance"
+                              "value" : "connectorsFailed"
                             }
                           },
                           "reference" : "0e684e0b-4160-4f26-b6ab-e76f76379e88",
@@ -3147,7 +3147,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "toBeExecutedConnectorInstance.length"
+                        "value" : "connectorsToBeExecuted.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3227,8 +3227,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "!connectorsToBeExecuted.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3259,7 +3259,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "toBeExecutedConnectorInstance"
+                              "value" : "connectorsToBeExecuted"
                             }
                           },
                           "reference" : "ea376f43-68dc-4116-8488-0ea3e8579470",
@@ -3462,7 +3462,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "executedConnectorInstance.length"
+                        "value" : "connectorsExecuted.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3542,8 +3542,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "!connectorsExecuted.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3574,7 +3574,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "executedConnectorInstance"
+                              "value" : "connectorsExecuted"
                             }
                           },
                           "reference" : "c2a6c201-929b-4664-ab3a-b5ee63b66192",
@@ -4203,7 +4203,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Failure details for connector \" | uiTranslate}} {{failedConnectorInstance[0].name}}"
+                          "value" : "{{\"Failure details for connector\" | uiTranslate}} {{connectorsFailed[0].name}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -4325,7 +4325,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{failedConnector.errorMessage}}"
+                          "value" : "{{connectorFailure.errorMessage}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4375,7 +4375,7 @@
                   ],
                   [
                     {
-                      "type" : "container",
+                      "type" : "component",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
@@ -4391,68 +4391,46 @@
                           "type" : "constant",
                           "value" : false
                         },
-                        "repeatedCollection" : {
-                          "type" : "variable",
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
                           "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "connectorFailure.errorStackTrace"
                         }
                       },
-                      "reference" : "341b0ce7-976d-4890-b7ff-81f0bf1f0ea4",
+                      "reference" : "f71d1e72-f7a4-4757-aad6-e2a91a8ac93c",
                       "hasValidationError" : false,
-                      "id" : "pbContainer",
-                      "rows" : [
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "{{failedConnector.errorStackTrace}}"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "left"
-                              }
-                            },
-                            "reference" : "97cbc1ce-f090-4759-872b-d6d2c0d362fe",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
-                        ]
-                      ]
+                      "id" : "pbTextarea"
                     }
                   ]
                 ]
@@ -4678,21 +4656,21 @@
       ],
       "exposed" : false
     },
-    "executedConnectorInstance" : {
+    "connectorsExecuted" : {
       "type" : "url",
       "value" : [
         "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=DONE"
       ],
       "exposed" : false
     },
-    "failedConnectorInstance" : {
+    "connectorsFailed" : {
       "type" : "url",
       "value" : [
         "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=FAILED"
       ],
       "exposed" : false
     },
-    "toBeExecutedConnectorInstance" : {
+    "connectorsToBeExecuted" : {
       "type" : "url",
       "value" : [
         "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=TO_BE_EXECUTED"
@@ -4742,10 +4720,10 @@
       ],
       "exposed" : false
     },
-    "failedConnector" : {
+    "connectorFailure" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorFailure/{{failedConnectorInstance[0].id}}"
+        "../API/bpm/connectorFailure/{{connectorsFailed[0].id}}"
       ],
       "exposed" : false
     }

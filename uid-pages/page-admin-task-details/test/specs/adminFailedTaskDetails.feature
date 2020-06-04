@@ -43,6 +43,18 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     Then The connectors section have the correct information
 
+  Scenario: The failed connector modal displays the correct attributes
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    And The response "failure connector" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on failed connector button
+    Then The failed connector modal is opened for "failedConnectorName"
+    And The modal has the correct information
+    When I click on close button in the modal
+    Then The failed connector modal is closed
+
   Scenario: The admin failed task details does not have the connectors
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
