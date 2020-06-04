@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1591191046248,
+  "lastUpdate" : 1591259043856,
   "rows" : [
     [
       {
@@ -4618,11 +4618,14 @@
     "taskDetailsCtrl" : {
       "type" : "expression",
       "value" : [
-        "var isArchived = !$data.taskDetails && $data.archivedTaskDetails && $data.archivedTaskDetails.length > 0;",
+        "var isArchived = $data.archivedTaskDetails && $data.archivedTaskDetails.length === 1;",
         "",
         "return {",
         "    getOpenOrArchivedTask: function() {",
         "        return  isArchived ? $data.archivedTaskDetails[0] : $data.taskDetails;",
+        "            },",
+        "    getOpenTaskUrl: function() {",
+        "        return '../API/bpm/flowNode/' + $data.taskIdQueryParameter + '?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute';",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -4644,6 +4647,9 @@
         "    },",
         "    isDoneTask: function() {",
         "        return isArchived;",
+        "    },",
+        "    isOpenTask: function() {",
+        "        return $data.archivedTaskDetails && $data.archivedTaskDetails.length === 0;  ",
         "    },",
         "    hideDueDateOverdueIcon: function(dueDate){",
         "        var currentTimestamp = new Date().getTime();",
@@ -4668,7 +4674,7 @@
     "taskDetails" : {
       "type" : "url",
       "value" : [
-        "{{(archivedTaskDetails && archivedTaskDetails.length === 0) ? '../API/bpm/flowNode/' + taskIdQueryParameter + '?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute' : undefined}}"
+        "{{taskDetailsCtrl.isOpenTask() ?  taskDetailsCtrl.getOpenTaskUrl() : undefined}}"
       ],
       "exposed" : false
     },
