@@ -78,7 +78,7 @@ Feature: The done tasks list in desktop resolution
     Given The filter response "default filter" is defined for done tasks
     When I visit admin task list page
     And I click on "Done tasks" tab
-    Then The more button has correct href with "560124" for done tasks
+    Then The more button has correct href with "140081" for done tasks
 
   Scenario: Load more button works correctly
     Given The filter response "enable load more" is defined for done tasks
