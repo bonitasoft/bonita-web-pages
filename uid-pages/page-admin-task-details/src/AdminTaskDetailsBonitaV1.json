@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1591883507447,
+  "lastUpdate" : 1591893516469,
   "rows" : [
     [
       {
@@ -550,8 +550,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : "assignTaskModal"
+                        "type" : "expression",
+                        "value" : "taskDetailsCtrl.initAssignTaskModal()"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -4991,7 +4991,7 @@
                               },
                               "hidden" : {
                                 "type" : "expression",
-                                "value" : "taskDetailsUpdateData.hideUserSuggestion"
+                                "value" : "searchUserList &&searchUserList.length == 0"
                               },
                               "repeatedCollection" : {
                                 "type" : "variable",
@@ -5231,8 +5231,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!taskDetailsUpdateData.assignedId"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -5442,8 +5442,7 @@
         "        return  isArchived ? $data.archivedTaskDetails[0] : $data.taskDetails;",
         "            },",
         "    getOpenTaskUrl: function() {",
-        "        console.log(\"timestamp inside ctrl\", $data.taskDetailsUpdateData.timestamp);",
-        "        return '../API/bpm/flowNode/' + $data.taskIdQueryParameter + '?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=' + $data.taskDetailsUpdateData.timestamp;",
+        "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.taskDetailsUpdateData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -5504,9 +5503,19 @@
         "    shouldDisplayUnassignButton: function() {",
         "        return this.isTaskAssignable() && this.isTaskAssigned();",
         "    },",
+        "    initAssignTaskModal: function() {",
+        "        $data.searchUserList = undefined;",
+        "        $data.taskDetailsUpdateData.assignedId = undefined;",
+        "        $data.taskDetailsUpdateData.assignedUserDisplayName = undefined;",
+        "        $data.selectedUser = [];",
+        "        $data.taskDetailsUpdateData.statusCode = \"\";",
+        "        $data.taskDetailsUpdateData.searchUserValue = undefined;",
+        "        return \"assignTaskModal\";",
+        "    },",
         "    getUserSearchUrl: function() {",
-        "        if(!$data.taskDetailsUpdateData.hideUserSuggestion) {",
-        "            return $data.taskDetailsUpdateData.searchUserValue ? '../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&s=' + $data.taskDetailsUpdateData.searchUserValue : undefined;    ",
+        "         if ($data.taskDetailsUpdateData.assignedUserDisplayName !==  $data.taskDetailsUpdateData.searchUserValue) { ",
+        "            $data.taskDetailsUpdateData.assignedId = undefined;",
+        "            return $data.taskDetailsUpdateData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.taskDetailsUpdateData.searchUserValue : undefined;    ",
         "        }",
         "        return undefined;",
         "    }",
@@ -5595,10 +5604,7 @@
     "assignRequestPayload" : {
       "type" : "expression",
       "value" : [
-        "var assignedId = \"\";",
-        "if($data.selectedUser && $data.selectedUser.length > 0) {",
-        "    assignedId = $data.selectedUser[0].id;",
-        "}",
+        "var assignedId = $data.taskDetailUpdateData.assignedId ? $data.taskDetailUpdateData.assignedId : \"\";",
         "",
         "return {",
         "    assigned_id: assignedId",
@@ -5610,14 +5616,8 @@
       "type" : "expression",
       "value" : [
         "// After a task is updated",
-        "console.log(\"before if\");",
-        "",
         "if ($data.taskDetailsUpdateData.statusCode === 200) {",
-        "    console.log(\"inside if\", $data.taskDetailsUpdateData);",
         "    $data.taskDetailsUpdateData.timestamp = new Date().getTime();",
-        "    $data.taskDetailsUpdateData.statusCode = '';",
-        "    $data.taskDetailsUpdateData.hideUserSuggestion = false;",
-        "    $data.selectedUser = [];",
         "}"
       ],
       "exposed" : false
@@ -5625,20 +5625,12 @@
     "taskDetailsUpdateData" : {
       "type" : "expression",
       "value" : [
-        "var userDisplayName = \"\"; ",
-        "var hideUsers = false;",
-        "",
-        "if ($data.selectedUser && $data.selectedUser.length > 0){",
-        "    var userValue = $data.selectedUser[0];",
-        "    userDisplayName = $data.taskDetailsCtrl.getUserDisplayName(userValue);",
-        "    hideUsers = true;",
-        "}",
-        "",
         "return {",
         "    timestamp: 0,",
         "    statusCode: \"\",",
-        "    searchUserValue: userDisplayName,",
-        "    hideUserSuggestion: hideUsers",
+        "    searchUserValue: \"\",",
+        "    assignedId: undefined,",
+        "    assignedUserDisplayName: undefined",
         "};"
       ],
       "exposed" : false
@@ -5661,6 +5653,19 @@
       "type" : "expression",
       "value" : [
         "return [];"
+      ],
+      "exposed" : false
+    },
+    "taskDetailsUpdateHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.selectedUser && $data.selectedUser.length > 0) {",
+        "    $data.taskDetailsUpdateData.searchUserValue = $data.taskDetailsCtrl.getUserDisplayName($data.selectedUser[0]);",
+        "    $data.taskDetailsUpdateData.assignedUserDisplayName = $data.taskDetailsUpdateData.searchUserValue;",
+        "    $data.taskDetailsUpdateData.assignedId = $data.selectedUser[0].id;",
+        "    $data.selectedUser = [];",
+        "    $data.searchUserList = undefined;",
+        "}"
       ],
       "exposed" : false
     }
