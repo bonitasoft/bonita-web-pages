@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1591893516469,
+  "lastUpdate" : 1592318795187,
   "rows" : [
     [
       {
@@ -5604,8 +5604,7 @@
     "assignRequestPayload" : {
       "type" : "expression",
       "value" : [
-        "var assignedId = $data.taskDetailUpdateData.assignedId ? $data.taskDetailUpdateData.assignedId : \"\";",
-        "",
+        "var assignedId = ($data.taskDetailsUpdateData && $data.taskDetailsUpdateData.assignedId) ? $data.taskDetailsUpdateData.assignedId : \"\";",
         "return {",
         "    assigned_id: assignedId",
         "};"
@@ -5618,6 +5617,7 @@
         "// After a task is updated",
         "if ($data.taskDetailsUpdateData.statusCode === 200) {",
         "    $data.taskDetailsUpdateData.timestamp = new Date().getTime();",
+        "    $data.taskDetailsUpdateData.statusCode = \"\";",
         "}"
       ],
       "exposed" : false
