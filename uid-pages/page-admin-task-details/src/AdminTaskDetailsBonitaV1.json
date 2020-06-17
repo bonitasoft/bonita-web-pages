@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1592318795187,
+  "lastUpdate" : 1592409554127,
   "rows" : [
     [
       {
@@ -551,7 +551,7 @@
                       },
                       "modalId" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.initAssignTaskModal()"
+                        "value" : "assignModalCtrl.initAssignTaskModal()"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -615,7 +615,7 @@
                       },
                       "responseStatusCode" : {
                         "type" : "variable",
-                        "value" : "taskDetailsUpdateData.statusCode"
+                        "value" : "assignModalData.statusCode"
                       },
                       "dataToSend" : {
                         "type" : "expression",
@@ -3902,7 +3902,7 @@
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "commentPayload"
+                          "value" : "commentCtrl.getCommentPayload()"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -4709,11 +4709,11 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Assign {{taskDetailsCtrl.getOpenOrArchivedTask().displayName}}"
+                          "value" : "{{\"Assign\" | uiTranslate}} {{taskDetailsCtrl.getOpenOrArchivedTask().displayName}}"
                         },
                         "level" : {
                           "type" : "constant",
-                          "value" : "Level 2"
+                          "value" : "Level 3"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4809,70 +4809,6 @@
                   ],
                   [
                     {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "required" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "User"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "placeholder" : {
-                          "type" : "interpolation",
-                          "value" : "Select a user"
-                        },
-                        "availableValues" : {
-                          "type" : "expression",
-                          "value" : "searchUserList"
-                        },
-                        "displayedKey" : {
-                          "type" : "constant",
-                          "value" : "firstname + \" \" + lastname"
-                        },
-                        "value" : {
-                          "type" : "variable",
-                          "value" : "taskDetailsUpdateData.searchUserValue"
-                        }
-                      },
-                      "reference" : "8623d145-6cce-44dc-8b88-66e226b9d7ed",
-                      "hasValidationError" : false,
-                      "id" : "pbAutocomplete"
-                    }
-                  ],
-                  [
-                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
@@ -4883,7 +4819,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : "dropdown"
+                          "value" : "dropdown assign-user"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -4953,7 +4889,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "taskDetailsUpdateData.searchUserValue"
+                                "value" : "assignModalData.searchUserValue"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -4986,12 +4922,12 @@
                             },
                             "propertyValues" : {
                               "cssClasses" : {
-                                "type" : "expression",
-                                "value" : "dropdownCssClass"
+                                "type" : "constant",
+                                "value" : "dropdown-menu"
                               },
                               "hidden" : {
                                 "type" : "expression",
-                                "value" : "searchUserList &&searchUserList.length == 0"
+                                "value" : "assignModalCtrl.hideDropdownMenu()"
                               },
                               "repeatedCollection" : {
                                 "type" : "variable",
@@ -5029,58 +4965,6 @@
                                   "hasValidationError" : false,
                                   "id" : "pbContainer",
                                   "rows" : [
-                                    [
-                                      {
-                                        "type" : "component",
-                                        "dimension" : {
-                                          "xs" : 12,
-                                          "sm" : 12,
-                                          "md" : 12,
-                                          "lg" : 12
-                                        },
-                                        "propertyValues" : {
-                                          "cssClasses" : {
-                                            "type" : "expression",
-                                            "value" : ""
-                                          },
-                                          "hidden" : {
-                                            "type" : "constant",
-                                            "value" : true
-                                          },
-                                          "labelHidden" : {
-                                            "type" : "constant",
-                                            "value" : true
-                                          },
-                                          "label" : {
-                                            "type" : "interpolation",
-                                            "value" : "Default label"
-                                          },
-                                          "labelPosition" : {
-                                            "type" : "constant",
-                                            "value" : "top"
-                                          },
-                                          "labelWidth" : {
-                                            "type" : "constant",
-                                            "value" : 4
-                                          },
-                                          "allowHTML" : {
-                                            "type" : "constant",
-                                            "value" : true
-                                          },
-                                          "text" : {
-                                            "type" : "interpolation",
-                                            "value" : "<a href=\"#\">{{taskDetailsCtrl.getUserDisplayName($item)}}\n</a>"
-                                          },
-                                          "alignment" : {
-                                            "type" : "constant",
-                                            "value" : "left"
-                                          }
-                                        },
-                                        "reference" : "dfff154e-85ef-4b7a-b4a1-5a959e21cf62",
-                                        "hasValidationError" : false,
-                                        "id" : "pbText"
-                                      }
-                                    ],
                                     [
                                       {
                                         "type" : "component",
@@ -5232,7 +5116,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!taskDetailsUpdateData.assignedId"
+                          "value" : "!assignModalData.assignedId"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -5260,7 +5144,7 @@
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
-                          "value" : "taskDetailsUpdateData.statusCode"
+                          "value" : "assignModalData.statusCode"
                         },
                         "dataToSend" : {
                           "type" : "expression",
@@ -5428,7 +5312,7 @@
     "archivedTaskDetails" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3d{{taskIdQueryParameter}}&f=isTerminal%3dtrue&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time={{taskDetailsUpdateData.timestamp}}"
+        "../API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3d{{taskIdQueryParameter}}&f=isTerminal%3dtrue&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time={{assignModalData.timestamp}}"
       ],
       "exposed" : false
     },
@@ -5437,12 +5321,25 @@
       "value" : [
         "var isArchived = $data.archivedTaskDetails && $data.archivedTaskDetails.length === 1;",
         "",
+        "function getOpenOrArchivedTask() {",
+        "    return isArchived ? $data.archivedTaskDetails[0] : $data.taskDetails;",
+        "}",
+        "",
+        "function isTaskAssignable() {",
+        "    var state = getOpenOrArchivedTask() ? getOpenOrArchivedTask().state : \"\";",
+        "    var type = getOpenOrArchivedTask() ? getOpenOrArchivedTask().type : \"\";",
+        "    return state !== \"completed\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
+        "}",
+        "    ",
+        "function isTaskAssigned() {",
+        "    var assignedId = getOpenOrArchivedTask() ? getOpenOrArchivedTask().assigned_id : \"\";",
+        "    return assignedId !== \"\";",
+        "}",
+        "",
         "return {",
-        "    getOpenOrArchivedTask: function() {",
-        "        return  isArchived ? $data.archivedTaskDetails[0] : $data.taskDetails;",
-        "            },",
+        "    getOpenOrArchivedTask: getOpenOrArchivedTask,",
         "    getOpenTaskUrl: function() {",
-        "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.taskDetailsUpdateData.timestamp;",
+        "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.assignModalData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -5477,47 +5374,11 @@
         "        }",
         "        return \"\";",
         "    },",
-        "    getCommentUrl: function(){",
-        "        return isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
-        "    },",
-        "    getCommentQueryParameters: function(){",
-        "        var caseId = this.getOpenOrArchivedTask() ? this.getOpenOrArchivedTask().caseId : \"\";",
-        "        return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
-        "    },",
-        "    getAssignButtonLabel: function() {",
-        "        var buttonLabel = this.getOpenOrArchivedTask().assigned_id === \"\" ? uiTranslate(\"Assign\") : uiTranslate(\"Unassign\");",
-        "        return buttonLabel;",
-        "    },",
-        "    isTaskAssignable: function() {",
-        "        var state = this.getOpenOrArchivedTask() ? this.getOpenOrArchivedTask().state : \"\";",
-        "        var type = this.getOpenOrArchivedTask() ? this.getOpenOrArchivedTask().type : \"\";",
-        "        return state !== \"completed\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
-        "    },",
-        "    isTaskAssigned: function() {",
-        "        var assignedId = this.getOpenOrArchivedTask() ? this.getOpenOrArchivedTask().assigned_id : \"\";",
-        "        return assignedId !== \"\";",
-        "    },",
         "    shouldDisplayAssignButton: function() {",
-        "        return this.isTaskAssignable() && !this.isTaskAssigned();",
+        "        return isTaskAssignable() && !isTaskAssigned();",
         "    },",
         "    shouldDisplayUnassignButton: function() {",
-        "        return this.isTaskAssignable() && this.isTaskAssigned();",
-        "    },",
-        "    initAssignTaskModal: function() {",
-        "        $data.searchUserList = undefined;",
-        "        $data.taskDetailsUpdateData.assignedId = undefined;",
-        "        $data.taskDetailsUpdateData.assignedUserDisplayName = undefined;",
-        "        $data.selectedUser = [];",
-        "        $data.taskDetailsUpdateData.statusCode = \"\";",
-        "        $data.taskDetailsUpdateData.searchUserValue = undefined;",
-        "        return \"assignTaskModal\";",
-        "    },",
-        "    getUserSearchUrl: function() {",
-        "         if ($data.taskDetailsUpdateData.assignedUserDisplayName !==  $data.taskDetailsUpdateData.searchUserValue) { ",
-        "            $data.taskDetailsUpdateData.assignedId = undefined;",
-        "            return $data.taskDetailsUpdateData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.taskDetailsUpdateData.searchUserValue : undefined;    ",
-        "        }",
-        "        return undefined;",
+        "        return isTaskAssignable() && isTaskAssigned();",
         "    }",
         "};"
       ],
@@ -5562,19 +5423,6 @@
       ],
       "exposed" : false
     },
-    "commentPayload" : {
-      "type" : "expression",
-      "value" : [
-        "var taskDetails = $data.taskDetailsCtrl.getOpenOrArchivedTask();",
-        "var caseId = taskDetails ? taskDetails.caseId : \"\";",
-        "",
-        "return {",
-        "    processInstanceId: caseId,",
-        "    content:  $data.commentData.comment  ",
-        "};"
-      ],
-      "exposed" : false
-    },
     "commentResponseHandler" : {
       "type" : "expression",
       "value" : [
@@ -5590,7 +5438,7 @@
     "comments" : {
       "type" : "url",
       "value" : [
-        "{{taskDetailsCtrl.getCommentUrl()}}?{{taskDetailsCtrl.getCommentQueryParameters()}}"
+        "{{commentCtrl.getCommentUrl()}}?{{commentCtrl.getCommentQueryParameters()}}"
       ],
       "exposed" : false
     },
@@ -5604,7 +5452,7 @@
     "assignRequestPayload" : {
       "type" : "expression",
       "value" : [
-        "var assignedId = ($data.taskDetailsUpdateData && $data.taskDetailsUpdateData.assignedId) ? $data.taskDetailsUpdateData.assignedId : \"\";",
+        "var assignedId = ($data.assignModalData && $data.assignModalData.assignedId) ? $data.assignModalData.assignedId : \"\";",
         "return {",
         "    assigned_id: assignedId",
         "};"
@@ -5615,30 +5463,17 @@
       "type" : "expression",
       "value" : [
         "// After a task is updated",
-        "if ($data.taskDetailsUpdateData.statusCode === 200) {",
-        "    $data.taskDetailsUpdateData.timestamp = new Date().getTime();",
-        "    $data.taskDetailsUpdateData.statusCode = \"\";",
+        "if ($data.assignModalData.statusCode === 200) {",
+        "    $data.assignModalData.timestamp = new Date().getTime();",
+        "    $data.assignModalData.statusCode = \"\";",
         "}"
-      ],
-      "exposed" : false
-    },
-    "taskDetailsUpdateData" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    timestamp: 0,",
-        "    statusCode: \"\",",
-        "    searchUserValue: \"\",",
-        "    assignedId: undefined,",
-        "    assignedUserDisplayName: undefined",
-        "};"
       ],
       "exposed" : false
     },
     "searchUserList" : {
       "type" : "url",
       "value" : [
-        "{{taskDetailsCtrl.getUserSearchUrl()}}"
+        "{{assignModalCtrl.getUserSearchUrl()}}"
       ],
       "exposed" : false
     },
@@ -5656,16 +5491,82 @@
       ],
       "exposed" : false
     },
-    "taskDetailsUpdateHandler" : {
+    "assignModalCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    hideDropdownMenu: function() {",
+        "        return !$data.searchUserList ",
+        "                || $data.searchUserList.length == 0 ",
+        "                || $data.assignModalData.searchUserValue === \"\";",
+        "    },",
+        "    initAssignTaskModal: function() {",
+        "        $data.searchUserList = undefined;",
+        "        $data.assignModalData.assignedId = undefined;",
+        "        $data.assignModalData.assignedUserDisplayName = undefined;",
+        "        $data.selectedUser = [];",
+        "        $data.assignModalData.statusCode = \"\";",
+        "        $data.assignModalData.searchUserValue = undefined;",
+        "        return \"assignTaskModal\";",
+        "    },",
+        "    getUserSearchUrl: function() {",
+        "         if ($data.assignModalData.assignedUserDisplayName !==  $data.assignModalData.searchUserValue) { ",
+        "            $data.assignModalData.assignedId = undefined;",
+        "            return $data.assignModalData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.assignModalData.searchUserValue : undefined;    ",
+        "        }",
+        "        return undefined;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "assignModalData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    timestamp: 0,",
+        "    statusCode: \"\",",
+        "    searchUserValue: \"\",",
+        "    assignedId: undefined,",
+        "    assignedUserDisplayName: undefined",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "assignModalHandler" : {
       "type" : "expression",
       "value" : [
         "if ($data.selectedUser && $data.selectedUser.length > 0) {",
-        "    $data.taskDetailsUpdateData.searchUserValue = $data.taskDetailsCtrl.getUserDisplayName($data.selectedUser[0]);",
-        "    $data.taskDetailsUpdateData.assignedUserDisplayName = $data.taskDetailsUpdateData.searchUserValue;",
-        "    $data.taskDetailsUpdateData.assignedId = $data.selectedUser[0].id;",
+        "    $data.assignModalData.searchUserValue = $data.taskDetailsCtrl.getUserDisplayName($data.selectedUser[0]);",
+        "    $data.assignModalData.assignedUserDisplayName = $data.assignModalData.searchUserValue;",
+        "    $data.assignModalData.assignedId = $data.selectedUser[0].id;",
         "    $data.selectedUser = [];",
         "    $data.searchUserList = undefined;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "commentCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "var taskDetails = $data.taskDetailsCtrl.getOpenOrArchivedTask();",
+        "var caseId = taskDetails ? taskDetails.caseId : \"\";",
+        "",
+        "return {",
+        "    getCommentPayload: function() {",
+        "        return {",
+        "            processInstanceId: caseId,",
+        "            content: $data.commentData.comment",
+        "        };",
+        "    },",
+        "    getCommentUrl: function(){",
+        "        return $data.taskDetailsCtrl.isDoneTask() ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
+        "    },",
+        "    getCommentQueryParameters: function(){",
+        "        var caseId = $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().caseId : \"\";",
+        "        return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
