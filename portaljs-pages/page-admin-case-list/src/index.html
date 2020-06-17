@@ -10,7 +10,28 @@
             }
         };
 
-        window.location.replace(getPortalUrl() + "/portal.js/#/admin/cases/list");
+        function getParameterByName(name) {
+            var url = window.location.href;
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return '';
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        };
+
+        function getArchivedPath() {
+            return getParameterByName('tab') === 'archived' ? '/archived' : '';
+        };
+
+        function getTargetPath() {
+            return getPortalUrl() + '/portal.js/#/admin/cases/list' + getArchivedPath();
+        };
+
+        function getQueryParameters() {
+            return '?processId=' + getParameterByName('processId') + '&caseStateFilter=' + getParameterByName('caseStateFilter');
+        };
+
+        window.location.replace(getTargetPath() + getQueryParameters());
     </script>
 </head>
 <body>
