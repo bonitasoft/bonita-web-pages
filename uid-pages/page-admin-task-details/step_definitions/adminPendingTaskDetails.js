@@ -1,7 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=2';
 const pendingTaskUrl = 'API/bpm/flowNode/2?';
-const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute';
+const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=2&f=isTerminal=true&';
@@ -15,11 +15,25 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'default details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
+            /// add default unassigned details
+        case 'default unassigned details':
+
+            break;
+        case 'refresh task not called':
+            cy.route({
+                method: "GET",
+                url: pendingTaskUrl + defaultFilters,
+                onRequest: () => {
+                    throw new Error("This should have not been called");
+                }
+            });
+            break;
         default:
             throw new Error("Unsupported case");
     }
 
-    function createRoute(urlSuffix, routeName) {
+
+function createRoute(urlSuffix, routeName) {
         cy.route({
             method: 'GET',
             url: urlPrefix + urlSuffix,
@@ -62,6 +76,10 @@ when("I visit the admin pending task details page", () => {
     cy.wait(1000);
 });
 
+when("I click on assign button", () => {
+    cy.contains('button', 'Assign').click();
+});
+
 then("The pending task details have the correct information", () => {
     cy.get('h3').contains('Close (2)');
     cy.get('h4').contains('Original Id:').should('not.exist');
@@ -102,4 +120,8 @@ then("The connectors section have the correct information for pending tasks", ()
     cy.get('.item-value').contains('No pending connector');
     cy.get('h5').contains('Executed');
     cy.get('.item-value').contains('No executed connector');
+});
+
+then("The assign modal is open and has a default state", () => {
+
 });
