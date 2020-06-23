@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1592409554127,
+  "lastUpdate" : 1592916966466,
   "rows" : [
     [
       {
@@ -2990,8 +2990,8 @@
                                     "value" : "connectors pl-0"
                                   },
                                   "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "taskDetailsCtrl.isDoneTask()"
                                   },
                                   "disabled" : {
                                     "type" : "constant",
@@ -3063,6 +3063,58 @@
                                 "reference" : "9df1cb7b-c849-4d9c-b4f7-cdab4de9a9a3",
                                 "hasValidationError" : false,
                                 "id" : "pbButton"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "item-value pl-0"
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "!taskDetailsCtrl.isDoneTask()"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "{{$item.name}}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "c9a4c101-5a94-4e59-9cf0-95749dbdb97f",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
                               }
                             ]
                           ]
@@ -5394,21 +5446,21 @@
     "connectorsExecuted" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=DONE"
+        "{{connectorsCtrl.getConnectorsExecutedUrl()}}"
       ],
       "exposed" : false
     },
     "connectorsFailed" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=FAILED"
+        "{{connectorsCtrl.getConnectorsFailedUrl()}}"
       ],
       "exposed" : false
     },
     "connectorsToBeExecuted" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&f=state=TO_BE_EXECUTED"
+        "{{connectorsCtrl.getConnectorsToBeExecutedUrl()}}"
       ],
       "exposed" : false
     },
@@ -5565,6 +5617,27 @@
         "    getCommentQueryParameters: function(){",
         "        var caseId = $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().caseId : \"\";",
         "        return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "connectorsCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "function buildConnectorsUrl(state) {",
+        "    var connectorsPath = $data.taskDetailsCtrl.isDoneTask() ? \"archivedConnectorInstance\" : \"connectorInstance\";",
+        "    return \"../API/bpm/\" + connectorsPath + \"?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter + \"&f=state=\" + state;",
+        "}",
+        "return {",
+        "    getConnectorsFailedUrl: function() {",
+        "        return buildConnectorsUrl(\"FAILED\");",
+        "    },",
+        "    getConnectorsToBeExecutedUrl: function() {",
+        "        return buildConnectorsUrl(\"TO_BE_EXECUTED\");",
+        "    },",
+        "    getConnectorsExecutedUrl: function() {",
+        "        return buildConnectorsUrl(\"DONE\");",
         "    }",
         "};"
       ],
