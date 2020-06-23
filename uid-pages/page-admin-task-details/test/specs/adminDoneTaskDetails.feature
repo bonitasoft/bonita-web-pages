@@ -12,3 +12,4 @@ Feature: The Admin Done Task Details in desktop resolution
     Then The state is "completed"
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"
+    And The add comment button is "disabled"
