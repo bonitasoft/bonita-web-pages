@@ -38,6 +38,10 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(refreshUrl, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
+        case 'unassign and refresh task':
+            createRouteWithResponseAndMethod(assignTaskUrl + '2', 'unassignTaskRoute', 'emptyResult', 'PUT');
+            createRouteWithResponse(refreshUrl, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -98,6 +102,10 @@ when("I click on assign button", () => {
     cy.contains('button', 'Assign').click();
 });
 
+when("I click on unassign button", () => {
+    cy.contains('button', 'Unassign').click();
+});
+
 when("I click on the cancel button", () => {
     cy.contains('.modal button', 'Cancel').click();
 });
@@ -112,6 +120,10 @@ when("I click on {string} in the list", (userName) => {
 
 when("I click on assign button in the modal", () => {
     cy.contains('.modal-footer button', 'Assign').click();
+});
+
+when("I click on unassign button in the modal", () => {
+    cy.contains('.modal-footer button', 'Unassign').click();
 });
 
 then("The pending task details have the correct information", () => {
@@ -225,4 +237,31 @@ then("I see {string} error message", (statusCode) => {
 
 then("I don't see any error message", () => {
     cy.get('.modal .glyphicon').should('not.exist');
+});
+
+then("The unassign modal is open and has a default state for {string}", (taskName) => {
+    cy.contains('.modal-header h3', 'Unassign ' + taskName).should('be.visible');
+    cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?');
+});
+
+then("The unassign modal is closed", () => {
+    cy.get('.modal').should('not.visible');
+});
+
+then("The unassign api call has the correct user id", () => {
+    cy.wait('@unassignTaskRoute').then((xhr) => {
+        expect(xhr.request.body.assigned_id).to.equal("");
+    });
+});
+
+then('The unassigned page is refreshed', () => {
+    cy.wait('@pendingUnassignedTaskDetailsRoute');
+});
+
+then("The unassign button is not displayed", () => {
+    cy.contains('button', 'Unassign').should('not.be.visible');
+});
+
+then("The assign button is displayed", () => {
+    cy.contains('button', 'Assign').should('be.visible');
 });

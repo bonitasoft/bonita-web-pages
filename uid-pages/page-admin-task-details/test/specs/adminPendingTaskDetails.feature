@@ -113,3 +113,28 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on assign button
     Then The assign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
+
+  Scenario: The unassign task modal is opened and closed
+    Given The response "empty done task" is defined for pending tasks
+    And The response "refresh task not called" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    When I click on the cancel button
+    Then The unassign modal is closed
+
+  Scenario: The unassign task modal unassign the task correctly
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "unassign and refresh task" is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The assign button is not displayed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    When I click on unassign button in the modal
+    Then The unassign modal is closed
+    And The unassign api call has the correct user id
+    And The unassigned page is refreshed
+    And The assign button is displayed
+    And The unassign button is not displayed
