@@ -6,6 +6,7 @@ const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
+const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358&f=state='
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();
@@ -20,6 +21,11 @@ given("The response {string} is defined for done tasks", (responseType) => {
             createRouteWithResponse(connectorUrl + 'FAILED', 'failedConnectorRoute', 'emptyResult');
             createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'emptyResult');
             createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'emptyResult');
+            break;
+        case 'archived connectors':
+            createRouteWithResponse(archivedConnectorUrl + 'FAILED', 'archivedFailedConnectorRoute', 'failedConnector');
+            createRouteWithResponse(archivedConnectorUrl + 'TO_BE_EXECUTED', 'archivedToBeExecutedConnectorRoute', 'toBeExecutedConnector');
+            createRouteWithResponse(archivedConnectorUrl + 'DONE', 'archivedExecutedConnectorRoute', 'executedConnector');
             break;
         default:
             throw new Error("Unsupported case");
@@ -132,4 +138,19 @@ then("The comments have the correct information", () => {
     cy.get('.item-value').contains('walter.bates');
     cy.get('.item-value').contains('comment no. 4');
     cy.get('.item-value').contains('anthony.nichols');
+});
+
+then("The done task details show the connectors correctly", () => {
+    cy.wait(['@archivedFailedConnectorRoute', '@archivedToBeExecutedConnectorRoute', '@archivedExecutedConnectorRoute']);
+    cy.get('h4').eq(1).contains('Connectors');
+    cy.get('h5').eq(0).contains('Failed');
+    cy.get('.btn-link').contains('failedConnectorName').should('not.be.visible');
+    cy.get('.item-value').contains('failedConnectorName').should('be.visible');
+    cy.get('h5').eq(1).contains('To be executed');
+    cy.get('.item-value').contains('throwException');
+    cy.get('.item-value').contains('throwNewException1');
+    cy.get('.item-value').contains('throwNewException2');
+    cy.get('.item-value').contains('throwNewException3');
+    cy.get('h5').eq(2).contains('Executed');
+    cy.get('.item-value').contains('throwNewException6');
 });

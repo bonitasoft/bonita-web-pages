@@ -169,9 +169,11 @@ then("The new comment input is empty", () => {
 });
 
 then("The connectors section have the correct information", () => {
+    cy.wait(['@failedConnectorRoute', '@toBeExecutedConnectorRoute', '@executedConnectorRoute']);
     cy.get('h4').eq(1).contains('Connectors');
     cy.get('h5').eq(0).contains('Failed');
-    cy.get('button.btn-link').contains('failedConnectorName');
+    cy.get('button.btn-link').contains('failedConnectorName').should('be.visible');
+    cy.get('.item-value').contains('failedConnectorName').should('not.be.visible');
     cy.get('h5').eq(1).contains('To be executed');
     cy.get('.item-value').contains('throwException');
     cy.get('.item-value').contains('throwNewException1');
