@@ -5,7 +5,7 @@ const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=2&f=isTerminal=true&';
-const userSearchUrl = 'API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled=true&s=';
+const userSearchUrl = 'API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled=true&f=task_id=2&s=';
 const assignTaskUrl = 'API/bpm/humanTask/';
 const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 
@@ -18,7 +18,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'default details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
-            /// add default unassigned details
+        /// add default unassigned details
         case 'default unassigned details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
             break;
@@ -35,15 +35,14 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
             break;
         case 'assign and refresh task':
-            createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult','PUT');
+            createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(refreshUrl, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
         default:
             throw new Error("Unsupported case");
     }
 
-
-function createRoute(urlSuffix, routeName) {
+    function createRoute(urlSuffix, routeName) {
         cy.route({
             method: 'GET',
             url: urlPrefix + urlSuffix,
@@ -79,6 +78,15 @@ function createRoute(urlSuffix, routeName) {
             response: ''
         }).as(routeName);
     }
+});
+
+given("The assign status code {int} is defined for pending tasks", (statusCode) => {
+    cy.route({
+        method: 'PUT',
+        url: urlPrefix + assignTaskUrl + '2',
+        status: statusCode,
+        response: ''
+    }).as("assignRoute");
 });
 
 when("I visit the admin pending task details page", () => {
@@ -161,14 +169,14 @@ then("The assign button is not displayed", () => {
 });
 
 then("The assign modal is open and has a default state for {string}", (taskName) => {
-    cy.contains('.modal-header h3','Assign ' + taskName).should('be.visible');
+    cy.contains('.modal-header h3', 'Assign ' + taskName).should('be.visible');
     cy.contains('.modal-content p.text-left', 'Start typing the first name, last name, or user name of the user to assign the task to, and then select among the options.');
     cy.contains('.form-group label', 'User');
     cy.get('.modal-content .form-group input').should('be.empty');
     cy.get('.modal-content .dropdown-menu').should('not.be.visible');
 });
 
-then("The assign modal is closed",() => {
+then("The assign modal is closed", () => {
     cy.get('.modal').should('not.visible');
 });
 
@@ -196,4 +204,25 @@ then("The api call has the correct user id", () => {
 
 then('The page is refreshed', () => {
     cy.wait('@pendingTaskDetailsRoute');
+});
+
+then("I see {string} error message", (statusCode) => {
+    switch (statusCode) {
+        case '500':
+            cy.contains('.modal', 'An internal error occurred.  Try again later. You can also check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal', 'The task has already been done. It cannot be assigned anymore. Refresh the page to see the new tasks status.').should('be.visible');
+            break;
+        case '403':
+            cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The task has not been assigned.').should('be.visible');
+});
+
+then("I don't see any error message", () => {
+    cy.get('.modal .glyphicon').should('not.exist');
 });
