@@ -97,7 +97,6 @@ when("I click on close button in the modal", () => {
     cy.get('.modal-footer button').contains('Close').click();
 });
 
-
 then("The failed task details have the correct information", () => {
     cy.get('h3').contains('1 failed task (1)');
     cy.get('h4').contains('General');

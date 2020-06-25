@@ -44,3 +44,72 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The page is refreshed
     And The unassign button is displayed
     And The assign button is not displayed
+
+  Scenario: The assign modal should display 500 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default unassigned details" is defined for pending tasks
+    And The response "user list" is defined for pending tasks
+    And The assign status code 500 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And The user list is not displayed
+    And The assign button in the modal is disabled
+    When I type "H" in the user input
+    Then The user list is displayed
+    When I click on "Helen Kelly" in the list
+    Then The user list is not displayed
+    And The user input is filled with "Helen Kelly"
+    When I click on assign button in the modal
+    Then I see "500" error message
+    When I click on the cancel button
+    Then The assign modal is closed
+    When I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
+
+  Scenario: The assign modal should display 404 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default unassigned details" is defined for pending tasks
+    And The response "user list" is defined for pending tasks
+    And The assign status code 404 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And The user list is not displayed
+    And The assign button in the modal is disabled
+    When I type "H" in the user input
+    Then The user list is displayed
+    When I click on "Helen Kelly" in the list
+    Then The user list is not displayed
+    And The user input is filled with "Helen Kelly"
+    When I click on assign button in the modal
+    Then I see "404" error message
+    When I click on the cancel button
+    Then The assign modal is closed
+    When I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
+
+  Scenario: The assign modal should display 403 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default unassigned details" is defined for pending tasks
+    And The response "user list" is defined for pending tasks
+    And The assign status code 403 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And The user list is not displayed
+    And The assign button in the modal is disabled
+    When I type "H" in the user input
+    Then The user list is displayed
+    When I click on "Helen Kelly" in the list
+    Then The user list is not displayed
+    And The user input is filled with "Helen Kelly"
+    When I click on assign button in the modal
+    Then I see "403" error message
+    When I click on the cancel button
+    Then The assign modal is closed
+    When I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
