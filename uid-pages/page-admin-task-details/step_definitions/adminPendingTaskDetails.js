@@ -265,3 +265,11 @@ then("The unassign button is not displayed", () => {
 then("The assign button is displayed", () => {
     cy.contains('button', 'Assign').should('be.visible');
 });
+
+then("There is a confirmation for task being successfully assigned", () => {
+    cy.contains('.modal', 'The task has been successfully assigned to Helen Kelly.').should('be.visible');
+});
+
+then("There is a confirmation for task being successfully unassigned", () => {
+    cy.contains('.modal', 'The task has been successfully unassigned.').should('be.visible');
+});
