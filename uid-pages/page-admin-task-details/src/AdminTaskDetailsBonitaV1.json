@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1593013488237,
+  "lastUpdate" : 1593070594900,
   "rows" : [
     [
       {
@@ -640,8 +640,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : "unassignTaskModal"
+                        "type" : "expression",
+                        "value" : "assignModalCtrl.initUnassignTaskModal()"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -6385,6 +6385,10 @@
         "            return $data.assignModalData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&f=task_id%3d\" + $data.taskIdQueryParameter + \"&s=\" + $data.assignModalData.searchUserValue : undefined;    ",
         "        }",
         "        return undefined;",
+        "    },",
+        "    initUnassignTaskModal: function() {",
+        "        $data.assignModalData.statusCode = \"\";",
+        "        return \"unassignTaskModal\";",
         "    }",
         "};"
       ],

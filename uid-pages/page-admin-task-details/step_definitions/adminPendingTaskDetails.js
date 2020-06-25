@@ -218,13 +218,13 @@ then('The page is refreshed', () => {
     cy.wait('@pendingTaskDetailsRoute');
 });
 
-then("I see {string} error message", (statusCode) => {
+then("I see {string} error message for {string}", (statusCode, taskType) => {
     switch (statusCode) {
         case '500':
             cy.contains('.modal', 'An internal error occurred.  Try again later. You can also check the log file.').should('be.visible');
             break;
         case '404':
-            cy.contains('.modal', 'The task has already been done. It cannot be assigned anymore. Refresh the page to see the new tasks status.').should('be.visible');
+            cy.contains('.modal', 'The task has already been done. It cannot be ' + taskType + ' anymore. Refresh the page to see the new tasks status.').should('be.visible');
             break;
         case '403':
             cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
@@ -232,7 +232,7 @@ then("I see {string} error message", (statusCode) => {
         default:
             throw new Error("Unsupported case");
     }
-    cy.get('.modal').contains('The task has not been assigned.').should('be.visible');
+    cy.get('.modal').contains('The task has not been ' + taskType + '.').should('be.visible');
 });
 
 then("I don't see any error message", () => {

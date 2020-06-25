@@ -61,7 +61,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The user list is not displayed
     And The user input is filled with "Helen Kelly"
     When I click on assign button in the modal
-    Then I see "500" error message
+    Then I see "500" error message for "assigned"
     When I click on the cancel button
     Then The assign modal is closed
     When I click on assign button
@@ -84,7 +84,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The user list is not displayed
     And The user input is filled with "Helen Kelly"
     When I click on assign button in the modal
-    Then I see "404" error message
+    Then I see "404" error message for "assigned"
     When I click on the cancel button
     Then The assign modal is closed
     When I click on assign button
@@ -107,7 +107,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The user list is not displayed
     And The user input is filled with "Helen Kelly"
     When I click on assign button in the modal
-    Then I see "403" error message
+    Then I see "403" error message for "assigned"
     When I click on the cancel button
     Then The assign modal is closed
     When I click on assign button
@@ -138,3 +138,51 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The unassigned page is refreshed
     And The assign button is displayed
     And The unassign button is not displayed
+
+  Scenario: The unassign modal should display 500 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The assign status code 500 is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The assign button is not displayed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    When I click on unassign button in the modal
+    Then I see "500" error message for "unassigned"
+    When I click on the cancel button
+    Then The unassign modal is closed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
+
+  Scenario: The unassign modal should display 404 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The assign status code 404 is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The assign button is not displayed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    When I click on unassign button in the modal
+    Then I see "404" error message for "unassigned"
+    When I click on the cancel button
+    Then The unassign modal is closed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
+
+  Scenario: The unassign modal should display 403 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The assign status code 403 is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The assign button is not displayed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    When I click on unassign button in the modal
+    Then I see "403" error message for "unassigned"
+    When I click on the cancel button
+    Then The unassign modal is closed
+    When I click on unassign button
+    Then The unassign modal is open and has a default state for "Request Vacation"
+    And I don't see any error message
