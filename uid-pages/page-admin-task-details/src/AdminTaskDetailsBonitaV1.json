@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1593092904641,
+  "lastUpdate" : 1593519805643,
   "rows" : [
     [
       {
@@ -5522,7 +5522,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{assignModalCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5743,8 +5743,8 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "assignModalData.hasRecentlyBeenAssigned"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -6184,7 +6184,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{assignModalCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -6302,7 +6302,7 @@
         "function isTaskAssignable() {",
         "    var state = getOpenOrArchivedTask() ? getOpenOrArchivedTask().state : \"\";",
         "    var type = getOpenOrArchivedTask() ? getOpenOrArchivedTask().type : \"\";",
-        "    return state !== \"completed\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
+        "    return state !== \"completed\" && state !== \"skipped\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
         "}",
         "    ",
         "function isTaskAssigned() {",
@@ -6495,6 +6495,9 @@
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.assignModalData.hasRecentlyBeenAssigned = false;",
         "        return \"unassignTaskModal\";",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "        return $data.assignModalData.hasRecentlyBeenAssigned ? \"Close\" : \"Cancel\";",
         "    }",
         "};"
       ],
