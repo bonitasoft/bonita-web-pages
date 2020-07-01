@@ -191,7 +191,7 @@ then("The assign button is not displayed", () => {
 
 then("The assign modal is open and has a default state for {string}", (taskName) => {
     cy.contains('.modal-header h3', 'Assign ' + taskName).should('be.visible');
-    cy.contains('.modal-content p.text-left', 'Start typing the first name, last name, or user name of the user to assign the task to, and then select among the options.');
+    cy.contains('.modal-content p.text-left', 'Start typing the first name, last name, user name, or job title of the user to assign the task to, and then select among the options.');
     cy.contains('.form-group label', 'User');
     cy.get('.modal-content .form-group input').should('be.empty');
     cy.get('.modal-content .dropdown-menu').should('not.be.visible');
