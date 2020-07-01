@@ -11,6 +11,7 @@ const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=ro
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
+    cy.viewport(1366, 768);
     switch (responseType) {
         case 'empty done task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
@@ -41,6 +42,10 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'unassign and refresh task':
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'unassignTaskRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(refreshUrl, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
+            break;
+        case 'user list with 20 elements':
+            createRouteWithResponse(userSearchUrl + 'U', 'userListWith20ElementsRoute', 'userListWith20Elements');
+            createRouteWithResponse(userSearchUrl + 'Us', 'userListRoute', 'userList');
             break;
         default:
             throw new Error("Unsupported case");
@@ -111,7 +116,7 @@ when("I click on the cancel button", () => {
 });
 
 when("I type {string} in the user input", (userName) => {
-    cy.get('.modal .form-group input').type('H');
+    cy.get('.modal .form-group input').type(userName);
 });
 
 when("I click on {string} in the list", (userName) => {
@@ -286,4 +291,15 @@ then("The cancel button is not displayed", () => {
 
 then("There is no confirmation message for unassign", () => {
     cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?').should('not.be.visible');
+});
+
+then("The type more message is displayed and disabled", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').scrollIntoView();
+    cy.get('.dropdown-menu button').eq(20).contains('Or type more...');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.disabled');
+});
+
+then("The type more message is not displayed", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
 });

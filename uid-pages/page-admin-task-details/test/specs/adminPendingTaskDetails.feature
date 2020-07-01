@@ -117,6 +117,22 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The assign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
 
+  Scenario: The assign modal should display information about typing more
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default unassigned details" is defined for pending tasks
+    And The response "user list with 20 elements" is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The unassign button is not displayed
+    When I click on assign button
+    Then The assign modal is open and has a default state for "Request Vacation"
+    And The user list is not displayed
+    And The assign button in the modal is disabled
+    When I type "U" in the user input
+    Then The user list is displayed
+    And The type more message is displayed and disabled
+    When I type "s" in the user input
+    Then The type more message is not displayed
+
   Scenario: The unassign task modal is opened and closed
     Given The response "empty done task" is defined for pending tasks
     And The response "refresh task not called" is defined for pending tasks
