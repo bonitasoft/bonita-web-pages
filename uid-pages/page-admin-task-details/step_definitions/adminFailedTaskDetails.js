@@ -8,6 +8,8 @@ const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceI
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=1&f=isTerminal=true&';
 const failureConnector = 'API/bpm/connectorFailure/';
+const skipTaskUrl = 'API/bpm/activity/';
+const refreshUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
@@ -33,8 +35,11 @@ given("The response {string} is defined for failed tasks", (responseType) => {
         case 'failure connector':
             createRouteWithResponse(failureConnector + '80004', 'failureConnectorRoute', 'failureConnector');
             break;
-
-            default:
+        case 'skip and refresh task':
+            createRouteWithResponseAndMethod(skipTaskUrl + '1', 'skipTaskRoute', 'emptyResult', 'PUT');
+            createRouteWithResponse(refreshUrl, 'skippedTaskRoute', 'skippedTaskDetails');
+            break;
+        default:
             throw new Error("Unsupported case");
     }
 
@@ -95,6 +100,18 @@ when("I click on failed connector button", () => {
 
 when("I click on close button in the modal", () => {
     cy.get('.modal-footer button').contains('Close').click();
+});
+
+when("I click on skip button", () => {
+    cy.contains('button', 'Skip').click();
+});
+
+when("I click on cancel button in the modal", () => {
+    cy.contains('.modal-footer button', 'Cancel').click();
+});
+
+when("I click on skip button in the modal", () => {
+    cy.contains('.modal-footer button', 'Skip').click();
 });
 
 then("The failed task details have the correct information", () => {
@@ -203,4 +220,28 @@ then("The modal has the correct information", () => {
     cy.get('p.text-left').contains('Human Failed task');
     cy.get('.modal-body h4').contains('Stack trace');
     cy.get('textarea').should('have.value', 'org.bonitasoft.engine.commons.exceptions.SBonitaRuntimeException: java.lang.Exception: Human Failed task');
+});
+
+then("The skip modal is open and has a default state for {string}", (taskName) => {
+    cy.contains('.modal-header h3', 'Skip ' + taskName).should('be.visible');
+    cy.contains('.modal-content p.text-left', 'The task will remain failed: while connectors in execution results will be kept, operations and connectors out will not be executed. The process will go on to the next step.');
+    cy.contains('.modal-content p.text-left', 'Are you sure you want to skip the task?');
+    cy.contains('.modal-footer button', 'Skip');
+    cy.contains('.modal-footer button', 'Cancel');
+});
+
+then("The skip modal is closed", () => {
+    cy.get('.modal').should('not.visible');
+});
+
+then("There is a confirmation for task being successfully skipped", () => {
+    cy.contains('.modal', 'The task has been successfully skipped.').should('be.visible');
+});
+
+then("The skipped failed task details page is refreshed", () => {
+    cy.wait('@skippedTaskRoute');
+});
+
+then("The task is skipped", () => {
+    cy.contains('.item-value', 'skipped');
 });
