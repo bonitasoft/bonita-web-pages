@@ -43,13 +43,6 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             throw new Error("Unsupported case");
     }
 
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix,
-        }).as(routeName);
-    }
-
     function createPostRoute(urlSuffix, routeName) {
         cy.route({
             method: 'POST',
@@ -68,15 +61,6 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             method: method,
             url: urlPrefix + urlSuffix,
             response: '@' + response
-        }).as(routeName);
-    }
-
-    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            status: status,
-            response: ''
         }).as(routeName);
     }
 });

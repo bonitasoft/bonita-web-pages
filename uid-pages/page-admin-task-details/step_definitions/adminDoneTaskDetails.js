@@ -31,21 +31,6 @@ given("The response {string} is defined for done tasks", (responseType) => {
             throw new Error("Unsupported case");
     }
 
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix,
-        }).as(routeName);
-    }
-
-    function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
-        }).as(routeName);
-    }
-
     function createRouteWithResponse(urlSuffix, routeName, response) {
         createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
     }
@@ -56,15 +41,6 @@ given("The response {string} is defined for done tasks", (responseType) => {
             method: method,
             url: urlPrefix + urlSuffix,
             response: '@' + response
-        }).as(routeName);
-    }
-
-    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            status: status,
-            response: ''
         }).as(routeName);
     }
 });
