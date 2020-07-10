@@ -225,24 +225,91 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The modal is closed
     And The do for button is enabled
 
-  Scenario: The assign task modal is opened and closed
+  Scenario: The do for task modal is opened and closed
     Given The response "empty done task" is defined for pending tasks
-    And The response "refresh task not called" is defined for pending tasks
     And The response "default details" is defined for pending tasks
     And The response "task with form" is defined for pending tasks
     When I visit the admin pending task details page
     And I click on do for button
-    Then The do for modal is open and has a default state for "Do Request Vacation for Helen Kelly"
+    Then The do for modal is open and has a default state
     When I click on the cancel button
     Then The modal is closed
 
-  Scenario: The assign task modal is opened and closed
+  Scenario: The do for task form is displayed
     Given The response "empty done task" is defined for pending tasks
-    And The response "refresh task not called" is defined for pending tasks
     And The response "default details" is defined for pending tasks
     And The response "task with form" is defined for pending tasks
     When I visit the admin pending task details page
     And I click on do for button
-    Then The do for modal is open and has a default state for "Do Request Vacation for Helen Kelly"
+    Then The do for modal is open and has a default state
     When I click on do task link
     Then The form is displayed
+
+  Scenario: The do for modal is displayed correctly when there is no form
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I click on the cancel button
+    Then The modal is closed
+
+  Scenario: The do for modal without form executes the task
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    And I click on submit button
+    Then The task is submitted and has correct payload
+
+  Scenario: The do for modal should display not assigned anymore message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    And The do for response unassigned error status code 500 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    And I click on submit button
+    Then The unassigned error message is displayed
+
+  Scenario: The do for modal should display generic 500 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    And The do for status code 500 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    And I click on submit button
+    Then The 500 error message is displayed for do for
+
+  Scenario: The do for modal should display generic 403 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    And The do for status code 403 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    And I click on submit button
+    Then The 403 error message is displayed for do for
+
+  Scenario: The do for modal should display generic 404 error message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    And The do for status code 404 is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    And I click on submit button
+    Then The 404 error message is displayed for do for

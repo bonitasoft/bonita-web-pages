@@ -7,9 +7,10 @@ const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=2&f=isTer
 const userSearchUrl = 'API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled=true&f=task_id=2&s=';
 const assignTaskUrl = 'API/bpm/humanTask/';
 const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
-const formMappingUrl = "/API/form/mapping?c=10&p=0&f=processDefinitionId=8835222915848848756&f=task=request_vacation";
+const formMappingUrl = "API/form/mapping?c=10&p=0&f=processDefinitionId=8835222915848848756&f=task=request_vacation";
 const session = "API/system/session/unusedId";
 const identity = "API/identity/user/4";
+const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
@@ -21,7 +22,6 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'default details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
-        /// add default unassigned details
         case 'default unassigned details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
             break;
@@ -54,6 +54,12 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(session, 'sessionRoute', 'session');
             createRouteWithResponse(identity, 'identityRoute', 'identity');
             break;
+        case 'task without form':
+            createRouteWithResponse(formMappingUrl, 'formMappingRoute', 'formMappingWithoutForm');
+            createRouteWithResponse(session, 'sessionRoute', 'session');
+            createRouteWithResponse(identity, 'identityRoute', 'identity');
+            createRouteWithResponseAndMethod(taskWithoutFormExecution, 'taskWithoutFormRoute', 'emptyResult', 'POST');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -79,6 +85,25 @@ given("The assign status code {int} is defined for pending tasks", (statusCode) 
         status: statusCode,
         response: ''
     }).as("assignRoute");
+});
+
+given("The do for response unassigned error status code 500 is defined for pending tasks", () => {
+    cy.fixture('json/unassignedDoForErrorResponse.json').as('unassignedDoForErrorResponse');
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + taskWithoutFormExecution,
+        status: 500,
+        response: '@unassignedDoForErrorResponse'
+    }).as("unassignedDoForErrorRoute");
+});
+
+given("The do for status code {int} is defined for pending tasks", (errorCode) => {
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + taskWithoutFormExecution,
+        status: errorCode,
+        response: ''
+    }).as("doForErrorRoute");
 });
 
 when("I visit the admin pending task details page", () => {
@@ -123,7 +148,15 @@ when("I click on do for button", () => {
 });
 
 when("I click on do task link", () => {
-    cy.contains('a', 'Do the task').click();
+    cy.contains('.modal-footer a', 'Do the task').click();
+});
+
+when("I click on submit button", () => {
+    cy.contains('.modal-footer button', 'Submit').click();
+});
+
+when("I fill in the comment field", () => {
+    cy.get('.modal-body input').type('comment');
 });
 
 then("The pending task details have the correct information", () => {
@@ -301,8 +334,8 @@ then("The do for button is enabled", () => {
         .get('span').should('have.attr', 'title', 'Do the task for the assignee.');
 });
 
-then("The do for modal is open and has a default state for {string}", (modalTitle) => {
-    cy.contains('.modal', modalTitle).should('be.visible');
+then("The do for modal is open and has a default state", () => {
+    cy.contains('.modal', 'Do Request Vacation for Helen Kelly').should('be.visible');
     cy.contains('.modal-content p.text-left', 'You are about to perform the task for the current assignee.');
     cy.contains('.modal-content p.text-left', 'It will be recorded as "Done by Walter Bates for Helen Kelly"');
     cy.contains('.modal-footer button', 'Cancel');
@@ -312,4 +345,43 @@ then("The do for modal is open and has a default state for {string}", (modalTitl
 
 then("The form is displayed", (modalTitle) => {
     cy.url().should('include', 'bonita/portal/form/taskInstance/2');
+});
+
+then("The do for modal is open and has a default state without form", () => {
+    cy.contains('.modal', 'Do Request Vacation for Helen Kelly').should('be.visible');
+    cy.contains('.modal-content p.text-left', 'You are about to perform the task for the current assignee.');
+    cy.contains('.modal-content p.text-left', 'It will be recorded as "Done by Walter Bates for Helen Kelly"');
+    cy.contains('.modal-content p.text-left', 'This task does not require a form to fill, but a comment to explain the action you have performed.');
+    cy.contains('.modal-footer button', 'Cancel');
+    cy.contains('.modal-footer a', 'Do the task').should('not.exist');
+    cy.contains('.modal-footer button', 'Submit').should('be.visible');
+    cy.contains('.modal-body', 'Comment').should('be.visible');
+});
+
+then("The task is submitted and has correct payload", () => {
+    cy.wait('@taskWithoutFormRoute').then((xhr) => {
+        expect(xhr.request.body.ticket_comment).to.eq("comment");
+    });
+});
+
+then("The unassigned error message is displayed", () => {
+    cy.contains('.modal-body p.text-left', 'This task is not assigned anymore. Assign it and try again.').should('be.visible');
+    cy.contains('.modal-body p.text-left', 'The task has not been done.').should('be.visible');
+});
+
+then("The {int} error message is displayed for do for", (statusCode) => {
+    switch (statusCode) {
+        case 500:
+            cy.contains('.modal', 'An internal error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case 404:
+            cy.contains('.modal', 'The task has already been done. It cannot be done anymore. Refresh the page to see the new task status.').should('be.visible');
+            break;
+        case 403:
+            cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The task has not been done.').should('be.visible');
 });

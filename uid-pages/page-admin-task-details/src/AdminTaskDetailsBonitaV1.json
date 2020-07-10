@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1594367236311,
+  "lastUpdate" : 1594395287896,
   "rows" : [
     [
       {
@@ -7155,6 +7155,395 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskCtrl.doesTaskHaveNoForm()"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{'This task does not require a form to fill, but a comment to explain the action you have performed.'|translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "dd235e12-bb7e-4f67-a90a-e1d237caab70",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskCtrl.doesTaskHaveNoForm()"
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "userListData.hasRecentlyBeenApplied"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Comment"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "doForTaskData.comment"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "889607b7-80b4-4a84-9d5b-14ff235eb82f",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "doForTaskData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{doForTaskCtrl.getErrorMessageFor500()}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "78c9fe3a-74b3-4b10-b4bc-4f9b5f8f235d",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "doForTaskData.statusCode !== 404"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The task has already been done. It cannot be done anymore. Refresh the page to see the new task status.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "5fa27494-7907-45a1-9f8b-54f9e97f6539",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "doForTaskData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "fabe4555-c673-4e2c-b4ba-75c32993e556",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskData.statusCode || doForTaskData.statusCode === 204"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The task has not been done.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "3e15a1b1-3d52-4d77-b831-0695bb455836",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "doForTaskData.statusCode !== 204"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The task has been successfully done.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "05f211f9-dda0-4198-9a99-efa7c88bafd0",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -7210,7 +7599,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Do for"
+                          "value" : "Submit"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7230,14 +7619,15 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : ""
+                          "value" : "../API/bpm/userTask/{{taskIdQueryParameter}}/execution"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
                           "value" : "doForTaskData.statusCode"
                         },
                         "dataToSend" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "doForTaskCtrl.getDoForTaskPayload()"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -7249,7 +7639,7 @@
                         },
                         "dataFromError" : {
                           "type" : "variable",
-                          "value" : ""
+                          "value" : "doForTaskData.failedResponse"
                         },
                         "targetUrlOnSuccess" : {
                           "type" : "interpolation",
@@ -7816,7 +8206,8 @@
       "value" : [
         "return {",
         "    statusCode: \"\",",
-        "    taskRequiresMapping: false",
+        "    comment: \"\",",
+        "    failedResponse: \"\"",
         "};"
       ],
       "exposed" : false
@@ -7824,6 +8215,14 @@
     "doForTaskCtrl" : {
       "type" : "expression",
       "value" : [
+        "var doesFailedResponseContain = function (failedResponse, text) {",
+        "    if (failedResponse",
+        "        && (failedResponse.exception.indexOf(text) > -1",
+        "            || failedResponse.message.indexOf(text) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
         "",
         "return {",
         "    initDoForTaskModal: function() {",
@@ -7843,14 +8242,17 @@
         "        }",
         "        return \"<span title='\" + uiTranslate(tooltip)  + \"'>\" + uiTranslate(\"Do for\") + \"</span>\";",
         "    },",
-        "    getFormMappingUrl: function() {",
-        "        if ($data.taskDetailsCtrl.getOpenOrArchivedTask()) {",
-        "            return \"../API/form/mapping?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
-        "        }",
-        "        return \"\";",
-        "    },",
         "    doesTaskHaveNoForm: function() {",
-        "        return $data.formMapping && $data.formMapping.target === \"NONE\";",
+        "        return $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
+        "    },",
+        "    getDoForTaskPayload: function() {",
+        "        return {\"ticket_comment\": $data.doForTaskData.comment};",
+        "    },",
+        "    getErrorMessageFor500: function() {",
+        "        if (doesFailedResponseContain($data.doForTaskData.failedResponse, \"not assigned\")) {",
+        "            return uiTranslate(\"This task is not assigned anymore. Assign it and try again.\");",
+        "        }",
+        "        return uiTranslate(\"An internal error has occurred. For more information, check the log file.\");",
         "    }",
         "};"
       ],
@@ -7873,7 +8275,7 @@
     "formMapping" : {
       "type" : "url",
       "value" : [
-        "{{doForTaskCtrl.getFormMappingUrl()}}"
+        "../API/form/mapping?c=10&p=0&f=processDefinitionId={{taskDetailsCtrl.getOpenOrArchivedTask().processId.id}}&f=task={{taskDetailsCtrl.getOpenOrArchivedTask().name}}"
       ],
       "exposed" : false
     }
