@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1594303693304,
+  "lastUpdate" : 1594367236311,
   "rows" : [
     [
       {
@@ -7202,7 +7202,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!doForTaskCtrl.doesTaskHaveAForm()"
+                          "value" : "!doForTaskCtrl.doesTaskHaveNoForm()"
                         },
                         "disabled" : {
                           "type" : "expression",
@@ -7237,8 +7237,7 @@
                           "value" : "doForTaskData.statusCode"
                         },
                         "dataToSend" : {
-                          "type" : "expression",
-                          "value" : ""
+                          "type" : "constant"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -7293,7 +7292,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "doForTaskCtrl.doesTaskHaveAForm()"
+                          "value" : "doForTaskCtrl.doesTaskHaveNoForm()"
                         },
                         "text" : {
                           "type" : "interpolation",
@@ -7342,7 +7341,7 @@
                           "value" : "primary"
                         }
                       },
-                      "reference" : "9566da09-21ad-4679-9026-9c97f3a240d0",
+                      "reference" : "4425181f-7201-4eea-af88-0ed0e94e0fbb",
                       "hasValidationError" : false,
                       "id" : "pbLink"
                     },
@@ -7845,10 +7844,13 @@
         "        return \"<span title='\" + uiTranslate(tooltip)  + \"'>\" + uiTranslate(\"Do for\") + \"</span>\";",
         "    },",
         "    getFormMappingUrl: function() {",
-        "        return \"../API/form/mapping?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
+        "        if ($data.taskDetailsCtrl.getOpenOrArchivedTask()) {",
+        "            return \"../API/form/mapping?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
+        "        }",
+        "        return \"\";",
         "    },",
-        "    doesTaskHaveAForm: function() {",
-        "        return $data.formMapping && $data.formMapping.target === \"INTERNAL\";",
+        "    doesTaskHaveNoForm: function() {",
+        "        return $data.formMapping && $data.formMapping.target === \"NONE\";",
         "    }",
         "};"
       ],
