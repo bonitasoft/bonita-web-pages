@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminRolesBonitaV1",
   "name" : "AdminRolesBonitaV1",
-  "lastUpdate" : 1594822102411,
+  "lastUpdate" : 1594904679664,
   "rows" : [
     [
       {
@@ -256,20 +256,23 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Select an option"
+                        "value" : "Sort by"
                       },
                       "availableValues" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "rolesData.sortByOptions"
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "displayKey"
                       },
                       "returnedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "returnKey"
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "rolesData.filters.sortOrder"
                       }
                     },
                     "reference" : "e3fd64a9-ed99-4dc7-a19e-6f1ddf1eccd4",
@@ -1465,7 +1468,13 @@
         "            //on first call we need load next page",
         "            rolesPerPage *= 2;",
         "        }",
-        "        var queryParameters = \"c=\" + rolesPerPage + \"&p=\" + pageId + \"&o=displayName ASC\";",
+        "        var queryParameters = \"c=\" + rolesPerPage + \"&p=\" + pageId;",
+        "    ",
+        "        if($data.rolesData.filters.sortOrder){",
+        "            queryParameters += \"&o=\" + $data.rolesData.filters.sortOrder;",
+        "        } else {",
+        "            queryParameters += \"&o=displayName ASC\";",
+        "        }",
         "        ",
         "        return queryParameters;",
         "    }",
@@ -1483,7 +1492,16 @@
         "    numberOfRolesPerPage: 10,",
         "    numberOfRolesReturned: 0,",
         "    rolesNextResults: undefined,",
-        "    displayedRoles: []",
+        "    displayedRoles: [],",
+        "    sortByOptions: [   ",
+        "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
+        "        { displayKey: \"Display name (Desc)\", returnKey: \"displayName+DESC\" },",
+        "        { displayKey: \"Name (Asc)\", returnKey: \"name+ASC\" },",
+        "        { displayKey: \"Name (Desc)\", returnKey: \"name+DESC\" },",
+        "    ],",
+        "    filters: {",
+        "        sortOrder: \"\"",
+        "    }",
         "};"
       ],
       "exposed" : false

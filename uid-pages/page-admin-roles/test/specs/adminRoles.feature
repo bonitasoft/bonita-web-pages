@@ -1,7 +1,7 @@
 Feature: The Admin Roles in desktop resolution
 
   Scenario: The roles displays the correct attributes
-    Given The response "default details" is defined
+    Given The response "default filter" is defined
     When I visit the admin roles page
     Then The roles page have the correct information
 
@@ -25,3 +25,17 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 roles is displayed
     When I click on Load more roles button
     And The load more roles button is disabled
+
+  Scenario: The roles list sort by works correctly
+    Given The response "default filter" is defined
+    And The response "sort by" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I put "Display name (Desc)" in "sort by" filter field
+    Then The api call is made for "Display name (Desc)"
+    When I put "Name (Asc)" in "sort by" filter field
+    Then The api call is made for "Name (Asc)"
+    When I put "Name (Desc)" in "sort by" filter field
+    Then The api call is made for "Name (Desc)"
+    When I put "Display name (Asc)" in "sort by" filter field
+    Then The api call is made for "Display name (Asc)"
