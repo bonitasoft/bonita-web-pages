@@ -8,7 +8,7 @@ given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
     cy.server();
     switch (responseType) {
-        case 'default details':
+        case 'default filter':
             createRouteWithResponse(defaultRequestUrl, 'roles8Route', 'roles8');
             break;
         case 'enable load more':
@@ -20,6 +20,11 @@ given("The response {string} is defined", (responseType) => {
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl, 'roles20Route', 'roles20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'sort by':
+            createRoute(rolesUrl + 'c=20&p=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
+            createRoute(rolesUrl + 'c=20&p=0&o=name+ASC', 'sortNameAscRoute');
+            createRoute(rolesUrl + 'c=20&p=0&o=name+DESC', 'sortNameDescRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -87,6 +92,35 @@ when("I click on Load more roles button", () => {
     cy.get('button').contains('Load more roles').click();
 });
 
+when("I put {string} in {string} filter field", (filterValue, filterType) => {
+    switch (filterType) {
+        case 'sort by':
+            selectSortByOption(filterValue);
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+
+    function selectSortByOption(filterValue) {
+        switch (filterValue) {
+            case 'Display name (Asc)':
+                cy.get('select:visible').select('0');
+                break;
+            case 'Display name (Desc)':
+                cy.get('select:visible').select('1');
+                break;
+            case 'Name (Asc)':
+                cy.get('select:visible').select('2');
+                break;
+            case 'Name (Desc)':
+                cy.get('select:visible').select('3');
+                break;
+            default:
+                throw new Error("Unsupported case");
+        }
+    }
+});
+
 then("The roles page have the correct information", () => {
     cy.contains('h3', 'Roles');
     cy.get('.role-item').should('have.length', 8);
@@ -111,3 +145,21 @@ then("The load more roles button is disabled", () => {
     cy.get('button').contains('Load more roles').should('be.disabled');
 });
 
+then("The api call is made for {string}", (filterValue) => {
+    switch (filterValue) {
+        case 'Display name (Asc)':
+            cy.wait('@roles8Route');
+            break;
+        case 'Display name (Desc)':
+            cy.wait('@sortDisplayNameDescRoute');
+            break;
+        case 'Name (Asc)':
+            cy.wait('@sortNameAscRoute');
+            break;
+        case 'Name (Desc)':
+            cy.wait('@sortNameDescRoute');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+});
