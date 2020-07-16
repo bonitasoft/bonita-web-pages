@@ -26,6 +26,10 @@ given("The response {string} is defined", (responseType) => {
             createRoute(rolesUrl + 'c=20&p=0&o=name+ASC', 'sortNameAscRoute');
             createRoute(rolesUrl + 'c=20&p=0&o=name+DESC', 'sortNameDescRoute');
             break;
+        case 'search':
+            createRouteWithResponse(defaultRequestUrl + '&s=Member', 'searchMemberRoute', 'roles1');
+            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -97,6 +101,9 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
         case 'sort by':
             selectSortByOption(filterValue);
             break;
+        case 'search':
+            searchForValue(filterValue);
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -119,6 +126,10 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
                 throw new Error("Unsupported case");
         }
     }
+
+    function searchForValue(filterValue) {
+        cy.get('pb-input input:visible').type(filterValue);
+    }
 });
 
 then("The roles page have the correct information", () => {
@@ -135,6 +146,10 @@ then("The roles page have the correct information", () => {
     cy.get('.role-item').eq(0).contains('.item-label', 'This is a description.');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-pencil');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-trash');
+});
+
+when("I erase the search filter", () => {
+    cy.get('pb-input input:visible').clear();
 });
 
 then("A list of {int} roles is displayed", (nbrOfItems) => {
@@ -159,7 +174,15 @@ then("The api call is made for {string}", (filterValue) => {
         case 'Name (Desc)':
             cy.wait('@sortNameDescRoute');
             break;
+        case 'Member':
+            cy.wait('@searchMemberRoute');
+        break;
         default:
             throw new Error("Unsupported case");
     }
+});
+
+then("No roles are available", () => {
+    cy.get('.task-item:visible').should('have.length', 0);
+    cy.contains('No roles to display').should('be.visible');
 });
