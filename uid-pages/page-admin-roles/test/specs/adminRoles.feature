@@ -39,3 +39,16 @@ Feature: The Admin Roles in desktop resolution
     Then The api call is made for "Name (Desc)"
     When I put "Display name (Asc)" in "sort by" filter field
     Then The api call is made for "Display name (Asc)"
+
+  Scenario: The roles list search works correctly
+    Given The response "default filter" is defined
+    And The response "search" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I put "Member" in "search" filter field
+    Then The api call is made for "Member"
+    And A list of 1 roles is displayed
+    When I erase the search filter
+    Then A list of 8 roles is displayed
+    When I put "Search term with no match" in "search" filter field
+    Then No roles are available
