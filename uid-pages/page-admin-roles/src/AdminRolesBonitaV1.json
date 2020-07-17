@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminRolesBonitaV1",
   "name" : "AdminRolesBonitaV1",
-  "lastUpdate" : 1594907427465,
+  "lastUpdate" : 1594998705516,
   "rows" : [
     [
       {
@@ -166,8 +166,8 @@
                   "type" : "variable"
                 },
                 "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
+                  "type" : "expression",
+                  "value" : "createRoleCtrl.initCreateModal()"
                 },
                 "collectionPosition" : {
                   "type" : "constant",
@@ -1467,6 +1467,831 @@
           [ ]
         ]
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "createRoleModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "ffb5c8c2-43bf-4af9-ad06-4d4b149ca8d6",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "f3f0f133-9bea-4c57-b8cf-e4113ce535e2",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "formContainer",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  }
+                },
+                "reference" : "a5733991-5d1d-4264-9c2b-80d241d4aae0",
+                "hasValidationError" : false,
+                "id" : "pbFormContainer",
+                "container" : {
+                  "type" : "container",
+                  "dimension" : {
+                    "xs" : 12
+                  },
+                  "propertyValues" : { },
+                  "reference" : "708f0578-d7cf-4abb-b5fd-02ffe743f0e1",
+                  "hasValidationError" : false,
+                  "id" : "pbContainer",
+                  "rows" : [
+                    [
+                      {
+                        "type" : "container",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : "modal-header"
+                          },
+                          "hidden" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "repeatedCollection" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "532068de-9e3f-4025-96f5-77af5cdabdf3",
+                        "hasValidationError" : false,
+                        "id" : "pbContainer",
+                        "rows" : [
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "Create a role"
+                                },
+                                "level" : {
+                                  "type" : "constant",
+                                  "value" : "Level 3"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "6d00423d-9b20-44a8-95d6-29fe8c73ecd8",
+                              "hasValidationError" : false,
+                              "id" : "pbTitle"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "type" : "container",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : "modal-body"
+                          },
+                          "hidden" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "repeatedCollection" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "af94b154-c46c-47aa-b9ca-140439ea7921",
+                        "hasValidationError" : false,
+                        "id" : "pbContainer",
+                        "rows" : [
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "readOnly" : {
+                                  "type" : "expression",
+                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Name"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "placeholder" : {
+                                  "type" : "interpolation"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "createRoleData.name"
+                                },
+                                "type" : {
+                                  "type" : "constant",
+                                  "value" : "text"
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
+                                }
+                              },
+                              "reference" : "c90150e9-9348-416f-824f-3e712f4295dc",
+                              "hasValidationError" : false,
+                              "id" : "pbInput"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "readOnly" : {
+                                  "type" : "expression",
+                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Display name"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "placeholder" : {
+                                  "type" : "interpolation"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "createRoleData.displayName"
+                                },
+                                "type" : {
+                                  "type" : "constant",
+                                  "value" : "text"
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
+                                }
+                              },
+                              "reference" : "ec50b92e-fd0d-49bc-8bd5-6d603debe654",
+                              "hasValidationError" : false,
+                              "id" : "pbInput"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "readOnly" : {
+                                  "type" : "expression",
+                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Description"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "placeholder" : {
+                                  "type" : "interpolation"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "createRoleData.description"
+                                },
+                                "type" : {
+                                  "type" : "constant",
+                                  "value" : "text"
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
+                                }
+                              },
+                              "reference" : "4d380c18-a121-4124-aff1-fc932660d2cf",
+                              "hasValidationError" : false,
+                              "id" : "pbInput"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "createRoleData.statusCode !== 403"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createRoleCtrl.getErrorMessageFor403(createRoleData.failedResponse)}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "fb91ae29-631f-48ec-85b9-a52de4c1b4d6",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "createRoleData.statusCode !== 500"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "d87bbdee-6ece-4224-8cf0-4d3f4459a374",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "createRoleData.statusCode === \"\" || createRoleData.statusCode === 200"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The role has not been created.' | translate}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "bd14f1e8-a167-44ca-96d9-de381437bd61",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "createRoleData.statusCode !== 200"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role has been successfully created.' | translate}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "9d7ab18e-742e-4d8b-a87c-06d68feb34b1",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "type" : "container",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : "modal-footer"
+                          },
+                          "hidden" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "repeatedCollection" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "1d513f44-e6ad-4813-98b2-1a21addedd47",
+                        "hasValidationError" : false,
+                        "id" : "pbContainer",
+                        "rows" : [
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 6,
+                                "lg" : 6
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "disabled" : {
+                                  "type" : "expression",
+                                  "value" : "rolesData.hasRecentlyBeenUpdated || createRoleData.name === \"\""
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Create"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "right"
+                                },
+                                "buttonStyle" : {
+                                  "type" : "constant",
+                                  "value" : "primary"
+                                },
+                                "action" : {
+                                  "type" : "constant",
+                                  "value" : "POST"
+                                },
+                                "assign" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "url" : {
+                                  "type" : "interpolation",
+                                  "value" : "../API/identity/role"
+                                },
+                                "responseStatusCode" : {
+                                  "type" : "variable",
+                                  "value" : "createRoleData.statusCode"
+                                },
+                                "dataToSend" : {
+                                  "type" : "expression",
+                                  "value" : "createRoleCtrl.getCreateRolePayload()"
+                                },
+                                "dataFromSuccess" : {
+                                  "type" : "variable",
+                                  "value" : ""
+                                },
+                                "closeOnSuccess" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "dataFromError" : {
+                                  "type" : "variable",
+                                  "value" : "createRoleData.failedResponse"
+                                },
+                                "targetUrlOnSuccess" : {
+                                  "type" : "interpolation"
+                                },
+                                "collectionToModify" : {
+                                  "type" : "variable"
+                                },
+                                "modalId" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "collectionPosition" : {
+                                  "type" : "constant",
+                                  "value" : "Last"
+                                },
+                                "valueToAdd" : {
+                                  "type" : "constant"
+                                },
+                                "removeItem" : {
+                                  "type" : "variable"
+                                }
+                              },
+                              "reference" : "8508880e-1142-42a9-9ef9-407bbb1b9592",
+                              "hasValidationError" : false,
+                              "id" : "pbButton"
+                            },
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 6,
+                                "lg" : 6
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "disabled" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "{{createRoleCtrl.getCreateButtonLabel()}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                },
+                                "buttonStyle" : {
+                                  "type" : "constant",
+                                  "value" : "default"
+                                },
+                                "action" : {
+                                  "type" : "constant",
+                                  "value" : "Close modal"
+                                },
+                                "assign" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "url" : {
+                                  "type" : "interpolation"
+                                },
+                                "responseStatusCode" : {
+                                  "type" : "variable",
+                                  "value" : ""
+                                },
+                                "dataToSend" : {
+                                  "type" : "constant"
+                                },
+                                "dataFromSuccess" : {
+                                  "type" : "variable",
+                                  "value" : ""
+                                },
+                                "closeOnSuccess" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "dataFromError" : {
+                                  "type" : "variable",
+                                  "value" : ""
+                                },
+                                "targetUrlOnSuccess" : {
+                                  "type" : "interpolation"
+                                },
+                                "collectionToModify" : {
+                                  "type" : "variable"
+                                },
+                                "modalId" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "collectionPosition" : {
+                                  "type" : "constant",
+                                  "value" : "Last"
+                                },
+                                "valueToAdd" : {
+                                  "type" : "constant"
+                                },
+                                "removeItem" : {
+                                  "type" : "variable"
+                                }
+                              },
+                              "reference" : "24ae7188-58b6-42c6-a81e-958c1ffb7daa",
+                              "hasValidationError" : false,
+                              "id" : "pbButton"
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -1490,7 +2315,7 @@
     "rolesUrl" : {
       "type" : "url",
       "value" : [
-        "../API/identity/role?{{rolesCtrl.rolesQueryParameters(0)}}"
+        "../API/identity/role?{{rolesCtrl.rolesQueryParameters(0)}}&t={{createRoleData.timestamp}}"
       ],
       "exposed" : false
     },
@@ -1501,7 +2326,7 @@
         "    rolesQueryParameters: function(pageId) {",
         "        var rolesPerPage = $data.rolesData.numberOfRolesPerPage;",
         "        ",
-        "        if (pageId === 0){",
+        "        if (pageId === 0) {",
         "            //on first call we need load next page",
         "            rolesPerPage *= 2;",
         "        }",
@@ -1527,6 +2352,7 @@
       "type" : "expression",
       "value" : [
         "return {",
+        "    hasRecentlyBeenUpdated: false,",
         "    role: {},",
         "    rolesForNextPage: [],",
         "    pageId: 0, ",
@@ -1538,7 +2364,7 @@
         "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
         "        { displayKey: \"Display name (Desc)\", returnKey: \"displayName+DESC\" },",
         "        { displayKey: \"Name (Asc)\", returnKey: \"name+ASC\" },",
-        "        { displayKey: \"Name (Desc)\", returnKey: \"name+DESC\" },",
+        "        { displayKey: \"Name (Desc)\", returnKey: \"name+DESC\" }",
         "    ],",
         "    filters: {",
         "        sortOrder: \"\",",
@@ -1587,6 +2413,85 @@
         "    $data.rolesData.rolesForNextPage = undefined;\r",
         "    $data.rolesData.rolesNextResults = undefined;\r",
         "    $data.rolesData.numberOfRolesReturned = 0;\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "createRoleCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "var isErrorOfType = function (failedResponse, type) {",
+        "    if (failedResponse.cause",
+        "        && (failedResponse.cause.exception.indexOf(type) > -1",
+        "            || failedResponse.cause.message.indexOf(type) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
+        "",
+        "",
+        "return {",
+        "    initCreateModal: function() {",
+        "        $data.rolesData.hasRecentlyBeenUpdated = false;",
+        "        $data.createRoleData.statusCode = \"\";",
+        "        $data.createRoleData.name = \"\";",
+        "        $data.createRoleData.displayName = \"\";",
+        "        $data.createRoleData.description = \"\";",
+        "        return \"createRoleModal\";",
+        "    },",
+        "    getCreateRolePayload: function() {",
+        "        return {",
+        "            name: $data.createRoleData.name,",
+        "            displayName: $data.createRoleData.displayName,",
+        "            description: $data.createRoleData.description",
+        "        };",
+        "    },",
+        "    getCreateButtonLabel: function() {",
+        "        return $data.createRoleData.statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
+        "    },",
+        "    getErrorMessageFor403: function(failedResponse) {",
+        "        if (isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
+        "            return uiTranslate(\"A role with the same name already exists.\");",
+        "        }",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "createRoleData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: \"\",",
+        "    failedResponse: {},",
+        "    name: \"\",",
+        "    displayName: \"\",",
+        "    description: \"\",",
+        "    timestamp: 0",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "createRolePayload" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    icon: $data.createRoleData.fileName,",
+        "    name: $data.createRoleData.name,",
+        "    displayName: $data.createRoleData.displayName,",
+        "    description: $data.createRoleData.description",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "createRoleHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is updated",
+        "if ($data.createRoleData.statusCode !== '' && $data.rolesData.hasRecentlyBeenUpdated === false) {",
+        "    $data.createRoleData.timestamp = new Date().getTime();",
+        "    $data.rolesData.hasRecentlyBeenUpdated = true;",
         "}"
       ],
       "exposed" : false
