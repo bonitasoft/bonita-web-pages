@@ -39,9 +39,12 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The user list is not displayed
     And The user input is filled with "Helen Kelly"
     When I click on assign button in the modal
-    Then The assign modal is closed
+    Then There is a confirmation for task being successfully assigned
     And The api call has the correct user id
     And The page is refreshed
+    And The cancel button is not displayed
+    When I click on the close button
+    Then The assign modal is closed
     And The unassign button is displayed
     And The assign button is not displayed
 
@@ -124,7 +127,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on the cancel button
     Then The unassign modal is closed
 
-  Scenario: The unassign task modal unassign the task correctly
+  Scenario: The unassign task modal unassigns the task correctly
     Given The response "empty done task" is defined for pending tasks
     And The response "default details" is defined for pending tasks
     And The response "unassign and refresh task" is defined for pending tasks
@@ -133,9 +136,13 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on unassign button
     Then The unassign modal is open and has a default state for "Request Vacation"
     When I click on unassign button in the modal
-    Then The unassign modal is closed
+    Then There is a confirmation for task being successfully unassigned
     And The unassign api call has the correct user id
+    And There is no confirmation message for unassign
     And The unassigned page is refreshed
+    And The cancel button is not displayed
+    When I click on the close button
+    Then The assign modal is closed
     And The assign button is displayed
     And The unassign button is not displayed
 

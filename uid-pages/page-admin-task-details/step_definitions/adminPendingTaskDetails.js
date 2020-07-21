@@ -126,6 +126,10 @@ when("I click on unassign button in the modal", () => {
     cy.contains('.modal-footer button', 'Unassign').click();
 });
 
+when("I click on the close button", () => {
+    cy.contains('.modal-footer button', 'Close').click();
+});
+
 then("The pending task details have the correct information", () => {
     cy.get('h3').contains('Request Vacation (2)');
     cy.get('h4').contains('Original Id:').should('not.exist');
@@ -186,6 +190,7 @@ then("The assign modal is open and has a default state for {string}", (taskName)
     cy.contains('.form-group label', 'User');
     cy.get('.modal-content .form-group input').should('be.empty');
     cy.get('.modal-content .dropdown-menu').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Cancel');
 });
 
 then("The assign modal is closed", () => {
@@ -242,6 +247,7 @@ then("I don't see any error message", () => {
 then("The unassign modal is open and has a default state for {string}", (taskName) => {
     cy.contains('.modal-header h3', 'Unassign ' + taskName).should('be.visible');
     cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?');
+    cy.contains('.modal-footer button', 'Cancel');
 });
 
 then("The unassign modal is closed", () => {
@@ -264,4 +270,20 @@ then("The unassign button is not displayed", () => {
 
 then("The assign button is displayed", () => {
     cy.contains('button', 'Assign').should('be.visible');
+});
+
+then("There is a confirmation for task being successfully assigned", () => {
+    cy.contains('.modal', 'The task has been successfully assigned to Helen Kelly.').should('be.visible');
+});
+
+then("There is a confirmation for task being successfully unassigned", () => {
+    cy.contains('.modal', 'The task has been successfully unassigned.').should('be.visible');
+});
+
+then("The cancel button is not displayed", () => {
+    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
+});
+
+then("There is no confirmation message for unassign", () => {
+    cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?').should('not.be.visible');
 });

@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1593070594900,
+  "lastUpdate" : 1593519805643,
   "rows" : [
     [
       {
@@ -4917,8 +4917,8 @@
                                 "value" : ""
                               },
                               "readOnly" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "assignModalData.hasRecentlyBeenAssigned"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -5325,6 +5325,58 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "assignModalData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The task has been successfully assigned to' | translate}} {{assignModalData.searchUserValue}}."
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "5ad5b042-d91d-48eb-90bb-5f49638e3902",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -5376,7 +5428,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!assignModalData.assignedId"
+                          "value" : "!assignModalData.assignedId || assignModalData.hasRecentlyBeenAssigned"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -5416,7 +5468,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -5470,7 +5522,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{assignModalCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5691,8 +5743,8 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "assignModalData.hasRecentlyBeenAssigned"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -5935,6 +5987,58 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "assignModalData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The task has been successfully unassigned.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "cbce235e-99ae-4a5e-be31-3177cfc7e011",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -5985,8 +6089,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "assignModalData.hasRecentlyBeenAssigned"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -6026,7 +6130,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -6080,7 +6184,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{assignModalCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -6198,7 +6302,7 @@
         "function isTaskAssignable() {",
         "    var state = getOpenOrArchivedTask() ? getOpenOrArchivedTask().state : \"\";",
         "    var type = getOpenOrArchivedTask() ? getOpenOrArchivedTask().type : \"\";",
-        "    return state !== \"completed\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
+        "    return state !== \"completed\" && state !== \"skipped\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
         "}",
         "    ",
         "function isTaskAssigned() {",
@@ -6333,9 +6437,9 @@
       "type" : "expression",
       "value" : [
         "// After a task is updated",
-        "if ($data.assignModalData.statusCode === 200) {",
+        "if ($data.assignModalData.statusCode === 200 && !$data.assignModalData.hasRecentlyBeenAssigned) {",
         "    $data.assignModalData.timestamp = new Date().getTime();",
-        "    $data.assignModalData.statusCode = \"\";",
+        "    $data.assignModalData.hasRecentlyBeenAssigned = true;",
         "}"
       ],
       "exposed" : false
@@ -6377,6 +6481,7 @@
         "        $data.selectedUser = [];",
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.assignModalData.searchUserValue = undefined;",
+        "        $data.assignModalData.hasRecentlyBeenAssigned = false;",
         "        return \"assignTaskModal\";",
         "    },",
         "    getUserSearchUrl: function() {",
@@ -6388,7 +6493,11 @@
         "    },",
         "    initUnassignTaskModal: function() {",
         "        $data.assignModalData.statusCode = \"\";",
+        "        $data.assignModalData.hasRecentlyBeenAssigned = false;",
         "        return \"unassignTaskModal\";",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "        return $data.assignModalData.hasRecentlyBeenAssigned ? \"Close\" : \"Cancel\";",
         "    }",
         "};"
       ],
@@ -6402,7 +6511,8 @@
         "    statusCode: \"\",",
         "    searchUserValue: \"\",",
         "    assignedId: undefined,",
-        "    assignedUserDisplayName: undefined",
+        "    assignedUserDisplayName: undefined,",
+        "    hasRecentlyBeenAssigned: false",
         "};"
       ],
       "exposed" : false
