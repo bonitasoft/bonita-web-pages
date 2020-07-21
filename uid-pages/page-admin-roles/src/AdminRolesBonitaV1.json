@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminRolesBonitaV1",
   "name" : "AdminRolesBonitaV1",
-  "lastUpdate" : 1595324496665,
+  "lastUpdate" : 1595343919910,
   "rows" : [
     [
       {
@@ -2466,7 +2466,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Dummy text for confirmation message."
+                          "value" : "No user is mapped to this role. You can safely delete it."
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2474,6 +2474,58 @@
                         }
                       },
                       "reference" : "4da72d06-91a3-468d-9e60-6d6b48acc43b",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Some users are mapped to the role you are about to delete. Their memberships will be lost. Are you sure you want to delete this role?"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "a8dd6e0b-c932-49c0-963e-3d6ea40fc1fa",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -3116,7 +3168,7 @@
         "    },",
         "    getErrorMessageFor500: function(failedResponse) {",
         "        if ($data.rolesCtrl.isErrorOfType(failedResponse, 'SRoleNotFoundException')) {",
-        "            return uiTranslate(\"Error for not found\");",
+        "            return uiTranslate(\"The role does not exist. Reload the page to see the new list of roles.\");",
         "        }",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
         "    }",

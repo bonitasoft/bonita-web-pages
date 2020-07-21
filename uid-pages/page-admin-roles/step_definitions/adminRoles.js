@@ -273,7 +273,7 @@ then("The delete modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-footer button', 'Delete').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
-    cy.contains('.modal-content p.text-left', 'DOES NOT WORK YET SINCE WE NEED THE TEXT FROM NATH').should('be.visible');
+    cy.contains('.modal-content p.text-left', 'No user is mapped to this role. You can safely delete it.').should('be.visible');
 });
 
 then("There is no modal displayed", () => {
@@ -322,7 +322,7 @@ then("I see {string} error message for {string}", (error, action) => {
             cy.contains('.modal-body', 'A role with the same name already exists.').should('be.visible');
             break;
         case 'not exists during delete':
-            cy.contains('.modal-body', 'THIS NEEDS TO BE CHANGED BY NATH.').should('be.visible');
+            cy.contains('.modal-body', 'The role does not exist. Reload the page to see the new list of roles.').should('be.visible');
             break;
         default:
             throw new Error("Unsupported case");
