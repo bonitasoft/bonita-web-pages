@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1593519805643,
+  "lastUpdate" : 1593593098646,
   "rows" : [
     [
       {
@@ -5010,7 +5010,7 @@
                                     },
                                     "repeatedCollection" : {
                                       "type" : "variable",
-                                      "value" : "searchUserList"
+                                      "value" : "assignModalCtrl.getFullSearchUserList()"
                                     }
                                   },
                                   "reference" : "8decb4f1-9984-485c-932c-348db86523d3",
@@ -5036,8 +5036,8 @@
                                             "value" : false
                                           },
                                           "disabled" : {
-                                            "type" : "constant",
-                                            "value" : false
+                                            "type" : "expression",
+                                            "value" : "assignModalCtrl.isSearchUserMore($item)"
                                           },
                                           "label" : {
                                             "type" : "interpolation",
@@ -6498,6 +6498,18 @@
         "    },",
         "    getChangeButtonLabel: function() {",
         "        return $data.assignModalData.hasRecentlyBeenAssigned ? \"Close\" : \"Cancel\";",
+        "    },",
+        "    getFullSearchUserList: function() {",
+        "        var fullUserList = $data.searchUserList;",
+        "        if (fullUserList.length == 20) {",
+        "            fullUserList.push({",
+        "                userName: uiTranslate(\"Or type more...\")",
+        "            });",
+        "        }",
+        "        return fullUserList;",
+        "    },",
+        "    isSearchUserMore: function(item) {",
+        "        return item.userName === uiTranslate(\"Or type more...\");",
         "    }",
         "};"
       ],
