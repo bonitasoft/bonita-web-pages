@@ -3,11 +3,13 @@ const url = urlPrefix + 'resources/index.html?id=2';
 const pendingTaskUrl = 'API/bpm/flowNode/2?';
 const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=2&f=isTerminal=true&';
 const userSearchUrl = 'API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled=true&f=task_id=2&s=';
 const assignTaskUrl = 'API/bpm/humanTask/';
 const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
+const formMappingUrl = "/API/form/mapping?c=10&p=0&f=processDefinitionId=8835222915848848756&f=task=request_vacation";
+const session = "API/system/session/unusedId";
+const identity = "API/identity/user/4";
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
@@ -47,23 +49,13 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(userSearchUrl + 'U', 'userListWith20ElementsRoute', 'userListWith20Elements');
             createRouteWithResponse(userSearchUrl + 'Us', 'userListRoute', 'userList');
             break;
+        case 'task with form':
+            createRouteWithResponse(formMappingUrl, 'formMappingRoute', 'formMappingWithForm');
+            createRouteWithResponse(session, 'sessionRoute', 'session');
+            createRouteWithResponse(identity, 'identityRoute', 'identity');
+            break;
         default:
             throw new Error("Unsupported case");
-    }
-
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix,
-        }).as(routeName);
-    }
-
-    function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
-        }).as(routeName);
     }
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
@@ -76,15 +68,6 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             method: method,
             url: urlPrefix + urlSuffix,
             response: '@' + response
-        }).as(routeName);
-    }
-
-    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            status: status,
-            response: ''
         }).as(routeName);
     }
 });
@@ -133,6 +116,14 @@ when("I click on unassign button in the modal", () => {
 
 when("I click on the close button", () => {
     cy.contains('.modal-footer button', 'Close').click();
+});
+
+when("I click on do for button", () => {
+    cy.contains('button', 'Do for').click();
+});
+
+when("I click on do task link", () => {
+    cy.contains('a', 'Do the task').click();
 });
 
 then("The pending task details have the correct information", () => {
@@ -198,7 +189,7 @@ then("The assign modal is open and has a default state for {string}", (taskName)
     cy.contains('.modal-footer button', 'Cancel');
 });
 
-then("The assign modal is closed", () => {
+then("The modal is closed", () => {
     cy.get('.modal').should('not.visible');
 });
 
@@ -255,10 +246,6 @@ then("The unassign modal is open and has a default state for {string}", (taskNam
     cy.contains('.modal-footer button', 'Cancel');
 });
 
-then("The unassign modal is closed", () => {
-    cy.get('.modal').should('not.visible');
-});
-
 then("The unassign api call has the correct user id", () => {
     cy.wait('@unassignTaskRoute').then((xhr) => {
         expect(xhr.request.body.assigned_id).to.equal("");
@@ -302,4 +289,27 @@ then("The type more message is displayed and disabled", () => {
 
 then("The type more message is not displayed", () => {
     cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
+});
+
+then("The do for button is disabled", () => {
+    cy.contains('button', 'Do for').should('be.disabled')
+        .get('span').should('have.attr', 'title', 'In order to do the task for the assignee, you need to assign the task first.');
+});
+
+then("The do for button is enabled", () => {
+    cy.contains('button', 'Do for').should('be.enabled')
+        .get('span').should('have.attr', 'title', 'Do the task for the assignee.');
+});
+
+then("The do for modal is open and has a default state for {string}", (modalTitle) => {
+    cy.contains('.modal', modalTitle).should('be.visible');
+    cy.contains('.modal-content p.text-left', 'You are about to perform the task for the current assignee.');
+    cy.contains('.modal-content p.text-left', 'It will be recorded as "Done by Walter Bates for Helen Kelly"');
+    cy.contains('.modal-footer button', 'Cancel');
+    cy.contains('.modal-footer a', 'Do the task');
+    cy.contains('.modal-footer', 'Comment').should('not.exist');
+});
+
+then("The form is displayed", (modalTitle) => {
+    cy.url().should('include', 'bonita/portal/form/taskInstance/2');
 });

@@ -20,7 +20,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     And I click on assign button
     Then The assign modal is open and has a default state for "Request Vacation"
     When I click on the cancel button
-    Then The assign modal is closed
+    Then The modal is closed
 
   Scenario: The assign task modal assign the task correctly
     Given The response "empty done task" is defined for pending tasks
@@ -44,7 +44,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The page is refreshed
     And The cancel button is not displayed
     When I click on the close button
-    Then The assign modal is closed
+    Then The modal is closed
     And The unassign button is displayed
     And The assign button is not displayed
 
@@ -66,7 +66,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on assign button in the modal
     Then I see "500" error message for "assigned"
     When I click on the cancel button
-    Then The assign modal is closed
+    Then The modal is closed
     When I click on assign button
     Then The assign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
@@ -89,7 +89,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on assign button in the modal
     Then I see "404" error message for "assigned"
     When I click on the cancel button
-    Then The assign modal is closed
+    Then The modal is closed
     When I click on assign button
     Then The assign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
@@ -112,7 +112,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on assign button in the modal
     Then I see "403" error message for "assigned"
     When I click on the cancel button
-    Then The assign modal is closed
+    Then The modal is closed
     When I click on assign button
     Then The assign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
@@ -141,7 +141,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     And I click on unassign button
     Then The unassign modal is open and has a default state for "Request Vacation"
     When I click on the cancel button
-    Then The unassign modal is closed
+    Then The modal is closed
 
   Scenario: The unassign task modal unassigns the task correctly
     Given The response "empty done task" is defined for pending tasks
@@ -158,7 +158,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The unassigned page is refreshed
     And The cancel button is not displayed
     When I click on the close button
-    Then The assign modal is closed
+    Then The modal is closed
     And The assign button is displayed
     And The unassign button is not displayed
 
@@ -173,7 +173,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on unassign button in the modal
     Then I see "500" error message for "unassigned"
     When I click on the cancel button
-    Then The unassign modal is closed
+    Then The modal is closed
     When I click on unassign button
     Then The unassign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
@@ -189,7 +189,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on unassign button in the modal
     Then I see "404" error message for "unassigned"
     When I click on the cancel button
-    Then The unassign modal is closed
+    Then The modal is closed
     When I click on unassign button
     Then The unassign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
@@ -205,7 +205,44 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I click on unassign button in the modal
     Then I see "403" error message for "unassigned"
     When I click on the cancel button
-    Then The unassign modal is closed
+    Then The modal is closed
     When I click on unassign button
     Then The unassign modal is open and has a default state for "Request Vacation"
     And I don't see any error message
+
+  Scenario: Do for button changes disabled status after task is assigned
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default unassigned details" is defined for pending tasks
+    And The response "user list" is defined for pending tasks
+    And The response "assign and refresh task" is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The do for button is disabled
+    When I click on assign button
+    When I type "H" in the user input
+    And I click on "Helen Kelly" in the list
+    When I click on assign button in the modal
+    When I click on the close button
+    Then The modal is closed
+    And The do for button is enabled
+
+  Scenario: The assign task modal is opened and closed
+    Given The response "empty done task" is defined for pending tasks
+    And The response "refresh task not called" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task with form" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state for "Do Request Vacation for Helen Kelly"
+    When I click on the cancel button
+    Then The modal is closed
+
+  Scenario: The assign task modal is opened and closed
+    Given The response "empty done task" is defined for pending tasks
+    And The response "refresh task not called" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task with form" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state for "Do Request Vacation for Helen Kelly"
+    When I click on do task link
+    Then The form is displayed
