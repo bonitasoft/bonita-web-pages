@@ -4,6 +4,8 @@ const rolesUrl = 'API/identity/role';
 const defaultFilters = '&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + rolesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + rolesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const userUrl = 'API/identity/user';
+const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=role_id=';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
@@ -23,13 +25,13 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'enable load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0','roles20Route', 'roles20');
-            createRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
-            createRouteWithResponseAndPagination('', 'roles8Route', 'roles8', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+            createRolesRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
+            createRolesRouteWithResponseAndPagination('', 'roles8Route', 'roles8', 3, 10);
+            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles20Route', 'roles20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'sort by':
             createRoute(rolesUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
@@ -68,6 +70,31 @@ given("The response {string} is defined", (responseType) => {
             break;
         case '500 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '500');
+            break;
+        case 'empty user list':
+            createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'emptyResult');
+            break;
+        case 'user list':
+            createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
+            break;
+        case 'user list search':
+            createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match", 'noMatchRoute', 'emptyResult');
+            break;
+        case 'user list load more':
+            createRouteWithResponse(defaultUserUrl + '1','users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users5Route', 'users5', 3, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 4, 10);
+            break;
+        case 'user list 20 load more':
+            createRouteWithResponse(defaultUserUrl + '1', 'users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'user list for two roles':
+            createRouteWithResponse(defaultUserUrl + "1", 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'users5');
             break;
         default:
             throw new Error("Unsupported case");
@@ -111,8 +138,23 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+    function createRolesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + rolesUrl + '?c=' + count + '&p=' + page + defaultFilters;
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
+    }
+
+    function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -134,6 +176,10 @@ when("I visit the admin roles page", () => {
 
 when("I click on Load more roles button", () => {
     cy.get('button').contains('Load more roles').click();
+});
+
+when("I click on Load more users button", () => {
+    cy.get('.modal-body button').contains('Load more users').click();
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
@@ -172,6 +218,10 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 });
 
+when("I put {string} in user list search filter field", (filterValue) => {
+    cy.get('.modal-body pb-input input:visible').type(filterValue);
+});
+
 when("I fill in the information", () => {
     cy.get('.modal-body input').eq(0).type('Role name');
     cy.get('.modal-body input').eq(1).type('Role display name');
@@ -180,6 +230,10 @@ when("I fill in the information", () => {
 
 when("I erase the search filter", () => {
     cy.get('pb-input input:visible').clear();
+});
+
+when("I erase the user search filter", () => {
+    cy.get('.modal-body pb-input input:visible').clear();
 });
 
 when("I click on create button", () => {
@@ -202,6 +256,14 @@ when("I click on delete button for first role", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
 });
 
+when("I click on user button for first role", () => {
+    cy.get('.glyphicon.glyphicon-user').eq(0).parent().click();
+});
+
+when("I click on user button for second role", () => {
+    cy.get('.glyphicon.glyphicon-user').eq(1).parent().click();
+});
+
 then("The roles page have the correct information", () => {
     cy.contains('h3', 'Roles');
     cy.get('.role-item').should('have.length', 8);
@@ -216,14 +278,27 @@ then("The roles page have the correct information", () => {
     cy.get('.role-item').eq(0).contains('.item-label', 'This is a description.');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-pencil');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-trash');
+    cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View the list of users mapped to this role');
 });
 
 then("A list of {int} roles is displayed", (nbrOfItems) => {
     cy.get('.role-item:visible').should('have.length', nbrOfItems);
 });
 
+then("A list of {int} users is displayed", (nbrOfItems) => {
+    cy.get('.modal-body .role-item').should('have.length', nbrOfItems);
+});
+
+then("Only one user is displayed", () => {
+    cy.get('.modal-body .role-item').should('have.length', 1);
+});
+
 then("The load more roles button is disabled", () => {
     cy.get('button').contains('Load more roles').should('be.disabled');
+});
+
+then("The load more users button is disabled", () => {
+    cy.get('.modal-body button').contains('Load more users').should('be.disabled');
 });
 
 then("The api call is made for {string}", (filterValue) => {
@@ -242,7 +317,10 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'Member':
             cy.wait('@searchMemberRoute');
-        break;
+            break;
+        case 'Virginie':
+            cy.wait('@oneUserRoute');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -251,6 +329,11 @@ then("The api call is made for {string}", (filterValue) => {
 then("No roles are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.contains('No roles to display').should('be.visible');
+});
+
+then("No users are available", () => {
+    cy.get('.modal-body .role-item').should('have.length', 0);
+    cy.contains('There are no users mapped to this role').should('be.visible');
 });
 
 then("The create modal is open and has a default state for {string}", (state) => {
@@ -273,7 +356,32 @@ then("The delete modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-footer button', 'Delete').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
-    cy.contains('.modal-content p.text-left', 'No user is mapped to this role. You can safely delete it.').should('be.visible');
+    cy.contains('.modal-body p.text-left', 'Make sure that no user is mapped to this role before you can safely delete it. Their memberships would be lost.').should('be.visible');
+    cy.contains('.modal-body p.text-left', 'Are you sure you want to delete this role?').should('be.visible');
+});
+
+then("The user list modal is open and has no users for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no users mapped to this role').should('be.visible');
+    cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
+    cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("The user list modal is open and has users for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no users mapped to this role').should('not.be.visible');
+    cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
+    cy.contains('.modal-body button', 'Load more users').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .role-item').should('have.length', 5);
+    // Check that we use -- instead of empty field when there is no last name
+    cy.get('.modal-body .role-item').should('have.length', 5).eq(0).within(() => {
+        cy.contains('.item-value', '--').should('have.length', 1);
+    });
+
 });
 
 then("There is no modal displayed", () => {
