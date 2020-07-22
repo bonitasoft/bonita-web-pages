@@ -65,7 +65,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The create role modal creates successfully
     Given The response "role creation success" is defined
-    And The response "refresh list" is defined
+    And The response "refresh list after create" is defined
     And The response "default filter" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -99,14 +99,14 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The modal should display already exists error message
     Given The response "default filter" is defined
-    And The response "already exists" is defined
+    And The response "already exists during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
     And I fill in the information
     And I click on the "Create" button in modal
-    Then I see "already exists" error message
+    Then I see "already exists" error message for "created"
     When I click on the "Cancel" button in modal
     Then There is no modal displayed
     When I click on create button
@@ -114,14 +114,14 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The modal should display generic 403 error message
     Given The response "default filter" is defined
-    And The response "403" is defined
+    And The response "403 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
     And I fill in the information
     And I click on the "Create" button in modal
-    Then I see "403" error message
+    Then I see "403" error message for "created"
     When I click on the "Cancel" button in modal
     Then There is no modal displayed
     When I click on create button
@@ -129,15 +129,82 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The modal should display generic 500 error message
     Given The response "default filter" is defined
-    And The response "500" is defined
+    And The response "500 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
     And I fill in the information
     And I click on the "Create" button in modal
-    Then I see "500" error message
+    Then I see "500" error message for "created"
     When I click on the "Cancel" button in modal
     Then There is no modal displayed
     When I click on create button
     Then The create modal is open and has a default state for "Create a role"
+
+  Scenario: The delete role modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Member"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+
+  Scenario: The delete role modal deletes successfully
+    Given The response "role deletion success" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Member"
+    When I click on the "Delete" button in modal
+    Then The deletion is successful
+    And The roles list is refreshed
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    And A list of 7 roles is displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Role11"
+
+  Scenario: The modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on delete button for first role
+    And I click on the "Delete" button in modal
+    Then I see "403" error message for "deleted"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Member"
+
+  Scenario: The modal should display not exists error message
+    Given The response "default filter" is defined
+    And The response "not exists during delete" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on delete button for first role
+    And I click on the "Delete" button in modal
+    Then I see "not exists during delete" error message for "deleted"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Member"
+
+  Scenario: The modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on delete button for first role
+    And I click on the "Delete" button in modal
+    Then I see "500" error message for "deleted"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on delete button for first role
+    Then The delete modal is open and has a default state for "Delete Member"

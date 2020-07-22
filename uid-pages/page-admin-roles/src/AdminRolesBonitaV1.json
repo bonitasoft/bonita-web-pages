@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminRolesBonitaV1",
   "name" : "AdminRolesBonitaV1",
-  "lastUpdate" : 1594998705516,
+  "lastUpdate" : 1595343919910,
   "rows" : [
     [
       {
@@ -1235,8 +1235,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
+                        "type" : "expression",
+                        "value" : "deleteRoleCtrl.initDeleteModal($item)"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -1665,7 +1665,7 @@
                                 },
                                 "readOnly" : {
                                   "type" : "expression",
-                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                  "value" : "createRoleData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -1742,7 +1742,7 @@
                                 },
                                 "readOnly" : {
                                   "type" : "expression",
-                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                  "value" : "createRoleData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -1819,7 +1819,7 @@
                                 },
                                 "readOnly" : {
                                   "type" : "expression",
-                                  "value" : "rolesData.hasRecentlyBeenUpdated"
+                                  "value" : "createRoleData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2122,7 +2122,7 @@
                                 },
                                 "disabled" : {
                                   "type" : "expression",
-                                  "value" : "rolesData.hasRecentlyBeenUpdated || createRoleData.name === \"\""
+                                  "value" : "createRoleData.hasRecentlyBeenCreated || createRoleData.name === \"\""
                                 },
                                 "label" : {
                                   "type" : "interpolation",
@@ -2146,7 +2146,7 @@
                                 },
                                 "url" : {
                                   "type" : "interpolation",
-                                  "value" : "../API/identity/role"
+                                  "value" : "{{defaultRoleUrl}}"
                                 },
                                 "responseStatusCode" : {
                                   "type" : "variable",
@@ -2216,7 +2216,7 @@
                                 },
                                 "label" : {
                                   "type" : "interpolation",
-                                  "value" : "{{createRoleCtrl.getCreateButtonLabel()}}"
+                                  "value" : "{{rolesCtrl.getChangeButtonLabel(createRoleData.statusCode)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2292,6 +2292,667 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "deleteRoleModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "d603c988-4215-4922-a494-0999dae86512",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "cd5efe79-5de5-4cfe-b1f6-000646bb0973",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "78156c2c-d36e-4ef0-bfb7-24c2b4140c7f",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Delete {{deleteRoleData.selectedRole.displayName}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "8675262c-fa1d-4e4b-84b1-5e33166171ff",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "f1a22692-b903-4379-86b6-f926fd9fa5bc",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "No user is mapped to this role. You can safely delete it."
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "4da72d06-91a3-468d-9e60-6d6b48acc43b",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Some users are mapped to the role you are about to delete. Their memberships will be lost. Are you sure you want to delete this role?"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "a8dd6e0b-c932-49c0-963e-3d6ea40fc1fa",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "deleteRoleData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"Access denied. For more information, check the log file.\" | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "69e8c69f-c154-4166-a264-0bb95c7e1121",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "deleteRoleData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{deleteRoleCtrl.getErrorMessageFor500(deleteRoleData.failedResponse)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "943039da-86ef-4f82-a184-383542f515c5",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "deleteRoleData.statusCode === \"\" || deleteRoleData.statusCode === 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The role has not been deleted.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "2319b04f-905f-4195-9f2f-6ee765a26b7c",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "deleteRoleData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role has been successfully deleted.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ec124e27-d839-4bdb-977d-17caab65b35f",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "ddd31e49-5494-4dbd-81f4-ca9bb9129e38",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "deleteRoleData.hasRecentlyBeenDeleted"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Delete"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "danger"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "DELETE"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation",
+                          "value" : "{{defaultRoleUrl}}/{{deleteRoleData.selectedRole.id}}"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : "deleteRoleData.statusCode"
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : "deleteRoleData.failedResponse"
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "e132cee2-7142-4640-8fe9-639a38b9cac0",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "{{rolesCtrl.getChangeButtonLabel(deleteRoleData.statusCode)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "60161975-3c8b-46ac-bc8e-9d33bfe8f2d5",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -2315,7 +2976,7 @@
     "rolesUrl" : {
       "type" : "url",
       "value" : [
-        "../API/identity/role?{{rolesCtrl.rolesQueryParameters(0)}}&t={{createRoleData.timestamp}}"
+        "{{defaultRoleUrl}}?{{rolesCtrl.rolesQueryParameters(0)}}&t={{rolesData.timestamp}}"
       ],
       "exposed" : false
     },
@@ -2343,6 +3004,17 @@
         "        }",
         "        ",
         "        return queryParameters;",
+        "    },",
+        "    getChangeButtonLabel: function(statusCode) {",
+        "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
+        "    },",
+        "    isErrorOfType: function (failedResponse, type) {",
+        "        if (failedResponse.cause",
+        "            && (failedResponse.cause.exception.indexOf(type) > -1",
+        "                || failedResponse.cause.message.indexOf(type) > -1)) {",
+        "            return true;",
+        "        }",
+        "        return false;",
         "    }",
         "};"
       ],
@@ -2353,6 +3025,7 @@
       "value" : [
         "return {",
         "    hasRecentlyBeenUpdated: false,",
+        "    timestamp: 0,",
         "    role: {},",
         "    rolesForNextPage: [],",
         "    pageId: 0, ",
@@ -2420,19 +3093,9 @@
     "createRoleCtrl" : {
       "type" : "expression",
       "value" : [
-        "var isErrorOfType = function (failedResponse, type) {",
-        "    if (failedResponse.cause",
-        "        && (failedResponse.cause.exception.indexOf(type) > -1",
-        "            || failedResponse.cause.message.indexOf(type) > -1)) {",
-        "        return true;",
-        "    }",
-        "    return false;",
-        "};",
-        "",
-        "",
         "return {",
         "    initCreateModal: function() {",
-        "        $data.rolesData.hasRecentlyBeenUpdated = false;",
+        "        $data.createRoleData.hasRecentlyBeenCreated = false;",
         "        $data.createRoleData.statusCode = \"\";",
         "        $data.createRoleData.name = \"\";",
         "        $data.createRoleData.displayName = \"\";",
@@ -2446,11 +3109,8 @@
         "            description: $data.createRoleData.description",
         "        };",
         "    },",
-        "    getCreateButtonLabel: function() {",
-        "        return $data.createRoleData.statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
-        "    },",
         "    getErrorMessageFor403: function(failedResponse) {",
-        "        if (isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
+        "        if ($data.rolesCtrl.isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
         "            return uiTranslate(\"A role with the same name already exists.\");",
         "        }",
         "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
@@ -2463,12 +3123,12 @@
       "type" : "expression",
       "value" : [
         "return {",
+        "    hasRecentlyBeenCreated: false,",
         "    statusCode: \"\",",
         "    failedResponse: {},",
         "    name: \"\",",
         "    displayName: \"\",",
-        "    description: \"\",",
-        "    timestamp: 0",
+        "    description: \"\"",
         "};"
       ],
       "exposed" : false
@@ -2489,9 +3149,59 @@
       "type" : "expression",
       "value" : [
         "// After the item is updated",
-        "if ($data.createRoleData.statusCode !== '' && $data.rolesData.hasRecentlyBeenUpdated === false) {",
-        "    $data.createRoleData.timestamp = new Date().getTime();",
-        "    $data.rolesData.hasRecentlyBeenUpdated = true;",
+        "if ($data.createRoleData.statusCode !== '' && $data.createRoleData.hasRecentlyBeenCreated === false) {",
+        "    $data.rolesData.timestamp = new Date().getTime();",
+        "    $data.createRoleData.hasRecentlyBeenCreated = true;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "deleteRoleCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    initDeleteModal: function(selectedRole) {",
+        "        $data.deleteRoleData.selectedRole = selectedRole;",
+        "        $data.deleteRoleData.statusCode = \"\";",
+        "        $data.deleteRoleData.hasRecentlyBeenDeleted = false;",
+        "        return \"deleteRoleModal\";",
+        "    },",
+        "    getErrorMessageFor500: function(failedResponse) {",
+        "        if ($data.rolesCtrl.isErrorOfType(failedResponse, 'SRoleNotFoundException')) {",
+        "            return uiTranslate(\"The role does not exist. Reload the page to see the new list of roles.\");",
+        "        }",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "deleteRoleData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    hasRecentlyBeenDeleted: false,",
+        "    selectedRole: undefined,",
+        "    statusCode: \"\",",
+        "    failedResponse: undefined",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "defaultRoleUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/identity/role"
+      ],
+      "exposed" : false
+    },
+    "deleteRoleHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is updated",
+        "if ($data.deleteRoleData.statusCode !== '' && $data.deleteRoleData.hasRecentlyBeenDeleted === false) {",
+        "    $data.rolesData.timestamp = new Date().getTime();",
+        "    $data.deleteRoleData.hasRecentlyBeenDeleted = true;",
         "}"
       ],
       "exposed" : false

@@ -43,17 +43,31 @@ given("The response {string} is defined", (responseType) => {
         case 'role creation success':
             createPostRoute(rolesUrl, 'roleCreationRoute');
             break;
-        case 'refresh list':
+        case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles9');
             break;
-        case 'already exists':
+        case 'already exists during creation':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl, 'createRoleAlreadyExistsRoute', 'createRoleAlreadyExists', 'POST', '403');
             break;
-        case '403':
+        case '403 during creation':
             createPostRouteWithStatus(rolesUrl, 'unauthorizedCreateRoleRoute', '403');
             break;
-        case '500':
+        case '500 during creation':
             createPostRouteWithStatus(rolesUrl, 'unauthorizedCreateRoleRoute', '500');
+            break;
+        case 'role deletion success':
+            createRouteWithResponseAndMethod(urlPrefix + rolesUrl + "/1", 'deleteSuccessRoute', 'emptyResult', 'DELETE');
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles7');
+            break;
+        case '403 during deletion':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '403');
+            break;
+        case 'not exists during delete':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'deleteRoleDoesNotExist', 'DELETE', '500');
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles8');
+            break;
+        case '500 during deletion':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '500');
             break;
         default:
             throw new Error("Unsupported case");
@@ -184,6 +198,10 @@ when("I clear the name", () => {
     cy.get('.modal-body input').eq(0).clear();
 });
 
+when("I click on delete button for first role", () => {
+    cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
+});
+
 then("The roles page have the correct information", () => {
     cy.contains('h3', 'Roles');
     cy.get('.role-item').should('have.length', 8);
@@ -248,6 +266,16 @@ then("The create modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
+then("The delete modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Delete').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+    cy.contains('.modal-content p.text-left', 'No user is mapped to this role. You can safely delete it.').should('be.visible');
+});
+
 then("There is no modal displayed", () => {
     cy.get('.modal').should('not.visible');
 });
@@ -282,19 +310,28 @@ then("The create button in modal is disabled", () => {
     cy.contains('.modal-footer button', 'Create').should('be.disabled');
 });
 
-then("I see {string} error message", (error) => {
+then("I see {string} error message for {string}", (error, action) => {
     switch (error) {
         case '500':
-            cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
             break;
         case '403':
-            cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
+            cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
             break;
         case 'already exists':
-            cy.contains('.modal', 'A role with the same name already exists.').should('be.visible');
+            cy.contains('.modal-body', 'A role with the same name already exists.').should('be.visible');
+            break;
+        case 'not exists during delete':
+            cy.contains('.modal-body', 'The role does not exist. Reload the page to see the new list of roles.').should('be.visible');
             break;
         default:
             throw new Error("Unsupported case");
     }
-    cy.get('.modal').contains('The role has not been created.').should('be.visible');
+    cy.get('.modal').contains('The role has not been ' + action + '.').should('be.visible');
+});
+
+then("The deletion is successful", () => {
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+    cy.contains('.modal-body', 'The role has been successfully deleted.').should('be.visible');
+    cy.contains('.modal-footer button', 'Delete').should('be.disabled');
 });
