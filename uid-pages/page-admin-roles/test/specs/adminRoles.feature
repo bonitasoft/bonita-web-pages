@@ -6,7 +6,7 @@ Feature: The Admin Roles in desktop resolution
     Then The roles page have the correct information
 
   Scenario: Load more button works correctly
-    And The response "enable load more" is defined
+    Given The response "enable load more" is defined
     When I visit the admin roles page
     Then A list of 10 roles is displayed
     When I click on Load more roles button
@@ -208,3 +208,89 @@ Feature: The Admin Roles in desktop resolution
     Then There is no modal displayed
     When I click on delete button for first role
     Then The delete modal is open and has a default state for "Delete Member"
+
+  Scenario: The user list modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    And The response "empty user list" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then The user list modal is open and has no users for "Users mapped to the role Member"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The user list modal displays a list
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then The user list modal is open and has users for "Users mapped to the role Member"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The user list modal displays a list
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then The user list modal is open and has users for "Users mapped to the role Member"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The user list search works correctly
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    And The response "user list search" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then The user list modal is open and has users for "Users mapped to the role Member"
+    When I put "Virginie" in user list search filter field
+    Then The api call is made for "Virginie"
+    And Only one user is displayed
+    When I erase the user search filter
+    Then The user list modal is open and has users for "Users mapped to the role Member"
+    When I put "Search term with no match" in user list search filter field
+    Then No users are available
+
+  Scenario: Load more users button works correctly
+    Given The response "user list load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
+    When I click on Load more users button
+    Then A list of 30 users is displayed
+    When I click on Load more users button
+    Then A list of 35 users is displayed
+    And The load more users button is disabled
+
+  Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
+    Given The response "user list 20 load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
+    When I click on Load more users button
+    And The load more users button is disabled
+
+  Scenario: The user list modal resets when open for a different role
+    Given The response "default filter" is defined
+    And The response "user list for two roles" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then The user list modal is open and has no users for "Users mapped to the role Member"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on user button for second role
+    Then The user list modal is open and has users for "Users mapped to the role Role11"
