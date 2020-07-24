@@ -43,7 +43,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0 ', 'emptyResultRoute', 'emptyResult');
             break;
         case 'role creation success':
-            createPostRoute(rolesUrl, 'roleCreationRoute');
+            createRouteWithMethod(rolesUrl, 'roleCreationRoute', 'POST');
             break;
         case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles9');
@@ -52,10 +52,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl, 'createRoleAlreadyExistsRoute', 'createRoleAlreadyExists', 'POST', '403');
             break;
         case '403 during creation':
-            createPostRouteWithStatus(rolesUrl, 'unauthorizedCreateRoleRoute', '403');
+            createRouteWithMethodAndStatus(rolesUrl, 'unauthorizedCreateRoleRoute', 'POST', '403');
             break;
         case '500 during creation':
-            createPostRouteWithStatus(rolesUrl, 'unauthorizedCreateRoleRoute', '500');
+            createRouteWithMethodAndStatus(rolesUrl, 'unauthorizedCreateRoleRoute', 'POST', '500');
             break;
         case 'role deletion success':
             createRouteWithResponseAndMethod(urlPrefix + rolesUrl + "/1", 'deleteSuccessRoute', 'emptyResult', 'DELETE');
@@ -96,6 +96,21 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + "1", 'emptyResultRoute', 'emptyResult');
             createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'users5');
             break;
+        case 'role edition success':
+            createRouteWithMethod(rolesUrl + "/1", 'roleEditionRoute', 'PUT');
+            break;
+        case 'refresh list after edit':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles8Modified');
+            break;
+        case '403 during edition':
+            createRouteWithMethodAndStatus(rolesUrl + "/1", 'unauthorizedEditRoleRoute', 'PUT', '403');
+            break;
+        case '404 during edition':
+            createRouteWithMethodAndStatus(rolesUrl + "/1", 'unauthorizedEditRoleRoute', 'PUT', '404');
+            break;
+        case '500 during edition':
+            createRouteWithMethodAndStatus(rolesUrl + "/1", 'unauthorizedEditRoleRoute', 'PUT', '500');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -107,8 +122,8 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createPostRoute(urlSuffix, routeName) {
-        createPostRouteWithStatus(urlSuffix, routeName, 200);
+    function createRouteWithMethod(urlSuffix, routeName, method) {
+        createRouteWithMethodAndStatus(urlSuffix, routeName, method, 200);
     }
 
     function createRouteWithResponse(url, routeName, response) {
@@ -119,9 +134,9 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
     }
 
-    function createPostRouteWithStatus(urlSuffix, routeName, status) {
+    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
         cy.route({
-            method: 'POST',
+            method: method,
             url: urlPrefix + urlSuffix,
             response: "",
             status: status
@@ -248,12 +263,26 @@ when("I fill in the name", () => {
     cy.get('.modal-body input').eq(0).type('Role name');
 });
 
+when("I edit the information for first role", () => {
+    cy.get('.modal-body input').eq(0).clear().type('new member');
+    cy.get('.modal-body input').eq(1).clear().type('New member');
+    cy.get('.modal-body input').eq(2).clear().type('This is a new description.');
+});
+
 when("I clear the name", () => {
     cy.get('.modal-body input').eq(0).clear();
 });
 
 when("I click on delete button for first role", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
+});
+
+when("I click on edit button for first role", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+});
+
+when("I click on edit button for second role", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(1).parent().click();
 });
 
 when("I click on user button for first role", () => {
@@ -360,6 +389,49 @@ then("The delete modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-body p.text-left', 'Are you sure you want to delete this role?').should('be.visible');
 });
 
+then("The edit modal is open and has a default state for {string} for role {int}", (state, roleNumber) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 3);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Display name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    switch (roleNumber) {
+        case 1:
+            cy.get('.modal-body input').eq(0).should('have.value','member');
+            cy.get('.modal-body input').eq(1).should('have.value','Member');
+            cy.get('.modal-body input').eq(2).should('have.value','This is a description.');
+            break;
+        case 2:
+            cy.get('.modal-body input').eq(0).should('have.value','Role11');
+            cy.get('.modal-body input').eq(1).should('have.value','Role11');
+            cy.get('.modal-body input').eq(2).should('have.value','');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("The edit modal is open and has a edited state for {string}", (state, roleNumber) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 3);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Display name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.get('.modal-body input').eq(0).should('have.value','new member');
+    cy.get('.modal-body input').eq(1).should('have.value','New member');
+    cy.get('.modal-body input').eq(2).should('have.value','This is a new description.');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
 then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
@@ -381,7 +453,6 @@ then("The user list modal is open and has users for {string}", (state) => {
     cy.get('.modal-body .role-item').should('have.length', 5).eq(0).within(() => {
         cy.contains('.item-value', '--').should('have.length', 1);
     });
-
 });
 
 then("There is no modal displayed", () => {
@@ -402,6 +473,20 @@ then("The creation is successful", () => {
     });
 });
 
+then("The edition is successful", () => {
+    cy.contains('.modal-footer button', 'Save').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.wait('@roleEditionRoute').then((xhr) => {
+        expect(xhr.request.body.name).to.equal('new member');
+        expect(xhr.request.body.displayName).to.equal('New member');
+        expect(xhr.request.body.description).to.equal('This is a new description.');
+    });
+    cy.get('.modal-body input').each((input) => {
+        expect(input).to.have.attr('readonly', 'readonly');
+    });
+});
+
 then("The roles list is refreshed", () => {
     cy.wait('@refreshUrlRoute');
 });
@@ -410,12 +495,8 @@ then("There is a error message about name being required", () => {
     cy.contains('This field is required').should('be.visible');
 });
 
-then("The create button in modal is enabled", () => {
-    cy.contains('.modal-footer button', 'Create').should('be.enabled');
-});
-
-then("The create button in modal is disabled", () => {
-    cy.contains('.modal-footer button', 'Create').should('be.disabled');
+then("The {string} button in modal is {string}", (buttonName, buttonState) => {
+    cy.contains('.modal-footer button', buttonName).should('be.' + buttonState);
 });
 
 then("I see {string} error message for {string}", (error, action) => {
@@ -425,6 +506,9 @@ then("I see {string} error message for {string}", (error, action) => {
             break;
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal-body', 'The role does not exist. Reload the page to see the new list of roles.').should('be.visible');
             break;
         case 'already exists':
             cy.contains('.modal-body', 'A role with the same name already exists.').should('be.visible');
@@ -443,3 +527,12 @@ then("The deletion is successful", () => {
     cy.contains('.modal-body', 'The role has been successfully deleted.').should('be.visible');
     cy.contains('.modal-footer button', 'Delete').should('be.disabled');
 });
+
+then("The first role has a different name", () => {
+    cy.get('.role-item').eq(0).within(() => {
+        cy.get('.item-value').eq(0).contains('New member');
+        cy.get('.item-value').eq(1).contains('new member');
+        cy.contains('.item-label', 'This is a new description.');
+    });
+});
+

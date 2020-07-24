@@ -72,7 +72,7 @@ Feature: The Admin Roles in desktop resolution
     When I click on create button
     Then The create modal is open and has a default state for "Create a role"
     When I fill in the information
-    Then The create button in modal is enabled
+    Then The "Create" button in modal is "enabled"
     When I click on the "Create" button in modal
     Then The creation is successful
     And The roles list is refreshed
@@ -91,7 +91,7 @@ Feature: The Admin Roles in desktop resolution
     And I fill in the name
     And I clear the name
     Then There is a error message about name being required
-    And The create button in modal is disabled
+    And The "Create" button in modal is "disabled"
     When I click on the "Cancel" button in modal
     Then There is no modal displayed
     When I click on create button
@@ -294,3 +294,103 @@ Feature: The Admin Roles in desktop resolution
     Then There is no modal displayed
     When I click on user button for second role
     Then The user list modal is open and has users for "Users mapped to the role Role11"
+
+  Scenario: The edit role modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+
+  Scenario: The edit role modal has different information when opening a second role
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for second role
+    Then The edit modal is open and has a default state for "Edit role Role11" for role 2
+
+  Scenario: The edit role modal edits successfully
+    Given The response "role edition success" is defined
+    And The response "refresh list after edit" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+    When I edit the information for first role
+    And I click on the "Save" button in modal
+    Then The edition is successful
+    And The roles list is refreshed
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    And A list of 8 roles is displayed
+    And The first role has a different name
+    When I click on edit button for first role
+    Then The edit modal is open and has a edited state for "Edit role New member"
+
+  Scenario: The edit role modal requires name
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    And I clear the name
+    Then There is a error message about name being required
+    And The "Save" button in modal is "disabled"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+
+  Scenario: The edit modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "403" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+
+  Scenario: The edit modal should display generic 404 error message
+    Given The response "default filter" is defined
+    And The response "404 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "404" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
+
+  Scenario: The edit modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on edit button for first role
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "500" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first role
+    Then The edit modal is open and has a default state for "Edit role Member" for role 1
