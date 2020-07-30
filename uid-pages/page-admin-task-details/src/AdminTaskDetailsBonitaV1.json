@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskDetailsBonitaV1",
   "name" : "AdminTaskDetailsBonitaV1",
-  "lastUpdate" : 1594395287896,
+  "lastUpdate" : 1596118679423,
   "rows" : [
     [
       {
@@ -432,8 +432,8 @@
                         "type" : "variable"
                       },
                       "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
+                        "type" : "expression",
+                        "value" : "replayTaskCtrl.initReplayTaskModal()"
                       },
                       "collectionPosition" : {
                         "type" : "constant",
@@ -2856,7 +2856,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "connectorsFailed.length"
+                        "value" : "connectorsData.connectorsFailed.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2880,7 +2880,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "No failed connector"
+                        "value" : "No failed connectors"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -2937,7 +2937,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!connectorsFailed.length"
+                        "value" : "!connectorsData.connectorsFailed.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -2968,7 +2968,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "connectorsFailed"
+                              "value" : "connectorsData.connectorsFailed"
                             }
                           },
                           "reference" : "0e684e0b-4160-4f26-b6ab-e76f76379e88",
@@ -3046,8 +3046,8 @@
                                     "type" : "variable"
                                   },
                                   "modalId" : {
-                                    "type" : "constant",
-                                    "value" : "failedConnectorModal"
+                                    "type" : "expression",
+                                    "value" : "failedConnectorDetailsCtrl.initFailedConnectorDetails($item)"
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
@@ -3261,7 +3261,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "connectorsToBeExecuted.length"
+                        "value" : "connectorsData.connectorsToBeExecuted.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3285,7 +3285,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "No pending connector"
+                        "value" : "No pending connectors"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -3342,7 +3342,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!connectorsToBeExecuted.length"
+                        "value" : "!connectorsData.connectorsToBeExecuted.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3373,7 +3373,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "connectorsToBeExecuted"
+                              "value" : "connectorsData.connectorsToBeExecuted"
                             }
                           },
                           "reference" : "ea376f43-68dc-4116-8488-0ea3e8579470",
@@ -3439,7 +3439,9 @@
                   }
                 ]
               ]
-            },
+            }
+          ],
+          [
             {
               "type" : "container",
               "dimension" : {
@@ -3454,8 +3456,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : ""
+                  "type" : "constant",
+                  "value" : false
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -3576,7 +3578,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "connectorsExecuted.length"
+                        "value" : "connectorsData.connectorsExecuted.length"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3600,7 +3602,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "No executed connector"
+                        "value" : "No executed connectors"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -3657,7 +3659,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!connectorsExecuted.length"
+                        "value" : "!connectorsData.connectorsExecuted.length"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3688,7 +3690,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "connectorsExecuted"
+                              "value" : "connectorsData.connectorsExecuted"
                             }
                           },
                           "reference" : "c2a6c201-929b-4664-ab3a-b5ee63b66192",
@@ -3743,6 +3745,323 @@
                                   }
                                 },
                                 "reference" : "adfd9f42-99c5-462b-a119-1d10e06ade5d",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "d2307080-9553-4f2e-b6fe-9eac06582bf0",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 1,
+                      "md" : 1,
+                      "lg" : 1
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "ce5ce5ea-3779-4361-a76d-fb4bf33abdf8",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 11,
+                      "lg" : 11
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "item-label pl-0"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Skipped"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 5"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "73f54e66-9f6a-4243-ae0c-687480f1db9f",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 2,
+                      "md" : 2,
+                      "lg" : 2
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "7398021a-322f-43c8-8033-d5bbeecdf341",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 10,
+                      "md" : 10,
+                      "lg" : 10
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "item-value pl-0"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "connectorsData.connectorsSkipped.length"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "No skipped connectors"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "3b896c78-4064-404d-a4de-174a9c321494",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 2,
+                      "md" : 2,
+                      "lg" : 2
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "01c0ce93-2973-4a68-88fa-8fb38d2baf55",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 10,
+                      "md" : 10,
+                      "lg" : 10
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!connectorsData.connectorsExecuted.length"
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "5a89b353-dad0-4fa0-a956-c8c5b3cf00aa",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 4,
+                            "md" : 4,
+                            "lg" : 4
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "connectors"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable",
+                              "value" : "connectorsData.connectorsSkipped"
+                            }
+                          },
+                          "reference" : "1cb9511b-5ab5-42fa-938d-baae99b8b82e",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "item-value pl-0"
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "{{$item.name}}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "e1fce13a-a727-4ffd-9ccf-d8b2581770b2",
                                 "hasValidationError" : false,
                                 "id" : "pbText"
                               }
@@ -4317,7 +4636,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Failure details for connector\" | uiTranslate}} {{connectorsFailed[0].name}}"
+                          "value" : "{{\"Failure details for connector\" | uiTranslate}} {{failedConnectorDetailsData.selectedConnector.name}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -7830,6 +8149,914 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "replayTaskModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "e5a61703-babb-423f-90c3-169a60c538c5",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "4e0fb1cb-3ee9-46d9-9ece-6660e0f068a3",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "fffede99-3f02-4b1a-8003-5f2ae75caaf4",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{'Replay'|translate}} {{taskDetailsCtrl.getOpenOrArchivedTask().displayName}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "7de12554-1def-4093-b02b-76747aa35029",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "69bedaae-835e-4d6c-943d-9b03f24d34d6",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "At least part of the task failure is due to failed connector(s). You may need to fix them first, then select the failed connectors you want to reset (checked) or skip (unchecked) before replaying the task."
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "d610c89c-5768-4190-b7bd-1e41ecef64e8",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 3
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "userListData.hasRecentlyBeenApplied"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Select all"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "link"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Add to collection"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable",
+                          "value" : "replayTaskData.checklistAction"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant",
+                          "value" : "selectAll"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "fd9d8d05-148d-4345-b9f8-6a92f07e9aec",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 9
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "userListData.hasRecentlyBeenApplied"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Reset"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "link"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Add to collection"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable",
+                          "value" : "replayTaskData.checklistAction"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant",
+                          "value" : "reset"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "30002808-11ac-45dc-b036-30fd8b865dda",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "userListData.hasRecentlyBeenApplied"
+                        },
+                        "inline" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "replayTaskData.displayedFailedAndSkippedConnectors"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "name"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "selectedValues" : {
+                          "type" : "variable",
+                          "value" : "replayTaskData.selectedFailedConnectors"
+                        }
+                      },
+                      "reference" : "74a51d6d-c90c-4178-972d-60479dc3490e",
+                      "hasValidationError" : false,
+                      "id" : "pbChecklist"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "replayTaskData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An internal error occurred.  Try again later. You can also check the log file.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "8abeb080-1ba6-4027-8c08-90374c5d0335",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "replayTaskData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "cb210fb1-c74c-4664-af08-b78b4d8ede97",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "replayTaskData.statusCode !== 404"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The status of one or more connectors has changed. Refresh and try again.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "0b32037e-0496-4bb0-99ae-0cc1e6541751",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!replayTaskData.statusCode || replayTaskData.statusCode === 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The task has not been replayed.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "4bd47e71-d56b-42c3-b786-5b514cf50182",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "replayTaskData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The task has been replayed successfully. Close this window to check its new status.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "c5a63e26-3c61-42e4-9a09-909c253e5901",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "0abed559-a022-4d64-ae80-55bb95ea09c4",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "userListData.hasRecentlyBeenApplied"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Replay"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "PUT"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation",
+                          "value" : "../API/bpm/flowNode/{{taskIdQueryParameter}}/replay"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : "replayTaskData.statusCode"
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "replayTaskCtrl.getReplayTaskPayload()"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "186c934c-e66c-4d40-b8da-cd09e0ff672c",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "{{userListCtrl.getChangeButtonLabel()}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "81556eef-a7ab-411b-b6ff-55634be49d9b",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -7939,27 +9166,6 @@
       ],
       "exposed" : false
     },
-    "connectorsExecuted" : {
-      "type" : "url",
-      "value" : [
-        "{{connectorsCtrl.getConnectorsExecutedUrl()}}"
-      ],
-      "exposed" : false
-    },
-    "connectorsFailed" : {
-      "type" : "url",
-      "value" : [
-        "{{connectorsCtrl.getConnectorsFailedUrl()}}"
-      ],
-      "exposed" : false
-    },
-    "connectorsToBeExecuted" : {
-      "type" : "url",
-      "value" : [
-        "{{connectorsCtrl.getConnectorsToBeExecutedUrl()}}"
-      ],
-      "exposed" : false
-    },
     "commentData" : {
       "type" : "expression",
       "value" : [
@@ -7993,7 +9199,7 @@
     "connectorFailure" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorFailure/{{connectorsFailed[0].id}}"
+        "../API/bpm/connectorFailure/{{failedConnectorDetailsCtrl.getFailedConnectorId()}}"
       ],
       "exposed" : false
     },
@@ -8011,7 +9217,7 @@
       "type" : "expression",
       "value" : [
         "// After a task is updated",
-        "if (($data.assignModalData.statusCode === 200 || $data.skipTaskData.statusCode === 200 || $data.doForTaskData.statusCode) && !$data.userListData.hasRecentlyBeenApplied) {",
+        "if (($data.assignModalData.statusCode === 200 || $data.skipTaskData.statusCode === 200 || $data.doForTaskData.statusCode === 200) && !$data.userListData.hasRecentlyBeenApplied) {",
         "    $data.assignModalData.timestamp = new Date().getTime();",
         "    $data.userListData.hasRecentlyBeenApplied = true;",
         "}"
@@ -8104,6 +9310,9 @@
         "    },",
         "    getCommentQueryParameters: function(){",
         "        var caseId = $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().caseId : \"\";",
+        "        if (caseId === \"\") {",
+        "            return undefined;",
+        "        }",
         "        return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + caseId + \"&d=userId&t=\" + $data.commentData.timestamp;",
         "    }",
         "};"
@@ -8113,19 +9322,10 @@
     "connectorsCtrl" : {
       "type" : "expression",
       "value" : [
-        "function buildConnectorsUrl(state) {",
-        "    var connectorsPath = $data.taskDetailsCtrl.isDoneTask() ? \"archivedConnectorInstance\" : \"connectorInstance\";",
-        "    return \"../API/bpm/\" + connectorsPath + \"?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter + \"&f=state=\" + state;",
-        "}",
         "return {",
-        "    getConnectorsFailedUrl: function() {",
-        "        return buildConnectorsUrl(\"FAILED\");",
-        "    },",
-        "    getConnectorsToBeExecutedUrl: function() {",
-        "        return buildConnectorsUrl(\"TO_BE_EXECUTED\");",
-        "    },",
-        "    getConnectorsExecutedUrl: function() {",
-        "        return buildConnectorsUrl(\"DONE\");",
+        "    getConnectorsUrl: function() {",
+        "        var connectorsPath = $data.taskDetailsCtrl.isDoneTask() ? \"archivedConnectorInstance\" : \"connectorInstance\";",
+        "        return connectorsPath + \"?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter + \"&time=\" + $data.replayTaskData.timestamp;",
         "    }",
         "};"
       ],
@@ -8207,7 +9407,8 @@
         "return {",
         "    statusCode: \"\",",
         "    comment: \"\",",
-        "    failedResponse: \"\"",
+        "    failedResponse: \"\",",
+        "    recentlyOpenedDoForModal: false",
         "};"
       ],
       "exposed" : false
@@ -8228,6 +9429,7 @@
         "    initDoForTaskModal: function() {",
         "        $data.userListData.hasRecentlyBeenApplied = false;",
         "        $data.doForTaskData.statusCode = \"\";",
+        "        $data.doForTaskData.recentlyOpenedDoForModal = true;",
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
         "        return \"doForTaskModal\";",
@@ -8243,7 +9445,7 @@
         "        return \"<span title='\" + uiTranslate(tooltip)  + \"'>\" + uiTranslate(\"Do for\") + \"</span>\";",
         "    },",
         "    doesTaskHaveNoForm: function() {",
-        "        return $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
+        "        return $data.formMapping && $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
         "    },",
         "    getDoForTaskPayload: function() {",
         "        return {\"ticket_comment\": $data.doForTaskData.comment};",
@@ -8253,8 +9455,176 @@
         "            return uiTranslate(\"This task is not assigned anymore. Assign it and try again.\");",
         "        }",
         "        return uiTranslate(\"An internal error has occurred. For more information, check the log file.\");",
+        "    },",
+        "    getFormMappingUrl: function() {",
+        "        if (!$data.doForTaskData.recentlyOpenedDoForModal) {",
+        "            return undefined;",
+        "        }",
+        "        return \"?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
         "    }",
         "};"
+      ],
+      "exposed" : false
+    },
+    "formMapping" : {
+      "type" : "url",
+      "value" : [
+        "../API/form/mapping{{doForTaskCtrl.getFormMappingUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "replayTaskCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "function initDisplayedConnectorList() {",
+        "    return $data.connectorsData.connectorsFailed.concat($data.connectorsData.connectorsSkipped);",
+        "}",
+        "",
+        "function initMappedFailedConnectorList(displayedFailedAndSkippedConnectors) {",
+        "    return displayedFailedAndSkippedConnectors.map((item) => {",
+        "        return {id: item.id, state: \"skipped\"};",
+        "    });",
+        "}",
+        "",
+        "function modifyMappedFailedConnectorState(connectorId) {",
+        "    for (let connectorIndex = 0; connectorIndex < $data.replayTaskData.mappedFailedConnectorList.length; connectorIndex++) {",
+        "        let mappedFailedConnector = $data.replayTaskData.mappedFailedConnectorList[connectorIndex];",
+        "        if (mappedFailedConnector.id === connectorId) {",
+        "            mappedFailedConnector.state = \"toReExecute\";",
+        "            break;",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return {",
+        "    initReplayTaskModal: function() {",
+        "        $data.userListData.hasRecentlyBeenApplied = false;",
+        "        $data.replayTaskData.statusCode = \"\";",
+        "        ",
+        "        var displayedFailedAndSkippedConnectors = initDisplayedConnectorList();",
+        "        ",
+        "        $data.replayTaskData.displayedFailedAndSkippedConnectors = displayedFailedAndSkippedConnectors;",
+        "        $data.replayTaskData.mappedFailedConnectorList = initMappedFailedConnectorList(displayedFailedAndSkippedConnectors);",
+        "        $data.replayTaskData.selectedFailedConnectors = [];",
+        "        ",
+        "        return \"replayTaskModal\";",
+        "    },",
+        "    getReplayTaskPayload: function() {",
+        "        $data.replayTaskData.selectedFailedConnectors.forEach(function(selectedFailedConnector) {",
+        "            modifyMappedFailedConnectorState(selectedFailedConnector.id);",
+        "        });",
+        "        return $data.replayTaskData.mappedFailedConnectorList;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "replayTaskData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: \"\",",
+        "    displayedFailedAndSkippedConnectors: [],",
+        "    selectedFailedConnectors: [],",
+        "    checklistAction: [],",
+        "    timestamp: 0",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "replayTaskHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.replayTaskData.checklistAction.length) {",
+        "    if ($data.replayTaskData.checklistAction[0] === \"selectAll\") {",
+        "        $data.replayTaskData.selectedFailedConnectors = $data.replayTaskData.displayedFailedAndSkippedConnectors;",
+        "    } else if ($data.replayTaskData.checklistAction[0] === \"reset\") {",
+        "        $data.replayTaskData.selectedFailedConnectors = [];",
+        "    }",
+        "    $data.replayTaskData.checklistAction = [];",
+        "}",
+        "",
+        "// After a task is replayed",
+        "if (($data.replayTaskData.statusCode === 200) && !$data.userListData.hasRecentlyBeenApplied) {",
+        "    $data.replayTaskData.timestamp = new Date().getTime();",
+        "    $data.userListData.hasRecentlyBeenApplied = true;",
+        "    $data.connectorsData.connectorsExecuted = []; ",
+        "    $data.connectorsData.connectorsFailed = []; ",
+        "    $data.connectorsData.connectorsSkipped = []; ",
+        "    $data.connectorsData.connectorsToBeExecuted = [];",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "failedConnectorDetailsCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    initFailedConnectorDetails: function(failedConnector) {",
+        "        $data.failedConnectorDetailsData.selectedConnector = failedConnector;",
+        "        return \"failedConnectorModal\";",
+        "    },",
+        "    getFailedConnectorId: function() {",
+        "        if (!$data.failedConnectorDetailsData.selectedConnector) {",
+        "            return undefined;",
+        "        }",
+        "        return $data.failedConnectorDetailsData.selectedConnector.id;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "failedConnectorDetailsData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    selectedConnector: {}",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "connectorsData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    connectorsExecuted: [],",
+        "    connectorsFailed: [],",
+        "    connectorsSkipped: [],",
+        "    connectorsToBeExecuted: []",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "connectors" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/{{connectorsCtrl.getConnectorsUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "connectorsHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.connectors && $data.connectors.length) {",
+        "    $data.connectors.forEach(function(connector) {",
+        "        switch(connector.state) {",
+        "            case \"DONE\":",
+        "                $data.connectorsData.connectorsExecuted.push(connector);",
+        "                break;",
+        "            case \"FAILED\":",
+        "                $data.connectorsData.connectorsFailed.push(connector);",
+        "                break;",
+        "            case \"TO_BE_EXECUTED\":",
+        "                $data.connectorsData.connectorsToBeExecuted.push(connector);",
+        "                break;",
+        "            case \"SKIPPED\":",
+        "                $data.connectorsData.connectorsSkipped.push(connector);",
+        "                break;",
+        "        }",
+        "    });",
+        "    ",
+        "    $data.connectors = [];",
+        "}"
       ],
       "exposed" : false
     },
@@ -8269,13 +9639,6 @@
       "type" : "url",
       "value" : [
         "../API/identity/user/{{session.user_id}}"
-      ],
-      "exposed" : false
-    },
-    "formMapping" : {
-      "type" : "url",
-      "value" : [
-        "../API/form/mapping?c=10&p=0&f=processDefinitionId={{taskDetailsCtrl.getOpenOrArchivedTask().processId.id}}&f=task={{taskDetailsCtrl.getOpenOrArchivedTask().name}}"
       ],
       "exposed" : false
     }

@@ -31,7 +31,7 @@ Feature: The Admin Failed Task Details in desktop resolution
     And The add comment button is "disabled"
     When I fill in the new comment
     Then The add comment button is "enabled"
-    When I click on add comment button
+    When I click on "Add comment" button
     Then There is a new comment
     And The new comment input is empty
     Then The add comment button is "disabled"
@@ -52,8 +52,10 @@ Feature: The Admin Failed Task Details in desktop resolution
     And I click on failed connector button
     Then The failed connector modal is opened for "failedConnectorName"
     And The modal has the correct information
-    When I click on close button in the modal
-    Then The failed connector modal is closed
+    When I click on "Close" button in the modal
+    Then There is no modal displayed
+    When I click on second failed connector button
+    Then The failed connector modal is opened for "secondFailedConnector"
 
   Scenario: The admin archived failed task details does not have the connectors
     Given The response "empty done task" is defined for failed tasks
@@ -66,91 +68,195 @@ Feature: The Admin Failed Task Details in desktop resolution
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
     When I visit the admin failed task details page
-    And I click on skip button
+    And I click on "Skip" button
     Then The skip modal is open and has a default state for "1 failed task"
-    When I click on cancel button in the modal
-    Then The skip modal is closed
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
 
   Scenario: The skip task modal skips the task correctly
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
     And The response "skip and refresh task" is defined for failed tasks
     When I visit the admin failed task details page
-    And I click on skip button
+    And I click on "Skip" button
     Then The skip modal is open and has a default state for "1 failed task"
-    When I click on skip button in the modal
+    When I click on "Skip" button in the modal
     Then There is a confirmation for task being successfully skipped
     And The skipped failed task details page is refreshed
     And The cancel button is not displayed
-    When I click on the close button
-    Then The skip modal is closed
+    When I click on "Close" button in the modal
+    Then There is no modal displayed
     And The task is skipped
-# TODO
-#  Scenario: The assign modal should display 500 error message
-#    Given The response "empty done task" is defined for pending tasks
-#    And The response "default unassigned details" is defined for pending tasks
-#    And The response "user list" is defined for pending tasks
-#    And The assign status code 500 is defined for pending tasks
-#    When I visit the admin pending task details page
-#    And I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And The user list is not displayed
-#    And The assign button in the modal is disabled
-#    When I type "H" in the user input
-#    Then The user list is displayed
-#    When I click on "Helen Kelly" in the list
-#    Then The user list is not displayed
-#    And The user input is filled with "Helen Kelly"
-#    When I click on assign button in the modal
-#    Then I see "500" error message for "assigned"
-#    When I click on the cancel button
-#    Then The assign modal is closed
-#    When I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And I don't see any error message
-#
-#  Scenario: The assign modal should display 404 error message
-#    Given The response "empty done task" is defined for pending tasks
-#    And The response "default unassigned details" is defined for pending tasks
-#    And The response "user list" is defined for pending tasks
-#    And The assign status code 404 is defined for pending tasks
-#    When I visit the admin pending task details page
-#    And I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And The user list is not displayed
-#    And The assign button in the modal is disabled
-#    When I type "H" in the user input
-#    Then The user list is displayed
-#    When I click on "Helen Kelly" in the list
-#    Then The user list is not displayed
-#    And The user input is filled with "Helen Kelly"
-#    When I click on assign button in the modal
-#    Then I see "404" error message for "assigned"
-#    When I click on the cancel button
-#    Then The assign modal is closed
-#    When I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And I don't see any error message
-#
-#  Scenario: The assign modal should display 403 error message
-#    Given The response "empty done task" is defined for pending tasks
-#    And The response "default unassigned details" is defined for pending tasks
-#    And The response "user list" is defined for pending tasks
-#    And The assign status code 403 is defined for pending tasks
-#    When I visit the admin pending task details page
-#    And I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And The user list is not displayed
-#    And The assign button in the modal is disabled
-#    When I type "H" in the user input
-#    Then The user list is displayed
-#    When I click on "Helen Kelly" in the list
-#    Then The user list is not displayed
-#    And The user input is filled with "Helen Kelly"
-#    When I click on assign button in the modal
-#    Then I see "403" error message for "assigned"
-#    When I click on the cancel button
-#    Then The assign modal is closed
-#    When I click on assign button
-#    Then The assign modal is open and has a default state for "Request Vacation"
-#    And I don't see any error message
+
+  Scenario: The skip task modal should display generic 500 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "500" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    When I click on "Skip" button in the modal
+    Then I see "500" error message for "skipped"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    And I don't see any error message
+
+  Scenario: The skip task modal should display generic 403 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "403" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    When I click on "Skip" button in the modal
+    Then I see "403" error message for "skipped"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    And I don't see any error message
+
+  Scenario: The skipped task modal should display generic 404 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "403" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    When I click on "Skip" button in the modal
+    Then I see "403" error message for "skipped"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Skip" button
+    Then The skip modal is open and has a default state for "1 failed task"
+    And I don't see any error message
+
+  Scenario: The replay task modal is opened and closed
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+
+  Scenario: The select all and reset work correctly in replay modal
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I click on "Select all" button in the modal
+    Then All connectors are selected
+    When I click on "Reset" button in the modal
+    Then No connector is selected
+    When I select two connectors
+    And I click on "Select all" button in the modal
+    Then All connectors are selected
+    When I click on "Select all" button in the modal
+    Then All connectors are selected
+    When I deselect two connectors
+    And I click on "Reset" button in the modal
+    Then No connector is selected
+    When I select two connectors
+    And I click on "Reset" button in the modal
+    Then No connector is selected
+    And I click on "Reset" button in the modal
+    Then No connector is selected
+    And I click on "Select all" button in the modal
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+
+  Scenario: The replay task modal replays the task correctly
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "replay success" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I select two connectors
+    And I click on "Replay" button in the modal
+    Then There is a confirmation for task being successfully replayed
+    And The failed task details page is refreshed
+    When I click on "Close" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+
+  Scenario: The replay task modal replays the task correctly
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    And The response "less connectors after replay" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I select two connectors
+    And I click on "Replay" button in the modal
+    Then There is a confirmation for task being successfully replayed
+    And The failed task details page is refreshed
+    When I click on "Close" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has one less connector for "1 failed task"
+
+  Scenario: The replay task modal should display generic 500 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "500 during replay" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I click on "Replay" button in the modal
+    Then I see "500" error message for "replayed"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    And I don't see any error message
+
+  Scenario: The replay task modal should display generic 403 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "403 during replay" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I click on "Replay" button in the modal
+    Then I see "403" error message for "replayed"
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    And I don't see any error message
+
+  Scenario: The replay task modal should display generic 404 error message
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "404 during replay" is defined for failed tasks
+    And The response "refresh task not called" is defined for failed tasks
+    And The response "connectors" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    When I click on "Replay" button in the modal
+    Then I see 404 error message when replaying task
+    When I click on "Cancel" button in the modal
+    Then There is no modal displayed
+    When I click on "Replay" button
+    Then The replay modal is open and has a default state for "1 failed task"
+    And I don't see any error message

@@ -5,8 +5,8 @@ const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_i
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&f=state=';
-const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358&f=state='
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&time=0';
+const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358&time=0';
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();
@@ -18,14 +18,10 @@ given("The response {string} is defined for done tasks", (responseType) => {
             createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
             break;
         case 'empty connectors':
-            createRouteWithResponse(connectorUrl + 'FAILED', 'failedConnectorRoute', 'emptyResult');
-            createRouteWithResponse(connectorUrl + 'TO_BE_EXECUTED', 'toBeExecutedConnectorRoute', 'emptyResult');
-            createRouteWithResponse(connectorUrl + 'DONE', 'executedConnectorRoute', 'emptyResult');
+            createRouteWithResponse(connectorUrl, 'connectorRoute', 'emptyResult');
             break;
         case 'archived connectors':
-            createRouteWithResponse(archivedConnectorUrl + 'FAILED', 'archivedFailedConnectorRoute', 'failedConnector');
-            createRouteWithResponse(archivedConnectorUrl + 'TO_BE_EXECUTED', 'archivedToBeExecutedConnectorRoute', 'toBeExecutedConnector');
-            createRouteWithResponse(archivedConnectorUrl + 'DONE', 'archivedExecutedConnectorRoute', 'executedConnector');
+            createRouteWithResponse(archivedConnectorUrl, 'archivedConnectorRoute', 'connectors');
             break;
         default:
             throw new Error("Unsupported case");
@@ -84,7 +80,7 @@ then("The back button has correct href", () => {
 
 then("The connectors have the correct information", () => {
     // Check that the element exist.
-    cy.wait('@failedConnectorRoute');
+    cy.wait('@connectorRoute');
     cy.get('.item-label').contains('Failed');
     cy.get('.item-value').contains('throwNewException');
     cy.get('.item-label').contains('comment no. 2');
@@ -117,7 +113,7 @@ then("The comments have the correct information", () => {
 });
 
 then("The done task details show the connectors correctly", () => {
-    cy.wait(['@archivedFailedConnectorRoute', '@archivedToBeExecutedConnectorRoute', '@archivedExecutedConnectorRoute']);
+    cy.wait('@archivedConnectorRoute');
     cy.get('h4').eq(1).contains('Connectors');
     cy.get('h5').eq(0).contains('Failed');
     cy.get('.btn-link').contains('failedConnectorName').should('not.be.visible');
@@ -129,4 +125,6 @@ then("The done task details show the connectors correctly", () => {
     cy.get('.item-value').contains('throwNewException3');
     cy.get('h5').eq(2).contains('Executed');
     cy.get('.item-value').contains('throwNewException6');
+    cy.get('h5').eq(3).contains('Skipped');
+    cy.get('.item-value').contains('skippedConnector');
 });
