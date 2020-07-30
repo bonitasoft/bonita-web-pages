@@ -438,7 +438,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-body h4', 'There are no users mapped to this role').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-option-horizontal').should('have.attr', 'title', 'View user details');
+    cy.get('.modal-body .glyphicon-option-horizontal').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
 
