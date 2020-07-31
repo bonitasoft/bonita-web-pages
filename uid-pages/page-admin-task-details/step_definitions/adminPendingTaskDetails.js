@@ -193,12 +193,15 @@ then("The back button has correct href", () => {
 
 then("The connectors section have the correct information for pending tasks", () => {
     cy.get('h4').contains('Connectors');
-    cy.get('h5').contains('Failed');
-    cy.get('.item-value').contains('No failed connector');
-    cy.get('h5').contains('To be executed');
-    cy.get('.item-value').contains('No pending connector');
-    cy.get('h5').contains('Executed');
-    cy.get('.item-value').contains('No executed connector');
+    cy.contains('h4','Connectors').should('be.visible');
+    cy.contains('h5','Failed').should('be.visible');
+    cy.contains('.item-value','No failed connector').should('be.visible');
+    cy.contains('h5','To be executed').should('be.visible');
+    cy.contains('.item-value','No pending connector').should('be.visible');
+    cy.contains('h5','Executed').should('be.visible');
+    cy.contains('.item-value','No executed connector').should('be.visible');
+    cy.contains('h5','Skipped').should('be.visible');
+    cy.contains('.item-value','No skipped connector').should('be.visible');
 });
 
 then("The unassign button is not displayed", () => {
