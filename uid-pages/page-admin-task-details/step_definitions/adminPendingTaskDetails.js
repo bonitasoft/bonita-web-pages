@@ -197,7 +197,7 @@ then("The connectors section have the correct information for pending tasks", ()
     cy.contains('h5','Failed').should('be.visible');
     cy.contains('.item-value','No failed connector').should('be.visible');
     cy.contains('h5','To be executed').should('be.visible');
-    cy.contains('.item-value','No pending connector').should('be.visible');
+    cy.contains('.item-value','No connector to be executed').should('be.visible');
     cy.contains('h5','Executed').should('be.visible');
     cy.contains('.item-value','No executed connector').should('be.visible');
     cy.contains('h5','Skipped').should('be.visible');
@@ -258,7 +258,7 @@ then('The page is refreshed', () => {
 then("I see {string} error message for {string}", (statusCode, taskType) => {
     switch (statusCode) {
         case '500':
-            cy.contains('.modal', 'An internal error occurred.  Try again later. You can also check the log file.').should('be.visible');
+            cy.contains('.modal', 'An internal error occurred. Try again later. You can also check the log file.').should('be.visible');
             break;
         case '404':
             cy.contains('.modal', 'The task has already been done. It cannot be ' + taskType + ' anymore. Refresh the page to see the new task status.').should('be.visible');
@@ -375,7 +375,7 @@ then("The unassigned error message is displayed", () => {
 then("The {int} error message is displayed for do for", (statusCode) => {
     switch (statusCode) {
         case 500:
-            cy.contains('.modal', 'An internal error has occurred. For more information, check the log file.').should('be.visible');
+            cy.contains('.modal', 'An internal error occurred. Try again later. You can also check the log file.').should('be.visible');
             break;
         case 404:
             cy.contains('.modal', 'The task has already been done. It cannot be done anymore. Refresh the page to see the new task status.').should('be.visible');
