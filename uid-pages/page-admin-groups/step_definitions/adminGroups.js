@@ -5,6 +5,8 @@ const defaultFilters = '&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
+const userUrl = 'API/identity/user';
+const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=group_id=';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
@@ -33,13 +35,13 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'enable load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0','groups20Route', 'groups20');
-            createRolesRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
-            createRolesRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
-            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+            createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
+            createGroupsRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
+            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
-            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'group creation success':
             createRouteWithMethod(groupsUrl, 'parentGroupCreationRoute', 'POST');
@@ -62,6 +64,32 @@ given("The response {string} is defined", (responseType) => {
             break;
         case '500 during creation':
             createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '500');
+            break;
+        case 'empty user list':
+            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'emptyResult');
+            break;
+        case 'user list':
+            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'users5');
+            break;
+        case 'user list search':
+            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + "1&s=Virginie&t=1*", 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match&t=1*", 'noMatchRoute', 'emptyResult');
+            break;
+        case 'user list load more':
+            createRouteWithResponse(defaultUserUrl + '1&t=1*','users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users10Route', 'users10', 2, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users5Route', 'users5', 3, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 4, 10);
+            break;
+        case 'user list 20 load more':
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'user list for two groups':
+            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'emptyResultRoute', 'users18');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createRouteWithResponse(defaultUserUrl + "9&t=1*", 'userUrlRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -105,7 +133,7 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createRolesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+    function createGroupsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + groupsUrl + '?c=' + count + '&p=' + page + defaultFilters;
         let responseValue = undefined;
         if (response) {
@@ -212,6 +240,26 @@ when("I remove {string} from the parent group input", () => {
     cy.get(".modal-body input").eq(3).type("{backspace}")
 });
 
+when("I click on Load more users button", () => {
+    cy.get('.modal-body button').contains('Load more users').click();
+});
+
+when("I put {string} in user list search filter field", (filterValue) => {
+    cy.get('.modal-body pb-input input:visible').type(filterValue);
+});
+
+when("I erase the user search filter", () => {
+    cy.get('.modal-body pb-input input:visible').clear();
+});
+
+when("I click on user button for first group", () => {
+    cy.get('.glyphicon.glyphicon-user').eq(0).parent().click();
+});
+
+when("I click on user button for second group", () => {
+    cy.get('.glyphicon.glyphicon-user').eq(1).parent().click();
+});
+
 then("The groups page have the correct information", () => {
     cy.contains('h3', 'Groups');
     cy.get('.group-item').should('have.length', 8);
@@ -251,6 +299,9 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'Acme':
             cy.wait('@searchAcmeRoute');
+            break;
+        case 'Virginie':
+            cy.wait('@oneUserRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -345,4 +396,49 @@ then("I see {string} error message for {string}", (error, action) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The group has not been ' + action + '.').should('be.visible');
+});
+
+then("A list of {int} users is displayed", (nbrOfItems) => {
+    cy.get('.modal-body .group-item').should('have.length', nbrOfItems);
+});
+
+then("Only one user is displayed", () => {
+    cy.get('.modal-body .group-item').should('have.length', 1);
+});
+
+then("The load more users button is disabled", () => {
+    cy.get('.modal-body button').contains('Load more users').should('be.disabled');
+});
+
+then("No users are available", () => {
+    cy.get('.modal-body .group-item').should('have.length', 0);
+    cy.contains('There are no users in this group').should('be.visible');
+});
+
+then("The user list modal is open and has no users for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no users in this group').should('be.visible');
+    cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
+    cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-option-horizontal').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("The user list modal is open and has {int} users for {string}", (numberOfUsers, state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no users in this group').should('not.be.visible');
+    cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
+    cy.contains('.modal-body button', 'Load more users').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .group-item').should('have.length', numberOfUsers);
+    // Check that we use -- instead of empty field when there is no last name
+    cy.get('.modal-body .group-item').eq(0).within(() => {
+        cy.contains('.item-value', '--').should('have.length', 1);
+    });
+});
+
+then("The first user details link has the correct url", () => {
+    cy.get('.modal-body .glyphicon.glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
 });
