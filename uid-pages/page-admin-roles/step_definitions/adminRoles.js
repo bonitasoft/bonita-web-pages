@@ -356,7 +356,7 @@ then("The api call is made for {string}", (filterValue) => {
 });
 
 then("No roles are available", () => {
-    cy.get('.task-item:visible').should('have.length', 0);
+    cy.get('.role-item:visible').should('have.length', 0);
     cy.contains('No roles to display').should('be.visible');
 });
 
