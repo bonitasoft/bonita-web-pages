@@ -194,13 +194,14 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 8 groups is displayed
     When I click on user button for first group
     Then The user list modal is open and has 5 users for "Users in the group Acme"
-    When I put "Virginie" in user list search filter field
+    When I put "Virginie" in modal search filter field
     Then The api call is made for "Virginie"
-    And Only one user is displayed
-    When I erase the user search filter
+    And Only one item is displayed
+    When I erase the modal search filter
     Then The user list modal is open and has 5 users for "Users in the group Acme"
-    When I put "Search term with no match" in user list search filter field
-    Then No users are available
+    When I put "Search term with no match" in modal search filter field
+    Then No "users" are available
+    And The search input is not disable
 
   Scenario: Load more users button works correctly
     Given The response "user list load more" is defined
@@ -208,18 +209,18 @@ Feature: The Admin Groups in desktop resolution
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on user button for first group
-    Then A list of 10 users is displayed
+    Then A list of 10 items is displayed
     When I click on Load more users button
-    Then A list of 20 users is displayed
+    Then A list of 20 items is displayed
     When I click on Load more users button
-    Then A list of 30 users is displayed
+    Then A list of 30 items is displayed
     When I click on Load more users button
-    Then A list of 35 users is displayed
-    And The load more users button is disabled
+    Then A list of 35 items is displayed
+    And The load more "users" button is disabled
     When I click on the "Close" button in modal
     Then There is no modal displayed
     When I click on user button for first group
-    Then A list of 10 users is displayed
+    Then A list of 10 items is displayed
 
   Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
     Given The response "user list 20 load more" is defined
@@ -227,11 +228,11 @@ Feature: The Admin Groups in desktop resolution
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on user button for first group
-    Then A list of 10 users is displayed
+    Then A list of 10 items is displayed
     When I click on Load more users button
-    Then A list of 20 users is displayed
+    Then A list of 20 items is displayed
     When I click on Load more users button
-    And The load more users button is disabled
+    And The load more "users" button is disabled
 
   Scenario: The user list modal resets when open for a different group
     Given The response "default filter" is defined
@@ -241,7 +242,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on user button for first group
     Then The user list modal is open and has 10 users for "Users in the group Acme"
     When I click on Load more users button
-    Then A list of 18 users is displayed
+    Then A list of 18 items is displayed
     When I click on the "Close" button in modal
     Then There is no modal displayed
     When I click on user button for second group
@@ -254,3 +255,86 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 8 groups is displayed
     When I click on user button for first group
     Then The first user details link has the correct url
+
+  Scenario: The sub-group list modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    And The response "empty sub-group list" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then The sub-group list modal is open and has no sub-groups for "Sub-groups of Acme (/acme)"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The sub-group list modal displays a list
+    Given The response "default filter" is defined
+    And The response "sub-group list" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then The sub-group list modal is open and has 5 sub-groups for "Sub-groups of Acme (/acme)"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The sub-group list search works correctly
+    Given The response "default filter" is defined
+    And The response "sub-group list" is defined
+    And The response "sub-group list search" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then The sub-group list modal is open and has 5 sub-groups for "Sub-groups of Acme (/acme)"
+    When I put "Acme" in modal search filter field
+    Then The api call is made for "Acme"
+    And Only one item is displayed
+    When I erase the modal search filter
+    Then The sub-group list modal is open and has 5 sub-groups for "Sub-groups of Acme (/acme)"
+    When I put "Search term with no match" in modal search filter field
+    Then No "sub-groups" are available
+    And The search input is not disable
+
+  Scenario: Load more sub groups button works correctly
+    Given The response "sub-groups list load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then A list of 10 items is displayed
+    When I click on Load more sub-groups button
+    Then A list of 20 items is displayed
+    When I click on Load more sub-groups button
+    Then A list of 30 items is displayed
+    When I click on Load more sub-groups button
+    Then A list of 35 items is displayed
+    And The load more "sub-groups" button is disabled
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on sub-group button for first group
+    Then A list of 10 items is displayed
+
+  Scenario: [Limitation] Load more sub groups is not disabled when result is a multiple of count
+    Given The response "sub-groups list 20 load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then A list of 10 items is displayed
+    When I click on Load more sub-groups button
+    Then A list of 20 items is displayed
+    When I click on Load more sub-groups button
+    And The load more "sub-groups" button is disabled
+
+  Scenario: The sub groups list modal resets when open for a different group
+    Given The response "default filter" is defined
+    And The response "sub-groups list for two groups" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on sub-group button for first group
+    Then The sub-group list modal is open and has 10 sub-groups for "Sub-groups of Acme (/acme)"
+    When I click on Load more sub-groups button
+    Then A list of 18 items is displayed
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on sub-group button for second group
+    Then The sub-group list modal is open and has no sub-groups for "Sub-groups of Asia"

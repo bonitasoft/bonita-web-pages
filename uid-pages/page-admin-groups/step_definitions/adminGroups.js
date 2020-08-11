@@ -5,6 +5,7 @@ const defaultFilters = '&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
+const subGroupUrl = urlPrefix + groupsUrl + '?p=0&c=20&f=parent_path=';
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=group_id=';
 
@@ -66,15 +67,15 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '500');
             break;
         case 'empty user list':
-            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'emptyResult');
             break;
         case 'user list':
-            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'users5');
             break;
         case 'user list search':
-            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'userUrlRoute', 'users5');
-            createRouteWithResponse(defaultUserUrl + "1&s=Virginie&t=1*", 'oneUserRoute', 'users1');
-            createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match&t=1*", 'noMatchRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + '1&s=Virginie&t=1*', 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
             break;
         case 'user list load more':
             createRouteWithResponse(defaultUserUrl + '1&t=1*','users20Route', 'users20');
@@ -87,9 +88,35 @@ given("The response {string} is defined", (responseType) => {
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'user list for two groups':
-            createRouteWithResponse(defaultUserUrl + "1&t=1*", 'emptyResultRoute', 'users18');
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'emptyResultRoute', 'users18');
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(defaultUserUrl + "9&t=1*", 'userUrlRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '9&t=1*', 'userUrlRoute', 'emptyResult');
+            break;
+        case 'empty sub-group list':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'emptyResult');
+            break;
+        case 'sub-group list':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
+            break;
+        case 'sub-group list search':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'searchAcmeRoute', 'subGroups1');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
+            break;
+        case 'sub-groups list load more':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*','subGroups20Route', 'groups20');
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups5Route', 'subGroups5', 3, 10);
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 4, 10);
+            break;
+        case 'sub-groups list 20 load more':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'sub-groups list for two groups':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createRouteWithResponse(subGroupUrl + '/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -150,6 +177,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
+    }
+
+    function createSubGroupsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + groupsUrl + '?p=' + page + '&c=' + count;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -244,12 +286,16 @@ when("I click on Load more users button", () => {
     cy.get('.modal-body button').contains('Load more users').click();
 });
 
-when("I put {string} in user list search filter field", (filterValue) => {
-    cy.get('.modal-body pb-input input:visible').type(filterValue);
+when("I click on Load more sub-groups button", () => {
+    cy.get('.modal-body button').contains('Load more sub-groups').click();
 });
 
-when("I erase the user search filter", () => {
-    cy.get('.modal-body pb-input input:visible').clear();
+when("I put {string} in modal search filter field", (filterValue) => {
+    cy.get('.modal-body pb-input input').type(filterValue);
+});
+
+when("I erase the modal search filter", () => {
+    cy.get('.modal-body pb-input input').clear();
 });
 
 when("I click on user button for first group", () => {
@@ -258,6 +304,14 @@ when("I click on user button for first group", () => {
 
 when("I click on user button for second group", () => {
     cy.get('.glyphicon.glyphicon-user').eq(1).parent().click();
+});
+
+when("I click on sub-group button for first group", () => {
+    cy.get('.glyphicon.glyphicon-th-list').eq(0).parent().click();
+});
+
+when("I click on sub-group button for second group", () => {
+    cy.get('.glyphicon.glyphicon-th-list').eq(1).parent().click();
 });
 
 then("The groups page have the correct information", () => {
@@ -398,21 +452,21 @@ then("I see {string} error message for {string}", (error, action) => {
     cy.get('.modal').contains('The group has not been ' + action + '.').should('be.visible');
 });
 
-then("A list of {int} users is displayed", (nbrOfItems) => {
+then("A list of {int} items is displayed", (nbrOfItems) => {
     cy.get('.modal-body .group-item').should('have.length', nbrOfItems);
 });
 
-then("Only one user is displayed", () => {
+then("Only one item is displayed", () => {
     cy.get('.modal-body .group-item').should('have.length', 1);
 });
 
-then("The load more users button is disabled", () => {
-    cy.get('.modal-body button').contains('Load more users').should('be.disabled');
+then("The load more {string} button is disabled", (items) => {
+    cy.get('.modal-body button').contains('Load more ' + items).should('be.disabled');
 });
 
-then("No users are available", () => {
+then("No {string} are available", (item) => {
     cy.get('.modal-body .group-item').should('have.length', 0);
-    cy.contains('There are no users in this group').should('be.visible');
+    cy.contains('There are no ' + item + ' in this group').should('be.visible');
 });
 
 then("The user list modal is open and has no users for {string}", (state) => {
@@ -441,4 +495,27 @@ then("The user list modal is open and has {int} users for {string}", (numberOfUs
 
 then("The first user details link has the correct url", () => {
     cy.get('.modal-body .glyphicon.glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
+});
+
+then("The search input is not disable", () => {
+    cy.get('.modal-body input').should('not.be.disabled');
+});
+
+then("The sub-group list modal is open and has no sub-groups for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search sub-group').should('have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('be.visible');
+    cy.contains('.modal-body p.text-right', 'Sub-groups shown:').should('not.be.visible');
+    cy.contains('.modal-body button', 'Load more sub-groups').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("The sub-group list modal is open and has {int} sub-groups for {string}", (numberOfSubGroups, state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search sub-group').should('not.have.attr', 'readonly', 'readonly');
+    cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('not.be.visible');
+    cy.contains('.modal-body p.text-right', 'Sub-groups shown:').scrollIntoView().should('be.visible');
+    cy.contains('.modal-body button', 'Load more sub-groups').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .group-item').should('have.length', numberOfSubGroups);
 });
