@@ -243,7 +243,7 @@ then("The connectors section is empty", () => {
     cy.contains('h5','Failed').should('be.visible');
     cy.contains('.item-value','No failed connector').should('be.visible');
     cy.contains('h5','To be executed').should('be.visible');
-    cy.contains('.item-value','No pending connector').should('be.visible');
+    cy.contains('.item-value','No connector to be executed').should('be.visible');
     cy.contains('h5','Executed').should('be.visible');
     cy.contains('.item-value','No executed connector').should('be.visible');
     cy.contains('h5','Skipped').should('be.visible');
