@@ -3,32 +3,65 @@ const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
 const defaultFilters = '&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
+const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
     cy.server();
     switch (responseType) {
+        case 'refresh not called':
+            cy.route({
+                method: "GET",
+                url: refreshUrl,
+                onRequest: () => {
+                    throw new Error("This should have not been called");
+                }
+            });
+            break;
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl, 'groups8Route', 'groups8');
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups8Route', 'groups8');
             break;
         case 'sort by':
-            createRoute(groupsUrl + '?c=20&p=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
-            createRoute(groupsUrl + '?c=20&p=0&o=name+ASC', 'sortNameAscRoute');
-            createRoute(groupsUrl + '?c=20&p=0&o=name+DESC', 'sortNameDescRoute');
+            createRoute(groupsUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
+            createRoute(groupsUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
+            createRoute(groupsUrl + '?c=20&p=0&o=name+DESC&t=0', 'sortNameDescRoute');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl + '&s=Acme&t=0', 'searchAcmeRoute', 'groups1');
+            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl,'groups20Route', 'groups20');
+            createRouteWithResponse(defaultRequestUrl + '&t=0','groups20Route', 'groups20');
             createRolesRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
             createRolesRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
             createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, 'groups20Route', 'groups20');
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
             createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'group creation success':
+            createRouteWithMethod(groupsUrl, 'parentGroupCreationRoute', 'POST');
+            break;
+        case 'parent group list':
+            createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupListRoute', 'groups8');
+            break;
+        case 'refresh list after create':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
+            break;
+        case 'parent group list with 20 groups':
+            createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupWith20GroupsRoute', 'groups20');
+            createRouteWithResponse(parentGroupSearchUrl + 'Au', 'parentGroupWith8GroupsRoute', 'groups8');
+            break;
+        case 'already exists during creation':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl, 'createGroupAlreadyExistsRoute', 'createGroupAlreadyExists', 'POST', '500');
+            break;
+        case '403 during creation':
+            createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '403');
+            break;
+        case '500 during creation':
+            createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '500');
             break;
         default:
             throw new Error("Unsupported case");
@@ -153,6 +186,32 @@ when("I click on Load more groups button", () => {
     cy.get('button').contains('Load more groups').click();
 });
 
+when("I click on create button", () => {
+    cy.contains('button', 'Create').click();
+});
+
+when("I click on the {string} button in modal", (buttonName) => {
+    cy.contains('.modal button', buttonName).click();
+});
+
+when("I fill in the information", () => {
+    cy.get('.modal-body input').eq(0).type('Group name');
+    cy.get('.modal-body input').eq(1).type('Group display name');
+    cy.get('.modal-body input').eq(2).type('Group description');
+});
+
+when("I type {string} in the parent group input", (parentName) => {
+    cy.get('.modal-body input').eq(3).type(parentName);
+});
+
+when("I click on {string} in the list", (parentGroupName) => {
+    cy.contains('.modal-content .dropdown-menu button', parentGroupName).click();
+});
+
+when("I remove {string} from the parent group input", () => {
+    cy.get(".modal-body input").eq(3).type("{backspace}")
+});
+
 then("The groups page have the correct information", () => {
     cy.contains('h3', 'Groups');
     cy.get('.group-item').should('have.length', 8);
@@ -205,4 +264,85 @@ then("No groups are available", () => {
 
 then("The load more groups button is disabled", () => {
     cy.get('button').contains('Load more groups').should('be.disabled');
+});
+
+then("The create modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 4);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Display name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.contains('.modal-body', 'Parent group').should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Create').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("There is no modal displayed", () => {
+    cy.get('.modal').should('not.visible');
+});
+
+then("The {string} button in modal is {string}", (buttonName, buttonState) => {
+    cy.contains('.modal-footer button', buttonName).should('be.' + buttonState);
+});
+
+then("The parent group list is displayed", () => {
+    cy.get('.modal-body .dropdown-menu').scrollIntoView().should('be.visible');
+});
+
+then("The parent group list is not displayed", () => {
+    cy.get('.modal-body .dropdown-menu').should('not.be.visible');
+});
+
+then("The parent group input is filled with {string}", (parentGroupName) => {
+    cy.get('.modal-body .form-group input').eq(3).should('have.value', parentGroupName);
+});
+
+then("The creation is successful", () => {
+    cy.contains('.modal-footer button', 'Create').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.wait('@parentGroupCreationRoute').then((xhr) => {
+        expect(xhr.request.body.name).to.equal('Group name');
+        expect(xhr.request.body.displayName).to.equal('Group display name');
+        expect(xhr.request.body.description).to.equal('Group description');
+        expect(xhr.request.body.parent_group_id).to.equal('1');
+    });
+    cy.get('.modal-body input').each((input) => {
+        expect(input).to.have.attr('readonly', 'readonly');
+    });
+});
+
+then("The groups list is refreshed", () => {
+    cy.wait('@refreshUrlRoute');
+});
+
+then("The type more message is displayed and disabled", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').scrollIntoView();
+    cy.get('.dropdown-menu button').eq(20).contains('Or type more...');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.disabled');
+});
+
+then("The type more message is not displayed", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
+});
+
+then("I see {string} error message for {string}", (error, action) => {
+    switch (error) {
+        case 'already exists':
+            cy.contains('.modal-body', 'A group with the same name already exists.').should('be.visible');
+            break;
+        case '403':
+            cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '500':
+            cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The group has not been ' + action + '.').should('be.visible');
 });
