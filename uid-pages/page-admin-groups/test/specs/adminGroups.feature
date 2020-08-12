@@ -164,3 +164,93 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
     When I click on create button
     Then The create modal is open and has a default state for "Create a group"
+
+  Scenario: The user list modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    And The response "empty user list" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then The user list modal is open and has no users for "Users in the group Acme"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The user list modal displays a list
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then The user list modal is open and has 5 users for "Users in the group Acme"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The user list search works correctly
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    And The response "user list search" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then The user list modal is open and has 5 users for "Users in the group Acme"
+    When I put "Virginie" in user list search filter field
+    Then The api call is made for "Virginie"
+    And Only one user is displayed
+    When I erase the user search filter
+    Then The user list modal is open and has 5 users for "Users in the group Acme"
+    When I put "Search term with no match" in user list search filter field
+    Then No users are available
+
+  Scenario: Load more users button works correctly
+    Given The response "user list load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
+    When I click on Load more users button
+    Then A list of 30 users is displayed
+    When I click on Load more users button
+    Then A list of 35 users is displayed
+    And The load more users button is disabled
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on user button for first group
+    Then A list of 10 users is displayed
+
+  Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
+    Given The response "user list 20 load more" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
+    When I click on Load more users button
+    And The load more users button is disabled
+
+  Scenario: The user list modal resets when open for a different group
+    Given The response "default filter" is defined
+    And The response "user list for two groups" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then The user list modal is open and has 10 users for "Users in the group Acme"
+    When I click on Load more users button
+    Then A list of 18 users is displayed
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on user button for second group
+    Then The user list modal is open and has no users for "Users in the group Asia"
+
+  Scenario: The user list modal navigates to the user details
+    Given The response "default filter" is defined
+    And The response "user list" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on user button for first group
+    Then The first user details link has the correct url
