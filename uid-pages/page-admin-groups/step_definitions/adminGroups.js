@@ -1,7 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
-const defaultFilters = '&o=displayName ASC';
+const defaultFilters = '&d=parent_group_id&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
@@ -26,9 +26,9 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups8Route', 'groups8');
             break;
         case 'sort by':
-            createRoute(groupsUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
-            createRoute(groupsUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
-            createRoute(groupsUrl + '?c=20&p=0&o=name+DESC&t=0', 'sortNameDescRoute');
+            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
+            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=name+ASC&t=0', 'sortNameAscRoute');
+            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=name+DESC&t=0', 'sortNameDescRoute');
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Acme&t=0', 'searchAcmeRoute', 'groups1');
@@ -117,6 +117,31 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
             createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
             createRouteWithResponse(subGroupUrl + '/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
+            break;
+        case 'current parent information':
+            createRouteWithResponse(urlPrefix + groupsUrl + '/8?t=1*', 'currentParentGroupEuropeRoute', 'currentParentGroupEurope');
+            break;
+        case 'current parent information for second group':
+            createRouteWithResponse(urlPrefix + groupsUrl + '/4?t=1*', 'currentParentGroupInfrastructureRoute', 'currentParentGroupInfrastructure');
+            break;
+        case 'group edition success':
+            createRouteWithMethod(groupsUrl + '/1', 'groupEditionRoute', 'PUT');
+            createRouteWithResponse(urlPrefix + groupsUrl + '/9?t=1*', 'currentParentGroupAsiaRoute', 'currentParentGroupAsia');
+            break;
+        case 'refresh list after edit':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups8Updated');
+            break;
+        case 'already exists during edition':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl + '/1', 'editGroupAlreadyExistsRoute', 'editGroupAlreadyExists', 'PUT', '403');
+            break;
+        case '403 during edition':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'unauthorizedEditGroupRoute', 'PUT', '403');
+            break;
+        case '404 during edition':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'notFoundEditGroupRoute', 'PUT', '404');
+            break;
+        case '500 during edition':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'internalErrorEditGroupRoute', 'PUT', '500');
             break;
         default:
             throw new Error("Unsupported case");
@@ -252,6 +277,12 @@ when("I erase the search filter", () => {
     cy.get('pb-input input:visible').clear();
 });
 
+when("I erase all the information in edit modal", () => {
+    cy.get('.modal-body pb-input input').eq(0).clear();
+    cy.get('.modal-body pb-input input').eq(1).clear();
+    cy.get('.modal-body pb-input input').eq(2).clear();
+});
+
 when("I click on Load more groups button", () => {
     cy.get('button').contains('Load more groups').click();
 });
@@ -260,8 +291,12 @@ when("I click on create button", () => {
     cy.contains('button', 'Create').click();
 });
 
-when("I click on the {string} button in modal", (buttonName) => {
-    cy.contains('.modal button', buttonName).click();
+when("I click on the {string} button in modal body", (buttonName) => {
+    cy.contains('.modal-body button', buttonName).click();
+});
+
+when("I click on the {string} button in modal footer", (buttonName) => {
+    cy.contains('.modal-footer button', buttonName).click();
 });
 
 when("I fill in the information", () => {
@@ -300,6 +335,14 @@ when("I erase the modal search filter", () => {
 
 when("I click on user button for first group", () => {
     cy.get('.glyphicon.glyphicon-user').eq(0).parent().click();
+});
+
+when("I click on edit button for first group", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+});
+
+when("I click on edit button for second group", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(1).parent().click();
 });
 
 when("I click on user button for second group", () => {
@@ -420,6 +463,21 @@ then("The creation is successful", () => {
     });
 });
 
+then("The edition is successful", () => {
+    cy.contains('.modal-footer button', 'Save').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.wait('@groupEditionRoute').then((xhr) => {
+        expect(xhr.request.body.name).to.equal('Group name');
+        expect(xhr.request.body.displayName).to.equal('Group display name');
+        expect(xhr.request.body.description).to.equal('Group description');
+        expect(xhr.request.body.parent_group_id).to.equal('9');
+    });
+    cy.get('.modal-body input').each((input) => {
+        expect(input).to.have.attr('readonly', 'readonly');
+    });
+});
+
 then("The groups list is refreshed", () => {
     cy.wait('@refreshUrlRoute');
 });
@@ -442,6 +500,9 @@ then("I see {string} error message for {string}", (error, action) => {
             break;
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal-body', 'The group does not exist. Reload the page to see the new list of groups.').should('be.visible');
             break;
         case '500':
             cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
@@ -518,4 +579,33 @@ then("The sub-group list modal is open and has {int} sub-groups for {string}", (
     cy.contains('.modal-body button', 'Load more sub-groups').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.get('.modal-body .group-item').should('have.length', numberOfSubGroups);
+});
+
+then("The edit modal is open and has a default state for {string}, {string}, {string}, {string}, {string}", (state, name, displayName, description, parent) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 4);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Display name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.contains('.modal-body', 'Parent group').should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+    cy.get('.modal-body input').eq(3).should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', name);
+    cy.get('.modal-body .form-group input').eq(1).should('have.value', displayName);
+    cy.get('.modal-body .form-group input').eq(2).should('have.value', description);
+    cy.get('.modal-body .form-group input').eq(3).should('have.value', parent);
+    cy.contains('.modal-body button', 'Change').should('be.visible');
+    cy.contains('.modal-body button', 'Cancel').should('not.exist');
+});
+
+then("The parent group edition field should contain {string}", (parentDisplayName) => {
+    cy.get('.modal-body .form-group input').eq(3).should('have.value', parentDisplayName);
+});
+
+then("The parent group dropdown is not shown", (parentDisplayName) => {
+    cy.get('.modal-body .dropdown-menu').should('not.exist');
 });
