@@ -143,6 +143,21 @@ given("The response {string} is defined", (responseType) => {
         case '500 during edition':
             createRouteWithMethodAndStatus(groupsUrl + '/1', 'internalErrorEditGroupRoute', 'PUT', '500');
             break;
+        case 'group deletion success':
+            createRouteWithMethod(groupsUrl + '/1', 'parentGroupDeletionRoute', 'DELETE');
+            break;
+        case 'refresh list after delete':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups7');
+            break;
+        case '403 during deletion':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'unauthorizedDeleteGroupRoute', 'DELETE', '403');
+            break;
+        case '404 during deletion':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'notFoundDeleteGroupRoute', 'DELETE', '404');
+            break;
+        case '500 during deletion':
+            createRouteWithMethodAndStatus(groupsUrl + '/1', 'internalErrorDeleteGroupRoute', 'DELETE', '500');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -341,6 +356,10 @@ when("I click on edit button for first group", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
 });
 
+when("I click on delete button for first group", () => {
+    cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
+});
+
 when("I click on edit button for second group", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(1).parent().click();
 });
@@ -428,6 +447,15 @@ then("The create modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
+then("The delete modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Delete').should('be.enabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
 then("There is no modal displayed", () => {
     cy.get('.modal').should('not.visible');
 });
@@ -476,6 +504,12 @@ then("The edition is successful", () => {
     cy.get('.modal-body input').each((input) => {
         expect(input).to.have.attr('readonly', 'readonly');
     });
+});
+
+then("The deletion is successful", () => {
+    cy.contains('.modal-footer button', 'Delete').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
 
 then("The groups list is refreshed", () => {

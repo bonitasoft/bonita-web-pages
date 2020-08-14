@@ -537,3 +537,72 @@ Feature: The Admin Groups in desktop resolution
     When I click on the "Change" button in modal body
     Then The parent group edition field should contain ""
     And The parent group dropdown is not shown
+
+  Scenario: The delete group modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Acme"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+
+  Scenario: The delete group modal deletes successfully
+    Given The response "group deletion success" is defined
+    And The response "refresh list after delete" is defined
+    And The response "default filter" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Acme"
+    When I click on the "Delete" button in modal footer
+    Then The deletion is successful
+    And The groups list is refreshed
+    When I click on the "Close" button in modal footer
+    Then There is no modal displayed
+    And A list of 7 groups is displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Asia"
+
+  Scenario: The modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on delete button for first group
+    When I click on the "Delete" button in modal footer
+    Then I see "403" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Acme"
+
+  Scenario: The modal should display generic 404 error message
+    Given The response "default filter" is defined
+    And The response "404 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on delete button for first group
+    When I click on the "Delete" button in modal footer
+    Then I see "404" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Acme"
+
+  Scenario: The modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin groups page
+    Then A list of 8 groups is displayed
+    When I click on delete button for first group
+    When I click on the "Delete" button in modal footer
+    Then I see "500" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first group
+    Then The delete modal is open and has a default state for "Delete Acme"
