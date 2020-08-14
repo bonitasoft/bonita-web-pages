@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminGroupsBonitaV1",
   "name" : "AdminGroupsBonitaV1",
-  "lastUpdate" : 1597391758981,
+  "lastUpdate" : 1597413102098,
   "rows" : [
     [
       {
@@ -5781,58 +5781,6 @@
                                     "rows" : [
                                       [
                                         {
-                                          "type" : "component",
-                                          "dimension" : {
-                                            "xs" : 12,
-                                            "sm" : 12,
-                                            "md" : 12,
-                                            "lg" : 12
-                                          },
-                                          "propertyValues" : {
-                                            "cssClasses" : {
-                                              "type" : "constant",
-                                              "value" : "item-value"
-                                            },
-                                            "hidden" : {
-                                              "type" : "constant",
-                                              "value" : false
-                                            },
-                                            "labelHidden" : {
-                                              "type" : "constant",
-                                              "value" : true
-                                            },
-                                            "label" : {
-                                              "type" : "interpolation",
-                                              "value" : "Default label"
-                                            },
-                                            "labelPosition" : {
-                                              "type" : "constant",
-                                              "value" : "top"
-                                            },
-                                            "labelWidth" : {
-                                              "type" : "constant",
-                                              "value" : 4
-                                            },
-                                            "allowHTML" : {
-                                              "type" : "constant",
-                                              "value" : true
-                                            },
-                                            "text" : {
-                                              "type" : "interpolation",
-                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"Parent group\" | uiTranslate}})\n</strong>"
-                                            },
-                                            "alignment" : {
-                                              "type" : "constant",
-                                              "value" : "left"
-                                            }
-                                          },
-                                          "reference" : "d6270110-08c7-4374-a9ac-eb4564e46a27",
-                                          "hasValidationError" : false,
-                                          "id" : "pbText"
-                                        }
-                                      ],
-                                      [
-                                        {
                                           "type" : "container",
                                           "dimension" : {
                                             "xs" : 12,
@@ -7388,7 +7336,6 @@
         "    },\r",
         "    getParentSearchUrl: function() {\r",
         "        if ($data.parentDropdownData.parentDisplayName !== $data.parentDropdownData.searchParentValue) { \r",
-        "            $data.parentDropdownData.parentId = undefined;\r",
         "            return $data.parentDropdownData.searchParentValue ? \"../API/identity/group?p=0&c=20&o=name&s=\" + $data.parentDropdownData.searchParentValue : undefined;    \r",
         "        }\r",
         "        return undefined;\r",
@@ -7653,6 +7600,7 @@
         "        $data.currentParentData.editingParentGroup = false;",
         "        $data.currentParentData.timestamp = new Date().getTime();",
         "        $data.parentDropdownData.searchParentValue = \"\";",
+        "        $data.parentDropdownData.parentId = $item.parent_group_id;",
         "        $data.currentParentUrl = undefined;",
         "        ",
         "        return \"editGroupModal\";",
@@ -7727,11 +7675,15 @@
       "value" : [
         "if ($data.currentParentData.actions[0] === \"edit\") {",
         "    $data.currentParentData.editingParentGroup = true;",
+        "    $data.parentDropdownData.searchParentValue = \"\";",
+        "    $data.parentDropdownData.parentId = \"\";",
         "    $data.currentParentData.actions = [];",
         "}",
         "",
         "if ($data.currentParentData.actions[0] === \"cancel\") {",
         "    $data.currentParentData.editingParentGroup = false;",
+        "    $data.parentDropdownData.searchParentValue = \"\";",
+        "    $data.parentDropdownData.parentId = $data.currentParentData.currentParentId;",
         "    $data.currentParentData.actions = [];",
         "}"
       ],

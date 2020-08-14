@@ -506,6 +506,18 @@ then("The edition is successful", () => {
     });
 });
 
+then("The edition is successful with empty parent field", () => {
+    cy.wait('@groupEditionRoute').then((xhr) => {
+        expect(xhr.request.body.parent_group_id).to.equal('');
+    });
+});
+
+then("The edition is successful with old parent", () => {
+    cy.wait('@groupEditionRoute').then((xhr) => {
+        expect(xhr.request.body.parent_group_id).to.equal('8');
+    });
+});
+
 then("The deletion is successful", () => {
     cy.contains('.modal-footer button', 'Delete').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('not.exist');
