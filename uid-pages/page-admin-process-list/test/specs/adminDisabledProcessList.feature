@@ -88,6 +88,22 @@ Feature: The disabled process list in desktop resolution
     When I click on load more processes button
     Then The load more processes button is disabled in disabled processes list
 
+  Scenario: Load more resets correctly after the limitation is triggered
+    Given The page response "disable 30 load more" is defined for disabled processes
+    And The page response "sort during limitation" is defined for disabled processes
+    When I visit admin process list page
+    And I click on Disabled tab
+    Then A list of "10" items is displayed
+    When I click on load more processes button
+    Then A list of "20" items is displayed
+    When I click on load more processes button
+    Then A list of "30" items is displayed
+    When I click on load more processes button
+    And The load more processes button is disabled
+    When I put "Display name (Desc)" in "sort by" filter field in disabled processes list
+    And I click on load more processes button
+    Then A list of "20" items is displayed
+
   Scenario: The enable process modal is displayed and closed
     Given The page response "default filter" is defined for disabled processes
     When I visit admin process list page

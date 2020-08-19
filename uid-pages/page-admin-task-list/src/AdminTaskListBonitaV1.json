@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminTaskListBonitaV1",
   "name" : "AdminTaskListBonitaV1",
-  "lastUpdate" : 1591110524170,
+  "lastUpdate" : 1597838861313,
   "rows" : [
     [
       {
@@ -6647,6 +6647,7 @@
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
         "    $data.failedFlowNodeUrl = undefined;",
+        "    $data.failedFlowNodeData.failedFlowNodesNextResults = undefined;",
         "}",
         "",
         "// add next page of flowNodes to the list of next flowNodes to display",
@@ -6768,7 +6769,8 @@
         "    $data.pendingTaskData.numberOfPendingTasksReturned = $data.pendingTaskData.pendingTasksForNextPage.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.pendingTaskUrl = undefined; ",
+        "    $data.pendingTaskUrl = undefined;",
+        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
         "}",
         "",
         "// add next page of pending tasks to the list of next pending tasks to display",
@@ -6879,7 +6881,8 @@
         "    $data.doneTaskData.numberOfDoneTasksReturned = $data.doneTaskData.doneTasksForNextPage.length;\r",
         "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
-        "    $data.doneTaskUrl = undefined; \r",
+        "    $data.doneTaskUrl = undefined;\r",
+        "    $data.doneTaskData.doneTasksNextResults = undefined;\r",
         "}\r",
         "\r",
         "// add next page of done tasks to the list of next done tasks to display\r",

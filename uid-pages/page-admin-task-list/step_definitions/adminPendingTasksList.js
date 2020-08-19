@@ -24,6 +24,10 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             createRoute('&o=priority+ASC', 'sortByPriorityAscRoute');
             createRoute('&o=priority+DESC', 'sortByPriorityDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + pendingTasksUrl + 'c=20&p=0', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute', 'pendingTasks20');
+            createRouteWithResponse(urlPrefix + pendingTasksUrl + 'c=10&p=2', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'pendingTasks10');
+            break;
         case 'search by name':
             createRoute('&s=InvolveUser', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -41,6 +45,11 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks20Route', 'pendingTasks20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks20Route', 'pendingTasks20');
+            createRouteWithResponseAndPagination('', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
+            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         default:
             throw new Error("Unsupported case");

@@ -66,3 +66,19 @@ Feature: The users list in desktop resolution
     Then A list of "20" users is displayed
     When I click on Load more users button
     Then The Load more users button is disabled
+
+  Scenario: Load more users resets correctly after the limitation is triggered
+    Given The filter response "enable 30 load more" is defined
+    And The filter response "user search during limitation" is defined
+    When I visit the user list page
+    Then A list of "10" users is displayed
+    When I click on Load more users button
+    Then A list of "20" users is displayed
+    When I click on Load more users button
+    Then A list of "30" users is displayed
+    When I click on Load more users button
+    And The Load more users button is disabled
+    When I put "Walter" in "search" filter field
+    Then A list of "10" users is displayed
+    When I click on Load more users button
+    Then A list of "20" users is displayed

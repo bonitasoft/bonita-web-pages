@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.10.5",
   "id" : "UserCaseListBonitaV2",
   "name" : "UserCaseListBonitaV2",
-  "lastUpdate" : 1583403254153,
+  "lastUpdate" : 1597830148295,
   "rows" : [
     [
       {
@@ -3313,7 +3313,8 @@
         "    $data.numberOfCasesReturned = $data.openCaseData.openCasesForNextPage.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.openCases = undefined; ",
+        "    $data.openCases = undefined;",
+        "    $data.openCaseData.openCasesNextResults = undefined;",
         "}",
         "",
         "// add next page of open cases to the list of next open cases to display",
@@ -3343,7 +3344,8 @@
         "    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases).",
         "    $data.archivedCaseData.archivedCasesForNextPage = $data.archivedCases.slice($data.archivedCaseData.numberOfCasesPerPage);",
         "    $data.archivedCaseData.numberOfArchivedCasesReturned = $data.archivedCaseData.archivedCasesForNextPage.length;",
-        "    $data.archivedCases = undefined; ",
+        "    $data.archivedCases = undefined;",
+        "    $data.archivedCaseData.archivedCasesNextResults = undefined;",
         "}",
         "",
         "// add next page of archived cases to the current list when user clicks on load more",

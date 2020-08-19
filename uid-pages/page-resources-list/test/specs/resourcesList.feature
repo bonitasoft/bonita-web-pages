@@ -73,6 +73,22 @@ Feature: The resources list in desktop resolution
     When I click on Load more resources button
     Then The Load more resources button is disabled
 
+  Scenario: Load more resets correctly after the limitation is triggered
+    Given The filter response "enable 30 load more" is defined
+    And The filter response "sort during limitation" is defined
+    When I visit the resources list page
+    Then A list of "10" resources is displayed
+    When I click on Load more resources button
+    Then A list of "20" resources is displayed
+    When I click on Load more resources button
+    Then A list of "30" resources is displayed
+    When I click on Load more resources button
+    And The Load more resources button is disabled
+    When I put "Resource name (Desc)" in "sort by" filter field
+    Then A list of "10" resources is displayed
+    When I click on Load more resources button
+    Then A list of "20" resources is displayed
+
   Scenario: Should export a resource
     Given The filter response "default filter" is defined
     When I visit the index page

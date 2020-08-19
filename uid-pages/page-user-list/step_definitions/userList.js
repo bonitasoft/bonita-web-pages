@@ -23,6 +23,10 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastname+ASC&s=walter.bates' + enabledFilter, 'userNameRoute');
             createRouteWithResponse('&o=lastname+ASC&s=Search term with no match' + enabledFilter, 'emptyResultRoute', 'emptyResult');
             break;
+        case 'user search during limitation':
+            createRouteWithResponse('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute', 'users20');
+            createRouteWithResponseAndPagination('&o=lastname+ASC&s=Walter' + enabledFilter, 'users10Route', 'users10', 2, 10);
+            break;
         case 'show inactive':
             createRoute('&o=lastname+ASC&f=enabled=false', 'showInactiveRoute');
             break;
@@ -35,6 +39,11 @@ given("The filter response {string} is defined", (filterType) => {
         case 'enable 20 load more':
             createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'users10Route', 'users10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'inactive user':
             createRouteWithResponse('&o=lastname+ASC&f=enabled=false', 'inactiveUser1Route', 'inactiveUser1');

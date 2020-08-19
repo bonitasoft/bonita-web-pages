@@ -2,7 +2,7 @@
   "designerVersion" : "1.10.18",
   "id" : "AdminProcessListBonitaV1",
   "name" : "AdminProcessListBonitaV1",
-  "lastUpdate" : 1585066518365,
+  "lastUpdate" : 1597829758897,
   "rows" : [
     [
       {
@@ -5204,6 +5204,7 @@
         "    // set enabled processes to undefined as the script is triggered when click on load more processes button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedEnabledProcesses)",
         "    $data.enabledProcessUrl = undefined;",
+        "    $data.enabledProcessData.enabledProcessesNextResults = undefined;",
         "}",
         "",
         "// add next page of enabled processes to the list of next enabled processes to display",
@@ -5355,7 +5356,8 @@
         "    $data.disabledProcessData.numberOfDisabledProcessesReturned = $data.disabledProcessData.disabledProcessesForNextPage.length;\r",
         "    // set disabled processes to undefined as the script is triggered when click on load more processes button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedDisabledProcesses)\r",
-        "    $data.disabledProcessUrl = undefined; \r",
+        "    $data.disabledProcessUrl = undefined;\r",
+        "    $data.disabledProcessData.disabledProcessesNextResults = undefined;\r",
         "}\r",
         "\r",
         "// add next page of enabled processes to the list of next enabled processes to display\r",
@@ -5537,7 +5539,8 @@
         "if($data.installModalData.statusCode !== '' && $data.installModalData.installingItem){",
         "    $data.installModalData.installingItem = false;",
         "    $data.installModalData.filePath = undefined;",
-        "    $data.installModalData.timestamp = new Date().getTime();",
+        "    $data.enabledProcessData.timestamp = new Date().getTime();",
+        "    $data.disabledProcessData.timestamp = new Date().getTime();",
         "    setTimeout(function() {",
         "        $data.installModalData.statusCode = '';",
         "    }, 2000);",

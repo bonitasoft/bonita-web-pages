@@ -26,6 +26,10 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createDefaultRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
             createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=20&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'disabledProcesses20');
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=2&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'disabledProcesses10');
+            break;
         case 'search':
             createDefaultRoute( defaultSortOrder + '&s=VacationRequest', 'searchByNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
@@ -41,6 +45,11 @@ given("The page response {string} is defined for disabled processes", (filterTyp
         case 'disable 20 load more':
             createRouteWithResponse(defaultRequestUrl, defaultSortOrder, 'disabledProcesses20Route', 'disabledProcesses20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'disable 30 load more':
+            createRouteWithResponse(defaultRequestUrl, defaultSortOrder, 'disabledProcesses20Route', 'disabledProcesses20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'disabledProcesses10Route', 'disabledProcesses10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'enable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT");
