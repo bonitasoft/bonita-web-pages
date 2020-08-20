@@ -93,7 +93,8 @@ Feature: The enabled process list in desktop resolution
     When I click on load more processes button
     And The load more processes button is disabled
     When I put "Display name (Desc)" in "sort by" filter field
-    And I click on load more processes button
+    Then A list of "10" items is displayed
+    When I click on load more processes button
     Then A list of "20" items is displayed
 
   Scenario: The disable process modal is displayed and closed
