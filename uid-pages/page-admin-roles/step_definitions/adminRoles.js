@@ -33,10 +33,19 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles20Route', 'roles20');
             createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles20Route', 'roles20');
+            createRolesRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
+            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
         case 'sort by':
             createRoute(rolesUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
             createRoute(rolesUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
             createRoute(rolesUrl + '?c=20&p=0&o=name+DESC&t=0', 'sortNameDescRoute');
+            break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + rolesUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'roles20');
+            createRouteWithResponse(urlPrefix + rolesUrl + '?c=10&p=2&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'roles10');
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Member&t=0', 'searchMemberRoute', 'roles1');
@@ -82,6 +91,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'oneUserRoute', 'users1');
             createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match", 'noMatchRoute', 'emptyResult');
             break;
+        case 'user search during limitation':
+            createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'users20Route', 'users20');
+            createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=2&f=enabled=true&f=role_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
+            break;
         case 'user list load more':
             createRouteWithResponse(defaultUserUrl + '1','users20Route', 'users20');
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
@@ -91,6 +104,11 @@ given("The response {string} is defined", (responseType) => {
         case 'user list 20 load more':
             createRouteWithResponse(defaultUserUrl + '1', 'users20Route', 'users20');
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'user list 30 load more':
+            createRouteWithResponse(defaultUserUrl + '1', 'users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'user list for two roles':
             createRouteWithResponse(defaultUserUrl + "1", 'emptyResultRoute', 'emptyResult');
@@ -234,7 +252,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
 });
 
 when("I put {string} in user list search filter field", (filterValue) => {
-    cy.get('.modal-body pb-input input:visible').type(filterValue);
+    cy.get('.modal-body pb-input input').scrollIntoView().type(filterValue);
 });
 
 when("I fill in the information", () => {

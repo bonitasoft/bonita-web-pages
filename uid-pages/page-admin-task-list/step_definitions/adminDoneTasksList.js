@@ -30,6 +30,10 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
             createRoute('&o=caseId+ASC', 'sortByCaseIdAscRoute');
             createRoute('&o=caseId+DESC', 'sortByCaseIdDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + doneTasksUrl + 'c=20&p=0', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute', 'doneTasks20');
+            createRouteWithResponse(urlPrefix + doneTasksUrl + 'c=10&p=2', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'doneTasks10');
+            break;
         case 'search by name':
             createRoute(defaultSortOrder + '&s=Alowscenario', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -39,14 +43,19 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
             createRoute('&f=caseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'', 'failedFlowNodes20Route', 'failedFlowNodes20');
-            createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
-            createRouteWithResponseAndPagination('', 'failedFlowNodes5Route', 'failedFlowNodes5', 3, 10);
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'', 'doneTasks20Route', 'doneTasks20');
+            createRouteWithResponseAndPagination('', 'doneTasks10Route', 'doneTasks10', 2, 10);
+            createRouteWithResponseAndPagination('', 'doneTasks5Route', 'doneTasks5', 3, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'doneTasks20Route', 'doneTasks20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'doneTasksRoute', 'doneTasks20');
+            createRouteWithResponseAndPagination('', 'doneTasks10Route', 'doneTasks10', 2, 10);
+            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         default:
             throw new Error("Unsupported case");

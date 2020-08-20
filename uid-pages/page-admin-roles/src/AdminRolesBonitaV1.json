@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminRolesBonitaV1",
   "name" : "AdminRolesBonitaV1",
-  "lastUpdate" : 1596011964809,
+  "lastUpdate" : 1597839309984,
   "rows" : [
     [
       {
@@ -5036,6 +5036,7 @@
         "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
         "    $data.rolesUrl = undefined;\r",
+        "    $data.rolesData.rolesNextResults = undefined;\r",
         "}\r",
         "\r",
         "// add next page of roles to the list of next roles to display\r",
@@ -5237,7 +5238,8 @@
         "    $data.userListData.numberOfUsersReturned = $data.userListData.usersForNextPage.length;",
         "    // set users to undefined as the script is triggered when click on load more users button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)",
-        "    $data.userListUrl = undefined; ",
+        "    $data.userListUrl = undefined;",
+        "    $data.userListData.usersNextResults = undefined;",
         "}",
         "",
         "// add next page of users to the list of next users to display",

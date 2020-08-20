@@ -26,6 +26,22 @@ Feature: The Admin Roles in desktop resolution
     When I click on Load more roles button
     And The load more roles button is disabled
 
+  Scenario: Load more resets correctly after the limitation is triggered
+    Given The response "enable 30 load more" is defined
+    And The response "sort during limitation" is defined
+    When I visit the admin roles page
+    Then A list of 10 roles is displayed
+    When I click on Load more roles button
+    Then A list of 20 roles is displayed
+    When I click on Load more roles button
+    Then A list of 30 roles is displayed
+    When I click on Load more roles button
+    And The load more roles button is disabled
+    When I put "Display name (Desc)" in "sort by" filter field
+    Then A list of 10 roles is displayed
+    When I click on Load more roles button
+    Then A list of 20 roles is displayed
+
   Scenario: The roles list sort by works correctly
     Given The response "default filter" is defined
     And The response "sort by" is defined
@@ -282,6 +298,25 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 users is displayed
     When I click on Load more users button
     And The load more users button is disabled
+
+  Scenario: Load more users resets correctly after the limitation is triggered
+    Given The response "user list 30 load more" is defined
+    And The response "default filter" is defined
+    And The response "user search during limitation" is defined
+    When I visit the admin roles page
+    Then A list of 8 roles is displayed
+    When I click on user button for first role
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
+    When I click on Load more users button
+    Then A list of 30 users is displayed
+    When I click on Load more users button
+    And The load more users button is disabled
+    When I put "Virginie" in user list search filter field
+    Then A list of 10 users is displayed
+    When I click on Load more users button
+    Then A list of 20 users is displayed
 
   Scenario: The user list modal resets when open for a different role
     Given The response "default filter" is defined

@@ -44,6 +44,11 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
             createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
+            createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
+            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
         case 'group creation success':
             createRouteWithMethod(groupsUrl, 'parentGroupCreationRoute', 'POST');
             break;
@@ -52,6 +57,10 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
+            break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + groupsUrl + '?c=20&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'groups20');
+            createRouteWithResponse(urlPrefix + groupsUrl + '?c=10&p=2&d=parent_group_id&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'groups10');
             break;
         case 'parent group list with 20 groups':
             createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupWith20GroupsRoute', 'groups20');
@@ -77,6 +86,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + '1&s=Virginie&t=1*', 'oneUserRoute', 'users1');
             createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
             break;
+        case 'user search during limitation':
+            createRouteWithResponse(defaultUserUrl + '1&s=Virginie&t=1*', 'users20Route', 'users20');
+            createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=2&f=enabled=true&f=group_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
+            break;
         case 'user list load more':
             createRouteWithResponse(defaultUserUrl + '1&t=1*','users20Route', 'users20');
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users10Route', 'users10', 2, 10);
@@ -86,6 +99,11 @@ given("The response {string} is defined", (responseType) => {
         case 'user list 20 load more':
             createRouteWithResponse(defaultUserUrl + '1&t=1*', 'users20Route', 'users20');
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'user list 30 load more':
+            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'users20Route', 'users20');
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users10Route', 'users10', 2, 10);
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'user list for two groups':
             createRouteWithResponse(defaultUserUrl + '1&t=1*', 'emptyResultRoute', 'users18');
@@ -103,6 +121,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'searchAcmeRoute', 'subGroups1');
             createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
             break;
+        case 'sub-groups search during limitation':
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'subGroups20Route', 'groups20');
+            createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
+            break;
         case 'sub-groups list load more':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*','subGroups20Route', 'groups20');
             createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
@@ -112,6 +134,11 @@ given("The response {string} is defined", (responseType) => {
         case 'sub-groups list 20 load more':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
             createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'sub-groups list 30 load more':
+            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'sub-groups list for two groups':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
@@ -578,7 +605,7 @@ then("No {string} are available", (item) => {
 
 then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name, or username').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'There are no users in this group').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
@@ -588,7 +615,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
 
 then("The user list modal is open and has {int} users for {string}", (numberOfUsers, state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name, or username').should('not.have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'There are no users in this group').should('not.be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
     cy.contains('.modal-body button', 'Load more users').should('be.visible');

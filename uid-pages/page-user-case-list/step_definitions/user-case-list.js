@@ -284,6 +284,98 @@ given('The resolution is set to mobile', () => {
     cy.viewport(766, 1000);
 });
 
+given("The response {string} is defined", (responseType) => {
+    cy.server();
+    const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    const defaultArchivedCaseFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    const defaultRequestUrl = 'build/dist/API/bpm/case?c=20&p=0' + defaultFilters;
+    const defaultArchivedCaseRequestUrl = 'build/dist/API/bpm/archivedCase?c=20&p=0' + defaultArchivedCaseFilters;
+
+    switch (responseType) {
+        case 'open case list 20 load more':
+            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'open case list 30 load more':
+            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'openCases10Route', 'openCases10', 2, 10);
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
+        case 'sort open case list during limitation':
+            createRouteWithResponse(defaultRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters + '&o=name+DESC', 'openCases10Route', 'openCases10', 2, 10);
+            break;
+        case 'archived case list 20 load more':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'archived case list 30 load more':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'archivedCases10Route', 'archivedCases10', 2, 10);
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
+        case 'sort archived case list during limitation':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters + '&o=name+DESC', 'archivedCases10Route', 'archivedCases10', 2, 10);
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+
+    function createRoute(urlSuffix, routeName) {
+        cy.route({
+            method: 'GET',
+            url: urlPrefix + urlSuffix
+        }).as(routeName);
+    }
+
+    function createRouteWithMethod(urlSuffix, routeName, method) {
+        createRouteWithMethodAndStatus(urlSuffix, routeName, method, 200);
+    }
+
+    function createRouteWithResponse(url, routeName, response) {
+        createRouteWithResponseAndMethod(url, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndMethod(url, routeName, response, method) {
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
+    }
+
+    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
+        cy.route({
+            method: method,
+            url: urlPrefix + urlSuffix,
+            response: "",
+            status: status
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
+        cy.fixture('json/' + response + '.json').as(response);
+        cy.route({
+            method: method,
+            url: url,
+            status: status,
+            response: '@' + response
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndPagination(urlPrefix, queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + '?c=' + count + '&p=' + page;
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
+    }
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });

@@ -23,6 +23,10 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=displayName+DESC', 'sortByNameDescRoute');
             createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources20');
+            createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'resources10', 2, 10);
+            break;
         case 'search by name':
             createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -36,6 +40,11 @@ given("The filter response {string} is defined", (filterType) => {
         case 'enable 20 load more':
             createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
