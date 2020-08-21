@@ -64,3 +64,72 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 10 items is displayed
     When I click on Load more profiles button
     Then A list of 20 items is displayed
+
+  Scenario: The delete group modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete aaa"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+
+  Scenario: The delete profile modal deletes successfully
+    Given The response "profile deletion success" is defined
+    And The response "refresh list after delete" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete aaa"
+    When I click on the "Delete" button in modal footer
+    Then The deletion is successful
+    And The profiles list is refreshed
+    When I click on the "Close" button in modal footer
+    Then There is no modal displayed
+    And A list of 7 profiles is displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete New Profile"
+#
+  Scenario: The modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on delete button for first profile
+    When I click on the "Delete" button in modal footer
+    Then I see "403" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete aaa"
+
+  Scenario: The modal should display generic 404 error message
+    Given The response "default filter" is defined
+    And The response "404 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on delete button for first profile
+    When I click on the "Delete" button in modal footer
+    Then I see "404" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete aaa"
+
+  Scenario: The modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during deletion" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on delete button for first profile
+    When I click on the "Delete" button in modal footer
+    Then I see "500" error message for "deleted"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on delete button for first profile
+    Then The delete modal is open and has a default state for "Delete aaa"
