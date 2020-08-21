@@ -148,6 +148,13 @@ then("The profiles page has the correct information", () => {
         cy.get('.btn.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View profile details');
         cy.get('.btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
         cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
+        cy.get('.is-provided-icon').should('not.be.visible');
+    });
+    cy.get('.profile-item').eq(1).within(() => {
+        cy.contains('.item-label', 'Name');
+        cy.contains('.item-value', 'Administrator');
+        cy.get('.is-provided-icon').should('be.visible');
+        cy.get('.btn.btn-link .glyphicon-trash').should('not.be.enabled');
     });
     cy.contains('.item-label', 'Profiles shown: 8');
 });
