@@ -3,7 +3,7 @@
   "previousDesignerVersion" : "1.9.24",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1597930047890,
+  "lastUpdate" : 1598011053142,
   "rows" : [
     [
       {
@@ -810,140 +810,6 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "container",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
-                            }
-                          },
-                          "reference" : "c8d27d6c-e7b6-43f8-a5e7-dd93ba4b023b",
-                          "hasValidationError" : false,
-                          "id" : "pbContainer",
-                          "rows" : [
-                            [
-                              {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "sm" : 12,
-                                  "md" : 12,
-                                  "lg" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : "item-label"
-                                  },
-                                  "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "!$item.description"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : "Default label"
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
-                                  },
-                                  "allowHTML" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "{{$item.description}}"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
-                                  }
-                                },
-                                "reference" : "555e6e76-0a92-48a6-a89c-f4bbc847b8c8",
-                                "hasValidationError" : false,
-                                "id" : "pbText"
-                              }
-                            ],
-                            [
-                              {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "sm" : 12,
-                                  "md" : 12,
-                                  "lg" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : "item-label"
-                                  },
-                                  "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "$item.description"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : "Default label"
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
-                                  },
-                                  "allowHTML" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "No description"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
-                                  }
-                                },
-                                "reference" : "ba050f81-b906-4282-aa68-d0f74576d68d",
-                                "hasValidationError" : false,
-                                "id" : "pbText"
-                              }
-                            ]
-                          ]
-                        }
                       ]
                     ]
                   },
@@ -1149,8 +1015,8 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "$item.is_default === \"true\""
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -1221,6 +1087,177 @@
                         }
                       ]
                     ]
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 10,
+                      "lg" : 9
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "c8d27d6c-e7b6-43f8-a5e7-dd93ba4b023b",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "item-label"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "!$item.description"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "{{$item.description}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "555e6e76-0a92-48a6-a89c-f4bbc847b8c8",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "item-label"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "$item.description"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "No description"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "ba050f81-b906-4282-aa68-d0f74576d68d",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 2,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "is-provided-icon"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "$item.is_default === \"false\""
+                      },
+                      "srcType" : {
+                        "type" : "constant",
+                        "value" : "Asset"
+                      },
+                      "url" : {
+                        "type" : "constant"
+                      },
+                      "assetName" : {
+                        "type" : "constant",
+                        "value" : "bonitasoftLogo.png"
+                      },
+                      "alt" : {
+                        "type" : "interpolation",
+                        "value" : "Default profile"
+                      }
+                    },
+                    "reference" : "4f02a51b-4d6d-4cc7-a4c2-e555741748a5",
+                    "hasValidationError" : false,
+                    "id" : "pbImage"
                   }
                 ]
               ]
@@ -1439,6 +1476,13 @@
     ]
   ],
   "assets" : [
+    {
+      "id" : "d71081b6-0297-4878-8619-3cd7cd4c3b61",
+      "name" : "bonitasoftLogo.png",
+      "type" : "img",
+      "order" : 1,
+      "external" : false
+    },
     {
       "id" : "f132944c-2819-48b4-9d6e-e2776e7386bd",
       "name" : "style.css",
