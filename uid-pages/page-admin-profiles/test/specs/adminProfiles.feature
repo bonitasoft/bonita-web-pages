@@ -65,7 +65,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on Load more profiles button
     Then A list of 20 items is displayed
 
-  Scenario: The delete group modal is opened and closed
+  Scenario: The delete profile modal is opened and closed
     Given The response "refresh not called" is defined
     And The response "default filter" is defined
     When I visit the admin profiles page
@@ -91,7 +91,7 @@ Feature: The Admin Profiles in desktop resolution
     And A list of 7 profiles is displayed
     When I click on delete button for first profile
     Then The delete modal is open and has a default state for "Delete New Profile"
-#
+
   Scenario: The modal should display generic 403 error message
     Given The response "default filter" is defined
     And The response "403 during deletion" is defined
@@ -133,3 +133,111 @@ Feature: The Admin Profiles in desktop resolution
     Then There is no modal displayed
     When I click on delete button for first profile
     Then The delete modal is open and has a default state for "Delete aaa"
+
+  Scenario: The add profile modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    Then The name and description are empty
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+
+  Scenario: The add profile modal creates successfully
+    Given The response "profile creation success" is defined
+    And The response "refresh list after create" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    And I fill in the name and description
+    And I click on the "Add" button in modal footer
+    Then The creation is successful
+    And The profiles list is refreshed
+    When I wait for 2000
+    And I click inside the modal
+    Then The success message does not disappear
+    When I click on the "Close" button in modal footer
+    Then There is no modal displayed
+    And A list of 9 profiles is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    Then The name and description are empty
+
+  Scenario: The modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during creation" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    And I fill in the name and description
+    And I click on the "Add" button in modal footer
+    Then I see "403" error message for "added"
+    When I wait for 2000
+    And I fill in the name and description
+    Then There is no error or success
+    And I click on the "Add" button in modal footer
+    Then I see "403" error message for "added"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    Then The name and description are empty
+
+  Scenario: The modal should display already exists error message
+    Given The response "default filter" is defined
+    And The response "already exists during creation" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    And I fill in the name and description
+    And I click on the "Add" button in modal footer
+    Then I see "already exists" error message for "added"
+    When I wait for 2000
+    And I fill in the name and description
+    Then There is no error or success
+    And I click on the "Add" button in modal footer
+    Then I see "already exists" error message for "added"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    Then The name and description are empty
+
+  Scenario: The modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during creation" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    And I fill in the name and description
+    And I click on the "Add" button in modal footer
+    Then I see "500" error message for "added"
+    When I wait for 2000
+    And I fill in the name and description
+    Then There is no error or success
+    And I click on the "Add" button in modal footer
+    Then I see "500" error message for "added"
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
+    When I click on add button
+    Then The add modal is open and has a default state for "Add profiles"
+    When I switch to create a profile
+    Then The name and description are empty
