@@ -416,7 +416,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Asia" in the list
@@ -440,7 +440,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on edit button for first group
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     And The type more message is displayed and disabled
@@ -461,7 +461,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on edit button for first group
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -484,7 +484,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on edit button for first group
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -507,7 +507,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on edit button for first group
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -530,7 +530,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on edit button for first group
     When I erase all the information in edit modal
     And I fill in the information
-    And I click on the "Change" button in modal body
+    And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -552,21 +552,21 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 8 groups is displayed
     When I click on edit button for first group
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
     Then The parent group input is filled with "Acme"
-    When I click on the "Cancel" button in modal body
+    When I click on the "remove" glyphicon button in modal body
     Then The parent group edition field should contain "Europe"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     Then The parent group edition field should contain ""
     And The parent group dropdown is not shown
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
     When I click on edit button for first group
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     Then The parent group edition field should contain ""
     And The parent group dropdown is not shown
     When I click on the "Save" button in modal footer
@@ -582,18 +582,18 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 8 groups is displayed
     When I click on edit button for first group
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on the "Cancel" button in modal body
+    When I click on the "remove" glyphicon button in modal body
     Then The parent group list is not displayed
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Asia" in the list
     Then The parent group list is not displayed
     And The parent group input is filled with "Asia"
-    When I click on the "Cancel" button in modal body
+    When I click on the "remove" glyphicon button in modal body
     Then The parent group list is not displayed
     When I click on the "Save" button in modal footer
     Then The edition is successful with old parent
@@ -611,7 +611,7 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 8 groups is displayed
     When I click on edit button for first group
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -620,7 +620,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
     When I click on edit button for second group
     Then The edit modal is open and has a default state for "Edit group Asia", "asia", "Asia", "This group represents the asia department of the ACME organization", "Infrastructure"
-    When I click on the "Change" button in modal body
+    When I click on the "pencil" glyphicon button in modal body
     Then The parent group edition field should contain ""
     And The parent group dropdown is not shown
 

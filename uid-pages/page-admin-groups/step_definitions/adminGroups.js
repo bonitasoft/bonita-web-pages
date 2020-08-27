@@ -322,7 +322,7 @@ when("I erase the search filter", () => {
 when("I erase all the information in edit modal", () => {
     cy.get('.modal-body pb-input input').eq(0).clear();
     cy.get('.modal-body pb-input input').eq(1).clear();
-    cy.get('.modal-body pb-input input').eq(2).clear();
+    cy.get('.modal-body textarea').clear();
 });
 
 when("I click on Load more groups button", () => {
@@ -337,6 +337,10 @@ when("I click on the {string} button in modal body", (buttonName) => {
     cy.contains('.modal-body button', buttonName).click();
 });
 
+when("I click on the {string} glyphicon button in modal body", (glyphiconName) => {
+    cy.get('.modal-body .glyphicon-' + glyphiconName).click();
+});
+
 when("I click on the {string} button in modal footer", (buttonName) => {
     cy.contains('.modal-footer button', buttonName).click();
 });
@@ -344,11 +348,11 @@ when("I click on the {string} button in modal footer", (buttonName) => {
 when("I fill in the information", () => {
     cy.get('.modal-body input').eq(0).type('Group name');
     cy.get('.modal-body input').eq(1).type('Group display name');
-    cy.get('.modal-body input').eq(2).type('Group description');
+    cy.get('.modal-body textarea').type('Group description');
 });
 
 when("I type {string} in the parent group input", (parentName) => {
-    cy.get('.modal-body input').eq(3).type(parentName);
+    cy.get('.modal-body input').eq(2).type(parentName);
 });
 
 when("I click on {string} in the list", (parentGroupName) => {
@@ -356,7 +360,7 @@ when("I click on {string} in the list", (parentGroupName) => {
 });
 
 when("I remove {string} from the parent group input", () => {
-    cy.get(".modal-body input").eq(3).type("{backspace}")
+    cy.get(".modal-body input").eq(2).type("{backspace}")
 });
 
 when("I click on Load more users button", () => {
@@ -406,19 +410,21 @@ when("I click on sub-group button for second group", () => {
 then("The groups page have the correct information", () => {
     cy.contains('h3', 'Groups');
     cy.get('.group-item').should('have.length', 8);
-    cy.get('.group-item').eq(0).contains('.item-label', 'Display name');
-    cy.get('.group-item').eq(0).contains('.item-value', 'Acme');
-    cy.get('.group-item').eq(0).contains('.item-label', 'Name');
-    cy.get('.group-item').eq(0).contains('.item-value', 'acme');
-    cy.get('.group-item').eq(0).contains('.item-label', 'Created on');
-    cy.get('.group-item').eq(0).contains('.item-value', '7/31/20 11:34 AM');
-    cy.get('.group-item').eq(0).contains('.item-label', 'Updated on');
-    cy.get('.group-item').eq(0).contains('.item-value', '8/6/20 9:52 AM');
-    cy.get('.group-item').eq(0).contains('.item-label', 'This group represents the acme department of the ACME organization');
-    cy.get('.group-item').eq(0).get('.btn.btn-link .glyphicon-th-list').should('have.attr', 'title', 'View sub-groups');;
-    cy.get('.group-item').eq(0).get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View users in the group');
-    cy.get('.group-item').eq(0).get('.btn.btn-link .glyphicon-pencil').should('have.attr', 'title', 'Edit group');;
-    cy.get('.group-item').eq(0).get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete group');;
+    cy.get('.group-item').eq(0).within((item) => {
+        cy.wrap(item).contains('.item-label', 'Display name');
+        cy.wrap(item).contains('.item-value', 'Acme');
+        cy.wrap(item).contains('.item-label', 'Name');
+        cy.wrap(item).contains('.item-value', 'acme');
+        cy.wrap(item).contains('.item-label', 'Created on');
+        cy.wrap(item).contains('.item-value', '7/31/20 11:34 AM');
+        cy.wrap(item).contains('.item-label', 'Updated on');
+        cy.wrap(item).contains('.item-value', '8/6/20 9:52 AM');
+        cy.wrap(item).contains('.item-label', 'This group represents the acme department of the ACME organization');
+        cy.wrap(item).get('.btn.btn-link .glyphicon-th-list').should('have.attr', 'title', 'View sub-groups');
+        cy.wrap(item).get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View users in the group');
+        cy.wrap(item).get('.btn.btn-link .glyphicon-pencil').should('have.attr', 'title', 'Edit group');
+        cy.wrap(item).get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete group');
+    });
     cy.contains('.item-label', 'Groups shown: 8');
 });
 
@@ -462,7 +468,8 @@ then("The load more groups button is disabled", () => {
 
 then("The create modal is open and has a default state for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 4);
+    cy.get('.modal-body input').should('have.length', 3);
+    cy.get('.modal-body textarea').should('have.length', 1);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
@@ -500,7 +507,7 @@ then("The parent group list is not displayed", () => {
 });
 
 then("The parent group input is filled with {string}", (parentGroupName) => {
-    cy.get('.modal-body .form-group input').eq(3).should('have.value', parentGroupName);
+    cy.get('.modal-body .form-group input').eq(2).should('have.value', parentGroupName);
 });
 
 then("The creation is successful", () => {
@@ -656,7 +663,7 @@ then("The sub-group list modal is open and has {int} sub-groups for {string}", (
 
 then("The edit modal is open and has a default state for {string}, {string}, {string}, {string}, {string}", (state, name, displayName, description, parent) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 4);
+    cy.get('.modal-body input').should('have.length', 3);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
@@ -666,17 +673,17 @@ then("The edit modal is open and has a default state for {string}, {string}, {st
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
-    cy.get('.modal-body input').eq(3).should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').eq(2).should('have.attr', 'readonly', 'readonly');
     cy.get('.modal-body .form-group input').eq(0).should('have.value', name);
     cy.get('.modal-body .form-group input').eq(1).should('have.value', displayName);
-    cy.get('.modal-body .form-group input').eq(2).should('have.value', description);
-    cy.get('.modal-body .form-group input').eq(3).should('have.value', parent);
-    cy.contains('.modal-body button', 'Change').should('be.visible');
-    cy.contains('.modal-body button', 'Cancel').should('not.exist');
+    cy.get('.modal-body .form-group input').eq(2).should('have.value', parent);
+    cy.get('.modal-body .form-group textarea').should('have.value', description);
+    cy.get('.modal-body button .glyphicon-pencil').should('be.visible');
+    cy.get('.modal-body button .glyphicon-remove').should('not.exist');
 });
 
 then("The parent group edition field should contain {string}", (parentDisplayName) => {
-    cy.get('.modal-body .form-group input').eq(3).should('have.value', parentDisplayName);
+    cy.get('.modal-body .form-group input').eq(2).should('have.value', parentDisplayName);
 });
 
 then("The parent group dropdown is not shown", (parentDisplayName) => {
