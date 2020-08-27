@@ -1,9 +1,9 @@
 {
-  "designerVersion" : "1.10.18",
-  "previousDesignerVersion" : "1.9.24",
+  "modelVersion" : "2.0",
+  "previousArtifactVersion" : "1.10.18",
   "id" : "AdminGroupsBonitaV1",
   "name" : "AdminGroupsBonitaV1",
-  "lastUpdate" : 1597840047112,
+  "lastUpdate" : 1598536449966,
   "rows" : [
     [
       {
@@ -2143,6 +2143,10 @@
                                   "type" : "constant",
                                   "value" : false
                                 },
+                                "readOnly" : {
+                                  "type" : "expression",
+                                  "value" : "createGroupData.hasRecentlyBeenCreated"
+                                },
                                 "required" : {
                                   "type" : "constant",
                                   "value" : false
@@ -2154,10 +2158,6 @@
                                 "maxLength" : {
                                   "type" : "constant",
                                   "value" : ""
-                                },
-                                "readOnly" : {
-                                  "type" : "expression",
-                                  "value" : "createGroupData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2175,31 +2175,14 @@
                                   "type" : "constant",
                                   "value" : 4
                                 },
-                                "placeholder" : {
-                                  "type" : "interpolation"
-                                },
                                 "value" : {
                                   "type" : "variable",
                                   "value" : "createGroupData.description"
-                                },
-                                "type" : {
-                                  "type" : "constant",
-                                  "value" : "text"
-                                },
-                                "min" : {
-                                  "type" : "constant"
-                                },
-                                "max" : {
-                                  "type" : "constant"
-                                },
-                                "step" : {
-                                  "type" : "constant",
-                                  "value" : 1
                                 }
                               },
-                              "reference" : "d60bd777-9b13-4101-851d-1a51dd5eae17",
+                              "reference" : "3f35a003-79dd-4806-9129-b266c930529e",
                               "hasValidationError" : false,
-                              "id" : "pbInput"
+                              "id" : "pbTextarea"
                             }
                           ],
                           [
@@ -2373,7 +2356,7 @@
                                             },
                                             "text" : {
                                               "type" : "interpolation",
-                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"Parent group\" | uiTranslate}})\n</strong>"
+                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"path\" | uiTranslate}})\n</strong>"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -5271,6 +5254,10 @@
                                   "type" : "constant",
                                   "value" : false
                                 },
+                                "readOnly" : {
+                                  "type" : "expression",
+                                  "value" : "editGroupData.hasRecentlyBeenEdited"
+                                },
                                 "required" : {
                                   "type" : "constant",
                                   "value" : false
@@ -5282,10 +5269,6 @@
                                 "maxLength" : {
                                   "type" : "constant",
                                   "value" : ""
-                                },
-                                "readOnly" : {
-                                  "type" : "expression",
-                                  "value" : "editGroupData.hasRecentlyBeenEdited"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -5303,31 +5286,14 @@
                                   "type" : "constant",
                                   "value" : 4
                                 },
-                                "placeholder" : {
-                                  "type" : "interpolation"
-                                },
                                 "value" : {
                                   "type" : "variable",
                                   "value" : "editGroupData.description"
-                                },
-                                "type" : {
-                                  "type" : "constant",
-                                  "value" : "text"
-                                },
-                                "min" : {
-                                  "type" : "constant"
-                                },
-                                "max" : {
-                                  "type" : "constant"
-                                },
-                                "step" : {
-                                  "type" : "constant",
-                                  "value" : 1
                                 }
                               },
-                              "reference" : "9ed2d53b-b042-4ccc-905d-c04040496b7f",
+                              "reference" : "93a23645-6f3a-4142-b7cb-3f4d09264b73",
                               "hasValidationError" : false,
-                              "id" : "pbInput"
+                              "id" : "pbTextarea"
                             }
                           ],
                           [
@@ -5390,7 +5356,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 10,
+                                            "md" : 11,
                                             "lg" : 10
                                           },
                                           "propertyValues" : {
@@ -5465,7 +5431,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 2,
+                                            "md" : 1,
                                             "lg" : 2
                                           },
                                           "propertyValues" : {
@@ -5483,7 +5449,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Change"
+                                              "value" : "<i class=\"glyphicon glyphicon-pencil\"></i>"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -5587,7 +5553,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 10,
+                                            "md" : 11,
                                             "lg" : 10
                                           },
                                           "propertyValues" : {
@@ -5663,7 +5629,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 2,
+                                            "md" : 1,
                                             "lg" : 2
                                           },
                                           "propertyValues" : {
@@ -5681,7 +5647,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Cancel"
+                                              "value" : "<i class=\"glyphicon glyphicon-remove\"></i>"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -5779,6 +5745,58 @@
                                     "hasValidationError" : false,
                                     "id" : "pbContainer",
                                     "rows" : [
+                                      [
+                                        {
+                                          "type" : "component",
+                                          "dimension" : {
+                                            "xs" : 12,
+                                            "sm" : 12,
+                                            "md" : 12,
+                                            "lg" : 12
+                                          },
+                                          "propertyValues" : {
+                                            "cssClasses" : {
+                                              "type" : "constant",
+                                              "value" : "item-value"
+                                            },
+                                            "hidden" : {
+                                              "type" : "constant",
+                                              "value" : false
+                                            },
+                                            "labelHidden" : {
+                                              "type" : "constant",
+                                              "value" : true
+                                            },
+                                            "label" : {
+                                              "type" : "interpolation",
+                                              "value" : "Default label"
+                                            },
+                                            "labelPosition" : {
+                                              "type" : "constant",
+                                              "value" : "top"
+                                            },
+                                            "labelWidth" : {
+                                              "type" : "constant",
+                                              "value" : 4
+                                            },
+                                            "allowHTML" : {
+                                              "type" : "constant",
+                                              "value" : true
+                                            },
+                                            "text" : {
+                                              "type" : "interpolation",
+                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"path\" | uiTranslate}})\n</strong>"
+                                            },
+                                            "alignment" : {
+                                              "type" : "constant",
+                                              "value" : "left"
+                                            }
+                                          },
+                                          "reference" : "a2dfd6dc-a582-49c4-8164-330fd714ad78",
+                                          "hasValidationError" : false,
+                                          "id" : "pbText"
+                                        }
+                                      ],
                                       [
                                         {
                                           "type" : "container",
@@ -7353,7 +7371,7 @@
         "        if(!parent.parent_path) {\r",
         "            return \"(--)\";\r",
         "        }\r",
-        "        return \"(\" + parent.parent_path + \")\";\r",
+        "        return \"(\" + parent.parent_path + \"/\" + parent.name + \")\";\r",
         "    }\r",
         "};"
       ],
