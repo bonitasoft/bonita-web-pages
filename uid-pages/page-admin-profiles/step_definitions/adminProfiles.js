@@ -62,6 +62,21 @@ given("The response {string} is defined", (responseType) => {
         case '500 during deletion':
             createRouteWithMethodAndStatus(profilesUrl + '/101', 'internalErrorDeleteProfileRoute', 'DELETE', '500');
             break;
+        case 'profile creation success':
+            createRouteWithMethod(profilesUrl, 'profileCreationRoute', 'POST');
+            break;
+        case 'refresh list after create':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'profiles9');
+            break;
+        case '403 during creation':
+            createRouteWithMethodAndStatus(profilesUrl, 'unauthorizedCreateProfileRoute', 'POST', '403');
+            break;
+        case 'already exists during creation':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profilesUrl, 'alreadyExistsCreateProfileRoute', 'alreadyExistsException', 'POST', '403');
+            break;
+        case '500 during creation':
+            createRouteWithMethodAndStatus(profilesUrl, 'internalErrorCreateProfileRoute', 'POST', '500');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -167,8 +182,29 @@ when("I click on delete button for first profile", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
 });
 
+when("I click on add button", () => {
+    cy.contains('button', 'Add').click();
+});
+
+when("I switch to create a profile", () => {
+    cy.get('.modal-body input[type=radio]').eq(1).click();
+});
+
 when("I click on the {string} button in modal footer", (buttonName) => {
     cy.contains('.modal-footer button', buttonName).click();
+});
+
+when("I fill in the name and description", () => {
+    cy.get('.modal-body input[type=text]').eq(0).type('Profile name');
+    cy.get('.modal-body input[type=text]').eq(1).type('Profile description');
+});
+
+when("I wait for {int}", (time) => {
+    cy.wait(time);
+});
+
+when("I click inside the modal", () => {
+    cy.get('.modal-body').click();
 });
 
 then("The profiles page has the correct information", () => {
@@ -235,6 +271,17 @@ then("The delete modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
+then("The add modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.contains('.modal-body p', 'Select how you want to add profiles.');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body input[type=radio]').should('have.length', 2);
+    cy.contains('.modal-footer button', 'Add').should('be.enabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
 then("There is no modal displayed", () => {
     cy.get('.modal').should('not.visible');
 });
@@ -243,6 +290,14 @@ then("The deletion is successful", () => {
     cy.contains('.modal-footer button', 'Delete').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+});
+
+then("The creation is successful", () => {
+    cy.contains('.modal-footer button', 'Add').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
 });
 
 then("The profiles list is refreshed", () => {
@@ -271,4 +326,18 @@ then("I see {string} error message for {string}", (error, action) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The profile has not been ' + action + '.').should('be.visible');
+});
+
+then("The name and description are empty", () => {
+    cy.get('.modal-body input[type=text]').eq(0).should('have.value', '');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.value', '');
+});
+
+then("The success message does not disappear", () => {
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+});
+
+then("There is no error or success", () => {
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
 });

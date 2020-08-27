@@ -1,9 +1,9 @@
 {
-  "designerVersion" : "1.10.18",
-  "previousDesignerVersion" : "1.9.24",
+  "modelVersion" : "2.0",
+  "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1598021443180,
+  "lastUpdate" : 1598521067569,
   "rows" : [
     [
       {
@@ -1745,14 +1745,15 @@
                                   ]
                                 },
                                 "displayedKey" : {
-                                  "type" : "constant"
+                                  "type" : "constant",
+                                  "value" : ""
                                 },
                                 "returnedKey" : {
                                   "type" : "constant"
                                 },
                                 "selectedValue" : {
                                   "type" : "variable",
-                                  "value" : "profilesData.filters.importProfile"
+                                  "value" : "createProfileData.creatProfileMethod"
                                 }
                               },
                               "reference" : "e08d8815-3c2b-4dd6-abed-aa37c1fb1998",
@@ -1775,8 +1776,8 @@
                                   "value" : ""
                                 },
                                 "hidden" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createProfileData.creatProfileMethod !== \"Import profiles\""
                                 },
                                 "repeatedCollection" : {
                                   "type" : "variable",
@@ -1827,7 +1828,7 @@
                                       },
                                       "text" : {
                                         "type" : "interpolation",
-                                        "value" : "A profile includes the mapping to pages and the organization."
+                                        "value" : "A profile includes the mapping to entities of the organization.<br/> Before you import profiles, the mapped organization must already be deployed. <br/>\nWhen you import profiles, it overwrites any existing profiles with the same names."
                                       },
                                       "alignment" : {
                                         "type" : "constant",
@@ -1835,110 +1836,6 @@
                                       }
                                     },
                                     "reference" : "45b30bcc-10bf-4cf7-804f-6abed40e6004",
-                                    "hasValidationError" : false,
-                                    "id" : "pbText"
-                                  }
-                                ],
-                                [
-                                  {
-                                    "type" : "component",
-                                    "dimension" : {
-                                      "xs" : 12,
-                                      "sm" : 12,
-                                      "md" : 12,
-                                      "lg" : 12
-                                    },
-                                    "propertyValues" : {
-                                      "cssClasses" : {
-                                        "type" : "constant",
-                                        "value" : ""
-                                      },
-                                      "hidden" : {
-                                        "type" : "constant",
-                                        "value" : false
-                                      },
-                                      "labelHidden" : {
-                                        "type" : "constant",
-                                        "value" : true
-                                      },
-                                      "label" : {
-                                        "type" : "interpolation",
-                                        "value" : "Default label"
-                                      },
-                                      "labelPosition" : {
-                                        "type" : "constant",
-                                        "value" : "top"
-                                      },
-                                      "labelWidth" : {
-                                        "type" : "constant",
-                                        "value" : 4
-                                      },
-                                      "allowHTML" : {
-                                        "type" : "constant",
-                                        "value" : true
-                                      },
-                                      "text" : {
-                                        "type" : "interpolation",
-                                        "value" : "Before you import a profile, the mapped pages and organization must already be loaded in the Portal."
-                                      },
-                                      "alignment" : {
-                                        "type" : "constant",
-                                        "value" : "left"
-                                      }
-                                    },
-                                    "reference" : "bcf22994-f9d5-4be3-95d7-bb966c07150c",
-                                    "hasValidationError" : false,
-                                    "id" : "pbText"
-                                  }
-                                ],
-                                [
-                                  {
-                                    "type" : "component",
-                                    "dimension" : {
-                                      "xs" : 12,
-                                      "sm" : 12,
-                                      "md" : 12,
-                                      "lg" : 12
-                                    },
-                                    "propertyValues" : {
-                                      "cssClasses" : {
-                                        "type" : "constant",
-                                        "value" : ""
-                                      },
-                                      "hidden" : {
-                                        "type" : "constant",
-                                        "value" : false
-                                      },
-                                      "labelHidden" : {
-                                        "type" : "constant",
-                                        "value" : true
-                                      },
-                                      "label" : {
-                                        "type" : "interpolation",
-                                        "value" : "Default label"
-                                      },
-                                      "labelPosition" : {
-                                        "type" : "constant",
-                                        "value" : "top"
-                                      },
-                                      "labelWidth" : {
-                                        "type" : "constant",
-                                        "value" : 4
-                                      },
-                                      "allowHTML" : {
-                                        "type" : "constant",
-                                        "value" : true
-                                      },
-                                      "text" : {
-                                        "type" : "interpolation",
-                                        "value" : "When you import a profile, it overwrites any existing profile with the same name."
-                                      },
-                                      "alignment" : {
-                                        "type" : "constant",
-                                        "value" : "left"
-                                      }
-                                    },
-                                    "reference" : "efad0065-c26e-40bb-a1c7-681c50ac9dab",
                                     "hasValidationError" : false,
                                     "id" : "pbText"
                                   }
@@ -1987,11 +1884,11 @@
                                       },
                                       "url" : {
                                         "type" : "constant",
-                                        "value" : ""
+                                        "value" : "../API/profilesUpload"
                                       },
                                       "value" : {
                                         "type" : "variable",
-                                        "value" : ""
+                                        "value" : "createProfileData.xmlFile"
                                       },
                                       "errorContent" : {
                                         "type" : "variable",
@@ -2021,8 +1918,8 @@
                                   "value" : ""
                                 },
                                 "hidden" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createProfileData.creatProfileMethod !== \"Create a profile\""
                                 },
                                 "repeatedCollection" : {
                                   "type" : "variable",
@@ -2282,7 +2179,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2334,7 +2231,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The profile has not been created.' | translate}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The profile has not been added.' | translate}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2386,7 +2283,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The profile has been successfully created.' | translate}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The profile has been successfully added.' | translate}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2434,7 +2331,7 @@
                               "dimension" : {
                                 "xs" : 12,
                                 "sm" : 12,
-                                "md" : 4,
+                                "md" : 6,
                                 "lg" : 6
                               },
                               "propertyValues" : {
@@ -2448,11 +2345,11 @@
                                 },
                                 "disabled" : {
                                   "type" : "expression",
-                                  "value" : "createProfileData.hasRecentlyBeenCreated || createProfileData.name === \"\""
+                                  "value" : "createProfileData.hasRecentlyBeenCreated || (createProfileData.name === \"\" && !createProfileData.xmlFile)"
                                 },
                                 "label" : {
                                   "type" : "interpolation",
-                                  "value" : "Create"
+                                  "value" : "Add"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2472,7 +2369,7 @@
                                 },
                                 "url" : {
                                   "type" : "interpolation",
-                                  "value" : "{{defaultProfilesUrl}}"
+                                  "value" : "{{createProfileCtrl.getCreateUrl()}}"
                                 },
                                 "responseStatusCode" : {
                                   "type" : "variable",
@@ -2524,7 +2421,7 @@
                               "dimension" : {
                                 "xs" : 12,
                                 "sm" : 12,
-                                "md" : 4,
+                                "md" : 6,
                                 "lg" : 6
                               },
                               "propertyValues" : {
@@ -3337,8 +3234,7 @@
         "    ],",
         "    filters: {",
         "        sortOrder: \"\",",
-        "        searchValue: \"\",",
-        "        importProfile: true",
+        "        searchValue: \"\"",
         "    }",
         "};"
       ],
@@ -3438,9 +3334,17 @@
         "        $data.createProfileData.statusCode = \"\";\r",
         "        $data.createProfileData.name = \"\";\r",
         "        $data.createProfileData.description = \"\";\r",
+        "        $data.createProfileData.creatProfileMethod = \"Import profiles\";\r",
+        "        $data.createProfileData.xmlFile = {};\r",
         "        return \"createProfileModal\";\r",
         "    },\r",
         "    getCreateProfilePayload: function() {\r",
+        "        if ($data.createProfileData.creatProfileMethod === \"Import profiles\") {\r",
+        "            return {\r",
+        "                importPolicy:\"REPLACE_DUPLICATES\",\r",
+        "                profilesDataUpload: $data.createProfileData.xmlFile.tempPath\r",
+        "            };\r",
+        "        }\r",
         "        return {\r",
         "            name: $data.createProfileData.name,\r",
         "            description: $data.createProfileData.description\r",
@@ -3448,9 +3352,16 @@
         "    },\r",
         "    getErrorMessageFor403: function(failedResponse) {\r",
         "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'already exists')) {\r",
-        "            return uiTranslate(\"A group with the same name already exists.\");\r",
+        "            return uiTranslate(\"A profile with the same name already exists.\");\r",
         "        }\r",
-        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");\r",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");\r",
+        "    },\r",
+        "    getCreateUrl: function() {\r",
+        "        if ($data.createProfileData.creatProfileMethod === \"Import profiles\") {\r",
+        "            return \"../API/services/profile/import\";\r",
+        "        }\r",
+        "        return $data.defaultProfilesUrl;\r",
+        "        \r",
         "    }\r",
         "};"
       ],
@@ -3464,7 +3375,9 @@
         "    statusCode: \"\",",
         "    failedResponse: {},",
         "    name: \"\",",
-        "    description: \"\"",
+        "    description: \"\",",
+        "    xmlFile: \"\",",
+        "    creatProfileMethod: \"Import profiles\"",
         "};"
       ],
       "exposed" : false
@@ -3476,6 +3389,12 @@
         "if ($data.createProfileData.statusCode === 200 && !$data.createProfileData.hasRecentlyBeenCreated) {",
         "    $data.profilesData.timestamp = new Date().getTime();",
         "    $data.createProfileData.hasRecentlyBeenCreated = true;",
+        "}",
+        "",
+        "if ($data.createProfileData.statusCode && $data.createProfileData.statusCode !== 200) {",
+        "    setTimeout(function() {",
+        "        $data.createProfileData.statusCode = \"\";",
+        "    }, 2000);",
         "}",
         "",
         "// After a profile is successfully deleted",
