@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1598521067569,
+  "lastUpdate" : 1599486836044,
   "rows" : [
     [
       {
@@ -845,8 +845,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 3,
+                            "lg" : 3
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -914,8 +914,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 3,
+                            "lg" : 3
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -927,16 +927,16 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "$item.is_default === \"true\""
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "<i title=\"{{\"Export profile\"|uiTranslate}}\" class=\"glyphicon glyphicon-export\"></i>"
+                              "value" : "<i class=\"glyphicon glyphicon-pencil\" title=\"{{\"Edit profile\" | uiTranslate}}\"></i>"
                             },
                             "alignment" : {
                               "type" : "constant",
-                              "value" : "center"
+                              "value" : "left"
                             },
                             "buttonStyle" : {
                               "type" : "constant",
@@ -979,8 +979,8 @@
                               "type" : "variable"
                             },
                             "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
+                              "type" : "expression",
+                              "value" : "editProfileCtrl.initEditModal($item)"
                             },
                             "collectionPosition" : {
                               "type" : "constant",
@@ -993,7 +993,7 @@
                               "type" : "variable"
                             }
                           },
-                          "reference" : "4e8bacb5-4fe3-4c20-95b9-2fddd41a5260",
+                          "reference" : "6055679a-e396-4f6b-937a-d512ce191f60",
                           "hasValidationError" : false,
                           "id" : "pbButton"
                         },
@@ -1002,8 +1002,75 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 3,
+                            "lg" : 3
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<i title=\"{{\"Export profile\"|uiTranslate}}\" class=\"glyphicon glyphicon-export\"></i>"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "targetUrl" : {
+                              "type" : "expression",
+                              "value" : "'../API/exportProfiles?id='+$item.id"
+                            },
+                            "pageToken" : {
+                              "type" : "constant"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "constant"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_self"
+                            },
+                            "appToken" : {
+                              "type" : "constant"
+                            },
+                            "urlParams" : {
+                              "type" : "constant"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            }
+                          },
+                          "reference" : "3aea1f9b-b2a6-463e-8cb2-7bc30b62ab57",
+                          "hasValidationError" : false,
+                          "id" : "pbLink"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 3,
+                            "lg" : 3
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -2852,7 +2919,7 @@
                           "value" : "left"
                         }
                       },
-                      "reference" : "b50ae0d9-5817-4a89-8880-1a47ae217ccb",
+                      "reference" : "0ed180d4-4167-4280-b339-0a6927efd031",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -3176,6 +3243,770 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "editProfileModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "8bf4fa0d-bf84-4420-ad9b-ddb6a95cb59f",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "d9002f28-cea7-4e9c-8a14-ba2b0a139d06",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "a6f7264f-24d8-433d-9101-5cf17c57508f",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Edit profile\"|translate}} {{editProfileData.selectedProfile.name}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "bf52c383-556c-4f03-8d91-d4677e7f75b5",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "b61ac170-41e3-4134-9fec-52f895b6ae1d",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.hasRecentlyBeenEdited"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Name*"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "editProfileData.name"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "b3a34821-dac7-49c2-85e5-cd5e2ee05d67",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.hasRecentlyBeenEdited"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Description"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "editProfileData.description"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "96a039c1-ca4c-4c37-9245-76cc40c48b60",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "f69d8ac8-cc6c-46a6-9ec9-9f9fe1b73367",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"Access denied. For more information, check the log file.\" | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "154923a1-9df2-4163-8dd5-13da62d2c6d7",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.statusCode !== 404"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The profile does not exist. Reload the page to see the new list of profiles.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "5393f2d2-b409-4507-b1d2-27b33f4b6072",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.statusCode === \"\" || editProfileData.statusCode === 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The profile has not been updated.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "6d5b257f-8bdf-475b-85ba-af7e1017246e",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The profile has been successfully updated.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "2baaa03d-c4ce-4616-8dbc-04337bb27dec",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "c61cbcb1-1ef3-4cd1-b112-6316368d140d",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.hasRecentlyBeenEdited || editProfileData.name === \"\""
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Save"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "PUT"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation",
+                          "value" : "{{defaultProfilesUrl}}/{{editProfileData.selectedProfile.id}}"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : "editProfileData.statusCode"
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "editProfileCtrl.getEditProfilePayload()"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : "editProfileData.failedResponse"
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "e6239d5c-065c-4305-ae81-d61b0b150e9e",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "{{profilesCtrl.getChangeButtonLabel(editProfileData.statusCode)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "dc261896-5366-403b-948f-a31c0dbf4d59",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -3434,6 +4265,54 @@
         "    statusCode: \"\",",
         "    selectedProfile: {}",
         "};"
+      ],
+      "exposed" : false
+    },
+    "editProfileCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    initEditModal: function(selectedProfile) {\r",
+        "        $data.editProfileData.selectedProfile = selectedProfile;\r",
+        "        $data.editProfileData.statusCode = \"\";\r",
+        "        $data.editProfileData.name = selectedProfile.name;\r",
+        "        $data.editProfileData.description = selectedProfile.description;\r",
+        "        $data.editProfileData.hasRecentlyBeenEdited = false;\r",
+        "        return \"editProfileModal\";\r",
+        "    },\r",
+        "    getEditProfilePayload: function() {\r",
+        "        return {\r",
+        "            name: $data.editProfileData.name,\r",
+        "            description: $data.editProfileData.description,\r",
+        "            id: $data.editProfileData.selectedProfile.id\r",
+        "        };\r",
+        "    }\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editProfileData" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    hasRecentlyBeenEdited: false,\r",
+        "    selectedProfile: undefined,\r",
+        "    statusCode: \"\",\r",
+        "    failedResponse: undefined,\r",
+        "    name: \"\",\r",
+        "    description: \"\"\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editProfileHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is updated\r",
+        "if ($data.editProfileData.statusCode !== '' && $data.editProfileData.hasRecentlyBeenEdited === false) {\r",
+        "    $data.profilesData.timestamp = new Date().getTime();\r",
+        "    $data.editProfileData.hasRecentlyBeenEdited = true;\r",
+        "}"
       ],
       "exposed" : false
     }

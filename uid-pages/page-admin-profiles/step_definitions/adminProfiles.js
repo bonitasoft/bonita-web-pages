@@ -77,6 +77,21 @@ given("The response {string} is defined", (responseType) => {
         case '500 during creation':
             createRouteWithMethodAndStatus(profilesUrl, 'internalErrorCreateProfileRoute', 'POST', '500');
             break;
+        case 'profile edition success':
+            createRouteWithMethod(profilesUrl + "/101", 'profileEditionRoute', 'PUT');
+            break;
+        case 'refresh list after edit':
+            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'profiles8Modified');
+            break;
+        case '403 during edition':
+            createRouteWithMethodAndStatus(profilesUrl + "/101", 'unauthorizedEditProfileRoute', 'PUT', '403');
+            break;
+        case '404 during edition':
+            createRouteWithMethodAndStatus(profilesUrl + "/101", 'unauthorizedEditProfileRoute', 'PUT', '404');
+            break;
+        case '500 during edition':
+            createRouteWithMethodAndStatus(profilesUrl + "/101", 'internalErrorEditProfileRoute', 'PUT', '500');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -207,17 +222,43 @@ when("I click inside the modal", () => {
     cy.get('.modal-body').click();
 });
 
+when("I click on edit button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+});
+
+when("I click on edit button for fifth profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(4).parent().click();
+});
+
+when("I click on the {string} button in modal", (buttonName) => {
+    cy.contains('.modal button', buttonName).click();
+});
+
+when("I edit the information for first profile", () => {
+    cy.get('.modal-body input').eq(0).clear().type('New custom profile 1');
+    cy.get('.modal-body input').eq(1).clear().type('This is a new description.');
+});
+
+when("I clear the name", () => {
+    cy.get('.modal-body input').eq(0).clear();
+});
+
+when("I fill in the information", () => {
+    cy.get('.modal-body input').eq(0).type(' Profile name');
+    cy.get('.modal-body input').eq(1).type(' Profile description');
+});
+
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
     cy.get('.profile-item').should('have.length', 8);
     cy.get('.profile-item').eq(0).within(() => {
         cy.contains('.item-label', 'Name');
-        cy.contains('.item-value', 'aaa');
+        cy.contains('.item-value', 'Custom profile 1');
         cy.contains('.item-label', 'Created on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
         cy.contains('.item-label', 'Updated on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
-        cy.contains('.item-label', 'No description');
+        cy.contains('.item-label', 'This is a sample description.');
         cy.get('.btn.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View profile details');
         cy.get('.btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
         cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
@@ -341,3 +382,70 @@ then("There is no error or success", () => {
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
 });
+
+then("The edit modal is open and has a default state for {string} for profile {int}", (state, profileNumber) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 2);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    switch (profileNumber) {
+        case 1:
+            cy.get('.modal-body input').eq(0).should('have.value','Custom profile 1');
+            cy.get('.modal-body input').eq(1).should('have.value','This is a sample description.');
+            break;
+        case 5:
+            cy.get('.modal-body input').eq(0).should('have.value','aaa');
+            cy.get('.modal-body input').eq(1).should('have.value','');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("The edition is successful", () => {
+    cy.contains('.modal-footer button', 'Save').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.wait('@profileEditionRoute').then((xhr) => {
+        expect(xhr.request.body.name).to.equal('New custom profile 1');
+        expect(xhr.request.body.description).to.equal('This is a new description.');
+    });
+    cy.get('.modal-body input').each((input) => {
+        expect(input).to.have.attr('readonly', 'readonly');
+    });
+});
+
+then("The first profile has a different name", () => {
+    cy.get('.profile-item').eq(0).within(() => {
+        cy.get('.item-value').eq(0).contains('New custom profile 1');
+        cy.contains('.item-label', 'This is a new description.');
+    });
+});
+
+then("The edit modal is open and has a edited state for {string}", (state, profileNumber) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 2);
+    cy.contains('.modal-body', 'Name').should('be.visible');
+    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.get('.modal-body input').eq(0).should('have.value','New custom profile 1');
+    cy.get('.modal-body input').eq(1).should('have.value','This is a new description.');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("There is an error message about name being required", () => {
+    cy.contains('This field is required').should('be.visible');
+});
+
+then("The {string} button in modal is {string}", (buttonName, buttonState) => {
+    cy.contains('.modal-footer button', buttonName).should('be.' + buttonState);
+});
+
