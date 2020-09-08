@@ -248,6 +248,10 @@ when("I fill in the information", () => {
     cy.get('.modal-body input').eq(1).type(' Profile description');
 });
 
+when("I click on export profile button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-export').eq(0).parent().click();
+});
+
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
     cy.get('.profile-item').should('have.length', 8);
@@ -422,7 +426,7 @@ then("The edition is successful", () => {
 
 then("The first profile has a different name", () => {
     cy.get('.profile-item').eq(0).within(() => {
-        cy.get('.item-value').eq(0).contains('New custom profile 1');
+        cy.contains('.item-value', 'New custom profile 1');
         cy.contains('.item-label', 'This is a new description.');
     });
 });
@@ -449,3 +453,10 @@ then("The {string} button in modal is {string}", (buttonName, buttonState) => {
     cy.contains('.modal-footer button', buttonName).should('be.' + buttonState);
 });
 
+then('I can export a profile', () => {
+    cy.get('.profile-item').eq(0).within(() => {
+        cy.contains('.item-value', 'Custom profile 1');
+        cy.get('pb-link a').eq(1).should('have.attr', 'href', '../API/exportProfiles?id=101');
+        cy.get('pb-link a').eq(1).should('have.attr', 'target', '_blank');
+    });
+});

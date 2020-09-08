@@ -341,3 +341,10 @@ Feature: The Admin Profiles in desktop resolution
     Then There is no modal displayed
     When I click on edit button for first profile
     Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+
+  Scenario: The export profile button works correctly
+    Given The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on export profile button for first profile
+    Then I can export a profile
