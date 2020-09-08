@@ -71,7 +71,7 @@ Feature: The Admin Profiles in desktop resolution
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on delete button for first profile
-    Then The delete modal is open and has a default state for "Delete aaa"
+    Then The delete modal is open and has a default state for "Delete Custom profile 1"
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
 
@@ -82,7 +82,7 @@ Feature: The Admin Profiles in desktop resolution
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on delete button for first profile
-    Then The delete modal is open and has a default state for "Delete aaa"
+    Then The delete modal is open and has a default state for "Delete Custom profile 1"
     When I click on the "Delete" button in modal footer
     Then The deletion is successful
     And The profiles list is refreshed
@@ -104,7 +104,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
     When I click on delete button for first profile
-    Then The delete modal is open and has a default state for "Delete aaa"
+    Then The delete modal is open and has a default state for "Delete Custom profile 1"
 
   Scenario: The modal should display generic 404 error message
     Given The response "default filter" is defined
@@ -118,7 +118,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
     When I click on delete button for first profile
-    Then The delete modal is open and has a default state for "Delete aaa"
+    Then The delete modal is open and has a default state for "Delete Custom profile 1"
 
   Scenario: The modal should display generic 500 error message
     Given The response "default filter" is defined
@@ -132,7 +132,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
     When I click on delete button for first profile
-    Then The delete modal is open and has a default state for "Delete aaa"
+    Then The delete modal is open and has a default state for "Delete Custom profile 1"
 
   Scenario: The add profile modal is opened and closed
     Given The response "refresh not called" is defined
@@ -241,3 +241,103 @@ Feature: The Admin Profiles in desktop resolution
     Then The add modal is open and has a default state for "Add profiles"
     When I switch to create a profile
     Then The name and description are empty
+
+  Scenario: The edit profile modal is opened and closed
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+
+  Scenario: The edit profile modal shows different information when opening another profile
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for fifth profile
+    Then The edit modal is open and has a default state for "Edit profile aaa" for profile 5
+
+  Scenario: The edit profile modal edits successfully
+    Given The response "profile edition success" is defined
+    And The response "refresh list after edit" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+    When I edit the information for first profile
+    And I click on the "Save" button in modal
+    Then The edition is successful
+    And The profiles list is refreshed
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    And A list of 8 profiles is displayed
+    And The first profile has a different name
+    When I click on edit button for first profile
+    Then The edit modal is open and has a edited state for "Edit profile New custom profile 1"
+
+  Scenario: The edit profile modal requires name
+    Given The response "refresh not called" is defined
+    And The response "default filter" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    And I clear the name
+    Then There is an error message about name being required
+    And The "Save" button in modal is "disabled"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+
+  Scenario: The edit modal should display generic 403 error message
+    Given The response "default filter" is defined
+    And The response "403 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "403" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+
+  Scenario: The edit modal should display generic 404 error message
+    Given The response "default filter" is defined
+    And The response "404 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "404" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
+
+  Scenario: The edit modal should display generic 500 error message
+    Given The response "default filter" is defined
+    And The response "500 during edition" is defined
+    And The response "refresh not called" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on edit button for first profile
+    And I fill in the information
+    And I click on the "Save" button in modal
+    Then I see "500" error message for "updated"
+    When I click on the "Cancel" button in modal
+    Then There is no modal displayed
+    When I click on edit button for first profile
+    Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
