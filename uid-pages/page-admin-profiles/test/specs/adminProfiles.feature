@@ -348,3 +348,14 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on export profile button for first profile
     Then I can export a profile
+
+  Scenario: The organization mapping show and hide button works correctly
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on show organization mapping button for first profile
+    Then I see the mapping information
+    And The hide organization mapping button is displayed
+    When I click on hide organization mapping button for first profile
+    Then There is no mapping information displayed

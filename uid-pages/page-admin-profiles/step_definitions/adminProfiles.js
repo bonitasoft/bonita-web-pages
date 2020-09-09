@@ -1,8 +1,13 @@
 const urlPrefix = 'build/dist/';
 const profilesUrl = 'API/portal/profile';
+const profileMemberUrl = 'API/portal/profileMember';
 const defaultFilters = '&o=name ASC';
 const defaultRequestUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const userMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
+const groupMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
+const roleMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
+const membershipMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
@@ -91,6 +96,12 @@ given("The response {string} is defined", (responseType) => {
             break;
         case '500 during edition':
             createRouteWithMethodAndStatus(profilesUrl + "/101", 'internalErrorEditProfileRoute', 'PUT', '500');
+            break;
+        case 'mapping':
+            createRouteWithResponse(userMappingUrl, 'profileMappingUsers10Route', 'profileMappingUsers10');
+            createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
+            createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
+            createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
             break;
         default:
             throw new Error("Unsupported case");
@@ -252,6 +263,14 @@ when("I click on export profile button for first profile", () => {
     cy.get('.glyphicon.glyphicon-export').eq(0).parent().click();
 });
 
+when("I click on show organization mapping button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+});
+
+when("I click on hide organization mapping button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-triangle-top').eq(0).parent().click();
+});
+
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
     cy.get('.profile-item').should('have.length', 8);
@@ -263,7 +282,7 @@ then("The profiles page has the correct information", () => {
         cy.contains('.item-label', 'Updated on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
         cy.contains('.item-label', 'This is a sample description.');
-        cy.get('.btn.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View profile details');
+        cy.get('.btn.btn-link .glyphicon-triangle-bottom').should('have.attr', 'title', 'Show mapping with organization');
         cy.get('.btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
         cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
         cy.get('.is-provided-icon').should('not.be.visible');
@@ -456,7 +475,37 @@ then("The {string} button in modal is {string}", (buttonName, buttonState) => {
 then('I can export a profile', () => {
     cy.get('.profile-item').eq(0).within(() => {
         cy.contains('.item-value', 'Custom profile 1');
-        cy.get('pb-link a').eq(1).should('have.attr', 'href', '../API/exportProfiles?id=101');
-        cy.get('pb-link a').eq(1).should('have.attr', 'target', '_blank');
+        cy.get('pb-link a').should('have.attr', 'href', '../API/exportProfiles?id=101');
+        cy.get('pb-link a').should('have.attr', 'target', '_blank');
     });
 });
+
+then("I see the mapping information", () => {
+    cy.contains('.item-label', 'Mapping with Users').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
+    cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
+    cy.contains('.item-label', 'Mapping with Groups').should('be.visible');
+    cy.contains('.badge', '...').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(1).should('be.visible');
+    cy.contains('.badge', 'Acme').should('be.visible');
+    cy.contains('.item-label', 'Mapping with Roles').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(2).should('be.visible');
+    cy.contains('.badge', 'Chief Executive Officer (CEO)').should('be.visible');
+    cy.contains('.item-label', 'Mapping with Memberships').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(3).should('be.visible');
+    cy.contains('.badge', 'Executive of Europe').should('be.visible');
+});
+
+then("The hide organization mapping button is displayed", () => {
+    cy.get('.profile-item').eq(0).within(() => {
+        cy.get('.glyphicon-triangle-top').should('be.visible');
+        cy.get('.glyphicon-triangle-bottom').should('not.be.visible');
+    });
+});
+
+then("There is no mapping information displayed", () => {
+        cy.contains('.item-label', 'Mapping with Users').should('not.be.visible');
+        cy.contains('.item-label', 'Mapping with Groups').should('not.be.visible');
+        cy.contains('.item-label', 'Mapping with Roles').should('not.be.visible');
+        cy.contains('.item-label', 'Mapping with Memberships').should('not.be.visible');
+    });
