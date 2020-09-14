@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1599662165049,
+  "lastUpdate" : 1600077215800,
   "rows" : [
     [
       {
@@ -3090,8 +3090,8 @@
                                 "availableValues" : {
                                   "type" : "constant",
                                   "value" : [
-                                    "Import profiles",
-                                    "Create a profile"
+                                    "Create a profile",
+                                    "Import profiles"
                                   ]
                                 },
                                 "displayedKey" : {
@@ -3375,6 +3375,10 @@
                                         "type" : "constant",
                                         "value" : false
                                       },
+                                      "readOnly" : {
+                                        "type" : "expression",
+                                        "value" : "createProfileData.hasRecentlyBeenCreated"
+                                      },
                                       "required" : {
                                         "type" : "constant",
                                         "value" : false
@@ -3386,10 +3390,6 @@
                                       "maxLength" : {
                                         "type" : "constant",
                                         "value" : ""
-                                      },
-                                      "readOnly" : {
-                                        "type" : "expression",
-                                        "value" : "createProfileData.hasRecentlyBeenCreated"
                                       },
                                       "labelHidden" : {
                                         "type" : "constant",
@@ -3407,31 +3407,14 @@
                                         "type" : "constant",
                                         "value" : 4
                                       },
-                                      "placeholder" : {
-                                        "type" : "interpolation"
-                                      },
                                       "value" : {
                                         "type" : "variable",
                                         "value" : "createProfileData.description"
-                                      },
-                                      "type" : {
-                                        "type" : "constant",
-                                        "value" : "text"
-                                      },
-                                      "min" : {
-                                        "type" : "constant"
-                                      },
-                                      "max" : {
-                                        "type" : "constant"
-                                      },
-                                      "step" : {
-                                        "type" : "constant",
-                                        "value" : 1
                                       }
                                     },
-                                    "reference" : "f3d22023-82c2-4526-8ad1-1d185138db70",
+                                    "reference" : "a6a4213b-01e0-4a19-9c50-03f895b798f7",
                                     "hasValidationError" : false,
-                                    "id" : "pbInput"
+                                    "id" : "pbTextarea"
                                   }
                                 ]
                               ]
@@ -4755,6 +4738,10 @@
                           "type" : "constant",
                           "value" : false
                         },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.hasRecentlyBeenEdited"
+                        },
                         "required" : {
                           "type" : "constant",
                           "value" : false
@@ -4766,10 +4753,6 @@
                         "maxLength" : {
                           "type" : "constant",
                           "value" : ""
-                        },
-                        "readOnly" : {
-                          "type" : "expression",
-                          "value" : "editProfileData.hasRecentlyBeenEdited"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4787,31 +4770,14 @@
                           "type" : "constant",
                           "value" : 4
                         },
-                        "placeholder" : {
-                          "type" : "interpolation"
-                        },
                         "value" : {
                           "type" : "variable",
                           "value" : "editProfileData.description"
-                        },
-                        "type" : {
-                          "type" : "constant",
-                          "value" : "text"
-                        },
-                        "min" : {
-                          "type" : "constant"
-                        },
-                        "max" : {
-                          "type" : "constant"
-                        },
-                        "step" : {
-                          "type" : "constant",
-                          "value" : 1
                         }
                       },
-                      "reference" : "96a039c1-ca4c-4c37-9245-76cc40c48b60",
+                      "reference" : "7d58885f-069e-4979-a693-e9e241407568",
                       "hasValidationError" : false,
-                      "id" : "pbInput"
+                      "id" : "pbTextarea"
                     }
                   ],
                   [
@@ -4820,7 +4786,7 @@
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 12,
                         "lg" : 12
                       },
                       "propertyValues" : {
@@ -5448,7 +5414,7 @@
         "        $data.createProfileData.statusCode = \"\";\r",
         "        $data.createProfileData.name = \"\";\r",
         "        $data.createProfileData.description = \"\";\r",
-        "        $data.createProfileData.creatProfileMethod = \"Import profiles\";\r",
+        "        $data.createProfileData.creatProfileMethod = \"Create a profile\";\r",
         "        $data.createProfileData.xmlFile = {};\r",
         "        return \"createProfileModal\";\r",
         "    },\r",
@@ -5491,7 +5457,7 @@
         "    name: \"\",",
         "    description: \"\",",
         "    xmlFile: \"\",",
-        "    creatProfileMethod: \"Import profiles\"",
+        "    creatProfileMethod: \"Create a profile\"",
         "};"
       ],
       "exposed" : false

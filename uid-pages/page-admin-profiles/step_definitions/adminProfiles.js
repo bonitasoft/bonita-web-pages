@@ -213,6 +213,10 @@ when("I click on add button", () => {
 });
 
 when("I switch to create a profile", () => {
+    cy.get('.modal-body input[type=radio]').eq(0).click();
+});
+
+when("I switch to import profiles", () => {
     cy.get('.modal-body input[type=radio]').eq(1).click();
 });
 
@@ -222,7 +226,7 @@ when("I click on the {string} button in modal footer", (buttonName) => {
 
 when("I fill in the name and description", () => {
     cy.get('.modal-body input[type=text]').eq(0).type('Profile name');
-    cy.get('.modal-body input[type=text]').eq(1).type('Profile description');
+    cy.get('.modal-body textarea').type('Profile description');
 });
 
 when("I wait for {int}", (time) => {
@@ -246,8 +250,8 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 when("I edit the information for first profile", () => {
-    cy.get('.modal-body input').eq(0).clear().type('New custom profile 1');
-    cy.get('.modal-body input').eq(1).clear().type('This is a new description.');
+    cy.get('.modal-body input').clear().type('New custom profile 1');
+    cy.get('.modal-body textarea').clear().type('This is a new description.');
 });
 
 when("I clear the name", () => {
@@ -255,8 +259,8 @@ when("I clear the name", () => {
 });
 
 when("I fill in the information", () => {
-    cy.get('.modal-body input').eq(0).type(' Profile name');
-    cy.get('.modal-body input').eq(1).type(' Profile description');
+    cy.get('.modal-body input').type(' Profile name');
+    cy.get('.modal-body textarea').type(' Profile description');
 });
 
 when("I click on export profile button for first profile", () => {
@@ -341,6 +345,9 @@ then("The add modal is open and has a default state for {string}", (state) => {
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.get('.modal-body input[type=radio]').should('have.length', 2);
+    cy.get('.modal-body input[type=radio]').eq(0).check();
+    cy.get('.modal-body input[type=text]').should('have.value', '');
+    cy.get('.modal-body textarea').should('have.value', '');
     cy.contains('.modal-footer button', 'Add').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -392,9 +399,14 @@ then("I see {string} error message for {string}", (error, action) => {
     cy.get('.modal').contains('The profile has not been ' + action + '.').should('be.visible');
 });
 
+then("The import profiles section shows the correct information", () => {
+    cy.contains('.modal-body p', 'A profile includes the mapping to entities of the organization.').should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.attr', 'placeholder', 'Click here to choose your .xml file.');
+});
+
 then("The name and description are empty", () => {
-    cy.get('.modal-body input[type=text]').eq(0).should('have.value', '');
-    cy.get('.modal-body input[type=text]').eq(1).should('have.value', '');
+    cy.get('.modal-body input[type=text]').should('have.value', '');
+    cy.get('.modal-body textarea').should('have.value', '');
 });
 
 then("The success message does not disappear", () => {
@@ -408,17 +420,16 @@ then("There is no error or success", () => {
 
 then("The edit modal is open and has a default state for {string} for profile {int}", (state, profileNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 2);
-    cy.contains('.modal-body', 'Name').should('be.visible');
-    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.get('.modal-body input[type=text]').should('be.visible');
+    cy.get('.modal-body textarea').should('be.visible');
     switch (profileNumber) {
         case 1:
-            cy.get('.modal-body input').eq(0).should('have.value','Custom profile 1');
-            cy.get('.modal-body input').eq(1).should('have.value','This is a sample description.');
+            cy.get('.modal-body input').should('have.value','Custom profile 1');
+            cy.get('.modal-body textarea').should('have.value','This is a sample description.');
             break;
         case 5:
-            cy.get('.modal-body input').eq(0).should('have.value','aaa');
-            cy.get('.modal-body input').eq(1).should('have.value','');
+            cy.get('.modal-body input').should('have.value','aaa');
+            cy.get('.modal-body textarea').should('have.value','');
             break;
         default:
             throw new Error("Unsupported case");
@@ -452,11 +463,10 @@ then("The first profile has a different name", () => {
 
 then("The edit modal is open and has a edited state for {string}", (state, profileNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 2);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
-    cy.get('.modal-body input').eq(0).should('have.value','New custom profile 1');
-    cy.get('.modal-body input').eq(1).should('have.value','This is a new description.');
+    cy.get('.modal-body input').should('have.value','New custom profile 1');
+    cy.get('.modal-body textarea').should('have.value','This is a new description.');
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');

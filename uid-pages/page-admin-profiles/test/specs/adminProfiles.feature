@@ -141,6 +141,8 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on add button
     Then The add modal is open and has a default state for "Add profiles"
+    When I switch to import profiles
+    Then The import profiles section shows the correct information
     When I switch to create a profile
     Then The name and description are empty
     When I click on the "Cancel" button in modal footer
@@ -154,7 +156,6 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on add button
     Then The add modal is open and has a default state for "Add profiles"
-    When I switch to create a profile
     And I fill in the name and description
     And I click on the "Add" button in modal footer
     Then The creation is successful
@@ -178,7 +179,6 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on add button
     Then The add modal is open and has a default state for "Add profiles"
-    When I switch to create a profile
     And I fill in the name and description
     And I click on the "Add" button in modal footer
     Then I see "403" error message for "added"
@@ -202,7 +202,6 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on add button
     Then The add modal is open and has a default state for "Add profiles"
-    When I switch to create a profile
     And I fill in the name and description
     And I click on the "Add" button in modal footer
     Then I see "already exists" error message for "added"
@@ -226,7 +225,6 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 8 items is displayed
     When I click on add button
     Then The add modal is open and has a default state for "Add profiles"
-    When I switch to create a profile
     And I fill in the name and description
     And I click on the "Add" button in modal footer
     Then I see "500" error message for "added"
