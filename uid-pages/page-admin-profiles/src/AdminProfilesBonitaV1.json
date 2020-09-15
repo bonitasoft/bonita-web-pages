@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1600077215800,
+  "lastUpdate" : 1600173846601,
   "rows" : [
     [
       {
@@ -330,7 +330,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Search on name"
+                        "value" : "Search by name"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1724,7 +1724,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{organizationMappingCtrl.createUserBadges(usersOfProfile)}}"
+                                    "value" : "{{organizationMappingData.userMappings}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -1752,7 +1752,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "usersOfProfile && usersOfProfile.length > 0"
+                                    "value" : "organizationMappingData.userMappings !== \"\""
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -1996,7 +1996,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{organizationMappingCtrl.createGroupBadges(groupsOfProfile)}}"
+                                    "value" : "{{organizationMappingData.groupMappings}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -2024,7 +2024,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "groupsOfProfile&& groupsOfProfile.length > 0"
+                                    "value" : "organizationMappingData.groupMappings !== \"\""
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -2268,7 +2268,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{organizationMappingCtrl.createRoleBadges(rolesOfProfile)}}"
+                                    "value" : "{{organizationMappingData.roleMappings}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -2296,7 +2296,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "rolesOfProfile && rolesOfProfile.length > 0"
+                                    "value" : "organizationMappingData.roleMappings !== \"\""
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -2540,7 +2540,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{organizationMappingCtrl.createMembershipBadges(membershipsOfProfile)}}"
+                                    "value" : "{{organizationMappingData.membershipMappings}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -2568,7 +2568,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "membershipsOfProfile && membershipsOfProfile.length > 0"
+                                    "value" : "organizationMappingData.membershipMappings !== \"\""
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -5485,7 +5485,19 @@
         "",
         "// Clean profileSelectedForMapping collection since we only need the first element",
         "if($data.profileSelectedForMapping && $data.profileSelectedForMapping.length > 1) {",
-        "    $data.profileSelectedForMapping.splice(1, $data.profileSelectedForMapping.length-1);",
+        "    $data.organizationMappingData.userMappings = \"\";",
+        "    $data.organizationMappingData.groupMappings = \"\";",
+        "    $data.organizationMappingData.roleMappings = \"\";",
+        "    $data.organizationMappingData.membershipMappings = \"\";",
+        "    $data.profileSelectedForMapping.splice(1, $data.profileSelectedForMapping.length - 1);",
+        "}",
+        "",
+        "// Reset shown lists when closing mappings",
+        "if($data.profileSelectedForMapping && $data.profileSelectedForMapping.length === 0) {",
+        "    $data.organizationMappingData.userMappings = \"\";",
+        "    $data.organizationMappingData.groupMappings = \"\";",
+        "    $data.organizationMappingData.roleMappings = \"\";",
+        "    $data.organizationMappingData.membershipMappings = \"\";",
         "}"
       ],
       "exposed" : false
@@ -5587,7 +5599,7 @@
     "usersOfProfile" : {
       "type" : "url",
       "value" : [
-        "{{organizationMappingCtrl.getUserMembers(profileSelectedForMapping[0])}}"
+        "{{profileMemberUrl}}{{organizationMappingCtrl.getUserMembers(profileSelectedForMapping[0])}}"
       ],
       "exposed" : false
     },
@@ -5616,10 +5628,14 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"../API/portal/profileMember?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=user&d=user_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=user&d=user_id\";   \r",
         "        }\r",
         "    },\r",
         "    createUserBadges: function(list) {\r",
+        "        if(!list || list.length === 0) {\r",
+        "            return \"\";\r",
+        "        }\r",
+        "        \r",
         "        var users =\"\";\r",
         "        \r",
         "        function getUserDisplayName(user) {\r",
@@ -5632,7 +5648,7 @@
         "            }\r",
         "        \r",
         "            function getDisplayName(user) {\r",
-        "                if (isSystem(user)) {\r",
+        "                if(isSystem(user)) {\r",
         "                    return uiTranslate(\"System\");\r",
         "                }\r",
         "                return user.firstname && user.lastname ? user.firstname + \" \" + user.lastname : user.userName;\r",
@@ -5643,12 +5659,12 @@
         "        \r",
         "        list.forEach(function(item, index) {\r",
         "            if(index < defaultNumberOfEntities) {\r",
-        "                return users+=(\"<span class='badge'>\"+ getUserDisplayName(item.user_id) +\" </span>\");   \r",
+        "                return users+=\"<span class='badge'>\"+ getUserDisplayName(item.user_id) +\" </span>\";   \r",
         "            }\r",
         "        });\r",
         "        \r",
         "        if(list.length > defaultNumberOfEntities) {\r",
-        "            users+=(\"<span class='badge'>...</span>\");\r",
+        "            users+=\"<span class='badge'>...</span>\";\r",
         "        }\r",
         "        return users;\r",
         "    },\r",
@@ -5657,20 +5673,24 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"../API/portal/profileMember?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id\";   \r",
+        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id\";   \r",
         "        }\r",
         "    },\r",
         "    createGroupBadges: function(list) {\r",
+        "        if(!list || list.length === 0) {\r",
+        "            return \"\";\r",
+        "        }\r",
+        "        \r",
         "        var groups =\"\";\r",
         "        \r",
         "        list.forEach(function(item, index) {\r",
         "            if(index < defaultNumberOfEntities) {\r",
-        "                groups+=(\"<span class='badge'>\"+item.group_id.displayName+\" </span>\");\r",
+        "                groups+=\"<span class='badge'>\"+item.group_id.displayName+\" </span>\";\r",
         "            }\r",
         "        });\r",
         "        \r",
         "        if(list.length > defaultNumberOfEntities) {\r",
-        "            groups+=(\"<span class='badge'>...</span>\");\r",
+        "            groups+=\"<span class='badge'>...</span>\";\r",
         "        }\r",
         "        return groups;\r",
         "    },\r",
@@ -5679,20 +5699,24 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"../API/portal/profileMember?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id\";   \r",
+        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id\";   \r",
         "        }\r",
         "    },\r",
         "    createRoleBadges: function(list) {\r",
+        "        if(!list || list.length === 0) {\r",
+        "            return \"\";\r",
+        "        }\r",
+        "        \r",
         "        var roles =\"\";\r",
         "        \r",
         "        list.forEach(function(item, index) {\r",
         "            if(index < defaultNumberOfEntities) {\r",
-        "                return roles+=(\"<span class='badge'>\"+item.role_id.displayName+\" </span>\");\r",
+        "                return roles+=\"<span class='badge'>\"+item.role_id.displayName+\" </span>\";\r",
         "            }\r",
         "        });\r",
         "        \r",
         "        if(list.length > defaultNumberOfEntities) {\r",
-        "            roles+=(\"<span class='badge'>...</span>\");\r",
+        "            roles+=\"<span class='badge'>...</span>\";\r",
         "        }\r",
         "        return roles;\r",
         "    },\r",
@@ -5701,24 +5725,72 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"../API/portal/profileMember?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=roleAndGroup&d=group_id&d=role_id\";   \r",
+        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=roleAndGroup&d=group_id&d=role_id\";   \r",
         "        }\r",
         "    },\r",
         "    createMembershipBadges: function(list) {\r",
+        "        if(!list || list.length === 0) {\r",
+        "            return \"\";\r",
+        "        }\r",
+        "        \r",
         "        var memberships =\"\";\r",
         "        \r",
         "        list.forEach(function(item, index) {\r",
         "            if(index < defaultNumberOfEntities) {\r",
-        "                memberships+=(\"<span class='badge'>\"+item.role_id.displayName+\" of \"+item.group_id.displayName+\" </span>\");\r",
+        "                memberships+=\"<span class='badge'>\"+item.role_id.displayName+\" of \"+item.group_id.displayName+\" </span>\";\r",
         "            }\r",
         "        });\r",
         "        \r",
         "        if(list.length > defaultNumberOfEntities) {\r",
-        "            memberships+=(\"<span class='badge'>...</span>\");\r",
+        "            memberships+=\"<span class='badge'>...</span>\";\r",
         "        }\r",
         "        return memberships;\r",
         "    }\r",
         "};"
+      ],
+      "exposed" : false
+    },
+    "organizationMappingData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    userMappings: \"\",",
+        "    groupMappings: \"\",",
+        "    roleMappings: \"\",",
+        "    membershipMappings: \"\"",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "profileMemberUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/portal/profileMember"
+      ],
+      "exposed" : false
+    },
+    "organizationMappingHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.usersOfProfile && $data.usersOfProfile.length) {\r",
+        "    $data.organizationMappingData.userMappings = $data.organizationMappingCtrl.createUserBadges($data.usersOfProfile);\r",
+        "    $data.usersOfProfile = [];\r",
+        "}\r",
+        "\r",
+        "if($data.groupsOfProfile && $data.groupsOfProfile.length) {\r",
+        "    $data.organizationMappingData.groupMappings = $data.organizationMappingCtrl.createGroupBadges($data.groupsOfProfile);\r",
+        "    $data.groupsOfProfile = [];\r",
+        "}\r",
+        "\r",
+        "if($data.rolesOfProfile && $data.rolesOfProfile.length) {\r",
+        "    $data.organizationMappingData.roleMappings = $data.organizationMappingCtrl.createRoleBadges($data.rolesOfProfile);\r",
+        "    $data.rolesOfProfile = [];\r",
+        "}\r",
+        "\r",
+        "if($data.membershipsOfProfile && $data.membershipsOfProfile.length) {\r",
+        "    $data.organizationMappingData.membershipMappings = $data.organizationMappingCtrl.createMembershipBadges($data.membershipsOfProfile);\r",
+        "    $data.membershipsOfProfile = [];\r",
+        "}"
       ],
       "exposed" : false
     }

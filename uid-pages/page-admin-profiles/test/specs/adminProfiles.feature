@@ -353,7 +353,11 @@ Feature: The Admin Profiles in desktop resolution
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on show organization mapping button for first profile
-    Then I see the mapping information
+    Then I see the mapping information for first profile
     And The hide organization mapping button is displayed
     When I click on hide organization mapping button for first profile
     Then There is no mapping information displayed
+    When I click on show organization mapping button for second profile
+    Then I see the mapping information for second profile
+    When I click on show organization mapping button for first profile
+    Then I see the mapping information for first profile

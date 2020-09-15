@@ -5,6 +5,7 @@ const defaultFilters = '&o=name ASC';
 const defaultRequestUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const userMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
+const userMappingUrlTwo = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=2&f=member_type=user&d=user_id';
 const groupMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
 const roleMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
 const membershipMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
@@ -99,6 +100,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'mapping':
             createRouteWithResponse(userMappingUrl, 'profileMappingUsers10Route', 'profileMappingUsers10');
+            createRouteWithResponse(userMappingUrlTwo, 'profileMappingUsers2Route', 'profileMappingUsers2');
             createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
@@ -269,6 +271,10 @@ when("I click on export profile button for first profile", () => {
 
 when("I click on show organization mapping button for first profile", () => {
     cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+});
+
+when("I click on show organization mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
 });
 
 when("I click on hide organization mapping button for first profile", () => {
@@ -490,13 +496,14 @@ then('I can export a profile', () => {
     });
 });
 
-then("I see the mapping information", () => {
+then("I see the mapping information for first profile", () => {
+    cy.get('.glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.item-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
     cy.contains('.item-label', 'Mapping with Groups').should('be.visible');
-    cy.contains('.badge', '...').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(1).should('be.visible');
+    cy.contains('.badge', '...').should('be.visible');
     cy.contains('.badge', 'Acme').should('be.visible');
     cy.contains('.item-label', 'Mapping with Roles').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(2).should('be.visible');
@@ -504,6 +511,14 @@ then("I see the mapping information", () => {
     cy.contains('.item-label', 'Mapping with Memberships').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(3).should('be.visible');
     cy.contains('.badge', 'Executive of Europe').should('be.visible');
+});
+
+then("I see the mapping information for second profile", () => {
+    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.contains('.item-label', 'Mapping with Users').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
+    cy.contains('.badge', 'Dumitru Corini').should('be.visible');
+    cy.contains('.badge', 'Giovanna Almeida').should('not.exist');
 });
 
 then("The hide organization mapping button is displayed", () => {
