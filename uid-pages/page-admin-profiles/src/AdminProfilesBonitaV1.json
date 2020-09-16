@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1600173846601,
+  "lastUpdate" : 1600239997416,
   "rows" : [
     [
       {
@@ -5585,7 +5585,7 @@
     "rolesOfProfile" : {
       "type" : "url",
       "value" : [
-        "{{organizationMappingCtrl.getRoleMembers(profileSelectedForMapping[0])}}"
+        "{{profileMemberUrl}}{{organizationMappingCtrl.getRoleMembers(profileSelectedForMapping[0])}}"
       ],
       "exposed" : false
     },
@@ -5606,14 +5606,14 @@
     "groupsOfProfile" : {
       "type" : "url",
       "value" : [
-        "{{organizationMappingCtrl.getGroupMembers(profileSelectedForMapping[0])}}"
+        "{{profileMemberUrl}}{{organizationMappingCtrl.getGroupMembers(profileSelectedForMapping[0])}}"
       ],
       "exposed" : false
     },
     "membershipsOfProfile" : {
       "type" : "url",
       "value" : [
-        "{{organizationMappingCtrl.getMembershipMembers(profileSelectedForMapping[0])}}"
+        "{{profileMemberUrl}}{{organizationMappingCtrl.getMembershipMembers(profileSelectedForMapping[0])}}"
       ],
       "exposed" : false
     },
@@ -5673,7 +5673,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id\";   \r",
         "        }\r",
         "    },\r",
         "    createGroupBadges: function(list) {\r",
@@ -5699,7 +5699,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id\";   \r",
         "        }\r",
         "    },\r",
         "    createRoleBadges: function(list) {\r",
@@ -5725,7 +5725,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return $data.profileMemberUrl + \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=roleAndGroup&d=group_id&d=role_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=roleAndGroup&d=group_id&d=role_id\";   \r",
         "        }\r",
         "    },\r",
         "    createMembershipBadges: function(list) {\r",
