@@ -5,6 +5,7 @@ const defaultFilters = '&o=name ASC';
 const defaultRequestUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const userMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
+const userMappingUrlTwo = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=2&f=member_type=user&d=user_id';
 const groupMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
 const roleMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
 const membershipMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
@@ -99,6 +100,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'mapping':
             createRouteWithResponse(userMappingUrl, 'profileMappingUsers10Route', 'profileMappingUsers10');
+            createRouteWithResponse(userMappingUrlTwo, 'profileMappingUsers2Route', 'profileMappingUsers2');
             createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
@@ -213,6 +215,10 @@ when("I click on add button", () => {
 });
 
 when("I switch to create a profile", () => {
+    cy.get('.modal-body input[type=radio]').eq(0).click();
+});
+
+when("I switch to import profiles", () => {
     cy.get('.modal-body input[type=radio]').eq(1).click();
 });
 
@@ -222,7 +228,7 @@ when("I click on the {string} button in modal footer", (buttonName) => {
 
 when("I fill in the name and description", () => {
     cy.get('.modal-body input[type=text]').eq(0).type('Profile name');
-    cy.get('.modal-body input[type=text]').eq(1).type('Profile description');
+    cy.get('.modal-body textarea').type('Profile description');
 });
 
 when("I wait for {int}", (time) => {
@@ -246,8 +252,8 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 when("I edit the information for first profile", () => {
-    cy.get('.modal-body input').eq(0).clear().type('New custom profile 1');
-    cy.get('.modal-body input').eq(1).clear().type('This is a new description.');
+    cy.get('.modal-body input').clear().type('New custom profile 1');
+    cy.get('.modal-body textarea').clear().type('This is a new description.');
 });
 
 when("I clear the name", () => {
@@ -255,8 +261,8 @@ when("I clear the name", () => {
 });
 
 when("I fill in the information", () => {
-    cy.get('.modal-body input').eq(0).type(' Profile name');
-    cy.get('.modal-body input').eq(1).type(' Profile description');
+    cy.get('.modal-body input').type(' Profile name');
+    cy.get('.modal-body textarea').type(' Profile description');
 });
 
 when("I click on export profile button for first profile", () => {
@@ -265,6 +271,10 @@ when("I click on export profile button for first profile", () => {
 
 when("I click on show organization mapping button for first profile", () => {
     cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+});
+
+when("I click on show organization mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
 });
 
 when("I click on hide organization mapping button for first profile", () => {
@@ -341,6 +351,9 @@ then("The add modal is open and has a default state for {string}", (state) => {
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.get('.modal-body input[type=radio]').should('have.length', 2);
+    cy.get('.modal-body input[type=radio]').eq(0).check();
+    cy.get('.modal-body input[type=text]').should('have.value', '');
+    cy.get('.modal-body textarea').should('have.value', '');
     cy.contains('.modal-footer button', 'Add').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -392,9 +405,14 @@ then("I see {string} error message for {string}", (error, action) => {
     cy.get('.modal').contains('The profile has not been ' + action + '.').should('be.visible');
 });
 
+then("The import profiles section shows the correct information", () => {
+    cy.contains('.modal-body p', 'A profile includes the mapping to entities of the organization.').should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.attr', 'placeholder', 'Click here to choose your .xml file.');
+});
+
 then("The name and description are empty", () => {
-    cy.get('.modal-body input[type=text]').eq(0).should('have.value', '');
-    cy.get('.modal-body input[type=text]').eq(1).should('have.value', '');
+    cy.get('.modal-body input[type=text]').should('have.value', '');
+    cy.get('.modal-body textarea').should('have.value', '');
 });
 
 then("The success message does not disappear", () => {
@@ -408,17 +426,16 @@ then("There is no error or success", () => {
 
 then("The edit modal is open and has a default state for {string} for profile {int}", (state, profileNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 2);
-    cy.contains('.modal-body', 'Name').should('be.visible');
-    cy.contains('.modal-body', 'Description').should('be.visible');
+    cy.get('.modal-body input[type=text]').should('be.visible');
+    cy.get('.modal-body textarea').should('be.visible');
     switch (profileNumber) {
         case 1:
-            cy.get('.modal-body input').eq(0).should('have.value','Custom profile 1');
-            cy.get('.modal-body input').eq(1).should('have.value','This is a sample description.');
+            cy.get('.modal-body input').should('have.value','Custom profile 1');
+            cy.get('.modal-body textarea').should('have.value','This is a sample description.');
             break;
         case 5:
-            cy.get('.modal-body input').eq(0).should('have.value','aaa');
-            cy.get('.modal-body input').eq(1).should('have.value','');
+            cy.get('.modal-body input').should('have.value','aaa');
+            cy.get('.modal-body textarea').should('have.value','');
             break;
         default:
             throw new Error("Unsupported case");
@@ -452,11 +469,10 @@ then("The first profile has a different name", () => {
 
 then("The edit modal is open and has a edited state for {string}", (state, profileNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 2);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
-    cy.get('.modal-body input').eq(0).should('have.value','New custom profile 1');
-    cy.get('.modal-body input').eq(1).should('have.value','This is a new description.');
+    cy.get('.modal-body input').should('have.value','New custom profile 1');
+    cy.get('.modal-body textarea').should('have.value','This is a new description.');
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
@@ -480,13 +496,14 @@ then('I can export a profile', () => {
     });
 });
 
-then("I see the mapping information", () => {
+then("I see the mapping information for first profile", () => {
+    cy.get('.glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.item-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
     cy.contains('.item-label', 'Mapping with Groups').should('be.visible');
-    cy.contains('.badge', '...').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(1).should('be.visible');
+    cy.contains('.badge', '...').should('be.visible');
     cy.contains('.badge', 'Acme').should('be.visible');
     cy.contains('.item-label', 'Mapping with Roles').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(2).should('be.visible');
@@ -494,6 +511,14 @@ then("I see the mapping information", () => {
     cy.contains('.item-label', 'Mapping with Memberships').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(3).should('be.visible');
     cy.contains('.badge', 'Executive of Europe').should('be.visible');
+});
+
+then("I see the mapping information for second profile", () => {
+    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.contains('.item-label', 'Mapping with Users').should('be.visible');
+    cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
+    cy.contains('.badge', 'Dumitru Corini').should('be.visible');
+    cy.contains('.badge', 'Giovanna Almeida').should('not.exist');
 });
 
 then("The hide organization mapping button is displayed", () => {
