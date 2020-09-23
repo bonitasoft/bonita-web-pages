@@ -4,11 +4,11 @@ const profileMemberUrl = 'API/portal/profileMember';
 const defaultFilters = '&o=name ASC';
 const defaultRequestUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
-const userMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
-const userMappingUrlTwo = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=2&f=member_type=user&d=user_id';
-const groupMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
-const roleMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
-const membershipMappingUrl = urlPrefix + profileMemberUrl +'?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
+const userMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
+const userMappingUrlTwo = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=2&f=member_type=user&d=user_id';
+const groupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
+const roleMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
+const membershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
@@ -18,9 +18,9 @@ given("The response {string} is defined", (responseType) => {
             cy.route({
                 method: "GET",
                 url: refreshUrl,
-                    onRequest: () => {
-                        throw new Error("This should have not been called");
-                    }
+                onRequest: () => {
+                    throw new Error("This should have not been called");
+                }
             });
             break;
         case 'default filter':
@@ -35,7 +35,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'profiles load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0','profiles20Route', 'profiles20');
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles20Route', 'profiles20');
             createProfilesRouteWithResponseAndPagination('', 'profiles10Route', 'profiles10', 2, 10);
             createProfilesRouteWithResponseAndPagination('', 'profiles8Route', 'profiles8', 3, 10);
             createProfilesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -99,8 +99,8 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(profilesUrl + "/101", 'internalErrorEditProfileRoute', 'PUT', '500');
             break;
         case 'mapping':
-            createRouteWithResponse(userMappingUrl, 'profileMappingUsers10Route', 'profileMappingUsers10');
-            createRouteWithResponse(userMappingUrlTwo, 'profileMappingUsers2Route', 'profileMappingUsers2');
+            createRouteWithResponse(userMappingUrl + '&t=1*', 'profileMappingUsers10Route', 'profileMappingUsers10');
+            createRouteWithResponse(userMappingUrlTwo + '&t=1*', 'profileMappingUsers2Route', 'profileMappingUsers2');
             createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
@@ -281,6 +281,10 @@ when("I click on hide organization mapping button for first profile", () => {
     cy.get('.glyphicon.glyphicon-triangle-top').eq(0).parent().click();
 });
 
+when("I click on edit user mapping button", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(1).click();
+});
+
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
     cy.get('.profile-item').should('have.length', 8);
@@ -430,12 +434,12 @@ then("The edit modal is open and has a default state for {string} for profile {i
     cy.get('.modal-body textarea').should('be.visible');
     switch (profileNumber) {
         case 1:
-            cy.get('.modal-body input').should('have.value','Custom profile 1');
-            cy.get('.modal-body textarea').should('have.value','This is a sample description.');
+            cy.get('.modal-body input').should('have.value', 'Custom profile 1');
+            cy.get('.modal-body textarea').should('have.value', 'This is a sample description.');
             break;
         case 5:
-            cy.get('.modal-body input').should('have.value','aaa');
-            cy.get('.modal-body textarea').should('have.value','');
+            cy.get('.modal-body input').should('have.value', 'aaa');
+            cy.get('.modal-body textarea').should('have.value', '');
             break;
         default:
             throw new Error("Unsupported case");
@@ -471,8 +475,8 @@ then("The edit modal is open and has a edited state for {string}", (state, profi
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
-    cy.get('.modal-body input').should('have.value','New custom profile 1');
-    cy.get('.modal-body textarea').should('have.value','This is a new description.');
+    cy.get('.modal-body input').should('have.value', 'New custom profile 1');
+    cy.get('.modal-body textarea').should('have.value', 'This is a new description.');
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
@@ -529,8 +533,17 @@ then("The hide organization mapping button is displayed", () => {
 });
 
 then("There is no mapping information displayed", () => {
-        cy.contains('.item-label', 'Mapping with Users').should('not.be.visible');
-        cy.contains('.item-label', 'Mapping with Groups').should('not.be.visible');
-        cy.contains('.item-label', 'Mapping with Roles').should('not.be.visible');
-        cy.contains('.item-label', 'Mapping with Memberships').should('not.be.visible');
-    });
+    cy.contains('.item-label', 'Mapping with Users').should('not.be.visible');
+    cy.contains('.item-label', 'Mapping with Groups').should('not.be.visible');
+    cy.contains('.item-label', 'Mapping with Roles').should('not.be.visible');
+    cy.contains('.item-label', 'Mapping with Memberships').should('not.be.visible');
+});
+
+then("The edit user mapping modal is open and has a default state for {string} profile", (organization) => {
+    cy.contains('.modal-header h3', organization).should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.length', 2);
+    cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new user to add');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped users by first name, last name, or username');
+    cy.contains('.modal-body button', 'Add a new user').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
