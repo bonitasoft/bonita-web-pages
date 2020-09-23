@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1600787747471,
+  "lastUpdate" : 1600853057602,
   "rows" : [
     [
       {
@@ -5652,163 +5652,6 @@
                   ],
                   [
                     {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "Mapped user(s)"
-                        },
-                        "level" : {
-                          "type" : "constant",
-                          "value" : "Level 5"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        }
-                      },
-                      "reference" : "b33fbd68-1f34-4de8-96d4-87d67b70d56c",
-                      "hasValidationError" : false,
-                      "id" : "pbTitle"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "container",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 4,
-                        "lg" : 9
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "repeatedCollection" : {
-                          "type" : "variable",
-                          "value" : ""
-                        }
-                      },
-                      "reference" : "849b2820-2547-42ea-be36-00a79dd288e6",
-                      "hasValidationError" : false,
-                      "id" : "pbContainer",
-                      "rows" : [
-                        [ ]
-                      ]
-                    },
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 4,
-                        "lg" : 3
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : "pl-10 pr-10"
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "editUsersMappingData.addUserInputAction[0] === \"open\""
-                        },
-                        "disabled" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add a new user\" | uiTranslate}}"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "right"
-                        },
-                        "buttonStyle" : {
-                          "type" : "constant",
-                          "value" : "primary"
-                        },
-                        "action" : {
-                          "type" : "constant",
-                          "value" : "Add to collection"
-                        },
-                        "assign" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "url" : {
-                          "type" : "interpolation"
-                        },
-                        "responseStatusCode" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "dataToSend" : {
-                          "type" : "constant"
-                        },
-                        "dataFromSuccess" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "closeOnSuccess" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "dataFromError" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "targetUrlOnSuccess" : {
-                          "type" : "interpolation"
-                        },
-                        "collectionToModify" : {
-                          "type" : "variable",
-                          "value" : "editUsersMappingData.addUserInputAction"
-                        },
-                        "modalId" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "collectionPosition" : {
-                          "type" : "constant",
-                          "value" : "First"
-                        },
-                        "valueToAdd" : {
-                          "type" : "constant",
-                          "value" : "open"
-                        },
-                        "removeItem" : {
-                          "type" : "variable"
-                        }
-                      },
-                      "reference" : "7d87d83e-badf-48f8-8ed0-e33f7780894c",
-                      "hasValidationError" : false,
-                      "id" : "pbButton"
-                    }
-                  ],
-                  [
-                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
@@ -5822,8 +5665,8 @@
                           "value" : "dropdown add-mapping"
                         },
                         "hidden" : {
-                          "type" : "expression",
-                          "value" : "editUsersMappingData.addUserInputAction[0] !== \"open\""
+                          "type" : "constant",
+                          "value" : false
                         },
                         "repeatedCollection" : {
                           "type" : "variable",
@@ -5838,9 +5681,9 @@
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 3,
+                              "xs" : 9,
+                              "sm" : 8,
+                              "md" : 9,
                               "lg" : 9
                             },
                             "propertyValues" : {
@@ -5886,7 +5729,7 @@
                               },
                               "placeholder" : {
                                 "type" : "interpolation",
-                                "value" : "Search a new user to add"
+                                "value" : "Start typing to find a new user to add"
                               },
                               "value" : {
                                 "type" : "variable",
@@ -5914,8 +5757,8 @@
                           {
                             "type" : "container",
                             "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
+                              "xs" : 3,
+                              "sm" : 4,
                               "md" : 3,
                               "lg" : 3
                             },
@@ -5933,7 +5776,7 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "06ec8273-2897-49e9-ae1c-85c8b9b637cc",
+                            "reference" : "918181a4-a735-48f9-b888-09570af9480d",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
@@ -5943,8 +5786,8 @@
                                   "dimension" : {
                                     "xs" : 12,
                                     "sm" : 12,
-                                    "md" : 6,
-                                    "lg" : 6
+                                    "md" : 12,
+                                    "lg" : 12
                                   },
                                   "propertyValues" : {
                                     "cssClasses" : {
@@ -5961,7 +5804,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Add"
+                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add a new user\" | uiTranslate}}"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -6025,96 +5868,6 @@
                                     }
                                   },
                                   "reference" : "93be79b0-db74-4340-8568-45f5a9d500fc",
-                                  "hasValidationError" : false,
-                                  "id" : "pbButton"
-                                },
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 6,
-                                    "lg" : 6
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "disabled" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "label" : {
-                                      "type" : "interpolation",
-                                      "value" : "Cancel"
-                                    },
-                                    "alignment" : {
-                                      "type" : "constant",
-                                      "value" : "left"
-                                    },
-                                    "buttonStyle" : {
-                                      "type" : "constant",
-                                      "value" : "default"
-                                    },
-                                    "action" : {
-                                      "type" : "constant",
-                                      "value" : "Add to collection"
-                                    },
-                                    "assign" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "url" : {
-                                      "type" : "interpolation"
-                                    },
-                                    "responseStatusCode" : {
-                                      "type" : "variable",
-                                      "value" : ""
-                                    },
-                                    "dataToSend" : {
-                                      "type" : "constant"
-                                    },
-                                    "dataFromSuccess" : {
-                                      "type" : "variable",
-                                      "value" : ""
-                                    },
-                                    "closeOnSuccess" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "dataFromError" : {
-                                      "type" : "variable",
-                                      "value" : ""
-                                    },
-                                    "targetUrlOnSuccess" : {
-                                      "type" : "interpolation"
-                                    },
-                                    "collectionToModify" : {
-                                      "type" : "variable",
-                                      "value" : "editUsersMappingData.addUserInputAction"
-                                    },
-                                    "modalId" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "collectionPosition" : {
-                                      "type" : "constant",
-                                      "value" : "First"
-                                    },
-                                    "valueToAdd" : {
-                                      "type" : "constant",
-                                      "value" : "cancel"
-                                    },
-                                    "removeItem" : {
-                                      "type" : "variable"
-                                    }
-                                  },
-                                  "reference" : "fba69d6a-d177-4601-8777-3e707bc4d631",
                                   "hasValidationError" : false,
                                   "id" : "pbButton"
                                 }
@@ -7656,7 +7409,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=user&d=user_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=user&d=user_id&t=\" + $data.organizationMappingData.timestamp; \r",
         "        }\r",
         "    },\r",
         "    createUserBadges: function(list) {\r",
@@ -7785,7 +7538,8 @@
         "    userMappings: \"\",",
         "    groupMappings: \"\",",
         "    roleMappings: \"\",",
-        "    membershipMappings: \"\"",
+        "    membershipMappings: \"\",",
+        "    timestamp: new Date().getTime()",
         "};"
       ],
       "exposed" : false
@@ -7846,7 +7600,6 @@
         "    addUserDisplayName: undefined,",
         "    addUserUserName: undefined,",
         "    addUserId: undefined,",
-        "    addUserInputAction: [\"cancel\"],",
         "    selectedUserToAdd: [],",
         "    addUserStatusCode: \"\",",
         "    addUserFailedResponse: undefined",
@@ -7871,7 +7624,14 @@
         "        $data.editUsersMappingData.statusCode = \"\";\r",
         "        $data.editUsersMappingData.userToUnmap = undefined;\r",
         "        $data.editUsersMappingData.userToMap = undefined;\r",
-        "        $data.editUsersMappingData.addUserInputAction.unshift(\"cancel\");\r",
+        "        $data.editUsersMappingData.addUserSearchValue = \"\";\r",
+        "        $data.editUsersMappingData.addUserDisplayName = undefined;\r",
+        "        $data.editUsersMappingData.addUserUserName = undefined;\r",
+        "        $data.editUsersMappingData.addUserId = undefined;\r",
+        "        $data.editUsersMappingData.selectedUserToAdd = [];\r",
+        "        $data.editUsersMappingData.addUserStatusCode = \"\";\r",
+        "        $data.editUsersMappingData.addUserFailedResponse = undefined;\r",
+        "        \r",
         "        return \"editUsersMappingModal\";\r",
         "    },\r",
         "    mappedUsersQueryParameters: function(pageId) {\r",
@@ -7911,13 +7671,13 @@
         "    getAddUserSearchUrl: function() {\r",
         "         if ($data.editUsersMappingData.addUserDisplayName !==  $data.editUsersMappingData.addUserSearchValue) { \r",
         "            $data.editUsersMappingData.addUserId = undefined;\r",
-        "            return $data.editUsersMappingData.addUserSearchValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.editUsersMappingData.addUserSearchValue : undefined;    \r",
+        "            return $data.editUsersMappingData.addUserSearchValue ? \"../API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.editUsersMappingData.addUserSearchValue : undefined;    \r",
         "        }\r",
         "        return undefined;\r",
         "    },\r",
         "    getAddUserFullSearchList: function() {\r",
         "        var fullUserList = $data.addUserSearchList;\r",
-        "        if (fullUserList.length == 20) {\r",
+        "        if (fullUserList.length == 10) {\r",
         "            fullUserList.push({\r",
         "                userName: uiTranslate(\"Or type more...\")\r",
         "            });\r",
@@ -7989,7 +7749,7 @@
         "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)\r",
         "    $data.editUsersMappingUrl = undefined;\r",
         "    $data.editUsersMappingData.usersNextResults = undefined;\r",
-        "    $data.organizationMappingData.userMappings = $data.organizationMappingCtrl.createUserBadges($data.editUsersMappingData.displayedUsers);\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "}\r",
         "\r",
         "// add next page of users to the list of next users to display\r",
@@ -8008,14 +7768,6 @@
         "    $data.editUsersMappingData.usersForNextPage = undefined;\r",
         "    $data.editUsersMappingData.usersNextResults = undefined;\r",
         "    $data.editUsersMappingData.numberOfUsersReturned = 0;\r",
-        "}\r",
-        "\r",
-        "// Clean editUsersMappingData.addUserInputAction collection since we only need the first element\r",
-        "if($data.editUsersMappingData.addUserInputAction && $data.editUsersMappingData.addUserInputAction.length > 1) {\r",
-        "    $data.editUsersMappingData.addUserSearchValue = \"\";\r",
-        "    $data.editUsersMappingData.addUserDisplayName = undefined;\r",
-        "    $data.editUsersMappingData.addUserId = undefined;\r",
-        "    $data.editUsersMappingData.addUserInputAction.splice(1, $data.editUsersMappingData.addUserInputAction.length - 1);\r",
         "}\r",
         "\r",
         "// Select users to add to mapping\r",
