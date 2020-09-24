@@ -5,10 +5,12 @@ const defaultFilters = '&o=name ASC';
 const defaultRequestUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + profilesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const userMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id';
+const refreshUserMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id';
 const userMappingUrlTwo = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=2&f=member_type=user&d=user_id';
 const groupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=group&d=group_id';
 const roleMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
 const membershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
+const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
 
 given("The response {string} is defined", (responseType) => {
     cy.viewport(1366, 768);
@@ -33,6 +35,10 @@ given("The response {string} is defined", (responseType) => {
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Administrator&t=0', 'searchAdministratorRoute', 'profiles1');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            break;
+        case 'search mapped user':
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id&s=Helen&t=1*', 'searchHelenRoute');
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profiles load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles20Route', 'profiles20');
@@ -104,6 +110,20 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
+            break;
+        case 'user list':
+            createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
+            break;
+        case 'add user and refresh list':
+            createRouteWithMethod(profileMemberUrl, 'addUserMemberRoute', 'POST');
+            createRoute(userMappingUrl + '&t=1*', 'refreshMappingUrlRoute');
+            break;
+        case 'remove user and refresh list':
+            createRouteWithMethod(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE');
+            createRoute(userMappingUrl + '&t=1*', 'refreshMappingUrlRoute');
+            break;
+        case 'refresh mapped user list':
+            createRouteWithResponse(refreshUserMappingUrl + '&t=1*', 'refreshUsersMappingRoute', 'profileMappingUsers10');
             break;
         default:
             throw new Error("Unsupported case");
@@ -202,6 +222,10 @@ when("I erase the search filter", () => {
     cy.get('pb-input input').clear();
 });
 
+when("I erase the search filter in the modal", () => {
+    cy.get('.modal-body pb-input input').eq(1).clear();
+});
+
 when("I click on Load more profiles button", () => {
     cy.get('button').contains('Load more profiles').click();
 });
@@ -274,15 +298,35 @@ when("I click on show organization mapping button for first profile", () => {
 });
 
 when("I click on show organization mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
+    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
 });
 
 when("I click on hide organization mapping button for first profile", () => {
     cy.get('.glyphicon.glyphicon-triangle-top').eq(0).parent().click();
 });
 
-when("I click on edit user mapping button", () => {
+when("I click on edit user mapping button for first profile", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(1).click();
+});
+
+when("I click on edit user mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+});
+
+when("I type {string} in the user input", (userName) => {
+    cy.get('.modal .form-group input').eq(0).type(userName);
+});
+
+when("I click on {string} in the list", (userName) => {
+    cy.contains('.modal-content .dropdown-menu button', 'Helen Kelly').click();
+});
+
+when("I click on the remove user button in modal", () => {
+    cy.get('.modal-content button .glyphicon-remove').eq(0).click();
+});
+
+when("The search input is filled with {string}", (userName) => {
+    cy.get('.modal-body .form-group input').eq(1).type(userName);
 });
 
 then("The profiles page has the correct information", () => {
@@ -325,6 +369,9 @@ then("The api call is made for {string}", (filterValue) => {
         case 'Administrator':
             cy.wait('@searchAdministratorRoute');
             break;
+        case 'Helen':
+            cy.wait('@searchHelenRoute');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -333,6 +380,11 @@ then("The api call is made for {string}", (filterValue) => {
 then("No profiles are displayed", () => {
     cy.get('.profiles-item:visible').should('have.length', 0);
     cy.contains('No profiles to display').should('be.visible');
+});
+
+then("No user mappings are displayed", () => {
+    cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
+    cy.contains('There are no users mapped to this profile').should('be.visible');
 });
 
 then("The load more profiles button is disabled", () => {
@@ -545,5 +597,60 @@ then("The edit user mapping modal is open and has a default state for {string} p
     cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new user to add');
     cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped users by first name, last name, or username');
     cy.contains('.modal-body button', 'Add a new user').should('be.visible');
+    cy.get('.modal-footer button').scrollIntoView();
     cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("The user list is displayed", () => {
+    cy.get('.modal-content .dropdown-menu').should('be.visible');
+});
+
+then("The mapped user list is displayed", () => {
+    cy.get('.modal-body .profile-item').should('have.length', 10);
+    cy.get('.modal-body .profile-item').eq(0).within(() => {
+        cy.contains('.item-label', 'First name');
+        cy.contains('.item-value', 'Giovanna');
+        cy.contains('.item-label', 'Last name');
+        cy.contains('.item-value', 'Almeida');
+        cy.contains('.item-label', 'Username');
+        cy.contains('.item-value', 'giovanna.almeida');
+        cy.get('button .glyphicon-remove').should('have.attr', 'title', 'Remove user from mapping');
+    });
+});
+
+then("The user list is not displayed", () => {
+    cy.get('.modal-body .dropdown-menu').should('not.be.visible');
+});
+
+then("The user input is filled with {string}", (userName) => {
+    cy.get('.modal-body .form-group input').should('have.value', userName);
+});
+
+then("There is a confirmation for a user mapping being added", () => {
+    cy.contains('.modal-body', 'The user helen.kelly has been successfully added to the mapping.').should('be.visible');
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', '');
+});
+
+then("There is a confirmation for a user mapping being removed", () => {
+    cy.contains('.modal-body', 'The user giovanna.almeida has been successfully removed from mapping.').should('be.visible');
+});
+
+then("The api call has the correct information: {string}, {string}, {string}", (memberType, profileId, userId) => {
+    cy.wait('@addUserMemberRoute').then((xhr) => {
+        expect(xhr.request.body.member_type).to.equal(memberType);
+        expect(xhr.request.body.profile_id).to.equal(profileId);
+        expect(xhr.request.body.user_id).to.equal(userId);
+    });
+});
+
+then('The list of user mappings is refreshed', () => {
+    cy.wait('@refreshUsersMappingRoute');
+});
+
+then('The page is refreshed', () => {
+    cy.wait('@profileMappingUsers10Route');
+});
+
+then("The search input has the value {string}", (userName) => {
+    cy.get('.modal-body .form-group input').eq(1).should('have.value', userName);
 });
