@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1600958898315,
+  "lastUpdate" : 1601039154373,
   "rows" : [
     [
       {
@@ -5800,7 +5800,7 @@
                                     },
                                     "disabled" : {
                                       "type" : "expression",
-                                      "value" : "editUsersMappingData.addUserSearchValue === \"\""
+                                      "value" : "editUsersMappingData.addUserSearchValue === \"\" || !editUsersMappingData.addUserId"
                                     },
                                     "label" : {
                                       "type" : "interpolation",
@@ -7685,7 +7685,7 @@
         "                || $data.editUsersMappingData.addUserSearchValue === \"\";\r",
         "    },\r",
         "    getAddUserSearchUrl: function() {\r",
-        "         if ($data.editUsersMappingData.addUserDisplayName !==  $data.editUsersMappingData.addUserSearchValue) { \r",
+        "        if ($data.editUsersMappingData.addUserDisplayName !==  $data.editUsersMappingData.addUserSearchValue) { \r",
         "            $data.editUsersMappingData.addUserId = undefined;\r",
         "            return $data.editUsersMappingData.addUserSearchValue ? \"../API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled%3dtrue&s=\" + $data.editUsersMappingData.addUserSearchValue : undefined;    \r",
         "        }\r",
