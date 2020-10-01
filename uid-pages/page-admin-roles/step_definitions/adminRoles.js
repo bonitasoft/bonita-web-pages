@@ -258,7 +258,7 @@ when("I put {string} in user list search filter field", (filterValue) => {
 when("I fill in the information", () => {
     cy.get('.modal-body input').eq(0).type('Role name');
     cy.get('.modal-body input').eq(1).type('Role display name');
-    cy.get('.modal-body input').eq(2).type('Role description');
+    cy.get('.modal-body textarea').type('Role description');
 });
 
 when("I erase the search filter", () => {
@@ -284,7 +284,7 @@ when("I fill in the name", () => {
 when("I edit the information for first role", () => {
     cy.get('.modal-body input').eq(0).clear().type('new member');
     cy.get('.modal-body input').eq(1).clear().type('New member');
-    cy.get('.modal-body input').eq(2).clear().type('This is a new description.');
+    cy.get('.modal-body textarea').clear().type('This is a new description.');
 });
 
 when("I clear the name", () => {
@@ -385,7 +385,7 @@ then("No users are available", () => {
 
 then("The create modal is open and has a default state for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 3);
+    cy.get('.modal-body input').should('have.length', 2);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
@@ -409,7 +409,7 @@ then("The delete modal is open and has a default state for {string}", (state) =>
 
 then("The edit modal is open and has a default state for {string} for role {int}", (state, roleNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 3);
+    cy.get('.modal-body input').should('have.length', 2);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
@@ -417,12 +417,12 @@ then("The edit modal is open and has a default state for {string} for role {int}
         case 1:
             cy.get('.modal-body input').eq(0).should('have.value','member');
             cy.get('.modal-body input').eq(1).should('have.value','Member');
-            cy.get('.modal-body input').eq(2).should('have.value','This is a description.');
+            cy.get('.modal-body textarea').should('have.value','This is a description.');
             break;
         case 2:
             cy.get('.modal-body input').eq(0).should('have.value','Role11');
             cy.get('.modal-body input').eq(1).should('have.value','Role11');
-            cy.get('.modal-body input').eq(2).should('have.value','');
+            cy.get('.modal-body textarea').should('have.value','');
             break;
         default:
             throw new Error("Unsupported case");
@@ -436,13 +436,13 @@ then("The edit modal is open and has a default state for {string} for role {int}
 
 then("The edit modal is open and has a edited state for {string}", (state, roleNumber) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.length', 3);
+    cy.get('.modal-body input').should('have.length', 2);
     cy.contains('.modal-body', 'Name').should('be.visible');
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
     cy.get('.modal-body input').eq(0).should('have.value','new member');
     cy.get('.modal-body input').eq(1).should('have.value','New member');
-    cy.get('.modal-body input').eq(2).should('have.value','This is a new description.');
+    cy.get('.modal-body textarea').should('have.value','This is a new description.');
     cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
     cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
