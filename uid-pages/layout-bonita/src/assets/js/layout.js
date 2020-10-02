@@ -8,8 +8,13 @@ function initMessageListener() {
       try {
         var jsonEventData = JSON.parse(eventData);
         //Handle the message here (default behavior is to redirect to the target URL on success)
-        if (jsonEventData.message === 'success' && jsonEventData.targetUrlOnSuccess) {
-          window.location.assign(jsonEventData.targetUrlOnSuccess);
+        if (jsonEventData.message === 'success') {
+            //avoid redirecting to the portal when we are in an app
+            if (jsonEventData.targetUrlOnSuccess && jsonEventData.targetUrlOnSuccess != "/bonita") {
+                window.location.assign(jsonEventData.targetUrlOnSuccess);
+            } else {
+                window.location.reload();
+            }
         }
       } catch (e) {
         //The message is not json, so not for us 
