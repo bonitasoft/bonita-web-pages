@@ -11,6 +11,7 @@ const groupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=1
 const roleMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id';
 const membershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
+const roleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=name ASC&s=';
 const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_id';
 
 given("The response {string} is defined", (responseType) => {
@@ -109,7 +110,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(userMappingUrl + '&t=1*', 'profileMappingUsers10Route', 'profileMappingUsers10');
             createRouteWithResponse(userMappingUrlTwo + '&t=1*', 'profileMappingUsers2Route', 'profileMappingUsers2');
             createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
-            createRouteWithResponse(roleMappingUrl, 'profileMappingRoles10Route', 'profileMappingRoles10');
+            createRouteWithResponse(roleMappingUrl + '&t=1*', 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
             break;
         case 'user list':
@@ -166,6 +167,14 @@ given("The response {string} is defined", (responseType) => {
         case 'member does not exist during edit user mapping':
             createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&t=1*', 'profileMappingUsers20Route', 'profileMappingUsers20', '0', '20');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addUserMemberRoute', 'memberDoesNotExistException','POST', 500);
+            break;
+        case 'role list':
+            createRouteWithResponse(roleSearchUrl + 'E', 'roleListRoute', 'roleList');
+            createRouteWithResponse(roleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
+            break;
+        case 'add role and refresh list':
+            createRouteWithMethod(profileMemberUrl, 'addRoleMemberRoute', 'POST');
+            createRoute(roleMappingUrl + '&t=1*', 'refreshMappingUrlRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -374,12 +383,20 @@ when("I click on edit user mapping button for second profile", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
 });
 
+when("I click on edit role mapping button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+});
+
+when("I click on edit role mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+});
+
 when("I type {string} in the user input", (userName) => {
     cy.get('.modal .form-group input').eq(0).type(userName);
 });
 
-when("I click on {string} in the list", (userName) => {
-    cy.contains('.modal-content .dropdown-menu button', 'Helen Kelly').click();
+when("I click on {string} in the list", (option) => {
+    cy.contains('.modal-content .dropdown-menu button', option).click();
 });
 
 when("I click on the remove user button in modal", () => {
@@ -744,6 +761,14 @@ then("The api call has the correct information: {string}, {string}, {string}", (
     });
 });
 
+then("The api call has the correct information: {string}, {string}, {string} for roles mapping", (memberType, profileId, roleId) => {
+    cy.wait('@addRoleMemberRoute').then((xhr) => {
+        expect(xhr.request.body.member_type).to.equal(memberType);
+        expect(xhr.request.body.profile_id).to.equal(profileId);
+        expect(xhr.request.body.role_id).to.equal(roleId);
+    });
+});
+
 then('The list of user mappings is refreshed', () => {
     cy.wait('@refreshUsersMappingRoute');
 });
@@ -758,4 +783,18 @@ then("The search input has the value {string}", (userName) => {
 
 then("The add a new user button is disabled", (userName) => {
     cy.contains('.modal-body button', 'Add a new user').should('be.disabled');
+});
+
+then("The edit role mapping modal is open and has a default state for {string} profile", (organization) => {
+    cy.contains('.modal-header h3', organization).should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.length', 2);
+    cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new role to add');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped roles by display name');
+    cy.contains('.modal-body button', 'Add a new role').should('be.visible');
+    cy.get('.modal-footer button').scrollIntoView();
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("The role list is displayed", () => {
+    cy.get('.modal-content .dropdown-menu').should('be.visible');
 });

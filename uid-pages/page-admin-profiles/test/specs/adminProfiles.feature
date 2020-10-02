@@ -686,3 +686,43 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
 
+  Scenario: The edit role mapping modal is opened and closed
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    When I visit the admin profiles page
+    Then A list of 8 items is displayed
+    When I click on show organization mapping button for first profile
+    Then I see the mapping information for first profile
+    When I click on edit role mapping button for first profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
+  Scenario: The edit role mapping modal changes profile id correctly
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    And The response "role list" is defined
+    And The response "add role and refresh list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    Then I see the mapping information for first profile
+    When I click on edit role mapping button for first profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
+    When I type "E" in the user input
+    Then The role list is displayed
+    When I click on "Executive" in the list
+    And I click on the "Add a new role" button in modal
+    Then The api call has the correct information: "ROLE", "101", "4" for roles mapping
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on show organization mapping button for second profile without closing the first
+    Then I see the mapping information for second profile
+    When I click on edit role mapping button for second profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Administrator" profile
+    When I type "E" in the user input
+    Then The role list is displayed
+    When I click on "Executive" in the list
+    And I click on the "Add a new role" button in modal
+    Then The api call has the correct information: "ROLE", "2", "4" for roles mapping
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
