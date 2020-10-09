@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1601039154373,
+  "lastUpdate" : 1601998807101,
   "rows" : [
     [
       {
@@ -2174,7 +2174,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "Submit task"
+                                    "value" : "Open modal"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -2209,8 +2209,8 @@
                                     "type" : "variable"
                                   },
                                   "modalId" : {
-                                    "type" : "constant",
-                                    "value" : ""
+                                    "type" : "expression",
+                                    "value" : "editRolesMappingCtrl.initEditRolesMappingModal($item)"
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
@@ -5681,10 +5681,46 @@
                           {
                             "type" : "component",
                             "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Add a user"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "4c120033-1c5e-41cf-8e22-81ca638b27de",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
                               "xs" : 9,
-                              "sm" : 8,
-                              "md" : 9,
-                              "lg" : 9
+                              "sm" : 10,
+                              "md" : 10,
+                              "lg" : 10
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -5758,9 +5794,9 @@
                             "type" : "container",
                             "dimension" : {
                               "xs" : 3,
-                              "sm" : 4,
-                              "md" : 3,
-                              "lg" : 3
+                              "sm" : 2,
+                              "md" : 2,
+                              "lg" : 2
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -5804,11 +5840,11 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add a new user\" | uiTranslate}}"
+                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add\" | uiTranslate}}"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
-                                      "value" : "right"
+                                      "value" : "left"
                                     },
                                     "buttonStyle" : {
                                       "type" : "constant",
@@ -6026,58 +6062,6 @@
                               ]
                             ]
                           }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "<hr/>"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "left"
-                              }
-                            },
-                            "reference" : "5f89851f-e879-4118-89a2-38739869bd3e",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
                         ]
                       ]
                     }
@@ -6094,7 +6078,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "mt-20"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -6116,6 +6100,42 @@
                               "xs" : 12,
                               "sm" : 12,
                               "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Users mapped"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "5bad0005-c60e-4add-9290-fc7d068cfa16",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 11,
                               "lg" : 12
                             },
                             "propertyValues" : {
@@ -7042,6 +7062,1518 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "editRolesMappingModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "bef6ba09-3a99-41ea-9dcf-2cbb6378453a",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "ca6d7d4c-efec-4489-a2dc-65b06f7df10a",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "98a207df-d010-4d12-a7c2-c9a06c7915da",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Edit role mapping\"|translate}} of {{editRolesMappingData.selectedProfile.name}} profile"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "15584d63-1e89-4178-bbf1-bc99a8ebf8b7",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body pl-10 pr-10"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "5ba6b883-1d8a-4361-ba8e-596728c5629c",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editRolesMappingData.addRoleStatusCode !== 500 && editRolesMappingData.statusCode !== 500"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{editRolesMappingCtrl.getErrorMessageFor500(editRolesMappingData.addRoleFailedResponse)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "a30a4042-3c7a-49dc-8774-5a8fa7b54358",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editRolesMappingData.addRoleStatusCode !== 403 && editRolesMappingData.statusCode !== 403"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{editRolesMappingCtrl.getErrorMessageFor403(editRolesMappingData.addRoleFailedResponse)}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "f973dc59-6cce-484b-b8c9-b960b9e74e88",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "(editRolesMappingData.statusCode === undefined || editRolesMappingData.statusCode === 200) && (editRolesMappingData.addRoleStatusCode === undefined || editRolesMappingData.addRoleStatusCode === 200)"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The profile mapping has not been updated.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "de5a3e40-81f6-47ef-92d2-cd27053c366d",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editRolesMappingData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role' | translate}} <strong>{{editRolesMappingData.roleToUnmap.role_id.name}}</strong> {{'has been successfully removed from mapping.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "db5f0399-6956-4db4-b0d4-49dd7e241702",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editRolesMappingData.addRoleStatusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role' | translate}} <strong>{{editRolesMappingData.roleToMap}}</strong> {{'has been successfully added to the mapping.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "3ce60e48-e1e6-478c-850a-3dbb0fd3cdf5",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "dropdown add-mapping"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "6981216a-ad40-4238-8e2a-271a6927c5d3",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Add a role"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "c3b67f00-8a73-400b-884b-681d58c7ceaf",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 9,
+                              "sm" : 10,
+                              "md" : 10,
+                              "lg" : 10
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Start typing to find a new role to add"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editRolesMappingData.addRoleSearchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "df32e7a7-60c2-408a-8cec-ed7465d26c8e",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          },
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 3,
+                              "sm" : 2,
+                              "md" : 2,
+                              "lg" : 2
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "06d0c297-4cba-4b1c-b7d6-aea7011b4230",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "expression",
+                                      "value" : "editRolesMappingData.addRoleSearchValue === \"\" || !editRolesMappingData.addRoleId"
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add\" | uiTranslate}}"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "right"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "primary"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "POST"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "{{editRolesMappingCtrl.getMapUrl(editRolesMappingData.addRoleSearchValue)}}"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : "editRolesMappingData.addRoleStatusCode"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "expression",
+                                      "value" : "editRolesMappingCtrl.getAddRolePayload()"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : "editRolesMappingData.addRoleFailedResponse"
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "dd7103c7-b5b8-45f0-b043-6a216f619931",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "dropdown-menu"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingCtrl.hideDropdownMenu()"
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "85860bae-60d9-468c-8533-3a18e3a6c7af",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : "editRolesMappingCtrl.getAddRoleFullSearchList()"
+                                    }
+                                  },
+                                  "reference" : "cd75b9d0-18fb-4a07-87a7-f4420d2a24a1",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "disabled" : {
+                                            "type" : "expression",
+                                            "value" : "editRolesMappingCtrl.isAddRoleSearchMore($item)"
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "{{$item.displayName}}"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          },
+                                          "buttonStyle" : {
+                                            "type" : "constant",
+                                            "value" : "link"
+                                          },
+                                          "action" : {
+                                            "type" : "constant",
+                                            "value" : "Add to collection"
+                                          },
+                                          "assign" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "url" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "responseStatusCode" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "dataToSend" : {
+                                            "type" : "constant"
+                                          },
+                                          "dataFromSuccess" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "closeOnSuccess" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "dataFromError" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "targetUrlOnSuccess" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "collectionToModify" : {
+                                            "type" : "variable",
+                                            "value" : "editRolesMappingData.selectedRoleToAdd"
+                                          },
+                                          "modalId" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "collectionPosition" : {
+                                            "type" : "constant",
+                                            "value" : "First"
+                                          },
+                                          "valueToAdd" : {
+                                            "type" : "expression",
+                                            "value" : "$item"
+                                          },
+                                          "removeItem" : {
+                                            "type" : "variable"
+                                          }
+                                        },
+                                        "reference" : "4d2c8678-7d8b-48c6-851d-582038becc88",
+                                        "hasValidationError" : false,
+                                        "id" : "pbButton"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "mt-20"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "2672a219-1e87-495f-ad32-522b97023150",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Roles mapped"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "0c4a6ca7-1340-4046-969b-e5dda3265f6f",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingData.displayedRoles.length === 0 && editRolesMappingData.roleFilters.searchValue === \"\""
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Search mapped roles by display name"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editRolesMappingData.roleFilters.searchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "48590d3d-6f14-4572-808e-b338363591a8",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "profile-item"
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : "editRolesMappingData.displayedRoles"
+                              }
+                            },
+                            "reference" : "305bbd76-eb65-4834-a4b3-3f15e18cdda5",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 11,
+                                    "md" : 11,
+                                    "lg" : 11
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    }
+                                  },
+                                  "reference" : "38499ac5-0e35-4d2d-a4d3-4faa4ee5d931",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : "item-label"
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "Default label"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "Display name"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          }
+                                        },
+                                        "reference" : "41621403-e2eb-49e4-ba12-450f42d2c38e",
+                                        "hasValidationError" : false,
+                                        "id" : "pbText"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : "item-value"
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "Default label"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "{{$item.role_id.displayName}}"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          }
+                                        },
+                                        "reference" : "00217cb1-e3a0-42a5-88aa-b10cb68e6739",
+                                        "hasValidationError" : false,
+                                        "id" : "pbText"
+                                      }
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 1,
+                                    "md" : 1,
+                                    "lg" : 1
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-remove\" title=\"{{\"Remove role from mapping\" | uiTranslate}}\"></i>"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "link"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "DELETE"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "{{editRolesMappingCtrl.getUnmapUrl($item)}}"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : "editRolesMappingData.statusCode"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "constant"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : "editRolesMappingData.addRoleFailedResponse"
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "3d1d5371-d251-46f9-b867-4fb18cfc0d16",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "text-primary item-label pt-5"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingData.displayedRoles.length == 0"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "{{\"Roles shown\"|uiTranslate}}: {{editRolesMappingData.displayedRoles.length}}"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "right"
+                              }
+                            },
+                            "reference" : "680f3db6-5885-485d-892c-b7c0e9572a07",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingData.displayedRoles.length"
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "There are no roles mapped to this profile"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              }
+                            },
+                            "reference" : "d4d1e3f2-e28f-40ff-b953-72ee8fdae6d9",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingData.displayedRoles.length == 0"
+                              },
+                              "disabled" : {
+                                "type" : "expression",
+                                "value" : "editRolesMappingData.displayedRoles.length % editRolesMappingData.numberOfRolesPerPage > 0 || (editRolesMappingData.numberOfRolesReturned === 0 && editRolesMappingData.rolesNextResults.length == 0)"
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Load more roles"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              },
+                              "buttonStyle" : {
+                                "type" : "constant",
+                                "value" : "link"
+                              },
+                              "action" : {
+                                "type" : "constant",
+                                "value" : "GET"
+                              },
+                              "assign" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "url" : {
+                                "type" : "interpolation",
+                                "value" : "{{profileMemberUrl}}{{editRolesMappingCtrl.mappedRolesQueryParameters(editRolesMappingData.pageId)}}"
+                              },
+                              "responseStatusCode" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "dataToSend" : {
+                                "type" : "constant"
+                              },
+                              "dataFromSuccess" : {
+                                "type" : "variable",
+                                "value" : "editRolesMappingData.rolesNextResults"
+                              },
+                              "closeOnSuccess" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "dataFromError" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "targetUrlOnSuccess" : {
+                                "type" : "interpolation"
+                              },
+                              "collectionToModify" : {
+                                "type" : "variable"
+                              },
+                              "modalId" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "collectionPosition" : {
+                                "type" : "constant",
+                                "value" : "Last"
+                              },
+                              "valueToAdd" : {
+                                "type" : "constant"
+                              },
+                              "removeItem" : {
+                                "type" : "variable"
+                              }
+                            },
+                            "reference" : "7ed12196-6e5c-4feb-a166-ad57730675b7",
+                            "hasValidationError" : false,
+                            "id" : "pbButton"
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "c2b9905b-077d-4739-9c33-5bdc81a9d462",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Close"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "a2109508-278a-4d96-8fd1-f6c3755b4227",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -7491,7 +9023,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=role&d=role_id&t=\" + $data.organizationMappingData.timestamp; ;   \r",
         "        }\r",
         "    },\r",
         "    createRoleBadges: function(list) {\r",
@@ -7667,8 +9199,9 @@
         "        $data.editUsersMappingData.userToUnmap = user;\r",
         "        if($data.editUsersMappingData.hasRecentlyBeenUnmapped) {\r",
         "            $data.editUsersMappingData.statusCode = undefined;\r",
-        "            $data.editUsersMappingData.hasRecentlyBeenUnmapped = false;   \r",
+        "            $data.editUsersMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        }\r",
+        "        $data.organizationMappingData.userMappings = '';\r",
         "        return $data.profileMemberUrl + \"/\" + user.id;\r",
         "    },\r",
         "    getMapUrl: function(user) {\r",
@@ -7677,11 +9210,12 @@
         "            $data.editUsersMappingData.addUserStatusCode = undefined;\r",
         "            $data.editUsersMappingData.hasRecentlyBeenMapped = false;\r",
         "        }\r",
+        "        $data.organizationMappingData.userMappings = '';\r",
         "        return $data.profileMemberUrl;\r",
         "    },\r",
         "    hideDropdownMenu: function() {\r",
         "        return !$data.addUserSearchList \r",
-        "                || $data.addUserSearchList.length == 0 \r",
+        "                || $data.addUserSearchList.length === 0 \r",
         "                || $data.editUsersMappingData.addUserSearchValue === \"\";\r",
         "    },\r",
         "    getAddUserSearchUrl: function() {\r",
@@ -7739,7 +9273,7 @@
         "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'UserNotFoundException')) {\r",
         "            return uiTranslate(\"The user does not exist anymore.\");\r",
         "        } else if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'MemberNotFoundException')) {\r",
-        "            return uiTranslate(\"The user is not mapped to this profile or does not exist anymore.\");\r",
+        "            return uiTranslate(\"The user or profile cannot be found.\");\r",
         "        }\r",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");\r",
         "    }\r",
@@ -7844,6 +9378,242 @@
       "type" : "url",
       "value" : [
         "{{editUsersMappingCtrl.getAddUserSearchUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "editRolesMappingCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    initEditRolesMappingModal: function(profile) {\r",
+        "        $data.editRolesMappingData.selectedProfile = profile;\r",
+        "        $data.editRolesMappingData.timestamp = new Date().getTime();\r",
+        "        $data.editRolesMappingData.pageId = 0;\r",
+        "        $data.editRolesMappingData.displayedRoles = [];\r",
+        "        $data.editRolesMappingData.numberOfRolesReturned = 0;\r",
+        "        $data.editRolesMappingData.rolesForNextPage = [];\r",
+        "        $data.editRolesMappingData.rolesNextResults = undefined;\r",
+        "        $data.editRolesMappingData.roleFilters.searchValue = \"\";\r",
+        "        $data.editRolesMappingData.hasRecentlyBeenUnmapped = false;\r",
+        "        $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
+        "        $data.editRolesMappingData.statusCode = undefined;\r",
+        "        $data.editRolesMappingData.roleToUnmap = undefined;\r",
+        "        $data.editRolesMappingData.roleToMap = undefined;\r",
+        "        $data.editRolesMappingData.addRoleSearchValue = \"\";\r",
+        "        $data.editRolesMappingData.addRoleName = undefined;\r",
+        "        $data.editRolesMappingData.addRoleId = undefined;\r",
+        "        $data.editRolesMappingData.selectedRoleToAdd = [];\r",
+        "        $data.editRolesMappingData.addRoleStatusCode = undefined;\r",
+        "        $data.editRolesMappingData.addRoleFailedResponse = undefined;\r",
+        "        \r",
+        "        return \"editRolesMappingModal\";\r",
+        "    },\r",
+        "    mappedRolesQueryParameters: function(pageId) {\r",
+        "        var rolesPerPage = $data.editRolesMappingData.numberOfRolesPerPage;\r",
+        "    \r",
+        "        if (pageId === 0) {\r",
+        "            //on first call we need load next page\r",
+        "            rolesPerPage *= 2;\r",
+        "        }\r",
+        "        \r",
+        "        var selectedProfileId = $data.editRolesMappingData.selectedProfile ? $data.editRolesMappingData.selectedProfile.id : \"\";\r",
+        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + rolesPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=role&d=role_id\";\r",
+        "        \r",
+        "        if($data.editRolesMappingData.roleFilters.searchValue) {\r",
+        "            queryParameters += \"&s=\" + $data.editRolesMappingData.roleFilters.searchValue;\r",
+        "        }\r",
+        "\r",
+        "        return queryParameters;\r",
+        "    },\r",
+        "    getUnmapUrl: function(role) {\r",
+        "        $data.editRolesMappingData.roleToUnmap = role;\r",
+        "        if($data.editRolesMappingData.hasRecentlyBeenUnmapped) {\r",
+        "            $data.editRolesMappingData.statusCode = undefined;\r",
+        "            $data.editRolesMappingData.hasRecentlyBeenUnmapped = false;   \r",
+        "        }\r",
+        "        $data.organizationMappingData.roleMappings = '';\r",
+        "        return $data.profileMemberUrl + \"/\" + role.id;\r",
+        "    },\r",
+        "    getMapUrl: function(role) {\r",
+        "        $data.editRolesMappingData.roleToMap = role;\r",
+        "        if($data.editRolesMappingData.hasRecentlyBeenMapped) {\r",
+        "            $data.editRolesMappingData.addRoleStatusCode = undefined;\r",
+        "            $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
+        "        }\r",
+        "        $data.organizationMappingData.roleMappings = '';\r",
+        "        return $data.profileMemberUrl;\r",
+        "    },\r",
+        "    hideDropdownMenu: function() {\r",
+        "        return !$data.addRoleSearchList \r",
+        "                || $data.addRoleSearchList.length === 0 \r",
+        "                || $data.editRolesMappingData.addRoleSearchValue === \"\";\r",
+        "    },\r",
+        "    getAddRoleSearchUrl: function() {\r",
+        "        if ($data.editRolesMappingData.addRoleName !==  $data.editRolesMappingData.addRoleSearchValue) { \r",
+        "            $data.editRolesMappingData.addRoleId = undefined;\r",
+        "            return $data.editRolesMappingData.addRoleSearchValue ? \"../API/identity/role?p=0&c=10&o=name%20ASC&s=\" + $data.editRolesMappingData.addRoleSearchValue : undefined;    \r",
+        "        }\r",
+        "        return undefined;\r",
+        "    },\r",
+        "    getAddRoleFullSearchList: function() {\r",
+        "        var fullRoleList = $data.addRoleSearchList;\r",
+        "        if (fullRoleList.length == 10) {\r",
+        "            fullRoleList.push({\r",
+        "                name: uiTranslate(\"Or type more...\")\r",
+        "            });\r",
+        "        }\r",
+        "        return fullRoleList;\r",
+        "    },\r",
+        "    isAddRoleSearchMore: function(item) {\r",
+        "        return item.name === uiTranslate(\"Or type more...\");\r",
+        "    },\r",
+        "    \r",
+        "    getAddRolePayload: function() {\r",
+        "        $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
+        "        return {\r",
+        "            member_type: \"ROLE\",\r",
+        "            profile_id: $data.editRolesMappingData.selectedProfile.id,\r",
+        "            role_id: $data.editRolesMappingData.addRoleId\r",
+        "        };\r",
+        "    },\r",
+        "    getErrorMessageFor403: function(failedResponse) {\r",
+        "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'already exists')) {\r",
+        "            return uiTranslate(\"A role with the same name is already mapped to this profile.\");\r",
+        "        }\r",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");\r",
+        "    },\r",
+        "    getErrorMessageFor500: function(failedResponse) {\r",
+        "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'RoleNotFoundException')) {\r",
+        "            return uiTranslate(\"The role does not exist anymore.\");\r",
+        "        } else if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'MemberNotFoundException')) {\r",
+        "            return uiTranslate(\"The role or profile cannot be found.\");\r",
+        "        }\r",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");\r",
+        "    }\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editRolesMappingData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: undefined,",
+        "    hasRecentlyBeenUnmapped:false,",
+        "    hasRecentlyBeenMapped:false,",
+        "    selectedProfile: undefined,",
+        "    timestamp: 0,",
+        "    pageId: 0,",
+        "    numberOfRolesPerPage: 10,",
+        "    displayedRoles: [],",
+        "    numberOfRolesReturned: 0,",
+        "    rolesForNextPage: [],",
+        "    rolesNextResults: undefined,",
+        "    roleToUnmap: undefined,",
+        "    roleToMap: undefined,",
+        "    roleFilters: {",
+        "        searchValue: \"\"",
+        "    },",
+        "    addRoleSearchValue: \"\",",
+        "    addRoleName: undefined,",
+        "    addRoleId: undefined,",
+        "    selectedRoleToAdd: [],",
+        "    addRoleStatusCode: undefined,",
+        "    addRoleFailedResponse: undefined",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editRolesMappingHandler" : {
+      "type" : "expression",
+      "value" : [
+        "//Mapped roles\r",
+        "// diplay the first page of roles on page load or when the filters change\r",
+        "if($data.editRolesMappingUrl) {\r",
+        "    // display half the elements loaded\r",
+        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingUrl.slice(0, $data.editRolesMappingData.numberOfRolesPerPage);\r",
+        "    // set the next page to be requested to 2 since the first page is in the memory\r",
+        "    $data.editRolesMappingData.pageId = 2;\r",
+        "    $data.editRolesMappingData.rolesForNextPage = $data.editRolesMappingUrl.slice($data.editRolesMappingData.numberOfRolesPerPage);\r",
+        "    // saving the other half to be displayed later\r",
+        "    $data.editRolesMappingData.numberOfRolesReturned = $data.editRolesMappingData.rolesForNextPage.length;\r",
+        "    // set roles to undefined as the script is triggered when click on load more roles button\r",
+        "    // and to prevent this block of code from being executed (prevent resetting the displayedRoles)\r",
+        "    $data.editRolesMappingUrl = undefined;\r",
+        "    $data.editRolesMappingData.rolesNextResults = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
+        "}\r",
+        "\r",
+        "// add next page of roles to the list of next roles to display\r",
+        "// display the next roles from the memory\r",
+        "if($data.editRolesMappingData.rolesNextResults \r",
+        "        && $data.editRolesMappingData.rolesNextResults.length){\r",
+        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingData.displayedRoles.concat($data.editRolesMappingData.rolesForNextPage);\r",
+        "    $data.editRolesMappingData.pageId++;\r",
+        "    $data.editRolesMappingData.rolesForNextPage = $data.editRolesMappingData.rolesNextResults;\r",
+        "    $data.editRolesMappingData.numberOfRolesReturned = $data.editRolesMappingData.rolesForNextPage.length;\r",
+        "    $data.editRolesMappingData.rolesNextResults = undefined;\r",
+        "}\r",
+        "\r",
+        "// when there are no more roles in the memory\r",
+        "if($data.editRolesMappingData.numberOfRolesReturned > 0 \r",
+        "        && $data.editRolesMappingData.rolesNextResults \r",
+        "        && $data.editRolesMappingData.rolesNextResults.length === 0){\r",
+        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingData.displayedRoles.concat($data.editRolesMappingData.rolesForNextPage);\r",
+        "    $data.editRolesMappingData.rolesForNextPage = undefined;\r",
+        "    $data.editRolesMappingData.rolesNextResults = undefined;\r",
+        "    $data.editRolesMappingData.numberOfRolesReturned = 0;\r",
+        "}\r",
+        "\r",
+        "// Select roles to add to mapping\r",
+        "if ($data.editRolesMappingData.selectedRoleToAdd \r",
+        "        && $data.editRolesMappingData.selectedRoleToAdd.length > 0) {\r",
+        "    $data.editRolesMappingData.addRoleSearchValue = $data.editRolesMappingData.selectedRoleToAdd[0].name;\r",
+        "    $data.editRolesMappingData.addRoleName = $data.editRolesMappingData.addRoleSearchValue;\r",
+        "    $data.editRolesMappingData.addRoleId = $data.editRolesMappingData.selectedRoleToAdd[0].id;\r",
+        "    $data.editRolesMappingData.selectedRoleToAdd = [];\r",
+        "    $data.addRoleSearchList = undefined;\r",
+        "}\r",
+        "\r",
+        "// After a role is successfully mapped\r",
+        "if ($data.editRolesMappingData.addRoleStatusCode === 200 \r",
+        "        && !$data.editRolesMappingData.hasRecentlyBeenMapped) {\r",
+        "    $data.editRolesMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editRolesMappingData.hasRecentlyBeenMapped = true;\r",
+        "    $data.editRolesMappingData.addRoleSearchValue = \"\";\r",
+        "    $data.editRolesMappingData.addRoleName = undefined;\r",
+        "    $data.editRolesMappingData.addRoleId = undefined;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
+        "        $data.editRolesMappingData.addRoleStatusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}\r",
+        "\r",
+        "// After a role is successfully unmapped\r",
+        "if ($data.editRolesMappingData.statusCode === 200 \r",
+        "        && !$data.editRolesMappingData.hasRecentlyBeenUnmapped) {\r",
+        "    $data.editRolesMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editRolesMappingData.hasRecentlyBeenUnmapped = true;\r",
+        "    $data.organizationMappingData.rolesMapping = $data.rolesOfProfile;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editRolesMappingData.hasRecentlyBeenUnmapped = false;\r",
+        "        $data.editRolesMappingData.statusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "editRolesMappingUrl" : {
+      "type" : "url",
+      "value" : [
+        "{{profileMemberUrl}}{{editRolesMappingCtrl.mappedRolesQueryParameters(0)}}&t={{editRolesMappingData.timestamp}}"
+      ],
+      "exposed" : false
+    },
+    "addRoleSearchList" : {
+      "type" : "url",
+      "value" : [
+        "{{editRolesMappingCtrl.getAddRoleSearchUrl()}}"
       ],
       "exposed" : false
     }
