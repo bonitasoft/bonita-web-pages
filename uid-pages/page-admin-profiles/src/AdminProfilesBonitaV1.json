@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminProfilesBonitaV1",
   "name" : "AdminProfilesBonitaV1",
-  "lastUpdate" : 1601998807101,
+  "lastUpdate" : 1602228557249,
   "rows" : [
     [
       {
@@ -1937,8 +1937,8 @@
                                     "type" : "variable"
                                   },
                                   "modalId" : {
-                                    "type" : "constant",
-                                    "value" : ""
+                                    "type" : "expression",
+                                    "value" : "editGroupsMappingCtrl.initEditGroupsMappingModal($item)"
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
@@ -7650,7 +7650,7 @@
                                     },
                                     "alignment" : {
                                       "type" : "constant",
-                                      "value" : "right"
+                                      "value" : "left"
                                     },
                                     "buttonStyle" : {
                                       "type" : "constant",
@@ -8574,6 +8574,1760 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "editGroupsMappingModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "96bcafd1-5b34-4268-80ce-23c92736f3c7",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "0fe892f4-c5d2-40de-bdfa-d3ea71e3e8ba",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "456d1a9a-3853-4ebd-b9d7-d096012f8a71",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Edit group mapping\"|translate}} of {{editGroupsMappingData.selectedProfile.name}} profile"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "07b0933a-085b-4772-8edb-4ff1d49e5781",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body pl-10 pr-10"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "999ef650-b2ea-428b-a7b1-68f48d5e16b2",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editGroupsMappingData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The group' | translate}} <strong>{{editGroupsMappingData.groupToUnmap.group_id.displayName}}</strong> {{'has been successfully removed from mapping.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ad39d7be-b432-4b09-b6d3-4af3a5081da4",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editGroupsMappingData.addGroupStatusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The group' | translate}} <strong>{{editGroupsMappingData.addGroupName}}</strong> {{'has been successfully added to the mapping.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "473c84d9-c4fd-49a4-abda-0ec2e72dba91",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "dropdown add-mapping"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "0591b543-6809-4c39-89c2-5c7bc0c9ae45",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Add a group"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "4feb733a-39a2-436b-a7dc-c54ae5b57f39",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 10,
+                              "md" : 10,
+                              "lg" : 10
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Start typing to find a new group to add"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editGroupsMappingData.addGroupSearchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "1be5d45c-bf6e-4242-8a41-9708fdce295c",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          },
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 2,
+                              "md" : 2,
+                              "lg" : 2
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "fc21d427-306e-4aca-8e64-902fa7c658b2",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "expression",
+                                      "value" : "editGroupsMappingData.addGroupSearchValue === \"\" || !editGroupsMappingData.addGroupId"
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add\" | uiTranslate}}"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "primary"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "POST"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "{{editGroupsMappingCtrl.getMapUrl(editGroupsMappingData.addGroupSearchValue)}}"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : "editGroupsMappingData.addGroupStatusCode"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "expression",
+                                      "value" : "editGroupsMappingCtrl.getAddGroupPayload()"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : "editGroupsMappingData.addGroupFailedResponse"
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "33fcffdd-96ff-4197-88a7-139a7ff36f8d",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "dropdown-menu"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingCtrl.hideDropdownMenu()"
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "d6760798-faf0-4768-9ff5-e81f17d77dea",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : "editGroupsMappingCtrl.getAddGroupFullSearchList()"
+                                    }
+                                  },
+                                  "reference" : "1261bcf1-c540-43bf-8ff3-7b429a6bf2ba",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "disabled" : {
+                                            "type" : "expression",
+                                            "value" : "editGroupsMappingCtrl.isAddGroupSearchMore($item)"
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "{{$item.displayName}}"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          },
+                                          "buttonStyle" : {
+                                            "type" : "constant",
+                                            "value" : "link"
+                                          },
+                                          "action" : {
+                                            "type" : "constant",
+                                            "value" : "Add to collection"
+                                          },
+                                          "assign" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "url" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "responseStatusCode" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "dataToSend" : {
+                                            "type" : "constant"
+                                          },
+                                          "dataFromSuccess" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "closeOnSuccess" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "dataFromError" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "targetUrlOnSuccess" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "collectionToModify" : {
+                                            "type" : "variable",
+                                            "value" : "editGroupsMappingData.selectedGroupToAdd"
+                                          },
+                                          "modalId" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "collectionPosition" : {
+                                            "type" : "constant",
+                                            "value" : "First"
+                                          },
+                                          "valueToAdd" : {
+                                            "type" : "expression",
+                                            "value" : "$item"
+                                          },
+                                          "removeItem" : {
+                                            "type" : "variable"
+                                          }
+                                        },
+                                        "reference" : "4b7373a8-397d-49ec-a4d3-127a8fa1deb8",
+                                        "hasValidationError" : false,
+                                        "id" : "pbButton"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "mt-20"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "a9ce3057-0e60-47fe-bf27-fc01fde6793d",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Groups mapped"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "e2598d7b-9b5c-4220-a219-5f2b97486659",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingData.displayedGroups.length === 0 && editGroupsMappingData.groupFilters.searchValue === \"\""
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Search mapped groups by display name"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editGroupsMappingData.groupFilters.searchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "a6833786-28ca-4f29-b9b0-51a417faa1d3",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "profile-item"
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : "editGroupsMappingData.displayedGroups"
+                              }
+                            },
+                            "reference" : "df1f3995-a021-4ab6-bab5-87738bb6bfc7",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 11,
+                                    "md" : 11,
+                                    "lg" : 11
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    }
+                                  },
+                                  "reference" : "0bb4bcc9-ea0c-4c8d-aa0b-16bba233c35b",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "container",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 6,
+                                          "md" : 4,
+                                          "lg" : 4
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "repeatedCollection" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          }
+                                        },
+                                        "reference" : "4272c597-03ef-4852-9835-794c238d7c80",
+                                        "hasValidationError" : false,
+                                        "id" : "pbContainer",
+                                        "rows" : [
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-label"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Display name"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "050a7c1f-1bdd-40b5-9e86-0fe4fcd7691b",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-value"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "{{$item.group_id.displayName}}"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "4fb06dfa-8f25-4507-a713-d5de0ef352c0",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-value"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "expression",
+                                                  "value" : "$item.group_id.displayName"
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "--"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "b6670088-b42d-419d-9b0b-cbe9a93f276f",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ]
+                                        ]
+                                      },
+                                      {
+                                        "type" : "container",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 4,
+                                          "lg" : 4
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "repeatedCollection" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          }
+                                        },
+                                        "reference" : "227bb13b-e74e-4ec8-a09c-48a6e98f698c",
+                                        "hasValidationError" : false,
+                                        "id" : "pbContainer",
+                                        "rows" : [
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-label"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Name"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "88a0592f-428e-424f-80d2-5fef70711e35",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-value"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "{{$item.group_id.name}}"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "ec07ad9a-387e-45f9-885d-b0f459af3846",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ]
+                                        ]
+                                      },
+                                      {
+                                        "type" : "container",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 6,
+                                          "md" : 4,
+                                          "lg" : 4
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "repeatedCollection" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          }
+                                        },
+                                        "reference" : "fd1c403a-34bc-4ac5-b531-b1a9616d6681",
+                                        "hasValidationError" : false,
+                                        "id" : "pbContainer",
+                                        "rows" : [
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-label"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Parent group"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "8a313527-3f3d-44ed-bd12-fd33ed0e6914",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-value"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "{{$item.group_id.parent_path}}"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "d1e52cb4-d6d1-46d7-8762-407e249950b8",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-value"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "expression",
+                                                  "value" : "$item.group_id.parent_path"
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "--"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "dc4d9b00-ac7b-4863-bed2-dc9456dd29d2",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 1,
+                                    "md" : 1,
+                                    "lg" : 1
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-remove\" title=\"{{\"Remove group from mapping\" | uiTranslate}}\"></i>"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "link"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "DELETE"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "{{editGroupsMappingCtrl.getUnmapUrl($item)}}"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : "editGroupsMappingData.statusCode"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "constant"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : "editGroupsMappingData.addGroupFailedResponse"
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "45563f65-8ef6-44e4-8250-8d80ab8a9968",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "text-primary item-label pt-5"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingData.displayedGroups.length == 0"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "{{\"Groups shown\"|uiTranslate}}: {{editGroupsMappingData.displayedGroups.length}}"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "right"
+                              }
+                            },
+                            "reference" : "c7902518-456d-4299-aef9-a4cd3e78c7cf",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingData.displayedGroups.length"
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "There are no groups mapped to this profile"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              }
+                            },
+                            "reference" : "73e992be-204d-4e2b-a593-9c6255ebf924",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingData.displayedGroups.length == 0"
+                              },
+                              "disabled" : {
+                                "type" : "expression",
+                                "value" : "editGroupsMappingData.displayedGroups.length % editGroupsMappingData.numberOfGroupsPerPage > 0 || (editGroupsMappingData.numberOfGroupsReturned === 0 && editGroupsMappingData.groupsNextResults.length == 0)"
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Load more groups"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              },
+                              "buttonStyle" : {
+                                "type" : "constant",
+                                "value" : "link"
+                              },
+                              "action" : {
+                                "type" : "constant",
+                                "value" : "GET"
+                              },
+                              "assign" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "url" : {
+                                "type" : "interpolation",
+                                "value" : "{{profileMemberUrl}}{{editGroupsMappingCtrl.mappedGroupsQueryParameters(editGroupsMappingData.pageId)}}"
+                              },
+                              "responseStatusCode" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "dataToSend" : {
+                                "type" : "constant"
+                              },
+                              "dataFromSuccess" : {
+                                "type" : "variable",
+                                "value" : "editGroupsMappingData.groupsNextResults"
+                              },
+                              "closeOnSuccess" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "dataFromError" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "targetUrlOnSuccess" : {
+                                "type" : "interpolation"
+                              },
+                              "collectionToModify" : {
+                                "type" : "variable"
+                              },
+                              "modalId" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "collectionPosition" : {
+                                "type" : "constant",
+                                "value" : "Last"
+                              },
+                              "valueToAdd" : {
+                                "type" : "constant"
+                              },
+                              "removeItem" : {
+                                "type" : "variable"
+                              }
+                            },
+                            "reference" : "ae1f9d4e-7c88-4151-b5d7-6aa53be0951d",
+                            "hasValidationError" : false,
+                            "id" : "pbButton"
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "eeab387a-165b-4ae2-885a-6bd401f40e89",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Close"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "8891057b-a553-4df6-a04c-a2e6744c54d6",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -8997,7 +10751,7 @@
         "            count = defaultNumberOfEntities + 1;\r",
         "        }\r",
         "        if(profile && profile.id) {\r",
-        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id\";   \r",
+        "            return \"?p=0&c=\" + count + \"&f=profile_id=\"+profile.id+\"&f=member_type=group&d=group_id&t=\" + $data.organizationMappingData.timestamp;   \r",
         "        }\r",
         "    },\r",
         "    createGroupBadges: function(list) {\r",
@@ -9568,7 +11322,7 @@
         "// Select roles to add to mapping\r",
         "if ($data.editRolesMappingData.selectedRoleToAdd \r",
         "        && $data.editRolesMappingData.selectedRoleToAdd.length > 0) {\r",
-        "    $data.editRolesMappingData.addRoleSearchValue = $data.editRolesMappingData.selectedRoleToAdd[0].name;\r",
+        "    $data.editRolesMappingData.addRoleSearchValue = $data.editRolesMappingData.selectedRoleToAdd[0].displayName;\r",
         "    $data.editRolesMappingData.addRoleName = $data.editRolesMappingData.addRoleSearchValue;\r",
         "    $data.editRolesMappingData.addRoleId = $data.editRolesMappingData.selectedRoleToAdd[0].id;\r",
         "    $data.editRolesMappingData.selectedRoleToAdd = [];\r",
@@ -9614,6 +11368,247 @@
       "type" : "url",
       "value" : [
         "{{editRolesMappingCtrl.getAddRoleSearchUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "editGroupsMappingCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    initEditGroupsMappingModal: function(profile) {\r",
+        "        $data.editGroupsMappingData.selectedProfile = profile;\r",
+        "        $data.editGroupsMappingData.timestamp = new Date().getTime();\r",
+        "        $data.editGroupsMappingData.pageId = 0;\r",
+        "        $data.editGroupsMappingData.displayedGroups = [];\r",
+        "        $data.editGroupsMappingData.numberOfGroupsReturned = 0;\r",
+        "        $data.editGroupsMappingData.groupsForNextPage = [];\r",
+        "        $data.editGroupsMappingData.groupsNextResults = undefined;\r",
+        "        $data.editGroupsMappingData.groupFilters.searchValue = \"\";\r",
+        "        $data.editGroupsMappingData.hasRecentlyBeenUnmapped = false;\r",
+        "        $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
+        "        $data.editGroupsMappingData.statusCode = undefined;\r",
+        "        $data.editGroupsMappingData.groupToUnmap = undefined;\r",
+        "        $data.editGroupsMappingData.groupToMap = undefined;\r",
+        "        $data.editGroupsMappingData.addGroupSearchValue = \"\";\r",
+        "        $data.editGroupsMappingData.addGroupName = undefined;\r",
+        "        $data.editGroupsMappingData.addGroupId = undefined;\r",
+        "        $data.editGroupsMappingData.selectedGroupToAdd = [];\r",
+        "        $data.editGroupsMappingData.addGroupStatusCode = undefined;\r",
+        "        $data.editGroupsMappingData.addGroupFailedResponse = undefined;\r",
+        "\t    $data.editGroupsMappingData.addGroupDisplayName = undefined;\r",
+        "\t    $data.editGroupsMappingData.addGroupDescription = undefined;\r",
+        "        \r",
+        "        return \"editGroupsMappingModal\";\r",
+        "    },\r",
+        "    mappedGroupsQueryParameters: function(pageId) {\r",
+        "        var groupsPerPage = $data.editGroupsMappingData.numberOfGroupsPerPage;\r",
+        "    \r",
+        "        if (pageId === 0) {\r",
+        "            //on first call we need load next page\r",
+        "            groupsPerPage *= 2;\r",
+        "        }\r",
+        "        \r",
+        "        var selectedProfileId = $data.editGroupsMappingData.selectedProfile ? $data.editGroupsMappingData.selectedProfile.id : \"\";\r",
+        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + groupsPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=group&d=group_id\";\r",
+        "        \r",
+        "        if($data.editGroupsMappingData.groupFilters.searchValue) {\r",
+        "            queryParameters += \"&s=\" + $data.editGroupsMappingData.groupFilters.searchValue;\r",
+        "        }\r",
+        "\r",
+        "        return queryParameters;\r",
+        "    },\r",
+        "    getMapUrl: function(group) {\r",
+        "        $data.editGroupsMappingData.groupToMap = group;\r",
+        "        if($data.editGroupsMappingData.hasRecentlyBeenMapped) {\r",
+        "            $data.editGroupsMappingData.addGroupStatusCode = undefined;\r",
+        "            $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
+        "        }\r",
+        "        $data.organizationMappingData.groupMappings = '';\r",
+        "        return $data.profileMemberUrl;\r",
+        "    },\r",
+        "    getUnmapUrl: function(group) {\r",
+        "        $data.editGroupsMappingData.groupToUnmap = group;\r",
+        "        if($data.editGroupsMappingData.hasRecentlyBeenUnmapped) {\r",
+        "            $data.editGroupsMappingData.statusCode = undefined;\r",
+        "            $data.editGroupsMappingData.hasRecentlyBeenUnmapped = false;   \r",
+        "        }\r",
+        "        $data.organizationMappingData.GroupMappings = '';\r",
+        "        return $data.profileMemberUrl + \"/\" + group.id;\r",
+        "    },\r",
+        "    hideDropdownMenu: function() {\r",
+        "        return !$data.addGroupSearchList \r",
+        "                || $data.addGroupSearchList.length === 0 \r",
+        "                || $data.editGroupsMappingData.addGroupSearchValue === \"\";\r",
+        "    },\r",
+        "    getAddGroupSearchUrl: function() {\r",
+        "        if ($data.editGroupsMappingData.addGroupName !==  $data.editGroupsMappingData.addGroupSearchValue) { \r",
+        "            $data.editGroupsMappingData.addGroupId = undefined;\r",
+        "            return $data.editGroupsMappingData.addGroupSearchValue ? \"../API/identity/group?p=0&c=10&o=name%20ASC&s=\" + $data.editGroupsMappingData.addGroupSearchValue : undefined;    \r",
+        "        }\r",
+        "        return undefined;\r",
+        "    },\r",
+        "    getAddGroupFullSearchList: function() {\r",
+        "        var fullGroupList = $data.addGroupSearchList;\r",
+        "        if (fullGroupList.length == 10) {\r",
+        "            fullGroupList.push({\r",
+        "                name: uiTranslate(\"Or type more...\")\r",
+        "            });\r",
+        "        }\r",
+        "        return fullGroupList;\r",
+        "    },\r",
+        "    isAddGroupSearchMore: function(item) {\r",
+        "        return item.name === uiTranslate(\"Or type more...\");\r",
+        "    },\r",
+        "    getAddGroupPayload: function() {\r",
+        "        $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
+        "        return {\r",
+        "            member_type: \"GROUP\",\r",
+        "            profile_id: $data.editGroupsMappingData.selectedProfile.id,\r",
+        "            group_id: $data.editGroupsMappingData.addGroupId\r",
+        "        };\r",
+        "    },\r",
+        "/*\r",
+        "    getErrorMessageFor403: function(failedResponse) {\r",
+        "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'already exists')) {\r",
+        "            return uiTranslate(\"A role with the same name is already mapped to this profile.\");\r",
+        "        }\r",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");\r",
+        "    },\r",
+        "    getErrorMessageFor500: function(failedResponse) {\r",
+        "        if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'RoleNotFoundException')) {\r",
+        "            return uiTranslate(\"The role does not exist anymore.\");\r",
+        "        } else if ($data.profilesCtrl.doesFailedResponseContain(failedResponse, 'MemberNotFoundException')) {\r",
+        "            return uiTranslate(\"The role or profile cannot be found.\");\r",
+        "        }\r",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");\r",
+        "    }\r",
+        "*/\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editGroupsMappingData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: undefined,",
+        "    hasRecentlyBeenUnmapped:false,",
+        "    hasRecentlyBeenMapped:false,",
+        "    selectedProfile: undefined,",
+        "    timestamp: 0,",
+        "    pageId: 0,",
+        "    numberOfGroupsPerPage: 10,",
+        "    displayedGroups: [],",
+        "    numberOfGroupsReturned: 0,",
+        "    groupsForNextPage: [],",
+        "    groupsNextResults: undefined,",
+        "    groupToUnmap: undefined,",
+        "    groupToMap: undefined,",
+        "    groupFilters: {",
+        "        searchValue: \"\"",
+        "    },",
+        "    addGroupSearchValue: \"\",",
+        "    addGroupName: undefined,",
+        "    addGroupDisplayName: undefined,",
+        "    addGroupDescription: undefined,",
+        "    addGroupId: undefined,",
+        "    selectedGroupToAdd: [],",
+        "    addGroupStatusCode: undefined,",
+        "    addGroupFailedResponse: undefined",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editGroupsMappingUrl" : {
+      "type" : "url",
+      "value" : [
+        "{{profileMemberUrl}}{{editGroupsMappingCtrl.mappedGroupsQueryParameters(0)}}&t={{editGroupsMappingData.timestamp}}"
+      ],
+      "exposed" : false
+    },
+    "editGroupsMappingHandler" : {
+      "type" : "expression",
+      "value" : [
+        "//Mapped groups\r",
+        "// diplay the first page of groups on page load or when the filters change\r",
+        "if($data.editGroupsMappingUrl) {\r",
+        "    // display half the elements loaded\r",
+        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingUrl.slice(0, $data.editGroupsMappingData.numberOfGroupsPerPage);\r",
+        "    // set the next page to be requested to 2 since the first page is in the memory\r",
+        "    $data.editGroupsMappingData.pageId = 2;\r",
+        "    $data.editGroupsMappingData.groupsForNextPage = $data.editGroupsMappingUrl.slice($data.editGroupsMappingData.numberOfGroupsPerPage);\r",
+        "    // saving the other half to be displayed later\r",
+        "    $data.editGroupsMappingData.numberOfGroupsReturned = $data.editGroupsMappingData.groupsForNextPage.length;\r",
+        "    // set groups to undefined as the script is triggered when click on load more groups button\r",
+        "    // and to prevent this block of code from being executed (prevent resetting the displayedGroups)\r",
+        "    $data.editGroupsMappingUrl = undefined;\r",
+        "    $data.editGroupsMappingData.groupsNextResults = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
+        "}\r",
+        "\r",
+        "// add next page of groups to the list of next groups to display\r",
+        "// display the next groups from the memory\r",
+        "if($data.editGroupsMappingData.groupsNextResults \r",
+        "        && $data.editGroupsMappingData.groupsNextResults.length){\r",
+        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingData.displayedGroups.concat($data.editGroupsMappingData.groupsForNextPage);\r",
+        "    $data.editGroupsMappingData.pageId++;\r",
+        "    $data.editGroupsMappingData.groupsForNextPage = $data.editGroupsMappingData.groupsNextResults;\r",
+        "    $data.editGroupsMappingData.numberOfGroupsReturned = $data.editGroupsMappingData.groupsForNextPage.length;\r",
+        "    $data.editGroupsMappingData.groupsNextResults = undefined;\r",
+        "}\r",
+        "\r",
+        "// when there are no more groups in the memory\r",
+        "if($data.editGroupsMappingData.numberOfGroupsReturned > 0 \r",
+        "        && $data.editGroupsMappingData.groupsNextResults \r",
+        "        && $data.editGroupsMappingData.groupsNextResults.length === 0){\r",
+        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingData.displayedGroups.concat($data.editGroupsMappingData.groupsForNextPage);\r",
+        "    $data.editGroupsMappingData.groupsForNextPage = undefined;\r",
+        "    $data.editGroupsMappingData.groupsNextResults = undefined;\r",
+        "    $data.editGroupsMappingData.numberOfGroupsReturned = 0;\r",
+        "}\r",
+        "\r",
+        "// Select groups to add to mapping\r",
+        "if ($data.editGroupsMappingData.selectedGroupToAdd \r",
+        "        && $data.editGroupsMappingData.selectedGroupToAdd.length > 0) {\r",
+        "    $data.editGroupsMappingData.addGroupSearchValue = $data.editGroupsMappingData.selectedGroupToAdd[0].displayName;\r",
+        "    $data.editGroupsMappingData.addGroupName = $data.editGroupsMappingData.addGroupSearchValue;\r",
+        "    $data.editGroupsMappingData.addGroupId = $data.editGroupsMappingData.selectedGroupToAdd[0].id;\r",
+        "    $data.editGroupsMappingData.selectedGroupToAdd = [];\r",
+        "    $data.addGroupSearchList = undefined;\r",
+        "}\r",
+        "\r",
+        "// After a group is successfully mapped\r",
+        "if ($data.editGroupsMappingData.addGroupStatusCode === 200 \r",
+        "        && !$data.editGroupsMappingData.hasRecentlyBeenMapped) {\r",
+        "    $data.editGroupsMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editGroupsMappingData.hasRecentlyBeenMapped = true;\r",
+        "    $data.editGroupsMappingData.addGroupSearchValue = \"\";\r",
+        "    $data.editGroupsMappingData.addGroupName = undefined;\r",
+        "    $data.editGroupsMappingData.addGroupId = undefined;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
+        "        $data.editGroupsMappingData.addGroupStatusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}\r",
+        "\r",
+        "// After a group is successfully unmapped\r",
+        "if ($data.editGroupsMappingData.statusCode === 200 \r",
+        "        && !$data.editGroupsMappingData.hasRecentlyBeenUnmapped) {\r",
+        "    $data.editGroupsMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editGroupsMappingData.hasRecentlyBeenUnmapped = true;\r",
+        "    $data.organizationMappingData.groupsMapping = $data.groupsOfProfile;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editGroupsMappingData.hasRecentlyBeenUnmapped = false;\r",
+        "        $data.editGroupsMappingData.statusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "addGroupSearchList" : {
+      "type" : "url",
+      "value" : [
+        "{{editGroupsMappingCtrl.getAddGroupSearchUrl()}}"
       ],
       "exposed" : false
     }
