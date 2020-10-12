@@ -10,10 +10,10 @@ function initMessageListener() {
         //Handle the message here (default behavior is to redirect to the target URL on success)
         if (jsonEventData.message === 'success') {
             //avoid redirecting to the portal when we are in an app
-            if (jsonEventData.targetUrlOnSuccess && jsonEventData.targetUrlOnSuccess != "/bonita") {
-                window.location.assign(jsonEventData.targetUrlOnSuccess);
-            } else {
+            if (jsonEventData.action === 'Start process' || jsonEventData.action === 'Submit task') {
                 window.location.reload();
+            } else if (jsonEventData.targetUrlOnSuccess && jsonEventData.targetUrlOnSuccess != "/bonita") {
+                window.location.assign(jsonEventData.targetUrlOnSuccess);
             }
         }
       } catch (e) {
