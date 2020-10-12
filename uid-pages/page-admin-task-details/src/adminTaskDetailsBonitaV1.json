@@ -1,9 +1,9 @@
 {
-  "designerVersion" : "1.10.18",
-  "previousDesignerVersion" : "1.9.24",
+  "modelVersion" : "2.0",
+  "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1596635838635,
+  "lastUpdate" : 1602507790688,
   "rows" : [
     [
       {
@@ -9323,9 +9323,8 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    getConnectorsUrl: function() {",
-        "        var connectorsPath = $data.taskDetailsCtrl.isDoneTask() ? \"archivedConnectorInstance\" : \"connectorInstance\";",
-        "        return connectorsPath + \"?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter + \"&time=\" + $data.replayTaskData.timestamp;",
+        "    getConnectors: function() {",
+        "        return $data.taskDetailsCtrl.isDoneTask() ? $data.archivedConnectorUrl : $data.connectorUrl;",
         "    }",
         "};"
       ],
@@ -9592,18 +9591,11 @@
       ],
       "exposed" : false
     },
-    "connectors" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/{{connectorsCtrl.getConnectorsUrl()}}"
-      ],
-      "exposed" : false
-    },
     "connectorsHandler" : {
       "type" : "expression",
       "value" : [
-        "if ($data.connectors && $data.connectors.length) {",
-        "    $data.connectors.forEach(function(connector) {",
+        "if ($data.connectorsCtrl.getConnectors() && $data.connectorsCtrl.getConnectors().length) {",
+        "    $data.connectorsCtrl.getConnectors().forEach(function(connector) {",
         "        switch(connector.state) {",
         "            case \"DONE\":",
         "                $data.connectorsData.connectorsExecuted.push(connector);",
@@ -9619,8 +9611,9 @@
         "                break;",
         "        }",
         "    });",
-        "    ",
-        "    $data.connectors = [];",
+        "",
+        "\t$data.archivedConnectorUrl = [];",
+        "\t$data.connectorUrl = [];",
         "}"
       ],
       "exposed" : false
@@ -9636,6 +9629,20 @@
       "type" : "url",
       "value" : [
         "../API/identity/user/{{session.user_id}}"
+      ],
+      "exposed" : false
+    },
+    "archivedConnectorUrl" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&time={{replayTaskData.timestamp}}"
+      ],
+      "exposed" : false
+    },
+    "connectorUrl" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&time={{replayTaskData.timestamp}}"
       ],
       "exposed" : false
     }
