@@ -466,8 +466,8 @@ when("I click on the remove role button in modal", () => {
     cy.get('.modal-content button .glyphicon-remove').eq(0).click();
 });
 
-when("The search input is filled with {string}", (searchTerm) => {
-    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, { force: true });
+when("The search input is filled with {string}", (userName) => {
+    cy.get('.modal-body .form-group input').eq(1).type(userName);
 });
 
 when("I erase one character", (userName) => {
@@ -934,4 +934,60 @@ then("The mapped role list is displayed", () => {
 
 then("There is a confirmation for a role mapping being removed", () => {
     cy.contains('.modal-body', 'The role Chief Marketing Officer (CMO) has been successfully removed from mapping.').should('be.visible');
+});
+
+then("The edit group mapping modal is open and has a default state for {string} profile", (organization) => {
+    cy.contains('.modal-header h3', organization).should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.length', 2);
+    cy.contains('.modal-body h4', 'Add a group').should('be.visible');
+    cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new group to add');
+    cy.contains('.modal-body h4', 'Groups mapped').should('be.visible');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped groups by name');
+    cy.contains('.modal-body button', 'Add').should('be.visible');
+    cy.get('.modal-footer button').scrollIntoView();
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("No group mappings are displayed", () => {
+    cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
+    cy.contains('There are no groups mapped to this profile').should('be.visible');
+});
+
+then("The load more group mapped button is not disabled", () => {
+    cy.get('.modal-body button').contains('Load more groups').should('not.be.disabled');
+});
+
+then("The load more group mapped button is disabled", () => {
+    cy.get('.modal-body button').contains('Load more groups').should('be.disabled');
+});
+
+then("The group input is filled with {string}", (roleName) => {
+    cy.get('.modal-body .form-group input').should('have.value', roleName);
+});
+
+then("There is a confirmation for a group mapping being added", () => {
+    cy.contains('.modal-body', 'The group Acme has been successfully added to the mapping.').should('be.visible');
+    cy.contains('.modal-body button', 'Add').eq(0).should('be.disabled');
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', '');
+});
+
+then('The list of group mappings is refreshed', () => {
+    cy.wait('@refreshGroupsMappingRoute');
+});
+
+then("The mapped group list is displayed", () => {
+    cy.get('.modal-body .profile-item').should('have.length', 10);
+    cy.get('.modal-body .profile-item').eq(0).within(() => {
+        cy.contains('.item-label', 'Display name');
+        cy.contains('.item-value', 'Acme');
+        cy.contains('.item-label', 'Name');
+        cy.contains('.item-value', 'acme');
+        cy.contains('.item-label', 'Parent group');
+        cy.contains('.item-value', '--');
+        cy.get('button .glyphicon-remove').should('have.attr', 'title', 'Remove group from mapping');
+    });
+});
+
+then("There is a confirmation for a group mapping being removed", () => {
+    cy.contains('.modal-body', 'The group Acme has been successfully removed from mapping.').should('be.visible');
 });
