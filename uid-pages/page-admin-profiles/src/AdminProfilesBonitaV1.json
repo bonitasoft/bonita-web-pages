@@ -7392,7 +7392,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role' | translate}} <strong>{{editRolesMappingData.roleToUnmap.role_id.displayName}}</strong> {{'has been successfully removed from mapping.' | translate}}"
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The role' | translate}} <strong>{{editRolesMappingData.roleToUnmap.role_id.name}}</strong> {{'has been successfully removed from mapping.' | translate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7987,7 +7987,7 @@
                               },
                               "placeholder" : {
                                 "type" : "interpolation",
-                                "value" : "Search mapped roles by name"
+                                "value" : "Search mapped roles by display name"
                               },
                               "value" : {
                                 "type" : "variable",
@@ -9661,7 +9661,7 @@
                               },
                               "placeholder" : {
                                 "type" : "interpolation",
-                                "value" : "Search mapped groups by name"
+                                "value" : "Search mapped groups by display name"
                               },
                               "value" : {
                                 "type" : "variable",
@@ -11282,6 +11282,7 @@
         "            $data.editUsersMappingData.addUserStatusCode = undefined;\r",
         "            $data.editUsersMappingData.hasRecentlyBeenMapped = false;\r",
         "        }\r",
+        "        $data.organizationMappingData.userMappings = '';\r",
         "        return $data.profileMemberUrl;\r",
         "    },\r",
         "    hideDropdownMenu: function() {\r",
@@ -11511,6 +11512,7 @@
         "            $data.editRolesMappingData.addRoleStatusCode = undefined;\r",
         "            $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
         "        }\r",
+        "        $data.organizationMappingData.roleMappings = '';\r",
         "        return $data.profileMemberUrl;\r",
         "    },\r",
         "    hideDropdownMenu: function() {\r",
@@ -11739,6 +11741,7 @@
         "            $data.editGroupsMappingData.addGroupStatusCode = undefined;\r",
         "            $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
         "        }\r",
+        "        $data.organizationMappingData.groupMappings = '';\r",
         "        return $data.profileMemberUrl;\r",
         "    },\r",
         "    getUnmapUrl: function(group) {\r",
