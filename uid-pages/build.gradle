@@ -44,6 +44,7 @@ subprojects { subProject ->
 
         def subProjectRunTest = parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTest-" + subProject.name) {
             args = ['test', '--', '--project', subProject.name]
+            environment = [LANG: 'en_EN.UTF-8']
             group 'Bonita'
         }
         runIntegrationTests.dependsOn subProjectRunTest
