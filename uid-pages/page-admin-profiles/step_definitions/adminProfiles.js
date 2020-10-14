@@ -466,8 +466,8 @@ when("I click on the remove role button in modal", () => {
     cy.get('.modal-content button .glyphicon-remove').eq(0).click();
 });
 
-when("The search input is filled with {string}", (userName) => {
-    cy.get('.modal-body .form-group input').eq(1).type(userName);
+when("The search input is filled with {string}", (searchTerm) => {
+    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, { force: true });
 });
 
 when("I erase one character", (userName) => {
