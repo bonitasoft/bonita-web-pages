@@ -10,7 +10,6 @@ const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=group_id=';
 
 given("The response {string} is defined", (responseType) => {
-    cy.viewport(1366, 768);
     cy.server();
     switch (responseType) {
         case 'refresh not called':
