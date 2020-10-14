@@ -21,7 +21,6 @@ const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_i
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
 
 given("The response {string} is defined", (responseType) => {
-    cy.viewport(1366, 768);
     cy.server();
     switch (responseType) {
         case 'refresh not called':
