@@ -14,7 +14,6 @@ const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
-    cy.viewport(1366, 768);
     switch (responseType) {
         case 'empty done task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
