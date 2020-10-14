@@ -18,7 +18,6 @@ const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_i
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
 
 given("The response {string} is defined", (responseType) => {
-    cy.viewport(1366, 768);
     cy.server();
     switch (responseType) {
         case 'refresh not called':
