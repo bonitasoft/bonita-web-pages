@@ -13,9 +13,15 @@ Contains Bonita Portal web pages.
   
 ## Gradle Tasks
 
+The following tasks can be executed with the Gradle wrapper (gradlew(.bat)) to avoid version compatibility issues
+
 ### Build artifacts
 
 ``gradle build``
+
+### Run pages tests
+
+``gradle runIntegrationTests``
 
 ### UID pages development
 
