@@ -445,11 +445,11 @@ then('The burger shows correctly', () => {
 });
 
 then('I see the dropdown that opened', () => {
-    cy.get('.navbar-responsive-collapse').should('be.visible');
+    cy.get('.navbar-nav').should('be.visible');
 });
 
 then('I don\'t see the dropdown', () => {
-    cy.get('.navbar-responsive-collapse').should('not.be.visible');
+    cy.get('.navbar-nav').should('not.be.visible');
 });
 
 then('I see the page name dropdown', () => {
