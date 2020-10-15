@@ -213,8 +213,9 @@ then("The monitoring have the correct information for {string} tasks", (numberOf
             cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
             break;
         case "0":
-            cy.wait('@0TasksRoute');
-            cy.get('.item-value').contains('No task in the task list for this case.');
+            cy.wait('@0TasksRoute').then(() => {
+                cy.get('.item-value').contains('No task in the task list for this case.');
+            });
             break;
     }
 });
