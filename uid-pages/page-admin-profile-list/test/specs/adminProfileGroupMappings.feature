@@ -138,7 +138,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on the remove "group" button in modal
     Then A list of 10 "Groups" mapped is displayed
 
-  Scenario: The edit group mapping modal adds roles successfully
+  Scenario: The edit group mapping modal adds groups successfully
     Given The response "default filter" is defined
     And The response "group list" is defined
     And The response "refresh mapped group list" is defined
@@ -178,7 +178,7 @@ Feature: The Admin Profiles in desktop resolution
     And The "group" list is not displayed
     And The group input is filled with ""
 
-  Scenario: The edit group mapping modal removes roles successfully
+  Scenario: The edit group mapping modal removes groups successfully
     Given The response "default filter" is defined
     And The response "refresh mapped group list" is defined
     And The response "remove group and refresh list" is defined

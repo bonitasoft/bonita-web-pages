@@ -12,10 +12,13 @@ const roleMappingUrlTwo = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id
 const membershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 const refreshUserMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id';
 const refreshRoleMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id';
+const refreshGroupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id';
 const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
 const roleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=name ASC&s=';
+const groupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=name ASC&s=';
 const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_id';
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
+const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -47,6 +50,10 @@ given("The response {string} is defined", (responseType) => {
         case 'search mapped role':
             createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id&s=Executive&t=1*', 'searchExecutiveRoute');
             createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id&s=Search term with no match', 'emptyResultRoute');
+            break;
+        case 'search mapped group':
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=Acme&t=1*', 'searchAcmeRoute');
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profiles load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles20Route', 'profiles20');
@@ -218,7 +225,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addRoleMemberRoute', 'POST', 403);
             break;
-        case 'role already exists during edit user mapping':
+        case 'role already exists during edit role mapping':
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles20Route', 'profileMappingRoles20', '0', '20');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addRoleMemberRoute', 'alreadyExistsException','POST', 403);
             break;
@@ -229,6 +236,61 @@ given("The response {string} is defined", (responseType) => {
         case 'member does not exist during edit role mapping':
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles20Route', 'profileMappingRoles20', '0', '20');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addRoleMemberRoute', 'memberDoesNotExistException','POST', 500);
+            break;
+        case 'group list':
+            createRouteWithResponse(groupSearchUrl + 'A', 'groupListRoute', 'groupList');
+            createRouteWithResponse(groupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            break;
+        case 'add group and refresh list':
+            createRouteWithMethod(profileMemberUrl, 'addGroupMemberRoute', 'POST');
+            createRoute(roleMappingUrl + '&t=1*', 'refreshGroupMappingUrlRoute');
+            break;
+        case 'group mapping load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters, 'profileMappingGroups8Route', 'profileMappingGroups8', '2', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters, 'emptyResultRoute', 'emptyResult', '3', '10');
+            break;
+        case 'group mapping 20 load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters, 'emptyResultRoute', 'emptyResult', '2', '10');
+            break;
+        case 'group mapping 30 load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters, 'profileMappingGroups10Route', 'profileMappingGroups10', '2', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters, 'emptyResultRoute', 'emptyResult', '3', '10');
+            break;
+        case 'search mapped group during limitation':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&s=A&t=1*', 'searchGroupByNameDescRoute', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&s=A', 'searchGroupByNameDescRoute8', 'profileMappingGroups8', '2', '10');
+            break;
+        case 'remove group and refresh list':
+            createRouteWithMethod(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE');
+            createRoute(groupMappingUrl + '&t=1*', 'refreshGroupMappingUrlRoute');
+            break;
+        case 'refresh mapped group list':
+            createRouteWithResponse(refreshGroupMappingUrl + '&t=1*', 'refreshGroupsMappingRoute', 'profileMappingGroups10');
+            break;
+        case '500 during edit group mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 500);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 500);
+            break;
+        case '403 during edit group mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 403);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 403);
+            break;
+        case 'group already exists during edit group mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addGroupMemberRoute', 'alreadyExistsException','POST', 403);
+            break;
+        case 'group does not exist during edit group mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addGroupMemberRoute', 'groupDoesNotExistException','POST', 500);
+            break;
+        case 'member does not exist during edit group mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addGroupMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         default:
             throw new Error("Unsupported case");
@@ -358,6 +420,10 @@ when("I click on Load more roles mapped button", () => {
     cy.contains('.modal-body button', 'Load more roles').click();
 });
 
+when("I click on Load more groups mapped button", () => {
+    cy.contains('.modal-body button', 'Load more groups').click();
+});
+
 when("I click on delete button for first profile", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
 });
@@ -449,6 +515,14 @@ when("I click on edit role mapping button for second profile", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
 });
 
+when("I click on edit group mapping button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+});
+
+when("I click on edit group mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+});
+
 when("I type {string} in the user input", (userName) => {
     cy.get('.modal .form-group input').eq(0).type(userName);
 });
@@ -465,8 +539,12 @@ when("I click on the remove role button in modal", () => {
     cy.get('.modal-content button .glyphicon-remove').eq(0).click();
 });
 
-when("The search input is filled with {string}", (userName) => {
-    cy.get('.modal-body .form-group input').eq(1).type(userName);
+when("I click on the remove {string} button in modal", () => {
+    cy.get('.modal-content button .glyphicon-remove').eq(0).click();
+});
+
+when("The search input is filled with {string}", (searchTerm) => {
+    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, {force: true});
 });
 
 when("I erase one character", (userName) => {
@@ -518,6 +596,9 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'Executive':
             cy.wait('@searchExecutiveRoute');
+            break;
+        case 'Acme':
+            cy.wait('@searchAcmeRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -665,6 +746,30 @@ then("I see {string} role mapping error message", (error) => {
     }
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
 });
+
+then("I see {string} group mapping error message", (error) => {
+    switch (error) {
+        case '403':
+            cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '500':
+            cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case 'group already exists':
+            cy.contains('.modal-body', 'A group with the same name is already mapped to this profile.').should('be.visible');
+            break;
+        case 'group does not exist':
+            cy.contains('.modal-body', 'The group does not exist anymore.').should('be.visible');
+            break;
+        case 'member does not exist':
+            cy.contains('.modal-body', 'The group or profile cannot be found.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
+});
+
 
 then("The import profiles section shows the correct information", () => {
     cy.contains('.modal-body p', 'A profile includes the mapping to entities of the organization.').should('be.visible');
@@ -863,6 +968,14 @@ then("The api call has the correct information: {string}, {string}, {string} for
     });
 });
 
+then("The api call has the correct information: {string}, {string}, {string} for groups mapping", (memberType, profileId, groupId) => {
+    cy.wait('@addGroupMemberRoute').then((xhr) => {
+        expect(xhr.request.body.member_type).to.equal(memberType);
+        expect(xhr.request.body.profile_id).to.equal(profileId);
+        expect(xhr.request.body.group_id).to.equal(groupId);
+    });
+});
+
 then('The list of user mappings is refreshed', () => {
     cy.wait('@refreshUsersMappingRoute');
 });
@@ -885,7 +998,7 @@ then("The edit role mapping modal is open and has a default state for {string} p
     cy.contains('.modal-body h4', 'Add a role').should('be.visible');
     cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new role to add');
     cy.contains('.modal-body h4', 'Roles mapped').should('be.visible');
-    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped roles by display name');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Search mapped roles by name');
     cy.contains('.modal-body button', 'Add').should('be.visible');
     cy.get('.modal-footer button').scrollIntoView();
     cy.contains('.modal-footer button', 'Close').should('be.visible');
