@@ -531,7 +531,7 @@ then("No profiles are displayed", () => {
 
 then("No user mappings are displayed", () => {
     cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
-    cy.contains('There are no users mapped to this profile').should('be.visible');
+    cy.contains('No users to display').should('be.visible');
 });
 
 then("The load more profiles button is disabled", () => {
@@ -759,28 +759,28 @@ then('I can export a profile', () => {
 
 then("I see the mapping information for first profile", () => {
     cy.get('.glyphicon-triangle-top').should('have.length', 1);
-    cy.contains('.item-label', 'Mapping with Users').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
-    cy.contains('.item-label', 'Mapping with Groups').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Groups').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(1).should('be.visible');
     cy.contains('.badge', '...').should('be.visible');
     cy.contains('.badge', 'Acme').should('be.visible');
-    cy.contains('.item-label', 'Mapping with Roles').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Roles').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(2).should('be.visible');
     cy.contains('.badge', 'Chief Executive Officer (CEO)').should('be.visible');
-    cy.contains('.item-label', 'Mapping with Memberships').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Memberships').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(3).should('be.visible');
     cy.contains('.badge', 'Executive of Europe').should('be.visible');
 });
 
 then("I see the mapping information for second profile", () => {
     cy.get('.glyphicon-triangle-top').should('have.length', 1);
-    cy.contains('.item-label', 'Mapping with Users').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Dumitru Corini').should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('not.exist');
-    cy.contains('.item-label', 'Mapping with Roles').should('be.visible');
+    cy.contains('.mapping-label', 'Mapping with Roles').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(2).should('be.visible');
     cy.contains('.badge', 'Executive Director (ED)').should('be.visible');
     cy.contains('.badge', 'Chief Executive Officer (CEO)').should('not.exist');
@@ -794,10 +794,10 @@ then("The hide organization mapping button is displayed", () => {
 });
 
 then("There is no mapping information displayed", () => {
-    cy.contains('.item-label', 'Mapping with Users').should('not.be.visible');
-    cy.contains('.item-label', 'Mapping with Groups').should('not.be.visible');
-    cy.contains('.item-label', 'Mapping with Roles').should('not.be.visible');
-    cy.contains('.item-label', 'Mapping with Memberships').should('not.be.visible');
+    cy.contains('.mapping-label', 'Mapping with Users').should('not.be.visible');
+    cy.contains('.mapping-label', 'Mapping with Groups').should('not.be.visible');
+    cy.contains('.mapping-label', 'Mapping with Roles').should('not.be.visible');
+    cy.contains('.mapping-label', 'Mapping with Memberships').should('not.be.visible');
 });
 
 then("The edit user mapping modal is open and has a default state for {string} profile", (organization) => {
@@ -897,7 +897,7 @@ then("The role list is displayed", () => {
 
 then("No role mappings are displayed", () => {
     cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
-    cy.contains('There are no roles mapped to this profile').should('be.visible');
+    cy.contains('No roles to display').should('be.visible');
 });
 
 then("The load more role mapped button is not disabled", () => {
@@ -949,7 +949,7 @@ then("The edit group mapping modal is open and has a default state for {string} 
 
 then("No group mappings are displayed", () => {
     cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
-    cy.contains('There are no groups mapped to this profile').should('be.visible');
+    cy.contains('No groups to display').should('be.visible');
 });
 
 then("The load more group mapped button is not disabled", () => {
