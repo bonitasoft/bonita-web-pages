@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminProfileListBonitaV1",
   "name" : "adminProfileListBonitaV1",
-  "lastUpdate" : 1602691504156,
+  "lastUpdate" : 1602856804150,
   "rows" : [
     [
       {
@@ -2246,7 +2246,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "Submit task"
+                                    "value" : "Open modal"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -2281,8 +2281,8 @@
                                     "type" : "variable"
                                   },
                                   "modalId" : {
-                                    "type" : "constant",
-                                    "value" : ""
+                                    "type" : "expression",
+                                    "value" : "editMembershipsMappingCtrl.initEditMembershipsMappingModal($item)"
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
@@ -10446,6 +10446,1697 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "editMembershipsMappingModal"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "f0d9c5df-1f5c-4440-85c8-4666330de956",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "1e319925-9cad-4a56-96da-e4ee6a234261",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "b0b4bee8-3fdb-4479-a015-983ebaed26d0",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{\"Edit membership mapping\"|translate}} of {{editMembershipsMappingData.selectedProfile.name}} profile"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ec4eb14c-f4e4-4820-a746-2343f05fbd8a",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body pl-10 pr-10"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "df307229-7165-4e7b-a83c-4e6727b4841f",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "dropdown add-mapping"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "13ecc67c-3f17-4d76-8a1d-635287605748",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Add a membership to the mapping"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "62e8bbd5-642c-4f51-89eb-a47f5fb33989",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 5,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Group"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Start typing to find a new group to add"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editMembershipsMappingData.addGroupSearchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "39f4a832-8b9c-41c3-903f-eadefce79baf",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          },
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 5,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Role"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Start typing to find a new role to add"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editMembershipsMappingData.addRoleSearchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "f39c32bd-354b-4468-9b8e-94c5a3199e81",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          },
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 2,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "221627ba-e4b1-4581-bcbf-17ff0df44ac4",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add\" | uiTranslate}}"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "right"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "primary"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "POST"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "constant"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "cdd28017-0624-4ea0-923c-57bdb77c6753",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "dropdown-menu"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingCtrl.hideMembershipGroupDropdownMenu()"
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "39d21abf-b640-4caf-a682-492a37fc3201",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : "editMembershipsMappingCtrl.getAddMembershipGroupFullSearchList()"
+                                    }
+                                  },
+                                  "reference" : "fee52444-1af7-47b9-af02-cc395e3566d2",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "disabled" : {
+                                            "type" : "expression",
+                                            "value" : "editMembershipsMappingCtrl.isAddMembershipGroupSearchMore($item)"
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "{{$item.displayName}} {{editMembershipsMappingCtrl.isParentEmpty($item)}}"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          },
+                                          "buttonStyle" : {
+                                            "type" : "constant",
+                                            "value" : "link"
+                                          },
+                                          "action" : {
+                                            "type" : "constant",
+                                            "value" : "Add to collection"
+                                          },
+                                          "assign" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "url" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "responseStatusCode" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "dataToSend" : {
+                                            "type" : "constant"
+                                          },
+                                          "dataFromSuccess" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "closeOnSuccess" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "dataFromError" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "targetUrlOnSuccess" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "collectionToModify" : {
+                                            "type" : "variable",
+                                            "value" : "editMembershipsMappingData.selectedGroupToAdd"
+                                          },
+                                          "modalId" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "collectionPosition" : {
+                                            "type" : "constant",
+                                            "value" : "First"
+                                          },
+                                          "valueToAdd" : {
+                                            "type" : "expression",
+                                            "value" : "$item"
+                                          },
+                                          "removeItem" : {
+                                            "type" : "variable"
+                                          }
+                                        },
+                                        "reference" : "6dde8e56-dbe8-49ed-a627-52c888646b66",
+                                        "hasValidationError" : false,
+                                        "id" : "pbButton"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "dropdown-menu"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingCtrl.hideMembershipRoleDropdownMenu()"
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "17286213-1965-4071-9827-c4404536c90a",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : "editMembershipsMappingCtrl.getAddMembershipRoleFullSearchList()"
+                                    }
+                                  },
+                                  "reference" : "40528959-79b6-4bb0-a0a9-23a909fe2aa6",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "disabled" : {
+                                            "type" : "expression",
+                                            "value" : "editMembershipsMappingCtrl.isAddMembershipRoleSearchMore($item)"
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "{{$item.displayName}}"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          },
+                                          "buttonStyle" : {
+                                            "type" : "constant",
+                                            "value" : "link"
+                                          },
+                                          "action" : {
+                                            "type" : "constant",
+                                            "value" : "Add to collection"
+                                          },
+                                          "assign" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "url" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "responseStatusCode" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "dataToSend" : {
+                                            "type" : "constant"
+                                          },
+                                          "dataFromSuccess" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "closeOnSuccess" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "dataFromError" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "targetUrlOnSuccess" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "collectionToModify" : {
+                                            "type" : "variable",
+                                            "value" : "editMembershipsMappingData.selectedRoleToAdd"
+                                          },
+                                          "modalId" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "collectionPosition" : {
+                                            "type" : "constant",
+                                            "value" : "First"
+                                          },
+                                          "valueToAdd" : {
+                                            "type" : "expression",
+                                            "value" : "$item"
+                                          },
+                                          "removeItem" : {
+                                            "type" : "variable"
+                                          }
+                                        },
+                                        "reference" : "87483438-d7b6-41e6-9bcf-caca50f1fd66",
+                                        "hasValidationError" : false,
+                                        "id" : "pbButton"
+                                      }
+                                    ]
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "mt-20"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "069764b6-f2e2-4b6d-b67d-383ebe346b86",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "Memberships mapped"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "c6e1dfe8-96e4-4b2c-9e30-0ce469927868",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingData.displayedMemberships.length === 0 && editMembershipsMappingData.membershipFilters.searchValue === \"\""
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Search mapped memberships by group name or role name"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "editMembershipsMappingData.membershipFilters.searchValue"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "622566ec-8ced-4fb0-9b35-f2bdc7a77614",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "profile-item"
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : "editMembershipsMappingData.displayedMemberships"
+                              }
+                            },
+                            "reference" : "a4262b11-4e57-49d4-b7d6-f281e23d0926",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "container",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 6,
+                                    "lg" : 11
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    }
+                                  },
+                                  "reference" : "bc1e9bdc-cc30-451c-add2-5285abddfc0b",
+                                  "hasValidationError" : false,
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "container",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 6,
+                                          "lg" : 8
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "repeatedCollection" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          }
+                                        },
+                                        "reference" : "91c69cfa-d08e-47d3-b97e-f1e0446e8dc9",
+                                        "hasValidationError" : false,
+                                        "id" : "pbContainer",
+                                        "rows" : [
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-label"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Membership name"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "5486f286-9fae-49aa-a1b7-6875f9b216f1",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : ""
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "{{$item.role_id.displayName}} of {{$item.group_id.displayName}}"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "e19ffe67-7fd1-4096-8b1a-24ca1b3df835",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ]
+                                        ]
+                                      },
+                                      {
+                                        "type" : "container",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 6,
+                                          "lg" : 4
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "repeatedCollection" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          }
+                                        },
+                                        "reference" : "75bf7135-3a6b-47b9-b1ea-8fd7d2077a68",
+                                        "hasValidationError" : false,
+                                        "id" : "pbContainer",
+                                        "rows" : [
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : "item-label"
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Parent path"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "c8e85f51-2212-4a49-a8a2-c2f9ac4f953f",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : ""
+                                                },
+                                                "hidden" : {
+                                                  "type" : "constant",
+                                                  "value" : false
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "{{$item.group_id.parent_path}}"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "3522d5cc-e7f0-49d4-b768-70fca211260c",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "type" : "component",
+                                              "dimension" : {
+                                                "xs" : 12,
+                                                "sm" : 12,
+                                                "md" : 12,
+                                                "lg" : 12
+                                              },
+                                              "propertyValues" : {
+                                                "cssClasses" : {
+                                                  "type" : "constant",
+                                                  "value" : ""
+                                                },
+                                                "hidden" : {
+                                                  "type" : "expression",
+                                                  "value" : "$item.group_id.parent_path"
+                                                },
+                                                "labelHidden" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "label" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "Default label"
+                                                },
+                                                "labelPosition" : {
+                                                  "type" : "constant",
+                                                  "value" : "top"
+                                                },
+                                                "labelWidth" : {
+                                                  "type" : "constant",
+                                                  "value" : 4
+                                                },
+                                                "allowHTML" : {
+                                                  "type" : "constant",
+                                                  "value" : true
+                                                },
+                                                "text" : {
+                                                  "type" : "interpolation",
+                                                  "value" : "--"
+                                                },
+                                                "alignment" : {
+                                                  "type" : "constant",
+                                                  "value" : "left"
+                                                }
+                                              },
+                                              "reference" : "df1840ce-9904-4294-82af-bb04d1c358db",
+                                              "hasValidationError" : false,
+                                              "id" : "pbText"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 6,
+                                    "lg" : 1
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "<i class=\"glyphicon glyphicon-remove\" title=\"{{\"Remove group from mapping\" | uiTranslate}}\"></i>"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "link"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "Submit task"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "constant"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "3a17ea8a-e4f1-4fc6-9c36-ac803c2a8b8e",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                }
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "text-primary item-label pt-5"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingData.displayedMemberships.length == 0"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "{{\"Memberships shown\"|uiTranslate}}: {{editMembershipsMappingData.displayedMemberships.length}}"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "right"
+                              }
+                            },
+                            "reference" : "090892a6-52ab-4933-b320-ea4ce41ba412",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingData.displayedMemberships.length"
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "No memberships to display"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              }
+                            },
+                            "reference" : "26bd1190-628e-4e90-ac63-ab82393f1831",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingData.displayedMemberships.length == 0"
+                              },
+                              "disabled" : {
+                                "type" : "expression",
+                                "value" : "editMembershipsMappingData.displayedMemberships.length % editMembershipsMappingData.numberOfMembershipsPerPage > 0 || (editMembershipsMappingData.numberOfMembershipsReturned === 0 && editMembershipsMappingData.membershipsNextResults.length == 0)"
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Load more memberships"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              },
+                              "buttonStyle" : {
+                                "type" : "constant",
+                                "value" : "link"
+                              },
+                              "action" : {
+                                "type" : "constant",
+                                "value" : "GET"
+                              },
+                              "assign" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "url" : {
+                                "type" : "interpolation",
+                                "value" : "{{profileMemberUrl}}{{editMembershipsMappingCtrl.mappedMembershipsQueryParameters(editMembershipsMappingData.pageId)}}"
+                              },
+                              "responseStatusCode" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "dataToSend" : {
+                                "type" : "constant"
+                              },
+                              "dataFromSuccess" : {
+                                "type" : "variable",
+                                "value" : "editMembershipsMappingData.membershipsNextResults"
+                              },
+                              "closeOnSuccess" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "dataFromError" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "targetUrlOnSuccess" : {
+                                "type" : "interpolation"
+                              },
+                              "collectionToModify" : {
+                                "type" : "variable"
+                              },
+                              "modalId" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "collectionPosition" : {
+                                "type" : "constant",
+                                "value" : "Last"
+                              },
+                              "valueToAdd" : {
+                                "type" : "constant"
+                              },
+                              "removeItem" : {
+                                "type" : "variable"
+                              }
+                            },
+                            "reference" : "766d4b65-aa05-4095-bccd-16a6bf197563",
+                            "hasValidationError" : false,
+                            "id" : "pbButton"
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "a3e93dd7-3f44-4226-b23d-1ad036b8f0c6",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Close"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "3a610d66-8e68-45ff-8077-247c491b8827",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
@@ -11731,6 +13422,254 @@
       "type" : "url",
       "value" : [
         "{{editGroupsMappingCtrl.getAddGroupSearchUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "editMembershipsMappingCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    initEditMembershipsMappingModal: function(profile) {",
+        "        $data.editMembershipsMappingData.selectedProfile = profile;",
+        "        $data.editMembershipsMappingData.timestamp = new Date().getTime();",
+        "        $data.editMembershipsMappingData.pageId = 0;",
+        "        $data.editMembershipsMappingData.displayedMemberships = [];",
+        "        $data.editMembershipsMappingData.numberOfMembershipsReturned = 0;",
+        "        $data.editMembershipsMappingData.membershipsForNextPage = [];",
+        "        $data.editMembershipsMappingData.membershipsNextResults = undefined;",
+        "        $data.editMembershipsMappingData.membershipFilters.searchValue = \"\";",
+        "        $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = false;",
+        "        $data.editMembershipsMappingData.hasRecentlyBeenMapped = false;",
+        "        $data.editMembershipsMappingData.statusCode = undefined;",
+        "        $data.editMembershipsMappingData.membershipToUnmap = undefined;",
+        "        $data.editMembershipsMappingData.membershipToMap = undefined;",
+        "        $data.editMembershipsMappingData.addGroupSearchValue = \"\";",
+        "        $data.editMembershipsMappingData.addGroupName = undefined;",
+        "        $data.editMembershipsMappingData.addGroupId = undefined;",
+        "        $data.editMembershipsMappingData.selectedGroupToAdd = [];",
+        "        $data.editMembershipsMappingData.addGroupStatusCode = undefined;",
+        "        $data.editMembershipsMappingData.addGroupFailedResponse = undefined;",
+        "\t    $data.editMembershipsMappingData.addGroupDisplayName = undefined;",
+        "        $data.editMembershipsMappingData.addRoleSearchValue = \"\";",
+        "        $data.editMembershipsMappingData.addRoleName = undefined;",
+        "        $data.editMembershipsMappingData.addRoleDisplayName = undefined;",
+        "        $data.editMembershipsMappingData.addRoleId = undefined;",
+        "        $data.editMembershipsMappingData.selectedRoleToAdd = [];",
+        "        $data.editMembershipsMappingData.addRoleStatusCode = undefined;",
+        "        $data.editMembershipsMappingData.addRoleFailedResponse = undefined;",
+        "        ",
+        "        return \"editMembershipsMappingModal\";",
+        "    },",
+        "    mappedMembershipsQueryParameters: function(pageId) {",
+        "        var membershipsPerPage = $data.editMembershipsMappingData.numberOfMembershipsPerPage;",
+        "    ",
+        "        if (pageId === 0) {",
+        "            //on first call we need load next page",
+        "            membershipsPerPage *= 2;",
+        "        }",
+        "        ",
+        "        var selectedProfileId = $data.editMembershipsMappingData.selectedProfile ? $data.editMembershipsMappingData.selectedProfile.id : \"\";",
+        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + membershipsPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=roleAndGroup&d=group_id&d=role_id\";",
+        "        ",
+        "        if($data.editMembershipsMappingData.membershipFilters.searchValue) {",
+        "            queryParameters += \"&s=\" + $data.editMembershipsMappingData.membershipFilters.searchValue;",
+        "        }",
+        "",
+        "        return queryParameters;",
+        "    },",
+        "    hideMembershipGroupDropdownMenu: function() {",
+        "        return !$data.addMembershipGroupSearchList ",
+        "                || $data.addMembershipGroupSearchList.length === 0 ",
+        "                || $data.editMembershipsMappingData.addGroupSearchValue === \"\"",
+        "    },",
+        "    hideMembershipRoleDropdownMenu: function() {",
+        "        return !$data.addMembershipRoleSearchList ",
+        "                || $data.addMembershipRoleSearchList.length === 0 ",
+        "                || $data.editMembershipsMappingData.addRoleSearchValue === \"\"",
+        "    },",
+        "    getAddMembershipGroupSearchUrl: function() {",
+        "        if ($data.editMembershipsMappingData.addGroupName !==  $data.editMembershipsMappingData.addGroupSearchValue) { ",
+        "            $data.editMembershipsMappingData.addGroupId = undefined;",
+        "            return $data.editMembershipsMappingData.addGroupSearchValue ? \"../API/identity/group?p=0&c=10&o=displayName&s=\" + $data.editMembershipsMappingData.addGroupSearchValue : undefined;    ",
+        "        }",
+        "        return undefined;",
+        "    },",
+        "    getAddMembershipRoleSearchUrl: function() {",
+        "        if ($data.editMembershipsMappingData.addRoleName !==  $data.editMembershipsMappingData.addRoleSearchValue) { ",
+        "            $data.editMembershipsMappingData.addRoleId = undefined;",
+        "            return $data.editMembershipsMappingData.addRoleSearchValue ? \"../API/identity/role?p=0&c=10&o=displayName&s=\" + $data.editMembershipsMappingData.addRoleSearchValue : undefined;    ",
+        "        }",
+        "        return undefined;",
+        "    },",
+        "    getAddMembershipGroupFullSearchList: function() {",
+        "        var fullMembershipGroupList = $data.addMembershipGroupSearchList;",
+        "        if (fullMembershipGroupList.length == 10) {",
+        "            fullMembershipGroupList.push({",
+        "                name: uiTranslate(\"Or type more...\")",
+        "            });",
+        "        }",
+        "        return fullMembershipGroupList;",
+        "    },",
+        "    getAddMembershipRoleFullSearchList: function() {",
+        "        var fullMembershipRoleList = $data.addMembershipRoleSearchList;",
+        "        if (fullMembershipRoleList.length == 10) {",
+        "            fullMembershipRoleList.push({",
+        "                name: uiTranslate(\"Or type more...\")",
+        "            });",
+        "        }",
+        "        return fullMembershipRoleList;",
+        "    },",
+        "    isAddMembershipGroupSearchMore: function(item) {",
+        "        return item.name === uiTranslate(\"Or type more...\");",
+        "    },",
+        "    isParentEmpty: function(parent) {",
+        "        if(!parent || parent.displayName === \"Or type more...\") {",
+        "            return \"\";",
+        "        }",
+        "        if(!parent.parent_path) {",
+        "            return \"(--)\";",
+        "        }",
+        "        return \"(\" + parent.parent_path + \"/\" + parent.name + \")\";",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editMembershipsMappingData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: undefined,",
+        "    hasRecentlyBeenUnmapped:false,",
+        "    hasRecentlyBeenMapped:false,",
+        "    selectedProfile: undefined,",
+        "    timestamp: 0,",
+        "    pageId: 0,",
+        "    numberOfMembershipsPerPage: 10,",
+        "    displayedMemberships: [],",
+        "    numberOfMembershipsReturned: 0,",
+        "    membershipsForNextPage: [],",
+        "    membershipsNextResults: undefined,",
+        "    membershipToUnmap: undefined,",
+        "    membershipToMap: undefined,",
+        "    membershipFilters: {",
+        "        searchValue: \"\"",
+        "    },",
+        "    addGroupSearchValue: \"\",",
+        "    addGroupName: undefined,",
+        "    addGroupDisplayName: undefined,",
+        "    addGroupId: undefined,",
+        "    selectedGroupToAdd: [],",
+        "    addGroupStatusCode: undefined,",
+        "    addGroupFailedResponse: undefined,",
+        "    addRoleSearchValue: \"\",",
+        "    addRoleName: undefined,",
+        "    addRoleDisplayName: undefined,",
+        "    addRoleId: undefined,",
+        "    selectedRoleToAdd: [],",
+        "    addRoleStatusCode: undefined,",
+        "    addRoleFailedResponse: undefined",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "editMembershipsMappingHandler" : {
+      "type" : "expression",
+      "value" : [
+        "//Mapped memberships\r",
+        "// diplay the first page of memberships on page load or when the filters change\r",
+        "if($data.editMembershipsMappingUrl) {\r",
+        "    // display half the elements loaded\r",
+        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingUrl.slice(0, $data.editMembershipsMappingData.numberOfMembershipsPerPage);\r",
+        "    // set the next page to be requested to 2 since the first page is in the memory\r",
+        "    $data.editMembershipsMappingData.pageId = 2;\r",
+        "    $data.editMembershipsMappingData.membershipsForNextPage = $data.editMembershipsMappingUrl.slice($data.editMembershipsMappingData.numberOfMembershipsPerPage);\r",
+        "    // saving the other half to be displayed later\r",
+        "    $data.editMembershipsMappingData.numberOfMembershipsReturned = $data.editMembershipsMappingData.membershipsForNextPage.length;\r",
+        "    // set memberships to undefined as the script is triggered when click on load more memberships button\r",
+        "    // and to prevent this block of code from being executed (prevent resetting the displayedMemberships)\r",
+        "    $data.editMembershipsMappingUrl = undefined;\r",
+        "    $data.editMembershipsMappingData.membershipsNextResults = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
+        "}\r",
+        "\r",
+        "// add next page of memberships to the list of next memberships to display\r",
+        "// display the next memberships from the memory\r",
+        "if($data.editMembershipsMappingData.membershipsNextResults \r",
+        "        && $data.editMembershipsMappingData.membershipsNextResults.length){\r",
+        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingData.displayedMemberships.concat($data.editMembershipsMappingData.membershipsForNextPage);\r",
+        "    $data.editMembershipsMappingData.pageId++;\r",
+        "    $data.editMembershipsMappingData.membershipsForNextPage = $data.editMembershipsMappingData.membershipsNextResults;\r",
+        "    $data.editMembershipsMappingData.numberOfMembershipsReturned = $data.editMembershipsMappingData.membershipsForNextPage.length;\r",
+        "    $data.editMembershipsMappingData.membershipsNextResults = undefined;\r",
+        "}\r",
+        "\r",
+        "// when there are no more memberships in the memory\r",
+        "if($data.editMembershipsMappingData.numberOfMembershipsReturned > 0 \r",
+        "        && $data.editMembershipsMappingData.membershipsNextResults \r",
+        "        && $data.editMembershipsMappingData.membershipsNextResults.length === 0){\r",
+        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingData.displayedMemberships.concat($data.editMembershipsMappingData.membershipsForNextPage);\r",
+        "    $data.editMembershipsMappingData.membershipsForNextPage = undefined;\r",
+        "    $data.editMembershipsMappingData.membershipsNextResults = undefined;\r",
+        "    $data.editMembershipsMappingData.numberOfMembershipsReturned = 0;\r",
+        "}\r",
+        "\r",
+        "// Select memberships to add to mapping\r",
+        "if ($data.editMembershipsMappingData.selectedMembershipToAdd \r",
+        "        && $data.editMembershipsMappingData.selectedMembershipToAdd.length > 0) {\r",
+        "    $data.editMembershipsMappingData.addMembershipSearchValue = $data.editMembershipsMappingData.selectedMembershipToAdd[0].displayName;\r",
+        "    $data.editMembershipsMappingData.addMembershipName = $data.editMembershipsMappingData.addMembershipSearchValue;\r",
+        "    $data.editMembershipsMappingData.addMembershipId = $data.editMembershipsMappingData.selectedMembershipToAdd[0].id;\r",
+        "    $data.editMembershipsMappingData.selectedMembershipToAdd = [];\r",
+        "    $data.addMembershipSearchList = undefined;\r",
+        "}\r",
+        "\r",
+        "// After a membership is successfully mapped\r",
+        "if ($data.editMembershipsMappingData.addMembershipStatusCode === 200 \r",
+        "        && !$data.editMembershipsMappingData.hasRecentlyBeenMapped) {\r",
+        "    $data.editMembershipsMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editMembershipsMappingData.hasRecentlyBeenMapped = true;\r",
+        "    $data.editMembershipsMappingData.addMembershipSearchValue = \"\";\r",
+        "    $data.editMembershipsMappingData.addMembershipName = undefined;\r",
+        "    $data.editMembershipsMappingData.addMembershipId = undefined;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editMembershipsMappingData.hasRecentlyBeenMapped = false;\r",
+        "        $data.editMembershipsMappingData.addMembershipStatusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}\r",
+        "\r",
+        "// After a membership is successfully unmapped\r",
+        "if ($data.editMembershipsMappingData.statusCode === 200 \r",
+        "        && !$data.editMembershipsMappingData.hasRecentlyBeenUnmapped) {\r",
+        "    $data.editMembershipsMappingData.timestamp = new Date().getTime();\r",
+        "    $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = true;\r",
+        "    $data.organizationMappingData.membershipsMapping = $data.membershipsOfProfile;\r",
+        "    setTimeout(function() {\r",
+        "        $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = false;\r",
+        "        $data.editMembershipsMappingData.statusCode = undefined;\r",
+        "    }, 2000);\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "editMembershipsMappingUrl" : {
+      "type" : "url",
+      "value" : [
+        "{{profileMemberUrl}}{{editMembershipsMappingCtrl.mappedMembershipsQueryParameters(0)}}&t={{editMembershipsMappingData.timestamp}}"
+      ],
+      "exposed" : false
+    },
+    "addMembershipGroupSearchList" : {
+      "type" : "url",
+      "value" : [
+        "{{editMembershipsMappingCtrl.getAddMembershipGroupSearchUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "addMembershipRoleSearchList" : {
+      "type" : "url",
+      "value" : [
+        "{{editMembershipsMappingCtrl.getAddMembershipRoleSearchUrl()}}"
       ],
       "exposed" : false
     }
