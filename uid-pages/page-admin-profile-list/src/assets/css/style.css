@@ -45,6 +45,10 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 /* Custom CSS */
 
+.left-32 {
+    left: 32px;    
+}
+
 .mt-20 {
     margin-top: 20px;
 }
@@ -76,7 +80,8 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 }
 
 .item-label p,
-.item-label.component {
+.item-label.component,
+.input-with-light-label label {
     font-size: 11px;
     opacity: 0.7;
     margin: 0;
@@ -152,24 +157,19 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     word-break: break-word;
 }
 
-.add-mapping .dropdown-menu,
-.add-mapping .dropdown-menu-role {
+.add-mapping .dropdown-menu {
     position: absolute;
-    top: 80px;
+    top: 35px;
     display: block;
     width: 350px;
     float: left;
     margin-left: 15px;
-    padding-left: 10px;
+    text-align: left;
+    z-index: 1000;
 }
 
-.add-mapping .dropdown-menu-role {
-    right: 145px;
-    z-index: 1;
-    background: #fff;
-}
-
-.add-mapping .dropdown-menu button:hover {
+.add-mapping .dropdown-menu button:hover,
+.add-mapping .dropdown-menu-right button:hover {
     background: #2c3e50;
     color: #fff;
     width: 100%;
