@@ -22,7 +22,7 @@ Feature: The Admin Profiles in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
-    When I type "H" in the user input
+    When I type "H" in the selection input
     Then The "user" list is displayed
     When I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
@@ -33,7 +33,7 @@ Feature: The Admin Profiles in desktop resolution
     Then I see the mapping information for second profile
     When I click on edit user mapping button for second profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Administrator" profile
-    When I type "H" in the user input
+    When I type "H" in the selection input
     Then The "user" list is displayed
     When I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
@@ -80,9 +80,7 @@ Feature: The Admin Profiles in desktop resolution
     And A list of 10 "Users" mapped is displayed
     When I click on Load more users mapped button
     Then A list of 20 "Users" mapped is displayed
-    And The load more user mapped button is not disabled
-    When I click on Load more users mapped button
-    Then The load more user mapped button is disabled
+    And The load more user mapped button is disabled
 
   Scenario: Load more mapped users resets correctly after the limitation is triggered
     Given The response "default filter" is defined
@@ -96,7 +94,6 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 20 "Users" mapped is displayed
     When I click on Load more users mapped button
     Then A list of 30 "Users" mapped is displayed
-    When I click on Load more users mapped button
     And The load more user mapped button is disabled
     When The search input is filled with "H"
     Then A list of 10 "Users" mapped is displayed
@@ -128,7 +125,7 @@ Feature: The Admin Profiles in desktop resolution
     Then A list of 10 "Users" mapped is displayed
     When I click on Load more users mapped button
     Then A list of 20 "Users" mapped is displayed
-    And I type "H" in the user input
+    And I type "H" in the selection input
     Then The "user" list is displayed
     When I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
@@ -149,11 +146,11 @@ Feature: The Admin Profiles in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
-    When I type "H" in the user input
+    When I type "H" in the selection input
     Then The "user" list is displayed
     When I click on "Helen Kelly" in the list
     Then The "user" list is not displayed
-    And The user input is filled with "Helen Kelly"
+    And The input is filled with "Helen Kelly"
     When The search input is filled with "H"
     And I erase one character
     Then The "user" list is displayed
@@ -169,14 +166,14 @@ Feature: The Admin Profiles in desktop resolution
     And The list of user mappings is refreshed
     And The page is refreshed
     And The search input has the value "H"
-    When I type "H" in the user input
+    When I type "H" in the selection input
     Then The "user" list is displayed
     When I click on the "Close" button in modal
     Then There is no modal displayed
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The "user" list is not displayed
-    And The user input is filled with ""
+    And The input is filled with ""
 
   Scenario: The edit user mapping modal removes users successfully
     Given The response "default filter" is defined
@@ -222,7 +219,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
-    When I type "H" in the user input
+    When I type "H" in the selection input
     And I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
     Then I see "500" user mapping error message
@@ -248,7 +245,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
-    When I type "H" in the user input
+    When I type "H" in the selection input
     And I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
     Then I see "403" user mapping error message
@@ -263,7 +260,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
     When The search input is filled with "H"
-    When I type "H" in the user input
+    When I type "H" in the selection input
     And I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
     Then I see "user already exists" user mapping error message
@@ -287,7 +284,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
     When The search input is filled with "H"
-    When I type "H" in the user input
+    When I type "H" in the selection input
     And I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
     Then I see "user does not exist" user mapping error message
@@ -311,7 +308,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The mapped user list is displayed
     When The search input is filled with "H"
-    When I type "H" in the user input
+    When I type "H" in the selection input
     And I click on "Helen Kelly" in the list
     And I click on the "Add" button in modal
     Then I see "member does not exist" user mapping error message

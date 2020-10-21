@@ -16,6 +16,8 @@ const refreshGroupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profi
 const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
 const roleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=name ASC&s=';
 const groupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=name ASC&s=';
+const membershipRoleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=displayName&s=';
+const membershipGroupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=displayName&s=';
 const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_id';
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
@@ -122,10 +124,10 @@ given("The response {string} is defined", (responseType) => {
         case 'mapping':
             createRouteWithResponse(userMappingUrl + '&t=1*', 'profileMappingUsers10Route', 'profileMappingUsers10');
             createRouteWithResponse(userMappingUrlTwo + '&t=1*', 'profileMappingUsers2Route', 'profileMappingUsers2');
-            createRouteWithResponse(groupMappingUrl, 'profileMappingGroups10Route', 'profileMappingGroups10');
+            createRouteWithResponse(groupMappingUrl + '&t=1*', 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl + '&t=1*', 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(roleMappingUrlTwo + '&t=1*', 'profileMappingRoles2Route', 'profileMappingRoles2');
-            createRouteWithResponse(membershipMappingUrl, 'profileMappingMemberships10Route', 'profileMappingMemberships10');
+            createRouteWithResponse(membershipMappingUrl + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10');
             break;
         case 'user list':
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
@@ -291,6 +293,16 @@ given("The response {string} is defined", (responseType) => {
         case 'member does not exist during edit group mapping':
             createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addGroupMemberRoute', 'memberDoesNotExistException','POST', 500);
+            break;
+        case 'membership list':
+            createRouteWithResponse(membershipRoleSearchUrl + 'E', 'roleListRoute', 'roleList');
+            createRouteWithResponse(membershipRoleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
+            createRouteWithResponse(membershipGroupSearchUrl + 'A', 'groupListRoute', 'groupList');
+            createRouteWithResponse(membershipGroupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            break;
+        case 'add membership and refresh list':
+            createRouteWithMethod(profileMemberUrl, 'addMembershipMemberRoute', 'POST');
+            createRoute(membershipMappingUrl + '&t=1*', 'refreshMembershipMappingUrlRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -523,8 +535,20 @@ when("I click on edit group mapping button for second profile", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
 });
 
-when("I type {string} in the user input", (userName) => {
+when("I click on edit membership mapping button for first profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+});
+
+when("I click on edit membership mapping button for second profile", () => {
+    cy.get('.glyphicon.glyphicon-pencil').eq(5).click();
+});
+
+when("I type {string} in the selection input", (userName) => {
     cy.get('.modal .form-group input').eq(0).type(userName);
+});
+
+when("I type {string} in the second selection input", (userName) => {
+    cy.get('.modal .form-group input').eq(1).type(userName);
 });
 
 when("I click on {string} in the list", (option) => {
@@ -938,8 +962,12 @@ then("The {string} list is not displayed", () => {
     cy.get('.modal-body .dropdown-menu').should('not.be.visible');
 });
 
-then("The user input is filled with {string}", (userName) => {
-    cy.get('.modal-body .form-group input').should('have.value', userName);
+then("The input is filled with {string}", (selectedValue) => {
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', selectedValue);
+});
+
+then("The second input is filled with {string}", (selectedValue) => {
+    cy.get('.modal-body .form-group input').eq(1).should('have.value', selectedValue);
 });
 
 then("There is a confirmation for a user mapping being added", () => {
@@ -971,6 +999,14 @@ then("The api call has the correct information: {string}, {string}, {string} for
 then("The api call has the correct information: {string}, {string}, {string} for groups mapping", (memberType, profileId, groupId) => {
     cy.wait('@addGroupMemberRoute').then((xhr) => {
         expect(xhr.request.body.member_type).to.equal(memberType);
+        expect(xhr.request.body.profile_id).to.equal(profileId);
+        expect(xhr.request.body.group_id).to.equal(groupId);
+    });
+});
+
+then("The api call has the correct information: {string}, {string}, {string} for memberships mapping", (roleId, profileId, groupId) => {
+    cy.wait('@addMembershipMemberRoute').then((xhr) => {
+        expect(xhr.request.body.role_id).to.equal(roleId);
         expect(xhr.request.body.profile_id).to.equal(profileId);
         expect(xhr.request.body.group_id).to.equal(groupId);
     });
@@ -1102,4 +1138,17 @@ then("The mapped group list is displayed", () => {
 
 then("There is a confirmation for a group mapping being removed", () => {
     cy.contains('.modal-body', 'The group Acme has been successfully removed from mapping.').should('be.visible');
+});
+
+then("The edit membership mapping modal is open and has a default state for {string} profile", (organization) => {
+    cy.contains('.modal-header h3', organization).should('be.visible');
+    cy.get('.modal-body input[type=text]').should('have.length', 3);
+    cy.contains('.modal-body h4', 'Add a membership to the mapping (Role of Group').should('be.visible');
+    cy.get('.modal-body input[type=text]').eq(0).should('have.attr', 'placeholder', 'Start typing to find a new role to add');
+    cy.get('.modal-body input[type=text]').eq(1).should('have.attr', 'placeholder', 'Start typing to find a new group to add');
+    cy.contains('.modal-body h4', 'Memberships mapped').should('be.visible');
+    cy.get('.modal-body input[type=text]').eq(2).should('have.attr', 'placeholder', 'Search mapped memberships by role name or group name');
+    cy.contains('.modal-body button', 'Add').should('be.visible');
+    cy.get('.modal-footer button').scrollIntoView();
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
