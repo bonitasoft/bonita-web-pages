@@ -1,4 +1,4 @@
-Feature: The Admin Profiles in desktop resolution
+Feature: The admin profiles mapping with users in desktop resolution
 
   Scenario: The edit user mapping modal is opened and closed
     Given The response "default filter" is defined
@@ -150,7 +150,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The "user" list is displayed
     When I click on "Helen Kelly" in the list
     Then The "user" list is not displayed
-    And The input is filled with "Helen Kelly"
+    And The user input is filled with "Helen Kelly"
     When The search input is filled with "H"
     And I erase one character
     Then The "user" list is displayed
@@ -173,7 +173,7 @@ Feature: The Admin Profiles in desktop resolution
     When I click on edit user mapping button for first profile
     Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
     And The "user" list is not displayed
-    And The input is filled with ""
+    And The user input is filled with ""
 
   Scenario: The edit user mapping modal removes users successfully
     Given The response "default filter" is defined

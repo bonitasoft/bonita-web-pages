@@ -13,6 +13,7 @@ const membershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile
 const refreshUserMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id';
 const refreshRoleMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id';
 const refreshGroupMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id';
+const refreshMembershipMappingUrl = urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
 const roleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=name ASC&s=';
 const groupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=name ASC&s=';
@@ -21,6 +22,7 @@ const membershipGroupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=disp
 const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_id';
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
+const defaultMembershipMappingFilters = '&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -56,6 +58,10 @@ given("The response {string} is defined", (responseType) => {
         case 'search mapped group':
             createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=Acme&t=1*', 'searchAcmeRoute');
             createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=Search term with no match', 'emptyResultRoute');
+            break;
+        case 'search mapped membership':
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=Executive&t=1*', 'searchExecutiveRoute');
+            createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profiles load more':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles20Route', 'profiles20');
@@ -304,6 +310,53 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(profileMemberUrl, 'addMembershipMemberRoute', 'POST');
             createRoute(membershipMappingUrl + '&t=1*', 'refreshMembershipMappingUrlRoute');
             break;
+        case 'membership mapping load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters, 'profileMappingMemberships8Route', 'profileMappingMemberships8', '2', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters, 'emptyResultRoute', 'emptyResult', '3', '10');
+            break;
+        case 'membership mapping 20 load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters, 'emptyResultRoute', 'emptyResult', '2', '10');
+            break;
+        case 'membership mapping 30 load more':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters, 'profileMappingMemberships10Route', 'profileMappingMemberships10', '2', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters, 'emptyResultRoute', 'emptyResult', '3', '10');
+            break;
+        case 'search mapped membership during limitation':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&s=E&t=1*', 'searchMembershipByNameDescRoute', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&s=E', 'searchMembershipByNameDescRoute8', 'profileMappingMemberships8', '2', '10');
+            break;
+        case 'remove membership and refresh list':
+            createRouteWithMethod(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE');
+            createRoute(membershipMappingUrl + '&t=1*', 'refreshMembershipMappingUrlRoute');
+            break;
+        case 'refresh mapped membership list':
+            createRouteWithResponse(refreshMembershipMappingUrl + '&t=1*', 'refreshMembershipsMappingRoute', 'profileMappingMemberships10');
+            break;
+        case '500 during edit membership mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 500);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 500);
+            break;
+        case '403 during edit membership mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 403);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 403);
+            break;
+        case 'membership already exists during edit membership mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'alreadyExistsException','POST', 403);
+            break;
+        case 'membership does not exist during edit membership mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'membershipDoesNotExistException','POST', 500);
+            break;
+        case 'member does not exist during edit membership mapping':
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'memberDoesNotExistException','POST', 500);
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -436,6 +489,10 @@ when("I click on Load more groups mapped button", () => {
     cy.contains('.modal-body button', 'Load more groups').click();
 });
 
+when("I click on Load more memberships mapped button", () => {
+    cy.contains('.modal-body button', 'Load more memberships').click();
+});
+
 when("I click on delete button for first profile", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
 });
@@ -543,12 +600,16 @@ when("I click on edit membership mapping button for second profile", () => {
     cy.get('.glyphicon.glyphicon-pencil').eq(5).click();
 });
 
-when("I type {string} in the selection input", (userName) => {
-    cy.get('.modal .form-group input').eq(0).type(userName);
+when("I type {string} in the selection input", (selectedValue) => {
+    cy.get('.modal .form-group input').eq(0).type(selectedValue);
 });
 
-when("I type {string} in the second selection input", (userName) => {
-    cy.get('.modal .form-group input').eq(1).type(userName);
+when("I type {string} in the role selection input", (selectedValue) => {
+    cy.get('.modal .form-group input').eq(0).type(selectedValue);
+});
+
+when("I type {string} in the group selection input", (selectedValue) => {
+    cy.get('.modal .form-group input').eq(1).type(selectedValue);
 });
 
 when("I click on {string} in the list", (option) => {
@@ -569,6 +630,10 @@ when("I click on the remove {string} button in modal", () => {
 
 when("The search input is filled with {string}", (searchTerm) => {
     cy.get('.modal-body .form-group input').eq(1).type(searchTerm, {force: true});
+});
+
+when("The mapped membership search input is filled with {string}", (searchTerm) => {
+    cy.get('.modal-body .form-group input').eq(2).type(searchTerm, {force: true});
 });
 
 when("I erase one character", (userName) => {
@@ -794,7 +859,6 @@ then("I see {string} group mapping error message", (error) => {
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
 });
 
-
 then("The import profiles section shows the correct information", () => {
     cy.contains('.modal-body p', 'A profile includes the mapping to entities of the organization.').should('be.visible');
     cy.get('.modal-body input[type=text]').should('have.attr', 'placeholder', 'Click here to choose your .xml file.');
@@ -962,11 +1026,11 @@ then("The {string} list is not displayed", () => {
     cy.get('.modal-body .dropdown-menu').should('not.be.visible');
 });
 
-then("The input is filled with {string}", (selectedValue) => {
+then("The role input in membership is filled with {string}", (selectedValue) => {
     cy.get('.modal-body .form-group input').eq(0).should('have.value', selectedValue);
 });
 
-then("The second input is filled with {string}", (selectedValue) => {
+then("The group input in membership is filled with {string}", (selectedValue) => {
     cy.get('.modal-body .form-group input').eq(1).should('have.value', selectedValue);
 });
 
@@ -1018,6 +1082,10 @@ then('The list of user mappings is refreshed', () => {
 
 then('The page is refreshed', () => {
     cy.wait('@profileMappingUsers10Route');
+});
+
+then("The user input is filled with {string}", (userName) => {
+    cy.get('.modal-body .form-group input').should('have.value', userName);
 });
 
 then("The search input has the value {string}", (userName) => {
@@ -1109,8 +1177,8 @@ then("The load more group mapped button is disabled", () => {
     cy.get('.modal-body button').contains('Load more groups').should('be.disabled');
 });
 
-then("The group input is filled with {string}", (roleName) => {
-    cy.get('.modal-body .form-group input').should('have.value', roleName);
+then("The group input is filled with {string}", (groupName) => {
+    cy.get('.modal-body .form-group input').should('have.value', groupName);
 });
 
 then("There is a confirmation for a group mapping being added", () => {
@@ -1151,4 +1219,75 @@ then("The edit membership mapping modal is open and has a default state for {str
     cy.contains('.modal-body button', 'Add').should('be.visible');
     cy.get('.modal-footer button').scrollIntoView();
     cy.contains('.modal-footer button', 'Close').should('be.visible');
+});
+
+then("No membership mappings are displayed", () => {
+    cy.get('.modal-body .profiles-item:visible').should('have.length', 0);
+    cy.contains('No memberships to display').should('be.visible');
+});
+
+then("The load more membership mapped button is not disabled", () => {
+    cy.get('.modal-body button').contains('Load more memberships').should('not.be.disabled');
+});
+
+then("The load more membership mapped button is disabled", () => {
+    cy.get('.modal-body button').contains('Load more memberships').should('be.disabled');
+});
+
+then("There is a confirmation for a membership mapping being added", () => {
+    cy.contains('.modal-body', 'The Executive Assistants of Acme has been successfully added to the mapping.').should('be.visible');
+    cy.contains('.modal-body button', 'Add').eq(0).should('be.disabled');
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', '');
+});
+
+then('The list of membership mappings is refreshed', () => {
+    cy.wait('@refreshMembershipsMappingRoute');
+});
+
+then("The mapped membership search input has the value {string}", (userName) => {
+    cy.get('.modal-body .form-group input').eq(2).should('have.value', userName);
+});
+
+then("The membership inputs are filled with {string}", (roleName) => {
+    cy.get('.modal-body .form-group input').eq(0).should('have.value', roleName);
+    cy.get('.modal-body .form-group input').eq(1).should('have.value', roleName);
+});
+
+then("The mapped membership list is displayed", () => {
+    cy.get('.modal-body .profile-item').should('have.length', 10);
+    cy.get('.modal-body .profile-item').eq(0).within(() => {
+        cy.contains('.item-label', 'Role');
+        cy.contains('.item-value', 'Executive');
+        cy.contains('.item-label', 'of');
+        cy.contains('.item-label', 'Group');
+        cy.contains('.item-value', 'Europe (/acme/sales/europe)');
+        cy.get('button .glyphicon-remove').should('have.attr', 'title', 'Remove membership from mapping');
+    });
+});
+
+then("There is a confirmation for a membership mapping being removed", () => {
+    cy.contains('.modal-body', 'The Executive of Europe has been successfully removed from mapping.').should('be.visible');
+});
+
+then("I see {string} membership mapping error message", (error) => {
+    switch (error) {
+        case '403':
+            cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '500':
+            cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case 'membership already exists':
+            cy.contains('.modal-body', 'A membership with the same role of group is already mapped to this profile.').should('be.visible');
+            break;
+        case 'membership does not exist':
+            cy.contains('.modal-body', 'The role and/or group does not exist anymore.').should('be.visible');
+            break;
+        case 'member does not exist':
+            cy.contains('.modal-body', 'The membership or profile cannot be found.').should('be.visible');
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+    cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
 });

@@ -1,4 +1,4 @@
-Feature: The Admin Profiles in desktop resolution
+Feature: The admin profiles mapping with groups in desktop resolution
 
   Scenario: The edit group mapping modal is opened and closed
     Given The response "default filter" is defined
@@ -56,7 +56,7 @@ Feature: The Admin Profiles in desktop resolution
     When The search input is filled with "Search term with no match"
     Then No group mappings are displayed
 
-  Scenario: Load more mapped groups button works correctly for role mapping
+  Scenario: Load more mapped groups button works correctly for group mapping
     Given The response "default filter" is defined
     And The response "group mapping load more" is defined
     When I visit the admin profiles page
