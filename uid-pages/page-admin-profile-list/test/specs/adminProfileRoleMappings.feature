@@ -1,4 +1,4 @@
-Feature: The Admin Profiles in desktop resolution
+Feature: The admin profiles mapping with roles in desktop resolution
 
   Scenario: The edit role mapping modal is opened and closed
     Given The response "default filter" is defined
