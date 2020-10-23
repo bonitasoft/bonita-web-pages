@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1603441317101,
+  "lastUpdate" : 1603463119676,
   "rows" : [
     [
       {
@@ -2688,6 +2688,58 @@
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
+                "sm" : 11,
+                "md" : 11,
+                "lg" : 11
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"executing\" && taskDetailsCtrl.getOpenOrArchivedTask().state !== \"initializing\""
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{\"No action can be performed while the task is executing or initializing. Refresh the page to check its new status.\" | translate}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "97eead2b-ec77-4cf0-9d2d-bb9f1ab23f18",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
                 "sm" : 12,
                 "md" : 12,
                 "lg" : 12
@@ -2991,7 +3043,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "taskDetailsCtrl.isDoneTask()"
+                                    "value" : "taskDetailsCtrl.isDoneTask() || taskDetailsCtrl.getOpenOrArchivedTask().state === \"executing\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"initializing\""
                                   },
                                   "disabled" : {
                                     "type" : "constant",
@@ -2999,7 +3051,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "{{$item.name}} <i class=\"glyphicon glyphicon-info-sign text-danger\" title=\"Click here for more details\"></i>"
+                                    "value" : "{{$item.name}} <i class=\"glyphicon glyphicon-info-sign text-danger\" title=\"{{'Click here for more details' | uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -3081,7 +3133,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!taskDetailsCtrl.isDoneTask()"
+                                    "value" : "!taskDetailsCtrl.isDoneTask() && taskDetailsCtrl.getOpenOrArchivedTask().state !== \"executing\" && taskDetailsCtrl.getOpenOrArchivedTask().state !== \"initializing\""
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -3105,7 +3157,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{$item.name}}"
+                                    "value" : "{{$item.name}} {{connectorsCtrl.getNewState($item.newStateAfterReplay)}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -8674,8 +8726,8 @@
                                       "value" : false
                                     },
                                     "disabled" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state === \"executing\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"initializing\""
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -8953,7 +9005,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!replayTaskData.statusCode || replayTaskData.statusCode === 200"
+                          "value" : "!replayTaskData.statusCode || replayTaskData.statusCode === 204"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -9287,7 +9339,7 @@
     "archivedTaskDetails" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3d{{taskIdQueryParameter}}&f=isTerminal%3dtrue&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time={{assignModalData.timestamp}}"
+        "../API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3d{{taskIdQueryParameter}}&f=isTerminal%3dtrue&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time={{taskDetailsData.timestamp}}"
       ],
       "exposed" : false
     },
@@ -9314,7 +9366,7 @@
         "return {",
         "    getOpenOrArchivedTask: getOpenOrArchivedTask,",
         "    getOpenTaskUrl: function() {",
-        "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.assignModalData.timestamp;",
+        "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.taskDetailsData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -9418,7 +9470,7 @@
       "value" : [
         "// After a task is updated",
         "if (($data.assignModalData.statusCode === 200 || $data.skipTaskData.statusCode === 200 || $data.doForTaskData.statusCode === 200) && !$data.userListData.hasRecentlyBeenApplied) {",
-        "    $data.assignModalData.timestamp = new Date().getTime();",
+        "    $data.taskDetailsData.timestamp = new Date().getTime();",
         "    $data.userListData.hasRecentlyBeenApplied = true;",
         "}"
       ],
@@ -9473,7 +9525,6 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    timestamp: 0,",
         "    statusCode: \"\"",
         "};"
       ],
@@ -9525,6 +9576,16 @@
         "return {",
         "    getConnectors: function() {",
         "        return $data.taskDetailsCtrl.isDoneTask() ? $data.archivedConnectorUrl : $data.connectorUrl;",
+        "    },",
+        "    getNewState: function(newState) {",
+        "        if(newState && !$data.taskDetailsCtrl.isDoneTask()) {",
+        "            switch(newState) {",
+        "                case \"TO_RE_EXECUTE\":",
+        "                    return '<i class=\"glyphicon glyphicon-refresh\" title=\"' + uiTranslate(\"Connector is being replayed.\") + '\"></i>';",
+        "                case \"SKIPPED\":",
+        "                    return '<i class=\"glyphicon glyphicon-share-alt\" title=\"' + uiTranslate(\"Connector is being skipped.\") + '\"></i>';",
+        "            }",
+        "        }",
         "    }",
         "};"
       ],
@@ -9749,11 +9810,11 @@
         "",
         "// After a task is replayed",
         "if (($data.replayTaskData.statusCode === 204) && !$data.userListData.hasRecentlyBeenApplied) {",
+        "    $data.taskDetailsData.timestamp = new Date().getTime();",
         "    $data.userListData.hasRecentlyBeenApplied = true;",
-        "    $data.connectorsData.connectorsExecuted = []; ",
-        "    $data.connectorsData.connectorsFailed = []; ",
-        "    $data.connectorsData.connectorsSkipped = []; ",
-        "    $data.connectorsData.connectorsToBeExecuted = [];",
+        "    $data.connectorsData.connectorsFailed.forEach((connector) => {",
+        "        connector.newStateAfterReplay = $data.replayTaskData.mappedFailedConnectorList[connector.id];",
+        "    });",
         "}"
       ],
       "exposed" : false
@@ -9849,6 +9910,15 @@
       "type" : "url",
       "value" : [
         "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&time={{replayTaskData.timestamp}}"
+      ],
+      "exposed" : false
+    },
+    "taskDetailsData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    timestamp: 0",
+        "};"
       ],
       "exposed" : false
     }
