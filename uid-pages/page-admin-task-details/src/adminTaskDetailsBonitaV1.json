@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1603463119676,
+  "lastUpdate" : 1603464934952,
   "rows" : [
     [
       {
@@ -9574,8 +9574,13 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    getConnectors: function() {",
-        "        return $data.taskDetailsCtrl.isDoneTask() ? $data.archivedConnectorUrl : $data.connectorUrl;",
+        "    getConnectorUrl: function() {",
+        "        if (!$data.archivedTaskDetails && !$data.taskDetails) {",
+        "            return undefined;",
+        "        }",
+        "        var archivedConnectorUrl = \"../API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter;",
+        "        var connectorUrl = \"../API/bpm/connectorInstance?p=0&c=999&f=containerId=\" + $data.taskIdQueryParameter;",
+        "        return $data.taskDetailsCtrl.isDoneTask() ? archivedConnectorUrl : connectorUrl;",
         "    },",
         "    getNewState: function(newState) {",
         "        if(newState && !$data.taskDetailsCtrl.isDoneTask()) {",
@@ -9783,7 +9788,6 @@
         "    statusCode: \"\",",
         "    mappedFailedConnectorList: [],",
         "    action: [],",
-        "    timestamp: 0,",
         "    availableValues: [",
         "        {displayKey: \"Replay\", returnKey: \"TO_RE_EXECUTE\"},",
         "        {displayKey: \"Skip\", returnKey: \"SKIPPED\"}",
@@ -9861,8 +9865,8 @@
     "connectorsHandler" : {
       "type" : "expression",
       "value" : [
-        "if ($data.connectorsCtrl.getConnectors() && $data.connectorsCtrl.getConnectors().length) {",
-        "    $data.connectorsCtrl.getConnectors().forEach(function(connector) {",
+        "if ($data.connectorUrl && $data.connectorUrl.length) {",
+        "    $data.connectorUrl.forEach(function(connector) {",
         "        switch(connector.state) {",
         "            case \"DONE\":",
         "                $data.connectorsData.connectorsExecuted.push(connector);",
@@ -9878,8 +9882,7 @@
         "                break;",
         "        }",
         "    });",
-        "",
-        "\t$data.archivedConnectorUrl = [];",
+        "    ",
         "\t$data.connectorUrl = [];",
         "}"
       ],
@@ -9899,17 +9902,10 @@
       ],
       "exposed" : false
     },
-    "archivedConnectorUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&time={{replayTaskData.timestamp}}"
-      ],
-      "exposed" : false
-    },
     "connectorUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/connectorInstance?p=0&c=999&f=containerId={{taskIdQueryParameter}}&time={{replayTaskData.timestamp}}"
+        "{{connectorsCtrl.getConnectorUrl()}}"
       ],
       "exposed" : false
     },
