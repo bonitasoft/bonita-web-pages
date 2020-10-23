@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "LayoutBonitaV6",
   "name" : "BonitaLayoutV6",
-  "lastUpdate" : 1602774173996,
+  "lastUpdate" : 1603442966380,
   "rows" : [
     [
       {
@@ -2513,7 +2513,7 @@
     "windowReload" : {
       "type" : "expression",
       "value" : [
-        "if ($data.logoutSuccess) {",
+        "if ($data.logoutSuccess !== undefined) {",
         "    window.location.reload();",
         "}"
       ],
@@ -2630,7 +2630,7 @@
     "displayLoginPage" : {
       "type" : "expression",
       "value" : [
-        "if ($data.logoutSuccessAndLogin) {",
+        "if ($data.logoutSuccessAndLogin !== undefined) {",
         "    let location = window.location.pathname + '?' + window.location.search;",
         "    window.location.assign('../../../login.jsp?redirectUrl=' + encodeURIComponent(location));",
         "}"
