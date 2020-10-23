@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1603464934952,
+  "lastUpdate" : 1603709120462,
   "rows" : [
     [
       {
@@ -2688,9 +2688,9 @@
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
-                "sm" : 11,
-                "md" : 11,
-                "lg" : 11
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -8727,7 +8727,7 @@
                                     },
                                     "disabled" : {
                                       "type" : "expression",
-                                      "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state === \"executing\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"initializing\""
+                                      "value" : "userListData.hasRecentlyBeenApplied"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -9355,7 +9355,7 @@
         "function isTaskAssignable() {",
         "    var state = getOpenOrArchivedTask() ? getOpenOrArchivedTask().state : \"\";",
         "    var type = getOpenOrArchivedTask() ? getOpenOrArchivedTask().type : \"\";",
-        "    return state !== \"completed\" && state !== \"skipped\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
+        "    return state !== \"completed\" && state !== \"skipped\" && state !== \"initializing\" && state !== \"executing\" && (type === \"USER_TASK\" || type === \"MANUAL_TASK\" || type === \"HUMAN_TASK\");",
         "}",
         "    ",
         "function isTaskAssigned() {",

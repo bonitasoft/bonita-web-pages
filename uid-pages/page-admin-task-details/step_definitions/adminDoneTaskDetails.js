@@ -5,8 +5,8 @@ const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_i
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&time=0';
-const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358&time=0';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
+const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358';
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();

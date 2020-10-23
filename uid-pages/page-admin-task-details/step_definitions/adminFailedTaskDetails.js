@@ -5,13 +5,13 @@ const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&time=0';
-const refreshConnectorsUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1&time=1*';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=1&f=isTerminal=true&';
 const failureConnector = 'API/bpm/connectorFailure/';
 const skipTaskUrl = 'API/bpm/activity/';
-const replayTaskUrl = 'API/bpm/flowNode/1/replay';
-const refreshUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
+const replayTaskUrl = 'API/bpm/activityReplay/1';
+const refreshFailedTaskUrl = failedTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
+const refreshArchivedTaskUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
@@ -32,17 +32,20 @@ given("The response {string} is defined for failed tasks", (responseType) => {
         case 'connectors':
             createRouteWithResponse(connectorUrl, 'connectorRoute', 'connectors');
             break;
+        case 'three failed connectors':
+            createRouteWithResponse(connectorUrl, 'connectorRoute', 'threeFailedConnectors');
+            break;
         case 'failure connector':
             createRouteWithResponse(failureConnector + '80004', 'failureConnectorRoute', 'failureConnector');
             break;
         case 'skip and refresh task':
             createRouteWithResponseAndMethod(skipTaskUrl + '1', 'skipTaskRoute', 'emptyResult', 'PUT');
-            createRouteWithResponse(refreshUrl, 'skippedTaskRoute', 'skippedTaskDetails');
+            createRouteWithResponse(refreshArchivedTaskUrl, 'skippedTaskRoute', 'skippedTaskDetails');
             break;
         case 'refresh task not called':
             cy.route({
                 method: "GET",
-                url: refreshUrl,
+                url: refreshArchivedTaskUrl,
                 onRequest: () => {
                     throw new Error("This should have not been called");
                 }
@@ -58,12 +61,12 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createRouteWithMethodAndStatus(skipTaskUrl + '1', 'skipTaskRoute', 'PUT', '404');
             break;
         case 'replay success':
-            createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '200');
-            createRouteWithResponse(refreshConnectorsUrl, 'refreshConnectorsRoute', 'connectors');
+            createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '204');
+            createRouteWithResponse(refreshFailedTaskUrl, 'refreshFailedTaskDetailsRoute', 'initializingTaskDetails');
             break;
         case 'less connectors after replay':
-            createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '200');
-            createRouteWithResponse(refreshConnectorsUrl, 'refreshConnectorsRoute', 'refreshedConnectors');
+            createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '204');
+            createRouteWithResponse(refreshFailedTaskUrl, 'refreshFailedTaskDetailsRoute', 'executingTaskDetails');
             break;
         case '500 during replay':
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '500');
@@ -115,7 +118,7 @@ when("I visit the admin failed task details page", () => {
 });
 
 when("I fill in the new comment", () => {
-    cy.get('input').type('first comment');
+    cy.get('input').type('first comment', {delay: 0});
 });
 
 when("I click on failed connector button", () => {
@@ -134,20 +137,25 @@ when("I click on {string} button in the modal", (buttonLabel) => {
     cy.contains('.modal button', buttonLabel).click();
 });
 
-when("I select two connectors", (buttonLabel) => {
-    cy.get('.modal-body').within(() => {
-        cy.contains('failedConnectorName').parent().within(() => {
-            cy.get('input[type="checkbox"]').check();
-        });
-        cy.contains('skippedConnector').parent().within(() => {
-            cy.get('input[type="checkbox"]').check();
-        });
-    });
+when("I click on {string} button in the modal footer", (buttonLabel) => {
+    cy.contains('.modal-footer button', buttonLabel).click();
 });
 
-when("I deselect two connectors", (buttonLabel) => {
-    cy.contains('.modal-body', 'failedConnectorName').parent().get('input[type="checkbox"]').uncheck();
-    cy.contains('.modal-body', 'skippedConnector').parent().get('input[type="checkbox"]').uncheck();
+when("I replay the first connector", () => {
+    cy.get('.modal-body input[type="radio"]').eq(0).click();
+});
+
+when("I replay the second connector", () => {
+    cy.get('.modal-body input[type="radio"]').eq(2).click();
+});
+
+when("I skip the second connector", () => {
+    cy.get('.modal-body input[type="radio"]').eq(3).click();
+});
+
+when("I skip the first and the third connectors", () => {
+    cy.get('.modal-body input[type="radio"]').eq(1).click();
+    cy.get('.modal-body input[type="radio"]').eq(5).click();
 });
 
 then("The failed task details have the correct information", () => {
@@ -169,7 +177,7 @@ then("The failed task details have the correct information", () => {
     cy.get('.item-value').contains('Failed vacation request');
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('Failed');
-    cy.get('.item-label').contains('Done on').should('not.exist');
+    cy.get('.item-label').contains('Done on').should('not.be.visible');
     cy.get('.item-label').contains('Failed on');
     cy.get('.item-value').contains('4/30/20 9:22 AM');
     cy.get('.item-label').contains('Assigned to');
@@ -183,7 +191,7 @@ then("The back button has correct href", () => {
 });
 
 then("The comments have the correct information", () => {
-    // Check that the element exist.
+    // Check that the element be.visible.
     cy.wait('@commentsRoute');
     cy.get('.item-value').contains('comment no. 1');
     cy.get('.item-value').contains('William Jobs');
@@ -204,7 +212,7 @@ then("There is no {string}", (text) => {
 });
 
 then("There are no comments", () => {
-    cy.get('.comments').should('not.exist');
+    cy.get('.comments').should('not.be.visible');
 });
 
 then("The add comment button is {string}", (buttonState) => {
@@ -272,29 +280,34 @@ then("The skip modal is open and has a default state for {string}", (taskName) =
 
 then("The replay modal is open and has a default state for {string}", (taskName) => {
     cy.contains('.modal-header h3', 'Replay ' + taskName).should('be.visible');
-    cy.contains('.modal-content p.text-left', 'At least part of the task failure is due to failed connector(s). You may need to fix them first, then select the failed connectors you want to reset (checked) or skip (unchecked) before replaying the task.').should('be.visible');
-    cy.contains('.modal-body button', 'Select all').should('be.visible');
-    cy.contains('.modal-body button', 'Reset').should('be.visible');
-    cy.get('.modal-body input[type="checkbox"]').should('have.length', 3);
+    cy.contains('.modal-content p.text-left', 'At least part of the task failure is due to failed connector(s). You may need to fix some of them. Then, for each one, decide whether to replay or skip it during the next task execution. Then click on \"Replay\" to re-execute the whole task.').should('be.visible');
+    cy.contains('.modal-body button.btn-link', 'Replay all').should('be.visible');
+    cy.contains('.modal-body button.btn-link', 'Skip all').should('be.visible');
+    cy.get('.modal-body input[type="radio"]').should('have.length', 4);
     cy.contains('.modal-body', 'failedConnectorName').should('be.visible');
     cy.contains('.modal-body', 'secondFailedConnector').should('be.visible');
-    cy.contains('.modal-body', 'skippedConnector').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
-    cy.contains('.modal-footer button', 'Close').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('not.be.visible');
+});
+
+then("The replay modal is open and has three failed connectors", () => {
+    cy.get('.modal-body input[type="radio"]').should('have.length', 6);
+    cy.contains('.modal-body', 'failedConnectorName').should('be.visible');
+    cy.contains('.modal-body', 'secondFailedConnector').should('be.visible');
+    cy.contains('.modal-body', 'thirdFailedConnector').should('be.visible');
 });
 
 then("The replay modal is open and has one less connector for {string}", (taskName) => {
     cy.contains('.modal-header h3', 'Replay ' + taskName).should('be.visible');
-    cy.contains('.modal-content p.text-left', 'At least part of the task failure is due to failed connector(s). You may need to fix them first, then select the failed connectors you want to reset (checked) or skip (unchecked) before replaying the task.').should('be.visible');
-    cy.contains('.modal-body button', 'Select all').should('be.visible');
-    cy.contains('.modal-body button', 'Reset').should('be.visible');
-    cy.get('.modal-body input[type="checkbox"]').should('have.length', 2);
+    cy.contains('.modal-content p.text-left', 'At least part of the task failure is due to failed connector(s). You may need to fix some of them. Then, for each one, decide whether to replay or skip it during the next task execution. Then click on \"Replay\" to re-execute the whole task.').should('be.visible');
+    cy.contains('.modal-body button', 'Replay all').should('be.visible');
+    cy.contains('.modal-body button', 'Skip all').should('be.visible');
+    cy.get('.modal-body input[type="radio"]').should('have.length', 4);
     cy.contains('.modal-body', 'secondFailedConnector').should('be.visible');
-    cy.contains('.modal-body', 'skippedConnector').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
-    cy.contains('.modal-footer button', 'Close').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('not.be.visible');
 });
 
 then("There is no modal displayed", () => {
@@ -307,21 +320,33 @@ then("There is a confirmation for task being successfully skipped", () => {
 
 then("There is a confirmation for task being successfully replayed", () => {
     cy.wait('@replayTaskRoute').then(xhr => xhr.request.body).then((body) => {
-        expect(body[0].id).to.equal("80004");
-        expect(body[0].state).to.equal("toReExecute");
-        expect(body[1].id).to.equal("800035");
-        expect(body[1].state).to.equal("skipped");
-        expect(body[2].id).to.equal("80025");
-        expect(body[2].state).to.equal("toReExecute");
+        expect(body["80004"]).to.equal("TO_RE_EXECUTE");
+        expect(body["800035"]).to.equal("TO_RE_EXECUTE");
     });
-    cy.contains('.modal', 'The task has been replayed successfully. Close this window to check its new status.').should('be.visible');
+    cy.contains('.modal', 'The task is now executing. You can close this modal and check the status once the connectors have been executed.').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
-    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
-    cy.get('.modal-body input[type="checkbox"]').should('have.length', 3);
-    cy.get('.modal-body input[type="checkbox"]').each((checkbox) => {
-        cy.wrap(checkbox).should('be.disabled');
+    cy.get('.modal-body input[type="radio"]').should('have.length', 4);
+    cy.get('.modal-body input[type="radio"]').each((radioButton) => {
+        cy.wrap(radioButton).should('be.disabled');
+    });
+});
+
+then("There is a confirmation for task being successfully replayed with second connector skipped", () => {
+    cy.wait('@replayTaskRoute').then(xhr => xhr.request.body).then((body) => {
+        expect(body["80004"]).to.equal("TO_RE_EXECUTE");
+        expect(body["800035"]).to.equal("SKIPPED");
+    });
+    cy.contains('.modal', 'The task is now executing. You can close this modal and check the status once the connectors have been executed.').should('be.visible');
+    cy.contains('.modal-footer button', 'Replay').should('be.visible');
+    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body input[type="radio"]').should('have.length', 4);
+    cy.get('.modal-body input[type="radio"]').each((radioButton) => {
+        cy.wrap(radioButton).should('be.disabled');
     });
 });
 
@@ -330,29 +355,72 @@ then("The skipped failed task details page is refreshed", () => {
 });
 
 then("The failed task details page is refreshed", () => {
-    cy.wait('@refreshConnectorsRoute');
+    cy.wait('@refreshFailedTaskDetailsRoute');
 });
 
 then("The task is skipped", () => {
     cy.contains('.item-value', 'skipped');
 });
 
-then("All connectors are selected", () => {
-    cy.get('.modal-body input[type="checkbox"]').should('have.length', 3);
-    cy.get('.modal-body input[type="checkbox"]').each((checkbox) => {
-        cy.wrap(checkbox).should('be.checked');
-    });
+then("All connectors will be replayed", () => {
+    cy.get('.modal-body input[type="radio"]').eq(0).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(2).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(4).should('be.checked');
 });
 
-then("No connector is selected", () => {
-    cy.get('.modal-body input[type="checkbox"]').should('have.length', 3);
-    cy.get('.modal-body input[type="checkbox"]').each((checkbox) => {
-        cy.wrap(checkbox).should('not.be.checked');
-    });
+then("All connectors will be skipped", () => {
+    cy.get('.modal-body input[type="radio"]').eq(1).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(3).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(5).should('be.checked');
 });
 
 then("I see 404 error message when replaying task", () => {
-    cy.contains('.modal', 'The status of one or more connectors has changed. Refresh and try again.').should('be.visible');
-    cy.get('.modal').contains('The task has not been replayed.').should('be.visible');
+    cy.contains('.modal', 'The state of the task has changed. Refresh the page to see the new task state.').should('be.visible');
+    cy.contains('.modal', 'The task has not been replayed.').should('be.visible');
 });
 
+then("The replay button in modal footer is disabled", () => {
+    cy.contains('.modal-footer button', 'Replay').should('be.disabled');
+});
+
+then("There are no possible actions", () => {
+    cy.contains('button', 'Assign').should('not.exist');
+    cy.contains('button', 'Unassign').should('not.exist');
+    cy.contains('button', 'Do for').should('not.exist');
+    cy.contains('button', 'Skip').should('not.exist');
+    cy.contains('button', 'Replay').should('not.exist');
+});
+
+then("The page has initializing state", () => {
+    cy.get('.item-value').contains('initializing');
+    cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
+    cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+    });
+    cy.contains('p.text-left', 'secondFailedConnector').parent().within((element) => {
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+    });
+});
+
+then("The page has executing state", () => {
+    cy.get('.item-value').contains('executing');
+    cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
+    cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+    });
+    cy.contains('p.text-left', 'secondFailedConnector').parent().within((element) => {
+        cy.wrap(element).get('.glyphicon.glyphicon-share-alt').should('have.attr', 'title', 'Connector is being skipped.');
+    });
+});
+
+then("Only the first connector will be replayed", () => {
+    cy.get('.modal-body input[type="radio"]').eq(0).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(3).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(5).should('be.checked');
+});
+
+then("Only the first and the third connector will be skipped", () => {
+    cy.get('.modal-body input[type="radio"]').eq(1).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(2).should('be.checked');
+    cy.get('.modal-body input[type="radio"]').eq(5).should('be.checked');
+});

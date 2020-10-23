@@ -123,7 +123,7 @@ when("I click on the cancel button", () => {
 });
 
 when("I type {string} in the user input", (userName) => {
-    cy.get('.modal .form-group input').type(userName);
+    cy.get('.modal .form-group input').type(userName, {delay: 0});
 });
 
 when("I click on {string} in the list", (userName) => {
@@ -155,7 +155,7 @@ when("I click on submit button", () => {
 });
 
 when("I fill in the comment field", () => {
-    cy.get('.modal-body input').type('comment');
+    cy.get('.modal-body input').type('comment', {delay: 0});
 });
 
 then("The pending task details have the correct information", () => {
@@ -260,7 +260,7 @@ then("I see {string} error message for {string}", (statusCode, taskType) => {
             cy.contains('.modal', 'An internal error occurred. Try again later. You can also check the log file.').should('be.visible');
             break;
         case '404':
-            cy.contains('.modal', 'The task has already been done. It cannot be ' + taskType + ' anymore. Refresh the page to see the new task status.').should('be.visible');
+            cy.contains('.modal', 'The state of the task has changed. Refresh the page to see the new task state.').should('be.visible');
             break;
         case '403':
             cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
@@ -377,7 +377,7 @@ then("The {int} error message is displayed for do for", (statusCode) => {
             cy.contains('.modal', 'An internal error occurred. Try again later. You can also check the log file.').should('be.visible');
             break;
         case 404:
-            cy.contains('.modal', 'The task has already been done. It cannot be done anymore. Refresh the page to see the new task status.').should('be.visible');
+            cy.contains('.modal', 'The state of the task has changed. Refresh the page to see the new task state.').should('be.visible');
             break;
         case 403:
             cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');
