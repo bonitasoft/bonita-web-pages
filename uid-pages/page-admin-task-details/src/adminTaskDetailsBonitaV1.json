@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1603723289629,
+  "lastUpdate" : 1603726179140,
   "rows" : [
     [
       {
@@ -8472,7 +8472,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "<i class=\"glyphicon glyphicon-step-forward\"></i> {{'Replay all' | uiTranslate}}"
+                                "value" : "<i class=\"glyphicon glyphicon-refresh\"></i> {{'Replay all' | uiTranslate}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -9866,6 +9866,10 @@
       "type" : "expression",
       "value" : [
         "if ($data.connectorUrl && $data.connectorUrl.length) {",
+        "    $data.connectorsData.connectorsExecuted = [];",
+        "    $data.connectorsData.connectorsFailed = [];",
+        "    $data.connectorsData.connectorsToBeExecuted = [];",
+        "    $data.connectorsData.connectorsSkipped = [];",
         "    $data.connectorUrl.forEach(function(connector) {",
         "        switch(connector.state) {",
         "            case \"DONE\":",

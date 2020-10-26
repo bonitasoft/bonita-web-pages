@@ -235,7 +235,6 @@ Feature: The Admin Failed Task Details in desktop resolution
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message
 
   Scenario: The replay task modal should display generic 403 error message
     Given The response "empty done task" is defined for failed tasks
@@ -254,7 +253,6 @@ Feature: The Admin Failed Task Details in desktop resolution
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message
 
   Scenario: The replay task modal should display generic 404 error message
     Given The response "empty done task" is defined for failed tasks
@@ -273,4 +271,3 @@ Feature: The Admin Failed Task Details in desktop resolution
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message

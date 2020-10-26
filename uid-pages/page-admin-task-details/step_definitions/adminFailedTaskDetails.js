@@ -281,6 +281,8 @@ then("The skip modal is open and has a default state for {string}", (taskName) =
 then("The replay modal is open and has a default state for {string}", (taskName) => {
     cy.contains('.modal-header h3', 'Replay ' + taskName).should('be.visible');
     cy.contains('.modal-content p.text-left', 'At least part of the task failure is due to failed connector(s). You may need to fix some of them. Then, for each one, decide whether to replay or skip it during the next task execution. Then click on \"Replay\" to re-execute the whole task.').should('be.visible');
+    cy.get('.modal-body .glyphicon-refresh').should('be.visible');
+    cy.get('.modal-body .glyphicon-step-forward').should('be.visible');
     cy.contains('.modal-body button.btn-link', 'Replay all').should('be.visible');
     cy.contains('.modal-body button.btn-link', 'Skip all').should('be.visible');
     cy.get('.modal-body input[type="radio"]').should('have.length', 4);
@@ -395,10 +397,10 @@ then("The page has initializing state", () => {
     cy.get('.item-value').contains('initializing');
     cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
     cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
-        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed');
     });
     cy.contains('p.text-left', 'secondFailedConnector').parent().within((element) => {
-        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed');
     });
 });
 
@@ -406,10 +408,10 @@ then("The page has executing state", () => {
     cy.get('.item-value').contains('executing');
     cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
     cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
-        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed.');
+        cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed');
     });
     cy.contains('p.text-left', 'secondFailedConnector').parent().within((element) => {
-        cy.wrap(element).get('.glyphicon.glyphicon-share-alt').should('have.attr', 'title', 'Connector is being skipped.');
+        cy.wrap(element).get('.glyphicon.glyphicon-step-forward').should('have.attr', 'title', 'Connector is being skipped');
     });
 });
 
