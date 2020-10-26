@@ -72,7 +72,7 @@ when("I click on case overview button", () => {
 });
 
 when("I fill in the new comment", () => {
-    cy.get('input').type('first comment');
+    cy.get('input').type('first comment', {delay: 0});
 });
 
 when("I click on add comment button", () => {

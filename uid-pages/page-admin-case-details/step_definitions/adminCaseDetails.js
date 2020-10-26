@@ -121,7 +121,7 @@ when("I click on case overview button", () => {
 });
 
 when("I fill in the new comment", () => {
-    cy.get('input').type('first comment');
+    cy.get('input').type('first comment', {delay: 0});
 });
 
 when("I click on add comment button", () => {
@@ -140,7 +140,7 @@ when("I modify the value for variable {string}", (variableNumber) => {
     switch (variableNumber) {
         case "1":
             cy.get('.modal pb-input input').eq(1).clear();
-            cy.get('.modal pb-input input').eq(1).type('New description about the leave request.');
+            cy.get('.modal pb-input input').eq(1).type('New description about the leave request.', {delay: 0});
             break;
         case "2":
             cy.get('.modal input').eq(1).check('true');

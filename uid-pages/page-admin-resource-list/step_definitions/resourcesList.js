@@ -225,7 +225,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input').type(filterValue);
+        cy.get('pb-input input').type(filterValue, {delay: 0});
     }
 });
 

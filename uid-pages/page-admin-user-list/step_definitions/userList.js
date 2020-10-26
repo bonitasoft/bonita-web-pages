@@ -172,7 +172,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input').type(filterValue);
+        cy.get('pb-input input').type(filterValue, {delay: 0});
     }
 });
 
@@ -201,26 +201,26 @@ when("I click on create button", () => {
 });
 
 when("I fill in the user information", () => {
-    cy.get('.modal input').eq(0).type('username');
-    cy.get('.modal input').eq(1).type('password');
-    cy.get('.modal input').eq(2).type('password');
+    cy.get('.modal input').eq(0).type('username', {delay: 0});
+    cy.get('.modal input').eq(1).type('password', {delay: 0});
+    cy.get('.modal input').eq(2).type('password', {delay: 0});
 });
 
 when("I put different passwords", () => {
-    cy.get('.modal input').eq(1).type('password');
-    cy.get('.modal input').eq(2).type('passwordDontMatch');
+    cy.get('.modal input').eq(1).type('password', {delay: 0});
+    cy.get('.modal input').eq(2).type('passwordDontMatch', {delay: 0});
 });
 
 when("I fill in the username", () => {
-    cy.get('.modal input').eq(0).type('username');
+    cy.get('.modal input').eq(0).type('username', {delay: 0});
 });
 
 when("I fill in the password", () => {
-    cy.get('.modal input').eq(1).type('password');
+    cy.get('.modal input').eq(1).type('password', {delay: 0});
 });
 
 when("I fill in the confirm password", () => {
-    cy.get('.modal input').eq(2).type('password');
+    cy.get('.modal input').eq(2).type('password', {delay: 0});
 });
 
 when("I erase all fields", () => {

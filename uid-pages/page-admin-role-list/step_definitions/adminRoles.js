@@ -246,18 +246,18 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').type(filterValue, {delay: 0});
     }
 });
 
 when("I put {string} in user list search filter field", (filterValue) => {
-    cy.get('.modal-body pb-input input').scrollIntoView().type(filterValue);
+    cy.get('.modal-body pb-input input').scrollIntoView().type(filterValue, {delay: 0});
 });
 
 when("I fill in the information", () => {
-    cy.get('.modal-body input').eq(0).type('Role name');
-    cy.get('.modal-body input').eq(1).type('Role display name');
-    cy.get('.modal-body textarea').type('Role description');
+    cy.get('.modal-body input').eq(0).type('Role name', {delay: 0});
+    cy.get('.modal-body input').eq(1).type('Role display name', {delay: 0});
+    cy.get('.modal-body textarea').type('Role description', {delay: 0});
 });
 
 when("I erase the search filter", () => {
@@ -277,13 +277,13 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 when("I fill in the name", () => {
-    cy.get('.modal-body input').eq(0).type('Role name');
+    cy.get('.modal-body input').eq(0).type('Role name', {delay: 0});
 });
 
 when("I edit the information for first role", () => {
-    cy.get('.modal-body input').eq(0).clear().type('new member');
-    cy.get('.modal-body input').eq(1).clear().type('New member');
-    cy.get('.modal-body textarea').clear().type('This is a new description.');
+    cy.get('.modal-body input').eq(0).clear().type('new member', {delay: 0});
+    cy.get('.modal-body input').eq(1).clear().type('New member', {delay: 0});
+    cy.get('.modal-body textarea').clear().type('This is a new description.', {delay: 0});
 });
 
 when("I clear the name", () => {

@@ -205,7 +205,7 @@ when("I put {string} in {string} filter field in disabled processes list", (filt
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').type(filterValue, {delay: 0});
     }
 });
 

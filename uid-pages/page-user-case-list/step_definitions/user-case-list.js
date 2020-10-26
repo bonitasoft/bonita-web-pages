@@ -480,7 +480,7 @@ when("I filter only started by me", ()=>{
 });
 
 when("I search {string} in search filter", (searchValue)=>{
-    cy.get('pb-input input:visible').type(searchValue);
+    cy.get('pb-input input:visible').type(searchValue, {delay: 0});
 });
 
 when("I click on Load more cases button", ()=>{

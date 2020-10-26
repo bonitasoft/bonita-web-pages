@@ -309,7 +309,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').type(filterValue);
+        cy.get('pb-input input:visible').type(filterValue, {delay: 0});
     }
 
 });
@@ -345,13 +345,13 @@ when("I click on the {string} button in modal footer", (buttonName) => {
 });
 
 when("I fill in the information", () => {
-    cy.get('.modal-body input').eq(0).type('Group name');
-    cy.get('.modal-body input').eq(1).type('Group display name');
-    cy.get('.modal-body textarea').type('Group description');
+    cy.get('.modal-body input').eq(0).type('Group name', {delay: 0});
+    cy.get('.modal-body input').eq(1).type('Group display name', {delay: 0});
+    cy.get('.modal-body textarea').type('Group description', {delay: 0});
 });
 
 when("I type {string} in the parent group input", (parentName) => {
-    cy.get('.modal-body input').eq(2).type(parentName);
+    cy.get('.modal-body input').eq(2).type(parentName, {delay: 0});
 });
 
 when("I click on {string} in the list", (parentGroupName) => {
@@ -359,7 +359,7 @@ when("I click on {string} in the list", (parentGroupName) => {
 });
 
 when("I remove {string} from the parent group input", () => {
-    cy.get(".modal-body input").eq(2).type("{backspace}")
+    cy.get(".modal-body input").eq(2).type("{backspace}", {delay: 0})
 });
 
 when("I click on Load more users button", () => {
@@ -371,7 +371,7 @@ when("I click on Load more sub-groups button", () => {
 });
 
 when("I put {string} in modal search filter field", (filterValue) => {
-    cy.get('.modal-body pb-input input').type(filterValue);
+    cy.get('.modal-body pb-input input').type(filterValue, {delay: 0});
 });
 
 when("I erase the modal search filter", () => {

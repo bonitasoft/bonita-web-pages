@@ -171,11 +171,11 @@ when("I put {string} in {string} filter field for done tasks", (filterValue, fil
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(1).type(filterValue);
+        cy.get('pb-input input:visible').eq(1).type(filterValue, {delay: 0});
     }
 
     function filterCaseIdForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(0).type(filterValue);
+        cy.get('pb-input input:visible').eq(0).type(filterValue, {delay: 0});
     }
 });
 

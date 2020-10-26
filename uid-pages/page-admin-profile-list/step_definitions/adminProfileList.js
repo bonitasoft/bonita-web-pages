@@ -461,7 +461,7 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input').type(filterValue);
+        cy.get('pb-input input').type(filterValue, {delay: 0});
     }
 });
 
@@ -514,8 +514,8 @@ when("I click on the {string} button in modal footer", (buttonName) => {
 });
 
 when("I fill in the name and description", () => {
-    cy.get('.modal-body input[type=text]').eq(0).type('Profile name');
-    cy.get('.modal-body textarea').type('Profile description');
+    cy.get('.modal-body input[type=text]').eq(0).type('Profile name', {delay: 0});
+    cy.get('.modal-body textarea').type('Profile description', {delay: 0});
 });
 
 when("I wait for {int}", (time) => {
@@ -539,8 +539,8 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 when("I edit the information for first profile", () => {
-    cy.get('.modal-body input').clear().type('New custom profile 1');
-    cy.get('.modal-body textarea').clear().type('This is a new description.');
+    cy.get('.modal-body input').clear().type('New custom profile 1', {delay: 0});
+    cy.get('.modal-body textarea').clear().type('This is a new description.', {delay: 0});
 });
 
 when("I clear the name", () => {
@@ -548,8 +548,8 @@ when("I clear the name", () => {
 });
 
 when("I fill in the information", () => {
-    cy.get('.modal-body input').type(' Profile name');
-    cy.get('.modal-body textarea').type(' Profile description');
+    cy.get('.modal-body input').type(' Profile name', {delay: 0});
+    cy.get('.modal-body textarea').type(' Profile description', {delay: 0});
 });
 
 when("I click on show organization mapping button for first profile", () => {
@@ -601,15 +601,15 @@ when("I click on edit membership mapping button for second profile", () => {
 });
 
 when("I type {string} in the selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(0).type(selectedValue);
+    cy.get('.modal .form-group input').eq(0).type(selectedValue, {delay: 0});
 });
 
 when("I type {string} in the role selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(0).type(selectedValue);
+    cy.get('.modal .form-group input').eq(0).type(selectedValue, {delay: 0});
 });
 
 when("I type {string} in the group selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(1).type(selectedValue);
+    cy.get('.modal .form-group input').eq(1).type(selectedValue, {delay: 0});
 });
 
 when("I click on {string} in the list", (option) => {
@@ -629,15 +629,15 @@ when("I click on the remove {string} button in modal", () => {
 });
 
 when("The search input is filled with {string}", (searchTerm) => {
-    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, {force: true});
+    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, {force: true, delay: 0});
 });
 
 when("The mapped membership search input is filled with {string}", (searchTerm) => {
-    cy.get('.modal-body .form-group input').eq(2).type(searchTerm, {force: true});
+    cy.get('.modal-body .form-group input').eq(2).type(searchTerm, {force: true, delay: 0});
 });
 
 when("I erase one character", (userName) => {
-    cy.get(".modal-body input").eq(0).type("{backspace}");
+    cy.get(".modal-body input").eq(0).type("{backspace}", {delay: 0});
 });
 
 then("The profiles page has the correct information", () => {

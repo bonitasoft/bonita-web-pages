@@ -290,7 +290,7 @@ when('I click the app selection icon in dropdown', () => {
 });
 
 when('I filter the app selection by {string}', (filter) => {
-    cy.get('pb-input .form-control').type(filter);
+    cy.get('pb-input .form-control').type(filter, {delay: 0});
 });
 
 when('I erase the input field', () => {
