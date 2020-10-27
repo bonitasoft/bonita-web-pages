@@ -150,6 +150,28 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When I click on the remove "membership" button in modal
     And A list of 10 "Memberships" mapped is displayed
 
+  Scenario: The memberships mapping modal should display information about typing more
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    And The response "membership list with 10 elements" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit membership mapping button for first profile
+    Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
+    And The "role selection" list is not displayed
+    When I type "E" in the role selection input
+    Then The "role" list is displayed
+    And The type more message is displayed and disabled
+    When I type "x" in the selection input
+    Then The type more message is not displayed
+    When I click on "Executive Assistants" in the list
+    Then The role input in membership is filled with "Executive Assistants"
+    When I type "A" in the group selection input
+    Then The "group" list is displayed
+    And The type more message is displayed and disabled
+    When I type "c" in the group selection input
+    Then The type more message is not displayed
+
   Scenario: The edit membership mapping modal adds memberships successfully
     Given The response "default filter" is defined
     And The response "membership list" is defined

@@ -135,6 +135,21 @@ Feature: The admin profiles mapping with users in desktop resolution
     When I click on the remove "user" button in modal
     Then A list of 10 "Users" mapped is displayed
 
+  Scenario: The users mapping modal should display information about typing more
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    And The response "user list with 10 elements" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit user mapping button for first profile
+    Then The edit user mapping modal is open and has a default state for "Edit user mapping of Custom profile 1" profile
+    And The "user selection" list is not displayed
+    When I type "U" in the selection input
+    Then The "user" list is displayed
+    And The type more message is displayed and disabled
+    When I type "s" in the selection input
+    Then The type more message is not displayed
+
   Scenario: The edit user mapping modal adds users successfully
     Given The response "default filter" is defined
     And The response "user list" is defined

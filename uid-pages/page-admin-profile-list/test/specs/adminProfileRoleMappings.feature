@@ -135,6 +135,21 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I click on the remove "role" button in modal
     Then A list of 10 "Roles" mapped is displayed
 
+  Scenario: The roles mapping modal should display information about typing more
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    And The response "role list with 10 elements" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit role mapping button for first profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
+    And The "role selection" list is not displayed
+    When I type "E" in the selection input
+    Then The "role" list is displayed
+    And The type more message is displayed and disabled
+    When I type "x" in the selection input
+    Then The type more message is not displayed
+
   Scenario: The edit role mapping modal adds roles successfully
     Given The response "default filter" is defined
     And The response "role list" is defined
