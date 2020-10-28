@@ -69,8 +69,7 @@ Feature: The failed flow nodes list in desktop resolution
     Then A list of "10" items is displayed
     When I click on Load more flow nodes button
     Then A list of "20" items is displayed
-    When I click on Load more flow nodes button
-    Then The load more flow nodes button is disabled
+    And The load more flow nodes button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
     Given The filter response "enable 30 load more" is defined
@@ -81,7 +80,6 @@ Feature: The failed flow nodes list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more flow nodes button
     Then A list of "30" items is displayed
-    When I click on Load more flow nodes button
     And The load more flow nodes button is disabled
     When I put "Flow node name (Desc)" in "sort by" filter field
     Then A list of "10" items is displayed
