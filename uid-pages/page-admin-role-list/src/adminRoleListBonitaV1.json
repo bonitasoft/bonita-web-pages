@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminRoleListBonitaV1",
   "name" : "adminRoleListBonitaV1",
-  "lastUpdate" : 1601540364821,
+  "lastUpdate" : 1603878973069,
   "rows" : [
     [
       {
@@ -1453,7 +1453,7 @@
                 },
                 "disabled" : {
                   "type" : "expression",
-                  "value" : "rolesData.displayedRoles.length % rolesData.numberOfRolesPerPage > 0 || (rolesData.numberOfRolesReturned === 0 && rolesData.rolesNextResults.length === 0)"
+                  "value" : "rolesData.displayedRoles.length % rolesData.numberOfRolesPerPage > 0 || rolesData.numberOfRolesInMemory === 0"
                 },
                 "label" : {
                   "type" : "interpolation",
@@ -1488,7 +1488,7 @@
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
-                  "value" : "rolesData.rolesNextResults"
+                  "value" : "rolesData.rolesFromAPI"
                 },
                 "closeOnSuccess" : {
                   "type" : "constant",
@@ -3871,7 +3871,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "userListData.displayedUsers.length % userListData.numberOfUsersPerPage > 0 || (userListData.numberOfUsersReturned === 0 && userListData.usersNextResults.length == 0)"
+                          "value" : "userListData.displayedUsers.length % userListData.numberOfUsersPerPage > 0 || userListData.numberOfUsersInMemory === 0"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -3906,7 +3906,7 @@
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
-                          "value" : "userListData.usersNextResults"
+                          "value" : "userListData.usersFromAPI"
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
@@ -4966,11 +4966,11 @@
         "    hasRecentlyBeenUpdated: false,",
         "    timestamp: 0,",
         "    role: {},",
-        "    rolesForNextPage: [],",
+        "    rolesInMemory: [],",
         "    pageId: 0, ",
         "    numberOfRolesPerPage: 10,",
-        "    numberOfRolesReturned: 0,",
-        "    rolesNextResults: undefined,",
+        "    numberOfRolesInMemory: 0,",
+        "    rolesFromAPI: undefined,",
         "    displayedRoles: [],",
         "    sortByOptions: [   ",
         "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
@@ -4996,31 +4996,31 @@
         "    $data.rolesData.displayedRoles = $data.rolesUrl.slice(0, $data.rolesData.numberOfRolesPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
         "    $data.rolesData.pageId = 2;\r",
-        "    $data.rolesData.rolesForNextPage = $data.rolesUrl.slice($data.rolesData.numberOfRolesPerPage);\r",
+        "    $data.rolesData.rolesInMemory = $data.rolesUrl.slice($data.rolesData.numberOfRolesPerPage);\r",
         "    // saving the other half to be displayed later\r",
-        "    $data.rolesData.numberOfRolesReturned = $data.rolesData.rolesForNextPage.length;\r",
+        "    $data.rolesData.numberOfRolesInMemory = $data.rolesData.rolesInMemory.length;\r",
         "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
         "    $data.rolesUrl = undefined;\r",
-        "    $data.rolesData.rolesNextResults = undefined;\r",
+        "    $data.rolesData.rolesFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// add next page of roles to the list of next roles to display\r",
         "// display the next roles from the memory\r",
-        "if($data.rolesData.rolesNextResults && $data.rolesData.rolesNextResults.length) {\r",
-        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesForNextPage);\r",
+        "if($data.rolesData.rolesFromAPI && $data.rolesData.rolesFromAPI.length) {\r",
+        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesInMemory);\r",
         "    $data.rolesData.pageId++;\r",
-        "    $data.rolesData.rolesForNextPage = $data.rolesData.rolesNextResults;\r",
-        "    $data.rolesData.numberOfRolesReturned = $data.rolesData.rolesForNextPage.length;\r",
-        "    $data.rolesData.rolesNextResults = undefined;\r",
+        "    $data.rolesData.rolesInMemory = $data.rolesData.rolesFromAPI;\r",
+        "    $data.rolesData.numberOfRolesInMemory = $data.rolesData.rolesInMemory.length;\r",
+        "    $data.rolesData.rolesFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// when there are no more roles in the memory\r",
-        "if($data.rolesData.numberOfRolesReturned > 0 && $data.rolesData.rolesNextResults && $data.rolesData.rolesNextResults.length === 0) {\r",
-        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesForNextPage);\r",
-        "    $data.rolesData.rolesForNextPage = undefined;\r",
-        "    $data.rolesData.rolesNextResults = undefined;\r",
-        "    $data.rolesData.numberOfRolesReturned = 0;\r",
+        "if($data.rolesData.numberOfRolesInMemory > 0 && $data.rolesData.rolesFromAPI && $data.rolesData.rolesFromAPI.length === 0) {\r",
+        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesInMemory);\r",
+        "    $data.rolesData.rolesInMemory = undefined;\r",
+        "    $data.rolesData.rolesFromAPI = undefined;\r",
+        "    $data.rolesData.numberOfRolesInMemory = 0;\r",
         "}"
       ],
       "exposed" : false
@@ -5172,9 +5172,9 @@
         "    pageId: 0,",
         "    numberOfUsersPerPage: 10,",
         "    displayedUsers: [],",
-        "    numberOfUsersReturned: 0,",
-        "    usersForNextPage: [],",
-        "    usersNextResults: undefined,",
+        "    numberOfUsersInMemory: 0,",
+        "    usersInMemory: [],",
+        "    usersFromAPI: undefined,",
         "    userFilters: {",
         "        searchValue: \"\"",
         "    }",
@@ -5199,31 +5199,31 @@
         "    $data.userListData.displayedUsers = $data.userListUrl.slice(0, $data.userListData.numberOfUsersPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
         "    $data.userListData.pageId = 2;",
-        "    $data.userListData.usersForNextPage = $data.userListUrl.slice($data.userListData.numberOfUsersPerPage);",
+        "    $data.userListData.usersInMemory = $data.userListUrl.slice($data.userListData.numberOfUsersPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.userListData.numberOfUsersReturned = $data.userListData.usersForNextPage.length;",
+        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
         "    // set users to undefined as the script is triggered when click on load more users button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)",
         "    $data.userListUrl = undefined;",
-        "    $data.userListData.usersNextResults = undefined;",
+        "    $data.userListData.usersFromAPI = undefined;",
         "}",
         "",
         "// add next page of users to the list of next users to display",
         "// display the next users from the memory",
-        "if($data.userListData.usersNextResults && $data.userListData.usersNextResults.length){",
-        "    $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersForNextPage);",
+        "if($data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length){",
+        "    $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
         "    $data.userListData.pageId++;",
-        "    $data.userListData.usersForNextPage = $data.userListData.usersNextResults;",
-        "    $data.userListData.numberOfUsersReturned = $data.userListData.usersForNextPage.length;",
-        "    $data.userListData.usersNextResults = undefined;",
+        "    $data.userListData.usersInMemory = $data.userListData.usersFromAPI;",
+        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
+        "    $data.userListData.usersFromAPI = undefined;",
         "}",
         "",
         "// when there are no more users in the memory",
-        "if($data.userListData.numberOfUsersReturned > 0 && $data.userListData.usersNextResults && $data.userListData.usersNextResults.length === 0){",
-        "     $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersForNextPage);",
-        "     $data.userListData.usersForNextPage = undefined;",
-        "     $data.userListData.usersNextResults = undefined;",
-        "     $data.userListData.numberOfUsersReturned = 0;",
+        "if($data.userListData.numberOfUsersInMemory > 0 && $data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length === 0){",
+        "     $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
+        "     $data.userListData.usersInMemory = undefined;",
+        "     $data.userListData.usersFromAPI = undefined;",
+        "     $data.userListData.numberOfUsersInMemory = 0;",
         "}"
       ],
       "exposed" : false

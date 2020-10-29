@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminGroupListBonitaV1",
   "name" : "adminGroupListBonitaV1",
-  "lastUpdate" : 1598536449966,
+  "lastUpdate" : 1603812119043,
   "rows" : [
     [
       {
@@ -1703,7 +1703,7 @@
                 },
                 "disabled" : {
                   "type" : "expression",
-                  "value" : "groupsData.displayedGroups.length % groupsData.numberOfGroupsPerPage > 0 || (groupsData.numberOfGroupsReturned === 0 && groupsData.groupsNextResults.length === 0)"
+                  "value" : "groupsData.displayedGroups.length % groupsData.numberOfGroupsPerPage > 0 || groupsData.numberOfGroupsInMemory === 0"
                 },
                 "label" : {
                   "type" : "interpolation",
@@ -1738,7 +1738,7 @@
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
-                  "value" : "groupsData.groupsNextResults"
+                  "value" : "groupsData.groupsFromAPI"
                 },
                 "closeOnSuccess" : {
                   "type" : "constant",
@@ -4719,7 +4719,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "subGroupListData.displayedSubGroups.length % subGroupListData.numberOfSubGroupsPerPage > 0 || (subGroupListData.numberOfSubGroupsReturned === 0 && subGroupListData.subGroupsNextResults.length == 0)"
+                          "value" : "subGroupListData.displayedSubGroups.length % subGroupListData.numberOfSubGroupsPerPage > 0 || (subGroupListData.numberOfSubGroupsInMemory === 0 && subGroupListData.subGroupsFromAPI.length == 0)"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -4754,7 +4754,7 @@
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
-                          "value" : "subGroupListData.subGroupsNextResults"
+                          "value" : "subGroupListData.subGroupsFromAPI"
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
@@ -7196,11 +7196,11 @@
       "value" : [
         "return {",
         "    timestamp: 0,",
-        "    groupsForNextPage: [],",
+        "    groupsInMemory: [],",
         "    pageId: 0, ",
         "    numberOfGroupsPerPage: 10,",
-        "    numberOfGroupsReturned: 0,",
-        "    groupsNextResults: undefined,",
+        "    numberOfGroupsInMemory: 0,",
+        "    groupsFromAPI: undefined,",
         "    displayedGroups: [],",
         "    sortByOptions: [   ",
         "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
@@ -7233,31 +7233,31 @@
         "    $data.groupsData.displayedGroups = $data.groupsUrl.slice(0, $data.groupsData.numberOfGroupsPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
         "    $data.groupsData.pageId = 2;\r",
-        "    $data.groupsData.groupsForNextPage = $data.groupsUrl.slice($data.groupsData.numberOfGroupsPerPage);\r",
+        "    $data.groupsData.groupsInMemory = $data.groupsUrl.slice($data.groupsData.numberOfGroupsPerPage);\r",
         "    // saving the other half to be displayed later\r",
-        "    $data.groupsData.numberOfGroupsReturned = $data.groupsData.groupsForNextPage.length;\r",
+        "    $data.groupsData.numberOfGroupsInMemory = $data.groupsData.groupsInMemory.length;\r",
         "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
         "    $data.groupsUrl = undefined;\r",
-        "    $data.groupsData.groupsNextResults = undefined;\r",
+        "    $data.groupsData.groupsFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// add next page of groups to the list of next groups to display\r",
         "// display the next groups from the memory\r",
-        "if($data.groupsData.groupsNextResults && $data.groupsData.groupsNextResults.length) {\r",
-        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsForNextPage);\r",
+        "if($data.groupsData.groupsFromAPI && $data.groupsData.groupsFromAPI.length) {\r",
+        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsInMemory);\r",
         "    $data.groupsData.pageId++;\r",
-        "    $data.groupsData.groupsForNextPage = $data.groupsData.groupsNextResults;\r",
-        "    $data.groupsData.numberOfGroupsReturned = $data.groupsData.groupsForNextPage.length;\r",
-        "    $data.groupsData.groupsNextResults = undefined;\r",
+        "    $data.groupsData.groupsInMemory = $data.groupsData.groupsFromAPI;\r",
+        "    $data.groupsData.numberOfGroupsInMemory = $data.groupsData.groupsInMemory.length;\r",
+        "    $data.groupsData.groupsFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// when there are no more groups in the memory\r",
-        "if($data.groupsData.numberOfGroupsReturned > 0 && $data.groupsData.groupsNextResults && $data.groupsData.groupsNextResults.length === 0) {\r",
-        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsForNextPage);\r",
-        "    $data.groupsData.groupsForNextPage = undefined;\r",
-        "    $data.groupsData.groupsNextResults = undefined;\r",
-        "    $data.groupsData.numberOfGroupsReturned = 0;\r",
+        "if($data.groupsData.numberOfGroupsInMemory > 0 && $data.groupsData.groupsFromAPI && $data.groupsData.groupsFromAPI.length === 0) {\r",
+        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsInMemory);\r",
+        "    $data.groupsData.groupsInMemory = undefined;\r",
+        "    $data.groupsData.groupsFromAPI = undefined;\r",
+        "    $data.groupsData.numberOfGroupsInMemory = 0;\r",
         "}"
       ],
       "exposed" : false
@@ -7509,9 +7509,9 @@
         "        $data.subGroupListData.timestamp = new Date().getTime();",
         "        $data.subGroupListData.pageId = 0;",
         "        $data.subGroupListData.displayedSubGroups = [];",
-        "        $data.subGroupListData.numberOfSubGroupsReturned = 0;",
+        "        $data.subGroupListData.numberOfSubGroupsInMemory = 0;",
         "        $data.subGroupListData.subGroupsForNextPage = [];",
-        "        $data.subGroupListData.subGroupsNextResults = undefined;",
+        "        $data.subGroupListData.subGroupsFromAPI = undefined;",
         "        $data.subGroupListData.subGroupsFilters.searchValue = \"\";",
         "        ",
         "        return \"subGroupListModal\";",
@@ -7548,9 +7548,9 @@
         "    pageId: 0,",
         "    numberOfSubGroupsPerPage: 10,",
         "    displayedSubGroups: [],",
-        "    numberOfSubGroupsReturned: 0,",
+        "    numberOfSubGroupsInMemory: 0,",
         "    subGroupsForNextPage: [],",
-        "    subGroupsNextResults: undefined,",
+        "    subGroupsFromAPI: undefined,",
         "    subGroupsFilters: {",
         "        searchValue: \"\"",
         "    }",
@@ -7570,29 +7570,29 @@
         "    $data.subGroupListData.pageId = 2;\r",
         "    $data.subGroupListData.subGroupsForNextPage = $data.subGroupListUrl.slice($data.subGroupListData.numberOfSubGroupsPerPage);\r",
         "    // saving the other half to be displayed later\r",
-        "    $data.subGroupListData.numberOfSubGroupsReturned = $data.subGroupListData.subGroupsForNextPage.length;\r",
+        "    $data.subGroupListData.numberOfSubGroupsInMemory = $data.subGroupListData.subGroupsForNextPage.length;\r",
         "    // set subGroups to undefined as the script is triggered when click on load more subGroups button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedSubGroups)\r",
         "    $data.subGroupListUrl = undefined;\r",
-        "    $data.subGroupListData.subGroupsNextResults = undefined;\r",
+        "    $data.subGroupListData.subGroupsFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// add next page of subGroups to the list of next subGroups to display\r",
         "// display the next subGroups from the memory\r",
-        "if($data.subGroupListData.subGroupsNextResults && $data.subGroupListData.subGroupsNextResults.length){\r",
+        "if($data.subGroupListData.subGroupsFromAPI && $data.subGroupListData.subGroupsFromAPI.length){\r",
         "    $data.subGroupListData.displayedSubGroups = $data.subGroupListData.displayedSubGroups.concat($data.subGroupListData.subGroupsForNextPage);\r",
         "    $data.subGroupListData.pageId++;\r",
-        "    $data.subGroupListData.subGroupsForNextPage = $data.subGroupListData.subGroupsNextResults;\r",
-        "    $data.subGroupListData.numberOfSubGroupsReturned = $data.subGroupListData.subGroupsForNextPage.length;\r",
-        "    $data.subGroupListData.subGroupsNextResults = undefined;\r",
+        "    $data.subGroupListData.subGroupsForNextPage = $data.subGroupListData.subGroupsFromAPI;\r",
+        "    $data.subGroupListData.numberOfSubGroupsInMemory = $data.subGroupListData.subGroupsForNextPage.length;\r",
+        "    $data.subGroupListData.subGroupsFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// when there are no more subGroups in the memory\r",
-        "if($data.subGroupListData.numberOfSubGroupsReturned > 0 && $data.subGroupListData.subGroupsNextResults && $data.subGroupListData.subGroupsNextResults.length === 0){\r",
+        "if($data.subGroupListData.numberOfSubGroupsInMemory > 0 && $data.subGroupListData.subGroupsFromAPI && $data.subGroupListData.subGroupsFromAPI.length === 0){\r",
         "     $data.subGroupListData.displayedSubGroups = $data.subGroupListData.displayedSubGroups.concat($data.subGroupListData.subGroupsForNextPage);\r",
         "     $data.subGroupListData.subGroupsForNextPage = undefined;\r",
-        "     $data.subGroupListData.subGroupsNextResults = undefined;\r",
-        "     $data.subGroupListData.numberOfSubGroupsReturned = 0;\r",
+        "     $data.subGroupListData.subGroupsFromAPI = undefined;\r",
+        "     $data.subGroupListData.numberOfSubGroupsInMemory = 0;\r",
         "}"
       ],
       "exposed" : false
