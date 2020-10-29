@@ -70,7 +70,8 @@ Feature: The resources list in desktop resolution
     Then A list of "10" resources is displayed
     When I click on Load more resources button
     Then A list of "20" resources is displayed
-    And The Load more resources button is disabled
+    When I click on Load more resources button
+    Then The Load more resources button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
     Given The filter response "enable 30 load more" is defined
@@ -81,6 +82,7 @@ Feature: The resources list in desktop resolution
     Then A list of "20" resources is displayed
     When I click on Load more resources button
     Then A list of "30" resources is displayed
+    When I click on Load more resources button
     And The Load more resources button is disabled
     When I put "Resource name (Desc)" in "sort by" filter field
     Then A list of "10" resources is displayed

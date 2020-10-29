@@ -92,7 +92,8 @@ Feature: The pending tasks list in desktop resolution
     Then A list of "10" items is displayed
     When I click on Load more pending tasks button
     Then A list of "20" items is displayed
-    And The load more pending tasks button is disabled
+    When I click on Load more pending tasks button
+    Then The load more pending tasks button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
     Given The filter response "enable 30 load more" is defined for pending tasks
@@ -104,6 +105,7 @@ Feature: The pending tasks list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more pending tasks button
     Then A list of "30" items is displayed
+    When I click on Load more pending tasks button
     And The load more pending tasks button is disabled
     When I put "Display name (Desc)" in "sort by" filter field for pending tasks
     Then A list of "10" items is displayed
