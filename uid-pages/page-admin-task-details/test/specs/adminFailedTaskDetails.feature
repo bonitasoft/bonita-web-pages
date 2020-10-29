@@ -149,32 +149,36 @@ Feature: The Admin Failed Task Details in desktop resolution
   Scenario: The select all and reset work correctly in replay modal
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
-    And The response "connectors" is defined for failed tasks
+    And The response "three failed connectors" is defined for failed tasks
     When I visit the admin failed task details page
     And I click on "Replay" button
-    Then The replay modal is open and has a default state for "1 failed task"
-    When I click on "Select all" button in the modal
-    Then All connectors are selected
-    When I click on "Reset" button in the modal
-    Then No connector is selected
-    When I select two connectors
-    And I click on "Select all" button in the modal
-    Then All connectors are selected
-    When I click on "Select all" button in the modal
-    Then All connectors are selected
-    When I deselect two connectors
-    And I click on "Reset" button in the modal
-    Then No connector is selected
-    When I select two connectors
-    And I click on "Reset" button in the modal
-    Then No connector is selected
-    And I click on "Reset" button in the modal
-    Then No connector is selected
-    And I click on "Select all" button in the modal
+    Then The replay modal is open and has three failed connectors
+    When I click on "Replay all" button in the modal
+    Then All connectors will be replayed
+    When I click on "Skip all" button in the modal
+    Then All connectors will be skipped
+    When I replay the first connector
+    Then Only the first connector will be replayed
+    When I click on "Replay all" button in the modal
+    Then All connectors will be replayed
+    When I click on "Replay all" button in the modal
+    Then All connectors will be replayed
+    When I skip the first and the third connectors
+    Then Only the first and the third connector will be skipped
+    And I click on "Skip all" button in the modal
+    Then All connectors will be skipped
+    When I replay the first connector
+    Then Only the first connector will be replayed
+    And I click on "Skip all" button in the modal
+    Then All connectors will be skipped
+    And I click on "Skip all" button in the modal
+    Then All connectors will be skipped
+    And I click on "Replay all" button in the modal
+    Then All connectors will be replayed
     When I click on "Cancel" button in the modal
     Then There is no modal displayed
     When I click on "Replay" button
-    Then The replay modal is open and has a default state for "1 failed task"
+    Then The replay modal is open and has three failed connectors
 
   Scenario: The replay task modal replays the task correctly
     Given The response "empty done task" is defined for failed tasks
@@ -184,31 +188,34 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     And I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    When I select two connectors
-    And I click on "Replay" button in the modal
+    When I replay the first connector
+    Then The replay button in modal footer is disabled
+    When I replay the second connector
+    And I click on "Replay" button in the modal footer
     Then There is a confirmation for task being successfully replayed
     And The failed task details page is refreshed
     When I click on "Close" button in the modal
     Then There is no modal displayed
-    When I click on "Replay" button
-    Then The replay modal is open and has a default state for "1 failed task"
+    And There are no possible actions
+    And The page has initializing state
 
-  Scenario: The replay task modal replays the task correctly
+  Scenario: The replay task modal replays the task correctly when skipping a connector
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
+    And The response "replay success" is defined for failed tasks
     And The response "connectors" is defined for failed tasks
     And The response "less connectors after replay" is defined for failed tasks
     When I visit the admin failed task details page
     And I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    When I select two connectors
-    And I click on "Replay" button in the modal
-    Then There is a confirmation for task being successfully replayed
+    When I replay the first connector
+    And I skip the second connector
+    And I click on "Replay" button in the modal footer
+    Then There is a confirmation for task being successfully replayed with second connector skipped
     And The failed task details page is refreshed
     When I click on "Close" button in the modal
-    Then There is no modal displayed
-    When I click on "Replay" button
-    Then The replay modal is open and has one less connector for "1 failed task"
+    And There are no possible actions
+    And The page has executing state
 
   Scenario: The replay task modal should display generic 500 error message
     Given The response "empty done task" is defined for failed tasks
@@ -219,13 +226,15 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     And I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    When I click on "Replay" button in the modal
+    When I replay the first connector
+    And I replay the second connector
+    When I click on "Replay" button in the modal footer
     Then I see "500" error message for "replayed"
     When I click on "Cancel" button in the modal
     Then There is no modal displayed
+    Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message
 
   Scenario: The replay task modal should display generic 403 error message
     Given The response "empty done task" is defined for failed tasks
@@ -236,13 +245,14 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     And I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    When I click on "Replay" button in the modal
+    When I replay the first connector
+    And I replay the second connector
+    And I click on "Replay" button in the modal footer
     Then I see "403" error message for "replayed"
     When I click on "Cancel" button in the modal
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message
 
   Scenario: The replay task modal should display generic 404 error message
     Given The response "empty done task" is defined for failed tasks
@@ -253,10 +263,11 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     And I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    When I click on "Replay" button in the modal
+    When I replay the first connector
+    And I replay the second connector
+    When I click on "Replay" button in the modal footer
     Then I see 404 error message when replaying task
     When I click on "Cancel" button in the modal
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
-    And I don't see any error message
