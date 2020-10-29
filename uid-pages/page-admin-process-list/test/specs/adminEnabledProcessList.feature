@@ -78,7 +78,8 @@ Feature: The enabled process list in desktop resolution
     Then A list of "10" items is displayed
     When I click on load more processes button
     Then A list of "20" items is displayed
-    And The load more processes button is disabled
+    When I click on load more processes button
+    Then The load more processes button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
     Given The page response "enable 30 load more" is defined
@@ -89,6 +90,7 @@ Feature: The enabled process list in desktop resolution
     Then A list of "20" items is displayed
     When I click on load more processes button
     Then A list of "30" items is displayed
+    When I click on load more processes button
     And The load more processes button is disabled
     When I put "Display name (Desc)" in "sort by" filter field
     Then A list of "10" items is displayed

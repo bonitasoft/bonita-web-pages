@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminProcessListBonitaV1",
   "name" : "adminProcessListBonitaV1",
-  "lastUpdate" : 1603874507693,
+  "lastUpdate" : 1603355385631,
   "rows" : [
     [
       {
@@ -1835,7 +1835,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length % enabledProcessData.numberOfEnabledProcessesPerPage > 0 || enabledProcessData.numberOfEnabledProcessesInMemory == 0"
+                              "value" : "enabledProcessData.displayedEnabledProcesses.length % enabledProcessData.numberOfEnabledProcessesPerPage > 0 || (enabledProcessData.numberOfEnabledProcessesReturned == 0 && enabledProcessData.enabledProcessesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -1870,7 +1870,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "enabledProcessData.enabledProcessesFromAPI"
+                              "value" : "enabledProcessData.enabledProcessesNextResults"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -3530,7 +3530,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || disabledProcessData.numberOfDisabledProcessesInMemory == 0"
+                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || (disabledProcessData.numberOfDisabledProcessesReturned == 0 && disabledProcessData.disabledProcessesNextResults.length == 0)"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -3565,7 +3565,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "disabledProcessData.disabledProcessesFromAPI"
+                              "value" : "disabledProcessData.disabledProcessesNextResults"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -5158,11 +5158,11 @@
       "value" : [
         "return {",
         "    enabledProcess: {},",
-        "    enabledProcessesInMemory: [],",
+        "    enabledProcessesForNextPage: [],",
         "    pageId: 0,",
         "    timestamp: 0,",
         "    numberOfEnabledProcessesPerPage: 10,",
-        "    numberOfEnabledProcessesInMemory: 0,",
+        "    numberOfEnabledProcessesReturned: 0,",
         "    stateOptions: ",
         "        [{ displayName: uiTranslate(\"Resolved and unresolved\")}]",
         "        .concat([{displayName: uiTranslate(\"Resolved only\"), returnKey: 'resolved'}, {displayName: uiTranslate(\"Unresolved only\"), returnKey: 'unresolved'}]),",
@@ -5183,7 +5183,7 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
-        "    enabledProcessesFromAPI: undefined,",
+        "    enabledProcessesNextResults: undefined,",
         "    displayedEnabledProcesses: []",
         "};"
       ],
@@ -5199,31 +5199,31 @@
         "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessUrl.slice(0, $data.enabledProcessData.numberOfEnabledProcessesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
         "    $data.enabledProcessData.pageId = 2;",
-        "    $data.enabledProcessData.enabledProcessesInMemory = $data.enabledProcessUrl.slice($data.enabledProcessData.numberOfEnabledProcessesPerPage);",
+        "    $data.enabledProcessData.enabledProcessesForNextPage = $data.enabledProcessUrl.slice($data.enabledProcessData.numberOfEnabledProcessesPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = $data.enabledProcessData.enabledProcessesInMemory.length;",
+        "    $data.enabledProcessData.numberOfEnabledProcessesReturned = $data.enabledProcessData.enabledProcessesForNextPage.length;",
         "    // set enabled processes to undefined as the script is triggered when click on load more processes button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedEnabledProcesses)",
         "    $data.enabledProcessUrl = undefined;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
+        "    $data.enabledProcessData.enabledProcessesNextResults = undefined;",
         "}",
         "",
         "// add next page of enabled processes to the list of next enabled processes to display",
         "// display the next enabled processes from the memory",
-        "if($data.enabledProcessData.enabledProcessesFromAPI && $data.enabledProcessData.enabledProcessesFromAPI.length){",
-        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesInMemory);",
+        "if($data.enabledProcessData.enabledProcessesNextResults && $data.enabledProcessData.enabledProcessesNextResults.length){",
+        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesForNextPage);",
         "    $data.enabledProcessData.pageId++;",
-        "    $data.enabledProcessData.enabledProcessesInMemory = $data.enabledProcessData.enabledProcessesFromAPI;",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = $data.enabledProcessData.enabledProcessesInMemory.length;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
+        "    $data.enabledProcessData.enabledProcessesForNextPage = $data.enabledProcessData.enabledProcessesNextResults;",
+        "    $data.enabledProcessData.numberOfEnabledProcessesReturned = $data.enabledProcessData.enabledProcessesForNextPage.length;",
+        "    $data.enabledProcessData.enabledProcessesNextResults = undefined;",
         "}",
         "",
         "// when there are no more enabled processes in the memory",
-        "if($data.enabledProcessData.numberOfEnabledProcessesInMemory > 0 && $data.enabledProcessData.enabledProcessesFromAPI && $data.enabledProcessData.enabledProcessesFromAPI.length == 0){",
-        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesInMemory);",
-        "    $data.enabledProcessData.enabledProcessesInMemory = undefined;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = 0;",
+        "if($data.enabledProcessData.numberOfEnabledProcessesReturned > 0 && $data.enabledProcessData.enabledProcessesNextResults && $data.enabledProcessData.enabledProcessesNextResults.length == 0){",
+        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesForNextPage);",
+        "    $data.enabledProcessData.enabledProcessesForNextPage = undefined;",
+        "    $data.enabledProcessData.enabledProcessesNextResults = undefined;",
+        "    $data.enabledProcessData.numberOfEnabledProcessesReturned = 0;",
         "}"
       ],
       "exposed" : false
@@ -5268,11 +5268,11 @@
       "value" : [
         "return {\r",
         "    disabledProcess: {},\r",
-        "    disabledProcessesInMemory: [],\r",
+        "    disabledProcessesForNextPage: [],\r",
         "    pageId: 0, \r",
         "    timestamp: 0,\r",
         "    numberOfDisabledProcessesPerPage: 10,\r",
-        "    numberOfDisabledProcessesInMemory: 0,\r",
+        "    numberOfDisabledProcessesReturned: 0,\r",
         "    stateOptions: \r",
         "        [{ displayName: uiTranslate(\"Resolved and unresolved\")}]\r",
         "        .concat([{displayName: uiTranslate(\"Resolved only\"), returnKey: 'resolved'}, {displayName: uiTranslate(\"Unresolved only\"), returnKey: 'unresolved'}]),\r",
@@ -5293,7 +5293,7 @@
         "        sortOrder: \"\",\r",
         "        searchValue: \"\"\r",
         "    },\r",
-        "    disabledProcessesFromAPI: undefined,\r",
+        "    disabledProcessesNextResults: undefined,\r",
         "    displayedDisabledProcesses: []\r",
         "};"
       ],
@@ -5352,31 +5352,31 @@
         "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessUrl.slice(0, $data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
         "    $data.disabledProcessData.pageId = 2;\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = $data.disabledProcessUrl.slice($data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
+        "    $data.disabledProcessData.disabledProcessesForNextPage = $data.disabledProcessUrl.slice($data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
         "    // saving the other half to be displayed later\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = $data.disabledProcessData.disabledProcessesInMemory.length;\r",
+        "    $data.disabledProcessData.numberOfDisabledProcessesReturned = $data.disabledProcessData.disabledProcessesForNextPage.length;\r",
         "    // set disabled processes to undefined as the script is triggered when click on load more processes button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedDisabledProcesses)\r",
         "    $data.disabledProcessUrl = undefined;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
+        "    $data.disabledProcessData.disabledProcessesNextResults = undefined;\r",
         "}\r",
         "\r",
         "// add next page of enabled processes to the list of next enabled processes to display\r",
         "// display the next enabled processes from the memory\r",
-        "if($data.disabledProcessData.disabledProcessesFromAPI && $data.disabledProcessData.disabledProcessesFromAPI.length){\r",
-        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesInMemory);\r",
+        "if($data.disabledProcessData.disabledProcessesNextResults && $data.disabledProcessData.disabledProcessesNextResults.length){\r",
+        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesForNextPage);\r",
         "    $data.disabledProcessData.pageId++;\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = $data.disabledProcessData.disabledProcessesFromAPI;\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = $data.disabledProcessData.disabledProcessesInMemory.length;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
+        "    $data.disabledProcessData.disabledProcessesForNextPage = $data.disabledProcessData.disabledProcessesNextResults;\r",
+        "    $data.disabledProcessData.numberOfDisabledProcessesReturned = $data.disabledProcessData.disabledProcessesForNextPage.length;\r",
+        "    $data.disabledProcessData.disabledProcessesNextResults = undefined;\r",
         "}\r",
         "\r",
         "// when there are no more enabled processes in the memory\r",
-        "if($data.disabledProcessData.numberOfDisabledProcessesInMemory > 0 && $data.disabledProcessData.disabledProcessesFromAPI && $data.disabledProcessData.disabledProcessesFromAPI.length == 0){\r",
-        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesInMemory);\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = undefined;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = 0;\r",
+        "if($data.disabledProcessData.numberOfDisabledProcessesReturned > 0 && $data.disabledProcessData.disabledProcessesNextResults && $data.disabledProcessData.disabledProcessesNextResults.length == 0){\r",
+        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesForNextPage);\r",
+        "    $data.disabledProcessData.disabledProcessesForNextPage = undefined;\r",
+        "    $data.disabledProcessData.disabledProcessesNextResults = undefined;\r",
+        "    $data.disabledProcessData.numberOfDisabledProcessesReturned = 0;\r",
         "}"
       ],
       "exposed" : false

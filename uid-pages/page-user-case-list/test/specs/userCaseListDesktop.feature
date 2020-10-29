@@ -210,6 +210,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "10" cases is displayed
     When I click on Load more cases button
     Then A list of "20" cases is displayed
+    When I click on Load more cases button
     And The Load more cases button is disabled
 
   Scenario: [Limitation] Load more archived cases is not disabled when result is a multiple of count
@@ -221,6 +222,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "10" cases is displayed
     When I click on Load more cases button
     Then A list of "20" cases is displayed
+    When I click on Load more cases button
     And The Load more cases button is disabled
 
   Scenario: Load more open cases resets correctly after the limitation is triggered
@@ -234,6 +236,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "20" cases is displayed
     When I click on Load more cases button
     Then A list of "30" cases is displayed
+    When I click on Load more cases button
     And The Load more cases button is disabled
     When I select "Process name (Desc)" in "open cases sort by" filter for "open" cases
     Then A list of "10" cases is displayed
@@ -252,6 +255,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "20" cases is displayed
     When I click on Load more cases button
     Then A list of "30" cases is displayed
+    When I click on Load more cases button
     And The Load more cases button is disabled
     When I select "Process name (Desc)" in "open cases sort by" filter for "archived" cases
     Then A list of "10" cases is displayed

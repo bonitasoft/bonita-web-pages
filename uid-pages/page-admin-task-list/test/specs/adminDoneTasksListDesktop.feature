@@ -100,7 +100,8 @@ Feature: The done tasks list in desktop resolution
     Then A list of "10" items is displayed
     When I click on Load more tasks button
     Then A list of "20" items is displayed
-    And The load more tasks button is disabled
+    When I click on Load more tasks button
+    Then The load more tasks button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
     Given The filter response "enable 30 load more" is defined for done tasks
@@ -112,6 +113,7 @@ Feature: The done tasks list in desktop resolution
     Then A list of "20" items is displayed
     When I click on Load more tasks button
     Then A list of "30" items is displayed
+    When I click on Load more tasks button
     And The load more tasks button is disabled
     When I put "Display name (Desc)" in "sort by" filter field for done tasks
     Then A list of "10" items is displayed
