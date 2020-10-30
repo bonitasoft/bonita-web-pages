@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminProfileListBonitaV1",
   "name" : "adminProfileListBonitaV1",
-  "lastUpdate" : 1603446001571,
+  "lastUpdate" : 1604068020774,
   "rows" : [
     [
       {
@@ -110,8 +110,8 @@
                   "value" : "mt-20"
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "!featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -827,8 +827,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "!featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -1034,8 +1034,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "!featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -1122,8 +1122,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "!featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -1189,8 +1189,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "!featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -1260,6 +1260,215 @@
                             }
                           },
                           "reference" : "8a0cb844-80a5-470c-abc1-4e43b9670d31",
+                          "hasValidationError" : false,
+                          "id" : "pbButton"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 3,
+                      "md" : 3,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "f05e4d92-f1f6-4ccb-80d0-64d0835a3860",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "$item.id !== profileSelectedForMapping[0].id"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "<i class=\"glyphicon glyphicon-triangle-top\" title=\"{{\"Hide mapping with organization\" | uiTranslate}}\"></i>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Remove from collection"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "constant"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable",
+                              "value" : "profileSelectedForMapping"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "First"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "db088630-5ad0-4e47-9848-89f612030816",
+                          "hasValidationError" : false,
+                          "id" : "pbButton"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "$item.id === profileSelectedForMapping[0].id"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "<i class=\"glyphicon glyphicon-triangle-bottom\" title=\"{{\"Show mapping with organization\" | uiTranslate}}\"></i>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Add to collection"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "constant"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable",
+                              "value" : "profileSelectedForMapping"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "First"
+                            },
+                            "valueToAdd" : {
+                              "type" : "expression",
+                              "value" : "$item"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "aac6d04f-7d44-4640-ac70-c4240b07241f",
                           "hasValidationError" : false,
                           "id" : "pbButton"
                         }
@@ -14216,6 +14425,36 @@
       "type" : "url",
       "value" : [
         "{{editMembershipsMappingCtrl.getAddMembershipRoleSearchUrl()}}"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        if (!$data.featuresList) {",
+        "            return false;",
+        "        }",
+        "        var featureAvailable = false;",
+        "        ",
+        "        $data.featuresList.forEach((f) => {",
+        "            if (f.name === feature) {",
+        "                featureAvailable = true;",
+        "                return;",
+        "            }",
+        "        });",
+        "        ",
+        "        return featureAvailable;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }

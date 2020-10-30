@@ -271,3 +271,10 @@ Feature: The Admin Failed Task Details in desktop resolution
     Then There is no modal displayed
     When I click on "Replay" button
     Then The replay modal is open and has a default state for "1 failed task"
+
+  Scenario: The replay button is not displayed when feature does not exist
+    Given The response "failed task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    When I visit the admin failed task details page
+    Then There is no "Replay" button
+

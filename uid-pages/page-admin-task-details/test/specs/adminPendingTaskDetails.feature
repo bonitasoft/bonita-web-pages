@@ -313,3 +313,9 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The 404 error message is displayed for do for
+
+  Scenario: The do for button is not displayed when feature does not exist
+    Given The response "pending task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    When I visit the admin pending task details page
+    Then There is no "Do for" button

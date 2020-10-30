@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1603726179140,
+  "lastUpdate" : 1604054302416,
   "rows" : [
     [
       {
@@ -409,7 +409,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"ready\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"ready\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\" || !featuresListCtrl.isFeatureAvailable(\"WEB_PROFILE_PO\")"
                       },
                       "disabled" : {
                         "type" : "expression",
@@ -585,7 +585,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"failed\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\""
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"failed\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"completed\" || !featuresListCtrl.isFeatureAvailable(\"REPLAY_ACTIVITY\")"
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -9918,6 +9918,37 @@
       "value" : [
         "return {",
         "    timestamp: 0",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        if (!$data.featuresList) {",
+        "            return false;",
+        "        }",
+        "        var featureAvailable = false;",
+        "        ",
+        "        $data.featuresList.forEach((f) => {",
+        "            if (f.name === feature) {",
+        "                featureAvailable = true;",
+        "                return;",
+        "            }",
+        "        });",
+        "        ",
+        "        return featureAvailable;",
+        "    }",
+        "    ",
         "};"
       ],
       "exposed" : false
