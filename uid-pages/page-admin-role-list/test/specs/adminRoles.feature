@@ -23,7 +23,6 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 10 roles is displayed
     When I click on Load more roles button
     Then A list of 20 roles is displayed
-    When I click on Load more roles button
     And The load more roles button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
@@ -35,7 +34,6 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 roles is displayed
     When I click on Load more roles button
     Then A list of 30 roles is displayed
-    When I click on Load more roles button
     And The load more roles button is disabled
     When I put "Display name (Desc)" in "sort by" filter field
     Then A list of 10 roles is displayed
@@ -296,7 +294,6 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 10 users is displayed
     When I click on Load more users button
     Then A list of 20 users is displayed
-    When I click on Load more users button
     And The load more users button is disabled
 
   Scenario: Load more users resets correctly after the limitation is triggered
@@ -311,7 +308,6 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 users is displayed
     When I click on Load more users button
     Then A list of 30 users is displayed
-    When I click on Load more users button
     And The load more users button is disabled
     When I put "Virginie" in user list search filter field
     Then A list of 10 users is displayed

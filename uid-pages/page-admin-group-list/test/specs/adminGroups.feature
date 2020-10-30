@@ -50,7 +50,6 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 10 groups is displayed
     When I click on Load more groups button
     Then A list of 20 groups is displayed
-    When I click on Load more groups button
     And The load more groups button is disabled
 
   Scenario: Load more resets correctly after the limitation is triggered
@@ -62,7 +61,6 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 20 groups is displayed
     When I click on Load more groups button
     Then A list of 30 groups is displayed
-    When I click on Load more groups button
     And The load more groups button is disabled
     When I put "Display name (Desc)" in "sort by" filter field
     Then A list of 10 groups is displayed
