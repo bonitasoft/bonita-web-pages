@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskListBonitaV1",
   "name" : "adminTaskListBonitaV1",
-  "lastUpdate" : 1603355317620,
+  "lastUpdate" : 1603897820745,
   "rows" : [
     [
       {
@@ -2280,7 +2280,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length % failedFlowNodeData.numberOfFlowNodesPerPage> 0 || (failedFlowNodeData.numberOfFailedFlowNodesReturned=== 0 && failedFlowNodeData.failedFlowNodesNextResults.length == 0)"
+                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length % failedFlowNodeData.numberOfFlowNodesPerPage> 0 || failedFlowNodeData.numberOfFailedFlowNodesInMemory=== 0"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -2315,7 +2315,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "failedFlowNodeData.failedFlowNodesNextResults"
+                              "value" : "failedFlowNodeData.failedFlowNodesFromAPI"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -4352,7 +4352,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length % pendingTaskData.numberOfPendingTasksPerPage> 0 || (pendingTaskData.numberOfPendingTasksReturned=== 0 && pendingTaskData.pendingTasksNextResults.length == 0)"
+                              "value" : "pendingTaskData.displayedPendingTasks.length % pendingTaskData.numberOfPendingTasksPerPage> 0 || pendingTaskData.numberOfPendingTasksInMemory=== 0"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -4387,7 +4387,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "pendingTaskData.pendingTasksNextResults"
+                              "value" : "pendingTaskData.pendingTasksFromAPI"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -6424,7 +6424,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length % doneTaskData.numberOfDoneTasksPerPage> 0 || (doneTaskData.numberOfDoneTasksReturned=== 0 && doneTaskData.doneTasksNextResults.length == 0)"
+                              "value" : "doneTaskData.displayedDoneTasks.length % doneTaskData.numberOfDoneTasksPerPage> 0 || doneTaskData.numberOfDoneTasksInMemory=== 0"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -6459,7 +6459,7 @@
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
-                              "value" : "doneTaskData.doneTasksNextResults"
+                              "value" : "doneTaskData.doneTasksFromAPI"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
@@ -6606,10 +6606,10 @@
       "value" : [
         "return {",
         "    flowNode: {},",
-        "    flowNodesForNextPage: [],",
+        "    failedFlowNodesInMemory: [],",
         "    pageId: 0, ",
         "    numberOfFlowNodesPerPage: 10,",
-        "    numberOfFailedFlowNodesReturned: 0,",
+        "    numberOfFailedFlowNodesInMemory: 0,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -6625,7 +6625,7 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
-        "    failedFlowNodesNextResults: undefined,",
+        "    failedFlowNodesFromAPI: undefined,",
         "    displayedFailedFlowNodes: []",
         "};"
       ],
@@ -6641,31 +6641,31 @@
         "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeUrl.slice(0, $data.failedFlowNodeData.numberOfFlowNodesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
         "    $data.failedFlowNodeData.pageId = 2;",
-        "    $data.failedFlowNodeData.flowNodesForNextPage = $data.failedFlowNodeUrl.slice($data.failedFlowNodeData.numberOfFlowNodesPerPage);",
+        "    $data.failedFlowNodeData.failedFlowNodesInMemory = $data.failedFlowNodeUrl.slice($data.failedFlowNodeData.numberOfFlowNodesPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesReturned = $data.failedFlowNodeData.flowNodesForNextPage.length;",
+        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesInMemory.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
         "    $data.failedFlowNodeUrl = undefined;",
-        "    $data.failedFlowNodeData.failedFlowNodesNextResults = undefined;",
+        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
         "}",
         "",
         "// add next page of flowNodes to the list of next flowNodes to display",
         "// display the next flowNodes from the memory",
-        "if($data.failedFlowNodeData.failedFlowNodesNextResults && $data.failedFlowNodeData.failedFlowNodesNextResults.length){",
-        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.flowNodesForNextPage);",
+        "if($data.failedFlowNodeData.failedFlowNodesFromAPI && $data.failedFlowNodeData.failedFlowNodesFromAPI.length){",
+        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.failedFlowNodesInMemory);",
         "    $data.failedFlowNodeData.pageId++;",
-        "    $data.failedFlowNodeData.flowNodesForNextPage = $data.failedFlowNodeData.failedFlowNodesNextResults;",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesReturned = $data.failedFlowNodeData.flowNodesForNextPage.length;",
-        "    $data.failedFlowNodeData.failedFlowNodesNextResults = undefined;",
+        "    $data.failedFlowNodeData.failedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesFromAPI;",
+        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesInMemory.length;",
+        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
         "}",
         "",
         "// when there are no more flowNodes in the memory",
-        "if($data.failedFlowNodeData.numberOfFailedFlowNodesReturned > 0 && $data.failedFlowNodeData.failedFlowNodesNextResults && $data.failedFlowNodeData.failedFlowNodesNextResults.length == 0){",
-        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.flowNodesForNextPage);",
-        "    $data.failedFlowNodeData.flowNodesForNextPage = undefined;",
-        "    $data.failedFlowNodeData.failedFlowNodesNextResults = undefined;",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesReturned = 0;",
+        "if($data.failedFlowNodeData.numberOfFailedFlowNodesInMemory > 0 && $data.failedFlowNodeData.failedFlowNodesFromAPI && $data.failedFlowNodeData.failedFlowNodesFromAPI.length == 0){",
+        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.failedFlowNodesInMemory);",
+        "    $data.failedFlowNodeData.failedFlowNodesInMemory = undefined;",
+        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
+        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = 0;",
         "}"
       ],
       "exposed" : false
@@ -6727,10 +6727,10 @@
       "value" : [
         "return {",
         "    pendingTask: {},",
-        "    pendingTasksForNextPage: [],",
+        "    pendingTasksInMemory: [],",
         "    pageId: 0, ",
         "    numberOfPendingTasksPerPage: 10,",
-        "    numberOfPendingTasksReturned: 0,",
+        "    numberOfPendingTasksInMemory: 0,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -6748,7 +6748,7 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
-        "    pendingTasksNextResults: undefined,",
+        "    pendingTasksFromAPI: undefined,",
         "    displayedPendingTasks: []",
         "};"
       ],
@@ -6764,31 +6764,31 @@
         "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskUrl.slice(0, $data.pendingTaskData.numberOfPendingTasksPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
         "    $data.pendingTaskData.pageId = 2;",
-        "    $data.pendingTaskData.pendingTasksForNextPage = $data.pendingTaskUrl.slice($data.pendingTaskData.numberOfPendingTasksPerPage);",
+        "    $data.pendingTaskData.pendingTasksInMemory = $data.pendingTaskUrl.slice($data.pendingTaskData.numberOfPendingTasksPerPage);",
         "    // saving the other half to be displayed later",
-        "    $data.pendingTaskData.numberOfPendingTasksReturned = $data.pendingTaskData.pendingTasksForNextPage.length;",
+        "    $data.pendingTaskData.numberOfPendingTasksInMemory = $data.pendingTaskData.pendingTasksInMemory.length;",
         "    // set open cases to undefined as the script is triggered when click on load more cases button",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
         "    $data.pendingTaskUrl = undefined;",
-        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
+        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
         "}",
         "",
         "// add next page of pending tasks to the list of next pending tasks to display",
         "// display the next pending tasks from the memory",
-        "if($data.pendingTaskData.pendingTasksNextResults && $data.pendingTaskData.pendingTasksNextResults.length){",
-        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksForNextPage);",
+        "if($data.pendingTaskData.pendingTasksFromAPI && $data.pendingTaskData.pendingTasksFromAPI.length){",
+        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksInMemory);",
         "    $data.pendingTaskData.pageId++;",
-        "    $data.pendingTaskData.pendingTasksForNextPage = $data.pendingTaskData.pendingTasksNextResults;",
-        "    $data.pendingTaskData.numberOfPendingTasksReturned = $data.pendingTaskData.pendingTasksForNextPage.length;",
-        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
+        "    $data.pendingTaskData.pendingTasksInMemory = $data.pendingTaskData.pendingTasksFromAPI;",
+        "    $data.pendingTaskData.numberOfPendingTasksInMemory = $data.pendingTaskData.pendingTasksInMemory.length;",
+        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
         "}",
         "",
         "// when there are no more pending tasks in the memory",
-        "if($data.pendingTaskData.numberOfPendingTasksReturned > 0 && $data.pendingTaskData.pendingTasksNextResults && $data.pendingTaskData.pendingTasksNextResults.length == 0){",
-        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksForNextPage);",
-        "    $data.pendingTaskData.pendingTasksForNextPage = undefined;",
-        "    $data.pendingTaskData.pendingTasksNextResults = undefined;",
-        "    $data.pendingTaskData.numberOfPendingTasksReturned = 0;",
+        "if($data.pendingTaskData.numberOfPendingTasksInMemory > 0 && $data.pendingTaskData.pendingTasksFromAPI && $data.pendingTaskData.pendingTasksFromAPI.length == 0){",
+        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksInMemory);",
+        "    $data.pendingTaskData.pendingTasksInMemory = undefined;",
+        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
+        "    $data.pendingTaskData.numberOfPendingTasksInMemory = 0;",
         "}"
       ],
       "exposed" : false
@@ -6798,10 +6798,10 @@
       "value" : [
         "return {",
         "    doneTask: {},",
-        "    doneTasksForNextPage: [],",
+        "    doneTasksInMemory: [],",
         "    pageId: 0, ",
         "    numberOfDoneTasksPerPage: 10,",
-        "    numberOfDoneTasksReturned: 0,",
+        "    numberOfDoneTasksInMemory: 0,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -6823,7 +6823,7 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
         "    },",
-        "    doneTasksNextResults: undefined,",
+        "    doneTasksFromAPI: undefined,",
         "    displayedDoneTasks: []",
         "};"
       ],
@@ -6876,31 +6876,31 @@
         "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskUrl.slice(0, $data.doneTaskData.numberOfDoneTasksPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
         "    $data.doneTaskData.pageId = 2;\r",
-        "    $data.doneTaskData.doneTasksForNextPage = $data.doneTaskUrl.slice($data.doneTaskData.numberOfDoneTasksPerPage);\r",
+        "    $data.doneTaskData.doneTasksInMemory = $data.doneTaskUrl.slice($data.doneTaskData.numberOfDoneTasksPerPage);\r",
         "    // saving the other half to be displayed later\r",
-        "    $data.doneTaskData.numberOfDoneTasksReturned = $data.doneTaskData.doneTasksForNextPage.length;\r",
+        "    $data.doneTaskData.numberOfDoneTasksInMemory = $data.doneTaskData.doneTasksInMemory.length;\r",
         "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
         "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
         "    $data.doneTaskUrl = undefined;\r",
-        "    $data.doneTaskData.doneTasksNextResults = undefined;\r",
+        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// add next page of done tasks to the list of next done tasks to display\r",
         "// display the next done tasks from the memory\r",
-        "if($data.doneTaskData.doneTasksNextResults && $data.doneTaskData.doneTasksNextResults.length){\r",
-        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksForNextPage);\r",
+        "if($data.doneTaskData.doneTasksFromAPI && $data.doneTaskData.doneTasksFromAPI.length){\r",
+        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksInMemory);\r",
         "    $data.doneTaskData.pageId++;\r",
-        "    $data.doneTaskData.doneTasksForNextPage = $data.doneTaskData.doneTasksNextResults;\r",
-        "    $data.doneTaskData.numberOfDoneTasksReturned = $data.doneTaskData.doneTasksForNextPage.length;\r",
-        "    $data.doneTaskData.doneTasksNextResults = undefined;\r",
+        "    $data.doneTaskData.doneTasksInMemory = $data.doneTaskData.doneTasksFromAPI;\r",
+        "    $data.doneTaskData.numberOfDoneTasksInMemory = $data.doneTaskData.doneTasksInMemory.length;\r",
+        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
         "}\r",
         "\r",
         "// when there are no more done tasks in the memory\r",
-        "if($data.doneTaskData.numberOfDoneTasksReturned > 0 && $data.doneTaskData.doneTasksNextResults && $data.doneTaskData.doneTasksNextResults.length == 0){\r",
-        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksForNextPage);\r",
-        "    $data.doneTaskData.doneTasksForNextPage = undefined;\r",
-        "    $data.doneTaskData.doneTasksNextResults = undefined;\r",
-        "    $data.doneTaskData.numberOfDoneTasksReturned = 0;\r",
+        "if($data.doneTaskData.numberOfDoneTasksInMemory > 0 && $data.doneTaskData.doneTasksFromAPI && $data.doneTaskData.doneTasksFromAPI.length == 0){\r",
+        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksInMemory);\r",
+        "    $data.doneTaskData.doneTasksInMemory = undefined;\r",
+        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
+        "    $data.doneTaskData.numberOfDoneTasksInMemory = 0;\r",
         "}"
       ],
       "exposed" : false

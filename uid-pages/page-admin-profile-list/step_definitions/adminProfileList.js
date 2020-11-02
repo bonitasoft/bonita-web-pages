@@ -141,6 +141,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
             createRouteWithResponse(userSearchUrl + 'Helen Kell', 'userListRoute', 'userList');
             break;
+        case 'user list with 10 elements':
+            createRouteWithResponse(userSearchUrl + 'U', 'userListWith10ElementsRoute', 'userListWith10Elements');
+            createRouteWithResponse(userSearchUrl + 'Us', 'userListRoute', 'userList');
+            break;
         case 'add user and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addUserMemberRoute', 'POST');
             createRoute(userMappingUrl + '&t=1*', 'refreshUserMappingUrlRoute');
@@ -196,6 +200,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(roleSearchUrl + 'E', 'roleListRoute', 'roleList');
             createRouteWithResponse(roleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
             break;
+        case 'role list with 10 elements':
+            createRouteWithResponse(roleSearchUrl + 'E', 'roleListWith10ElementsRoute', 'roleListWith10Elements');
+            createRouteWithResponse(roleSearchUrl + 'Ex', 'roleListRoute', 'roleList');
+            break;
         case 'add role and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addRoleMemberRoute', 'POST');
             createRoute(roleMappingUrl + '&t=1*', 'refreshRoleMappingUrlRoute');
@@ -250,6 +258,10 @@ given("The response {string} is defined", (responseType) => {
         case 'group list':
             createRouteWithResponse(groupSearchUrl + 'A', 'groupListRoute', 'groupList');
             createRouteWithResponse(groupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            break;
+        case 'group list with 10 elements':
+            createRouteWithResponse(groupSearchUrl + 'A', 'groupListWith10ElementsRoute', 'groupListWith10Elements');
+            createRouteWithResponse(groupSearchUrl + 'As', 'groupListRoute', 'groupList');
             break;
         case 'add group and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addGroupMemberRoute', 'POST');
@@ -307,6 +319,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(membershipRoleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
             createRouteWithResponse(membershipGroupSearchUrl + 'A', 'groupListRoute', 'groupList');
             createRouteWithResponse(membershipGroupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            break;
+        case 'membership list with 10 elements':
+            createRouteWithResponse(membershipRoleSearchUrl + 'E', 'roleListWith10ElementsRoute', 'roleListWith10Elements');
+            createRouteWithResponse(membershipRoleSearchUrl + 'Ex', 'roleListRoute', 'roleList');
+            createRouteWithResponse(membershipGroupSearchUrl + 'A', 'groupListWith10ElementsRoute', 'groupListWith10Elements');
+            createRouteWithResponse(membershipGroupSearchUrl + 'Ac', 'groupListRoute', 'groupList');
             break;
         case 'add membership and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addMembershipMemberRoute', 'POST');
@@ -1014,6 +1032,10 @@ then("The {string} list is displayed", () => {
     cy.get('.modal-content .dropdown-menu').should('be.visible');
 });
 
+then("The {string} list is not displayed", () => {
+    cy.get('.modal-content .dropdown-menu').should('not.be.visible');
+});
+
 then("The mapped user list is displayed", () => {
     cy.get('.modal-body .profile-item').should('have.length', 10);
     cy.get('.modal-body .profile-item').eq(0).within(() => {
@@ -1302,4 +1324,15 @@ then("Some features are not available", () => {
     cy.get('.glyphicon-pencil').should('not.exist');
     cy.get('.glyphicon-export').should('not.exist');
     cy.get('.glyphicon-trash').should('not.exist');
+});
+
+then("The type more message is displayed and disabled", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').scrollIntoView();
+    cy.get('.dropdown-menu button').eq(10).contains('Or type more...');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('be.disabled');
+});
+
+then("The type more message is not displayed", () => {
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
 });

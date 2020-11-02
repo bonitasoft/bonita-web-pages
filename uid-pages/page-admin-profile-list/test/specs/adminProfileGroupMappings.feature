@@ -135,6 +135,21 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I click on the remove "group" button in modal
     Then A list of 10 "Groups" mapped is displayed
 
+  Scenario: The groups mapping modal should display information about typing more
+    Given The response "default filter" is defined
+    And The response "mapping" is defined
+    And The response "group list with 10 elements" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit group mapping button for first profile
+    Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
+    And The "group selection" list is not displayed
+    When I type "A" in the selection input
+    Then The "group" list is displayed
+    And The type more message is displayed and disabled
+    When I type "s" in the selection input
+    Then The type more message is not displayed
+
   Scenario: The edit group mapping modal adds groups successfully
     Given The response "default filter" is defined
     And The response "group list" is defined
