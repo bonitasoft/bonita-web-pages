@@ -12,12 +12,14 @@ const skipTaskUrl = 'API/bpm/activity/';
 const replayTaskUrl = 'API/bpm/activityReplay/1';
 const refreshFailedTaskUrl = failedTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 const refreshArchivedTaskUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
+const featureListUrl = 'API/system/feature?p=0&c=100';
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
     switch (responseType) {
         case 'empty done task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default details':
             createRouteWithResponse(failedTaskUrl + defaultFilters, 'failedTaskDetailsRoute', 'failedTaskDetails');
@@ -76,6 +78,9 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             break;
         case '404 during replay':
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '404');
+            break;
+        case 'failed task':
+            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -425,4 +430,8 @@ then("Only the first and the third connector will be skipped", () => {
     cy.get('.modal-body input[type="radio"]').eq(1).should('be.checked');
     cy.get('.modal-body input[type="radio"]').eq(2).should('be.checked');
     cy.get('.modal-body input[type="radio"]').eq(5).should('be.checked');
+});
+
+then("There is no {string} button", (btnLabel) => {
+    cy.contains('button', btnLabel).should('not.exist');
 });

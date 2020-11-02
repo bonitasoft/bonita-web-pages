@@ -11,12 +11,14 @@ const formMappingUrl = "API/form/mapping?c=10&p=0&f=processDefinitionId=88352229
 const session = "API/system/session/unusedId";
 const identity = "API/identity/user/4";
 const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
+const featureListUrl = 'API/system/feature?p=0&c=100';
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
     switch (responseType) {
         case 'empty done task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default details':
             createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
@@ -58,6 +60,9 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(session, 'sessionRoute', 'session');
             createRouteWithResponse(identity, 'identityRoute', 'identity');
             createRouteWithResponseAndMethod(taskWithoutFormExecution, 'taskWithoutFormRoute', 'emptyResult', 'POST');
+            break;
+        case 'pending task':
+            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");

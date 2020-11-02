@@ -358,3 +358,8 @@ Feature: The Admin Profiles in desktop resolution
     Then I see the mapping information for second profile
     When I click on show organization mapping button for first profile
     Then I see the mapping information for first profile
+
+  Scenario: The do for button is not displayed when feature does not exist
+    Given The response "default filter with missing features" is defined
+    When I visit the admin profiles page
+    Then Some features are not available

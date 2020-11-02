@@ -23,6 +23,7 @@ const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_i
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
 const defaultMembershipMappingFilters = '&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
+const featureListUrl = 'API/system/feature?p=0&c=100';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -38,6 +39,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
+            createRouteWithResponse(urlPrefix + featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'sort by':
             createRoute(profilesUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
@@ -374,6 +376,9 @@ given("The response {string} is defined", (responseType) => {
         case 'member does not exist during edit membership mapping':
             createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'memberDoesNotExistException','POST', 500);
+            break;
+        case 'default filter with missing features':
+            createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
             break;
         default:
             throw new Error("Unsupported case");
@@ -1312,6 +1317,13 @@ then("I see {string} membership mapping error message", (error) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
+});
+
+then("Some features are not available", () => {
+    cy.contains('button', 'Add').should('not.exist');
+    cy.get('.glyphicon-pencil').should('not.exist');
+    cy.get('.glyphicon-export').should('not.exist');
+    cy.get('.glyphicon-trash').should('not.exist');
 });
 
 then("The type more message is displayed and disabled", () => {
