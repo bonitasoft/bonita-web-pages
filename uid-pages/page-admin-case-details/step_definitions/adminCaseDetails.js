@@ -160,7 +160,7 @@ then("The case details have the correct information", () => {
     cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
     cy.get('.item-label').contains('Process name');
     cy.get('.item-value').contains('Pool');
-    cy.get('.item-label').contains('Display name');
+    cy.get('.item-label').contains('Process display name');
     cy.get('.item-value').contains('Pool display name');
     cy.get('.item-label').contains('Version');
     cy.get('.item-value').contains('1.0');
