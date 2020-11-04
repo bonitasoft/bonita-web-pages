@@ -46,6 +46,16 @@ Feature: The failed flow nodes list in desktop resolution
     When I put "Search term with no match" in "search" filter field
     Then No failed flow nodes are available
 
+  Scenario: The refresh button works correctly for failed flow nodes
+    Given The filter response "default filter" is defined
+    And The filter response "enable load more" is defined
+    When I visit admin task list page
+    Then A list of "10" items is displayed
+    When I click on Load more flow nodes button
+    Then A list of "20" items is displayed
+    When I click on refresh
+    Then A list of "10" items is displayed
+
   Scenario: The failed flow node row has the correct link to flow node details
     Given The filter response "default filter" is defined
     When I visit admin task list page
