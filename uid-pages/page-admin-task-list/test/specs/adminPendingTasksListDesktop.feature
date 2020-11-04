@@ -66,7 +66,18 @@ Feature: The pending tasks list in desktop resolution
     When I put "Search term with no match" in "search" filter field for pending tasks
     Then No pending tasks are available
 
-  Scenario: The pending tasks row has the correct link to flow node details
+  Scenario: The refresh button works correctly for done tasks
+    Given The filter response "default filter" is defined for pending tasks
+    And The filter response "enable load more" is defined for pending tasks
+    When I visit admin task list page
+    And I click on "Pending tasks" tab
+    Then A list of "10" items is displayed
+    When I click on Load more pending tasks button
+    Then A list of "20" items is displayed
+    When I click on refresh
+    Then A list of "10" items is displayed
+
+  Scenario: The pending tasks row has the correct link to pending task details
     Given The filter response "default filter" is defined for pending tasks
     When I visit admin task list page
     And I click on "Pending tasks" tab
