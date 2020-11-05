@@ -213,10 +213,10 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
             case 'Resource name (Desc)':
                 cy.get('select').eq(1).select('1');
                 break;
-            case 'Updated - newest first':
+            case 'Updated (Newest first)':
                 cy.get('select').eq(1).select('2');
                 break;
-            case 'Updated - oldest first':
+            case 'Updated (Oldest first)':
                 cy.get('select').eq(1).select('3');
                 break;
             default:
@@ -383,10 +383,10 @@ then("No resources are available", () => {
 
 then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
-        case 'Updated - newest first':
+        case 'Updated (Newest first)':
             cy.wait('@resourcesRoute');
             break;
-        case 'Updated - oldest first':
+        case 'Updated (Oldest first)':
             cy.wait('@sortByUpdateDateAscRoute');
             break;
         case 'Resource name (Asc)':
