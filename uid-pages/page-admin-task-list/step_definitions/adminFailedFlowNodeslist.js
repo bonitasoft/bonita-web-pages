@@ -184,6 +184,10 @@ when("I click on Load more flow nodes button", () => {
     cy.get('button').contains('Load more flow nodes').click();
 });
 
+when("I click on refresh", ()=>{
+    cy.get('button i.glyphicon-repeat:visible').click();
+});
+
 then("The failed flow nodes list have the correct information", () => {
     cy.get('.task-item').eq(0).within(() => {
         // Check that the element exist.
