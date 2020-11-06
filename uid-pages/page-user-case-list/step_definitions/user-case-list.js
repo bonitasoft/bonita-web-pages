@@ -432,10 +432,10 @@ function selectOpenCasesSortByOption(filterValue) {
         case 'Process name (Desc)':
             cy.get('select:visible').eq(1).select('3');
             break;
-        case 'Start date - newest first':
+        case 'Start date (Newest first)':
             cy.get('select:visible').eq(1).select('4');
             break;
-        case 'Start date - oldest first':
+        case 'Start date (Oldest first)':
             cy.get('select:visible').eq(1).select('5');
             break;
     }
@@ -456,16 +456,16 @@ function selectArchivedCasesSortByOption(filterValue) {
         case 'Process name (Desc)':
             cy.get('select:visible').eq(1).select('3');
             break;
-        case 'Start date - newest first':
+        case 'Start date (Newest first)':
             cy.get('select:visible').eq(1).select('4');
             break;
-        case 'Start date - oldest first':
+        case 'Start date (Oldest first)':
             cy.get('select:visible').eq(1).select('5');
             break;
-        case 'End date - newest first':
+        case 'End date (Newest first)':
             cy.get('select:visible').eq(1).select('6');
             break;
-        case 'End date - oldest first':
+        case 'End date (Oldest first)':
             cy.get('select:visible').eq(1).select('7');
             break;
     }

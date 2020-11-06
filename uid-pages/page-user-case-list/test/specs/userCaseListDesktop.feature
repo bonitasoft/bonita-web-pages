@@ -77,9 +77,9 @@ Feature: The user open case list in desktop resolution
     Then A list of open cases sorted by "openCasesSortedByProcessNameAsc" is displayed
     When I select "Process name (Desc)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCasesSortedByProcessNameDesc" is displayed
-    When I select "Start date - newest first" in "open cases sort by" filter for "open" cases
+    When I select "Start date (Newest first)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCasesSortedByStartDateNew" is displayed
-    When I select "Start date - oldest first" in "open cases sort by" filter for "open" cases
+    When I select "Start date (Oldest first)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCases" is displayed
 
   Scenario: The user archived case list sort by works correctly
@@ -105,13 +105,13 @@ Feature: The user open case list in desktop resolution
     Then A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is displayed
     When I select "Process name (Desc)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByProcessNameDesc" is displayed
-    When I select "Start date - newest first" in "archived cases sort by" filter for "archived" cases
+    When I select "Start date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is displayed
-    When I select "Start date - oldest first" in "archived cases sort by" filter for "archived" cases
+    When I select "Start date (Oldest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCases" is displayed
-    When I select "End date - newest first" in "archived cases sort by" filter for "archived" cases
+    When I select "End date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is displayed
-    When I select "End date - oldest first" in "archived cases sort by" filter for "archived" cases
+    When I select "End date (Oldest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is displayed
 
   Scenario: Search by process name and search keys works correctly for open cases
