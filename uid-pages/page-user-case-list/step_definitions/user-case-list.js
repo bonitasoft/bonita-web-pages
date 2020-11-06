@@ -1,5 +1,6 @@
 const url = 'build/dist/resources/index.html';
 const checkNumberOfCases = (numberOfCases) => { cy.get('.case-item:visible').should('have.length', numberOfCases); }
+const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-details?id=';
 
 given("A list of open cases is available", ()=> {
     cy.server();
@@ -480,7 +481,7 @@ when("I filter only started by me", ()=>{
 });
 
 when("I search {string} in search filter", (searchValue)=>{
-    cy.get('pb-input input:visible').type(searchValue);
+    cy.get('pb-input input:visible').eq(1).type(searchValue);
 });
 
 when("I click on Load more cases button", ()=>{
@@ -489,6 +490,14 @@ when("I click on Load more cases button", ()=>{
 
 when("I click on refresh", ()=>{
     cy.get('button i.glyphicon-repeat:visible').click();
+});
+
+when("I search {string} in caseId input", (searchValue)=>{
+    cy.get('pb-input input:visible').eq(0).type(searchValue);
+});
+
+when("I click on go to case details button", ()=>{
+    cy.get('a .glyphicon-share-alt').click();
 });
 
 then("A list of open cases is displayed", ()=>{
@@ -782,4 +791,16 @@ then("The open case list have the correct item shown number", () => {
 then("The archived case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 4').should('be.visible');
     cy.contains('div', 'Cases shown: 5').should('be.hidden');
+});
+
+then("The go to case details button is disabled", () => {
+    cy.get('.isDisabled a').should('have.css', 'pointer-events', 'none');
+});
+
+then("The go to case details button is enabled", () => {
+    cy.get('.isDisabled').should('not.exist');
+});
+
+then("The case details button has correct href with {string}", (caseId) => {
+    cy.get('a .glyphicon-share-alt').parent().should('have.attr', 'href', caseDetailsUrl + caseId);
 });
