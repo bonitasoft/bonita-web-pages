@@ -153,6 +153,23 @@ Feature: The user open case list in desktop resolution
     When I search "Incorrect" in search filter
     Then No archived cases are available
 
+  Scenario: The view open case details button works correctly
+    Given A list of open cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    Then A list of open cases is displayed
+    And The view case details button in the list has correct href with "2001"
+
+  Scenario: The view archived case details button works correctly
+    Given A list of archived cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    And I click on "Archived cases" tab
+    Then A list of archived cases is displayed
+    And The view case details button in the list has correct href with "1004"
+
   Scenario: The open case id redirect to the case details correctly
     Given A list of open cases is available
     And A user session is available
@@ -162,7 +179,7 @@ Feature: The user open case list in desktop resolution
     And The go to case details button is disabled
     When I search "2001" in caseId input
     Then The go to case details button is enabled
-    And The case details button has correct href with "2001"
+    And The view case details button at top has correct href with "2001"
 
   Scenario: The archived case id redirect to the case details correctly
     Given A list of archived cases is available
@@ -174,7 +191,7 @@ Feature: The user open case list in desktop resolution
     And The go to case details button is disabled
     When I search "1004" in caseId input
     Then The go to case details button is enabled
-    And The case details button has correct href with "1004"
+    And The view case details button at top has correct href with "1004"
 
   Scenario: Show open cases only started by me works correctly
     Given A list of open cases is available
