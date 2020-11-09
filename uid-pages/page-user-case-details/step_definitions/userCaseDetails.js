@@ -1,5 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
+const urlWithoutId = urlPrefix + 'resources/index.html';
+const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
@@ -65,6 +67,14 @@ given("The response {string} is defined", (responseType) => {
 
 when("I visit the user case details page", () => {
     cy.visit(url);
+});
+
+when("I visit the user case details page without an id", () => {
+    cy.visit(urlWithoutId);
+});
+
+when("I visit the user case details page with an empty id", () => {
+    cy.visit(urlWithEmptyId);
 });
 
 when("I click on case overview button", () => {
@@ -172,4 +182,8 @@ then("The input placeholder is {string}", (placeholder) => {
 
 then("The input placeholder is not {string}", (placeholder) => {
     cy.get('input').should('not.have.attr', 'placeholder', placeholder);
+});
+
+then("I see that {string}", (message) => {
+    cy.contains('div', message).should('be.visible');
 });

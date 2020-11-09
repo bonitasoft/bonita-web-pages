@@ -1,5 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
+const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
+const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
@@ -116,6 +118,14 @@ when("I visit the admin case details page", () => {
     cy.visit(url);
 });
 
+when("I visit the admin case details page without an id", () => {
+    cy.visit(urlWithoutId);
+});
+
+when("I visit the admin case details page with an empty id", () => {
+    cy.visit(urlWithEmptyId);
+});
+
 when("I click on case overview button", () => {
     cy.get('a').contains('Overview').click();
 });
@@ -201,15 +211,15 @@ then("The monitoring have the correct information for {string} tasks", (numberOf
     // Check that the element exist.
     switch (numberOfTasks) {
         case "9":
-            cy.wait('@9TasksRoute');
+            cy.wait(['@9TasksRoute', '@9FlowNodeRoute', '@9HumanTask']);
             cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
             break;
         case "10":
-            cy.wait('@10TasksRoute');
+            cy.wait(['@10TasksRoute', '@10FlowNodeRoute', '@10HumanTask']);
             cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
             break;
         case "11":
-            cy.wait('@10+TasksRoute');
+            cy.wait(['@10+TasksRoute', '@10+FlowNodeRoute', '@10+HumanTask']);
             cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
             break;
         case "0":
@@ -410,4 +420,8 @@ then("The value for variable 1 is not changed", () => {
         cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('Description about the leave request.');
     });
+});
+
+then("I see that {string}", (message) => {
+    cy.contains('div', message).should('be.visible');
 });
