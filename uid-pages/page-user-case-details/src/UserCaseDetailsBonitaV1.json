@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "UserCaseDetailsBonitaV1",
   "name" : "UserCaseDetailsBonitaV1",
-  "lastUpdate" : 1603355399251,
+  "lastUpdate" : 1604918117764,
   "rows" : [
     [
       {
@@ -49,8 +49,8 @@
             "value" : "mt-20"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!caseDetailsCtrl.isCaseFound()"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -2323,6 +2323,110 @@
           [ ]
         ]
       }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "caseDetailsCtrl.isCaseFound() || !caseIdQueryParameter"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"No case found with id:\" | translate }} <b>{{caseIdQueryParameter}}</b></div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "ce05f176-9b56-4c9d-805f-9784877cacb7",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "caseDetailsCtrl.isCaseFound() || caseIdQueryParameter"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"Case id not provided. Unable to retrieve the case.\" | translate }}</div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "a1f369aa-dc88-491e-9300-a0cc774d60b8",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
     ]
   ],
   "assets" : [
@@ -2350,7 +2454,10 @@
         "",
         "return {",
         "    getUserDetailsQueryParameters: function(isArchived){",
-        "        if(isArchived) {",
+        "        if ($data.caseIdQueryParameter === \"\") {",
+        "            return undefined;",
+        "        }",
+        "        if (isArchived) {",
         "            return \"?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=\" + $data.caseIdQueryParameter;",
         "        }",
         "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by\";",
@@ -2362,7 +2469,7 @@
         "      return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
-        "        if(!user){",
+        "        if (!user){",
         "            return \"\";",
         "        }",
         "        ",
@@ -2380,10 +2487,13 @@
         "        return getDisplayName(user);",
         "    },",
         "    getOpenOrArchivedCase: function() {",
-        "        return  isArchived ? $data.archivedCase[0] : $data.openCase;",
+        "        return isArchived ? $data.archivedCase[0] : $data.openCase;",
         "    },",
         "    isArchived: function() {",
         "        return isArchived;",
+        "    },",
+        "    isCaseFound: function() {",
+        "        return (!!$data.archivedCase && !!$data.archivedCase[0]) || !!$data.openCase;",
         "    }",
         "};"
       ],
