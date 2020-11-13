@@ -9,8 +9,9 @@ const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
-const processVariableUrl = 'API/bpm/caseVariable?p=0&c=999&f=case_id=1';
+const processVariableUrl = 'API/bpm/caseVariable?p=0&c=20&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
+const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -72,8 +73,38 @@ given("The response {string} is defined", (responseType) => {
         case '500 error':
             createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
             break;
+        case 'process variables load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariablesRoute', 'processVariables', 3, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+            break;
+        case 'process variables 20 load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'process variables 30 load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createProcessVariablesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + defaultProcessVariablesUrl + 'p=' + page + '&c=' + count + '&f=case_id=1';
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
     }
 
     function createRoute(urlSuffix, routeName) {
@@ -163,6 +194,10 @@ when("I modify the value for variable {string}", (variableNumber) => {
 
 when("I click on {string} button in the modal", (buttonLabel) => {
     cy.get('.modal button').contains(buttonLabel).click();
+});
+
+when("I click on Load more variables button", () => {
+    cy.get('button').contains('Load more variables').click();
 });
 
 then("The case details have the correct information", () => {
@@ -424,4 +459,12 @@ then("The value for variable 1 is not changed", () => {
 
 then("I see that {string}", (message) => {
     cy.contains('div', message).should('be.visible');
+});
+
+then("A list of {int} items is displayed", (nbrOfItems) => {
+    cy.get('.process-variable-item').should('have.length', nbrOfItems);
+});
+
+then("The load more variables button is disabled", () => {
+    cy.get('button').contains('Load more variables').should('be.disabled');
 });
