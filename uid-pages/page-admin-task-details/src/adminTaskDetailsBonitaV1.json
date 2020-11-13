@@ -3,7 +3,7 @@
  "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1604333473682,
+  "lastUpdate" : 1604917518891,
   "rows" : [
     [
       {
@@ -49,8 +49,8 @@
             "value" : "mt-20"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!taskDetailsCtrl.isTaskFound()"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -4599,6 +4599,110 @@
         "rows" : [
           [ ]
         ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "taskDetailsCtrl.isTaskFound() || !taskIdQueryParameter"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"No task found with id:\" | translate }} <b>{{taskIdQueryParameter}}</b></div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "50abbe49-60a0-40f2-bfd8-003ada51b153",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "taskDetailsCtrl.isTaskFound() || taskIdQueryParameter"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i> {{\"Task id not provided. Unable to retrieve the task.\" | translate }}</div>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "7831e44c-7ce2-47f3-8db9-0764eb72bd42",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -9366,6 +9470,9 @@
         "return {",
         "    getOpenOrArchivedTask: getOpenOrArchivedTask,",
         "    getOpenTaskUrl: function() {",
+        "        if ($data.taskIdQueryParameter === \"\") {",
+        "            return undefined;",
+        "        }",
         "        return \"../API/bpm/flowNode/\" + $data.taskIdQueryParameter + \"?d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=\" + $data.taskDetailsData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
@@ -9406,6 +9513,9 @@
         "    },",
         "    shouldDisplayUnassignButton: function() {",
         "        return isTaskAssignable() && isTaskAssigned();",
+        "    },",
+        "    isTaskFound: function() {",
+        "        return (!!$data.archivedTaskDetails && !!$data.archivedTaskDetails[0]) || !!$data.taskDetails;",
         "    }",
         "};"
       ],
