@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminCaseDetailsBonitaV2",
   "name" : "adminCaseDetailsBonitaV2",
-  "lastUpdate" : 1604918073633,
+  "lastUpdate" : 1605273569074,
   "rows" : [
     [
       {
@@ -2769,7 +2769,7 @@
                                   },
                                   "repeatedCollection" : {
                                     "type" : "variable",
-                                    "value" : "processVariables"
+                                    "value" : "processVariablesData.displayedProcessVariables"
                                   }
                                 },
                                 "reference" : "85537bd4-0cde-4672-8b0c-d4281acc242c",
@@ -3219,11 +3219,11 @@
                                               },
                                               "disabled" : {
                                                 "type" : "expression",
-                                                "value" : "!processVariableCtrl.isEditable($item.type)"
+                                                "value" : "!processVariablesCtrl.isEditable($item.type)"
                                               },
                                               "label" : {
                                                 "type" : "interpolation",
-                                                "value" : "<i class=\"glyphicon glyphicon-pencil\" title=\"{{processVariableCtrl.getUpdateButtonTooltip($item)}}\"></i>"
+                                                "value" : "<i class=\"glyphicon glyphicon-pencil\" title=\"{{processVariablesCtrl.getUpdateButtonTooltip($item)}}\"></i>"
                                               },
                                               "alignment" : {
                                                 "type" : "constant",
@@ -3271,7 +3271,7 @@
                                               },
                                               "modalId" : {
                                                 "type" : "expression",
-                                                "value" : "processVariableCtrl.initUpdateProcessVariableModal($item)"
+                                                "value" : "processVariablesCtrl.initUpdateProcessVariableModal($item)"
                                               },
                                               "collectionPosition" : {
                                                 "type" : "constant",
@@ -3307,11 +3307,63 @@
                                 "propertyValues" : {
                                   "cssClasses" : {
                                     "type" : "constant",
+                                    "value" : "text-primary item-label pt-5"
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "processVariablesData.displayedProcessVariables.length === 0"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "{{\"Process variables shown\"|uiTranslate}}: {{processVariablesData.displayedProcessVariables.length}}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "right"
+                                  }
+                                },
+                                "reference" : "ab6e437b-3462-47b9-8c90-c6d5183cff1a",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
                                     "value" : ""
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "processVariables && processVariables.length > 0"
+                                    "value" : "processVariablesData.displayedProcessVariables.length"
                                   },
                                   "text" : {
                                     "type" : "interpolation",
@@ -3329,6 +3381,97 @@
                                 "reference" : "a1a34e6e-ec93-44ac-98c5-d4c1fc021054",
                                 "hasValidationError" : false,
                                 "id" : "pbTitle"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "processVariablesData.displayedProcessVariables.length === 0"
+                                  },
+                                  "disabled" : {
+                                    "type" : "expression",
+                                    "value" : "processVariablesData.displayedProcessVariables.length % processVariablesData.numberOfProcessVariablesPerPage > 0 || processVariablesData.numberOfProcessVariablesInMemory === 0"
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Load more variables"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "center"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "link"
+                                  },
+                                  "action" : {
+                                    "type" : "constant",
+                                    "value" : "GET"
+                                  },
+                                  "assign" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "url" : {
+                                    "type" : "interpolation",
+                                    "value" : "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
+                                  },
+                                  "responseStatusCode" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "dataToSend" : {
+                                    "type" : "constant"
+                                  },
+                                  "dataFromSuccess" : {
+                                    "type" : "variable",
+                                    "value" : "processVariablesData.processVariablesFromAPI"
+                                  },
+                                  "closeOnSuccess" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "dataFromError" : {
+                                    "type" : "variable",
+                                    "value" : "processVariablesData.processVariablesFailedResponse"
+                                  },
+                                  "targetUrlOnSuccess" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "collectionToModify" : {
+                                    "type" : "variable"
+                                  },
+                                  "modalId" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "collectionPosition" : {
+                                    "type" : "constant",
+                                    "value" : "Last"
+                                  },
+                                  "valueToAdd" : {
+                                    "type" : "constant"
+                                  },
+                                  "removeItem" : {
+                                    "type" : "variable"
+                                  }
+                                },
+                                "reference" : "4eeb31e6-d4ca-4d68-9088-9767fc9b58cf",
+                                "hasValidationError" : false,
+                                "id" : "pbButton"
                               }
                             ]
                           ]
@@ -3563,7 +3706,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Edit the value of\" | uiTranslate}} {{processVariableData.item.name}}"
+                          "value" : "{{\"Edit the value of\" | uiTranslate}} {{processVariablesData.item.name}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -3664,7 +3807,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "processVariableData.item.type"
+                          "value" : "processVariablesData.item.type"
                         },
                         "type" : {
                           "type" : "constant",
@@ -3702,7 +3845,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "processVariableCtrl.isBoolean(processVariableData.item.type)"
+                          "value" : "processVariablesCtrl.isBoolean(processVariablesData.item.type)"
                         },
                         "required" : {
                           "type" : "constant",
@@ -3741,7 +3884,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "processVariableData.item.value"
+                          "value" : "processVariablesData.item.value"
                         },
                         "type" : {
                           "type" : "constant",
@@ -3779,7 +3922,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!processVariableCtrl.isBoolean(processVariableData.item.type)"
+                          "value" : "!processVariablesCtrl.isBoolean(processVariablesData.item.type)"
                         },
                         "disabled" : {
                           "type" : "constant",
@@ -3824,7 +3967,7 @@
                         },
                         "selectedValue" : {
                           "type" : "variable",
-                          "value" : "processVariableData.item.value"
+                          "value" : "processVariablesData.item.value"
                         }
                       },
                       "reference" : "3df0c0f3-c4e5-4a52-a81f-f04d3ae4ccd0",
@@ -3848,7 +3991,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "processVariableData.statusCode !== 500"
+                          "value" : "processVariablesData.statusCode !== 500"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -3900,7 +4043,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "processVariableData.statusCode !== 403"
+                          "value" : "processVariablesData.statusCode !== 403"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -3952,7 +4095,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!processVariableData.statusCode|| processVariableData.statusCode === 200"
+                          "value" : "!processVariablesData.statusCode|| processVariablesData.statusCode === 200"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4004,7 +4147,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "processVariableData.statusCode !== 200"
+                          "value" : "processVariablesData.statusCode !== 200"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4056,7 +4199,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!processVariableData.updatingItem"
+                          "value" : "!processVariablesData.updatingItem"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4166,19 +4309,19 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "{{processVariableCtrl.getUpdateUrl()}}"
+                          "value" : "{{processVariablesCtrl.getUpdateUrl()}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
-                          "value" : "processVariableData.statusCode"
+                          "value" : "processVariablesData.statusCode"
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "processVariableCtrl.getUpdatePayload(processVariableData.item.value)"
+                          "value" : "processVariablesCtrl.getUpdatePayload(processVariablesData.item.value)"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
-                          "value" : "processVariableData.successUpdateResponse"
+                          "value" : "processVariablesData.successUpdateResponse"
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
@@ -4186,7 +4329,7 @@
                         },
                         "dataFromError" : {
                           "type" : "variable",
-                          "value" : "processVariableData.failedUpdateResponse"
+                          "value" : "processVariablesData.failedUpdateResponse"
                         },
                         "targetUrlOnSuccess" : {
                           "type" : "interpolation"
@@ -4236,7 +4379,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "{{processVariableCtrl.getChangeButtonLabel()}}"
+                          "value" : "{{processVariablesCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4500,11 +4643,11 @@
     "processVariables" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/caseVariable?p=0&c=999&f=case_id={{caseIdQueryParameter}}&t={{processVariableData.timestamp}}"
+        "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(0)}}&t={{processVariablesData.timestamp}}"
       ],
       "exposed" : false
     },
-    "processVariableCtrl" : {
+    "processVariablesCtrl" : {
       "type" : "expression",
       "value" : [
         "var isEditable = function(type) {",
@@ -4536,25 +4679,37 @@
         "};",
         "",
         "return {",
+        "    processVariablesQueryParameters: function(pageId) {",
+        "        var processVariablesPerPage = $data.processVariablesData.numberOfProcessVariablesPerPage;",
+        "        ",
+        "        if (pageId === 0) {",
+        "            //on first call we need load next page",
+        "            processVariablesPerPage *= 2;",
+        "        }",
+        "        ",
+        "        var queryParameters = \"p=\" + pageId + \"&c=\" + processVariablesPerPage +  \"&f=case_id=\" + $data.caseIdQueryParameter;",
+        "        ",
+        "        return queryParameters;",
+        "    },",
         "    getUpdateUrl : function() {",
-        "        $data.processVariableData.updatingItem = true;",
-        "        return \"../API/bpm/caseVariable/\" + $data.caseIdQueryParameter + \"/\" + $data.processVariableData.item.name;",
+        "        $data.processVariablesData.updatingItem = true;",
+        "        return \"../API/bpm/caseVariable/\" + $data.caseIdQueryParameter + \"/\" + $data.processVariablesData.item.name;",
         "    },",
         "    initUpdateProcessVariableModal : function(item) {",
-        "        $data.processVariableData.item = Object.assign({}, item);",
-        "        $data.processVariableData.statusCode = '';",
+        "        $data.processVariablesData.item = Object.assign({}, item);",
+        "        $data.processVariablesData.statusCode = '';",
         "        return \"updateItem\";",
         "    },",
         "    getErrorMessageFor500: function() {",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
         "    },",
         "    getUpdatePayload : function(newValue) {",
-        "        var newPayload = $data.processVariableData.item;",
+        "        var newPayload = $data.processVariablesData.item;",
         "        newPayload.value = newValue;",
         "        return newPayload;",
         "    },",
         "    getChangeButtonLabel: function() {",
-        "        var buttonLabel = $data.processVariableData.statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
+        "        var buttonLabel = $data.processVariablesData.statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "        return buttonLabel;",
         "    },",
         "    isEditable: function(type) {",
@@ -4582,7 +4737,7 @@
       ],
       "exposed" : false
     },
-    "processVariableData" : {
+    "processVariablesData" : {
       "type" : "expression",
       "value" : [
         "return {",
@@ -4591,20 +4746,65 @@
         "    updatingItem: false,",
         "    timestamp: 0,",
         "    successUpdateResponse: undefined,",
-        "    failedUpdateResponse: undefined",
+        "    failedUpdateResponse: undefined,",
+        "    pageId: 0,",
+        "    processVariablesInMemory: [],",
+        "    displayedProcessVariables: [],",
+        "    numberOfProcessVariablesPerPage: 10,",
+        "    numberOfProcessVariablesInMemory: 0,",
+        "    processVariablesFromAPI: undefined,",
+        "    processVariablesFailedResponse: \"\"",
         "};"
       ],
       "exposed" : false
     },
-    "processVariableHandler" : {
+    "processVariablesHandler" : {
       "type" : "expression",
       "value" : [
+        "//Process variables",
+        "// diplay the first page of processVariables on page load or when the filters change",
+        "if($data.processVariables) {",
+        "    // display half the elements loaded",
+        "    $data.processVariablesData.displayedProcessVariables = $data.processVariables.slice(0, $data.processVariablesData.numberOfProcessVariablesPerPage);",
+        "    // set the next page to be requested to 2 since the first page is in the memory",
+        "    $data.processVariablesData.pageId = 2;",
+        "    $data.processVariablesData.processVariablesInMemory = $data.processVariables.slice($data.processVariablesData.numberOfProcessVariablesPerPage);",
+        "    // saving the other half to be displayed later",
+        "    $data.processVariablesData.numberOfProcessVariablesInMemory = $data.processVariablesData.processVariablesInMemory.length;",
+        "    // set processVariables to undefined as the script is triggered when click on load more processVariables button",
+        "    // and to prevent this block of code from being executed (prevent resetting the displayedProcessVariables)",
+        "    $data.processVariables = undefined;",
+        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
+        "}",
+        "",
+        "// add next page of processVariables to the list of next processVariables to display",
+        "// display the next processVariables from the memory",
+        "if($data.processVariablesData.processVariablesFromAPI ",
+        "        && $data.processVariablesData.processVariablesFromAPI.length){",
+        "    $data.processVariablesData.displayedProcessVariables = $data.processVariablesData.displayedProcessVariables.concat($data.processVariablesData.processVariablesInMemory);",
+        "    $data.processVariablesData.pageId++;",
+        "    $data.processVariablesData.processVariablesInMemory = $data.processVariablesData.processVariablesFromAPI;",
+        "    $data.processVariablesData.numberOfProcessVariablesInMemory = $data.processVariablesData.processVariablesInMemory.length;",
+        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
+        "}",
+        "",
+        "// when there are no more processVariables in the memory",
+        "if($data.processVariablesData.numberOfProcessVariablesInMemory > 0 ",
+        "        && (($data.processVariablesData.processVariablesFromAPI ",
+        "        && $data.processVariablesData.processVariablesFromAPI.length === 0) ",
+        "        || $data.processVariablesData.processVariablesFailedResponse)){",
+        "    $data.processVariablesData.displayedProcessVariables = $data.processVariablesData.displayedProcessVariables.concat($data.processVariablesData.processVariablesInMemory);",
+        "    $data.processVariablesData.processVariablesInMemory = undefined;",
+        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
+        "    $data.processVariablesData.numberOfProcessVariablesInMemory = 0;",
+        "}",
+        "",
         "// After the item is updated",
-        "if($data.processVariableData.statusCode !== '' && $data.processVariableData.updatingItem){",
-        "    $data.processVariableData.updatingItem = false;",
-        "    $data.processVariableData.timestamp = new Date().getTime();",
+        "if($data.processVariablesData.statusCode !== '' && $data.processVariablesData.updatingItem){",
+        "    $data.processVariablesData.updatingItem = false;",
+        "    $data.processVariablesData.timestamp = new Date().getTime();",
         "    setTimeout(function() {",
-        "        $data.processVariableData.statusCode = '';",
+        "        $data.processVariablesData.statusCode = '';",
         "    }, 2000);",
         "}"
       ],
