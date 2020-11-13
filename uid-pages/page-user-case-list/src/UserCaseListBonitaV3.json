@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "UserCaseListBonitaV3",
   "name" : "UserCaseListBonitaV3",
-  "lastUpdate" : 1604573708275,
+  "lastUpdate" : 1605274126293,
   "rows" : [
     [
       {
@@ -95,6 +95,182 @@
               "reference" : "39770d95-d80c-441a-a9b3-d7e5de85deb3",
               "hasValidationError" : false,
               "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 5,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "735d619f-50cf-4e42-8644-e227e37e6fb6",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [ ]
+              ]
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 10,
+                "sm" : 6,
+                "md" : 5,
+                "lg" : 5
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "case-input"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Case ID"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Enter an id to see case details"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "casesData.caseIdFilter"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "5fd9daa2-e740-4d4b-bd44-8049f1c072f2",
+              "hasValidationError" : false,
+              "id" : "pbInput"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 2,
+                "sm" : 1,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "expression",
+                  "value" : "(!casesData.caseIdFilter || casesData.caseIdFilter === \"\") ? \"isDisabled\" : \"\""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<i class=\"glyphicon glyphicon-option-horizontal\" title=\"{{\"View case details\" | uiTranslate}}\"></i>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "case-details"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "caseDetailsQueryParameters.payload(casesData.caseIdFilter)"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                }
+              },
+              "reference" : "0acafa93-3d0c-4eb9-b0ad-0549b01c5a2c",
+              "hasValidationError" : false,
+              "id" : "pbLink"
             }
           ],
           [
@@ -461,7 +637,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<i  class=\"glyphicon glyphicon-repeat\" title={{\"Refresh list\"|uiTranslate}}></i>"
+                                    "value" : "<i  class=\"glyphicon glyphicon-repeat\" title=\"{{\"Refresh list\"|uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -564,8 +740,8 @@
                                 "type" : "container",
                                 "dimension" : {
                                   "xs" : 12,
-                                  "sm" : 2,
-                                  "md" : 2,
+                                  "sm" : 1,
+                                  "md" : 1,
                                   "lg" : 1
                                 },
                                 "propertyValues" : {
@@ -717,8 +893,8 @@
                                 "dimension" : {
                                   "xs" : 12,
                                   "sm" : 3,
-                                  "md" : 4,
-                                  "lg" : 4
+                                  "md" : 3,
+                                  "lg" : 3
                                 },
                                 "propertyValues" : {
                                   "cssClasses" : {
@@ -848,7 +1024,7 @@
                                 "type" : "container",
                                 "dimension" : {
                                   "xs" : 12,
-                                  "sm" : 3,
+                                  "sm" : 2,
                                   "md" : 3,
                                   "lg" : 3
                                 },
@@ -981,7 +1157,7 @@
                                 "dimension" : {
                                   "xs" : 10,
                                   "sm" : 3,
-                                  "md" : 2,
+                                  "md" : 3,
                                   "lg" : 3
                                 },
                                 "propertyValues" : {
@@ -1112,7 +1288,7 @@
                                 "type" : "container",
                                 "dimension" : {
                                   "xs" : 2,
-                                  "sm" : 1,
+                                  "sm" : 2,
                                   "md" : 1,
                                   "lg" : 1
                                 },
@@ -1234,6 +1410,105 @@
                                       "reference" : "622309b0-0315-4d97-8907-3c7290200f7c",
                                       "hasValidationError" : false,
                                       "id" : "pbText"
+                                    }
+                                  ]
+                                ]
+                              },
+                              {
+                                "type" : "container",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 1,
+                                  "md" : 1,
+                                  "lg" : 1
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "repeatedCollection" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  }
+                                },
+                                "reference" : "4a329e00-2927-42d3-bf63-d8e6e8c08272",
+                                "hasValidationError" : false,
+                                "id" : "pbContainer",
+                                "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : "mr-0"
+                                        },
+                                        "hidden" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "<i class=\"glyphicon glyphicon-option-horizontal\" title=\"{{\"View case details\" | uiTranslate}}\"></i>"
+                                        },
+                                        "type" : {
+                                          "type" : "constant",
+                                          "value" : "page"
+                                        },
+                                        "targetUrl" : {
+                                          "type" : "constant",
+                                          "value" : "http://"
+                                        },
+                                        "pageToken" : {
+                                          "type" : "constant",
+                                          "value" : "case-details"
+                                        },
+                                        "processName" : {
+                                          "type" : "constant"
+                                        },
+                                        "processVersion" : {
+                                          "type" : "constant"
+                                        },
+                                        "taskId" : {
+                                          "type" : "constant"
+                                        },
+                                        "caseId" : {
+                                          "type" : "constant"
+                                        },
+                                        "target" : {
+                                          "type" : "constant",
+                                          "value" : "_self"
+                                        },
+                                        "appToken" : {
+                                          "type" : "constant"
+                                        },
+                                        "urlParams" : {
+                                          "type" : "expression",
+                                          "value" : "caseDetailsQueryParameters.payload($item.id)"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "right"
+                                        },
+                                        "buttonStyle" : {
+                                          "type" : "constant",
+                                          "value" : "link"
+                                        }
+                                      },
+                                      "reference" : "5c04f450-0645-442b-8aef-4595b0ceae31",
+                                      "hasValidationError" : false,
+                                      "id" : "pbLink"
                                     }
                                   ]
                                 ]
@@ -1949,7 +2224,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<i class=\"glyphicon glyphicon-repeat\" title={{\"Refresh list\"|uiTranslate}}></i>"
+                                    "value" : "<i class=\"glyphicon glyphicon-repeat\" title=\"{{\"Refresh list\"|uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -2201,9 +2476,9 @@
                                 "type" : "container",
                                 "dimension" : {
                                   "xs" : 12,
-                                  "sm" : 4,
-                                  "md" : 4,
-                                  "lg" : 4
+                                  "sm" : 3,
+                                  "md" : 3,
+                                  "lg" : 3
                                 },
                                 "propertyValues" : {
                                   "cssClasses" : {
@@ -2721,6 +2996,105 @@
                                       "reference" : "167d288d-5fc8-4abb-b1ce-1451bc8c6d11",
                                       "hasValidationError" : false,
                                       "id" : "pbText"
+                                    }
+                                  ]
+                                ]
+                              },
+                              {
+                                "type" : "container",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 1,
+                                  "md" : 1,
+                                  "lg" : 1
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "repeatedCollection" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  }
+                                },
+                                "reference" : "83aaa980-aa40-437e-b4bb-05008295f044",
+                                "hasValidationError" : false,
+                                "id" : "pbContainer",
+                                "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "hidden" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "<i class=\"glyphicon glyphicon-option-horizontal\" title=\"{{\"View case details\" | uiTranslate}}\"></i>"
+                                        },
+                                        "type" : {
+                                          "type" : "constant",
+                                          "value" : "page"
+                                        },
+                                        "targetUrl" : {
+                                          "type" : "constant",
+                                          "value" : "http://"
+                                        },
+                                        "pageToken" : {
+                                          "type" : "constant",
+                                          "value" : "case-details"
+                                        },
+                                        "processName" : {
+                                          "type" : "constant"
+                                        },
+                                        "processVersion" : {
+                                          "type" : "constant"
+                                        },
+                                        "taskId" : {
+                                          "type" : "constant"
+                                        },
+                                        "caseId" : {
+                                          "type" : "constant"
+                                        },
+                                        "target" : {
+                                          "type" : "constant",
+                                          "value" : "_self"
+                                        },
+                                        "appToken" : {
+                                          "type" : "constant"
+                                        },
+                                        "urlParams" : {
+                                          "type" : "expression",
+                                          "value" : "caseDetailsQueryParameters.payload($item.sourceObjectId)"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "right"
+                                        },
+                                        "buttonStyle" : {
+                                          "type" : "constant",
+                                          "value" : "link"
+                                        }
+                                      },
+                                      "reference" : "b627cc17-a6b9-4020-baf5-e75252641ba8",
+                                      "hasValidationError" : false,
+                                      "id" : "pbLink"
                                     }
                                   ]
                                 ]
@@ -3452,6 +3826,26 @@
         "    },",
         "    openCasesFromAPI: undefined,",
         "    displayedOpenCases: []",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "test" : {
+      "type" : "expression",
+      "value" : [
+        "return{",
+        "     test: function() {",
+        "         return undefined;",
+        "    } ",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "casesData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"caseIdFilter\": \"\"",
         "};"
       ],
       "exposed" : false

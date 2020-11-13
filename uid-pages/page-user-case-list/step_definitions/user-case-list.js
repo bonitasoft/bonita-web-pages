@@ -1,5 +1,6 @@
 const url = 'build/dist/resources/index.html';
 const checkNumberOfCases = (numberOfCases) => { cy.get('.case-item:visible').should('have.length', numberOfCases); }
+const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-details?id=';
 
 given("A list of open cases is available", ()=> {
     cy.server();
@@ -480,7 +481,7 @@ when("I filter only started by me", ()=>{
 });
 
 when("I search {string} in search filter", (searchValue)=>{
-    cy.get('pb-input input:visible').type(searchValue);
+    cy.get('pb-input input:visible').eq(1).type(searchValue);
 });
 
 when("I click on Load more cases button", ()=>{
@@ -489,6 +490,14 @@ when("I click on Load more cases button", ()=>{
 
 when("I click on refresh", ()=>{
     cy.get('button i.glyphicon-repeat:visible').click();
+});
+
+when("I search {string} in caseId input", (searchValue)=>{
+    cy.get('pb-input input:visible').eq(0).type(searchValue);
+});
+
+when("I click on go to case details button", ()=>{
+    cy.get('a .glyphicon-share-alt').click();
 });
 
 then("A list of open cases is displayed", ()=>{
@@ -514,6 +523,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('walter.bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -538,6 +548,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -562,6 +573,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
 
             cy.get('.case-item:visible').eq(3).within(() => {
@@ -576,6 +588,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -599,6 +612,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('1');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -622,11 +636,13 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/9/19 2:21 PM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('helen.kelly');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
             cy.get('.case-item:visible').eq(1).within(() => {
                 cy.get('.case-property-label').contains('Case ID (original)');
                 cy.get('.case-property-value').contains('3004');
                 cy.get('.case-property-value').contains('Walter Bates');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
             break;
     }
@@ -782,4 +798,20 @@ then("The open case list have the correct item shown number", () => {
 then("The archived case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 4').should('be.visible');
     cy.contains('div', 'Cases shown: 5').should('be.hidden');
+});
+
+then("The go to case details button is disabled", () => {
+    cy.get('.isDisabled a').should('have.css', 'pointer-events', 'none');
+});
+
+then("The go to case details button is enabled", () => {
+    cy.get('.isDisabled').should('not.exist');
+});
+
+then("The view case details button at top has correct href with {string}", (caseId) => {
+    cy.get('.btn-primary .glyphicon-option-horizontal').parent().should('have.attr', 'href', caseDetailsUrl + caseId);
+});
+
+then("The view case details button in the list has correct href with {string}", (caseId) => {
+    cy.get('.btn-link .glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', caseDetailsUrl + caseId);
 });
