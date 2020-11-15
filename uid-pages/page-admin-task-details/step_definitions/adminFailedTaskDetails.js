@@ -1,5 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
+const urlWithoutId = urlPrefix + 'resources/index.html';
+const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const failedTaskUrl = 'API/bpm/flowNode/1?';
 const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
@@ -120,6 +122,14 @@ given("The response {string} is defined for failed tasks", (responseType) => {
 when("I visit the admin failed task details page", () => {
     cy.visit(url);
     cy.wait(1000);
+});
+
+when("I visit the admin failed task details page without an id", () => {
+    cy.visit(urlWithoutId);
+});
+
+when("I visit the admin failed task details page with an empty id", () => {
+    cy.visit(urlWithEmptyId);
 });
 
 when("I fill in the new comment", () => {
@@ -434,4 +444,8 @@ then("Only the first and the third connector will be skipped", () => {
 
 then("There is no {string} button", (btnLabel) => {
     cy.contains('button', btnLabel).should('not.exist');
+});
+
+then("I see that {string}", (message) => {
+    cy.contains('div', message).should('be.visible');
 });

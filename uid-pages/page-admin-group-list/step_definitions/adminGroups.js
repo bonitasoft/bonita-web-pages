@@ -5,7 +5,7 @@ const defaultFilters = '&d=parent_group_id&o=displayName ASC';
 const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
-const subGroupUrl = urlPrefix + groupsUrl + '?p=0&c=20&f=parent_path=';
+const subGroupUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=displayName ASC&f=parent_path=';
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=group_id=';
 
@@ -122,26 +122,26 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'sub-groups search during limitation':
             createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'subGroups20Route', 'groups20');
-            createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&o=displayName ASC&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
             break;
         case 'sub-groups list load more':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*','subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups5Route', 'subGroups5', 3, 10);
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 4, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups5Route', 'subGroups5', 3, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 4, 10);
             break;
         case 'sub-groups list 20 load more':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'sub-groups list 30 load more':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'sub-groups list for two groups':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
-            createSubGroupsRouteWithResponseAndPagination('&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
             createRouteWithResponse(subGroupUrl + '/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
             break;
         case 'current parent information':

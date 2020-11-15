@@ -23,10 +23,10 @@ Feature: The resources list in desktop resolution
     And The filter response "sort by" is defined
     When I visit the resources list page
     Then A list of "5" resources is displayed
-    When I put "Updated - newest first" in "sort by" filter field
-    Then The api call is made for "Updated - newest first"
-    When I put "Updated - oldest first" in "sort by" filter field
-    Then The api call is made for "Updated - oldest first"
+    When I put "Updated (Newest first)" in "sort by" filter field
+    Then The api call is made for "Updated (Newest first)"
+    When I put "Updated (Oldest first)" in "sort by" filter field
+    Then The api call is made for "Updated (Oldest first)"
     When I put "Resource name (Asc)" in "sort by" filter field
     Then The api call is made for "Resource name (Asc)"
     When I put "Resource name (Desc)" in "sort by" filter field

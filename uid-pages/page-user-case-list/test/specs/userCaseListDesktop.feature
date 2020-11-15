@@ -77,9 +77,9 @@ Feature: The user open case list in desktop resolution
     Then A list of open cases sorted by "openCasesSortedByProcessNameAsc" is displayed
     When I select "Process name (Desc)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCasesSortedByProcessNameDesc" is displayed
-    When I select "Start date - newest first" in "open cases sort by" filter for "open" cases
+    When I select "Start date (Newest first)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCasesSortedByStartDateNew" is displayed
-    When I select "Start date - oldest first" in "open cases sort by" filter for "open" cases
+    When I select "Start date (Oldest first)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCases" is displayed
 
   Scenario: The user archived case list sort by works correctly
@@ -105,13 +105,13 @@ Feature: The user open case list in desktop resolution
     Then A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is displayed
     When I select "Process name (Desc)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByProcessNameDesc" is displayed
-    When I select "Start date - newest first" in "archived cases sort by" filter for "archived" cases
+    When I select "Start date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is displayed
-    When I select "Start date - oldest first" in "archived cases sort by" filter for "archived" cases
+    When I select "Start date (Oldest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCases" is displayed
-    When I select "End date - newest first" in "archived cases sort by" filter for "archived" cases
+    When I select "End date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is displayed
-    When I select "End date - oldest first" in "archived cases sort by" filter for "archived" cases
+    When I select "End date (Oldest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is displayed
 
   Scenario: Search by process name and search keys works correctly for open cases
@@ -152,6 +152,46 @@ Feature: The user open case list in desktop resolution
     And I erase the search filter
     When I search "Incorrect" in search filter
     Then No archived cases are available
+
+  Scenario: The view open case details button works correctly
+    Given A list of open cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    Then A list of open cases is displayed
+    And The view case details button in the list has correct href with "2001"
+
+  Scenario: The view archived case details button works correctly
+    Given A list of archived cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    And I click on "Archived cases" tab
+    Then A list of archived cases is displayed
+    And The view case details button in the list has correct href with "1004"
+
+  Scenario: The open case id redirect to the case details correctly
+    Given A list of open cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    Then A list of open cases is displayed
+    And The go to case details button is disabled
+    When I search "2001" in caseId input
+    Then The go to case details button is enabled
+    And The view case details button at top has correct href with "2001"
+
+  Scenario: The archived case id redirect to the case details correctly
+    Given A list of archived cases is available
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    And I click on "Archived cases" tab
+    Then A list of archived cases is displayed
+    And The go to case details button is disabled
+    When I search "1004" in caseId input
+    Then The go to case details button is enabled
+    And The view case details button at top has correct href with "1004"
 
   Scenario: Show open cases only started by me works correctly
     Given A list of open cases is available

@@ -60,8 +60,7 @@ Feature: The Admin Failed Task Details in desktop resolution
   Scenario: The admin archived failed task details does not have the connectors
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
-    And The response "connectors" is defined for failed tasks
-    When I visit the admin done task details page
+    When I visit the admin failed task details page
     Then The connectors section is empty
 
   Scenario: The skip task modal is opened and closed
@@ -278,3 +277,14 @@ Feature: The Admin Failed Task Details in desktop resolution
     When I visit the admin failed task details page
     Then There is no "Replay" button
 
+  Scenario: No task is found with id message is shown
+    When I visit the admin failed task details page
+    Then I see that "No task found with id: 1"
+
+  Scenario: No id is specified message is shown
+    When I visit the admin failed task details page without an id
+    Then I see that "Task id not provided. Unable to retrieve the task."
+
+  Scenario: No id is specified message is shown when id is empty
+    When I visit the admin failed task details page with an empty id
+    Then I see that "Task id not provided. Unable to retrieve the task."
