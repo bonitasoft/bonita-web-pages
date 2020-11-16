@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminCaseDetailsBonitaV2",
   "name" : "adminCaseDetailsBonitaV2",
-  "lastUpdate" : 1605273569074,
+  "lastUpdate" : 1605519297903,
   "rows" : [
     [
       {
@@ -4593,22 +4593,6 @@
       "type" : "url",
       "value" : [
         "../API/bpm/archivedCase/{{caseDetailsCtrl.getUserDetailsQueryParameters(true)}}"
-      ],
-      "exposed" : false
-    },
-    "caseDetailsData" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    availableTasksUrl: \"../API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=\" + $data.session.user_id + \"&f=caseId=\" + $data.caseIdQueryParameter",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "availableTasks" : {
-      "type" : "url",
-      "value" : [
-        "{{!caseDetailsCtrl.isArchived() ? caseDetailsData.availableTasksUrl : undefined}}"
       ],
       "exposed" : false
     },
