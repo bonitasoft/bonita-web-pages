@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1605536738281,
+  "lastUpdate" : 1605545938315,
   "rows" : [
     [
       {
@@ -1617,7 +1617,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!changeStatusData.statusCode || chageStatusData.statusCode === 200"
+                          "value" : "changeStatusData.statusCode === \"\" || changeStatusData.statusCode === 200"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -1669,7 +1669,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!changeStatusData.statusCode || chageStatusData.statusCode !== 200"
+                          "value" : "!changeStatusData.statusCode || changeStatusData.statusCode !== 200"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -1754,8 +1754,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "changeStatusData.hasRecentlyBeenActivated || changeStatusData.hasRecentlyBeenDeactivated"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -1849,7 +1849,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{userListCtrl.getChangeButtonLabel(changeStatusData.statusCode)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2087,58 +2087,6 @@
                         "hasValidationError" : false,
                         "id" : "pbContainer",
                         "rows" : [
-                          [
-                            {
-                              "type" : "component",
-                              "dimension" : {
-                                "xs" : 12,
-                                "sm" : 12,
-                                "md" : 12,
-                                "lg" : 12
-                              },
-                              "propertyValues" : {
-                                "cssClasses" : {
-                                  "type" : "constant",
-                                  "value" : ""
-                                },
-                                "hidden" : {
-                                  "type" : "constant",
-                                  "value" : false
-                                },
-                                "labelHidden" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "label" : {
-                                  "type" : "interpolation",
-                                  "value" : "Default label"
-                                },
-                                "labelPosition" : {
-                                  "type" : "constant",
-                                  "value" : "top"
-                                },
-                                "labelWidth" : {
-                                  "type" : "constant",
-                                  "value" : 4
-                                },
-                                "allowHTML" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "text" : {
-                                  "type" : "interpolation",
-                                  "value" : "Status code: {{createUserData.statusCode}}"
-                                },
-                                "alignment" : {
-                                  "type" : "constant",
-                                  "value" : "left"
-                                }
-                              },
-                              "reference" : "2c700842-6b64-4ff6-8a4a-f7523ff2c9d1",
-                              "hasValidationError" : false,
-                              "id" : "pbText"
-                            }
-                          ],
                           [
                             {
                               "type" : "component",
@@ -2834,7 +2782,7 @@
                                 },
                                 "disabled" : {
                                   "type" : "expression",
-                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch() || createUserData.hasRecentrlyBeenCreated"
+                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch() || createUserData.hasRecentlyBeenCreated || createUserData.creationPayload.userName === \"\""
                                 },
                                 "label" : {
                                   "type" : "interpolation",
@@ -2928,7 +2876,7 @@
                                 },
                                 "label" : {
                                   "type" : "interpolation",
-                                  "value" : "Cancel"
+                                  "value" : "{{userListCtrl.getChangeButtonLabel(createUserData.statusCode)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -3068,6 +3016,9 @@
         "    },",
         "    getUserDetailsParameters: function(id) {",
         "        return {\"id\": id};",
+        "    },",
+        "    getChangeButtonLabel: function(statusCode) {",
+        "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "    }",
         "};"
       ],
@@ -3159,6 +3110,8 @@
         "    initChangeStatusModal : function(item) {",
         "        $data.changeStatusData.item = item;",
         "        $data.changeStatusData.statusCode = '';",
+        "        $data.changeStatusData.hasRecentlyBeenActivated = false;",
+        "        $data.changeStatusData.hasRecentlyBeenDeactivated = false;",
         "        return \"changeStatus\";",
         "    },",
         "    getChangeStatusPayload : function() {",
@@ -3181,7 +3134,9 @@
       "value" : [
         "return {",
         "    item: undefined,",
-        "    statusCode : \"\"",
+        "    statusCode: \"\",",
+        "    hasRecentlyBeenActivated: false,",
+        "    hasRecentlyBeenDeactivated: false",
         "};"
       ],
       "exposed" : false
@@ -3209,6 +3164,7 @@
         "        return $data.createUserData.creationPayload.password === $data.createUserData.creationPayload.password_confirm;",
         "    },",
         "    initCreateModal: function() {",
+        "        $data.createUserData.hasRecentlyBeenCreated = false;",
         "        $data.createUserData.statusCode = '';",
         "        $data.createUserData.failedCreationResponse = undefined;",
         "        $data.createUserData.creationPayload = {",
@@ -3240,11 +3196,17 @@
     "refreshListHandler" : {
       "type" : "expression",
       "value" : [
-        "// After a user is created or updated",
-        "if ($data.changeStatusData.statusCode === 200 || $data.createUserData.statusCode === 200) {",
+        "// After the user is created",
+        "if ($data.createUserData.statusCode !== '' && $data.createUserData.hasRecentlyBeenCreated === false) {",
         "    $data.userListData.timestamp = new Date().getTime();",
-        "   // $data.createUserData.statusCode = '';",
-        "    $data.changeStatusData.statusCode = '';",
+        "    $data.createUserData.hasRecentlyBeenCreated = true;",
+        "}",
+        "",
+        "// After the status is changed",
+        "if ($data.changeStatusData.statusCode !== '' && $data.changeStatusData.hasRecentlyBeenActivated === false && $data.changeStatusData.hasRecentlyBeenDeactivated === false) {",
+        "    $data.userListData.timestamp = new Date().getTime();",
+        "    $data.changeStatusData.hasRecentlyBeenActivated = true;",
+        "    $data.changeStatusData.hasRecentlyBeenDeactivated === true;",
         "}"
       ],
       "exposed" : false
