@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1603901489912,
+  "lastUpdate" : 1605536738281,
   "rows" : [
     [
       {
@@ -1652,6 +1652,58 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!changeStatusData.statusCode || chageStatusData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The user has been successfully updated.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ed724d83-dbeb-49e8-aaab-73ea75cd907c",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -1743,7 +1795,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -2035,6 +2087,58 @@
                         "hasValidationError" : false,
                         "id" : "pbContainer",
                         "rows" : [
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "Status code: {{createUserData.statusCode}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "2c700842-6b64-4ff6-8a4a-f7523ff2c9d1",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
                           [
                             {
                               "type" : "component",
@@ -2627,6 +2731,58 @@
                               "hasValidationError" : false,
                               "id" : "pbText"
                             }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "!createUserData.statusCode || createUserData.statusCode !== 200"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The user has been successfully created.' | translate}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "3b2deb86-d812-4992-b928-983caf03720f",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
                           ]
                         ]
                       }
@@ -2678,7 +2834,7 @@
                                 },
                                 "disabled" : {
                                   "type" : "expression",
-                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch()"
+                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch() || createUserData.hasRecentrlyBeenCreated"
                                 },
                                 "label" : {
                                   "type" : "interpolation",
@@ -2718,7 +2874,7 @@
                                 },
                                 "closeOnSuccess" : {
                                   "type" : "constant",
-                                  "value" : true
+                                  "value" : false
                                 },
                                 "dataFromError" : {
                                   "type" : "variable",
@@ -3075,7 +3231,8 @@
         "return {",
         "    statusCode: \"\",",
         "    failedCreationResponse: undefined,",
-        "    creationPayload: undefined",
+        "    creationPayload: undefined,",
+        "    hasRecentlyBeenCreated: false",
         "};"
       ],
       "exposed" : false
@@ -3086,7 +3243,7 @@
         "// After a user is created or updated",
         "if ($data.changeStatusData.statusCode === 200 || $data.createUserData.statusCode === 200) {",
         "    $data.userListData.timestamp = new Date().getTime();",
-        "    $data.createUserData.statusCode = '';",
+        "   // $data.createUserData.statusCode = '';",
         "    $data.changeStatusData.statusCode = '';",
         "}"
       ],
