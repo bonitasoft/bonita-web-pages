@@ -93,6 +93,20 @@ given("Deactivate user response is defined", () => {
     }).as("refreshListRoute");
 });
 
+given("Activate user response is defined", () => {
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'PUT',
+        url: urlPrefix + 'API/identity/user/21',
+        response: '@emptyResult'
+    }).as("activateUserRoute");
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult'
+    }).as("refreshListRoute");
+});
+
 given("The deactivate status code {string} response is defined", (statusCode) => {
     cy.route({
         method: 'PUT',
@@ -204,6 +218,8 @@ when("I fill in the user information", () => {
     cy.get('.modal input').eq(0).type('username');
     cy.get('.modal input').eq(1).type('password');
     cy.get('.modal input').eq(2).type('password');
+    cy.get('.modal input').eq(3).type('Firstname');
+    cy.get('.modal input').eq(4).type('Lastname');
 });
 
 when("I put different passwords", () => {
@@ -227,6 +243,10 @@ when("I erase all fields", () => {
     cy.get('.modal input').eq(0).clear();
     cy.get('.modal input').eq(1).clear();
     cy.get('.modal input').eq(2).clear();
+});
+
+when("I click on the {string} button in modal", (buttonName) => {
+    cy.contains('.modal button', buttonName).click();
 });
 
 then("The users have the correct information", () => {
@@ -314,14 +334,8 @@ then("The api call is made for {string}", (filterValue) => {
         case 'show inactive':
             cy.wait('@showInactiveRoute');
             break;
-        case 'deactivate user':
-            cy.wait('@deactivateUserRoute');
-            break;
         case 'refresh list':
             cy.wait('@refreshListRoute');
-            break;
-        case 'create user':
-            cy.wait('@createUserRoute');
             break;
         default:
             throw new Error("Unsupported case");
@@ -395,4 +409,75 @@ then("All create user modal information is cleared", () => {
     cy.get('.modal input').eq(0).should('have.value', '');
     cy.get('.modal input').eq(1).should('have.value', '');
     cy.get('.modal input').eq(2).should('have.value', '');
+});
+
+then("The create modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.get('.modal-body input').should('have.length', 5);
+    cy.contains('.modal-body', 'Username').should('be.visible');
+    cy.contains('.modal-body', 'Password').should('be.visible');
+    cy.contains('.modal-body', 'Confirm password').should('be.visible');
+    cy.contains('.modal-body', 'First name').should('be.visible');
+    cy.contains('.modal-body', 'Last name').should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Create').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("The {string} button in modal is {string}", (buttonName, buttonState) => {
+    cy.contains('.modal-footer button', buttonName).should('be.' + buttonState);
+});
+
+then("The creation is successful", () => {
+    cy.contains('.modal-footer button', 'Create').should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.wait('@createUserRoute').then((xhr) => {
+        expect(xhr.request.body.userName).to.equal('username');
+        expect(xhr.request.body.password).to.equal('password');
+        expect(xhr.request.body.password_confirm).to.equal('password');
+        expect(xhr.request.body.firstname).to.equal('Firstname');
+        expect(xhr.request.body.lastname).to.equal('Lastname');
+    });
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+    cy.get('.modal-body input').each((input) => {
+        expect(input).to.have.attr('readonly', 'readonly');
+    });
+});
+
+then("The {string} is successful", (btnName) => {
+    cy.contains('.modal-footer button', btnName).should('be.disabled');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+});
+
+then("The users list is refreshed", () => {
+    cy.wait('@refreshListRoute');
+});
+
+then("The deactivate modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.contains('.modal-body h4', 'Warning').should('be.visible');
+    cy.contains('.modal-body p', 'If this is the only user able to perform a task, this will cause the interruption of a Process.').should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Deactivate').should('be.visible');
+    cy.contains('.modal-footer button', 'Activate').should('not.exist');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
+});
+
+then("The activate modal is open and has a default state for {string}", (state) => {
+    cy.contains('.modal-header h3', state).should('be.visible');
+    cy.contains('.modal-body h4', 'Warning').should('be.visible');
+    cy.contains('.modal-body p', 'Are you sure you want to activate this user?').should('be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Activate').should('be.visible');
+    cy.contains('.modal-footer button', 'Deactivate').should('not.exist');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
 });

@@ -49,9 +49,24 @@ Feature: change status modal in desktop resolution
     And Deactivate user response is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
+    Then The deactivate modal is open and has a default state for "Deactivate Giovanna Almeida"
     When I click on "Deactivate" button in modal
-    Then The api call is made for "deactivate user"
-    And The api call is made for "refresh list"
+    Then The "Deactivate" is successful
+    And The users list is refreshed
+    When I click on the "Close" button in modal
+    And The modal is closed
+
+  Scenario: The change status modal should activate a user
+    Given The filter response "default filter" is defined
+    And The filter response "inactive user" is defined
+    And Activate user response is defined
+    When I visit the user list page
+    And I filter show inactive users
+    And I click on "ok" button on the user "1"
+    Then The activate modal is open and has a default state for "Activate Giovanna Almeida"
+    When I click on "Activate" button in modal
+    Then The "Activate" is successful
+    When I click on the "Close" button in modal
     And The modal is closed
 
   Scenario: The change status modal should display 500 error message
