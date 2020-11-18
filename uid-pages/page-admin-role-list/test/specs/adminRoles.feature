@@ -269,6 +269,13 @@ Feature: The Admin Roles in desktop resolution
     Then The user list modal is open and has users for "Users mapped to the role Member"
     When I put "Search term with no match" in user list search filter field
     Then No users are available
+    And The user search is not disabled
+    When I click on the "Close" button in modal
+    And I click on user button for second role
+    Then The user search is disabled
+    When I click on the "Close" button in modal
+    And I click on user button for first role
+    Then The user search is not disabled
 
   Scenario: Load more users button works correctly
     Given The response "user list load more" is defined

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminRoleListBonitaV1",
   "name" : "adminRoleListBonitaV1",
-  "lastUpdate" : 1605521818930,
+  "lastUpdate" : 1605689648948,
   "rows" : [
     [
       {
@@ -3190,7 +3190,7 @@
                         },
                         "readOnly" : {
                           "type" : "expression",
-                          "value" : "userListData.displayedUsers.length == 0"
+                          "value" : "userListData.displayedUsers.length == 0 && userListData.userFilters.searchValue === \"\""
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -5135,6 +5135,7 @@
         "return {",
         "    initUserListModal: function(role) {",
         "        $data.userListData.selectedRole = role;",
+        "        $data.userListData.userFilters.searchValue = \"\";",
         "        ",
         "        return \"userListModal\";",
         "    },",

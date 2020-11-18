@@ -557,3 +557,11 @@ then("The first role has a different name", () => {
 then("The first user details link has the correct url", () => {
     cy.get('.modal-body .glyphicon.glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
 });
+
+then("The user search is not disabled", () => {
+    cy.get('.modal-body pb-input input:visible').should('not.have.attr', 'readonly');
+});
+
+then("The user search is disabled", () => {
+    cy.get('.modal-body pb-input input:visible').should('have.attr', 'readonly', 'readonly');
+});
