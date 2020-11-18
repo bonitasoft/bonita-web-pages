@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1605604860734,
+  "lastUpdate" : 1605708082269,
   "rows" : [
     [
       {
@@ -1755,7 +1755,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "changeStatusData.hasRecentlyBeenActivated || changeStatusData.hasRecentlyBeenDeactivated"
+                          "value" : "changeStatusData.hasRecentlyBeenUpdated"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -3110,8 +3110,7 @@
         "    initChangeStatusModal : function(item) {",
         "        $data.changeStatusData.item = item;",
         "        $data.changeStatusData.statusCode = '';",
-        "        $data.changeStatusData.hasRecentlyBeenActivated = false;",
-        "        $data.changeStatusData.hasRecentlyBeenDeactivated = false;",
+        "        $data.changeStatusData.hasRecentlyBeenUpdated = false;",
         "        return \"changeStatus\";",
         "    },",
         "    getChangeStatusPayload : function() {",
@@ -3135,8 +3134,7 @@
         "return {",
         "    item: undefined,",
         "    statusCode: \"\",",
-        "    hasRecentlyBeenActivated: false,",
-        "    hasRecentlyBeenDeactivated: false",
+        "    hasRecentlyBeenUpdated: false",
         "};"
       ],
       "exposed" : false
@@ -3203,10 +3201,9 @@
         "}",
         "",
         "// After the status is changed",
-        "if ($data.changeStatusData.statusCode !== '' && $data.changeStatusData.hasRecentlyBeenActivated === false && $data.changeStatusData.hasRecentlyBeenDeactivated === false) {",
+        "if ($data.changeStatusData.statusCode !== '' && $data.changeStatusData.hasRecentlyBeenUpdated === false) {",
         "    $data.userListData.timestamp = new Date().getTime();",
-        "    $data.changeStatusData.hasRecentlyBeenActivated = true;",
-        "    $data.changeStatusData.hasRecentlyBeenDeactivated === true;",
+        "    $data.changeStatusData.hasRecentlyBeenUpdated = true;",
         "}"
       ],
       "exposed" : false
