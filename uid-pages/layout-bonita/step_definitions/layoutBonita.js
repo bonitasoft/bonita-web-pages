@@ -278,8 +278,8 @@ when('I select {string} in language picker', (languageSelected) => {
     }
 });
 
-when('I press the apply button', () => {
-    cy.get('button').contains('Apply').click();
+when('I press the button {string}', (buttonText) => {
+    cy.get('button').contains(buttonText).click();
 });
 
 when('I click the burger', () => {
