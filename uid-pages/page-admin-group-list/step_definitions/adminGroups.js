@@ -606,7 +606,12 @@ then("The load more {string} button is disabled", (items) => {
 
 then("No {string} are available", (item) => {
     cy.get('.modal-body .group-item').should('have.length', 0);
-    cy.contains('No ' + item + ' to display').should('be.visible');
+    cy.contains('There are no ' + item + ' in this group').should('be.visible');
+});
+
+then("No users are available", () => {
+    cy.get('.modal-body .group-item').should('have.length', 0);
+    cy.contains('No users to display').should('be.visible');
 });
 
 then("The user list modal is open and has no users for {string}", (state) => {
