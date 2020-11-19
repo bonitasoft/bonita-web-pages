@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1603901489912,
+  "lastUpdate" : 1605708082269,
   "rows" : [
     [
       {
@@ -1617,7 +1617,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!changeStatusData.statusCode || chageStatusData.statusCode === 200"
+                          "value" : "changeStatusData.statusCode === \"\" || changeStatusData.statusCode === 200"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -1649,6 +1649,58 @@
                         }
                       },
                       "reference" : "d7ea8f89-be3d-47a8-a610-e716c27dce4e",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!changeStatusData.statusCode || changeStatusData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The user has been successfully updated.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ed724d83-dbeb-49e8-aaab-73ea75cd907c",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -1702,8 +1754,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "changeStatusData.hasRecentlyBeenUpdated"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -1743,7 +1795,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -1797,7 +1849,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Cancel"
+                          "value" : "{{userListCtrl.getChangeButtonLabel(changeStatusData.statusCode)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2066,8 +2118,8 @@
                                   "value" : 255
                                 },
                                 "readOnly" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createUserData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2143,8 +2195,8 @@
                                   "value" : 255
                                 },
                                 "readOnly" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createUserData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2220,8 +2272,8 @@
                                   "value" : 255
                                 },
                                 "readOnly" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createUserData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2349,8 +2401,8 @@
                                   "value" : 255
                                 },
                                 "readOnly" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createUserData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2426,8 +2478,8 @@
                                   "value" : 255
                                 },
                                 "readOnly" : {
-                                  "type" : "constant",
-                                  "value" : false
+                                  "type" : "expression",
+                                  "value" : "createUserData.hasRecentlyBeenCreated"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2627,6 +2679,58 @@
                               "hasValidationError" : false,
                               "id" : "pbText"
                             }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "!createUserData.statusCode || createUserData.statusCode !== 200"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The user has been successfully created.' | translate}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "3b2deb86-d812-4992-b928-983caf03720f",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
                           ]
                         ]
                       }
@@ -2678,7 +2782,7 @@
                                 },
                                 "disabled" : {
                                   "type" : "expression",
-                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch()"
+                                  "value" : "$form.$invalid || !createUserCtrl.doPasswordsMatch() || createUserData.hasRecentlyBeenCreated || createUserData.creationPayload.userName === \"\""
                                 },
                                 "label" : {
                                   "type" : "interpolation",
@@ -2718,7 +2822,7 @@
                                 },
                                 "closeOnSuccess" : {
                                   "type" : "constant",
-                                  "value" : true
+                                  "value" : false
                                 },
                                 "dataFromError" : {
                                   "type" : "variable",
@@ -2772,7 +2876,7 @@
                                 },
                                 "label" : {
                                   "type" : "interpolation",
-                                  "value" : "Cancel"
+                                  "value" : "{{userListCtrl.getChangeButtonLabel(createUserData.statusCode)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2912,6 +3016,9 @@
         "    },",
         "    getUserDetailsParameters: function(id) {",
         "        return {\"id\": id};",
+        "    },",
+        "    getChangeButtonLabel: function(statusCode) {",
+        "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "    }",
         "};"
       ],
@@ -3003,6 +3110,7 @@
         "    initChangeStatusModal : function(item) {",
         "        $data.changeStatusData.item = item;",
         "        $data.changeStatusData.statusCode = '';",
+        "        $data.changeStatusData.hasRecentlyBeenUpdated = false;",
         "        return \"changeStatus\";",
         "    },",
         "    getChangeStatusPayload : function() {",
@@ -3025,7 +3133,8 @@
       "value" : [
         "return {",
         "    item: undefined,",
-        "    statusCode : \"\"",
+        "    statusCode: \"\",",
+        "    hasRecentlyBeenUpdated: false",
         "};"
       ],
       "exposed" : false
@@ -3053,6 +3162,7 @@
         "        return $data.createUserData.creationPayload.password === $data.createUserData.creationPayload.password_confirm;",
         "    },",
         "    initCreateModal: function() {",
+        "        $data.createUserData.hasRecentlyBeenCreated = false;",
         "        $data.createUserData.statusCode = '';",
         "        $data.createUserData.failedCreationResponse = undefined;",
         "        $data.createUserData.creationPayload = {",
@@ -3075,7 +3185,8 @@
         "return {",
         "    statusCode: \"\",",
         "    failedCreationResponse: undefined,",
-        "    creationPayload: undefined",
+        "    creationPayload: undefined,",
+        "    hasRecentlyBeenCreated: false",
         "};"
       ],
       "exposed" : false
@@ -3083,11 +3194,16 @@
     "refreshListHandler" : {
       "type" : "expression",
       "value" : [
-        "// After a user is created or updated",
-        "if ($data.changeStatusData.statusCode === 200 || $data.createUserData.statusCode === 200) {",
+        "// After the user is created",
+        "if ($data.createUserData.statusCode !== '' && $data.createUserData.hasRecentlyBeenCreated === false) {",
         "    $data.userListData.timestamp = new Date().getTime();",
-        "    $data.createUserData.statusCode = '';",
-        "    $data.changeStatusData.statusCode = '';",
+        "    $data.createUserData.hasRecentlyBeenCreated = true;",
+        "}",
+        "",
+        "// After the status is changed",
+        "if ($data.changeStatusData.statusCode !== '' && $data.changeStatusData.hasRecentlyBeenUpdated === false) {",
+        "    $data.userListData.timestamp = new Date().getTime();",
+        "    $data.changeStatusData.hasRecentlyBeenUpdated = true;",
         "}"
       ],
       "exposed" : false

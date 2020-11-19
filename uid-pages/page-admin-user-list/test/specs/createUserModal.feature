@@ -11,12 +11,18 @@ Feature: create user modal in desktop resolution
     Given The filter response "default filter" is defined
     And Create user response is defined
     When I visit the user list page
-    And I click on create button
+    Then The users have the correct information
+    When I click on create button
+    Then The create modal is open and has a default state for "Create a user"
     When I fill in the user information
+    Then The "Create" button in modal is "enabled"
     And I click on "Create" button in modal
-    Then The api call is made for "create user"
-    And The api call is made for "refresh list"
-    And The modal is closed
+    Then The creation is successful
+    And The users list is refreshed
+    When I click on the "Close" button in modal
+    Then The modal is closed
+    When I click on create button
+    Then The create modal is open and has a default state for "Create a user"
 
   Scenario: The modal should display the passwords don't match
     Given The filter response "default filter" is defined
