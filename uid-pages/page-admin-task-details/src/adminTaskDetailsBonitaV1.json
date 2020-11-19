@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.0",
- "previousArtifactVersion" : "1.10.18",
+  "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1604917518891,
+  "lastUpdate" : 1605791881786,
   "rows" : [
     [
       {
@@ -7715,7 +7715,7 @@
                         },
                         "readOnly" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied"
+                          "value" : "userListData.hasRecentlyBeenApplied || doForTaskCtrl.doesTaskHaveNoForm()"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -8070,7 +8070,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied"
+                          "value" : "userListData.hasRecentlyBeenApplied || doForTaskCtrl.doesTaskHaveNoForm()"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -8233,7 +8233,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "{{userListCtrl.getChangeButtonLabel()}}"
+                          "value" : "{{doForTaskCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -9833,6 +9833,9 @@
         "            return undefined;",
         "        }",
         "        return \"?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "      return $data.userListData.hasRecentlyBeenApplied || $data.doForTaskCtrl.doesTaskHaveNoForm() ? \"Close\" : \"Cancel\";",
         "    }",
         "};"
       ],
