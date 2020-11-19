@@ -248,6 +248,11 @@ when('I visit the index page', () => {
     cy.wait('@app1Route');
 });
 
+when('I visit the index page with a parameter {string} in the URL', (localeParamName) => {
+    cy.visit(url + '?' + localeParamName + '=es');
+    cy.wait('@app1Route');
+});
+
 when('I click the user name', () => {
     cy.get('.text-right > .ng-binding').click();
 });
@@ -329,6 +334,10 @@ when('I click next to the current session modal', () => {
 
 then( 'The application displayName is {string}', (appName) => {
     cy.get('pb-link > .text-left > .ng-binding').should('have.text', appName);
+});
+
+when('I click on the appName', () => {
+    cy.get('.navbar-brand').click();
 });
 
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
@@ -429,6 +438,14 @@ then('The apply button is enabled', () => {
 
 then('The language in BOS_Locale is {string}', (languageSelected) => {
     cy.getCookie('BOS_Locale').should('have.property', 'value', languageSelected);
+});
+
+then('The parameter {string} is not in the URL', (parameterName) => {
+    cy.url().should('not.include', parameterName + '=');
+});
+
+then('The parameter {string} is in the URL', (parameterName) => {
+    cy.url().should('include', parameterName + '=');
 });
 
 then('The current session modal is not visible', () => {
@@ -611,10 +628,6 @@ then('Application name has {string} as application href', (homePageHref) => {
     cy.get('.app-title a').should('have.attr', 'href', homePageHref);
 });
 
-when('I click on the appName', () => {
-    cy.get('.navbar-brand').click();
-});
-
 then('Application name has {string} as application href in mobile view', (homePageHref) => {
     cy.url().should('include', homePageHref);
 });
@@ -638,4 +651,9 @@ then('The current language is {string}', (language) => {
             cy.get('select').should('have.value','3');
             break;
     }
+});
+
+then('Page reloads', () => {
+    //necessary when the page reloads to avoid modale opening failure
+    cy.reload();
 });

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "LayoutBonitaV6",
   "name" : "BonitaLayoutV6",
-  "lastUpdate" : 1603442966380,
+  "lastUpdate" : 1605528073401,
   "rows" : [
     [
       {
@@ -2594,8 +2594,15 @@
         "if($data.eventList.actions && $data.eventList.actions.length > 0){",
         "    var action=$data.eventList.actions[0];",
         "    if(action===\"locale\"){",
-        "        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/\";;",
-        "        document.location.reload();",
+        "        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/\";",
+        "        try {",
+        "            var url = new URL(document.location.href);",
+        "            url.searchParams.delete('locale');",
+        "            url.searchParams.delete('_l');",
+        "            document.location.assign(url.href);",
+        "        } catch (error) {",
+        "            document.location.reload();",
+        "        }",
         "    }",
         "}"
       ],
