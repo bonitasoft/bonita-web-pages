@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1605791881786,
+  "lastUpdate" : 1605795926064,
   "rows" : [
     [
       {
@@ -7715,7 +7715,7 @@
                         },
                         "readOnly" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied || doForTaskCtrl.doesTaskHaveNoForm()"
+                          "value" : "doForTaskData.hasRecentlyDone"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -8070,7 +8070,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied || doForTaskCtrl.doesTaskHaveNoForm()"
+                          "value" : "doForTaskData.hasRecentlyDone"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -9783,7 +9783,8 @@
         "    statusCode: \"\",",
         "    comment: \"\",",
         "    failedResponse: \"\",",
-        "    recentlyOpenedDoForModal: false",
+        "    recentlyOpenedDoForModal: false,",
+        "    hasRecentlyDone: false,",
         "};"
       ],
       "exposed" : false
@@ -9807,6 +9808,7 @@
         "        $data.doForTaskData.recentlyOpenedDoForModal = true;",
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
+        "        $data.doForTaskData.hasRecentlyDone = false;",
         "        return \"doForTaskModal\";",
         "    },",
         "    getUnassignedTaskTooltip: function() {",
@@ -9835,7 +9837,7 @@
         "        return \"?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
         "    },",
         "    getChangeButtonLabel: function() {",
-        "      return $data.userListData.hasRecentlyBeenApplied || $data.doForTaskCtrl.doesTaskHaveNoForm() ? \"Close\" : \"Cancel\";",
+        "      return $data.doForTaskData.hasRecentlyDone ? \"Close\" : \"Cancel\";",
         "    }",
         "};"
       ],
@@ -10063,6 +10065,17 @@
         "    }",
         "    ",
         "};"
+      ],
+      "exposed" : false
+    },
+    "doForTaskHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is updated",
+        "if ($data.doForTaskData.statusCode !== '' && $data.doForTaskData.hasRecentlyDone === false) {",
+        "    $data.taskDetailsData.timestamp = new Date().getTime();",
+        "    $data.doForTaskData.hasRecentlyDone = true;",
+        "}"
       ],
       "exposed" : false
     }
