@@ -265,6 +265,8 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The task is submitted and has correct payload
+    And The success message is displayed
+    And The fields are disabled
 
   Scenario: The do for modal should display not assigned anymore message
     Given The response "empty done task" is defined for pending tasks
@@ -277,6 +279,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The unassigned error message is displayed
+    And The fields are disabled
 
   Scenario: The do for modal should display generic 500 error message
     Given The response "empty done task" is defined for pending tasks
@@ -289,6 +292,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The 500 error message is displayed for do for
+    And The fields are disabled
 
   Scenario: The do for modal should display generic 403 error message
     Given The response "empty done task" is defined for pending tasks
@@ -301,6 +305,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The 403 error message is displayed for do for
+    And The fields are disabled
 
   Scenario: The do for modal should display generic 404 error message
     Given The response "empty done task" is defined for pending tasks
@@ -313,6 +318,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     When I fill in the comment field
     And I click on submit button
     Then The 404 error message is displayed for do for
+    And The fields are disabled
 
   Scenario: The do for button is not displayed when feature does not exist
     Given The response "pending task" is defined for pending tasks

@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.0",
- "previousArtifactVersion" : "1.10.18",
+  "previousArtifactVersion" : "1.10.18",
   "id" : "adminTaskDetailsBonitaV1",
   "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1604917518891,
+  "lastUpdate" : 1605881141147,
   "rows" : [
     [
       {
@@ -7715,7 +7715,7 @@
                         },
                         "readOnly" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied"
+                          "value" : "doForTaskData.wasRecentlyDone"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -8070,7 +8070,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied"
+                          "value" : "doForTaskData.wasRecentlyDone"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -8233,7 +8233,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "{{userListCtrl.getChangeButtonLabel()}}"
+                          "value" : "{{doForTaskCtrl.getChangeButtonLabel()}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -9783,7 +9783,8 @@
         "    statusCode: \"\",",
         "    comment: \"\",",
         "    failedResponse: \"\",",
-        "    recentlyOpenedDoForModal: false",
+        "    recentlyOpenedDoForModal: false,",
+        "    wasRecentlyDone: false,",
         "};"
       ],
       "exposed" : false
@@ -9807,6 +9808,7 @@
         "        $data.doForTaskData.recentlyOpenedDoForModal = true;",
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
+        "        $data.doForTaskData.wasRecentlyDone = false;",
         "        return \"doForTaskModal\";",
         "    },",
         "    getUnassignedTaskTooltip: function() {",
@@ -9833,6 +9835,9 @@
         "            return undefined;",
         "        }",
         "        return \"?c=10&p=0&f=processDefinitionId=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().processId.id + \"&f=task=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().name;",
+        "    },",
+        "    getChangeButtonLabel: function() {",
+        "      return $data.doForTaskData.wasRecentlyDone ? \"Close\" : \"Cancel\";",
         "    }",
         "};"
       ],
@@ -10060,6 +10065,17 @@
         "    }",
         "    ",
         "};"
+      ],
+      "exposed" : false
+    },
+    "doForTaskHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// After the item is updated",
+        "if ($data.doForTaskData.statusCode !== '' && $data.doForTaskData.wasRecentlyDone === false) {",
+        "    $data.taskDetailsData.timestamp = new Date().getTime();",
+        "    $data.doForTaskData.wasRecentlyDone = true;",
+        "}"
       ],
       "exposed" : false
     }
