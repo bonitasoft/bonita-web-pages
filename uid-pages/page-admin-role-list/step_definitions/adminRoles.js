@@ -379,7 +379,7 @@ then("No roles are available", () => {
 
 then("No users are available", () => {
     cy.get('.modal-body .role-item').should('have.length', 0);
-    cy.contains('There are no users mapped to this role').should('be.visible');
+    cy.contains('No users to display').should('be.visible');
 });
 
 then("The create modal is open and has a default state for {string}", (state) => {
@@ -452,7 +452,7 @@ then("The edit modal is open and has a edited state for {string}", (state, roleN
 then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
-    cy.contains('.modal-body h4', 'There are no users mapped to this role').should('be.visible');
+    cy.contains('.modal-body h4', 'No users to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
     cy.get('.modal-body .glyphicon-option-horizontal').should('not.exist');
@@ -462,7 +462,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
 then("The user list modal is open and has users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
-    cy.contains('.modal-body h4', 'There are no users mapped to this role').should('not.be.visible');
+    cy.contains('.modal-body h4', 'No users to display').should('not.be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
     cy.contains('.modal-body button', 'Load more users').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
@@ -556,4 +556,12 @@ then("The first role has a different name", () => {
 
 then("The first user details link has the correct url", () => {
     cy.get('.modal-body .glyphicon.glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
+});
+
+then("The user search is not disabled", () => {
+    cy.get('.modal-body pb-input input:visible').should('not.have.attr', 'readonly');
+});
+
+then("The user search is disabled", () => {
+    cy.get('.modal-body pb-input input:visible').should('have.attr', 'readonly', 'readonly');
 });

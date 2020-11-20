@@ -214,7 +214,7 @@ Feature: The Admin Groups in desktop resolution
     When I erase the modal search filter
     Then The user list modal is open and has 5 users for "Users in the group Acme"
     When I put "Search term with no match" in modal search filter field
-    Then No "users" are available
+    Then No users are available
     And The search input is not disable
 
   Scenario: Load more users button works correctly

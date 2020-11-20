@@ -59,13 +59,23 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(formMappingUrl, 'formMappingRoute', 'formMappingWithoutForm');
             createRouteWithResponse(session, 'sessionRoute', 'session');
             createRouteWithResponse(identity, 'identityRoute', 'identity');
-            createRouteWithResponseAndMethod(taskWithoutFormExecution, 'taskWithoutFormRoute', 'emptyResult', 'POST');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + taskWithoutFormExecution, 'taskWithoutFormRoute', 'emptyResult', 'POST', 204);
             break;
         case 'pending task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
+        cy.fixture('json/' + response + '.json').as(response);
+        cy.route({
+            method: method,
+            url: url,
+            status: status,
+            response: '@' + response
+        }).as(routeName);
     }
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
@@ -359,7 +369,8 @@ then("The do for modal is open and has a default state without form", () => {
     cy.contains('.modal-content p.text-left', 'You are about to perform the task for the current assignee.');
     cy.contains('.modal-content p.text-left', 'It will be recorded as "Done by Walter Bates for Helen Kelly"');
     cy.contains('.modal-content p.text-left', 'This task does not require a form to fill, but a comment to explain the action you have performed.');
-    cy.contains('.modal-footer button', 'Cancel');
+    cy.contains('.modal-footer button', 'Cancel').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
     cy.contains('.modal-footer a', 'Do the task').should('not.exist');
     cy.contains('.modal-footer button', 'Submit').should('be.visible');
     cy.contains('.modal-body', 'Comment').should('be.visible');
@@ -391,4 +402,18 @@ then("The {int} error message is displayed for do for", (statusCode) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The task has not been done.').should('be.visible');
+});
+
+then("The success message is displayed", () => {
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+    cy.contains('.modal-body', 'The task has been successfully done.').should('be.visible');
+});
+
+then("The fields are disabled", () => {
+    cy.contains('.modal-header', 'Do Request Vacation for Helen Kelly').should('be.visible');
+    cy.contains('.modal-footer button', 'Close').should('be.visible');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
+    cy.contains('.modal-footer a', 'Do the task').should('not.exist');
+    cy.contains('.modal-footer button', 'Submit').should('be.disabled');
+    cy.get('.modal-body input').should('have.attr', 'readonly', 'readonly');
 });
