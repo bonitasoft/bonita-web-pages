@@ -606,7 +606,7 @@ then("The load more {string} button is disabled", (items) => {
 
 then("No {string} are available", (item) => {
     cy.get('.modal-body .group-item').should('have.length', 0);
-    cy.contains('There are no ' + item + ' in this group').should('be.visible');
+    cy.contains('No ' + item + ' to display').should('be.visible');
 });
 
 then("No users are available", () => {
@@ -649,7 +649,7 @@ then("The search input is not disable", () => {
 then("The sub-group list modal is open and has no sub-groups for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search sub-group').should('have.attr', 'readonly', 'readonly');
-    cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('be.visible');
+    cy.contains('.modal-body h4', 'No sub-groups to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Sub-groups shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more sub-groups').should('not.be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
