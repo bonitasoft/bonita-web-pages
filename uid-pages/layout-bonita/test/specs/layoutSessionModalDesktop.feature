@@ -69,22 +69,13 @@ Feature: The Bonita layout current session modal in desktop resolution
     And A user is connected without sso
     And The user has a first and last name defined
     And I have languages available
-    When I visit the index page with a parameter "locale" in the URL
-    And I click the user name
-    Then The current session modal is visible
-    And The parameter "locale" is in the URL
-    When I select "Français" in language picker
-    When I press the button "Apply"
-    Then The language in BOS_Locale is "fr"
-    Then The parameter "locale" is not in the URL
-    Then Page reloads
     When I visit the index page with a parameter "_l" in the URL
     And I click the user name
     Then The current session modal is visible
     And The parameter "_l" is in the URL
-    When I select "English" in language picker
-    When I press the button "Appliquer"
-    Then The language in BOS_Locale is "en"
+    When I select "Français" in language picker
+    When I press the button "Apply"
+    Then The language in BOS_Locale is "fr"
     Then The parameter "_l" is not in the URL
     Then Page reloads
     
