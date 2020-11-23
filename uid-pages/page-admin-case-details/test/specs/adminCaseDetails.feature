@@ -86,7 +86,8 @@ Feature: The Admin Case Details in desktop resolution
     Then The process variables have the correct information
 
   Scenario: Load more process variables button works correctly
-    Given The response "process variables load more" is defined
+    Given The response "default details" is defined
+    And The response "process variables load more" is defined
     When I visit the admin case details page
     And I click on process variables tab
     Then A list of 10 items is displayed
@@ -99,7 +100,8 @@ Feature: The Admin Case Details in desktop resolution
     And The load more variables button is disabled
 
   Scenario: [Limitation] Load more process variables button is not disabled when result is a multiple of count
-    Given The response "process variables 20 load more" is defined
+    Given The response "default details" is defined
+    And The response "process variables 20 load more" is defined
     When I visit the admin case details page
     And I click on process variables tab
     Then A list of 10 items is displayed
