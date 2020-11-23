@@ -9,9 +9,10 @@ const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
-const processVariableUrl = 'API/bpm/caseVariable?p=0&c=20&f=case_id=1';
-const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
+const processVariableUrl =  defaultProcessVariablesUrl + 'p=0&c=20&f=case_id=1';
+const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
+
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
