@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "adminGroupListBonitaV1",
   "name" : "adminGroupListBonitaV1",
-  "lastUpdate" : 1605879033596,
+  "lastUpdate" : 1607956242115,
   "rows" : [
     [
       {
@@ -2356,7 +2356,7 @@
                                             },
                                             "text" : {
                                               "type" : "interpolation",
-                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"path\" | uiTranslate}})\n</strong>"
+                                              "value" : "<strong>{{\"Name\" | uiTranslate}}\n</strong>"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -2419,7 +2419,7 @@
                                                   },
                                                   "label" : {
                                                     "type" : "interpolation",
-                                                    "value" : "{{$item.displayName}} {{parentDropdownCtrl.isParentEmpty($item)}}"
+                                                    "value" : "{{$item.name}}"
                                                   },
                                                   "alignment" : {
                                                     "type" : "constant",
@@ -5356,7 +5356,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 11,
+                                            "md" : 10,
                                             "lg" : 10
                                           },
                                           "propertyValues" : {
@@ -5431,7 +5431,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 1,
+                                            "md" : 2,
                                             "lg" : 2
                                           },
                                           "propertyValues" : {
@@ -5553,7 +5553,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 11,
+                                            "md" : 10,
                                             "lg" : 10
                                           },
                                           "propertyValues" : {
@@ -5629,7 +5629,7 @@
                                           "dimension" : {
                                             "xs" : 12,
                                             "sm" : 12,
-                                            "md" : 1,
+                                            "md" : 2,
                                             "lg" : 2
                                           },
                                           "propertyValues" : {
@@ -5785,7 +5785,7 @@
                                             },
                                             "text" : {
                                               "type" : "interpolation",
-                                              "value" : "<strong>{{\"Display name\" | uiTranslate}} ({{\"path\" | uiTranslate}})\n</strong>"
+                                              "value" : "<strong>{{\"Name\" | uiTranslate}}\n</strong>"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -5848,7 +5848,7 @@
                                                   },
                                                   "label" : {
                                                     "type" : "interpolation",
-                                                    "value" : "{{$item.displayName}} {{parentDropdownCtrl.isParentEmpty($item)}}"
+                                                    "value" : "{{$item.name}}"
                                                   },
                                                   "alignment" : {
                                                     "type" : "constant",
@@ -7280,7 +7280,7 @@
         "            name: $data.createGroupData.name,\r",
         "            displayName: $data.createGroupData.displayName,\r",
         "            description: $data.createGroupData.description,\r",
-        "            parent_group_id: $data.parentDropdownData.parentId\r",
+        "            parent_group_id: $data.parentDropdownData.selectedParentId\r",
         "        };\r",
         "    },\r",
         "    getErrorMessageFor500: function(failedResponse) {\r",
@@ -7304,13 +7304,6 @@
         "    displayName: \"\",",
         "    description: \"\"",
         "};"
-      ],
-      "exposed" : false
-    },
-    "searchParentList" : {
-      "type" : "url",
-      "value" : [
-        "{{parentDropdownCtrl.getParentSearchUrl()}}"
       ],
       "exposed" : false
     },
@@ -7342,7 +7335,7 @@
       "value" : [
         "return {\r",
         "    getFullSearchParentList: function() {\r",
-        "        var fullParentList = $data.searchParentList;\r",
+        "        var fullParentList = $data.parentDropdownUrl;\r",
         "        if (fullParentList && fullParentList.length == 20) {\r",
         "            fullParentList.push({\r",
         "                displayName: uiTranslate(\"Or type more...\")\r",
@@ -7354,24 +7347,15 @@
         "        return item.displayName === uiTranslate(\"Or type more...\");\r",
         "    },\r",
         "    getParentSearchUrl: function() {\r",
-        "        if ($data.parentDropdownData.parentDisplayName !== $data.parentDropdownData.searchParentValue) { \r",
-        "            return $data.parentDropdownData.searchParentValue ? \"../API/identity/group?p=0&c=20&o=name&s=\" + $data.parentDropdownData.searchParentValue : undefined;    \r",
+        "        if ($data.parentDropdownData.searchParentValue && $data.parentDropdownData.searchParentValue !== $data.parentDropdownData.selectedParentDisplayName) {\r",
+        "            return \"../API/identity/group?p=0&c=20&o=name&s=\" + $data.parentDropdownData.searchParentValue;    \r",
         "        }\r",
         "        return undefined;\r",
         "    },\r",
         "    hideDropdownMenu: function() {\r",
-        "        return !$data.searchParentList \r",
-        "                || $data.searchParentList.length === 0 \r",
+        "        return !$data.parentDropdownUrl \r",
+        "                || $data.parentDropdownUrl.length === 0 \r",
         "                || $data.parentDropdownData.searchParentValue === \"\";\r",
-        "    },\r",
-        "    isParentEmpty: function(parent) {\r",
-        "        if(!parent || parent.displayName === \"Or type more...\") {\r",
-        "            return \"\";\r",
-        "        }\r",
-        "        if(!parent.parent_path) {\r",
-        "            return \"(--)\";\r",
-        "        }\r",
-        "        return \"(\" + parent.parent_path + \"/\" + parent.name + \")\";\r",
         "    }\r",
         "};"
       ],
@@ -7382,8 +7366,8 @@
       "value" : [
         "return {",
         "    searchParentValue: \"\",",
-        "    parentDisplayName: undefined,",
-        "    parentId: undefined,",
+        "    selectedParentDisplayName: undefined,",
+        "    selectedParentId: undefined,",
         "    selectedParent: []",
         "};"
       ],
@@ -7621,7 +7605,7 @@
         "        $data.currentParentData.editingParentGroup = false;",
         "        $data.currentParentData.timestamp = new Date().getTime();",
         "        $data.parentDropdownData.searchParentValue = \"\";",
-        "        $data.parentDropdownData.parentId = $item.parent_group_id;",
+        "        $data.parentDropdownData.selectedParentId = $item.parent_group_id;",
         "        $data.currentParentUrl = undefined;",
         "        ",
         "        return \"editGroupModal\";",
@@ -7631,7 +7615,7 @@
         "            name: $data.editGroupData.name,",
         "            displayName: $data.editGroupData.displayName,",
         "            description: $data.editGroupData.description,",
-        "            parent_group_id: $data.parentDropdownData.parentId || \"\"",
+        "            parent_group_id: $data.parentDropdownData.selectedParentId",
         "        };",
         "    },",
         "    getErrorMessageFor403: function(failedResponse) {",
@@ -7664,10 +7648,10 @@
       "value" : [
         "if ($data.parentDropdownData.selectedParent && $data.parentDropdownData.selectedParent.length > 0) {",
         "    $data.parentDropdownData.searchParentValue = $data.parentDropdownData.selectedParent[0].displayName;",
-        "    $data.parentDropdownData.parentDisplayName = $data.parentDropdownData.searchParentValue;",
-        "    $data.parentDropdownData.parentId = $data.parentDropdownData.selectedParent[0].id;",
+        "    $data.parentDropdownData.selectedParentDisplayName = $data.parentDropdownData.searchParentValue;",
+        "    $data.parentDropdownData.selectedParentId = $data.parentDropdownData.selectedParent[0].id;",
         "    $data.parentDropdownData.selectedParent = [];",
-        "    $data.searchParentList = undefined;",
+        "    $data.parentDropdownUrl = undefined;",
         "}"
       ],
       "exposed" : false
@@ -7697,14 +7681,14 @@
         "if ($data.currentParentData.actions[0] === \"edit\") {",
         "    $data.currentParentData.editingParentGroup = true;",
         "    $data.parentDropdownData.searchParentValue = \"\";",
-        "    $data.parentDropdownData.parentId = \"\";",
+        "    $data.parentDropdownData.selectedParentId = \"\";",
         "    $data.currentParentData.actions = [];",
         "}",
         "",
         "if ($data.currentParentData.actions[0] === \"cancel\") {",
         "    $data.currentParentData.editingParentGroup = false;",
         "    $data.parentDropdownData.searchParentValue = \"\";",
-        "    $data.parentDropdownData.parentId = $data.currentParentData.currentParentId;",
+        "    $data.parentDropdownData.selectedParentId = $data.currentParentData.currentParentId;",
         "    $data.currentParentData.actions = [];",
         "}"
       ],
@@ -7726,7 +7710,7 @@
         "            name: $data.deleteGroupData.name,",
         "            displayName: $data.deleteGroupData.displayName,",
         "            description: $data.deleteGroupData.description,",
-        "            parent_group_id: $data.parentDropdownData.parentId || \"\"",
+        "            parent_group_id: $data.parentDropdownData.selectedParentId || \"\"",
         "        };",
         "    }",
         "};"
@@ -7741,6 +7725,13 @@
         "    statusCode: \"\",",
         "    selectedGroup: {}",
         "};"
+      ],
+      "exposed" : false
+    },
+    "parentDropdownUrl" : {
+      "type" : "url",
+      "value" : [
+        "{{parentDropdownCtrl.getParentSearchUrl()}}"
       ],
       "exposed" : false
     }
