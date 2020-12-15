@@ -89,7 +89,7 @@ Feature: The Admin Groups in desktop resolution
     When I fill in the information
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group list is not displayed
     And The parent group input is filled with "Acme"
     And The "Create" button in modal is "enabled"
@@ -130,7 +130,7 @@ Feature: The Admin Groups in desktop resolution
     And I fill in the information
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Create" button in modal footer
     Then I see "already exists" error message for "created"
@@ -150,7 +150,7 @@ Feature: The Admin Groups in desktop resolution
     And I fill in the information
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Create" button in modal footer
     Then I see "403" error message for "created"
@@ -170,7 +170,7 @@ Feature: The Admin Groups in desktop resolution
     And I fill in the information
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Create" button in modal footer
     Then I see "500" error message for "created"
@@ -417,7 +417,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Asia" in the list
+    When I click on "asia" in the list
     Then The parent group list is not displayed
     And The parent group input is filled with "Asia"
     When I click on the "Save" button in modal footer
@@ -462,7 +462,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Save" button in modal footer
     Then I see "already exists" error message for "updated"
@@ -485,7 +485,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Save" button in modal footer
     Then I see "403" error message for "updated"
@@ -508,7 +508,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Save" button in modal footer
     Then I see "404" error message for "updated"
@@ -531,7 +531,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "Save" button in modal footer
     Then I see "500" error message for "updated"
@@ -553,7 +553,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group input is filled with "Acme"
     When I click on the "remove" glyphicon button in modal body
     Then The parent group edition field should contain "Europe"
@@ -588,7 +588,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Asia" in the list
+    When I click on "asia" in the list
     Then The parent group list is not displayed
     And The parent group input is filled with "Asia"
     When I click on the "remove" glyphicon button in modal body
@@ -612,7 +612,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
-    When I click on "Acme" in the list
+    When I click on "acme" in the list
     Then The parent group edition field should contain "Acme"
     When I click on the "Cancel" button in modal footer
     Then There is no modal displayed
