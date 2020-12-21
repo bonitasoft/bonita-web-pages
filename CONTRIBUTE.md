@@ -15,9 +15,9 @@
 
 ## Submitting Changes
 
-* Sign the [Contributor License Agreement](Bonitasoft_Contributor__License_Agreement.txt).
 * Push your changes to a topic branch in your fork of the repository.
 * Submit a **pull request** to the repository in the Bonitasoft organization.
+* Sign the license agreement if it is the first pull request that you opened.
 * The dev team looks at Pull Requests on a regular basis.
 * `Labels` are used to track the lifecycle of the pull request:
 	* Review needed
