@@ -2,6 +2,7 @@ Feature: The enabled process list in desktop resolution
 
   Scenario: The enabled process list displays the correct attributes
     Given The page response "default filter" is defined
+    And The page response "disabled process api is not called" is defined
     When I visit admin process list page
     Then The enabled process list have the correct information
     And The enabled process list have the correct item shown number
@@ -111,8 +112,7 @@ Feature: The enabled process list in desktop resolution
     Then The "Disable" process modal is displayed for "VacationRequest (2.0)"
     And The correct text is shown in disable modal
     When I click on disable button in modal
-    Then The api call is made for "disable process"
-    And The api call is made for "refresh list"
+    Then The api call is made for "refresh list"
     And The modal is closed
 
   Scenario: The disable process modal should display 500 error message

@@ -122,8 +122,7 @@ Feature: The disabled process list in desktop resolution
     Then The "Enable" process modal is displayed for "Pool 1 (1.0)"
     And The correct text is shown in enable modal
     When I click on enable button in modal
-    Then The api call is made for "enable process" processes
-    And The api call is made for "refresh list" processes
+    Then The api call is made for "refresh list" processes
     And The modal is closed
 
   Scenario: The enable process modal should display 500 error message

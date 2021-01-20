@@ -5,6 +5,7 @@ const processListUrl = 'API/bpm/process';
 const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
+const disabledProcessRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0&d=deployedBy&f=activationState=DISABLED';
 
 given("The page response {string} is defined", (filterType) => {
     cy.server();
@@ -73,6 +74,15 @@ given("The page response {string} is defined", (filterType) => {
             break;
         case 'refresh enabled process list':
             createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
+            break;
+        case 'disabled process api is not called':
+            cy.route({
+                method: "GET",
+                url: disabledProcessRequestUrl + defaultSortOrder,
+                onRequest: () => {
+                    throw new Error("The disabled process api should have not been called");
+                }
+            });
             break;
         default:
             throw new Error("Unsupported case");
@@ -379,7 +389,6 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'refresh list':
             cy.wait('@refreshEnabledProcessesList');
-            cy.wait('@refreshDisabledProcessesList');
             break;
         case 'refresh enabled process list':
             cy.wait('@refreshEnabledProcessesList');

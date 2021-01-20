@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.0",
-  "previousArtifactVersion" : "1.10.18",
-  "id" : "adminProcessListBonitaV1",
-  "name" : "adminProcessListBonitaV1",
-  "lastUpdate" : 1604322580894,
+  "modelVersion" : "2.1",
+  "previousArtifactVersion" : "2.0",
+  "id" : "adminProcessListBonitaV2",
+  "name" : "adminProcessListBonitaV2",
+  "lastUpdate" : 1611159023840,
   "rows" : [
     [
       {
@@ -240,6 +240,10 @@
                     "title" : {
                       "type" : "interpolation",
                       "value" : "<span title=\"{{\"Enabled processes can be started and run. They cannot be deleted unless you disable them first.\" | uiTranslate}}\"><i class=\"glyphicon glyphicon-ok\"></i> {{\"Enabled\" | uiTranslate}} </span>"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : "enabledProcessData.activeTab"
                     }
                   },
                   "reference" : "a04dc175-ad09-445c-aa92-e3dc4e125008",
@@ -534,7 +538,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/process?{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
+                                    "value" : "{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -1859,7 +1863,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/process?{{enabledProcessCtrl.enabledProcessesQueryParameters(enabledProcessData.pageId)}}"
+                              "value" : "{{enabledProcessCtrl.enabledProcessesQueryParameters(enabledProcessData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -1933,6 +1937,10 @@
                     "title" : {
                       "type" : "interpolation",
                       "value" : "<span title=\"{{\"Disabled processes neither can be started nor run. They must be resolved to be enabled.\" | uiTranslate}}\"><i class=\"glyphicon glyphicon-ban-circle\"></i> {{\"Disabled\" | uiTranslate}}</span>"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : "disabledProcessData.activeTab"
                     }
                   },
                   "reference" : "82112b30-0aff-48f2-ab27-fe6fb75154d4",
@@ -2227,7 +2235,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/process?{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
+                                    "value" : "{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -3554,7 +3562,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/process?{{disabledProcessCtrl.disabledProcessesQueryParameters(disabledProcessData.pageId)}}"
+                              "value" : "{{disabledProcessCtrl.disabledProcessesQueryParameters(disabledProcessData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -5149,7 +5157,7 @@
     "enabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process?{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
+        "{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -5184,7 +5192,8 @@
         "        searchValue: \"\"",
         "    },",
         "    enabledProcessesFromAPI: undefined,",
-        "    displayedEnabledProcesses: []",
+        "    displayedEnabledProcesses: [],",
+        "    activeTab: true",
         "};"
       ],
       "exposed" : false
@@ -5233,13 +5242,17 @@
       "value" : [
         "return {\r",
         "    enabledProcessesQueryParameters: function(pageId) {\r",
+        "        if(!$data.enabledProcessData.activeTab) {\r",
+        "            return undefined;\r",
+        "        }\r",
         "        var enabledProcessesPerPage = $data.enabledProcessData.numberOfEnabledProcessesPerPage;\r",
-        "        \r",
+        "\r",
         "        if(pageId === 0){\r",
         "            //on first call we need load next page\r",
         "            enabledProcessesPerPage *= 2;\r",
         "        }\r",
-        "        var queryParameters = \"c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.enabledProcessData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
+        "        \r",
+        "        var queryParameters = \"?c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.enabledProcessData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
         "        \r",
         "        if($data.enabledProcessData.filters.state){\r",
         "            queryParameters += \"&f=configurationState=\" +  $data.enabledProcessData.filters.state.toUpperCase();\r",
@@ -5254,7 +5267,7 @@
         "        if($data.enabledProcessData.filters.searchValue){\r",
         "            queryParameters += \"&s=\" +  $data.enabledProcessData.filters.searchValue;\r",
         "        }\r",
-        "        return queryParameters;\r",
+        "        return $data.defaultProcessUrl + queryParameters;\r",
         "    },\r",
         "    getEnabledProcessDetailsParameters: function(id){\r",
         "        return {\"id\": id};\r",
@@ -5294,7 +5307,8 @@
         "        searchValue: \"\"\r",
         "    },\r",
         "    disabledProcessesFromAPI: undefined,\r",
-        "    displayedDisabledProcesses: []\r",
+        "    displayedDisabledProcesses: [],\r",
+        "    activeTab: false\r",
         "};"
       ],
       "exposed" : false
@@ -5304,37 +5318,41 @@
       "value" : [
         "return {\r",
         "    disabledProcessesQueryParameters: function(pageId) {\r",
+        "        if(!$data.disabledProcessData.activeTab) {\r",
+        "            return undefined;\r",
+        "        }\r",
+        "        \r",
         "        var disabledProcessesPerPage = $data.disabledProcessData.numberOfDisabledProcessesPerPage;\r",
         "        \r",
-        "        if(pageId === 0){\r",
+        "        if(pageId === 0) {\r",
         "            //on first call we need load next page\r",
         "            disabledProcessesPerPage *= 2;\r",
         "        }\r",
-        "        var queryParameters = \"c=\" + disabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.disabledProcessData.timestamp + \"&d=deployedBy&f=activationState=DISABLED\";\r",
+        "        var queryParameters = \"?c=\" + disabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.disabledProcessData.timestamp + \"&d=deployedBy&f=activationState=DISABLED\";\r",
         "\r",
-        "        if($data.disabledProcessData.filters.state){\r",
+        "        if($data.disabledProcessData.filters.state) {\r",
         "            queryParameters += \"&f=configurationState=\" +  $data.disabledProcessData.filters.state.toUpperCase();\r",
         "        }\r",
         "        \r",
-        "        if($data.disabledProcessData.filters.sortOrder){\r",
+        "        if($data.disabledProcessData.filters.sortOrder) {\r",
         "            queryParameters += \"&o=\" + $data.disabledProcessData.filters.sortOrder;\r",
         "        }else{\r",
         "            queryParameters += \"&o=displayName+ASC\";\r",
         "        }\r",
         "        \r",
-        "        if($data.disabledProcessData.filters.searchValue){\r",
+        "        if($data.disabledProcessData.filters.searchValue) {\r",
         "            queryParameters += \"&s=\" +  $data.disabledProcessData.filters.searchValue;\r",
         "        }\r",
         "        \r",
-        "        return queryParameters;\r",
+        "        return $data.defaultProcessUrl + queryParameters;\r",
         "    },\r",
-        "    getDisabledProcessDetailsParameters: function(id){\r",
+        "    getDisabledProcessDetailsParameters: function(id) {\r",
         "        return {\"id\": id};\r",
         "    },\r",
-        "    isUnresolved: function(state){\r",
+        "    isUnresolved: function(state) {\r",
         "       return state === \"UNRESOLVED\";\r",
         "    },\r",
-        "    getEnableButtonHTML: function(isUnresolved){\r",
+        "    getEnableButtonHTML: function(isUnresolved) {\r",
         "        var enableTooltip = isUnresolved ? uiTranslate('This process is not fully configured. It cannot be enabled. Click on the \"View process details\" icon.') : uiTranslate('Enable');\r",
         "        return \"<i class='glyphicon glyphicon-ok' title='\" + enableTooltip + \"'></i>\";\r",
         "    }\r",
@@ -5384,7 +5402,7 @@
     "disabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process?{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
+        "{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -5447,7 +5465,7 @@
         "        } else {",
         "            $data.modalData.enablingProcess = true;",
         "        }",
-        "        return \"../API/bpm/process/\" + $data.modalData.process.id;",
+        "        return $data.defaultProcessUrl + \"/\" + $data.modalData.process.id;",
         "    }",
         "};"
       ],
@@ -5498,7 +5516,7 @@
         "return {",
         "    installItem : function() {",
         "        $data.installModalData.installingItem = true;",
-        "        return '../API/bpm/process';",
+        "        return $data.defaultProcessUrl;",
         "    },",
         "    getErrorMessageFor500: function(failedInstallResponse) {",
         "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
@@ -5546,6 +5564,13 @@
         "        $data.installModalData.statusCode = '';",
         "    }, 2000);",
         "}"
+      ],
+      "exposed" : false
+    },
+    "defaultProcessUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/process"
       ],
       "exposed" : false
     }

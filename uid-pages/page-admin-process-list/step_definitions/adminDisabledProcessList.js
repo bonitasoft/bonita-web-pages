@@ -13,7 +13,7 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'disabledProcesses5Route', 'disabledProcesses5');
             break;
         case 'state':
-            createRouteWithResponse(defaultRequestUrl,'&f=configurationState=RESOLVED' + defaultSortOrder, 'disabledResolvedProcessesRoute', 'disabledResolvedProcesses');
+            createRouteWithResponse(defaultRequestUrl, '&f=configurationState=RESOLVED' + defaultSortOrder, 'disabledResolvedProcessesRoute', 'disabledResolvedProcesses');
             break;
         case 'sort by':
             createDefaultRoute('&o=name+ASC', 'sortByNameAscRoute');
@@ -31,7 +31,7 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=2&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'disabledProcesses10');
             break;
         case 'search':
-            createDefaultRoute( defaultSortOrder + '&s=VacationRequest', 'searchByNameRoute');
+            createDefaultRoute(defaultSortOrder + '&s=VacationRequest', 'searchByNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -57,10 +57,10 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*&d=deployedBy&f=activationState=ENABLED' + defaultSortOrder, "refreshEnabledProcessesListRoute", "GET");
             break;
         case 'enable state code 500':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626',"processEnableRoute", 'emptyResult', "PUT", '500');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '500');
             break;
         case 'enable state code 403':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626',"processEnableRoute", 'emptyResult', "PUT", '403');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '403');
             break;
         case 'delay enable':
             cy.fixture('json/emptyResult.json').as('emptyResult');
@@ -379,7 +379,6 @@ then("The api call is made for {string} processes", (filterValue) => {
             cy.wait('@processEnableRoute');
             break;
         case 'refresh list':
-            cy.wait('@refreshEnabledProcessesListRoute');
             cy.wait('@refreshDisabledProcessesListRoute');
             break;
         case 'refresh disabled process list':
@@ -407,7 +406,7 @@ then("The correct text is shown in enable modal", () => {
 
 then("I see enabling message", () => {
     cy.get('.glyphicon-cog.gly-spin').should('be.visible');
-    cy.contains('div','Enabling process...').should('be.visible');
+    cy.contains('div', 'Enabling process...').should('be.visible');
 });
 
 then("The {string} button is disabled for item {string}", (iconName, processNumber) => {
@@ -419,7 +418,7 @@ then("The load more processes button is disabled in disabled processes list", ()
 });
 
 then("I see {string} error message for disabled processes", (errorCode) => {
-  //  cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it.').should('be.visible');
+    //  cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it.').should('be.visible');
     cy.contains('.modal', 'The process has not been enabled.').should('be.visible');
     switch (errorCode) {
         case '500':
