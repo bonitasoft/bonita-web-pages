@@ -145,6 +145,7 @@ Feature: The pending tasks list in desktop resolution
   Scenario: The pending task list search by caseId works correctly
     Given The filter response "filter by caseId" is defined for pending tasks
     When I visit admin task list page with caseId "2001" in URL parameter
+    And I click on "Pending tasks" tab
     Then The api call is made for "2001" for pending tasks
     When I erase the caseId filter
     And I put "3001" in "caseId" filter field for pending tasks

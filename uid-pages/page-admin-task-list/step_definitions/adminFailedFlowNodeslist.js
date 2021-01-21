@@ -7,6 +7,8 @@ const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
+const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=20&p=0' + defaultFilters;
+const doneTaskRequestUrl = urlPrefix + 'API/bpm/archivedTask?c=20&p=0' + defaultFilters;
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
@@ -57,6 +59,23 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'empty process list':
             createRouteWithResponse(processUrl, processFilters, 'emptyResultRoute', 'emptyResult');
+            break;
+        case 'only failed flow node api call':
+            cy.route({
+                method: "GET",
+                url: pendingTaskRequestUrl + defaultSortOrder,
+                onRequest: () => {
+                    throw new Error("The pending task api should have not been called");
+                }
+            });
+
+            cy.route({
+                method: "GET",
+                url: doneTaskRequestUrl + defaultSortOrder,
+                onRequest: () => {
+                    throw new Error("The done task api should have not been called");
+                }
+            });
             break;
         default:
             throw new Error("Unsupported case");

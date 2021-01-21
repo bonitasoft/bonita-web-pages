@@ -2,6 +2,7 @@ Feature: The failed flow nodes list in desktop resolution
 
   Scenario: The failed flow nodes list displays the correct attributes
     Given The filter response "default filter" is defined
+    And The filter response "only failed flow node api call" is defined
     When I visit admin task list page
     Then The failed flow nodes list have the correct information
     And The failed flow nodes list have the correct item shown number
