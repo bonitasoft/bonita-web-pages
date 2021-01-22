@@ -89,6 +89,15 @@ given("The response {string} is defined", (responseType) => {
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
+        case 'process variable api is not called':
+            cy.route({
+                method: "GET",
+                url: processVariableUrl + '&t=0',
+                onRequest: () => {
+                    throw new Error("The process variable api should not have been called");
+                }
+            });
+            break;
         default:
             throw new Error("Unsupported case");
     }

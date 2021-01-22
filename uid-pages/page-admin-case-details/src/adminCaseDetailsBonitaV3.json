@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.1",
   "previousArtifactVersion" : "2.0",
-  "id" : "adminCaseDetailsBonitaV2",
-  "name" : "adminCaseDetailsBonitaV2",
-  "lastUpdate" : 1611138288083,
+  "id" : "adminCaseDetailsBonitaV3",
+  "name" : "adminCaseDetailsBonitaV3",
+  "lastUpdate" : 1611331269948,
   "rows" : [
     [
       {
@@ -2284,6 +2284,10 @@
                           "title" : {
                             "type" : "interpolation",
                             "value" : "Comments"
+                          },
+                          "active" : {
+                            "type" : "variable",
+                            "value" : "commentData.activeTab"
                           }
                         },
                         "reference" : "487021a1-1ba3-4938-a6d6-b7abd172f171",
@@ -2734,6 +2738,10 @@
                           "title" : {
                             "type" : "interpolation",
                             "value" : "Process variables"
+                          },
+                          "active" : {
+                            "type" : "variable",
+                            "value" : "processVariablesData.activeTab"
                           }
                         },
                         "reference" : "0c316778-cfd3-4a3a-ba1e-f4b88a75dd40",
@@ -3427,7 +3435,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
+                                    "value" : "{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -4490,11 +4498,12 @@
         "        }",
         "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by\";",
         "    },",
-        "    getCommentUrl: function(){",
-        "        return isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
-        "    },",
         "    getCommentQueryParameters: function(){",
-        "      return \"p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
+        "        if (!$data.commentData.activeTab) {",
+        "            return undefined;",
+        "        }",
+        "        var commentUrl = isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\";",
+        "        return commentUrl + \"?p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
         "    },",
         "    getUserDisplayName: function(user){",
         "        if(!user){",
@@ -4545,7 +4554,7 @@
     "comments" : {
       "type" : "url",
       "value" : [
-        "{{caseDetailsCtrl.getCommentUrl()}}?{{caseDetailsCtrl.getCommentQueryParameters()}}"
+        "{{caseDetailsCtrl.getCommentQueryParameters()}}"
       ],
       "exposed" : false
     },
@@ -4555,7 +4564,8 @@
         "return {",
         "    timestamp: 0,",
         "    comment: \"\",",
-        "    statusCode: \"\"",
+        "    statusCode: \"\",",
+        "    activeTab: true",
         "};"
       ],
       "exposed" : false
@@ -4627,7 +4637,7 @@
     "processVariables" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(0)}}&t={{processVariablesData.timestamp}}"
+        "{{processVariablesCtrl.processVariablesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -4664,6 +4674,10 @@
         "",
         "return {",
         "    processVariablesQueryParameters: function(pageId) {",
+        "        if (!$data.processVariablesData.activeTab) {",
+        "            return undefined;",
+        "        }",
+        "        ",
         "        var processVariablesPerPage = $data.processVariablesData.numberOfProcessVariablesPerPage;",
         "        ",
         "        if (pageId === 0) {",
@@ -4671,9 +4685,11 @@
         "            processVariablesPerPage *= 2;",
         "        }",
         "        ",
+        "        var timestamp = pageId === 0 ? \"&t=\" + $data.processVariablesData.timestamp : \"\";",
+        "        ",
         "        var queryParameters = \"p=\" + pageId + \"&c=\" + processVariablesPerPage +  \"&f=case_id=\" + $data.caseIdQueryParameter;",
         "        ",
-        "        return queryParameters;",
+        "        return $data.processVariablesDefaultUrl + \"?\" + queryParameters + timestamp;",
         "    },",
         "    getUpdateUrl : function() {",
         "        $data.processVariablesData.updatingItem = true;",
@@ -4737,7 +4753,8 @@
         "    numberOfProcessVariablesPerPage: 10,",
         "    numberOfProcessVariablesInMemory: 0,",
         "    processVariablesFromAPI: undefined,",
-        "    processVariablesFailedResponse: \"\"",
+        "    processVariablesFailedResponse: \"\",",
+        "    activeTab: false",
         "};"
       ],
       "exposed" : false
@@ -4791,6 +4808,13 @@
         "        $data.processVariablesData.statusCode = '';",
         "    }, 2000);",
         "}"
+      ],
+      "exposed" : false
+    },
+    "processVariablesDefaultUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/caseVariable"
       ],
       "exposed" : false
     }
