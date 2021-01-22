@@ -73,7 +73,7 @@ Feature: The enabled process list in desktop resolution
     Then A list of "35" items is displayed
     And The load more processes button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is not disabled when result is a multiple of count
     Given The page response "enable 20 load more" is defined
     When I visit admin process list page
     Then A list of "10" items is displayed

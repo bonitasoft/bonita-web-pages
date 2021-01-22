@@ -12,6 +12,14 @@ Feature: The user open case list in desktop resolution
     When I click on "Open cases" tab
     Then A list of open cases is displayed
 
+  Scenario: The user case list only does api call for open cases
+    Given A list of open cases is available
+    And The archived cases api is not called
+    And A user session is available
+    And A list of processes is available
+    When I visit the user case list page
+    Then A list of open cases is displayed
+
   Scenario: The user case list displays the correct attributes
     Given A list of open cases is available
     And A list of archived cases is available
@@ -242,7 +250,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "24" cases is displayed
     And The Load more cases button is disabled
 
-  Scenario: [Limitation] Load more open cases is not disabled when result is a multiple of count
+  Scenario: Load more open cases is not disabled when result is a multiple of count
     Given The response "open case list 20 load more" is defined
     And A user session is available
     And A list of processes is available
@@ -252,7 +260,7 @@ Feature: The user open case list in desktop resolution
     Then A list of "20" cases is displayed
     And The Load more cases button is disabled
 
-  Scenario: [Limitation] Load more archived cases is not disabled when result is a multiple of count
+  Scenario: Load more archived cases is not disabled when result is a multiple of count
     Given The response "archived case list 20 load more" is defined
     And A user session is available
     And A list of processes is available

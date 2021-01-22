@@ -78,7 +78,7 @@ Feature: The disabled process list in desktop resolution
     Then A list of "35" items is displayed
     And The load more processes button is disabled in disabled processes list
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count in disabled processes list
+  Scenario: Load more is not disabled when result is a multiple of count in disabled processes list
     Given The page response "disable 20 load more" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab

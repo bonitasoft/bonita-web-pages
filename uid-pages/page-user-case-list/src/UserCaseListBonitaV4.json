@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.1",
   "previousArtifactVersion" : "2.0",
-  "id" : "UserCaseListBonitaV3",
-  "name" : "UserCaseListBonitaV3",
-  "lastUpdate" : 1611138302908,
+  "id" : "UserCaseListBonitaV4",
+  "name" : "UserCaseListBonitaV4",
+  "lastUpdate" : 1611333926635,
   "rows" : [
     [
       {
@@ -325,6 +325,10 @@
                     "title" : {
                       "type" : "interpolation",
                       "value" : "Open cases"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : "openCaseData.activeTab"
                     }
                   },
                   "reference" : "12a2935e-650f-4958-a899-9b8254e1a269",
@@ -657,7 +661,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
+                                    "value" : "{{openCaseCtrl.openCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -1841,7 +1845,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
+                              "value" : "{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -1912,6 +1916,10 @@
                     "title" : {
                       "type" : "interpolation",
                       "value" : "Archived cases"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : "archivedCaseData.activeTab"
                     }
                   },
                   "reference" : "92de4a79-25c1-42c0-9ca1-383844e8d956",
@@ -2244,7 +2252,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
+                                    "value" : "{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -3427,7 +3435,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
+                              "value" : "{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -3536,8 +3544,8 @@
       "value" : [
         "return {",
         "    archivedCasesQueryParameters: function(pageId) {",
-        "        if(!$data.archivedCaseData.numberOfCasesPerPage){",
-        "            return ;",
+        "        if(!$data.archivedCaseData.activeTab || !$data.archivedCaseData.numberOfCasesPerPage){",
+        "            return undefined;",
         "        }",
         "        var casesPerPage = $data.archivedCaseData.numberOfCasesPerPage;",
         "",
@@ -3563,7 +3571,7 @@
         "            queryParameters += \"&s=\" +  $data.archivedCaseData.filters.searchValue;",
         "        }",
         "    ",
-        "        return queryParameters;",
+        "        return \"../API/bpm/archivedCase?\" + queryParameters;",
         "    }",
         "};"
       ],
@@ -3572,7 +3580,7 @@
     "openCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
+        "{{openCaseCtrl.openCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3599,6 +3607,9 @@
       "value" : [
         "return {",
         "    openCasesQueryParameters: function(pageId) {",
+        "        if (!$data.openCaseData.activeTab) {",
+        "            return undefined;",
+        "        }",
         "        var casesPerPage = $data.openCaseData.numberOfCasesPerPage;",
         "        ",
         "        if(pageId === 0){",
@@ -3624,7 +3635,7 @@
         "            queryParameters += \"&s=\" +  $data.openCaseData.filters.searchValue;",
         "        }",
         "        ",
-        "        return queryParameters;",
+        "        return \"../API/bpm/case?\" + queryParameters;",
         "    }",
         "};"
       ],
@@ -3668,7 +3679,7 @@
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
+        "{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3794,7 +3805,8 @@
         "    },",
         "    archivedCasesFromAPI: undefined,",
         "    displayedArchivedCases: [],",
-        "    numberOfArchivedCasesInMemory: false",
+        "    numberOfArchivedCasesInMemory: false,",
+        "    activeTab: false",
         "};"
       ],
       "exposed" : false
@@ -3825,7 +3837,8 @@
         "        searchValue: \"\"",
         "    },",
         "    openCasesFromAPI: undefined,",
-        "    displayedOpenCases: []",
+        "    displayedOpenCases: [],",
+        "    activeTab: true",
         "};"
       ],
       "exposed" : false

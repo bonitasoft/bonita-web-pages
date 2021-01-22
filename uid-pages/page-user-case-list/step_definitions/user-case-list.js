@@ -22,6 +22,17 @@ given("A list of archived cases is available", ()=>{
     }).as('archivedCasesRoute');
 });
 
+given("The archived cases api is not called", ()=>{
+    cy.server();
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
+        onRequest: () => {
+            throw new Error("The archived cases api should have not been called");
+        }
+    });
+});
+
 given("A user session is available", ()=>{
     cy.fixture('json/session.json').as('session');
     cy.route({
@@ -792,12 +803,12 @@ then('The tasks field is not displayed in mobile view', () => {
 
 then("The open case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 5').should('be.visible');
-    cy.contains('div', 'Cases shown: 4').should('be.hidden');
+    cy.contains('div', 'Cases shown: 4').should('not.exist');
 });
 
 then("The archived case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 4').should('be.visible');
-    cy.contains('div', 'Cases shown: 5').should('be.hidden');
+    cy.contains('div', 'Cases shown: 5').should('not.exist');
 });
 
 then("The go to case details button is disabled", () => {
