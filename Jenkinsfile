@@ -40,7 +40,7 @@ ansiColor('xterm') {
 
 def isBaseBranch() {
     def currentBranch = env.BRANCH_NAME
-    currentBranch == 'master' || currentBranch == 'dev' || currentBranch?.startsWith('release-')
+    currentBranch == 'master' || currentBranch == 'dev' || currentBranch?.startsWith('release-') || currentBranch?.matches('7\\..+\\.x')
 }
 
 def gradle(args) {
