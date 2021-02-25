@@ -397,6 +397,7 @@ then('The image is not displayed', () => {
 
 then('The current session modal is visible', () => {
     cy.get('.modal').should('be.visible');
+    cy.waitFor('.modal', 10000);
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {

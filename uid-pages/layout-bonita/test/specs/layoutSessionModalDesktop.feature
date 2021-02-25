@@ -63,7 +63,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I press the button "Apply"
     Then The language in BOS_Locale is "fr"
     Then Page reloads
-    
+
   Scenario: The language is changed in current session modal when locale is set in URL
     Given The URL target to the application "appName1"
     And A user is connected without sso
