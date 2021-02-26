@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminCaseDetailsBonitaV3",
   "name" : "adminCaseDetailsBonitaV3",
-  "lastUpdate" : 1611331269948,
+  "lastUpdate" : 1613139576785,
   "rows" : [
     [
       {
@@ -3435,7 +3435,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
+                                    "value" : "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -4637,7 +4637,7 @@
     "processVariables" : {
       "type" : "url",
       "value" : [
-        "{{processVariablesCtrl.processVariablesQueryParameters(0)}}"
+        "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -4689,7 +4689,7 @@
         "        ",
         "        var queryParameters = \"p=\" + pageId + \"&c=\" + processVariablesPerPage +  \"&f=case_id=\" + $data.caseIdQueryParameter;",
         "        ",
-        "        return $data.processVariablesDefaultUrl + \"?\" + queryParameters + timestamp;",
+        "        return queryParameters + timestamp;",
         "    },",
         "    getUpdateUrl : function() {",
         "        $data.processVariablesData.updatingItem = true;",
@@ -4808,13 +4808,6 @@
         "        $data.processVariablesData.statusCode = '';",
         "    }, 2000);",
         "}"
-      ],
-      "exposed" : false
-    },
-    "processVariablesDefaultUrl" : {
-      "type" : "constant",
-      "value" : [
-        "../API/bpm/caseVariable"
       ],
       "exposed" : false
     }

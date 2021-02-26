@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminProcessListBonitaV2",
   "name" : "adminProcessListBonitaV2",
-  "lastUpdate" : 1611159023840,
+  "lastUpdate" : 1613138712320,
   "rows" : [
     [
       {
@@ -538,7 +538,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/process{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -1863,7 +1863,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{enabledProcessCtrl.enabledProcessesQueryParameters(enabledProcessData.pageId)}}"
+                              "value" : "../API/bpm/process{{enabledProcessCtrl.enabledProcessesQueryParameters(enabledProcessData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -2235,7 +2235,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/process{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -3562,7 +3562,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{disabledProcessCtrl.disabledProcessesQueryParameters(disabledProcessData.pageId)}}"
+                              "value" : "../API/bpm/process{{disabledProcessCtrl.disabledProcessesQueryParameters(disabledProcessData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -5157,7 +5157,7 @@
     "enabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
+        "../API/bpm/process{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -5267,7 +5267,7 @@
         "        if($data.enabledProcessData.filters.searchValue){\r",
         "            queryParameters += \"&s=\" +  $data.enabledProcessData.filters.searchValue;\r",
         "        }\r",
-        "        return $data.defaultProcessUrl + queryParameters;\r",
+        "        return queryParameters;\r",
         "    },\r",
         "    getEnabledProcessDetailsParameters: function(id){\r",
         "        return {\"id\": id};\r",
@@ -5344,7 +5344,7 @@
         "            queryParameters += \"&s=\" +  $data.disabledProcessData.filters.searchValue;\r",
         "        }\r",
         "        \r",
-        "        return $data.defaultProcessUrl + queryParameters;\r",
+        "        return queryParameters;\r",
         "    },\r",
         "    getDisabledProcessDetailsParameters: function(id) {\r",
         "        return {\"id\": id};\r",
@@ -5402,7 +5402,7 @@
     "disabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
+        "../API/bpm/process{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },

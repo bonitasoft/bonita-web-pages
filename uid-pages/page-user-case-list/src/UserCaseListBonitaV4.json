@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "UserCaseListBonitaV4",
   "name" : "UserCaseListBonitaV4",
-  "lastUpdate" : 1611333926635,
+  "lastUpdate" : 1613121456873,
   "rows" : [
     [
       {
@@ -661,7 +661,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{openCaseCtrl.openCasesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -1845,7 +1845,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
+                              "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -2252,7 +2252,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -3435,7 +3435,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
+                              "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -3571,7 +3571,7 @@
         "            queryParameters += \"&s=\" +  $data.archivedCaseData.filters.searchValue;",
         "        }",
         "    ",
-        "        return \"../API/bpm/archivedCase?\" + queryParameters;",
+        "        return queryParameters;",
         "    }",
         "};"
       ],
@@ -3580,7 +3580,7 @@
     "openCases" : {
       "type" : "url",
       "value" : [
-        "{{openCaseCtrl.openCasesQueryParameters(0)}}"
+        "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -3635,7 +3635,7 @@
         "            queryParameters += \"&s=\" +  $data.openCaseData.filters.searchValue;",
         "        }",
         "        ",
-        "        return \"../API/bpm/case?\" + queryParameters;",
+        "        return queryParameters;",
         "    }",
         "};"
       ],
@@ -3679,7 +3679,7 @@
     "archivedCases" : {
       "type" : "url",
       "value" : [
-        "{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
+        "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
       ],
       "exposed" : false
     },

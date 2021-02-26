@@ -802,13 +802,13 @@ then('The tasks field is not displayed in mobile view', () => {
 });
 
 then("The open case list have the correct item shown number", () => {
-    cy.contains('div', 'Cases shown: 5').should('be.visible');
-    cy.contains('div', 'Cases shown: 4').should('not.exist');
+    cy.contains('.case-property-label', 'Cases shown: 5').should('be.visible');
+    cy.contains('.case-property-label', 'Cases shown: 4').should('not.exist');
 });
 
 then("The archived case list have the correct item shown number", () => {
-    cy.contains('div', 'Cases shown: 4').should('be.visible');
-    cy.contains('div', 'Cases shown: 5').should('not.exist');
+    cy.contains('.case-property-label', 'Cases shown: 4').should('be.visible');
+    cy.contains('.case-property-label', 'Cases shown: 5').should('not.exist');
 });
 
 then("The go to case details button is disabled", () => {

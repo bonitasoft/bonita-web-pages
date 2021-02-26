@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminTaskListBonitaV2",
   "name" : "adminTaskListBonitaV2",
-  "lastUpdate" : 1611221814965,
+  "lastUpdate" : 1613137218108,
   "rows" : [
     [
       {
@@ -607,7 +607,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
+                                    "value" : "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -2397,7 +2397,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(failedFlowNodeData.pageId)}}"
+                              "value" : "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(failedFlowNodeData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -2769,7 +2769,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
+                                    "value" : "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -4562,7 +4562,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{pendingTaskCtrl.pendingTasksQueryParameters(pendingTaskData.pageId)}}"
+                              "value" : "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(pendingTaskData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -4934,7 +4934,7 @@
                                   },
                                   "url" : {
                                     "type" : "interpolation",
-                                    "value" : "{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
+                                    "value" : "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
@@ -6727,7 +6727,7 @@
                             },
                             "url" : {
                               "type" : "interpolation",
-                              "value" : "{{doneTaskCtrl.doneTasksQueryParameters(doneTaskData.pageId)}}"
+                              "value" : "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(doneTaskData.pageId)}}"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
@@ -6841,7 +6841,7 @@
     "failedFlowNodeUrl" : {
       "type" : "url",
       "value" : [
-        "{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
+        "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -6855,7 +6855,6 @@
         "        }",
         "        ",
         "        var flowNodesPerPage = $data.failedFlowNodeData.numberOfFlowNodesPerPage;",
-        "        var defaultFailedFlowNodeUrl = \"../API/bpm/flowNode\";",
         "        ",
         "        if(pageId === 0){",
         "            //on first call we need load next page",
@@ -6879,7 +6878,7 @@
         "            queryParameters += \"&s=\" +  $data.failedFlowNodeData.filters.searchValue;",
         "        }",
         "        ",
-        "        return defaultFailedFlowNodeUrl + queryParameters;",
+        "        return queryParameters;",
         "    }",
         "};"
       ],
@@ -6958,7 +6957,7 @@
     "pendingTaskUrl" : {
       "type" : "url",
       "value" : [
-        "{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
+        "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -6972,7 +6971,6 @@
         "        }",
         "        ",
         "        var pendingTasksPerPage = $data.pendingTaskData.numberOfPendingTasksPerPage;",
-        "        var defaultPendingTaskUrl = \"../API/bpm/humanTask\";",
         "        ",
         "        if(pageId === 0){",
         "            //on first call we need load next page",
@@ -6997,7 +6995,7 @@
         "            queryParameters += \"&s=\" +  $data.pendingTaskData.filters.searchValue;",
         "        }",
         "        ",
-        "        return defaultPendingTaskUrl + queryParameters;",
+        "        return queryParameters;",
         "    },",
         "    hideDueDateOverdueIcon: function(dueDate){",
         "        var currentTimestamp = new Date().getTime();",
@@ -7131,7 +7129,6 @@
         "        }",
         "        ",
         "        var doneTasksPerPage = $data.doneTaskData.numberOfDoneTasksPerPage;",
-        "        var defaultDoneTaskUrl = \"../API/bpm/archivedTask\";",
         "        ",
         "        if(pageId === 0){",
         "            //on first call we need load next page",
@@ -7157,7 +7154,7 @@
         "            queryParameters += \"&s=\" +  $data.doneTaskData.filters.searchValue;",
         "        }",
         "        ",
-        "        return defaultDoneTaskUrl + queryParameters;",
+        "        return queryParameters;",
         "    }",
         "};"
       ],
@@ -7205,7 +7202,7 @@
     "doneTaskUrl" : {
       "type" : "url",
       "value" : [
-        "{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
+        "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
       ],
       "exposed" : false
     },
