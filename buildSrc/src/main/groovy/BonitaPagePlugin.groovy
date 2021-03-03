@@ -1,5 +1,6 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.repositories.IvyArtifactRepository
 
 class BonitaPagePlugin implements Plugin<Project> {
 
@@ -9,6 +10,16 @@ class BonitaPagePlugin implements Plugin<Project> {
         project.plugins.apply('com.moowork.node')
         project.plugins.apply('distribution')
         def currentDir = project.rootProject.projectDir
+
+        // Bug here: https://github.com/srs/gradle-node-plugin/issues/301
+        // `com.moowork.node` to be replaced by https://github.com/node-gradle/gradle-node-plugin
+        project.repositories.whenObjectAdded {
+            if (it instanceof IvyArtifactRepository) {
+                metadataSources {
+                    artifact()
+                }
+            }
+        }
 
         project.beforeEvaluate {
             project.node {

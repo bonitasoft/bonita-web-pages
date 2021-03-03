@@ -1,5 +1,15 @@
 plugins { id 'com.moowork.node' }
 
+// Bug here: https://github.com/srs/gradle-node-plugin/issues/301
+// `com.moowork.node` to be replaced by https://github.com/node-gradle/gradle-node-plugin
+project.repositories.whenObjectAdded {
+    if (it instanceof IvyArtifactRepository) {
+        metadataSources {
+            artifact()
+        }
+    }
+}
+
 project.beforeEvaluate {
     project.node {
         version = '8.9.4'
@@ -28,6 +38,17 @@ def parentProject = project
 subprojects { subProject ->
     if (file("cypress.json").exists()){
         apply plugin: 'com.moowork.node'
+
+        // Bug here: https://github.com/srs/gradle-node-plugin/issues/301
+        // `com.moowork.node` to be replaced by https://github.com/node-gradle/gradle-node-plugin
+        subProject.repositories.whenObjectAdded {
+            if (it instanceof IvyArtifactRepository) {
+                metadataSources {
+                    artifact()
+                }
+            }
+        }
+
         task unzip(type: Copy) {
             dependsOn('buildUIDPage')
             def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
