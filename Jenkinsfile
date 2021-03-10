@@ -22,7 +22,9 @@ ansiColor('xterm') {
         slackStage('🔧 Build', isBaseBranch) {
             wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24', parallelBuild: true]) {
                 try {
-                    gradle 'clean build runIntegrationTests'
+                    gradle 'buildUIDPage --parallel --max-workers 2'
+                    gradle 'build'
+                    gradle 'runTest --parallel --max-workers 2'
                 } finally {
                     junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
                     archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'
