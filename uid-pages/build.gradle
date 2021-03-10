@@ -29,6 +29,12 @@ subprojects { subProject ->
             args = ['test', '--', '--project', subProject.name]
             environment = [LANG: 'en_EN.UTF-8']
             group 'Bonita'
+            outputs.cacheIf {true}
+            inputs.files('cypress.json')
+            inputs.dir('src')
+            inputs.dir('step_definitions')
+            inputs.dir('test')
+            outputs.dir('build/tests/results')
         }
     }
 
