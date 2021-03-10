@@ -1,33 +1,14 @@
-plugins { id 'com.moowork.node' }
-
-project.beforeEvaluate {
-    project.node {
-        version = '8.9.4'
-        npmVersion = '6.2.0'
-    }
-}
-
-project.node {
-    download = true
-    def currentDir = project.rootProject.projectDir
-    workDir = project.file("${currentDir}/.gradle/nodejs")
-    npmWorkDir = project.file("${currentDir}/.gradle/npm")
-}
-
-project.tasks.npm_install.configure {
-    group 'Bonita'
-    description 'Install node moodule for this project'
-    inputs.files('package.json', 'package-lock.json')
-    outputs.dirs('node_modules')
-}
-
-def runIntegrationTests = task runIntegrationTests {}
-
 def parentProject = project
-
 subprojects { subProject ->
     if (file("cypress.json").exists()){
-        apply plugin: 'com.moowork.node'
+        apply plugin: 'com.github.node-gradle.node'
+
+        node {
+            download = true
+            version = Versions.nodeVersion
+            npmVersion = Versions.npmVersion
+        }
+
         task unzip(type: Copy) {
             dependsOn('buildUIDPage')
             def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
@@ -37,17 +18,18 @@ subprojects { subProject ->
             into outputDir
         }
 
-        parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest-" + subProject.name) {
+        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"openTest") {
+            workingDir = parentProject.projectDir
             args = ['run', 'open', '--', '--project', subProject.name]
             group 'ui designer'
         }
 
-        def subProjectRunTest = parentProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTest-" + subProject.name) {
+        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"runTest") {
+            workingDir = parentProject.projectDir
             args = ['test', '--', '--project', subProject.name]
             environment = [LANG: 'en_EN.UTF-8']
             group 'Bonita'
         }
-        runIntegrationTests.dependsOn subProjectRunTest
     }
 
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
