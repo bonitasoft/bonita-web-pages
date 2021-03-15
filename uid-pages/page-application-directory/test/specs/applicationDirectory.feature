@@ -1,0 +1,1 @@
+Feature: The Application Directory in desktop resolution
