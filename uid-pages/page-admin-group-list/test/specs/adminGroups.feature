@@ -35,13 +35,13 @@ Feature: The Admin Groups in desktop resolution
   Scenario: Load more button works correctly
     Given The response "enable load more" is defined
     When I visit the admin groups page
-    Then A list of 10 groups is displayed
+    Then A list of 10 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 20 groups is displayed
+    Then A list of 20 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 30 groups is displayed
+    Then A list of 30 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 38 groups is displayed
+    Then A list of 38 groups is displayed out of 35
     And The load more groups button is disabled
 
   Scenario: Load more is disabled when result is a multiple of count

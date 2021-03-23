@@ -21,9 +21,6 @@ given("The response {string} is defined", (responseType) => {
                 }
             });
             break;
-        case 'default filter':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups8Route', 'groups8');
-            break;
         case 'default filter with headers':
             createRouteWithResponseAndHeaders('&t=0', 'groups8Route', 'groups8', {'content-range': '0-8/8'});
             break;
@@ -37,7 +34,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0','groups20Route', 'groups20');
+            createRouteWithResponseAndHeaders('&t=0', 'groups20Route', 'groups20', {'content-range': '0-20/35'});
             createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
             createGroupsRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
             createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -447,6 +444,11 @@ then("The groups page have the correct information", () => {
 
 then("A list of {int} groups is displayed", (nbrOfItems) => {
     cy.get('.group-item:visible').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} groups is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.group-item:visible').should('have.length', nbrOfItems);
+    cy.get('.text-primary.item-label:visible').contains('Groups shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string}", (filterValue) => {
