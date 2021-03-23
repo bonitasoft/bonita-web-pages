@@ -1,7 +1,7 @@
 Feature: change status modal in desktop resolution
 
   Scenario: The change status button depends on user status
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "inactive user" is defined
     When I visit the user list page
     Then The first user has the "ban-circle" button
@@ -9,7 +9,7 @@ Feature: change status modal in desktop resolution
     Then The first user has the "ok" button
 
   Scenario: The change status modal is displayed and closed
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
     Then The change status modal is displayed for "Giovanna Almeida"
@@ -17,7 +17,7 @@ Feature: change status modal in desktop resolution
     Then The modal is closed
 
   Scenario: The change status modal displays the correct user name
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
     Then The change status modal is displayed for "Giovanna Almeida"
@@ -32,7 +32,7 @@ Feature: change status modal in desktop resolution
     Then The change status modal is displayed for "isabel.bleasdale"
 
   Scenario: The change status modal displays the correct action
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "inactive user" is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
@@ -45,7 +45,7 @@ Feature: change status modal in desktop resolution
     And The "Activate" button is displayed
 
   Scenario: The change status modal should deactivate a user
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And Deactivate user response is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
@@ -57,7 +57,7 @@ Feature: change status modal in desktop resolution
     And The modal is closed
 
   Scenario: The change status modal should activate a user
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "inactive user" is defined
     And Activate user response is defined
     When I visit the user list page
@@ -70,7 +70,7 @@ Feature: change status modal in desktop resolution
     And The modal is closed
 
   Scenario: The change status modal should display 500 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The deactivate status code "500" response is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"
@@ -81,7 +81,7 @@ Feature: change status modal in desktop resolution
     Then I don't see any error message
 
   Scenario: The change status modal should display 403 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The deactivate status code "403" response is defined
     When I visit the user list page
     And I click on "ban-circle" button on the user "1"

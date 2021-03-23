@@ -1,14 +1,14 @@
 Feature: create user modal in desktop resolution
 
   Scenario: The modal is displayed and closed
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the user list page
     And I click on create button
     When I click on "Cancel" button in modal
     Then The modal is closed
 
   Scenario: The modal should create a user
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And Create user response is defined
     When I visit the user list page
     Then The users have the correct information
@@ -25,7 +25,7 @@ Feature: create user modal in desktop resolution
     Then The create modal is open and has a default state for "Create a user"
 
   Scenario: The modal should display the passwords don't match
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the user list page
     And I click on create button
     And I fill in the user information
@@ -37,7 +37,7 @@ Feature: create user modal in desktop resolution
     Then I don't see "The passwords don't match" error message
 
   Scenario: The create button in modal is disabled when not all fields are filled
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the user list page
     And I click on create button
     Then The create button in modal is disabled
@@ -53,7 +53,7 @@ Feature: create user modal in desktop resolution
     Then The create button in modal is enabled
 
   Scenario: The modal should display 500 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The create user status code "500" response is defined
     When I visit the user list page
     And I click on create button
@@ -66,7 +66,7 @@ Feature: create user modal in desktop resolution
     And I don't see any error message
 
   Scenario: The modal should display 403 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The create user status code "403" response is defined
     When I visit the user list page
     And I click on create button
@@ -79,7 +79,7 @@ Feature: create user modal in desktop resolution
     And I don't see any error message
 
   Scenario: The modal should display already exists error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The create user already exists response is defined
     When I visit the user list page
     And I click on create button

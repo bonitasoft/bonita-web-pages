@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1611138219961,
+  "lastUpdate" : 1616512766230,
   "rows" : [
     [
       {
@@ -330,7 +330,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "First name, Last name or User name"
+                        "value" : "Search by first name, Last name or User name"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1053,7 +1053,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}}"
+                  "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers.split('/')[1]}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -3045,7 +3045,8 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\",",
         "        userStatusEnabled: \"active\"",
-        "    }",
+        "    },",
+        "    totalUsers: 0",
         "};"
       ],
       "exposed" : false
@@ -3070,6 +3071,10 @@
         "//Users",
         "// diplay the first page of users on page load or when the filters change",
         "if($data.users){",
+        "    // get the total number of users",
+        "    if($data.users.__headers && $data.users.__headers['content-range']) {",
+        "        $data.userListData.totalUsers = $data.users.__headers['content-range'];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.userListData.displayedUsers = $data.users.slice(0, $data.userListData.numberOfUsersPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
