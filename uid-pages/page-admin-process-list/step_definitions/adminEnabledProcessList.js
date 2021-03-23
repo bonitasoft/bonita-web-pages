@@ -6,12 +6,25 @@ const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defa
 const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
 const disabledProcessRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0&d=deployedBy&f=activationState=DISABLED';
+const refreshUrl = urlPrefix + processListUrl + '?c=20&p=0' + defaultFilters + '&time=1*';
 
 given("The page response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
+        case 'refresh not called':
+            cy.route({
+                method: "GET",
+                url: refreshUrl,
+                onRequest: () => {
+                    throw new Error("This should have not been called");
+                }
+            });
+            break;
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5');
+            break;
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5', {'content-range': '0-5/5'});
             break;
         case 'state':
             createRouteWithResponse(defaultRequestUrl + '&f=configurationState=RESOLVED' + defaultSortOrder, 'enabledResolvedProcessesRoute', 'enabledResolvedProcesses');
@@ -59,9 +72,11 @@ given("The page response {string} is defined", (filterType) => {
             break;
         case 'disable state code 500':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '500');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'disable state code 403':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '403');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'delay disable':
             cy.fixture('json/emptyResult.json').as('emptyResult');
@@ -101,6 +116,21 @@ given("The page response {string} is defined", (filterType) => {
 
     function createRouteWithResponse(url, routeName, response) {
         createRouteWithResponseAndMethod(url, routeName, response, "GET");
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
@@ -216,8 +246,8 @@ when("I click on {string} button on the item {string}", (iconName, itemNumber) =
     cy.get('button .glyphicon-' + iconName).eq(itemNumber - 1).click();
 });
 
-when("I click on close button in the modal", () => {
-    cy.get('button').contains('Close').click();
+when("I click on {string} button in the modal", (btnName) => {
+    cy.get('button').contains(btnName).click();
 });
 
 when("I click on disable button in modal", () => {
@@ -330,10 +360,7 @@ then("The enabled process list have the correct information", () => {
         cy.get('.glyphicon-ban-circle').should('have.attr', 'title', 'Disable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Anthony Nichols');
     });
-});
-
-then("The enabled process list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Processes shown: 5');
+    cy.get('.text-primary.item-label:visible').contains('Processes shown: 5 of 5');
 });
 
 then("A list of {string} items is displayed", (nbrOfItems) => {

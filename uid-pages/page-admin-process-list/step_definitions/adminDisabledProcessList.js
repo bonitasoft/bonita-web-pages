@@ -12,6 +12,9 @@ given("The page response {string} is defined for disabled processes", (filterTyp
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'disabledProcesses5Route', 'disabledProcesses5');
             break;
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5', {'content-range': '0-5/5'});
+            break;
         case 'state':
             createRouteWithResponse(defaultRequestUrl, '&f=configurationState=RESOLVED' + defaultSortOrder, 'disabledResolvedProcessesRoute', 'disabledResolvedProcesses');
             break;
@@ -54,13 +57,14 @@ given("The page response {string} is defined for disabled processes", (filterTyp
         case 'enable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT");
             createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*' + defaultFilters + defaultSortOrder, "refreshDisabledProcessesListRoute", "GET");
-            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*&d=deployedBy&f=activationState=ENABLED' + defaultSortOrder, "refreshEnabledProcessesListRoute", "GET");
             break;
         case 'enable state code 500':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '500');
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=20&p=0&time=1*'  + defaultFilters + defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5');
             break;
         case 'enable state code 403':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '403');
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=20&p=0&time=1*'  + defaultFilters + defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5');
             break;
         case 'delay enable':
             cy.fixture('json/emptyResult.json').as('emptyResult');
@@ -89,6 +93,21 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             method: 'GET',
             url: url + queryParameter,
             response: responseValue
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
         }).as(routeName);
     }
 
@@ -320,10 +339,7 @@ then("The disabled process list have the correct information", () => {
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
-});
-
-then("The disabled process list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Processes shown: 5');
+    cy.get('.text-primary.item-label:visible').contains('Processes shown: 5 of 5');
 });
 
 then("No disabled processes are available", () => {

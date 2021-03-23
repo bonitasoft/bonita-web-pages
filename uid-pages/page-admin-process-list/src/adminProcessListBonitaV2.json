@@ -1771,7 +1771,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{enabledProcessData.displayedEnabledProcesses.length}}"
+                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{enabledProcessData.displayedEnabledProcesses.length}} {{\"of\"|uiTranslate}} {{enabledProcessData.totalEnabledProcesses.split('/')[1]}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3470,7 +3470,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{disabledProcessData.displayedDisabledProcesses.length}}"
+                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{disabledProcessData.displayedDisabledProcesses.length}} {{\"of\"|uiTranslate}} {{disabledProcessData.totalDisabledProcesses.split('/')[1]}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -4286,7 +4286,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -4340,7 +4340,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Close"
+                          "value" : "{{modalCtrl.getChangeButtonLabel(modalData.statusCode)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5062,7 +5062,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Close"
+                          "value" : "{{modalCtrl.getChangeButtonLabel(installModalData.statusCode)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5193,7 +5193,8 @@
         "    },",
         "    enabledProcessesFromAPI: undefined,",
         "    displayedEnabledProcesses: [],",
-        "    activeTab: true",
+        "    activeTab: true,",
+        "    totalEnabledProcesses: 0",
         "};"
       ],
       "exposed" : false
@@ -5204,6 +5205,10 @@
         "// Enabled Processes",
         "// display the first page of enabled processes on page load or when the filter change",
         "if($data.enabledProcessUrl){",
+        "    // get the total number of enabled processes",
+        "    if($data.enabledProcessUrl.__headers && $data.enabledProcessUrl.__headers['content-range']){",
+        "        $data.enabledProcessData.totalEnabledProcesses = $data.enabledProcessUrl.__headers['content-range'];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessUrl.slice(0, $data.enabledProcessData.numberOfEnabledProcessesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -5308,7 +5313,8 @@
         "    },\r",
         "    disabledProcessesFromAPI: undefined,\r",
         "    displayedDisabledProcesses: [],\r",
-        "    activeTab: false\r",
+        "    activeTab: false,\r",
+        "    totalDisabledProcesses: 0\r",
         "};"
       ],
       "exposed" : false
@@ -5366,6 +5372,10 @@
         "// Disabled Processes\r",
         "// display the first page of disabled processes on page load or when the filter change\r",
         "if($data.disabledProcessUrl){\r",
+        "    // get the total number of disabled processes\r",
+        "    if($data.disabledProcessUrl.__headers && $data.disabledProcessUrl.__headers['content-range']) {\r",
+        "        $data.disabledProcessData.totalDisabledProcesses = $data.disabledProcessUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessUrl.slice(0, $data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -5466,6 +5476,9 @@
         "            $data.modalData.enablingProcess = true;",
         "        }",
         "        return $data.defaultProcessUrl + \"/\" + $data.modalData.process.id;",
+        "    },",
+        "    getChangeButtonLabel: function(statusCode) {",
+        "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "    }",
         "};"
       ],
