@@ -330,7 +330,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Search on display name, name, or description"
+                        "value" : "Search by display name, name, or description"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1635,7 +1635,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Groups shown\"|uiTranslate}}: {{groupsData.displayedGroups.length}}"
+                  "value" : "{{\"Groups shown\"|uiTranslate}}: {{groupsData.displayedGroups.length}} {{\"of\"|uiTranslate}} {{groupsData.totalGroups.split('/')[1]}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -3110,7 +3110,7 @@
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Search on first name, last name, or username"
+                          "value" : "Search by first name, last name, or username"
                         },
                         "value" : {
                           "type" : "variable",
@@ -3704,7 +3704,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}}"
+                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers.split('/')[1]}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4155,7 +4155,7 @@
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Search sub-group"
+                          "value" : "Search by display name, or name"
                         },
                         "value" : {
                           "type" : "variable",
@@ -4651,7 +4651,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Sub-groups shown\"|uiTranslate}}: {{subGroupListData.displayedSubGroups.length}}"
+                          "value" : "{{\"Sub-groups shown\"|uiTranslate}}: {{subGroupListData.displayedSubGroups.length}} {{\"of\"|uiTranslate}} {{subGroupListData.totalSubGroups.split('/')[1]}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7218,7 +7218,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalGroups: 0",
         "};"
       ],
       "exposed" : false
@@ -7236,6 +7237,10 @@
         "//Groups\r",
         "// display the first page of groups on page load or when the filter change\r",
         "if($data.groupsUrl) {\r",
+        "    // get the total number of groups\r",
+        "    if($data.groupsUrl.__headers && $data.groupsUrl.__headers['content-range']) {\r",
+        "        $data.groupsData.totalGroups = $data.groupsUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.groupsData.displayedGroups = $data.groupsUrl.slice(0, $data.groupsData.numberOfGroupsPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -7443,7 +7448,8 @@
         "    usersNextResults: undefined,",
         "    userFilters: {",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalUsers: 0",
         "};"
       ],
       "exposed" : false
@@ -7461,6 +7467,10 @@
         "//Users",
         "// diplay the first page of users on page load or when the filters change",
         "if($data.userListUrl) {",
+        "    // get the total number of users",
+        "    if($data.userListUrl.__headers && $data.userListUrl.__headers['content-range']){",
+        "        $data.userListData.totalUsers = $data.userListUrl.__headers['content-range'];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.userListData.displayedUsers = $data.userListUrl.slice(0, $data.userListData.numberOfUsersPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -7554,7 +7564,8 @@
         "    subGroupsFromAPI: undefined,",
         "    subGroupsFilters: {",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalSubGroups: 0",
         "};"
       ],
       "exposed" : false
@@ -7565,6 +7576,10 @@
         "//Sub-groups\r",
         "// diplay the first page of subGroups on page load or when the filters change\r",
         "if($data.subGroupListUrl) {\r",
+        "    // get the total number of sub groups\r",
+        "    if($data.subGroupListUrl.__headers && $data.subGroupListUrl.__headers['content-range']){\r",
+        "        $data.subGroupListData.totalSubGroups = $data.subGroupListUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.subGroupListData.displayedSubGroups = $data.subGroupListUrl.slice(0, $data.subGroupListData.numberOfSubGroupsPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
