@@ -1,23 +1,23 @@
 Feature: The Admin Roles in desktop resolution
 
   Scenario: The roles displays the correct attributes
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     When I visit the admin roles page
     Then The roles page have the correct information
 
   Scenario: Load more button works correctly
     Given The response "enable load more" is defined
     When I visit the admin roles page
-    Then A list of 10 roles is displayed
+    Then A list of 10 roles is displayed out of 38
     When I click on Load more roles button
-    Then A list of 20 roles is displayed
+    Then A list of 20 roles is displayed out of 38
     When I click on Load more roles button
-    Then A list of 30 roles is displayed
+    Then A list of 30 roles is displayed out of 38
     When I click on Load more roles button
-    Then A list of 38 roles is displayed
+    Then A list of 38 roles is displayed out of 38
     And The load more roles button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is disabled when result is a multiple of count
     Given The response "enable 20 load more" is defined
     When I visit the admin roles page
     Then A list of 10 roles is displayed
@@ -41,7 +41,7 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 roles is displayed
 
   Scenario: The roles list sort by works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sort by" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -55,7 +55,7 @@ Feature: The Admin Roles in desktop resolution
     Then The api call is made for "Display name (Asc)"
 
   Scenario: The roles list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "search" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -69,7 +69,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The create role modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
@@ -80,7 +80,7 @@ Feature: The Admin Roles in desktop resolution
   Scenario: The create role modal creates successfully
     Given The response "role creation success" is defined
     And The response "refresh list after create" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
@@ -98,7 +98,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The create role modal requires name
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on create button
@@ -112,7 +112,7 @@ Feature: The Admin Roles in desktop resolution
     Then The create modal is open and has a default state for "Create a role"
 
   Scenario: The modal should display already exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "already exists during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -127,7 +127,7 @@ Feature: The Admin Roles in desktop resolution
     Then The create modal is open and has a default state for "Create a role"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -142,7 +142,7 @@ Feature: The Admin Roles in desktop resolution
     Then The create modal is open and has a default state for "Create a role"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -158,7 +158,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The delete role modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on delete button for first role
@@ -168,7 +168,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The delete role modal deletes successfully
     Given The response "role deletion success" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on delete button for first role
@@ -183,7 +183,7 @@ Feature: The Admin Roles in desktop resolution
     Then The delete modal is open and has a default state for "Delete Role11"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -197,7 +197,7 @@ Feature: The Admin Roles in desktop resolution
     Then The delete modal is open and has a default state for "Delete Member"
 
   Scenario: The modal should display not exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "not exists during delete" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -210,7 +210,7 @@ Feature: The Admin Roles in desktop resolution
     Then The delete modal is open and has a default state for "Delete Member"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -225,7 +225,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The user list modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "empty user list" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -235,7 +235,7 @@ Feature: The Admin Roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The user list modal displays a list
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -245,7 +245,7 @@ Feature: The Admin Roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The user list modal displays a list
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -255,7 +255,7 @@ Feature: The Admin Roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The user list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     And The response "user list search" is defined
     When I visit the admin roles page
@@ -279,22 +279,22 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: Load more users button works correctly
     Given The response "user list load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on user button for first role
-    Then A list of 10 users is displayed
+    Then A list of 10 users is displayed out of 38
     When I click on Load more users button
-    Then A list of 20 users is displayed
+    Then A list of 20 users is displayed out of 38
     When I click on Load more users button
-    Then A list of 30 users is displayed
+    Then A list of 30 users is displayed out of 38
     When I click on Load more users button
-    Then A list of 35 users is displayed
+    Then A list of 35 users is displayed out of 38
     And The load more users button is disabled
 
-  Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
+  Scenario: Load more users is disabled when result is a multiple of count
     Given The response "user list 20 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on user button for first role
@@ -305,7 +305,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: Load more users resets correctly after the limitation is triggered
     Given The response "user list 30 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "user search during limitation" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -322,7 +322,7 @@ Feature: The Admin Roles in desktop resolution
     Then A list of 20 users is displayed
 
   Scenario: The user list modal resets when open for a different role
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list for two roles" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -334,7 +334,7 @@ Feature: The Admin Roles in desktop resolution
     Then The user list modal is open and has users for "Users mapped to the role Role11"
 
   Scenario: The user list modal navigates to the user details
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
@@ -343,7 +343,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The edit role modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on edit button for first role
@@ -353,7 +353,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The edit role modal has different information when opening a second role
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on edit button for first role
@@ -366,7 +366,7 @@ Feature: The Admin Roles in desktop resolution
   Scenario: The edit role modal edits successfully
     Given The response "role edition success" is defined
     And The response "refresh list after edit" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on edit button for first role
@@ -384,7 +384,7 @@ Feature: The Admin Roles in desktop resolution
 
   Scenario: The edit role modal requires name
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin roles page
     Then A list of 8 roles is displayed
     When I click on edit button for first role
@@ -397,7 +397,7 @@ Feature: The Admin Roles in desktop resolution
     Then The edit modal is open and has a default state for "Edit role Member" for role 1
 
   Scenario: The edit modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -412,7 +412,7 @@ Feature: The Admin Roles in desktop resolution
     Then The edit modal is open and has a default state for "Edit role Member" for role 1
 
   Scenario: The edit modal should display generic 404 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "404 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page
@@ -427,7 +427,7 @@ Feature: The Admin Roles in desktop resolution
     Then The edit modal is open and has a default state for "Edit role Member" for role 1
 
   Scenario: The edit modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin roles page

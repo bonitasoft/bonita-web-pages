@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminRoleListBonitaV1",
   "name" : "adminRoleListBonitaV1",
-  "lastUpdate" : 1611138248377,
+  "lastUpdate" : 1616581340678,
   "rows" : [
     [
       {
@@ -330,7 +330,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Search on display name, name, or description"
+                        "value" : "Search by display name, name, or description"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1385,7 +1385,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Roles shown\"|uiTranslate}}: {{rolesData.displayedRoles.length}}"
+                  "value" : "{{\"Roles shown\"|uiTranslate}}: {{rolesData.displayedRoles.length}} {{\"of\"|uiTranslate}} {{rolesData.totalRoles.split('/')[1]}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -3210,7 +3210,7 @@
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Search on first name, last name or username"
+                          "value" : "Search by first name, last name or username"
                         },
                         "value" : {
                           "type" : "variable",
@@ -3803,7 +3803,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}}"
+                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers.split('/')[1]}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -4981,7 +4981,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalRoles: 0",
         "};"
       ],
       "exposed" : false
@@ -4992,6 +4993,10 @@
         "//Roles\r",
         "// display the first page of roles on page load or when the filter change\r",
         "if($data.rolesUrl) {\r",
+        "    // get the total number of roles\r",
+        "    if($data.rolesUrl.__headers && $data.rolesUrl.__headers['content-range']) {\r",
+        "        $data.rolesData.totalRoles = $data.rolesUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.rolesData.displayedRoles = $data.rolesUrl.slice(0, $data.rolesData.numberOfRolesPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -5178,7 +5183,8 @@
         "    usersFromAPI: undefined,",
         "    userFilters: {",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalUsers: 0",
         "};"
       ],
       "exposed" : false
@@ -5196,6 +5202,10 @@
         "//Users",
         "// diplay the first page of users on page load or when the filters change",
         "if($data.userListUrl) {",
+        "    // get the total number of users",
+        "    if($data.userListUrl.__headers && $data.userListUrl.__headers['content-range']) {",
+        "        $data.userListData.totalUsers = $data.userListUrl.__headers['content-range'];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.userListData.displayedUsers = $data.userListUrl.slice(0, $data.userListData.numberOfUsersPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
