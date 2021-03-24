@@ -1,7 +1,7 @@
 Feature: The admin profiles mapping with roles in desktop resolution
 
   Scenario: The edit role mapping modal is opened and closed
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
@@ -13,7 +13,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit role mapping modal changes profile id correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "role list" is defined
     And The response "add role and refresh list" is defined
@@ -42,7 +42,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit role mapping search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "search mapped role" is defined
     When I visit the admin profiles page
@@ -57,7 +57,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then No role mappings are displayed
 
   Scenario: Load more mapped roles button works correctly for role mapping
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -70,8 +70,8 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then A list of 28 "Roles" mapped is displayed
     And The load more role mapped button is disabled
 
-  Scenario: [Limitation] Load more mapped roles is not disabled when result is a multiple of count
-    Given The response "default filter" is defined
+  Scenario: Load more mapped roles is disabled when result is a multiple of count
+    Given The response "default filter with headers" is defined
     And The response "role mapping 20 load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -83,7 +83,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And The load more role mapped button is disabled
 
   Scenario: Load more mapped roles resets correctly after the limitation is triggered
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role mapping 30 load more" is defined
     And The response "search mapped role during limitation" is defined
     When I visit the admin profiles page
@@ -101,7 +101,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then A list of 20 "Roles" mapped is displayed
 
   Scenario: Load more mapped role resets correctly after modal is reopened
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -114,7 +114,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then A list of 10 "Roles" mapped is displayed
 
   Scenario: Load more mapped roles resets correctly after we change the list of roles mapped
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role mapping load more" is defined
     And The response "role list" is defined
     And The response "add role and refresh list" is defined
@@ -136,7 +136,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then A list of 10 "Roles" mapped is displayed
 
   Scenario: The roles mapping modal should display information about typing more
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "role list with 10 elements" is defined
     When I visit the admin profiles page
@@ -151,7 +151,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then The type more message is not displayed
 
   Scenario: The edit role mapping modal adds roles successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role list" is defined
     And The response "refresh mapped role list" is defined
     And The response "add role and refresh list" is defined
@@ -191,7 +191,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And The role input is filled with ""
 
   Scenario: The edit role mapping modal removes roles successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "refresh mapped role list" is defined
     And The response "remove role and refresh list" is defined
     And The response "mapping" is defined
@@ -214,7 +214,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit role mapping modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edit role mapping" is defined
     And The response "role list" is defined
     When I visit the admin profiles page
@@ -240,7 +240,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see "500" role mapping error message
 
   Scenario: The edit role mapping modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edit role mapping" is defined
     And The response "role list" is defined
     When I visit the admin profiles page
@@ -266,7 +266,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see "403" role mapping error message
 
   Scenario: The edit role mapping modal should display role already exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role already exists during edit role mapping" is defined
     And The response "role list" is defined
     When I visit the admin profiles page
@@ -290,7 +290,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And The mapped role list is displayed
 
   Scenario: The edit role mapping modal should display role does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "role does not exist during edit role mapping" is defined
     And The response "role list" is defined
     When I visit the admin profiles page
@@ -314,7 +314,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And The mapped role list is displayed
 
   Scenario: The edit role mapping modal should display member does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "member does not exist during edit role mapping" is defined
     And The response "role list" is defined
     When I visit the admin profiles page

@@ -1,7 +1,7 @@
 Feature: The admin profiles mapping with groups in desktop resolution
 
   Scenario: The edit group mapping modal is opened and closed
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
@@ -13,7 +13,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit group mapping modal changes profile id correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "group list" is defined
     And The response "add group and refresh list" is defined
@@ -42,7 +42,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit group mapping search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "search mapped group" is defined
     When I visit the admin profiles page
@@ -57,7 +57,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then No group mappings are displayed
 
   Scenario: Load more mapped groups button works correctly for group mapping
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -70,8 +70,8 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then A list of 28 "Groups" mapped is displayed
     And The load more group mapped button is disabled
 
-  Scenario: [Limitation] Load more mapped groups is not disabled when result is a multiple of count
-    Given The response "default filter" is defined
+  Scenario: Load more mapped groups is disabled when result is a multiple of count
+    Given The response "default filter with headers" is defined
     And The response "group mapping 20 load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -83,7 +83,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And The load more group mapped button is disabled
 
   Scenario: Load more mapped groups resets correctly after the limitation is triggered
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group mapping 30 load more" is defined
     And The response "search mapped group during limitation" is defined
     When I visit the admin profiles page
@@ -101,7 +101,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then A list of 20 "Groups" mapped is displayed
 
   Scenario: Load more mapped group resets correctly after modal is reopened
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -114,7 +114,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then A list of 10 "Groups" mapped is displayed
 
   Scenario: Load more mapped groups resets correctly after we change the list of groups mapped
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group mapping load more" is defined
     And The response "group list" is defined
     And The response "add group and refresh list" is defined
@@ -136,7 +136,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then A list of 10 "Groups" mapped is displayed
 
   Scenario: The groups mapping modal should display information about typing more
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "group list with 10 elements" is defined
     When I visit the admin profiles page
@@ -151,7 +151,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then The type more message is not displayed
 
   Scenario: The edit group mapping modal adds groups successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group list" is defined
     And The response "refresh mapped group list" is defined
     And The response "add group and refresh list" is defined
@@ -191,7 +191,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And The group input is filled with ""
 
   Scenario: The edit group mapping modal removes groups successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "refresh mapped group list" is defined
     And The response "remove group and refresh list" is defined
     And The response "mapping" is defined
@@ -214,7 +214,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit group mapping modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edit group mapping" is defined
     And The response "group list" is defined
     When I visit the admin profiles page
@@ -240,7 +240,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "500" group mapping error message
 
   Scenario: The edit group mapping modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edit group mapping" is defined
     And The response "group list" is defined
     When I visit the admin profiles page
@@ -266,7 +266,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "403" group mapping error message
 
   Scenario: The edit group mapping modal should display group already exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group already exists during edit group mapping" is defined
     And The response "group list" is defined
     When I visit the admin profiles page
@@ -290,7 +290,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And The mapped group list is displayed
 
   Scenario: The edit group mapping modal should display group does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "group does not exist during edit group mapping" is defined
     And The response "group list" is defined
     When I visit the admin profiles page
@@ -314,7 +314,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And The mapped group list is displayed
 
   Scenario: The edit group mapping modal should display member does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "member does not exist during edit group mapping" is defined
     And The response "group list" is defined
     When I visit the admin profiles page

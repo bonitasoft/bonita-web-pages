@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminProfileListBonitaV1",
   "name" : "adminProfileListBonitaV1",
-  "lastUpdate" : 1611138326589,
+  "lastUpdate" : 1616594625058,
   "rows" : [
     [
       {
@@ -2662,7 +2662,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Profiles shown\"|uiTranslate}}: {{profilesData.displayedProfiles.length}}"
+                  "value" : "{{\"Profiles shown\"|uiTranslate}}: {{profilesData.displayedProfiles.length}} {{\"of\"|uiTranslate}} {{profilesData.totalProfiles.split('/')[1]}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -6833,7 +6833,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "{{\"Users shown\"|uiTranslate}}: {{editUsersMappingData.displayedUsers.length}}"
+                                "value" : "{{\"Users shown\"|uiTranslate}}: {{editUsersMappingData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{editUsersMappingData.totalUsers.split('/')[1]}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -8537,7 +8537,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "{{\"Roles shown\"|uiTranslate}}: {{editRolesMappingData.displayedRoles.length}}"
+                                "value" : "{{\"Roles shown\"|uiTranslate}}: {{editRolesMappingData.displayedRoles.length}} {{\"of\"|uiTranslate}} {{editRolesMappingData.totalRoles.split('/')[1]}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -10477,7 +10477,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "{{\"Groups shown\"|uiTranslate}}: {{editGroupsMappingData.displayedGroups.length}}"
+                                "value" : "{{\"Groups shown\"|uiTranslate}}: {{editGroupsMappingData.displayedGroups.length}} {{\"of\"|uiTranslate}} {{editGroupsMappingData.totalGroups.split('/')[1]}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -12571,7 +12571,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "{{\"Memberships shown\"|uiTranslate}}: {{editMembershipsMappingData.displayedMemberships.length}}"
+                                "value" : "{{\"Memberships shown\"|uiTranslate}}: {{editMembershipsMappingData.displayedMemberships.length}} {{\"of\"|uiTranslate}} {{editMembershipsMappingData.totalMemberships.split('/')[1]}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -12898,7 +12898,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    }",
+        "    },",
+        "    totalProfiles: 0",
         "};"
       ],
       "exposed" : false
@@ -12906,9 +12907,13 @@
     "profilesHandler" : {
       "type" : "expression",
       "value" : [
-        "//Profiles",
+        "// Profiles",
         "// display the first page of profiles on page load or when the filter change",
         "if($data.profilesUrl) {",
+        "    // get the total number of profiles",
+        "    if($data.profilesUrl.__headers && $data.profilesUrl.__headers['content-range']) {",
+        "        $data.profilesData.totalProfiles = $data.profilesUrl.__headers['content-range'];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.profilesData.displayedProfiles = $data.profilesUrl.slice(0, $data.profilesData.numberOfProfilesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -13410,7 +13415,8 @@
         "    addUserId: undefined,",
         "    selectedUserToAdd: [],",
         "    addUserStatusCode: undefined,",
-        "    addUserFailedResponse: undefined",
+        "    addUserFailedResponse: undefined,",
+        "    totalUsers: 0",
         "};"
       ],
       "exposed" : false
@@ -13548,9 +13554,13 @@
     "editUsersMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "//Mapped users\r",
+        "// Mapped users\r",
         "// diplay the first page of users on page load or when the filters change\r",
         "if($data.editUsersMappingUrl) {\r",
+        "    // get the total number of users\r",
+        "    if($data.editUsersMappingUrl.__headers && $data.editUsersMappingUrl.__headers['content-range']) {\r",
+        "        $data.editUsersMappingData.totalUsers = $data.editUsersMappingUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.editUsersMappingData.displayedUsers = $data.editUsersMappingUrl.slice(0, $data.editUsersMappingData.numberOfUsersPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -13781,7 +13791,8 @@
         "    addRoleId: undefined,",
         "    selectedRoleToAdd: [],",
         "    addRoleStatusCode: undefined,",
-        "    addRoleFailedResponse: undefined",
+        "    addRoleFailedResponse: undefined,",
+        "    totalRoles: 0",
         "};"
       ],
       "exposed" : false
@@ -13789,9 +13800,13 @@
     "editRolesMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "//Mapped roles\r",
+        "// Mapped roles\r",
         "// diplay the first page of roles on page load or when the filters change\r",
         "if($data.editRolesMappingUrl) {\r",
+        "    // get the total number of roles\r",
+        "    if($data.editRolesMappingUrl.__headers && $data.editRolesMappingUrl.__headers['content-range']) {\r",
+        "        $data.editRolesMappingData.totalRoles = $data.editRolesMappingUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingUrl.slice(0, $data.editRolesMappingData.numberOfRolesPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -14028,7 +14043,8 @@
         "    addGroupId: undefined,",
         "    selectedGroupToAdd: [],",
         "    addGroupStatusCode: undefined,",
-        "    addGroupFailedResponse: undefined",
+        "    addGroupFailedResponse: undefined,",
+        "    totalGroups: 0",
         "};"
       ],
       "exposed" : false
@@ -14043,9 +14059,13 @@
     "editGroupsMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "//Mapped groups\r",
+        "// Mapped groups\r",
         "// diplay the first page of groups on page load or when the filters change\r",
         "if($data.editGroupsMappingUrl) {\r",
+        "    // get the total number of groups\r",
+        "    if($data.editGroupsMappingUrl.__headers && $data.editGroupsMappingUrl.__headers['content-range']) {\r",
+        "        $data.editGroupsMappingData.totalGroups = $data.editGroupsMappingUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingUrl.slice(0, $data.editGroupsMappingData.numberOfGroupsPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -14313,6 +14333,7 @@
         "    selectedRoleToAdd: [],",
         "    addMembershipStatusCode: undefined,",
         "    addMembershipFailedResponse: undefined,",
+        "    totalMemberships: 0",
         "};"
       ],
       "exposed" : false
@@ -14320,9 +14341,13 @@
     "editMembershipsMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "//Mapped memberships\r",
+        "// Mapped memberships\r",
         "// diplay the first page of memberships on page load or when the filters change\r",
         "if($data.editMembershipsMappingUrl) {\r",
+        "    //get the total number of memberships\r",
+        "    if($data.editMembershipsMappingUrl.__headers && $data.editMembershipsMappingUrl.__headers['content-range']) {\r",
+        "        $data.editMembershipsMappingData.totalMemberships = $data.editMembershipsMappingUrl.__headers['content-range'];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingUrl.slice(0, $data.editMembershipsMappingData.numberOfMembershipsPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
