@@ -8,9 +8,8 @@ const defaultSortOrder = '&o=lastUpdateDate+DESC';
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
-        case 'default filter':
-            createRouteWithResponse(defaultSortOrder, 'resourcesRoute', 'resources5');
-            break;
+        case 'default filter with headers':
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-5/5'});
         case 'hide provided resources':
             createRoute('&f=isProvided=false' + defaultSortOrder, 'isNotProvidedRoute');
             break;
@@ -32,7 +31,8 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resources20Route', 'resources20', {'content-range': '0-20/35'});
+            //createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'resources5Route', 'resources5', 3, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -62,6 +62,21 @@ given("The filter response {string} is defined", (filterType) => {
 
     function createRouteWithResponse(queryParameter, routeName, response) {
         createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
@@ -322,10 +337,16 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:27 AM');
     });
+    cy.contains('.text-primary.resource-property-label', 'Resources shown: 5 of 5');
 });
 
 then("A list of {string} resources is displayed", (nbrOfResources) => {
     cy.get('.resource-item').should('have.length', nbrOfResources);
+});
+
+then("A list of {string} resources is displayed out of {string}", (nbrOfItems, totalItems) => {
+    cy.get('.resource-item').should('have.length', nbrOfItems);
+    cy.contains('.resource-property-label', 'Resources shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("I see only the filtered resources by {string}", (filterType) => {
@@ -508,8 +529,4 @@ then('I can download the resource', () => {
 
 then("The warning message is displayed with the token {string}", (pageToken) => {
     cy.get('.modal').contains(pageToken).should('be.visible');
-});
-
-then("The resources list have the correct item shown number", () => {
-    cy.get('.text-primary.resource-property-label:visible').contains('Resources shown: 5');
 });

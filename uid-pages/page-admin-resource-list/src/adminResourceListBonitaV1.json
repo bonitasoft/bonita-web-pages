@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminResourceListBonitaV1",
   "name" : "adminResourceListBonitaV1",
-  "lastUpdate" : 1611138278203,
+  "lastUpdate" : 1616680089458,
   "rows" : [
     [
       {
@@ -396,7 +396,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Resource name"
+                        "value" : "Search by resource name"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1395,7 +1395,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Resources shown\"|uiTranslate}}: {{resourceListData.  displayedResources.length}}"
+                  "value" : "{{\"Resources shown\"|uiTranslate}}: {{resourceListData.  displayedResources.length}} {{\"of\"|uiTranslate}} {{resourceListData.totalResources.split('/')[1]}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -4192,7 +4192,8 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\",",
         "        hideProvided: false",
-        "    }",
+        "    },",
+        "    totalResources: 0",
         "};"
       ],
       "exposed" : false
@@ -4263,9 +4264,13 @@
     "loadMoreHandler" : {
       "type" : "expression",
       "value" : [
-        "//Resources",
+        "// Resources",
         "// diplay the first page of resources on page load or when the filter change",
         "if($data.resources){",
+        "    // get the total number of resources",
+        "    if($data.resources.__headers && $data.resources.__headers['content-range']) {",
+        "        $data.resourceListData.totalResources = $data.resources.__headers['content-range']",
+        "    }",
         "    // display half the elements loaded",
         "    $data.resourceListData.displayedResources = $data.resources.slice(0, $data.resourceListData.numberOfResourcesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",

@@ -1,13 +1,12 @@
 Feature: The resources list in desktop resolution
 
   Scenario: The resources list displays the correct attributes
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the resources list page
     Then The resources have the correct information
-    And The resources list have the correct item shown number
 
   Scenario: The resources list filtered by content type works correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "content type" is defined
     When I visit the resources list page
     Then A list of "5" resources is displayed
@@ -19,7 +18,7 @@ Feature: The resources list in desktop resolution
     Then No resources are available
 
   Scenario: The resources list sort by works correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "sort by" is defined
     When I visit the resources list page
     Then A list of "5" resources is displayed
@@ -33,7 +32,7 @@ Feature: The resources list in desktop resolution
     Then The api call is made for "Resource name (Desc)"
 
   Scenario: Search by resource name works correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "search by name" is defined
     When I visit the resources list page
     Then A list of "5" resources is displayed
@@ -45,7 +44,7 @@ Feature: The resources list in desktop resolution
     Then No resources are available
 
   Scenario: Hide provided resources works correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     And The filter response "hide provided resources" is defined
     When I visit the resources list page
     Then A list of "5" resources is displayed
@@ -55,16 +54,16 @@ Feature: The resources list in desktop resolution
   Scenario: Load more resources button works correctly
     Given The filter response "enable load more" is defined
     When I visit the resources list page
-    Then A list of "10" resources is displayed
+    Then A list of "10" resources is displayed out of "35"
     When I click on Load more resources button
-    Then A list of "20" resources is displayed
+    Then A list of "20" resources is displayed out of "35"
     When I click on Load more resources button
-    Then A list of "30" resources is displayed
+    Then A list of "30" resources is displayed out of "35"
     When I click on Load more resources button
-    Then A list of "35" resources is displayed
+    Then A list of "35" resources is displayed out of "35"
     And The Load more resources button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is disabled when result is a multiple of count
     Given The filter response "enable 20 load more" is defined
     When I visit the resources list page
     Then A list of "10" resources is displayed
@@ -88,6 +87,6 @@ Feature: The resources list in desktop resolution
     Then A list of "20" resources is displayed
 
   Scenario: Should export a resource
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the index page
     Then I can download the resource
