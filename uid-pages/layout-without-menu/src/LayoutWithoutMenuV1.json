@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "LayoutWithoutMenuV1",
   "name" : "LayoutWithoutMenuV1",
-  "lastUpdate" : 1614333194208,
+  "lastUpdate" : 1617268837144,
   "rows" : [
     [
       {
@@ -147,14 +147,49 @@
     "currentSource" : {
       "type" : "expression",
       "value" : [
-        "return {\r",
-        "    getTargetUrl: function() {\r",
-        "        var pathArray = window.location.pathname.split( '/' );\r",
-        "        var searchSeparator = window.location.search ? \"&\" : \"?\";\r",
-        "         \r",
-        "        return '../../../portal/resource/app/' + pathArray[pathArray.length-3] + '/' + pathArray[pathArray.length-2] + '/content/' + window.location.search + searchSeparator + 'app=' + pathArray[pathArray.length-3];\r",
-        "    }\r",
+        "return {",
+        "    getTargetUrl: function() {",
+        "        var pathArray = window.location.pathname.split( '/' );",
+        "        var searchSeparator = window.location.search ? \"&\" : \"?\";",
+        "         ",
+        "        return '../../../portal/resource/app/' + pathArray[pathArray.length-3] + '/' + pathArray[pathArray.length-2] + '/content/' + window.location.search + searchSeparator + 'app=' + pathArray[pathArray.length-3];",
+        "    }",
         "};"
+      ],
+      "exposed" : false
+    },
+    "appToken" : {
+      "type" : "expression",
+      "value" : [
+        "var pathArray = window.location.pathname.split('/');",
+        "",
+        "return pathArray[pathArray.length-3];"
+      ],
+      "exposed" : false
+    },
+    "currentApplication" : {
+      "type" : "url",
+      "value" : [
+        "../API/living/application/?c=1&f=token={{appToken}}"
+      ],
+      "exposed" : false
+    },
+    "appName" : {
+      "type" : "expression",
+      "value" : [
+        "if (!$data.currentApplication || !$data.currentApplication[0]) {",
+        "    return \"\";",
+        "}",
+        "return $data.currentApplication[0].displayName;"
+      ],
+      "exposed" : false
+    },
+    "setWindowAppName" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.appName && window.document.title !== $data.appName) {",
+        "    window.document.title = $data.appName;",
+        "}"
       ],
       "exposed" : false
     }
