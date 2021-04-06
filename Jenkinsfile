@@ -24,7 +24,7 @@ ansiColor('xterm') {
                 try {
                     gradle 'buildUIDPage --parallel --max-workers 2'
                     gradle 'build'
-                    gradle 'runTest --parallel --max-workers 2'
+                    gradle 'runTestChrome --parallel --max-workers 2'
                 } finally {
                     junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
                     archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'

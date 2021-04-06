@@ -24,10 +24,9 @@ subprojects { subProject ->
             group 'ui designer'
         }
 
-        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"runTest") {
+        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"runTestChrome") {
             workingDir = parentProject.projectDir
-            args = ['test', '--', '--project', subProject.name]
-            environment = [LANG: 'en_EN.UTF-8']
+            args = ['test', '--', '--project', subProject.name, '--browser', 'chrome', '--headless']
             group 'Bonita'
         }
     }
