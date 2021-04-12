@@ -4,10 +4,6 @@
     margin-top: 3px;
 }
 
-h1 {
-    margin-bottom: 50px;
-}
-
 /* Set cursor to pointer on table with selectable rows */
 .table-hover tr {
     cursor: pointer;
@@ -16,22 +12,19 @@ h1 {
 /* Set a red border to invalid input fields in forms */
 input[type='text'].ng-invalid.ng-dirty, input[type='email'].ng-invalid.ng-dirty,
 input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-dirty {
-  border-color: #C00;
-  border-width: 1px;
-}
-
-/* Add a red star after required inputs */
-.control-label--required:after {
-  content: "*";
-  color: #C00;
-}
-.btn-invalid {
     border-color: #C00;
     border-width: 1px;
 }
 
-.text-upperCase {
-    text-transform: uppercase;
+/* Add a red star after required inputs */
+.control-label--required:after {
+    content: " *";
+    color: #C00;
+}
+
+.btn-invalid {
+    border-color: #C00;
+    border-width: 1px;
 }
 
 .bonita-modal {
@@ -41,4 +34,115 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 .modal-open .datepicker,
 .modal-open .timepicker {
     z-index: 9999;
+}
+
+/* Application Card UI */
+.application-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.application-container > .row {
+    width: 80%;
+}
+
+.application-card {
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.application-card .icon-container {
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.application-card .icon-container img {
+    height: 100%;
+    width: 100%;
+}
+
+.application-card .application-details {
+    position: absolute;
+    left: 0;
+    bottom: -250px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    flex-direction: column;
+    transition: bottom 0.5s;
+}
+
+.application-card:hover .application-details,
+.application-card:hover .clickable-overlay {
+    bottom: 0;
+}
+
+.application-card--current {
+    border: 2px solid;
+}
+
+.application-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    height: 100px;
+    overflow: hidden;
+}
+
+.application-title {
+    padding: 0;
+}
+
+.application-title a {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: break-spaces;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 3.5em;
+}
+
+.transparent-container {
+    border: 1px solid;
+    z-index: 9999;
+    background: transparent;
+}
+
+.application-card .clickable-overlay {
+    position: absolute;
+    left: 0;
+    bottom: -250px;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    transition: bottom 0.5s;
+    padding: 0;
+    cursor: pointer;
+}
+
+.application-card .clickable-overlay a {
+    width: 100%;
+    height: 200px;
+}
+
+.application-card .clickable-overlay a a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
 }
