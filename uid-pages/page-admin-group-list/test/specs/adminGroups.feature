@@ -44,7 +44,7 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 38 groups is displayed
     And The load more groups button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is disabled when result is a multiple of count
     Given The response "enable 20 load more" is defined
     When I visit the admin groups page
     Then A list of 10 groups is displayed
@@ -119,7 +119,7 @@ Feature: The Admin Groups in desktop resolution
     Then The parent group list is displayed
     And The type more message is displayed and disabled
 
-  Scenario: The modal should display already exists error message
+  Scenario: The create modal should display already exists error message
     Given The response "default filter" is defined
     And The response "already exists during creation" is defined
     And The response "refresh not called" is defined
@@ -236,7 +236,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on user button for first group
     Then A list of 10 items is displayed
 
-  Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
+  Scenario: Load more users is disabled when result is a multiple of count
     Given The response "user list 20 load more" is defined
     And The response "default filter" is defined
     When I visit the admin groups page
@@ -346,7 +346,7 @@ Feature: The Admin Groups in desktop resolution
     When I click on sub-group button for first group
     Then A list of 10 items is displayed
 
-  Scenario: [Limitation] Load more sub groups is not disabled when result is a multiple of count
+  Scenario: Load more sub groups is disabled when result is a multiple of count
     Given The response "sub-groups list 20 load more" is defined
     And The response "default filter" is defined
     When I visit the admin groups page
@@ -448,7 +448,7 @@ Feature: The Admin Groups in desktop resolution
     Then The parent group list is displayed
     And The type more message is displayed and disabled
 
-  Scenario: The modal should display already exists error message
+  Scenario: The edit modal should display already exists error message
     Given The response "default filter" is defined
     And The response "already exists during edition" is defined
     And The response "refresh not called" is defined

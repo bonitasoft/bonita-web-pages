@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.1",
   "previousArtifactVersion" : "2.0",
-  "id" : "adminGroupListBonitaV1",
-  "name" : "adminGroupListBonitaV1",
-  "lastUpdate" : 1611138210214,
+  "id" : "adminGroupListBonitaV2",
+  "name" : "adminGroupListBonitaV2",
+  "lastUpdate" : 1618330596292,
   "rows" : [
     [
       {
@@ -2536,7 +2536,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createGroupCtrl.getErrorMessageFor500(createGroupData.failedResponse)}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | translate}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -2588,7 +2588,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{groupsCtrl.getErrorMessageFor403(createGroupData.failedResponse)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -6017,7 +6017,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{editGroupCtrl.getErrorMessageFor403(editGroupData.failedResponse)}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{groupsCtrl.getErrorMessageFor403(editGroupData.failedResponse)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -7148,6 +7148,15 @@
     "groupsCtrl" : {
       "type" : "expression",
       "value" : [
+        "function doesFailedResponseContain(failedResponse, text) {",
+        "    if (failedResponse",
+        "        && (failedResponse.exception.indexOf(text) > -1",
+        "            || failedResponse.message.indexOf(text) > -1)) {",
+        "        return true;",
+        "    }",
+        "    return false;",
+        "};",
+        "",
         "return {",
         "    groupsQueryParameters: function(pageId) {",
         "        var groupsPerPage = $data.groupsData.numberOfGroupsPerPage;",
@@ -7179,13 +7188,11 @@
         "    getChangeButtonLabel: function(statusCode) {",
         "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
         "    },",
-        "    doesFailedResponseContain: function (failedResponse, text) {",
-        "        if (failedResponse",
-        "            && (failedResponse.exception.indexOf(text) > -1",
-        "                || failedResponse.message.indexOf(text) > -1)) {",
-        "            return true;",
+        "    getErrorMessageFor403: function(failedResponse) {",
+        "        if (doesFailedResponseContain(failedResponse, 'already exists')) {",
+        "            return uiTranslate(\"A group with the same name already exists.\");",
         "        }",
-        "        return false;",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
         "    }",
         "};"
       ],
@@ -7282,12 +7289,6 @@
         "            description: $data.createGroupData.description,\r",
         "            parent_group_id: $data.parentDropdownData.parentId\r",
         "        };\r",
-        "    },\r",
-        "    getErrorMessageFor500: function(failedResponse) {\r",
-        "        if ($data.groupsCtrl.doesFailedResponseContain(failedResponse, 'already exists')) {\r",
-        "            return uiTranslate(\"A group with the same name already exists.\");\r",
-        "        }\r",
-        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");\r",
         "    }\r",
         "};"
       ],
@@ -7633,12 +7634,6 @@
         "            description: $data.editGroupData.description,",
         "            parent_group_id: $data.parentDropdownData.parentId || \"\"",
         "        };",
-        "    },",
-        "    getErrorMessageFor403: function(failedResponse) {",
-        "        if ($data.groupsCtrl.doesFailedResponseContain(failedResponse, 'AlreadyExistsException')) {",
-        "            return uiTranslate(\"A group with the same name already exists.\");",
-        "        }",
-        "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
         "    }",
         "};"
       ],

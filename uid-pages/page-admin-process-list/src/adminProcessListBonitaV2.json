@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "adminProcessListBonitaV2",
   "name" : "adminProcessListBonitaV2",
-  "lastUpdate" : 1613138712320,
+  "lastUpdate" : 1618327694434,
   "rows" : [
     [
       {
@@ -4750,7 +4750,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{installModalCtrl.getErrorMessageFor403(installModalData.failedInstallResponse)}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5157,7 +5157,7 @@
     "enabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
+        "{{defaultProcessUrl}}{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -5402,7 +5402,7 @@
     "disabledProcessUrl" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
+        "{{defaultProcessUrl}}{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
       ],
       "exposed" : false
     },
@@ -5519,12 +5519,16 @@
         "        return $data.defaultProcessUrl;",
         "    },",
         "    getErrorMessageFor500: function(failedInstallResponse) {",
-        "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
-        "            return uiTranslate(\"Another process already exists with the name defined in the .bar. Please remove the currently installed process.\");",
-        "        } else if (isErrorOfType(failedInstallResponse, 'FormatException')) {",
-        "            return uiTranslate('Invalid file format. For more information, check the log file.');",
+        "        if (isErrorOfType(failedInstallResponse, 'FormatException')) {",
+        "            return uiTranslate(\"Invalid file format. For more information, check the log file.\");",
         "        }",
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
+        "    },",
+        "    getErrorMessageFor403: function(failedInstallResponse) {",
+        "        if (isErrorOfType(failedInstallResponse, 'AlreadyExistsException')) {",
+        "            return uiTranslate(\"Another process already exists with the name defined in the .bar. Please remove the currently installed process.\");",
+        "        }",
+        "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
         "    },",
         "    initInstallModal : function() {",
         "        $data.installModalData.filePath = undefined;",

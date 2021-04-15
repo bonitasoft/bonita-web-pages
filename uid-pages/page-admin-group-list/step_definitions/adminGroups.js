@@ -66,7 +66,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(parentGroupSearchUrl + 'Au', 'parentGroupWith8GroupsRoute', 'groups8');
             break;
         case 'already exists during creation':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl, 'createGroupAlreadyExistsRoute', 'createGroupAlreadyExists', 'POST', '500');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl, 'createGroupAlreadyExistsRoute', 'createGroupAlreadyExists', 'POST', '403');
             break;
         case '403 during creation':
             createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '403');
