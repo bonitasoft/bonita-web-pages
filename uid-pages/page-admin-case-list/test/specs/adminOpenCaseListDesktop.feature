@@ -208,3 +208,13 @@ Feature: The admin open case list in desktop resolution
     When I visit the admin case list page
     Then A list of "5" items is displayed
     And The view open case diagram button in the list has correct href with "7724628355784275506"-"3001"
+
+  Scenario: The tab parameter for open tab should be taken into account
+    Given The filter response "default filter" is defined for open cases
+    When I visit the admin case list page with "open" tab query parameter
+    Then I see an open case list page
+
+  Scenario: The tab parameter for unknownValue tab should be taken into account
+    Given The filter response "default filter" is defined for open cases
+    When I visit the admin case list page with "unknownValue" tab query parameter
+    Then I see an open case list page

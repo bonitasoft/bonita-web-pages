@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.10.18",
   "id" : "AdminCaseListBonitaV1",
   "name" : "AdminCaseListBonitaV1",
-  "lastUpdate" : 1615372306996,
+  "lastUpdate" : 1618490051063,
   "rows" : [
     [
       {
@@ -5018,7 +5018,7 @@
         "    ],",
         "    openCasesFromAPI: undefined,",
         "    displayedOpenCases: [],",
-        "    activeTab: true,",
+        "    activeTab: $data.activeTab === \"\" || $data.activeTab !== \"archived\",",
         "    numberOfOpenCasesInMemory: false",
         "};"
       ],
@@ -5200,7 +5200,7 @@
         "    },",
         "    archivedCasesFromAPI: undefined,",
         "    displayedArchivedCases: [],",
-        "    activeTab: false,",
+        "    activeTab: $data.activeTab === \"archived\",",
         "    numberOfArchivedCasesInMemory: false",
         "};"
       ],
@@ -5332,6 +5332,13 @@
         "    $data.archivedCaseData.timestamp = new Date().getTime();",
         "    $data.deleteCaseData.hasRecentlyBeenDeleted = true;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "activeTab" : {
+      "type" : "urlparameter",
+      "value" : [
+        "tab"
       ],
       "exposed" : false
     }

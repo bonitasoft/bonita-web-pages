@@ -4,7 +4,7 @@ const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=9999&p=0&o=displayName ASC';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
 const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters;
-const openCasesRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters;
+const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=20&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
 const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 
@@ -137,6 +137,16 @@ given("The filter response {string} is defined for archived cases", (filterType)
             response: responseValue
         }).as(routeName);
     }
+});
+
+given("No api call is made for open cases", () => {
+    cy.route({
+        method: "GET",
+        url: openCasesRequestUrl,
+        onRequest: () => {
+            throw new Error("This should have not been called");
+        }
+    });
 });
 
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {

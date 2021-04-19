@@ -142,8 +142,12 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 });
 
-when("I visit the admin case list page", ()=>{
+when("I visit the admin case list page", () => {
     cy.visit(url);
+});
+
+when("I visit the admin case list page with {string} tab query parameter", (tabQueryParameterValue) => {
+    cy.visit(url + "?tab=" + tabQueryParameterValue);
 });
 
 when("I click on {string} tab", (tabName) => {
