@@ -127,7 +127,7 @@ given('Multiple applications are available for the user', () => {
     cy.fixture('json/appsList.json').as('appsList');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999',
+        url: '/build/dist/API/living/application?c=9999&f=userId=4',
         response: '@appsList'
     });
 });
@@ -138,17 +138,17 @@ given('The filter responses are defined', () => {
     cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=My first',
+        url: '/build/dist/API/living/application?c=9999&f=userId=4&s=My first',
         response: '@filteredAppsListMyFirst'
     }).as('filteredAppsListMyFirstRoute');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=app1',
+        url: '/build/dist/API/living/application?c=9999&f=userId=4&s=app1',
         response: '@filteredAppsListapp1'
     }).as('filteredAppsListapp1Route');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=1.0.5',
+        url: '/build/dist/API/living/application?c=9999&f=userId=4&s=1.0.5',
         response: '@filteredAppsList105'
     }).as('filteredAppsList105Route');
 });
@@ -157,59 +157,9 @@ given('Incorrect name filter response is defined', () => {
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=Incorrect name',
+        url: '/build/dist/API/living/application?c=9999&f=userId=4&s=Incorrect name',
         response: '@emptyResult'
     }).as('emptyResultRoute');
-    cy.route({
-        method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=Incorrect name&f=profileId=2',
-        response: '@emptyResult'
-    }).as('emptyResultRoute');
-});
-
-given('The profiles list is defined', () => {
-    cy.fixture('json/profilesList.json').as('profilesList');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4',
-        response: '@profilesList'
-    }).as('profilesListRoute');
-});
-
-given('The filter responses are defined for all profiles', () => {
-    cy.fixture('json/filteredAppsListForAllProfiles.json').as('filteredAppsListByAllProfiles');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999',
-        response: '@filteredAppsListByAllProfiles'
-    }).as('filteredAppsListByAllProfilesRoute');
-});
-
-given('The filter responses are defined for the user profile', () => {
-    cy.fixture('json/filteredAppsListForUserProfile.json').as('filteredAppsListByUserProfile');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&f=profileId=1',
-        response: '@filteredAppsListByUserProfile'
-    }).as('filteredAppsListByUserProfileRoute');
-});
-
-given('The filter responses are defined for the administrator profile', () => {
-    cy.fixture('json/filteredAppsListForAdminProfile.json').as('filteredAppsListByAdminProfile');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&f=profileId=2',
-        response: '@filteredAppsListByAdminProfile'
-    }).as('filteredAppsListByAdminProfileRoute');
-});
-
-given('The response for both administrator profile and app name is defined', () => {
-    cy.fixture('json/filteredAppsListAdminProfileMyFirst.json').as('filteredAppsListAdminProfileMyFirst');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=My first&f=profileId=2',
-        response: '@filteredAppsListAdminProfileMyFirst'
-    }).as('filteredAppsListAdminProfileMyFirstRoute');
 });
 
 given('I have the application home page token defined', () => {
@@ -225,18 +175,9 @@ given('Multiple applications are available for the user, some without access rig
     cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=9999',
+        url: 'build/dist/API/living/application?c=9999&f=userId=4',
         response: '@appsListWithUnauthorizedApp'
     }).as('appsListWithUnauthorizedAppRoute');
-});
-
-given('Unauthorized applications response is defined', () => {
-    cy.fixture('json/filteredAppsListNoAccess.json').as('filteredAppsListNoAccess');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=noAccess',
-        response: '@filteredAppsListNoAccess'
-    }).as('filteredAppsListNoAccessRoute');
 });
 
 given('The current language in BOS_Locale is {string}', (language) => {
@@ -308,24 +249,6 @@ when('I click the close button', () => {
 
 when('I hover over the appName', () => {
     cy.get('.app-name-in-list a').eq(0).trigger('mouseover');
-});
-
-when('I select {string} in dropdown', (profileName) => {
-    cy.wait('@profilesListRoute');
-    switch(profileName) {
-        case 'All profile':
-            cy.get('pb-select .form-control').select('0');
-            cy.wait('@filteredAppsListByAllProfilesRoute');
-            break;
-        case 'User':
-            cy.get('pb-select .form-control').select('1');
-            cy.wait('@filteredAppsListByUserProfileRoute');
-            break;
-        case 'Administrator':
-            cy.get('pb-select .form-control').select('2');
-            cy.wait('@filteredAppsListByAdminProfileRoute');
-            break;
-    }
 });
 
 when('I click next to the current session modal', () => {
@@ -589,12 +512,6 @@ then('I see only my administrator apps', () => {
     cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My app administrator');
     cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My first app administrator');
     cy.get('.app-name-in-list a').eq(2).should('not.exist');
-});
-
-then('I see only the app with correct profile and name', () => {
-    cy.wait('@filteredAppsListAdminProfileMyFirstRoute');
-    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app administrator');
-    cy.get('.app-name-in-list a').eq(1).should('not.exist');
 });
 
 then('I don\'t see any apps', () => {

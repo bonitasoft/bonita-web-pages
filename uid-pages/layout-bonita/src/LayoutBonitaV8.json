@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.0",
-  "previousArtifactVersion" : "1.10.18",
-  "id" : "LayoutBonitaV7",
-  "name" : "BonitaLayoutV7",
-  "lastUpdate" : 1611567774210,
+  "modelVersion" : "2.1",
+  "previousArtifactVersion" : "2.0",
+  "id" : "LayoutBonitaV8",
+  "name" : "BonitaLayoutV8",
+  "lastUpdate" : 1618583615154,
   "rows" : [
     [
       {
@@ -1601,75 +1601,9 @@
                             "type" : "component",
                             "dimension" : {
                               "xs" : 12,
-                              "sm" : 6,
-                              "md" : 6,
-                              "lg" : 6
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "currentUserProfileList.length <=1"
-                              },
-                              "required" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : ""
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation",
-                                "value" : "{{profilePlaceholder}}"
-                              },
-                              "availableValues" : {
-                                "type" : "expression",
-                                "value" : "profileDropdownOptions"
-                              },
-                              "displayedKey" : {
-                                "type" : "constant",
-                                "value" : "name"
-                              },
-                              "returnedKey" : {
-                                "type" : "constant",
-                                "value" : "id"
-                              },
-                              "value" : {
-                                "type" : "variable",
-                                "value" : "selectedProfile"
-                              }
-                            },
-                            "reference" : "7a52a8b8-7e23-4983-bc17-91b19e99c9ba",
-                            "hasValidationError" : false,
-                            "id" : "pbSelect"
-                          },
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 6,
-                              "md" : 6,
-                              "lg" : 6
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -1789,7 +1723,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "authorizedAppsList.length"
+                          "value" : "appsList.length"
                         },
                         "text" : {
                           "type" : "interpolation",
@@ -1824,8 +1758,8 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!appsList.length"
                         },
                         "repeatedCollection" : {
                           "type" : "variable",
@@ -2219,27 +2153,6 @@
   ],
   "assets" : [
     {
-      "id" : "856024bd-93a7-4880-80ad-c35274353601",
-      "name" : "user-circle.css",
-      "type" : "css",
-      "order" : 7,
-      "external" : false
-    },
-    {
-      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
-      "name" : "layout.css",
-      "type" : "css",
-      "order" : 6,
-      "external" : false
-    },
-    {
-      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
-      "name" : "fa-solid-900.woff",
-      "type" : "img",
-      "order" : 9,
-      "external" : false
-    },
-    {
       "id" : "346a853d-6737-4422-bfae-c8acf7476ca4",
       "name" : "style.css",
       "type" : "css",
@@ -2266,21 +2179,31 @@
       "type" : "img",
       "order" : 8,
       "external" : false
+    },
+    {
+      "id" : "856024bd-93a7-4880-80ad-c35274353601",
+      "name" : "user-circle.css",
+      "type" : "css",
+      "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
+      "name" : "layout.css",
+      "type" : "css",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
+      "name" : "fa-solid-900.woff",
+      "type" : "img",
+      "order" : 9,
+      "external" : false
     }
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "profilePlaceholder" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.currentUserProfileList && $data.currentUserProfileList.length <= 1) {",
-        "    return $data.currentUserProfileList[0].name;",
-        "}",
-        "",
-        "return \"All profiles\";"
-      ],
-      "exposed" : false
-    },
     "targetedPageUrl" : {
       "type" : "constant",
       "exposed" : false
@@ -2371,14 +2294,7 @@
     "appsList" : {
       "type" : "url",
       "value" : [
-        "../API/living/application?c=9999{{queryParamSearchFilter}}{{queryParamProfileFilter}}"
-      ],
-      "exposed" : false
-    },
-    "currentUserProfileList" : {
-      "type" : "url",
-      "value" : [
-        "../API/portal/profile?p=0&c=100&f=user_id={{loggedUser.id}}"
+        "../API/living/application?c=9999&f=userId={{session.user_id}}{{queryParamSearchFilter}}"
       ],
       "exposed" : false
     },
@@ -2386,31 +2302,6 @@
       "type" : "url",
       "value" : [
         "../API/system/i18nlocale?p=0&c=0"
-      ],
-      "exposed" : false
-    },
-    "authorizedAppsList" : {
-      "type" : "expression",
-      "value" : [
-        "if (!$data.currentUserProfileList || !$data.appsList) {",
-        "    return [];",
-        "}",
-        "",
-        "function isAppAuthorized(application) {",
-        "    return $data.currentUserProfileList.map((profile) => profile.id).includes(application.profileId);",
-        "}",
-        "",
-        "return $data.appsList.filter(application => isAppAuthorized(application));"
-      ],
-      "exposed" : false
-    },
-    "queryParamProfileFilter" : {
-      "type" : "expression",
-      "value" : [
-        "if(!$data.selectedProfile) {",
-        "    return \"\";",
-        "}",
-        "return \"&f=profileId=\"+$data.selectedProfile;"
       ],
       "exposed" : false
     },
@@ -2448,17 +2339,17 @@
     "appsListGroupByThree" : {
       "type" : "expression",
       "value" : [
-        "if (!$data.appsList || !$data.currentUserProfileList) {",
+        "if (!$data.appsList) {",
         "    return [];",
         "}",
         "",
         "var i = 0;",
         "var result = [];",
-        "while (i < $data.authorizedAppsList.length) {",
+        "while (i < $data.appsList.length) {",
         "    if (i%3 === 0) {",
         "        result.push([]);",
         "    }",
-        "    result[Math.floor(i/3)].push($data.authorizedAppsList[i]);",
+        "    result[Math.floor(i/3)].push($data.appsList[i]);",
         "    i++;",
         "}",
         "",
@@ -2475,10 +2366,6 @@
         "    return $data.session.user_name;",
         "}"
       ],
-      "exposed" : false
-    },
-    "selectedProfile" : {
-      "type" : "constant",
       "exposed" : false
     },
     "logoURL" : {
@@ -2501,13 +2388,6 @@
         "}",
         "",
         "return getCookie(\"BOS_Locale\");"
-      ],
-      "exposed" : false
-    },
-    "profileDropdownOptions" : {
-      "type" : "expression",
-      "value" : [
-        "return [{\"name\": uiTranslate(\"All profiles\")}].concat($data.currentUserProfileList);"
       ],
       "exposed" : false
     },
@@ -2626,5 +2506,5 @@
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "type" : "layout",
   "description" : "This is the Bonita living application layout, offered for any new application created. You can export it and edit it in the UI Designer. Its header contains a logo placeholder, the name of the application, the logged user's details (with a language picker and a logout button), and an access to all applications of the logged user. The application content is rendered as an horizontal menu and an iframe for application pages. This layout requires font-awesome in order to be able to display the default user icons. This dependence should be available in the theme of the application where this layout will be used.",
-  "displayName" : "Bonita layout V7"
+  "displayName" : "Bonita layout"
 }
