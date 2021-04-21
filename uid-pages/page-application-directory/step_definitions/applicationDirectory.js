@@ -136,7 +136,7 @@ then("The application directory page has the correct information", () => {
         cy.contains('.application-details p', 'This is a sample description.').should('be.hidden');
     });
     cy.get('.application-container').eq(1).within(() => {
-       // cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../theme/images/logo.png');
+        cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../theme/images/logo.png');
         cy.contains('.application-title span', 'A11');
         cy.contains('.application-details p', '1.0').should('be.hidden');
         cy.contains('.application-details p', 'No description').should('be.hidden');
