@@ -22,6 +22,22 @@ given('The URL target to the application {string}', () => {
     });
 });
 
+given('The URL target to the application {string} with icon', () => {
+    cy.server();
+    cy.fixture('json/app1WithIcon.json').as('app1WithIcon');
+    cy.fixture('json/pageList.json').as('pageList');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application/*',
+        response: '@app1WithIcon',
+    }).as('app1Route');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application-menu/**',
+        response: '@pageList'
+    });
+});
+
 given('A user is connected without sso', () => {
     cy.fixture('json/session.json').as('session');
     cy.route({
@@ -55,14 +71,6 @@ given('A user is connected as guest with sso', () => {
         method: 'GET',
         url: '/build/dist/API/system/session/*',
         response: '@sessionAsGuestWithSSO'
-    });
-});
-
-given('A logo is available in the theme', () => {
-    cy.route({
-        method: 'GET',
-        url: '/build/dist/theme/images/logo.png',
-        response: 'logo content'
     });
 });
 
@@ -389,7 +397,11 @@ then('I see the app selection icon', () => {
     cy.get('.ng-binding > .glyphicon').should('have.attr', 'class', 'glyphicon glyphicon-th');
 });
 
-then('The image has the correct source', () => {
+then('The application icon has the correct source', () => {
+    cy.get('.resized-image img').should('have.attr', 'src', '../API/applicationIcon/1?t=1618565660762');
+});
+
+then('The default application icon has the correct source', () => {
     cy.get('img.img-responsive.ng-scope').should('have.attr','src', '../theme/images/logo.png');
 });
 

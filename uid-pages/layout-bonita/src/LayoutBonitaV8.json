@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.0",
   "id" : "LayoutBonitaV8",
   "name" : "BonitaLayoutV8",
-  "lastUpdate" : 1619017914147,
+  "lastUpdate" : 1619082241467,
   "rows" : [
     [
       {
@@ -61,7 +61,7 @@
               "rows" : [
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 2,
                       "sm" : 2,
@@ -71,32 +71,100 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "resized-image"
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "!logoRequest"
-                      },
-                      "srcType" : {
-                        "type" : "constant",
-                        "value" : "URL"
-                      },
-                      "url" : {
-                        "type" : "expression",
-                        "value" : "logoURL"
-                      },
-                      "assetName" : {
-                        "type" : "constant",
                         "value" : ""
                       },
-                      "alt" : {
-                        "type" : "interpolation",
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
                         "value" : ""
                       }
                     },
-                    "reference" : "2a0f4509-b5d1-4f69-8746-3d366ce04782",
+                    "reference" : "8b616148-7afc-4b85-916f-11a15eb2a962",
                     "hasValidationError" : false,
-                    "id" : "pbImage"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "resized-image"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "application[0].icon !== \"\""
+                            },
+                            "srcType" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "url" : {
+                              "type" : "expression",
+                              "value" : "logoURL"
+                            },
+                            "assetName" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "alt" : {
+                              "type" : "interpolation",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "2a0f4509-b5d1-4f69-8746-3d366ce04782",
+                          "hasValidationError" : false,
+                          "id" : "pbImage"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "resized-image"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "application[0].icon === \"\""
+                            },
+                            "srcType" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "url" : {
+                              "type" : "expression",
+                              "value" : "application[0].icon"
+                            },
+                            "assetName" : {
+                              "type" : "constant"
+                            },
+                            "alt" : {
+                              "type" : "interpolation"
+                            }
+                          },
+                          "reference" : "bca913ec-cdc4-4f18-9c7d-c515aec1b063",
+                          "hasValidationError" : false,
+                          "id" : "pbImage"
+                        }
+                      ]
+                    ]
                   },
                   {
                     "type" : "component",
@@ -2354,27 +2422,6 @@
   ],
   "assets" : [
     {
-      "id" : "856024bd-93a7-4880-80ad-c35274353601",
-      "name" : "user-circle.css",
-      "type" : "css",
-      "order" : 7,
-      "external" : false
-    },
-    {
-      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
-      "name" : "layout.css",
-      "type" : "css",
-      "order" : 6,
-      "external" : false
-    },
-    {
-      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
-      "name" : "fa-solid-900.woff",
-      "type" : "img",
-      "order" : 9,
-      "external" : false
-    },
-    {
       "id" : "346a853d-6737-4422-bfae-c8acf7476ca4",
       "name" : "style.css",
       "type" : "css",
@@ -2400,6 +2447,27 @@
       "name" : "fa-solid-900.woff2",
       "type" : "img",
       "order" : 8,
+      "external" : false
+    },
+    {
+      "id" : "856024bd-93a7-4880-80ad-c35274353601",
+      "name" : "user-circle.css",
+      "type" : "css",
+      "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
+      "name" : "layout.css",
+      "type" : "css",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
+      "name" : "fa-solid-900.woff",
+      "type" : "img",
+      "order" : 9,
       "external" : false
     }
   ],
@@ -2481,13 +2549,6 @@
       "type" : "expression",
       "value" : [
         "return window.location.pathname.split( '/' );"
-      ],
-      "exposed" : false
-    },
-    "logoRequest" : {
-      "type" : "url",
-      "value" : [
-        "{{logoURL}}"
       ],
       "exposed" : false
     },
