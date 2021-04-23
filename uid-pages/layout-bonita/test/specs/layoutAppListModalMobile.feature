@@ -10,5 +10,4 @@ Feature: The Bonita layout app list modal in mobile resolution
     And I click the burger
     When I click the app selection icon in dropdown
     Then The app selection modal is visible
-    And I see my apps in mobile
-    And I don't see the desktop names
+    And I see my apps

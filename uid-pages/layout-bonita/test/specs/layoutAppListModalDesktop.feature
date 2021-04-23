@@ -8,8 +8,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     When I visit the index page
     And I click the app selection icon
     Then The app selection modal is visible
-    And I see my apps in desktop
-    And I don't see the mobile names
+    And I see my apps
 
   Scenario: The app selection modal filter works correctly
     Given The URL target to the application "appName1"
@@ -32,7 +31,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     When I erase the input field
     And I filter the app selection by "Incorrect name"
     Then I don't see any apps
-    And The no app is available text is "No application available using these filters"
+    And The no app is available text is "No applications to display"
 
   Scenario: The app selection modal closes correctly
     Given The URL target to the application "appName1"
@@ -63,5 +62,48 @@ Feature: The Bonita layout app list modal in desktop resolution
     When I visit the index page
     And I click the app selection icon
     Then The app selection modal is visible
-    And The current application has the class "app-item--current"
-    And The other applications don't have the class ".app-item--current"
+    And The current application has the class "application-card--current"
+    And The other applications don't have the class "application-card--current"
+
+  Scenario: Load more button works correctly
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And 35 applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then A list of 10 items is displayed
+    When I click on Load more applications button
+    Then A list of 20 items is displayed
+    When I click on Load more applications button
+    Then A list of 30 items is displayed
+    When I click on Load more applications button
+    Then A list of 35 items is displayed
+    And The load more applications button is disabled
+
+  Scenario: Load more is disabled when result is a multiple of count
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And 20 applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then A list of 10 items is displayed
+    When I click on Load more applications button
+    Then A list of 20 items is displayed
+    And The load more applications button is disabled
+
+  Scenario: Load more resets correctly after the limitation is triggered
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And 30 applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then A list of 10 items is displayed
+    When I click on Load more applications button
+    Then A list of 20 items is displayed
+    When I click on Load more applications button
+    Then A list of 30 items is displayed
+    And The load more applications button is disabled
+    When I filter the app selection by "Bonita"
+    Then A list of 10 items is displayed
+    When I click on Load more applications button
+    Then A list of 20 items is displayed
