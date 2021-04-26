@@ -2532,8 +2532,8 @@
     "setWindowAppName" : {
       "type" : "expression",
       "value" : [
-        "if ($data.appName) {",
-        "    window.document.title = $data.applicationCtrl.getApplicationName();",
+        "if ($data.application && $data.application[0] && $data.application[0].displayName) {",
+        "    window.document.title = $data.application[0].displayName;",
         "}"
       ],
       "exposed" : false
