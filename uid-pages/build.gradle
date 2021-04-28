@@ -43,7 +43,13 @@ subprojects { subProject ->
 
     publishing {
         publications {
-            create('zip', MavenPublication) { artifact file("${project.buildDir}/${project.name}-${project.version}.zip") }
+            maven(MavenPublication) {
+                artifact (file("${project.buildDir}/${project.name}-${project.version}.zip"))
+                artifact (sourceUIDPage) {
+                    classifier "sources"
+                    extension "zip"
+                }
+            }
         }
     }
 }
