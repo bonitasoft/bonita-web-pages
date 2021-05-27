@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "adminProcessListBonitaV2",
   "name" : "adminProcessListBonitaV2",
-  "lastUpdate" : 1618327694434,
+  "lastUpdate" : 1622044254683,
   "rows" : [
     [
       {
@@ -1771,7 +1771,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{enabledProcessData.displayedEnabledProcesses.length}} {{\"of\"|uiTranslate}} {{enabledProcessData.totalEnabledProcesses.split('/')[1]}}"
+                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{enabledProcessData.displayedEnabledProcesses.length}} {{\"of\"|uiTranslate}} {{enabledProcessData.totalEnabledProcesses}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3470,7 +3470,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{disabledProcessData.displayedDisabledProcesses.length}} {{\"of\"|uiTranslate}} {{disabledProcessData.totalDisabledProcesses.split('/')[1]}}"
+                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{disabledProcessData.displayedDisabledProcesses.length}} {{\"of\"|uiTranslate}} {{disabledProcessData.totalDisabledProcesses}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -5159,6 +5159,11 @@
       "value" : [
         "{{defaultProcessUrl}}{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "enabledProcessData.enabledProcessHeaderResponse",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "enabledProcessData" : {
@@ -5194,7 +5199,8 @@
         "    enabledProcessesFromAPI: undefined,",
         "    displayedEnabledProcesses: [],",
         "    activeTab: true,",
-        "    totalEnabledProcesses: 0",
+        "    totalEnabledProcesses: 0,",
+        "    enabledProcessHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -5206,8 +5212,8 @@
         "// display the first page of enabled processes on page load or when the filter change",
         "if($data.enabledProcessUrl){",
         "    // get the total number of enabled processes",
-        "    if($data.enabledProcessUrl.__headers && $data.enabledProcessUrl.__headers['content-range']){",
-        "        $data.enabledProcessData.totalEnabledProcesses = $data.enabledProcessUrl.__headers['content-range'];",
+        "    if($data.enabledProcessData.enabledProcessHeaderResponse && $data.enabledProcessData.enabledProcessHeaderResponse['content-range']) {",
+        "        $data.enabledProcessData.totalEnabledProcesses = $data.enabledProcessData.enabledProcessHeaderResponse['content-range'].split('/')[1];",
         "    }",
         "    // display half the elements loaded",
         "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessUrl.slice(0, $data.enabledProcessData.numberOfEnabledProcessesPerPage);",
@@ -5314,7 +5320,8 @@
         "    disabledProcessesFromAPI: undefined,\r",
         "    displayedDisabledProcesses: [],\r",
         "    activeTab: false,\r",
-        "    totalDisabledProcesses: 0\r",
+        "    totalDisabledProcesses: 0,\r",
+        "    disabledProcessHeaderResponse: undefined\r",
         "};"
       ],
       "exposed" : false
@@ -5373,8 +5380,8 @@
         "// display the first page of disabled processes on page load or when the filter change\r",
         "if($data.disabledProcessUrl){\r",
         "    // get the total number of disabled processes\r",
-        "    if($data.disabledProcessUrl.__headers && $data.disabledProcessUrl.__headers['content-range']) {\r",
-        "        $data.disabledProcessData.totalDisabledProcesses = $data.disabledProcessUrl.__headers['content-range'];\r",
+        "    if($data.disabledProcessData.disabledProcessHeaderResponse && $data.disabledProcessData.disabledProcessHeaderResponse['content-range']) {\r",
+        "        $data.disabledProcessData.totalDisabledProcesses = $data.disabledProcessData.disabledProcessHeaderResponse['content-range'].split('/')[1];\r",
         "    }\r",
         "    // display half the elements loaded\r",
         "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessUrl.slice(0, $data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
@@ -5414,6 +5421,9 @@
       "value" : [
         "{{defaultProcessUrl}}{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "disabledProcessData.disabledProcessHeaderResponse"
+      },
       "exposed" : false
     },
     "tabsCtrl" : {
