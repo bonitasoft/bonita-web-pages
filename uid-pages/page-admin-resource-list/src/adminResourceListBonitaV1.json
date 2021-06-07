@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "adminResourceListBonitaV1",
   "name" : "adminResourceListBonitaV1",
-  "lastUpdate" : 1616680089458,
+  "lastUpdate" : 1623075060104,
   "rows" : [
     [
       {
@@ -1395,7 +1395,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Resources shown\"|uiTranslate}}: {{resourceListData.  displayedResources.length}} {{\"of\"|uiTranslate}} {{resourceListData.totalResources.split('/')[1]}}"
+                  "value" : "{{\"Resources shown\"|uiTranslate}}: {{resourceListData.  displayedResources.length}} {{\"of\"|uiTranslate}} {{resourceListData.totalResources}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -4193,7 +4193,8 @@
         "        searchValue: \"\",",
         "        hideProvided: false",
         "    },",
-        "    totalResources: 0",
+        "    totalResources: 0,",
+        "    resourcesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -4203,6 +4204,9 @@
       "value" : [
         "{{apiResourceUrl}}?{{resourceListCtrl.resourcesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "resourceListData.resourcesHeaderResponse"
+      },
       "exposed" : false
     },
     "resourceListCtrl" : {
@@ -4268,8 +4272,8 @@
         "// diplay the first page of resources on page load or when the filter change",
         "if($data.resources){",
         "    // get the total number of resources",
-        "    if($data.resources.__headers && $data.resources.__headers['content-range']) {",
-        "        $data.resourceListData.totalResources = $data.resources.__headers['content-range']",
+        "    if($data.resourceListData.resourcesHeaderResponse && $data.resourceListData.resourcesHeaderResponse['content-range']) {",
+        "        $data.resourceListData.totalResources = $data.resourceListData.resourcesHeaderResponse['content-range'].split('/')[1];",
         "    }",
         "    // display half the elements loaded",
         "    $data.resourceListData.displayedResources = $data.resources.slice(0, $data.resourceListData.numberOfResourcesPerPage);",
