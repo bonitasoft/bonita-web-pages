@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV1",
   "name" : "adminUserListBonitaV1",
-  "lastUpdate" : 1616512766230,
+  "lastUpdate" : 1623139966656,
   "rows" : [
     [
       {
@@ -3046,7 +3046,8 @@
         "        searchValue: \"\",",
         "        userStatusEnabled: \"active\"",
         "    },",
-        "    totalUsers: 0",
+        "    totalUsers: 0,",
+        "    usersHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -3063,6 +3064,9 @@
       "value" : [
         "{{apiUserUrl}}?{{userListCtrl.userQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "userListData.usersHeaderResponse"
+      },
       "exposed" : false
     },
     "loadMoreHandler" : {
@@ -3072,8 +3076,8 @@
         "// diplay the first page of users on page load or when the filters change",
         "if($data.users){",
         "    // get the total number of users",
-        "    if($data.users.__headers && $data.users.__headers['content-range']) {",
-        "        $data.userListData.totalUsers = $data.users.__headers['content-range'];",
+        "    if($data.userListData.usersHeaderResponse && $data.userListData.usersHeaderResponse['content-range']) {",
+        "        $data.userListData.totalUsers = $data.userListData.usersHeaderResponse['content-range'];",
         "    }",
         "    // display half the elements loaded",
         "    $data.userListData.displayedUsers = $data.users.slice(0, $data.userListData.numberOfUsersPerPage);",
