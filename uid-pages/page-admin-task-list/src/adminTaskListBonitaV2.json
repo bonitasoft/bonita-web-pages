@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "adminTaskListBonitaV2",
   "name" : "adminTaskListBonitaV2",
-  "lastUpdate" : 1613137218108,
+  "lastUpdate" : 1623419145307,
   "rows" : [
     [
       {
@@ -2305,7 +2305,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Failed flow nodes shown\"|uiTranslate}}: {{failedFlowNodeData.displayedFailedFlowNodes.length}}"
+                              "value" : "{{\"Failed flow nodes shown\"|uiTranslate}}: {{failedFlowNodeData.displayedFailedFlowNodes.length}} {{\"of\"|uiTranslate}} {{failedFlowNodeData.totalFailedFlowNodes}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -4470,7 +4470,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Pending tasks shown\"|uiTranslate}}: {{pendingTaskData.displayedPendingTasks.length}}"
+                              "value" : "{{\"Pending tasks shown\"|uiTranslate}}: {{pendingTaskData.displayedPendingTasks.length}} {{\"of\"|uiTranslate}} {{pendingTaskData.totalPendingTasks}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -6635,7 +6635,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{\"Done tasks shown\"|uiTranslate}}: {{doneTaskData.displayedDoneTasks.length}}"
+                              "value" : "{{\"Done tasks shown\"|uiTranslate}}: {{doneTaskData.displayedDoneTasks.length}} {{\"of\"|uiTranslate}} {{doneTaskData.totalDoneTasks}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -6843,6 +6843,9 @@
       "value" : [
         "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "failedFlowNodeData.failedFlowNodesHeaderResponse"
+      },
       "exposed" : false
     },
     "failedFlowNodeCtrl" : {
@@ -6910,7 +6913,9 @@
         "    },",
         "    failedFlowNodesFromAPI: undefined,",
         "    displayedFailedFlowNodes: [],",
-        "    activeTab: true",
+        "    activeTab: true,",
+        "    totalFailedFlowNodes: 0,",
+        "    failedFlowNodesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -6921,6 +6926,10 @@
         "//Failed flowNodes",
         "// display the first page of failed flowNodes on page load or when the filter change",
         "if($data.failedFlowNodeUrl){",
+        "    // get the total number of failed flow nodes",
+        "    if($data.failedFlowNodeData.failedFlowNodesHeaderResponse && $data.failedFlowNodeData.failedFlowNodesHeaderResponse['content-range']) {",
+        "        $data.failedFlowNodeData.totalFailedFlowNodes = $data.failedFlowNodeData.failedFlowNodesHeaderResponse['content-range'].split('/')[1];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeUrl.slice(0, $data.failedFlowNodeData.numberOfFlowNodesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -6959,6 +6968,9 @@
       "value" : [
         "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "pendingTaskData.pendingTasksHeaderResponse"
+      },
       "exposed" : false
     },
     "pendingTaskCtrl" : {
@@ -7038,7 +7050,9 @@
         "    },",
         "    pendingTasksFromAPI: undefined,",
         "    displayedPendingTasks: [],",
-        "    activeTab: false",
+        "    activeTab: false,",
+        "    totalPendingTasks: 0,",
+        "    pendingTasksHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -7049,6 +7063,10 @@
         "//Pending Tasks",
         "// display the first page of pending tasks on page load or when the filter change",
         "if($data.pendingTaskUrl){",
+        "    // get the total number of pending tasks",
+        "    if($data.pendingTaskData.pendingTasksHeaderResponse && $data.pendingTaskData.pendingTasksHeaderResponse['content-range']) {",
+        "        $data.pendingTaskData.totalPendingTasks = $data.pendingTaskData.pendingTasksHeaderResponse['content-range'].split('/')[1];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskUrl.slice(0, $data.pendingTaskData.numberOfPendingTasksPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -7114,7 +7132,9 @@
         "    },",
         "    doneTasksFromAPI: undefined,",
         "    displayedDoneTasks: [],",
-        "    activeTab: false",
+        "    activeTab: false,",
+        "    totalDoneTasks: 0,",
+        "    doneTasksHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -7166,6 +7186,10 @@
         "//Done Tasks\r",
         "// display the first page of done tasks on page load or when the filter change\r",
         "if($data.doneTaskUrl){\r",
+        "    // get the total number of done tasks\r",
+        "    if($data.doneTaskData.doneTasksHeaderResponse && $data.doneTaskData.doneTasksHeaderResponse['content-range']) {\r",
+        "        $data.doneTaskData.totalDoneTasks = $data.doneTaskData.doneTasksHeaderResponse['content-range'].split('/')[1];\r",
+        "    }\r",
         "    // display half the elements loaded\r",
         "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskUrl.slice(0, $data.doneTaskData.numberOfDoneTasksPerPage);\r",
         "    // set the next page to be requested to 2 since the first page is in the memory\r",
@@ -7204,6 +7228,9 @@
       "value" : [
         "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "doneTaskData.doneTasksHeaderResponse"
+      },
       "exposed" : false
     },
     "isInformationEmpty" : {

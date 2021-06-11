@@ -1,7 +1,7 @@
 Feature: The pending tasks list in desktop resolution
 
   Scenario: The pending tasks list displays the correct attributes
-    Given The filter response "default filter" is defined for pending tasks
+    Given The filter response "default filter with headers" is defined for pending tasks
     And The filter response "default filter" is defined
     When I visit admin task list page
     Then I see the failed flow nodes page
@@ -87,13 +87,13 @@ Feature: The pending tasks list in desktop resolution
     And The filter response "enable load more" is defined for pending tasks
     When I visit admin task list page
     And I click on "Pending tasks" tab
-    Then A list of "10" items is displayed
+    Then A list of "10" pending tasks is displayed out of "35"
     When I click on Load more pending tasks button
-    Then A list of "20" items is displayed
+    Then A list of "20" pending tasks is displayed out of "35"
     When I click on Load more pending tasks button
-    Then A list of "30" items is displayed
+    Then A list of "30" pending tasks is displayed out of "35"
     When I click on Load more pending tasks button
-    Then A list of "35" items is displayed
+    Then A list of "35" pending tasks is displayed out of "35"
     And The load more pending tasks button is disabled
 
   Scenario: [Limitation] Load more is not disabled when result is a multiple of count
