@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "UserCaseListBonitaV4",
   "name" : "UserCaseListBonitaV4",
-  "lastUpdate" : 1613121456873,
+  "lastUpdate" : 1623665227972,
   "rows" : [
     [
       {
@@ -1725,7 +1725,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "text-primary"
+                              "value" : "case-property-label text-primary"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -1753,7 +1753,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{openCaseData.displayedOpenCases.length}}\n</div>"
+                              "value" : "{{\"Cases shown\"|uiTranslate}}: {{openCaseData.displayedOpenCases.length}} {{\"of\"|uiTranslate}} {{openCaseData.totalOpenCases}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3315,7 +3315,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "text-primary"
+                              "value" : "case-property-label text-primary"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -3343,7 +3343,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<div class=\"case-property-label\">\n{{\"Cases shown\"|uiTranslate}}: {{archivedCaseData.displayedArchivedCases.length}}\n</div>"
+                              "value" : "{{\"Cases shown\"|uiTranslate}}: {{archivedCaseData.displayedArchivedCases.length}} {{\"of\"|uiTranslate}} {{archivedCaseData.totalArchivedCases}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3582,6 +3582,9 @@
       "value" : [
         "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "openCaseData.openCasesHeaderResponse"
+      },
       "exposed" : false
     },
     "processes" : {
@@ -3681,6 +3684,9 @@
       "value" : [
         "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "archivedCaseData.archivedCasesHeaderResponse"
+      },
       "exposed" : false
     },
     "eventHandler" : {
@@ -3689,6 +3695,10 @@
         "//Open Cases",
         "// display the first page of open cases on page load or when the filter change",
         "if($data.openCases){",
+        "    // get the total number of open cases",
+        "    if($data.openCaseData.openCasesHeaderResponse && $data.openCaseData.openCasesHeaderResponse['content-range']) {",
+        "        $data.openCaseData.totalOpenCases = $data.openCaseData.openCasesHeaderResponse['content-range'].split('/')[1];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.openCaseData.displayedOpenCases = $data.openCases.slice(0, $data.openCaseData.numberOfCasesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",
@@ -3723,6 +3733,10 @@
         "//Archived Cases",
         "// diplay the first page of archived cases on page load or when the filter change",
         "if($data.archivedCases){",
+        "    // get the total number of archived cases",
+        "    if($data.archivedCaseData.archivedCasesHeaderResponse && $data.archivedCaseData.archivedCasesHeaderResponse['content-range']) {",
+        "        $data.archivedCaseData.totalArchivedCases = $data.archivedCaseData.archivedCasesHeaderResponse['content-range'].split('/')[1];",
+        "    }",
         "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseData.numberOfCasesPerPage);",
         "    $data.archivedCaseData.pageId = 2;",
         "    // set archived cases to undefined as the script is triggered when click on load more cases button",
@@ -3806,7 +3820,9 @@
         "    archivedCasesFromAPI: undefined,",
         "    displayedArchivedCases: [],",
         "    numberOfArchivedCasesInMemory: false,",
-        "    activeTab: false",
+        "    activeTab: false,",
+        "    totalArchivedCases: 0,",
+        "    archivedCasesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -3838,7 +3854,9 @@
         "    },",
         "    openCasesFromAPI: undefined,",
         "    displayedOpenCases: [],",
-        "    activeTab: true",
+        "    activeTab: true,",
+        "    totalOpenCases: 0,",
+        "    openCasesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false

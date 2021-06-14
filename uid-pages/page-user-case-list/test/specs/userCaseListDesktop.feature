@@ -21,8 +21,8 @@ Feature: The user open case list in desktop resolution
     Then A list of open cases is displayed
 
   Scenario: The user case list displays the correct attributes
-    Given A list of open cases is available
-    And A list of archived cases is available
+    Given A list of open cases with headers is available
+    And A list of archived cases with headers is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
@@ -225,29 +225,29 @@ Feature: The user open case list in desktop resolution
     And I don't see the cases that are unmatched by the "started by me" filter
 
   Scenario: Load more open cases button works correctly
-    Given A list of open cases with several pages is available
+    Given A list of open cases with headers with several pages is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
-    Then A list of "10" cases is displayed
+    Then A list of "10" cases is displayed out of "25"
     When I click on Load more cases button
-    Then A list of "20" cases is displayed
+    Then A list of "20" cases is displayed out of "25"
     When I click on Load more cases button
-    Then A list of "25" cases is displayed
+    Then A list of "25" cases is displayed out of "25"
     And The Load more cases button is disabled
 
   Scenario: Load more archived cases button works correctly
-    Given A list of archived cases with several pages is available
+    Given A list of archived cases with headers with several pages is available
     And A list of open cases is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
     And I click on "Archived cases" tab
-    Then A list of "10" cases is displayed
+    Then A list of "10" cases is displayed out of "24"
     When I click on Load more cases button
-    Then A list of "20" cases is displayed
+    Then A list of "20" cases is displayed out of "24"
     When I click on Load more cases button
-    Then A list of "24" cases is displayed
+    Then A list of "24" cases is displayed out of "24"
     And The Load more cases button is disabled
 
   Scenario: Load more open cases is not disabled when result is a multiple of count
