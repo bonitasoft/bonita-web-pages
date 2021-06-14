@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
   "id" : "adminCaseDetailsBonitaV3",
   "name" : "adminCaseDetailsBonitaV3",
-  "lastUpdate" : 1613139576785,
+  "lastUpdate" : 1623657906547,
   "rows" : [
     [
       {
@@ -3343,7 +3343,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "{{\"Process variables shown\"|uiTranslate}}: {{processVariablesData.displayedProcessVariables.length}}"
+                                    "value" : "{{\"Process variables shown\"|uiTranslate}}: {{processVariablesData.displayedProcessVariables.length}} {{\"of\"|uiTranslate}} {{processVariablesData.totalProcessVariables}}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -4639,6 +4639,9 @@
       "value" : [
         "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(0)}}"
       ],
+      "advancedOptions" : {
+        "headers" : "processVariablesData.processVariablesHeaderResponse"
+      },
       "exposed" : false
     },
     "processVariablesCtrl" : {
@@ -4754,7 +4757,9 @@
         "    numberOfProcessVariablesInMemory: 0,",
         "    processVariablesFromAPI: undefined,",
         "    processVariablesFailedResponse: \"\",",
-        "    activeTab: false",
+        "    activeTab: false,",
+        "    totalProcessVariables: 0,",
+        "    processVariablesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -4765,6 +4770,10 @@
         "//Process variables",
         "// diplay the first page of processVariables on page load or when the filters change",
         "if($data.processVariables) {",
+        "    // get the total number of process variables",
+        "    if($data.processVariablesData.processVariablesHeaderResponse && $data.processVariablesData.processVariablesHeaderResponse['content-range']) {",
+        "        $data.processVariablesData.totalProcessVariables = $data.processVariablesData.processVariablesHeaderResponse['content-range'].split('/')[1];",
+        "    }",
         "    // display half the elements loaded",
         "    $data.processVariablesData.displayedProcessVariables = $data.processVariables.slice(0, $data.processVariablesData.numberOfProcessVariablesPerPage);",
         "    // set the next page to be requested to 2 since the first page is in the memory",

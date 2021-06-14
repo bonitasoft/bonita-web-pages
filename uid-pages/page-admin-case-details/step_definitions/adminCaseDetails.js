@@ -63,6 +63,9 @@ given("The response {string} is defined", (responseType) => {
         case 'process variables':
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
             break;
+        case 'process variables with headers':
+            createRouteWithResponseAndHeaders('&t=0', 'processVariablesRoute', 'processVariables', {'content-range': '0-6/6'});
+            break;
         case 'process variable update':
             createRouteWithResponseAndMethod(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
@@ -75,7 +78,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
             break;
         case 'process variables load more':
-            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createRouteWithResponseAndHeaders('&t=0', 'processVariables20Route', 'processVariables20', {'content-range': '0-20/36'});
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariablesRoute', 'processVariables', 3, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -134,6 +137,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
         createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: urlPrefix + processVariableUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
@@ -390,6 +408,7 @@ then("The process variables have the correct information", () => {
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
     });
+    cy.contains('.text-primary.item-label:visible', 'Process variables shown: 6 of 6');
 });
 
 then("Edit modal for variable {string} is displayed", (variableNumber) => {
@@ -473,6 +492,11 @@ then("I see that {string}", (message) => {
 
 then("A list of {int} items is displayed", (nbrOfItems) => {
     cy.get('.process-variable-item').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.process-variable-item').should('have.length', nbrOfItems);
+    cy.get('.text-primary.item-label:visible').contains('Process variables shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The load more variables button is disabled", () => {
