@@ -26,6 +26,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
         case "default filter":
             createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
             break;
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders('&t=0', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
+            break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
             createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488&t=0', 'process2CasesRoute', 'emptyResult');
@@ -47,7 +50,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&f=state=error&t=0', 'casesWithFailuresRoute', 'casesWithFailures');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl,'&t=0', 'openCases20Route', 'openCases20');
+            createRouteWithResponseAndHeaders('&t=0', 'openCases20Route', 'openCases20', {'content-range': '0-20/35'});
             createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 2, 10);
             createRouteWithResponseAndPagination('', 'openCases5Route', 'openCases5', 3, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -138,6 +141,21 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             method: 'GET',
             url: loadMoreUrl + queryParameter,
             response: responseValue
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
         }).as(routeName);
     }
 });
@@ -294,7 +312,7 @@ then("The open case list have the correct information", () => {
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
         cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case');
     });
-    cy.get('.text-primary.item-label:visible').contains('Cases shown: 5');
+    cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
 });
 
 then("I see an open case list page", () => {
@@ -307,6 +325,11 @@ then("I see an archived case list page", () => {
 
 then("A list of {string} items is displayed", (nbrOfItems) => {
     cy.get('.case-item:visible').should('have.length', nbrOfItems);
+});
+
+then("A list of {string} items is displayed out of {string}", (nbrOfItems, totalItems) => {
+    cy.get('.case-item:visible').should('have.length', nbrOfItems);
+    cy.get('.text-primary.item-label:visible').contains('Cases shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string} for open cases", (filterValue) => {

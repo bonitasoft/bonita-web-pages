@@ -23,6 +23,9 @@ given("The filter response {string} is defined for archived cases", (filterType)
         case "default filter":
             createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases5Route', 'archivedCases5');
             break;
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders('&t=0', 'archivedCases5Route', 'archivedCases5', {'content-range': '0-5/5'});
+            break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
             createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488&t=0', 'process2CasesRoute', 'emptyResult');
@@ -41,7 +44,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl,'&t=0', 'archivedCases20Route', 'archivedCases20');
+            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
             createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
             createRouteWithResponseAndPagination('', 'archivedCases5Route', 'archivedCases5', 3, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -51,7 +54,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
             break;
         case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases20Route', 'archivedCases20');
+            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
             createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
@@ -73,7 +76,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponseAndMethodAndStatus(urlPrefix + adminArchivedCaseListUrl + "/6071", 'unauthorizedDeleteCaseRoute', 'emptyResult', 'DELETE', '500');
             break;
         case "no archived case":
-            createRouteWithResponse(defaultRequestUrl, '', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -135,6 +138,21 @@ given("The filter response {string} is defined for archived cases", (filterType)
             method: 'GET',
             url: loadMoreUrl + queryParameter,
             response: responseValue
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
         }).as(routeName);
     }
 });
@@ -258,7 +276,7 @@ then("The archived case list have the correct information", () => {
         cy.get('.item-label').contains('Failed Flow Nodes').should('not.exist');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
     });
-    cy.get('.text-primary .item-label:visible').contains('Cases shown: 5');
+    cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
 });
 
 then("The api call is made for {string} for archived cases", (filterValue) => {

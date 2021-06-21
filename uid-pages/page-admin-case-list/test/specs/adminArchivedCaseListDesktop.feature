@@ -1,7 +1,7 @@
 Feature: The admin archived case list in desktop resolution
 
   Scenario: The admin archived case list displays the correct attributes
-    Given The filter response "default filter" is defined for archived cases
+    Given The filter response "default filter with headers" is defined for archived cases
     When I visit the admin case list page
     And I click on "Archived cases" tab
     Then The archived case list have the correct information
@@ -96,13 +96,13 @@ Feature: The admin archived case list in desktop resolution
     And The filter response "enable load more" is defined for archived cases
     When I visit the admin case list page
     And I click on "Archived cases" tab
-    Then A list of "10" items is displayed
+    Then A list of "10" items is displayed out of "35"
     When I click on Load more archived cases button
-    Then A list of "20" items is displayed
+    Then A list of "20" items is displayed out of "35"
     When I click on Load more archived cases button
-    Then A list of "30" items is displayed
+    Then A list of "30" items is displayed out of "35"
     When I click on Load more archived cases button
-    Then A list of "35" items is displayed
+    Then A list of "35" items is displayed out of "35"
     And The load more archived cases button is disabled
 
   Scenario: Load more is disabled when result is a multiple of count
