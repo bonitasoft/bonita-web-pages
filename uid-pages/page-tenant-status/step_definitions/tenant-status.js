@@ -2,17 +2,22 @@ const url = 'build/dist/resources/index.html';
 
 given('Server tenant is running', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/*', 'fixture:tenantRunning').as('tenant');
+    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantRunning').as('tenant');
 });
 
 given('Server tenant is paused', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/*', 'fixture:tenantPaused').as('tenant');
+    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantPaused').as('tenant');
 });
 
 given('I\'m logged as technical user', () => {
     cy.server();
     cy.route('GET', 'build/dist/API/system/session/unusedId', 'fixture:technicalUser').as('session');
+});
+
+given('The tenant status page can refresh', () => {
+    cy.server();
+    cy.route('GET', 'build/dist/API/system/tenant/1?t=1*', 'fixture:tenantPaused').as('tenantAfterRefresh');
 });
 
 when('I press the modal opening button', () => {
@@ -51,4 +56,8 @@ then('The modal closes afterwards', () => {
 
 then('The modal is closed', () => {
     cy.get('#modal-body').should('not.exist');
+});
+
+then('There is an API call for refreshing the page', () => {
+    cy.wait('@tenantAfterRefresh');
 });

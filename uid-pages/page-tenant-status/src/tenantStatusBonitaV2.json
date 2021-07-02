@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
-  "id" : "tenantStatusBonitaV1",
-  "name" : "tenantStatusBonitaV1",
-  "lastUpdate" : 1611138341586,
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
+  "id" : "tenantStatusBonitaV2",
+  "name" : "tenantStatusBonitaV2",
+  "lastUpdate" : 1625231200123,
   "rows" : [
     [
       {
@@ -1181,8 +1181,9 @@
     "tenantStatus" : {
       "type" : "url",
       "value" : [
-        "../API/system/tenant/1&t={{response.timestamp}}"
+        "../API/system/tenant/1?t={{response.timestamp}}"
       ],
+      "advancedOptions" : { },
       "exposed" : false
     },
     "isPaused" : {
@@ -1215,7 +1216,7 @@
       "value" : [
         "if(!$data.response.success ){",
         "    $data.response.success = \"none\";",
-        "    $data.response.timestamp =  new Date();",
+        "    $data.response.timestamp = new Date().getTime();",
         "}"
       ],
       "exposed" : false

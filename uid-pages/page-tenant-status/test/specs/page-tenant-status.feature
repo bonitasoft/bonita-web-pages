@@ -62,6 +62,16 @@ Feature: The Tenant-Status
     And I press the "Cancel" button
     Then The modal is closed
 
+  Scenario: Tenant refreshes when the state changes
+    Given I'm user with "en" bos_local
+    And Server tenant is running
+    And I'm logged as technical user
+    And The tenant status page can refresh
+    When I open tenant-status page
+    When I press the modal opening button
+    And I press the status changing button
+    Then There is an API call for refreshing the page
+
   Scenario: Tenant is running in French
     Given I'm user with "fr" bos_local
     Given Server tenant is running
