@@ -369,8 +369,8 @@ then('The login link is displayed', () => {
     cy.get('.text-right > .ng-binding').should('have.text', 'Sign in');
 });
 
-then('The login link is hidden', () => {
-    cy.contains('Sign in').should('be.hidden');
+then('The login link does not exist', () => {
+    cy.contains('.user-menu-name', 'Sign in').should('not.exist');
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {

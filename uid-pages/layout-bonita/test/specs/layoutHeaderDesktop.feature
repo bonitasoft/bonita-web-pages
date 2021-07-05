@@ -51,7 +51,7 @@ Feature: The Bonita layout header in desktop resolution
     Given The URL target to the application "appName1"
     And A user is connected as guest with sso
     When I visit the index page
-    Then The login link is hidden
+    Then The login link does not exist
     And I don't see "guest" as the user name
 
   Scenario: The Bonita layout shows the user default icon
@@ -85,4 +85,3 @@ Feature: The Bonita layout header in desktop resolution
     Given The URL target to the application "appName1"
     When I visit the index page
     Then The favicon link should be set to "../theme/icons/default/favicon.ico"
-
