@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "ApplicationDirectoryBonitaV1",
   "name" : "ApplicationDirectoryBonitaV1",
-  "lastUpdate" : 1625216866635,
+  "lastUpdate" : 1625736016824,
   "rows" : [
     [
       {
@@ -2368,7 +2368,7 @@
       "type" : "expression",
       "value" : [
         "let location = window.top.location.pathname + window.top.location.search;",
-        "return $data.logoutURL + '?redirectUrl=' + encodeURIComponent(location);"
+        "return $data.logoutURL + '?locale=' + $data.storageLanguage + '&redirectUrl=' + encodeURIComponent(location);"
       ],
       "exposed" : false
     },
@@ -2400,7 +2400,7 @@
         "if($data.eventList.actions && $data.eventList.actions.length > 0){",
         "    var action=$data.eventList.actions[0];",
         "    if(action===\"locale\"){",
-        "        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/\";",
+        "        document.cookie=\"BOS_Locale=\"+$data.selectedLanguage.locale+\";path=/;max-age=31536000\";",
         "        try {",
         "            var url = new URL(document.location.href);",
         "            url.searchParams.delete('locale');",

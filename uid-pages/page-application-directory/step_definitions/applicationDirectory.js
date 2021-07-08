@@ -288,6 +288,10 @@ then('The logout button is visible', () => {
     cy.get('.btn-danger').eq(0).should('have.text', 'Sign out');
 });
 
+then('The logout button has the correct url', () => {
+    cy.get('.btn-danger').eq(0).should('have.attr', 'href').and('contains', 'logoutservice?locale=en&redirectUrl=%2F'+urlPrefix.replaceAll('/', '%2F'));
+});
+
 then('The apply and close buttons are visible', () => {
     cy.contains('.modal-body button', 'Apply').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');

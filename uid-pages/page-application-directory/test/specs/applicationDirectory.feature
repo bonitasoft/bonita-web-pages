@@ -122,6 +122,7 @@ Feature: The Application Directory in desktop resolution
     Given The response "default filter" is defined
     And The response "session" is defined
     And The response "user" is defined
+    And The current language in BOS_Locale is "en"
     When I visit the application directory page
     And I click the user name
     Then The current session modal is visible
@@ -130,6 +131,7 @@ Feature: The Application Directory in desktop resolution
     And The user email "walter.bates@acme.com" is shown
     And The language select is visible
     And The logout button is visible
+    And The logout button has the correct url
     And The apply and close buttons are visible
 
   Scenario: The current session modal is shown correctly with sso

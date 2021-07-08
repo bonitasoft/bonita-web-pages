@@ -12,6 +12,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     Given The URL target to the application "appName1"
     And A user is connected without sso
     And The user has a first and last name defined
+    And The current language in BOS_Locale is "en"
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
@@ -20,6 +21,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     And The user email "walter.bates@email.com" is shown
     And The language select is visible
     And The logout button is visible
+    And The logout button has the correct url
     And The apply and close buttons are visible
 
   Scenario: The current session modal is shown correctly with sso
@@ -78,7 +80,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     Then The language in BOS_Locale is "fr"
     Then The parameter "_l" is not in the URL
     Then Page reloads
-    
+
   Scenario: The current session modal closes correctly
     Given The URL target to the application "appName1"
     And A user is connected without sso
