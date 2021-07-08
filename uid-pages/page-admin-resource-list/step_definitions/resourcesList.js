@@ -497,10 +497,6 @@ then("The list of processes using the theme is displayed", () => {
     cy.get('.modal').contains('Application 2 as theme').should('be.visible');
 });
 
-then("The {string} button is disabled for resource {string}", (iconName, resourceNumber) => {
-    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).click();
-});
-
 then("I see {string} error message", (statusCode) => {
     switch (statusCode) {
         case '500':
@@ -529,4 +525,14 @@ then('I can download the resource', () => {
 
 then("The warning message is displayed with the token {string}", (pageToken) => {
     cy.get('.modal').contains(pageToken).should('be.visible');
+});
+
+then("The {string} button for the resource {string} is not disabled and has no tooltip", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('not.be.disabled');
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('not.have.attr', 'title');
+});
+
+then("The {string} button for the resource {string} is disabled and has a tooltip", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('be.disabled');
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('have.attr', 'title');
 });

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminResourceListBonitaV2",
   "name" : "adminResourceListBonitaV2",
-  "lastUpdate" : 1623075060104,
+  "lastUpdate" : 1625753197596,
   "rows" : [
     [
       {
@@ -1038,11 +1038,11 @@
                       },
                       "disabled" : {
                         "type" : "expression",
-                        "value" : "$item.isProvided === \"true\""
+                        "value" : "$item.isEditable === \"false\""
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-pencil\" {{installCtrl.isProvidedTooltip($item.isProvided)}}></i>"
+                        "value" : "<i class=\"glyphicon glyphicon-pencil\" {{resourceListCtrl.getTooltipForState($item.isEditable, \"This resource cannot be edited.\")}}></i>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1076,7 +1076,7 @@
                       },
                       "closeOnSuccess" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "dataFromError" : {
                         "type" : "variable",
@@ -1193,11 +1193,11 @@
                       },
                       "disabled" : {
                         "type" : "expression",
-                        "value" : "$item.isProvided === \"true\""
+                        "value" : "$item.isRemovable === \"false\""
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-trash\" {{installCtrl.isProvidedTooltip($item.isProvided)}}></i>"
+                        "value" : "<i class=\"glyphicon glyphicon-trash\" {{resourceListCtrl.getTooltipForState($item.isRemovable, \"This resource cannot be deleted.\")}}></i>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -4260,6 +4260,12 @@
         "        }",
         "    ",
         "        return queryParameters;",
+        "    },",
+        "    getTooltipForState: function(state, message) {",
+        "        if(state !== \"true\") {",
+        "            return 'title=\"'+ uiTranslate(message) + '\"';",
+        "        }",
+        "        return \"\";",
         "    }",
         "};"
       ],
@@ -4351,12 +4357,6 @@
         "    getChangeButtonLabel: function() {",
         "        var buttonLabel = $data.installData.statusCode === 200 ? \"Close\" : \"Cancel\";",
         "        return buttonLabel;",
-        "    },",
-        "    isProvidedTooltip: function(isProvided) {",
-        "        if(isProvided === \"true\"){",
-        "            return 'title=\"'+ uiTranslate(\"This resource is provided.\") + '\"';",
-        "        }",
-        "        return \"\";",
         "    }",
         "};"
       ],
