@@ -15,6 +15,9 @@ given("The response {string} is defined", (responseType) => {
         case 'session':
             createRouteWithResponse(urlPrefix + session, 'sessionRoute', 'session');
             break;
+        case 'technical user':
+            createRouteWithResponse(urlPrefix + session, 'sessionTechnicalUserRoute', 'sessionTechnicalUser');
+            break;
         case 'session with SSO':
             createRouteWithResponse(urlPrefix + session, 'sessionWithSSORoute', 'sessionWithSSO');
             break;
@@ -159,8 +162,8 @@ when("I click on Load more applications button", () => {
     cy.get('button').contains('Load more applications').click();
 });
 
-when('I click the user name', () => {
-    cy.contains('.user-menu-name button', 'Walter Bates').click();
+when('I click the {string}', (username) => {
+    cy.contains('.user-menu-name button', username).click();
 });
 
 when('I select {string} in language picker', (languageSelected) => {
@@ -353,4 +356,8 @@ then('The current language is {string}', (language) => {
         cy.get('.modal-body select').should('have.value','3');
         break;
     }
+});
+
+then('The technical user email is hidden', () => {
+    cy.contains('.user-details--break-all p', 'Email').should('not.be.visible');
 });

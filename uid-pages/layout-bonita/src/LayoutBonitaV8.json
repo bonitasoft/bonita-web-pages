@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "LayoutBonitaV8",
   "name" : "BonitaLayoutV8",
-  "lastUpdate" : 1625660167315,
+  "lastUpdate" : 1625820796358,
   "rows" : [
     [
       {
@@ -1033,7 +1033,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "{{loggedUser.userName}}"
+                                "value" : "{{session.user_name}}"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -1076,8 +1076,8 @@
                                 "value" : "user-details--break-all"
                               },
                               "hidden" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "session.is_technical_user === 'true'"
                               },
                               "allowHTML" : {
                                 "type" : "constant",
@@ -2422,6 +2422,27 @@
   ],
   "assets" : [
     {
+      "id" : "856024bd-93a7-4880-80ad-c35274353601",
+      "name" : "user-circle.css",
+      "type" : "css",
+      "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
+      "name" : "layout.css",
+      "type" : "css",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
+      "name" : "fa-solid-900.woff",
+      "type" : "img",
+      "order" : 9,
+      "external" : false
+    },
+    {
       "id" : "346a853d-6737-4422-bfae-c8acf7476ca4",
       "name" : "style.css",
       "type" : "css",
@@ -2447,27 +2468,6 @@
       "name" : "fa-solid-900.woff2",
       "type" : "img",
       "order" : 8,
-      "external" : false
-    },
-    {
-      "id" : "856024bd-93a7-4880-80ad-c35274353601",
-      "name" : "user-circle.css",
-      "type" : "css",
-      "order" : 7,
-      "external" : false
-    },
-    {
-      "id" : "b6ac73e1-9f7e-4c4a-9856-358140b56ca5",
-      "name" : "layout.css",
-      "type" : "css",
-      "order" : 6,
-      "external" : false
-    },
-    {
-      "id" : "23b7d7dd-cb08-4f28-aab2-e28b16cbed62",
-      "name" : "fa-solid-900.woff",
-      "type" : "img",
-      "order" : 9,
       "external" : false
     }
   ],
@@ -2501,8 +2501,9 @@
     "loggedUser" : {
       "type" : "url",
       "value" : [
-        "../API/identity/user/{{session.user_id}}?d=professional_data"
+        "{{userAPI}}"
       ],
+      "advancedOptions" : { },
       "exposed" : false
     },
     "homePage" : {
@@ -2562,8 +2563,10 @@
     "userName" : {
       "type" : "expression",
       "value" : [
-        "if ($data.loggedUser && $data.loggedUser.firstname && $data.loggedUser.lastname) {",
+        "if($data.loggedUser && $data.loggedUser.firstname && $data.loggedUser.lastname) {",
         "    return $data.loggedUser.firstname + \" \" + $data.loggedUser.lastname;",
+        "} else if($data.session && $data.session.is_technical_user === 'true') {",
+        "    return uiTranslate('Super administrator');",
         "} else {",
         "    return $data.session.user_name;",
         "}"
@@ -2809,6 +2812,16 @@
       "type" : "url",
       "value" : [
         "../API/living/application{{applicationCtrl.applicationQueryParameters(0)}}"
+      ],
+      "exposed" : false
+    },
+    "userAPI" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.session && $data.session.is_technical_user === 'true') {",
+        "    return '';",
+        "}",
+        "return \"../API/identity/user/\" + $data.session.user_id + \"?d=professional_data\";"
       ],
       "exposed" : false
     }

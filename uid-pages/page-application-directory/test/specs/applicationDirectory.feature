@@ -115,7 +115,7 @@ Feature: The Application Directory in desktop resolution
     And The response "session" is defined
     And The response "user" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
 
   Scenario: The current session modal is shown correctly without sso
@@ -124,7 +124,7 @@ Feature: The Application Directory in desktop resolution
     And The response "user" is defined
     And The current language in BOS_Locale is "en"
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And The user first and last name "Walter Bates" are visible
     And The user name "walter.bates" is shown
@@ -139,7 +139,7 @@ Feature: The Application Directory in desktop resolution
     And The response "session with SSO" is defined
     And The response "user" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And The logout button is hidden
 
@@ -148,7 +148,7 @@ Feature: The Application Directory in desktop resolution
     And The response "session with SSO" is defined
     And The response "user" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And I see "../API/avatars/1" as the user modal icon
 
@@ -157,9 +157,31 @@ Feature: The Application Directory in desktop resolution
     And The response "session" is defined
     And The response "default user" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And I see default user icon as the user modal icon
+
+  Scenario: The application directory shows the technical username correctly
+    Given The response "default filter" is defined
+    And The response "technical user" is defined
+    When I visit the application directory page
+    Then I see "Super administrator" as the user name
+    And I see default user icon as the user menu icon
+    And I don't see "install" as the user name
+    And I don't see "Sign in" as the user name
+
+  Scenario: The current session modal is shown correctly for the technical user
+    Given The response "default filter" is defined
+    And The response "technical user" is defined
+    When I visit the application directory page
+    And I click the "Super administrator"
+    Then The current session modal is visible
+    And The user first and last name "Super administrator" are visible
+    And The user name "install" is shown
+    And The technical user email is hidden
+    And The language select is visible
+    And The logout button is visible
+    And The apply and close buttons are visible
 
   Scenario: The language is changed in current session modal
     Given The response "default filter" is defined
@@ -167,7 +189,7 @@ Feature: The Application Directory in desktop resolution
     And The response "user" is defined
     And The response "localization" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And The apply button is disabled
     When I select "Français" in language picker
@@ -182,7 +204,7 @@ Feature: The Application Directory in desktop resolution
     And The response "user" is defined
     And The response "localization" is defined
     When I visit the application directory page with a parameter "_l" in the URL
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And The parameter "_l" is in the URL
     When I select "Français" in language picker
@@ -196,7 +218,7 @@ Feature: The Application Directory in desktop resolution
     And The response "session" is defined
     And The response "user" is defined
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     When I click the close button
     Then The current session modal is not visible
@@ -208,7 +230,7 @@ Feature: The Application Directory in desktop resolution
     And The response "localization" is defined
     And The current language in BOS_Locale is "fr"
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     And The current language is "Français"
 
@@ -219,19 +241,19 @@ Feature: The Application Directory in desktop resolution
     And The response "localization" is defined
     And The current language in BOS_Locale is "en"
     When I visit the application directory page
-    And I click the user name
+    And I click the "Walter Bates"
     Then The current session modal is visible
     # Check language stays the same after closing the modal when clicking the close button
     When I select "Français" in language picker
     And I click the close button
     Then The current session modal is not visible
-    When I click the user name
+    When I click the "Walter Bates"
     Then The current session modal is visible
     And The current language is "English"
     # Check language stays the same after closing the modal when clicking next to it
     When I select "Français" in language picker
     And I click next to the current session modal
     Then The current session modal is not visible
-    When I click the user name
+    When I click the "Walter Bates"
     Then The current session modal is visible
     And The current language is "English"

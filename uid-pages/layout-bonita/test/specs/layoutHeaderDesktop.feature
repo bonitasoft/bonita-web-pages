@@ -26,6 +26,15 @@ Feature: The Bonita layout header in desktop resolution
     And I don't see "walter.bates" as the user name
     And I don't see "Sign in" as the user name
 
+  Scenario: The Bonita layout shows the technical username correctly
+    Given The URL target to the application "appName1"
+    And A technical user is connected without sso
+    When I visit the index page
+    Then I see "Super administrator" as the user name
+    And I see default user icon as the user menu icon
+    And I don't see "install" as the user name
+    And I don't see "Sign in" as the user name
+
   Scenario: The Bonita layout shows the user name when a firstname isn't available
     Given The URL target to the application "appName1"
     And A user is connected without sso

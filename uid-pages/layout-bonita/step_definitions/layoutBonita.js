@@ -47,6 +47,15 @@ given('A user is connected without sso', () => {
     });
 });
 
+given('A technical user is connected without sso', () => {
+    cy.fixture('json/sessionTechnicalUser.json').as('session');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/session/*',
+        response: '@session'
+    });
+});
+
 given('A user is connected with sso', () => {
     cy.fixture('json/sessionWithSSO.json').as('sessionWithSSO');
     cy.route({
@@ -423,7 +432,11 @@ then('The user name {string} is shown', (userName) => {
 });
 
 then('The user email {string} is shown', (userEmail) => {
-    cy.get('.user-details--break-all p').eq(1).should('have.text', userEmail)
+    cy.get('.user-details--break-all p').eq(1).should('have.text', userEmail);
+});
+
+then('The technical user email is hidden', () => {
+    cy.contains('.user-details--break-all p', 'Email').should('not.be.visible');
 });
 
 then('The language select is visible', () => {
