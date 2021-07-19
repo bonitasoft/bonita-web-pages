@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "tenantStatusBonitaV2",
   "name" : "tenantStatusBonitaV2",
-  "lastUpdate" : 1625231200123,
+  "lastUpdate" : 1626438808065,
   "rows" : [
     [
       {
@@ -80,11 +80,11 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "BPM services"
+                  "value" : "Bonita Runtime information"
                 },
                 "level" : {
                   "type" : "constant",
-                  "value" : "Level 2"
+                  "value" : "Level 3"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -92,6 +92,224 @@
                 }
               },
               "reference" : "233bf7f6-4e64-4e51-afec-86afea0cfb32",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "panel panel-default panel-body"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "2d3ec3c0-0856-4b50-9b6a-8f64a7c26191",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 4,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "{{\"Version (Build Id)\" | uiTranslate}}:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 12
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{session.branding_version_with_date}}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "f1f9cbf4-ca41-4c81-a889-f8a63ad2f347",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 4,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "{{\"Edition\" | uiTranslate}}:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 8
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{isCommunity}}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "93e0a004-8aa8-4112-9282-5e4e2c176c76",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 4,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!licenseStatus.expiration_date"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "{{\"License expiration date\" | uiTranslate}}:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 12
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{{licenseStatus.expiration_date.replace(\" \", \"T\")|uiDate:'short'}}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "9f0ec640-bd6f-4486-a680-39bcc44010ac",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "BPM services"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 4"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "f1765d73-e606-4d2d-b960-033d9a1dbc05",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -532,40 +750,10 @@
                       ]
                     ]
                   }
-                ]
-              ]
-            }
-          ],
-          [
-            {
-              "type" : "container",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "hidden-xs"
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "repeatedCollection" : {
-                  "type" : "variable",
-                  "value" : ""
-                }
-              },
-              "reference" : "9fe29d35-b834-4713-b0cc-14b9e7efa36b",
-              "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
+                ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -575,148 +763,237 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : ""
+                        "value" : "hidden-xs"
                       },
                       "hidden" : {
                         "type" : "constant",
                         "value" : false
                       },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "When the services are paused:"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
+                      "repeatedCollection" : {
+                        "type" : "variable",
                         "value" : ""
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
                       }
                     },
-                    "reference" : "99e8f310-eefb-4f38-b575-69c2c28bfb0a",
+                    "reference" : "9fe29d35-b834-4713-b0cc-14b9e7efa36b",
                     "hasValidationError" : false,
-                    "id" : "pbText"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "lg" : 12,
-                      "md" : 12,
-                      "sm" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "<ul>\n<li>{{'Only the technical user can log in to the Portal.' | uiTranslate}}\n</li>\n<li>{{'Users who are currently logged in, including Administrator users, are automatically logged out.' | uiTranslate}}\n</li>\n<li>{{'Users who are filling in forms when the services are paused will lose any information that has not been submitted.' | uiTranslate}}\n</li>\n<li>{{'All processes are automatically paused.' | uiTranslate}}\n</li>\n</ul>"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : ""
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "9dcc9758-9424-43d6-95f2-b5b5707f15d1",
-                    "hasValidationError" : false,
-                    "id" : "pbText"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "When you resume the services, tell your users that they can log back in to the Portal."
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : ""
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
-                    "hasValidationError" : false,
-                    "id" : "pbText"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 8,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "c3f545b5-0d38-4181-a231-0be25a1a6bd1",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [ ]
+                          ]
+                        },
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 8,
+                            "sm" : 12,
+                            "md" : 4,
+                            "lg" : 10
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "4e7d64c5-0e6a-43ea-b9f8-524951a9ff08",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "When the services are paused:"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : ""
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  }
+                                },
+                                "reference" : "99e8f310-eefb-4f38-b575-69c2c28bfb0a",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "lg" : 12,
+                                  "md" : 12,
+                                  "sm" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<ul>\n<li>{{'Only the technical user can log in to the Portal.' | uiTranslate}}\n</li>\n<li>{{'Users who are currently logged in, including Administrator users, are automatically logged out.' | uiTranslate}}\n</li>\n<li>{{'Users who are filling in forms when the services are paused will lose any information that has not been submitted.' | uiTranslate}}\n</li>\n<li>{{'All processes are automatically paused.' | uiTranslate}}\n</li>\n</ul>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : ""
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  }
+                                },
+                                "reference" : "9dcc9758-9424-43d6-95f2-b5b5707f15d1",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "When you resume the services, tell your users that they can log back in to the Portal."
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : ""
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  }
+                                },
+                                "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
                   }
                 ]
               ]
@@ -1261,6 +1538,21 @@
         "    return {state: \"Paused\", btnLabel:uiTranslate(\"Resume\"), img: \"paused.jpg\"};",
         "}",
         "return {state: \"Running\", btnLabel:uiTranslate(\"Pause\"), img: \"running.jpg\"};"
+      ],
+      "exposed" : false
+    },
+    "licenseStatus" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/license/1"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "isCommunity" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.licenseStatus ? $data.licenseStatus.edition : \"Community\";"
       ],
       "exposed" : false
     }

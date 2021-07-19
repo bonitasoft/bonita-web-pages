@@ -20,6 +20,11 @@ given('The tenant status page can refresh', () => {
     cy.route('GET', 'build/dist/API/system/tenant/1?t=1*', 'fixture:tenantPaused').as('tenantAfterRefresh');
 });
 
+given('The license information is defined', () => {
+    cy.server();
+    cy.route('GET', 'build/dist/API/system/license/1', 'fixture:license').as('license');
+});
+
 when('I press the modal opening button', () => {
     cy.get('.ng-binding').click();
 });
@@ -60,4 +65,28 @@ then('The modal is closed', () => {
 
 then('There is an API call for refreshing the page', () => {
     cy.wait('@tenantAfterRefresh');
+});
+
+then('I see the license information is displayed correctly', () => {
+    cy.get('.panel').eq(0).within(() => {
+        cy.contains('label', 'Version (Build Id):').should('be.visible');
+        cy.contains('p', '7.8.0-SNAPSHOT').should('be.visible');
+        cy.contains('label', 'Edition:').should('be.visible');
+        cy.contains('p', 'Performance').should('be.visible');
+        cy.contains('label', 'License expiration date:').should('be.visible');
+        cy.contains('p', '7/28/21 12:00 AM').should('be.visible');
+
+    });
+});
+
+then('I see the license information is displayed correctly for the community edition', () => {
+    cy.get('.panel').eq(0).within(() => {
+        cy.contains('label', 'Version (Build Id):').should('be.visible');
+        cy.contains('p', '7.8.0-SNAPSHOT').should('be.visible');
+        cy.contains('label', 'Edition:').should('be.visible');
+        cy.contains('p', 'Community').should('be.visible');
+        cy.contains('label', 'License expiration date:').should('not.be.visible');
+        cy.contains('p', '7/28/21 12:00 AM').should('not.be.visible');
+
+    });
 });
