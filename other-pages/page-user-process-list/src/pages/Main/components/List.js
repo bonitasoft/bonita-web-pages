@@ -34,7 +34,7 @@ class List extends Component {
   }
 
   onRowClick(process) {
-    this.props.startProcess(process);
+    this.props.handleProcessStart(process);
   }
 
   render() {

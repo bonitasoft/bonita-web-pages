@@ -35,7 +35,7 @@ const mockupProcesses = Array(25).fill({
 
 describe('<List />', () => {
   const toggleOrderMock = jest.fn();
-  const startProcess = jest.fn();
+  const handleProcessStart = jest.fn();
   it('should render as many processes as given', () => {
     const wrapper = shallow(
       <List
@@ -43,7 +43,7 @@ describe('<List />', () => {
         pagination={{}}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
 
@@ -57,7 +57,7 @@ describe('<List />', () => {
         pagination={{}}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
 
@@ -78,7 +78,7 @@ describe('<List />', () => {
         pagination={{ page: 1, size: 25, total: 100 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
     expect(wrapper.find('.List-pagination-top').text()).toBe('26-50 of 100');
@@ -91,7 +91,7 @@ describe('<List />', () => {
         pagination={{ page: 0, size: 25, total: 0 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
 
@@ -106,7 +106,7 @@ describe('<List />', () => {
         pagination={{ page: 0, size: 25, total: 10 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
     wrapper.find('.List-name').prop('onClick')();
@@ -121,7 +121,7 @@ describe('<List />', () => {
         pagination={{ page: 0, size: 25, total: 10 }}
         filters={{ order: 'DESC' }}
         toggleOrder={toggleOrderMock}
-        startProcess={startProcess}
+        handleProcessStart={handleProcessStart}
       />
     );
     wrapper
@@ -129,6 +129,6 @@ describe('<List />', () => {
       .first()
       .prop('onClick')();
 
-    expect(startProcess.mock.calls.length).toBe(1);
+    expect(handleProcessStart.mock.calls.length).toBe(1);
   });
 });

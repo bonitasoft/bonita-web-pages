@@ -19,17 +19,22 @@ import { shallow } from 'enzyme';
 import { Alerts } from '../../../../common';
 
 describe('Instantiation page', () => {
-  const props = {
-    match: {
-      params: {
-        processName: 'My process name',
-        processVersion: '1.0'
+  let props;
+
+  beforeEach(() => {
+     props = {
+      match: {
+        params: {
+          processName: 'My process name',
+          processVersion: '1.0'
+        }
+      },
+      location: {
+        search: '?id=1&autoInstantiate=false'
       }
-    },
-    location: {
-      search: '?id=1&autoInstantiate=false'
-    }
-  };
+    };
+  });
+
 
   it('should display instantiation form into portal', () => {
     Object.defineProperty(window.location, 'href', {
@@ -74,6 +79,39 @@ describe('Instantiation page', () => {
     //New to add this Promise to allows message to be read
     await new Promise(resolve => setTimeout(resolve, 0));
     expect(testProps.history.push).toHaveBeenCalledWith('/');
+  });
+
+  it('should redirect to the page from url after instantiating process', async () => {
+    const testProps = {
+      ...props,
+      history: { push: jest.fn() }
+    };
+    testProps.location.search = '?redirect=task-list';
+
+    Object.defineProperty(window.location, 'origin', {
+      writable: true,
+      value: 'http://localhost:8080'
+    });
+    Object.defineProperty(window.location, 'pathname', {
+      writable: true,
+      value: '/bonita/apps/process-list'
+    });
+
+    shallow(<Instantiation {...testProps} />);
+
+    // Simulate a message being sent
+    var message = {
+      action: 'Start process',
+      message: 'success'
+    };
+
+    window.postMessage(message, '*');
+    //New to add this Promise to allows message to be read
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(window.location.href).toBe(
+      'http://localhost:8080/bonita/apps/process-list../task-list'
+    );
+    expect(testProps.history.push).not.toHaveBeenCalled();
   });
 
   it('should not update history on error submit message.', async () => {

@@ -56,6 +56,19 @@ class ProcessApi {
     };
   }
 
+  fetchProcessByNameAndVersion(processName, processVersion) {
+    const response = this.apiClient.get(
+      `../API/bpm/process?c=1&p=0&f=name=${processName}&f=version=${processVersion}`
+    );
+
+    return response
+      .then(body => body.json())
+      .then(responseJson => responseJson[0])
+      .catch(() => {
+        return undefined;
+      });
+  }
+
   async instantiateProcess(processId) {
     return this.apiClient
       .post(`../API/bpm/process/${processId}/instantiation`)

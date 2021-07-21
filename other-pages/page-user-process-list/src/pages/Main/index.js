@@ -56,7 +56,7 @@ class Main extends Component {
     this.updateFilters = this.updateFilters.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
     this.buildParamForUser = this.buildParamForUser.bind(this);
-    this.startProcess = this.startProcess.bind(this);
+    this.handleProcessStart = this.handleProcessStart.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.instantiateProcess = this.instantiateProcess.bind(this);
   }
@@ -64,6 +64,10 @@ class Main extends Component {
   componentDidMount() {
     this.getProcesses(0, this.state.filters, this.props.session.user_id);
     this.getCategories();
+    let params = queryString.parse(window.top.location.search);
+    if (params.processName && params.processVersion) {
+      this.redirectToInstantiationForm(params);
+    }
   }
 
   getProcesses(page = 0, _filters) {
@@ -91,27 +95,35 @@ class Main extends Component {
     const response = await ProcessApi.instantiateProcess(this.state.process.id);
     this.handleClose();
     if (response.caseId) {
-      Alert.success(
-        t('The case {{caseId}} has been started successfully.', {
-          caseId: response.caseId
-        })
+      let params = queryString.parse(
+        window.top.location.search.replace('?', '')
       );
+      if (params.redirect) {
+        let newUrl =
+          window.top.location.origin +
+          window.top.location.pathname +
+          '../' +
+          params.redirect;
+        window.top.location.href = newUrl;
+      } else {
+        Alert.success(
+          t('The case {{caseId}} has been started successfully.', {
+            caseId: response.caseId
+          })
+        );
+      }
     } else {
       Alert.error(t('Error while starting the case.'));
     }
   }
 
-  async startProcess(process) {
-    if (await this.hasInstantiationFormMapping(process)) {
-      let params = queryString.parse(window.location.search);
-      this.props.history.push(
-        `/instantiation/${process.name}/${process.version}?id=${
-          process.id
-        }&autoInstantiate=false${params.app ? '&app=' + params.app : ''}`
-      );
-    } else {
-      this.setState({ process: process, show: true });
+  async handleProcessStart(process) {
+    let params = queryString.parse(window.location.search);
+    /* remove redirect from url params when we launch process from process list */
+    if (params.redirect) {
+      delete params.redirect;
     }
+    await this.showInstantiationForm(process, params);
   }
 
   onPaginationChange(pageFromPager, _filters) {
@@ -171,6 +183,33 @@ class Main extends Component {
     this.setState({ show: false });
   }
 
+  async redirectToInstantiationForm(params) {
+    let process = await ProcessApi.fetchProcessByNameAndVersion(
+      params.processName,
+      params.processVersion
+    );
+    if (process && process.id) {
+      const url = window.top.location.origin + window.top.location.pathname;
+      window.top.history.pushState({}, document.title, url);
+      await this.showInstantiationForm(process, params);
+    }
+  }
+
+  async showInstantiationForm(process, params) {
+    let redirectString = params.redirect ? `redirect=${params.redirect}&` : '';
+    if (await this.hasInstantiationFormMapping(process)) {
+      this.props.history.push(
+        `/instantiation/${process.name}/${
+          process.version
+        }?${redirectString}id=${process.id}&autoInstantiate=false${
+          params.app ? '&app=' + params.app : ''
+        }`
+      );
+    } else {
+      this.setState({ process: process, show: true });
+    }
+  }
+
   render() {
     const { t } = this.props;
     const { processes, categories, pagination, filters } = this.state;
@@ -193,7 +232,7 @@ class Main extends Component {
           filters={filters}
           toggleOrder={this.toggleOrder}
           onChangePage={this.onPaginationChange}
-          startProcess={this.startProcess}
+          handleProcessStart={this.handleProcessStart}
         />
         <ConfirmModal
           show={this.state.show}

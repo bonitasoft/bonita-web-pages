@@ -19,6 +19,7 @@ import './Instantiation.css';
 import { Link } from 'react-router-dom';
 import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Alerts } from '../../../../common';
+import * as queryString from 'querystring';
 
 class Instantiation extends Component {
   constructor(props) {
@@ -33,28 +34,40 @@ class Instantiation extends Component {
   }
 
   getUrlContext() {
-    var locationHref = window.location.href;
-    var indexOfPortal = locationHref.indexOf('/portal');
+    let locationHref = window.location.href;
+    let indexOfPortal = locationHref.indexOf('/portal');
     return locationHref.substring(0, indexOfPortal);
   }
 
   onFormSubmited(message) {
     const { t } = this.props;
     const messageData = message.data;
-    var jsonMessage =
+    let jsonMessage =
       typeof messageData === 'string' ? JSON.parse(messageData) : messageData;
     if (jsonMessage.action === 'Start process') {
       if (jsonMessage.message === 'success') {
-        this.props.history.push('/');
-        var caseId = '';
-        if (jsonMessage.dataFromSuccess) {
-          caseId = jsonMessage.dataFromSuccess.caseId;
-        }
-        Alerts.success(
-          t('The case {{caseId}} has been started successfully.', {
-            caseId: caseId
-          })
+        const params = queryString.parse(
+          this.props.location.search.replace('?', '')
         );
+        if (params.redirect) {
+          let newUrl =
+            window.top.location.origin +
+            window.top.location.pathname +
+            '../' +
+            params.redirect;
+          window.top.location.href = newUrl;
+        } else {
+          this.props.history.push('/');
+          let caseId = '';
+          if (jsonMessage.dataFromSuccess) {
+            caseId = jsonMessage.dataFromSuccess.caseId;
+          }
+          Alerts.success(
+            t('The case {{caseId}} has been started successfully.', {
+              caseId: caseId
+            })
+          );
+        }
       } else {
         Alerts.error(t('Error while starting the case.'));
       }

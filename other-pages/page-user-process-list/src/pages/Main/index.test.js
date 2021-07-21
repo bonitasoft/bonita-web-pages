@@ -16,6 +16,8 @@ import React from 'react';
 import Main from './index';
 import { shallow } from 'enzyme';
 import fetchMock from 'fetch-mock';
+import ProcessApi from '../../api/ProcessApi';
+import * as querystring from 'querystring';
 
 describe('Main', () => {
   const push = jest.fn();
@@ -121,7 +123,7 @@ describe('Main', () => {
     });
   });
 
-  describe('startProcess', () => {
+  describe('handleProcessStart', () => {
     let wrapper;
 
     beforeEach(() => {
@@ -133,7 +135,7 @@ describe('Main', () => {
     it('should update state when user start a process without instantiation form', async () => {
       wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(false);
 
-      await wrapper.startProcess({
+      await wrapper.handleProcessStart({
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process'
@@ -154,7 +156,7 @@ describe('Main', () => {
       window.location = { search: '?id=12&app=myAppToken' };
       wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
 
-      await wrapper.startProcess({
+      await wrapper.handleProcessStart({
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process',
@@ -175,7 +177,7 @@ describe('Main', () => {
       window.location = { search: '?id=12' };
       wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
 
-      await wrapper.startProcess({
+      await wrapper.handleProcessStart({
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process',
@@ -187,6 +189,191 @@ describe('Main', () => {
       expect(push.mock.calls.length).toEqual(1);
       expect(push.mock.calls[0][0]).toEqual(
         '/instantiation/MyProcess/1.0?id=12458725157&autoInstantiate=false'
+      );
+    });
+
+    it('should not keep the redirect param when instatiating process through list', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = { search: '?id=12&redirect=task-list' };
+      wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
+
+      await wrapper.handleProcessStart({
+        version: '1.0',
+        id: '12458725157',
+        displayName: 'My Process',
+        name: 'MyProcess'
+      });
+
+      expect(push.mock.calls[0][0]).toEqual(
+        '/instantiation/MyProcess/1.0?id=12458725157&autoInstantiate=false'
+      );
+    });
+  });
+
+  describe('redirectToInstantiationForm', () => {
+    function generateWrapper(props, mountComponent) {
+      let wrapper = shallow(<Main.WrappedComponent {...props} />, {
+        disableLifecycleMethods: true
+      }).instance();
+
+      wrapper.getProcesses = jest.fn();
+      wrapper.getCategories = jest.fn();
+
+      if (mountComponent) {
+        wrapper.redirectToInstantiationForm = jest.fn();
+        wrapper.componentDidMount();
+      }
+
+      return wrapper;
+    }
+
+    it('should not redirect to form if there are parameters that are missing', async () => {
+      push.mockReset();
+      delete window.location;
+
+      window.location = { search: '?redirect=task-list' };
+      props.location = window.location;
+      let wrapper = generateWrapper(props, true);
+      expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(0);
+
+      window.location = {
+        search: '?redirect=task-list&processName=Pool'
+      };
+      props.location = window.location;
+      wrapper = generateWrapper(props, true);
+      expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(0);
+
+      window.location = {
+        search: '?redirect=task-list&processVersion=1.0'
+      };
+      props.location = window.location;
+      wrapper = generateWrapper(props, true);
+      expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(0);
+    });
+
+    it('should redirect to form if the process name and version are in the url', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost:8080',
+        pathname: '/bonita/apps/process-list',
+        search: '?processName=Pool&processVersion=1.0'
+      };
+      props.location = window.location;
+      let wrapper = generateWrapper(props, true);
+
+      expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(1);
+    });
+
+    it('should not redirect to form if parameters are present but the process does not exist', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost:8080',
+        pathname: '/bonita/apps/process-list',
+        search: '?processName=Pool&processVersion=1.0'
+      };
+      props.location = window.location;
+      let wrapper = generateWrapper(props, false);
+      wrapper.redirectToInstantiationForm = jest.fn();
+      wrapper.showInstantiationForm = jest.fn();
+      ProcessApi.fetchProcessByNameAndVersion = jest
+        .fn()
+        .mockReturnValue(undefined);
+      wrapper.componentDidMount();
+
+      expect(wrapper.showInstantiationForm.mock.calls.length).toBe(0);
+    });
+
+    it('should show instantiation form if parameters are present', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost:8080',
+        pathname: '/bonita/apps/process-list',
+        search: '?processName=Pool&processVersion=1.0'
+      };
+      let query = querystring.parse(window.location.search.replace('?', ''));
+      window.history.pushState = jest.fn();
+      props.location = window.location;
+      let wrapper = generateWrapper(props, false);
+      wrapper.showInstantiationForm = jest.fn();
+      const spyProcessAPI = jest.spyOn(
+        ProcessApi,
+        'fetchProcessByNameAndVersion'
+      );
+      spyProcessAPI.mockImplementation(() => Promise.resolve({ id: 12 }));
+      await wrapper.redirectToInstantiationForm(query);
+
+      expect(wrapper.showInstantiationForm.mock.calls.length).toBe(1);
+      expect(window.history.pushState.mock.calls[0]).toEqual([
+        {},
+        '',
+        'http://localhost:8080/bonita/apps/process-list'
+      ]);
+    });
+
+    it('should redirect to instantiation form', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost:8080',
+        pathname: '/bonita/apps/process-list',
+        search: '?processName=Pool&processVersion=1.0&redirect=task-list'
+      };
+      let query = querystring.parse(window.location.search.replace('?', ''));
+      window.history.pushState = jest.fn();
+      props.location = window.location;
+      let wrapper = generateWrapper(props, false);
+      wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(true);
+      const spyProcessAPI = jest.spyOn(
+        ProcessApi,
+        'fetchProcessByNameAndVersion'
+      );
+      spyProcessAPI.mockImplementation(() =>
+        Promise.resolve({ id: 12, name: 'Pool', version: '1.0' })
+      );
+      await wrapper.redirectToInstantiationForm(query);
+      expect(push.mock.calls[0][0]).toBe(
+        '/instantiation/Pool/1.0?redirect=task-list&id=12&autoInstantiate=false'
+      );
+    });
+
+    it('should not redirect to instantiation form, but show modal when there is no form', async () => {
+      push.mockReset();
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost:8080',
+        pathname: '/bonita/apps/process-list',
+        search: '?processName=Pool&processVersion=1.0&redirect=task-list'
+      };
+      let query = querystring.parse(window.location.search.replace('?', ''));
+      window.history.pushState = jest.fn();
+      props.location = window.location;
+      let wrapper = generateWrapper(props, false);
+      wrapper.hasInstantiationFormMapping = jest.fn().mockReturnValue(false);
+      const spyProcessAPI1 = jest.spyOn(
+        ProcessApi,
+        'fetchProcessByNameAndVersion'
+      );
+      spyProcessAPI1.mockImplementation(() =>
+        Promise.resolve({ id: 12, name: 'Pool', version: '1.0' })
+      );
+      const spyProcessAPI2 = jest.spyOn(ProcessApi, 'instantiateProcess');
+      spyProcessAPI2.mockImplementation(() =>
+        Promise.resolve({ caseId: '1234' })
+      );
+      await wrapper.redirectToInstantiationForm(query);
+      expect(window.history.pushState.mock.calls[0]).toEqual([
+        {},
+        '',
+        'http://localhost:8080/bonita/apps/process-list'
+      ]);
+      expect(push.mock.calls).toEqual([]);
+      await wrapper.instantiateProcess();
+      expect(window.location.href).toBe(
+        'http://localhost:8080/bonita/apps/process-list../task-list'
       );
     });
   });
