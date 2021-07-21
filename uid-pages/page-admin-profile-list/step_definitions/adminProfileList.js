@@ -713,7 +713,8 @@ then("The profiles page has the correct information", () => {
     cy.get('.profile-item').eq(1).within(() => {
         cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Administrator');
-        cy.get('.is-provided-icon').should('be.visible');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
         cy.get('.btn.btn-link .glyphicon-trash').should('not.be.enabled');
     });
     cy.contains('.item-label', 'Profiles shown: 8 of 8');

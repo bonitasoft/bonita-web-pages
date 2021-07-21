@@ -287,7 +287,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('Walter Bates');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 2:00 PM');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_userApplication')
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_userApplication');
     });
 
     cy.get('.resource-item').eq(1).within(() => {
@@ -300,7 +300,9 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('helen.kelly');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_myCustomThemeReadable')
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_myCustomThemeReadable');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(2).within(() => {
@@ -313,6 +315,8 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('System');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(3).within(() => {
@@ -325,6 +329,8 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('thomas.wallis');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:28 AM');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(4).within(() => {
