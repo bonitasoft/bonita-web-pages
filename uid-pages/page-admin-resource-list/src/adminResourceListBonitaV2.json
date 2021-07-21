@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminResourceListBonitaV2",
   "name" : "adminResourceListBonitaV2",
-  "lastUpdate" : 1626787218529,
+  "lastUpdate" : 1626859422465,
   "rows" : [
     [
       {
@@ -4365,7 +4365,10 @@
         "        return \"updateItem\";",
         "    },",
         "    getInstallPayload : function() {",
-        "        return {pageZip: $data.installData.filePath.tempPath};",
+        "        return {",
+        "            pageZip: $data.installData.filePath.tempPath,",
+        "            contentName: $data.installData.filePath.filename",
+        "        };",
         "    },",
         "    getChangeButtonLabel: function() {",
         "        var buttonLabel = $data.installData.statusCode === 200 ? \"Close\" : \"Cancel\";",
