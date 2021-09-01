@@ -44,38 +44,3 @@ Feature: The users list in desktop resolution
     Then A list of "5" users is displayed
     When I filter show inactive users
     Then The api call is made for "show inactive"
-
-  Scenario: Load more users button works correctly
-    Given The filter response "enable load more" is defined
-    When I visit the user list page
-    Then A list of "10" users is displayed out of "35"
-    When I click on Load more users button
-    Then A list of "20" users is displayed out of "35"
-    When I click on Load more users button
-    Then A list of "30" users is displayed out of "35"
-    When I click on Load more users button
-    Then A list of "35" users is displayed out of "35"
-    And The Load more users button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined
-    When I visit the user list page
-    Then A list of "10" users is displayed
-    When I click on Load more users button
-    Then A list of "20" users is displayed
-    And The Load more users button is disabled
-
-  Scenario: Load more users resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined
-    And The filter response "user search during limitation" is defined
-    When I visit the user list page
-    Then A list of "10" users is displayed
-    When I click on Load more users button
-    Then A list of "20" users is displayed
-    When I click on Load more users button
-    Then A list of "30" users is displayed
-    And The Load more users button is disabled
-    When I put "Walter" in "search" filter field
-    Then A list of "10" users is displayed
-    When I click on Load more users button
-    Then A list of "20" users is displayed

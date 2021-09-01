@@ -30,21 +30,6 @@ given("The filter response {string} is defined", (filterType) => {
         case 'show inactive':
             createRoute('&o=lastname+ASC&f=enabled=false', 'showInactiveRoute');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'users20Route', 'users20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination(defaultSortOrder, 'users10Route', 'users10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'users5Route', 'users5', 3, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'users10Route', 'users10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
         case 'inactive user':
             createRouteWithResponse('&o=lastname+ASC&f=enabled=false', 'inactiveUser1Route', 'inactiveUser1');
             break;
@@ -218,10 +203,6 @@ when("I filter show inactive users", () => {
     cy.get('input[value=inactive').click();
 });
 
-when("I click on Load more users button", () => {
-    cy.get('button').contains('Load more users').click();
-});
-
 when("I click on {string} button on the user {string}", (iconName, userNumber) => {
     cy.get('button .glyphicon-' + iconName).eq(userNumber - 1).click();
 });
@@ -325,11 +306,6 @@ then("A list of {string} users is displayed", (nbrOfUsers) => {
     cy.get('.item').should('have.length', nbrOfUsers);
 });
 
-then("A list of {string} users is displayed out of {string}", (nbrOfUsers, totalUsers) => {
-    cy.get('.item:visible').should('have.length', nbrOfUsers);
-    cy.get('.text-primary.item-property-label:visible').contains('Users shown: ' + nbrOfUsers + ' of ' + totalUsers);
-});
-
 then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
         case 'First name (Asc)':
@@ -367,10 +343,6 @@ then("The api call is made for {string}", (filterValue) => {
 then("No users are available", () => {
     cy.get('.item').should('have.length', 0);
     cy.contains('No users to display').should('be.visible');
-});
-
-then("The Load more users button is disabled", () => {
-    cy.get('button').contains('Load more users').should('be.disabled');
 });
 
 then("The first user has the {string} button", (iconName) => {

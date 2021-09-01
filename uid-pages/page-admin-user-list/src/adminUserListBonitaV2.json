@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV2",
   "name" : "adminUserListBonitaV2",
-  "lastUpdate" : 1623139966656,
+  "lastUpdate" : 1630509292042,
   "rows" : [
     [
       {
@@ -1015,59 +1015,7 @@
           ],
           [
             {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "text-primary item-property-label pt-5"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "userListData.displayedUsers.length == 0"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers.split('/')[1]}}"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                }
-              },
-              "reference" : "563f64f2-d264-4b54-a0f0-8605c3eb1502",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ],
-          [
-            {
-              "type" : "component",
+              "type" : "fragment",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -1080,116 +1028,25 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "userListData.displayedUsers.length"
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "No users to display"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                }
-              },
-              "reference" : "79105765-a2b3-4b25-932a-944adc0ba3b5",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "userListData.displayedUsers.length == 0"
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "userListData.displayedUsers.length % userListData.numberOfUsersPerPage > 0 || userListData.numberOfUsersInMemory === 0"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Load more users"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "GET"
-                },
-                "assign" : {
                   "type" : "constant",
                   "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/identity/user?{{userListCtrl.userQueryParameters(userListData.pageId)}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "userListData.usersFromAPI"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
                 }
               },
-              "reference" : "72b0c0af-2de8-4225-8cf7-4164ec228619",
+              "reference" : "fbf3e3be-7768-4b85-859a-69caa28ba6ef",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "fragmentLoadMore",
+              "binding" : {
+                "displayedItems" : "userListData.displayedUsers",
+                "numberOfItemsPerPage" : "userListData.numberOfUsersPerPage",
+                "buttonLabel" : "\"Load more users\"",
+                "urlPrefix" : "apiUserUrl",
+                "noItemsMessage" : "\"No users to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-property-label pt-5\"",
+                "itemsShownMessage" : "\"Users shown\"",
+                "filters" : "",
+                "filtersSting" : "userListCtrl.userQueryParameters()",
+                "filtersString" : "userListCtrl.userQueryParameters()"
+              }
             }
           ]
         ]
@@ -2988,14 +2845,8 @@
         "        }",
         "        return '<i class=\"glyphicon glyphicon-ok\" title=\"'+ uiTranslate(\"Activate user\") + '\"></i>';",
         "    },",
-        "    userQueryParameters: function(pageId){",
-        "        var usersPerPage = $data.userListData.numberOfUsersPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            usersPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + usersPerPage + \"&p=\" + pageId + \"&time=\" + $data.userListData.timestamp;",
+        "    userQueryParameters: function(){",
+        "        var queryParameters = \"&time=\" + $data.userListData.timestamp;",
         "        ",
         "        if($data.userListData.userFilters.sortOrder){",
         "            queryParameters += \"&o=\" + $data.userListData.userFilters.sortOrder;",
@@ -3028,13 +2879,8 @@
       "type" : "expression",
       "value" : [
         "return { ",
-        "    pageId: 0,",
         "    numberOfUsersPerPage: 10,",
         "    timestamp: 0,",
-        "    displayedUsers: [],",
-        "    numberOfUsersInMemory: 0,",
-        "    usersInMemory: [],",
-        "    usersFromAPI: undefined,",
         "    sortByOptions: [   ",
         "        { displayKey: \"First name (Asc)\", returnKey: \"firstname+ASC\" },",
         "        { displayKey: \"First name (Desc)\", returnKey: \"firstname+DESC\" },",
@@ -3046,8 +2892,7 @@
         "        searchValue: \"\",",
         "        userStatusEnabled: \"active\"",
         "    },",
-        "    totalUsers: 0,",
-        "    usersHeaderResponse: undefined",
+        "    displayedUsers: []",
         "};"
       ],
       "exposed" : false
@@ -3056,59 +2901,6 @@
       "type" : "constant",
       "value" : [
         "../API/identity/user"
-      ],
-      "exposed" : false
-    },
-    "users" : {
-      "type" : "url",
-      "value" : [
-        "{{apiUserUrl}}?{{userListCtrl.userQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "userListData.usersHeaderResponse"
-      },
-      "exposed" : false
-    },
-    "loadMoreHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Users",
-        "// diplay the first page of users on page load or when the filters change",
-        "if($data.users){",
-        "    // get the total number of users",
-        "    if($data.userListData.usersHeaderResponse && $data.userListData.usersHeaderResponse['content-range']) {",
-        "        $data.userListData.totalUsers = $data.userListData.usersHeaderResponse['content-range'];",
-        "    }",
-        "    // display half the elements loaded",
-        "    $data.userListData.displayedUsers = $data.users.slice(0, $data.userListData.numberOfUsersPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.userListData.pageId = 2;",
-        "    $data.userListData.usersInMemory = $data.users.slice($data.userListData.numberOfUsersPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
-        "    // set users to undefined as the script is triggered when click on load more users button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)",
-        "    $data.users = undefined;",
-        "    $data.userListData.usersFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of users to the list of next users to display",
-        "// display the next users from the memory",
-        "if($data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length){",
-        "    $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
-        "    $data.userListData.pageId++;",
-        "    $data.userListData.usersInMemory = $data.userListData.usersFromAPI;",
-        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
-        "    $data.userListData.usersFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more users in the memory",
-        "if($data.userListData.numberOfUsersInMemory > 0 && $data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length === 0){",
-        "     $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
-        "     $data.userListData.usersInMemory = undefined;",
-        "     $data.userListData.usersFromAPI = undefined;",
-        "     $data.userListData.numberOfUsersInMemory = 0;",
-        "}"
       ],
       "exposed" : false
     },
