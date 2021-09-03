@@ -32,41 +32,6 @@ Feature: The Admin Groups in desktop resolution
     When I put "Search term with no match" in "search" filter field
     Then No groups are available
 
-  Scenario: Load more button works correctly
-    Given The response "enable load more" is defined
-    When I visit the admin groups page
-    Then A list of 10 groups is displayed out of 35
-    When I click on Load more groups button
-    Then A list of 20 groups is displayed out of 35
-    When I click on Load more groups button
-    Then A list of 30 groups is displayed out of 35
-    When I click on Load more groups button
-    Then A list of 38 groups is displayed out of 35
-    And The load more groups button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The response "enable 20 load more" is defined
-    When I visit the admin groups page
-    Then A list of 10 groups is displayed
-    When I click on Load more groups button
-    Then A list of 20 groups is displayed
-    And The load more groups button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The response "enable 30 load more" is defined
-    And The response "sort during limitation" is defined
-    When I visit the admin groups page
-    Then A list of 10 groups is displayed
-    When I click on Load more groups button
-    Then A list of 20 groups is displayed
-    When I click on Load more groups button
-    Then A list of 30 groups is displayed
-    And The load more groups button is disabled
-    When I put "Display name (Desc)" in "sort by" filter field
-    Then A list of 10 groups is displayed
-    When I click on Load more groups button
-    Then A list of 20 groups is displayed
-
   Scenario: The create group modal is opened and closed
     Given The response "refresh not called" is defined
     And The response "default filter with headers" is defined
@@ -217,56 +182,6 @@ Feature: The Admin Groups in desktop resolution
     Then No users are available
     And The search input is not disable
 
-  Scenario: Load more users button works correctly
-    Given The response "user list load more" is defined
-    And The response "default filter with headers" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on user button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more users button
-    Then A list of 20 items is displayed
-    When I click on Load more users button
-    Then A list of 30 items is displayed
-    When I click on Load more users button
-    Then A list of 35 items is displayed
-    And The load more "users" button is disabled
-    When I click on the "Close" button in modal footer
-    Then There is no modal displayed
-    When I click on user button for first group
-    Then A list of 10 items is displayed
-
-  Scenario: Load more users is disabled when result is a multiple of count
-    Given The response "user list 20 load more" is defined
-    And The response "default filter with headers" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on user button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more users button
-    Then A list of 20 items is displayed
-    When I click on Load more users button
-    And The load more "users" button is disabled
-
-  Scenario: Load more users resets correctly after the limitation is triggered
-    Given The response "user list 30 load more" is defined
-    And The response "default filter with headers" is defined
-    And The response "user search during limitation" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on user button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more users button
-    Then A list of 20 items is displayed
-    When I click on Load more users button
-    Then A list of 30 items is displayed
-    When I click on Load more users button
-    And The load more "users" button is disabled
-    When I put "Virginie" in modal search filter field
-    Then A list of 10 items is displayed
-    When I click on Load more users button
-    Then A list of 20 items is displayed
-
   Scenario: The user list modal resets when open for a different group
     Given The response "default filter with headers" is defined
     And The response "user list for two groups" is defined
@@ -326,56 +241,6 @@ Feature: The Admin Groups in desktop resolution
     When I put "Search term with no match" in modal search filter field
     Then No "sub-groups" are available
     And The search input is not disable
-
-  Scenario: Load more sub groups button works correctly
-    Given The response "sub-groups list load more" is defined
-    And The response "default filter with headers" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on sub-group button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 20 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 30 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 35 items is displayed
-    And The load more "sub-groups" button is disabled
-    When I click on the "Close" button in modal footer
-    Then There is no modal displayed
-    When I click on sub-group button for first group
-    Then A list of 10 items is displayed
-
-  Scenario: Load more sub groups is disabled when result is a multiple of count
-    Given The response "sub-groups list 20 load more" is defined
-    And The response "default filter with headers" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on sub-group button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 20 items is displayed
-    When I click on Load more sub-groups button
-    And The load more "sub-groups" button is disabled
-
-  Scenario: Load more sub groups resets correctly after the limitation is triggered
-    Given The response "sub-groups list 30 load more" is defined
-    And The response "default filter with headers" is defined
-    And The response "sub-groups search during limitation" is defined
-    When I visit the admin groups page
-    Then A list of 8 groups is displayed
-    When I click on sub-group button for first group
-    Then A list of 10 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 20 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 30 items is displayed
-    When I click on Load more sub-groups button
-    And The load more "sub-groups" button is disabled
-    When I put "Acme" in modal search filter field
-    Then A list of 10 items is displayed
-    When I click on Load more sub-groups button
-    Then A list of 20 items is displayed
 
   Scenario: The sub groups list modal resets when open for a different group
     Given The response "default filter with headers" is defined

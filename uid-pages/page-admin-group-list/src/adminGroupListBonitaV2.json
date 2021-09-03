@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminGroupListBonitaV2",
   "name" : "adminGroupListBonitaV2",
-  "lastUpdate" : 1622104164116,
+  "lastUpdate" : 1630692199899,
   "rows" : [
     [
       {
@@ -1597,59 +1597,7 @@
           ],
           [
             {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "text-primary item-label pt-5"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "groupsData.displayedGroups.length === 0"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "{{\"Groups shown\"|uiTranslate}}: {{groupsData.displayedGroups.length}} {{\"of\"|uiTranslate}} {{groupsData.totalGroups}}"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                }
-              },
-              "reference" : "a908309d-803a-4716-bd92-fce57d69df07",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ],
-          [
-            {
-              "type" : "component",
+              "type" : "fragment",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -1662,116 +1610,23 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "groupsData.displayedGroups.length"
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "No groups to display"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                }
-              },
-              "reference" : "a19e963e-5e99-4230-8bd2-c72a325253e1",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "groupsData.displayedGroups.length === 0"
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "groupsData.displayedGroups.length % groupsData.numberOfGroupsPerPage > 0 || groupsData.numberOfGroupsInMemory === 0"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Load more groups"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "GET"
-                },
-                "assign" : {
                   "type" : "constant",
                   "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/identity/group?{{groupsCtrl.groupsQueryParameters(groupsData.pageId)}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "groupsData.groupsFromAPI"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
                 }
               },
-              "reference" : "5c59ea76-ef3c-42cb-8d92-614a2d2f7e8e",
+              "reference" : "0f19d804-9187-4c79-b39d-0efff52f6c69",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "fragmentLoadMore",
+              "binding" : {
+                "displayedItems" : "groupsData.displayedGroups",
+                "numberOfItemsPerPage" : "groupsData.numberOfGroupsPerPage",
+                "buttonLabel" : "\"Load more groups\"",
+                "urlPrefix" : "defaultGroupsUrl",
+                "noItemsMessage" : "\"No groups to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "\"Groups shown\"",
+                "filtersString" : "groupsCtrl.groupsQueryParameters()"
+              }
             }
           ]
         ]
@@ -3666,59 +3521,7 @@
                   ],
                   [
                     {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : "text-primary item-label pt-5"
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length == 0"
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers}}"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "right"
-                        }
-                      },
-                      "reference" : "c3ad99e0-6e82-444d-a9fb-97163c2fc5de",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
+                      "type" : "fragment",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
@@ -3731,116 +3534,23 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length"
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "No users to display"
-                        },
-                        "level" : {
-                          "type" : "constant",
-                          "value" : "Level 4"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        }
-                      },
-                      "reference" : "5c806cdb-478e-4526-a427-a327295046f1",
-                      "hasValidationError" : false,
-                      "id" : "pbTitle"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length == 0"
-                        },
-                        "disabled" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length % userListData.numberOfUsersPerPage > 0 || (userListData.numberOfUsersReturned === 0 && userListData.usersNextResults.length == 0)"
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Load more users"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        },
-                        "buttonStyle" : {
-                          "type" : "constant",
-                          "value" : "link"
-                        },
-                        "action" : {
-                          "type" : "constant",
-                          "value" : "GET"
-                        },
-                        "assign" : {
                           "type" : "constant",
                           "value" : false
-                        },
-                        "url" : {
-                          "type" : "interpolation",
-                          "value" : "../API/identity/user{{userListCtrl.userQueryParameters(userListData.pageId)}}"
-                        },
-                        "responseStatusCode" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "dataToSend" : {
-                          "type" : "constant"
-                        },
-                        "dataFromSuccess" : {
-                          "type" : "variable",
-                          "value" : "userListData.usersNextResults"
-                        },
-                        "closeOnSuccess" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "dataFromError" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "targetUrlOnSuccess" : {
-                          "type" : "interpolation"
-                        },
-                        "collectionToModify" : {
-                          "type" : "variable"
-                        },
-                        "modalId" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "collectionPosition" : {
-                          "type" : "constant",
-                          "value" : "Last"
-                        },
-                        "valueToAdd" : {
-                          "type" : "constant"
-                        },
-                        "removeItem" : {
-                          "type" : "variable"
                         }
                       },
-                      "reference" : "d33255f5-dca9-49f7-8fad-94d0d6593ea9",
+                      "reference" : "b5f024eb-7c79-4d64-8312-f881921feb39",
                       "hasValidationError" : false,
-                      "id" : "pbButton"
+                      "id" : "fragmentLoadMore",
+                      "binding" : {
+                        "displayedItems" : "userListData.displayedUsers",
+                        "numberOfItemsPerPage" : "userListData.numberOfUsersPerPage",
+                        "buttonLabel" : "\"Load more users\"",
+                        "urlPrefix" : "defaultUserUrl",
+                        "noItemsMessage" : "\"No users to display\"",
+                        "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                        "itemsShownMessage" : "\"Users shown\"",
+                        "filtersString" : "userListCtrl.userQueryParameters()"
+                      }
                     }
                   ]
                 ]
@@ -4613,59 +4323,7 @@
                   ],
                   [
                     {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : "text-primary item-label pt-5"
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "subGroupListData.displayedSubGroups.length == 0"
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "{{\"Sub-groups shown\"|uiTranslate}}: {{subGroupListData.displayedSubGroups.length}} {{\"of\"|uiTranslate}} {{subGroupListData.totalSubGroups}}"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "right"
-                        }
-                      },
-                      "reference" : "58d55124-2203-4e30-bb02-5a8a484ae0f7",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
+                      "type" : "fragment",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
@@ -4678,116 +4336,23 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "expression",
-                          "value" : "subGroupListData.displayedSubGroups.length"
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "No sub-groups to display"
-                        },
-                        "level" : {
-                          "type" : "constant",
-                          "value" : "Level 4"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        }
-                      },
-                      "reference" : "2d2c3a82-1cd7-4001-8684-e4eddda5bab7",
-                      "hasValidationError" : false,
-                      "id" : "pbTitle"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "subGroupListData.displayedSubGroups.length === 0"
-                        },
-                        "disabled" : {
-                          "type" : "expression",
-                          "value" : "subGroupListData.displayedSubGroups.length % subGroupListData.numberOfSubGroupsPerPage > 0 || (subGroupListData.numberOfSubGroupsInMemory === 0 && subGroupListData.subGroupsFromAPI.length == 0)"
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Load more sub-groups"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        },
-                        "buttonStyle" : {
-                          "type" : "constant",
-                          "value" : "link"
-                        },
-                        "action" : {
-                          "type" : "constant",
-                          "value" : "GET"
-                        },
-                        "assign" : {
                           "type" : "constant",
                           "value" : false
-                        },
-                        "url" : {
-                          "type" : "interpolation",
-                          "value" : "../API/identity/group{{subGroupListCtrl.subGroupQueryParameters(subGroupListData.pageId)}}"
-                        },
-                        "responseStatusCode" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "dataToSend" : {
-                          "type" : "constant"
-                        },
-                        "dataFromSuccess" : {
-                          "type" : "variable",
-                          "value" : "subGroupListData.subGroupsFromAPI"
-                        },
-                        "closeOnSuccess" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "dataFromError" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "targetUrlOnSuccess" : {
-                          "type" : "interpolation"
-                        },
-                        "collectionToModify" : {
-                          "type" : "variable"
-                        },
-                        "modalId" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "collectionPosition" : {
-                          "type" : "constant",
-                          "value" : "Last"
-                        },
-                        "valueToAdd" : {
-                          "type" : "constant"
-                        },
-                        "removeItem" : {
-                          "type" : "variable"
                         }
                       },
-                      "reference" : "e805aead-d734-4e3a-81e8-f5ad3fbc379e",
+                      "reference" : "59796a4b-6fd2-4f4d-afa8-bf4b2fa9b2f1",
                       "hasValidationError" : false,
-                      "id" : "pbButton"
+                      "id" : "fragmentLoadMore",
+                      "binding" : {
+                        "displayedItems" : "subGroupListData.displayedSubGroups",
+                        "numberOfItemsPerPage" : "subGroupListData.numberOfSubGroupsPerPage",
+                        "buttonLabel" : "\"Load more sub-groups\"",
+                        "urlPrefix" : "defaultGroupsUrl",
+                        "noItemsMessage" : "\"No sub-groups to display\"",
+                        "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                        "itemsShownMessage" : "\"Sub-groups shown\"",
+                        "filtersString" : "subGroupListCtrl.subGroupQueryParameters()"
+                      }
                     }
                   ]
                 ]
@@ -7158,14 +6723,8 @@
         "};",
         "",
         "return {",
-        "    groupsQueryParameters: function(pageId) {",
-        "        var groupsPerPage = $data.groupsData.numberOfGroupsPerPage;",
-        "        ",
-        "        if (pageId === 0) {",
-        "            //on first call we need load next page",
-        "            groupsPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + groupsPerPage + \"&p=\" + pageId + \"&d=parent_group_id\";",
+        "    groupsQueryParameters: function() {",
+        "        var queryParameters = \"&d=parent_group_id&t=\" + $data.groupsData.timestamp;",
         "    ",
         "        if ($data.groupsData.filters.sortOrder) {",
         "            queryParameters += \"&o=\" + $data.groupsData.filters.sortOrder;",
@@ -7203,11 +6762,7 @@
       "value" : [
         "return {",
         "    timestamp: 0,",
-        "    groupsInMemory: [],",
-        "    pageId: 0, ",
         "    numberOfGroupsPerPage: 10,",
-        "    numberOfGroupsInMemory: 0,",
-        "    groupsFromAPI: undefined,",
         "    displayedGroups: [],",
         "    sortByOptions: [   ",
         "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
@@ -7218,63 +6773,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    totalGroups: 0,",
-        "    groupsHeaderResponse: undefined",
+        "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "groupsUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{defaultGroupsUrl}}?{{groupsCtrl.groupsQueryParameters(0)}}&t={{groupsData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "groupsData.groupsHeaderResponse"
-      },
-      "exposed" : false
-    },
-    "groupsHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Groups\r",
-        "// display the first page of groups on page load or when the filter change\r",
-        "if($data.groupsUrl) {\r",
-        "    // get the total number of groups\r",
-        "    if($data.groupsData.groupsHeaderResponse && $data.groupsData.groupsHeaderResponse['content-range']) {\r",
-        "        $data.groupsData.totalGroups = $data.groupsData.groupsHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.groupsData.displayedGroups = $data.groupsUrl.slice(0, $data.groupsData.numberOfGroupsPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.groupsData.pageId = 2;\r",
-        "    $data.groupsData.groupsInMemory = $data.groupsUrl.slice($data.groupsData.numberOfGroupsPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.groupsData.numberOfGroupsInMemory = $data.groupsData.groupsInMemory.length;\r",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
-        "    $data.groupsUrl = undefined;\r",
-        "    $data.groupsData.groupsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of groups to the list of next groups to display\r",
-        "// display the next groups from the memory\r",
-        "if($data.groupsData.groupsFromAPI && $data.groupsData.groupsFromAPI.length) {\r",
-        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsInMemory);\r",
-        "    $data.groupsData.pageId++;\r",
-        "    $data.groupsData.groupsInMemory = $data.groupsData.groupsFromAPI;\r",
-        "    $data.groupsData.numberOfGroupsInMemory = $data.groupsData.groupsInMemory.length;\r",
-        "    $data.groupsData.groupsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more groups in the memory\r",
-        "if($data.groupsData.numberOfGroupsInMemory > 0 && $data.groupsData.groupsFromAPI && $data.groupsData.groupsFromAPI.length === 0) {\r",
-        "    $data.groupsData.displayedGroups = $data.groupsData.displayedGroups.concat($data.groupsData.groupsInMemory);\r",
-        "    $data.groupsData.groupsInMemory = undefined;\r",
-        "    $data.groupsData.groupsFromAPI = undefined;\r",
-        "    $data.groupsData.numberOfGroupsInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -7406,34 +6906,21 @@
         "    initUserListModal: function(group) {",
         "        $data.userListData.selectedGroup = group;",
         "        $data.userListData.timestamp = new Date().getTime();",
-        "        $data.userListData.pageId = 0;",
         "        $data.userListData.displayedUsers = [];",
-        "        $data.userListData.numberOfUsersReturned = 0;",
-        "        $data.userListData.usersForNextPage = [];",
-        "        $data.userListData.usersNextResults = undefined;",
         "        $data.userListData.userFilters.searchValue = \"\";",
         "        ",
         "        return \"userListModal\";",
         "    },",
-        "    userQueryParameters: function(pageId) {",
-        "        if (!$data.userListData.selectedGroup) {",
-        "            return undefined;",
-        "        }",
-        "        var usersPerPage = $data.userListData.numberOfUsersPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            usersPerPage *= 2;",
-        "        }",
+        "    userQueryParameters: function() {",
         "        var selectedGroupId = $data.userListData.selectedGroup ? $data.userListData.selectedGroup.id : \"\";",
-        "        var queryParameters = \"?c=\" + usersPerPage + \"&p=\" + pageId + \"&f=enabled=true&f=group_id=\" + selectedGroupId;",
+        "        var queryParameters = \"&f=enabled=true&f=group_id=\" + selectedGroupId;",
         "        ",
         "        if($data.userListData.userFilters.searchValue) {",
         "            queryParameters += \"&s=\" + $data.userListData.userFilters.searchValue;",
         "        }",
         "        ",
         "        return queryParameters;",
-        "    },",
+        "    }",
         "};"
       ],
       "exposed" : false
@@ -7444,82 +6931,13 @@
         "return {",
         "    selectedGroup: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfUsersPerPage: 10,",
         "    displayedUsers: [],",
-        "    numberOfUsersReturned: 0,",
-        "    usersForNextPage: [],",
-        "    usersNextResults: undefined,",
         "    userFilters: {",
         "        searchValue: \"\"",
-        "    },",
-        "    totalUsers: 0,",
-        "    usersHeaderResponse: undefined",
+        "    }",
         "};"
       ],
-      "exposed" : false
-    },
-    "userListUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/identity/user{{userListCtrl.userQueryParameters(0)}}&t={{userListData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "userListData.usersHeaderResponse"
-      },
-      "exposed" : false
-    },
-    "userListHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Users",
-        "// diplay the first page of users on page load or when the filters change",
-        "if($data.userListUrl) {",
-        "    // get the total number of users",
-        "    if($data.userListData.usersHeaderResponse && $data.userListData.usersHeaderResponse['content-range']){",
-        "        $data.userListData.totalUsers = $data.userListData.usersHeaderResponse['content-range'].split('/')[1];",
-        "    }",
-        "    // display half the elements loaded",
-        "    $data.userListData.displayedUsers = $data.userListUrl.slice(0, $data.userListData.numberOfUsersPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.userListData.pageId = 2;",
-        "    $data.userListData.usersForNextPage = $data.userListUrl.slice($data.userListData.numberOfUsersPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.userListData.numberOfUsersReturned = $data.userListData.usersForNextPage.length;",
-        "    // set users to undefined as the script is triggered when click on load more users button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)",
-        "    $data.userListUrl = undefined;",
-        "    $data.userListData.usersNextResults = undefined;",
-        "}",
-        "",
-        "// add next page of users to the list of next users to display",
-        "// display the next users from the memory",
-        "if($data.userListData.usersNextResults && $data.userListData.usersNextResults.length){",
-        "    $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersForNextPage);",
-        "    $data.userListData.pageId++;",
-        "    $data.userListData.usersForNextPage = $data.userListData.usersNextResults;",
-        "    $data.userListData.numberOfUsersReturned = $data.userListData.usersForNextPage.length;",
-        "    $data.userListData.usersNextResults = undefined;",
-        "}",
-        "",
-        "// when there are no more users in the memory",
-        "if($data.userListData.numberOfUsersReturned > 0 && $data.userListData.usersNextResults && $data.userListData.usersNextResults.length === 0){",
-        "     $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersForNextPage);",
-        "     $data.userListData.usersForNextPage = undefined;",
-        "     $data.userListData.usersNextResults = undefined;",
-        "     $data.userListData.numberOfUsersReturned = 0;",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "subGroupListUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/identity/group{{subGroupListCtrl.subGroupQueryParameters(0)}}&t={{subGroupListData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "subGroupListData.subGroupsHeaderResponse"
-      },
       "exposed" : false
     },
     "subGroupListCtrl" : {
@@ -7529,34 +6947,21 @@
         "    initSubGroupListModal: function(group) {",
         "        $data.subGroupListData.selectedGroup = group;",
         "        $data.subGroupListData.timestamp = new Date().getTime();",
-        "        $data.subGroupListData.pageId = 0;",
         "        $data.subGroupListData.displayedSubGroups = [];",
-        "        $data.subGroupListData.numberOfSubGroupsInMemory = 0;",
-        "        $data.subGroupListData.subGroupsForNextPage = [];",
-        "        $data.subGroupListData.subGroupsFromAPI = undefined;",
         "        $data.subGroupListData.subGroupsFilters.searchValue = \"\";",
         "        ",
         "        return \"subGroupListModal\";",
         "    },",
-        "    subGroupQueryParameters: function(pageId) {",
-        "        if (!$data.subGroupListData.selectedGroup) {",
-        "            return undefined;",
-        "        }",
-        "        var subGroupsPerPage = $data.subGroupListData.numberOfSubGroupsPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            subGroupsPerPage *= 2;",
-        "        }",
+        "    subGroupQueryParameters: function() {",
         "        var selectedGroupPath = $data.subGroupListData.selectedGroup ? $data.subGroupListData.selectedGroup.path : \"\";",
-        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + subGroupsPerPage + \"&o=displayName%20ASC&f=parent_path=\" + selectedGroupPath;",
+        "        var queryParameters = \"&o=displayName%20ASC&f=parent_path=\" + selectedGroupPath + \"&t=\" + $data.subGroupListData.timestamp;",
         "",
         "        if($data.subGroupListData.subGroupsFilters.searchValue) {",
         "            queryParameters += \"&s=\" + $data.subGroupListData.subGroupsFilters.searchValue;",
         "        }",
         "        ",
         "        return queryParameters;",
-        "    },",
+        "    }",
         "};"
       ],
       "exposed" : false
@@ -7567,61 +6972,12 @@
         "return {",
         "    selectedGroup: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfSubGroupsPerPage: 10,",
         "    displayedSubGroups: [],",
-        "    numberOfSubGroupsInMemory: 0,",
-        "    subGroupsForNextPage: [],",
-        "    subGroupsFromAPI: undefined,",
         "    subGroupsFilters: {",
         "        searchValue: \"\"",
-        "    },",
-        "    totalSubGroups: 0,",
-        "    subGroupsHeaderResponse: undefined",
+        "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "subGroupListHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Sub-groups\r",
-        "// diplay the first page of subGroups on page load or when the filters change\r",
-        "if($data.subGroupListUrl) {\r",
-        "    // get the total number of sub groups\r",
-        "    if($data.subGroupListData.subGroupsHeaderResponse && $data.subGroupListData.subGroupsHeaderResponse['content-range']){\r",
-        "        $data.subGroupListData.totalSubGroups = $data.subGroupListData.subGroupsHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.subGroupListData.displayedSubGroups = $data.subGroupListUrl.slice(0, $data.subGroupListData.numberOfSubGroupsPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.subGroupListData.pageId = 2;\r",
-        "    $data.subGroupListData.subGroupsForNextPage = $data.subGroupListUrl.slice($data.subGroupListData.numberOfSubGroupsPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.subGroupListData.numberOfSubGroupsInMemory = $data.subGroupListData.subGroupsForNextPage.length;\r",
-        "    // set subGroups to undefined as the script is triggered when click on load more subGroups button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedSubGroups)\r",
-        "    $data.subGroupListUrl = undefined;\r",
-        "    $data.subGroupListData.subGroupsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of subGroups to the list of next subGroups to display\r",
-        "// display the next subGroups from the memory\r",
-        "if($data.subGroupListData.subGroupsFromAPI && $data.subGroupListData.subGroupsFromAPI.length){\r",
-        "    $data.subGroupListData.displayedSubGroups = $data.subGroupListData.displayedSubGroups.concat($data.subGroupListData.subGroupsForNextPage);\r",
-        "    $data.subGroupListData.pageId++;\r",
-        "    $data.subGroupListData.subGroupsForNextPage = $data.subGroupListData.subGroupsFromAPI;\r",
-        "    $data.subGroupListData.numberOfSubGroupsInMemory = $data.subGroupListData.subGroupsForNextPage.length;\r",
-        "    $data.subGroupListData.subGroupsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more subGroups in the memory\r",
-        "if($data.subGroupListData.numberOfSubGroupsInMemory > 0 && $data.subGroupListData.subGroupsFromAPI && $data.subGroupListData.subGroupsFromAPI.length === 0){\r",
-        "     $data.subGroupListData.displayedSubGroups = $data.subGroupListData.displayedSubGroups.concat($data.subGroupListData.subGroupsForNextPage);\r",
-        "     $data.subGroupListData.subGroupsForNextPage = undefined;\r",
-        "     $data.subGroupListData.subGroupsFromAPI = undefined;\r",
-        "     $data.subGroupListData.numberOfSubGroupsInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -7763,6 +7119,13 @@
         "    statusCode: \"\",",
         "    selectedGroup: {}",
         "};"
+      ],
+      "exposed" : false
+    },
+    "defaultUserUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/identity/user"
       ],
       "exposed" : false
     }
