@@ -30,22 +30,6 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'resources20Route', 'resources20', {'content-range': '0-20/35'});
-            //createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources5Route', 'resources5', 3, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
             break;
@@ -252,10 +236,6 @@ when("I filter hide provided resources", () => {
     cy.get('.checkbox').click();
 });
 
-when("I click on Load more resources button", () => {
-    cy.get('button').contains('Load more resources').click();
-});
-
 when("I click on install button in the page", () => {
         cy.get('button').contains('Install').click();
 });
@@ -350,11 +330,6 @@ then("A list of {string} resources is displayed", (nbrOfResources) => {
     cy.get('.resource-item').should('have.length', nbrOfResources);
 });
 
-then("A list of {string} resources is displayed out of {string}", (nbrOfItems, totalItems) => {
-    cy.get('.resource-item').should('have.length', nbrOfItems);
-    cy.contains('.resource-property-label', 'Resources shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
 then("I see only the filtered resources by {string}", (filterType) => {
     switch (filterType) {
         case 'content type':
@@ -440,10 +415,6 @@ then("The api call is made for {string}", (filterValue) => {
         default:
             throw new Error("Unsupported case");
     }
-});
-
-then("The Load more resources button is disabled", () => {
-    cy.get('button').contains('Load more resources').should('be.disabled');
 });
 
 then("The modal {string} button is disabled",(buttonLabel) => {
