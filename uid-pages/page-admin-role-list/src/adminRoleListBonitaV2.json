@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminRoleListBonitaV2",
   "name" : "adminRoleListBonitaV2",
-  "lastUpdate" : 1623138291537,
+  "lastUpdate" : 1630678711694,
   "rows" : [
     [
       {
@@ -1347,59 +1347,7 @@
           ],
           [
             {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "text-primary item-label pt-5"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "rolesData.displayedRoles.length === 0"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "{{\"Roles shown\"|uiTranslate}}: {{rolesData.displayedRoles.length}} {{\"of\"|uiTranslate}} {{rolesData.totalRoles}}"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                }
-              },
-              "reference" : "8e8f083e-58d9-4bc4-9360-d0103b7ff7ba",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ],
-          [
-            {
-              "type" : "component",
+              "type" : "fragment",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -1412,116 +1360,23 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "rolesData.displayedRoles.length"
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "No roles to display"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                }
-              },
-              "reference" : "ce50b78c-e356-482e-98e0-2878c7289818",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "rolesData.displayedRoles.length === 0"
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "rolesData.displayedRoles.length % rolesData.numberOfRolesPerPage > 0 || rolesData.numberOfRolesInMemory === 0"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Load more roles"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "GET"
-                },
-                "assign" : {
                   "type" : "constant",
                   "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/identity/role?{{rolesCtrl.rolesQueryParameters(rolesData.pageId)}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "rolesData.rolesFromAPI"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
                 }
               },
-              "reference" : "6d56143c-64a3-4fc6-9d34-323b29865828",
+              "reference" : "e66e6fac-01ab-45eb-bc33-221bd77b2e98",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "fragmentLoadMore",
+              "binding" : {
+                "displayedItems" : "rolesData.displayedRoles",
+                "numberOfItemsPerPage" : "rolesData.numberOfRolesPerPage",
+                "buttonLabel" : "\"Load more roles\"",
+                "urlPrefix" : "defaultRoleUrl",
+                "noItemsMessage" : "\"No roles to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "\"Roles shown\"",
+                "filtersString" : "rolesCtrl.rolesQueryParameters()"
+              }
             }
           ]
         ]
@@ -3765,59 +3620,7 @@
                   ],
                   [
                     {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : "text-primary item-label pt-5"
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length == 0"
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "{{\"Users shown\"|uiTranslate}}: {{userListData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{userListData.totalUsers}}"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "right"
-                        }
-                      },
-                      "reference" : "9261c5cb-183e-4338-804f-817dd902c1a2",
-                      "hasValidationError" : false,
-                      "id" : "pbText"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
+                      "type" : "fragment",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
@@ -3830,116 +3633,23 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length"
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "No users to display"
-                        },
-                        "level" : {
-                          "type" : "constant",
-                          "value" : "Level 4"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        }
-                      },
-                      "reference" : "1bb3c385-9654-4aee-9b73-5548ded37aff",
-                      "hasValidationError" : false,
-                      "id" : "pbTitle"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length == 0"
-                        },
-                        "disabled" : {
-                          "type" : "expression",
-                          "value" : "userListData.displayedUsers.length % userListData.numberOfUsersPerPage > 0 || userListData.numberOfUsersInMemory === 0"
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Load more users"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        },
-                        "buttonStyle" : {
-                          "type" : "constant",
-                          "value" : "link"
-                        },
-                        "action" : {
-                          "type" : "constant",
-                          "value" : "GET"
-                        },
-                        "assign" : {
                           "type" : "constant",
                           "value" : false
-                        },
-                        "url" : {
-                          "type" : "interpolation",
-                          "value" : "../API/identity/user{{userListCtrl.userQueryParameters(userListData.pageId)}}"
-                        },
-                        "responseStatusCode" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "dataToSend" : {
-                          "type" : "constant"
-                        },
-                        "dataFromSuccess" : {
-                          "type" : "variable",
-                          "value" : "userListData.usersFromAPI"
-                        },
-                        "closeOnSuccess" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "dataFromError" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "targetUrlOnSuccess" : {
-                          "type" : "interpolation"
-                        },
-                        "collectionToModify" : {
-                          "type" : "variable"
-                        },
-                        "modalId" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "collectionPosition" : {
-                          "type" : "constant",
-                          "value" : "Last"
-                        },
-                        "valueToAdd" : {
-                          "type" : "constant"
-                        },
-                        "removeItem" : {
-                          "type" : "variable"
                         }
                       },
-                      "reference" : "054233d6-e370-45ac-bafc-afc090c4b640",
+                      "reference" : "99cce1ca-0699-411f-9050-702f3c79cfef",
                       "hasValidationError" : false,
-                      "id" : "pbButton"
+                      "id" : "fragmentLoadMore",
+                      "binding" : {
+                        "displayedItems" : "userListData.displayedUsers",
+                        "numberOfItemsPerPage" : "userListData.numberOfUsersPerPage",
+                        "buttonLabel" : "\"Load more users\"",
+                        "urlPrefix" : "apiUserList",
+                        "noItemsMessage" : "\"No users to display\"",
+                        "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                        "itemsShownMessage" : "\"Users shown\"",
+                        "filtersString" : "userListCtrl.userQueryParameters()"
+                      }
                     }
                   ]
                 ]
@@ -4912,28 +4622,12 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "rolesUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{defaultRoleUrl}}?{{rolesCtrl.rolesQueryParameters(0)}}&t={{rolesData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "rolesData.rolesHeaderResponse"
-      },
-      "exposed" : false
-    },
     "rolesCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    rolesQueryParameters: function(pageId) {",
-        "        var rolesPerPage = $data.rolesData.numberOfRolesPerPage;",
-        "        ",
-        "        if (pageId === 0) {",
-        "            //on first call we need load next page",
-        "            rolesPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + rolesPerPage + \"&p=\" + pageId;",
+        "    rolesQueryParameters: function() {",
+        "        var queryParameters = \"&t=\" + $data.rolesData.timestamp;",
         "    ",
         "        if ($data.rolesData.filters.sortOrder) {",
         "            queryParameters += \"&o=\" + $data.rolesData.filters.sortOrder;",
@@ -4969,11 +4663,8 @@
         "    hasRecentlyBeenUpdated: false,",
         "    timestamp: 0,",
         "    role: {},",
-        "    rolesInMemory: [],",
         "    pageId: 0, ",
         "    numberOfRolesPerPage: 10,",
-        "    numberOfRolesInMemory: 0,",
-        "    rolesFromAPI: undefined,",
         "    displayedRoles: [],",
         "    sortByOptions: [   ",
         "        { displayKey: \"Display name (Asc)\", returnKey: \"displayName ASC\" },",
@@ -4984,53 +4675,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    totalRoles: 0,",
-        "    rolesHeaderResponse: undefined",
+        "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "rolesHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Roles\r",
-        "// display the first page of roles on page load or when the filter change\r",
-        "if($data.rolesUrl) {\r",
-        "    // get the total number of roles\r",
-        "    if($data.rolesData.rolesHeaderResponse && $data.rolesData.rolesHeaderResponse['content-range']) {\r",
-        "        $data.rolesData.totalRoles = $data.rolesData.rolesHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.rolesData.displayedRoles = $data.rolesUrl.slice(0, $data.rolesData.numberOfRolesPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.rolesData.pageId = 2;\r",
-        "    $data.rolesData.rolesInMemory = $data.rolesUrl.slice($data.rolesData.numberOfRolesPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.rolesData.numberOfRolesInMemory = $data.rolesData.rolesInMemory.length;\r",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
-        "    $data.rolesUrl = undefined;\r",
-        "    $data.rolesData.rolesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of roles to the list of next roles to display\r",
-        "// display the next roles from the memory\r",
-        "if($data.rolesData.rolesFromAPI && $data.rolesData.rolesFromAPI.length) {\r",
-        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesInMemory);\r",
-        "    $data.rolesData.pageId++;\r",
-        "    $data.rolesData.rolesInMemory = $data.rolesData.rolesFromAPI;\r",
-        "    $data.rolesData.numberOfRolesInMemory = $data.rolesData.rolesInMemory.length;\r",
-        "    $data.rolesData.rolesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more roles in the memory\r",
-        "if($data.rolesData.numberOfRolesInMemory > 0 && $data.rolesData.rolesFromAPI && $data.rolesData.rolesFromAPI.length === 0) {\r",
-        "    $data.rolesData.displayedRoles = $data.rolesData.displayedRoles.concat($data.rolesData.rolesInMemory);\r",
-        "    $data.rolesData.rolesInMemory = undefined;\r",
-        "    $data.rolesData.rolesFromAPI = undefined;\r",
-        "    $data.rolesData.numberOfRolesInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -5154,22 +4800,16 @@
         "       }",
         "       return information;",
         "    },",
-        "    userQueryParameters: function(pageId) {",
-        "        var usersPerPage = $data.userListData.numberOfUsersPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            usersPerPage *= 2;",
-        "        }",
+        "    userQueryParameters: function() {",
         "        var selectedRoleId = $data.userListData.selectedRole ? $data.userListData.selectedRole.id : \"\";",
-        "        var queryParameters = \"?c=\" + usersPerPage + \"&p=\" + pageId + \"&f=enabled=true&f=role_id=\" + selectedRoleId;",
+        "        var queryParameters = \"&f=enabled=true&f=role_id=\" + selectedRoleId;",
         "        ",
         "        if($data.userListData.userFilters.searchValue) {",
         "            queryParameters += \"&s=\" + $data.userListData.userFilters.searchValue;",
         "        }",
         "        ",
         "        return queryParameters;",
-        "    },",
+        "    }",
         "};"
       ],
       "exposed" : false
@@ -5179,71 +4819,12 @@
       "value" : [
         "return {",
         "    selectedRole: undefined,",
-        "    pageId: 0,",
         "    numberOfUsersPerPage: 10,",
         "    displayedUsers: [],",
-        "    numberOfUsersInMemory: 0,",
-        "    usersInMemory: [],",
-        "    usersFromAPI: undefined,",
         "    userFilters: {",
         "        searchValue: \"\"",
-        "    },",
-        "    totalUsers: 0,",
-        "    usersHeaderResponse: undefined",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "userListUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/identity/user{{userListCtrl.userQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "userListData.usersHeaderResponse"
-      },
-      "exposed" : false
-    },
-    "userListHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Users",
-        "// diplay the first page of users on page load or when the filters change",
-        "if($data.userListUrl) {",
-        "    // get the total number of users",
-        "    if($data.userListData.usersHeaderResponse && $data.userListData.usersHeaderResponse['content-range']) {",
-        "        $data.userListData.totalUsers = $data.userListData.usersHeaderResponse['content-range'].split('/')[1];",
         "    }",
-        "    // display half the elements loaded",
-        "    $data.userListData.displayedUsers = $data.userListUrl.slice(0, $data.userListData.numberOfUsersPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.userListData.pageId = 2;",
-        "    $data.userListData.usersInMemory = $data.userListUrl.slice($data.userListData.numberOfUsersPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
-        "    // set users to undefined as the script is triggered when click on load more users button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)",
-        "    $data.userListUrl = undefined;",
-        "    $data.userListData.usersFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of users to the list of next users to display",
-        "// display the next users from the memory",
-        "if($data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length){",
-        "    $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
-        "    $data.userListData.pageId++;",
-        "    $data.userListData.usersInMemory = $data.userListData.usersFromAPI;",
-        "    $data.userListData.numberOfUsersInMemory = $data.userListData.usersInMemory.length;",
-        "    $data.userListData.usersFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more users in the memory",
-        "if($data.userListData.numberOfUsersInMemory > 0 && $data.userListData.usersFromAPI && $data.userListData.usersFromAPI.length === 0){",
-        "     $data.userListData.displayedUsers = $data.userListData.displayedUsers.concat($data.userListData.usersInMemory);",
-        "     $data.userListData.usersInMemory = undefined;",
-        "     $data.userListData.usersFromAPI = undefined;",
-        "     $data.userListData.numberOfUsersInMemory = 0;",
-        "}"
+        "};"
       ],
       "exposed" : false
     },
@@ -5294,6 +4875,20 @@
         "    $data.rolesData.timestamp = new Date().getTime();",
         "    $data.editRoleData.hasRecentlyBeenEdited = true;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "userListUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/identity/user"
+      ],
+      "exposed" : false
+    },
+    "apiUserList" : {
+      "type" : "constant",
+      "value" : [
+        "../API/identity/user"
       ],
       "exposed" : false
     }
