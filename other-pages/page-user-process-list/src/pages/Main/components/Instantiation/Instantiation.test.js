@@ -22,7 +22,7 @@ describe('Instantiation page', () => {
   let props;
 
   beforeEach(() => {
-     props = {
+    props = {
       match: {
         params: {
           processName: 'My process name',
@@ -34,7 +34,6 @@ describe('Instantiation page', () => {
       }
     };
   });
-
 
   it('should display instantiation form into portal', () => {
     Object.defineProperty(window.location, 'href', {
