@@ -31,38 +31,28 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488&t=0', 'process2CasesRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506&t=0', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
             break;
         case 'sort by':
-            createRoute('&o=id+ASC&t=0', 'sortByCaseIdAscRoute');
-            createRoute('&o=id+DESC&t=0', 'sortByCaseIdDescRoute');
-            createRoute('&o=name+ASC&t=0', 'sortByProcessNameAscRoute');
-            createRoute('&o=name+DESC&t=0', 'sortByProcessNameDescRoute');
-            createRoute('&o=startDate+DESC&t=0', 'sortByStartDateDescRoute');
-            createRoute('&o=startDate+ASC&t=0', 'sortByStartDateAscRoute');
+            createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
-            createRoute('&s=Process&t=0', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0&s=Process', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
-            createRouteWithResponse(defaultRequestUrl,'&f=state=error&t=0', 'casesWithFailuresRoute', 'casesWithFailures');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
             break;
-        case 'enable load more':
+        case 'refresh open case list':
             createRouteWithResponseAndHeaders('&t=0', 'openCases20Route', 'openCases20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'openCases5Route', 'openCases5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases20Route', 'openCases20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases20Route', 'openCases20');
-            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'openCases20Route', 'openCases20');
             break;
         case 'sort during limitation':
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=20&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'openCases20');
@@ -371,8 +361,7 @@ then("The api call is made for {string} for open cases", (filterValue) => {
 
 then("No open cases are available", () => {
     cy.get('.case-item:visible').should('have.length', 0);
-    cy.get('h4').contains('No open cases to display').should('be.visible');
-    cy.get('h4').contains('No archived cases to display').should('not.be.visible');
+    cy.get('h4').contains('No cases to display').should('be.visible');
 });
 
 then("The load more open cases button is disabled", () => {

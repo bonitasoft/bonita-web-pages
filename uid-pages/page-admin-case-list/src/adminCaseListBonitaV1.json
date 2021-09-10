@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV1",
   "name" : "adminCaseListBonitaV1",
-  "lastUpdate" : 1628504214978,
+  "lastUpdate" : 1631113636789,
   "rows" : [
     [
       {
@@ -81,7 +81,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Case list\"|uiTranslate}}<i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Only cases from root processes are displayed in the list below. No details are available for cases started by call activities.\" | uiTranslate}}\"></i>"
+                  "value" : "{{\"Case list\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Only cases from root processes are displayed in the list below. No details are available for cases started by call activities.\" | uiTranslate}}\"></i>"
                 },
                 "level" : {
                   "type" : "constant",
@@ -684,7 +684,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -717,7 +717,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "casesData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -725,10 +726,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -762,7 +764,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "openCaseData.displayedOpenCases"
+                              "value" : "casesData.displayedItems"
                             }
                           },
                           "reference" : "e0791f72-6d26-4340-b15c-1eceff8f43c6",
@@ -2084,185 +2086,6 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "openCaseData.displayedOpenCases.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Cases shown\"|uiTranslate}}: {{openCaseData.displayedOpenCases.length}} {{\"of\"|uiTranslate}} {{openCaseData.totalOpenCases}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "aee0fcd6-37f3-422b-95a2-a89141024edd",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "openCaseData.displayedOpenCases.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No open cases to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "91a0faa3-d4e8-481d-8225-843ca34abf41",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "openCaseData.displayedOpenCases.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "openCaseData.displayedOpenCases.length % openCaseData.numberOfCasesPerPage > 0 || openCaseData.numberOfOpenCasesInMemory == 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more cases"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(openCaseData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "openCaseData.openCasesFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "f635d0bd-16de-4304-8454-599c1087c8df",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
@@ -2581,7 +2404,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -2614,7 +2437,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "casesData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -2622,10 +2446,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -2659,7 +2484,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "archivedCaseData.displayedArchivedCases"
+                              "value" : "casesData.displayedItems"
                             }
                           },
                           "reference" : "3fb2b0a3-0999-48e4-a8aa-c1e9998a898a",
@@ -3979,190 +3804,45 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "archivedCaseData.displayedArchivedCases.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Cases shown\"|uiTranslate}}: {{archivedCaseData.displayedArchivedCases.length}} {{\"of\"|uiTranslate}} {{archivedCaseData.totalArchivedCases}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "41a7cad6-9807-43f8-88eb-352cce6e724c",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "archivedCaseData.displayedArchivedCases.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No archived cases to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "91c881a4-9f9a-47aa-85f8-d5ed879c82c7",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "archivedCaseData.displayedArchivedCases.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "archivedCaseData.displayedArchivedCases.length % archivedCaseData.numberOfCasesPerPage > 0 || archivedCaseData.numberOfArchivedCasesInMemory == 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more cases"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(archivedCaseData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "archivedCaseData.archivedCasesFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "20da00ad-1760-44e1-897e-cd1f7cdb5dcf",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
                 }
               ]
+            }
+          ],
+          [
+            {
+              "type" : "fragment",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                }
+              },
+              "reference" : "2c276e06-8f2b-4991-a31e-260488750935",
+              "hasValidationError" : false,
+              "id" : "fragmentLoadMore",
+              "binding" : {
+                "displayedItems" : "casesData.displayedItems",
+                "numberOfItemsPerPage" : "openCaseData.numberOfCasesPerPage",
+                "buttonLabel" : "\"Load more cases\"",
+                "urlPrefix" : "openCaseData.activeTab && !archivedCaseData.activeTab ? apiOpenCases : apiArchivedCases",
+                "noItemsMessage" : "\"No cases to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "\"Cases shown\"",
+                "filtersString" : "openCaseData.activeTab && !archivedCaseData.activeTab ? openCaseCtrl.openCasesQueryParameters() : archivedCaseCtrl. archivedCasesQueryParameters()"
+              }
             }
           ]
         ]
@@ -4969,7 +4649,10 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    \"caseIdFilter\": \"\"",
+        "    caseIdFilter: \"\",",
+        "    displayedItems: [],",
+        "    refreshAction: [],",
+        "    timestamp: 0",
         "};"
       ],
       "exposed" : false
@@ -4989,10 +4672,8 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    timestamp: 0,",
-        "    openCasesInMemory : [],",
-        "    pageId: 0, ",
         "    numberOfCasesPerPage: 10,",
+        "    activeTab: $data.activeTab === \"\" || $data.activeTab !== \"archived\",",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -5014,13 +4695,7 @@
         "    statesOptions: [",
         "        { displayName: \"All states\", returnKey: undefined },",
         "        { displayName: \"With failures\", returnKey: \"error\"}",
-        "    ],",
-        "    openCasesFromAPI: undefined,",
-        "    displayedOpenCases: [],",
-        "    activeTab: $data.activeTab === \"\" || $data.activeTab !== \"archived\",",
-        "    numberOfOpenCasesInMemory: false,",
-        "    totalOpenCases: 0,",
-        "    openCasesHeaderResponse: undefined",
+        "    ]",
         "};"
       ],
       "exposed" : false
@@ -5029,17 +4704,12 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    openCasesQueryParameters: function(pageId) {",
-        "        if (!$data.openCaseData.activeTab) {",
+        "    openCasesQueryParameters: function() {",
+        "        if (!$data.openCaseData.activeTab || !$data.openCaseData.numberOfCasesPerPage || $data.archivedCaseData.activeTab) {",
         "            return undefined;",
         "        }",
-        "        var casesPerPage = $data.openCaseData.numberOfCasesPerPage;",
         "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            casesPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes\";",
+        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&t=\" + $data.casesData.timestamp;",
         "        ",
         "        if($data.openCaseData.filters.processDefinitionId){",
         "            queryParameters += \"&f=processDefinitionId=\" +  $data.openCaseData.filters.processDefinitionId;",
@@ -5064,60 +4734,6 @@
         "        return queryParameters;",
         "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "openCases" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}&t={{openCaseData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "openCaseData.openCasesHeaderResponse"
-      },
-      "exposed" : false
-    },
-    "openCaseHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Open Cases\r",
-        "// display the first page of open cases on page load or when the filter change\r",
-        "if($data.openCases){\r",
-        "    //get the total number of archived cases\r",
-        "    if($data.openCaseData.openCasesHeaderResponse && $data.openCaseData.openCasesHeaderResponse['content-range']) {\r",
-        "        $data.openCaseData.totalOpenCases = $data.openCaseData.openCasesHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.openCaseData.displayedOpenCases = $data.openCases.slice(0, $data.openCaseData.numberOfCasesPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.openCaseData.pageId = 2;\r",
-        "    $data.openCaseData.openCasesInMemory = $data.openCases.slice($data.openCaseData.numberOfCasesPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.openCaseData.numberOfOpenCasesInMemory = $data.openCaseData.openCasesInMemory.length;\r",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
-        "    $data.openCases = undefined;\r",
-        "    $data.openCaseData.openCasesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of open cases to the list of next open cases to display\r",
-        "// display the next cases from the memory\r",
-        "if($data.openCaseData.openCasesFromAPI && $data.openCaseData.openCasesFromAPI.length){\r",
-        "    console.log(\"Second\", $data.openCaseData.openCasesFromAPI);\r",
-        "    $data.openCaseData.displayedOpenCases = $data.openCaseData.displayedOpenCases.concat($data.openCaseData.openCasesInMemory);\r",
-        "    $data.openCaseData.pageId++;\r",
-        "    $data.openCaseData.openCasesInMemory = $data.openCaseData.openCasesFromAPI;\r",
-        "    $data.openCaseData.numberOfOpenCasesInMemory = $data.openCaseData.openCasesInMemory.length;\r",
-        "    $data.openCaseData.openCasesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more cases in the memory\r",
-        "if($data.openCaseData.numberOfOpenCasesInMemory > 0 && $data.openCaseData.openCasesFromAPI && $data.openCaseData.openCasesFromAPI.length == 0){\r",
-        "     $data.openCaseData.displayedOpenCases = $data.openCaseData.displayedOpenCases.concat($data.openCaseData.openCasesInMemory);\r",
-        "     $data.openCaseData.openCasesInMemory = undefined;\r",
-        "     $data.openCaseData.openCasesFromAPI = undefined;\r",
-        "     $data.openCaseData.numberOfOpenCasesInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -5185,10 +4801,8 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    timestamp: 0,",
-        "    archivedCasesInMemory : [],",
-        "    pageId: 0, ",
         "    numberOfCasesPerPage: 10,",
+        "    activeTab: $data.activeTab === \"archived\",",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -5206,42 +4820,21 @@
         "        sortOrder: \"\",",
         "        searchValue: \"\",",
         "        caseState: \"\"",
-        "    },",
-        "    archivedCasesFromAPI: undefined,",
-        "    displayedArchivedCases: [],",
-        "    activeTab: $data.activeTab === \"archived\",",
-        "    numberOfArchivedCasesInMemory: false,",
-        "    totalArchivedCases: 0,",
-        "    archivedCasesHeaderResponse: undefined",
+        "    }",
         "};"
       ],
-      "exposed" : false
-    },
-    "archivedCases" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedCase?{{archivedCaseCtrl.archivedCasesQueryParameters(0)}}&t={{archivedCaseData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "archivedCaseData.archivedCasesHeaderResponse"
-      },
       "exposed" : false
     },
     "archivedCaseCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    archivedCasesQueryParameters: function(pageId) {",
-        "        if(!$data.archivedCaseData.activeTab || !$data.archivedCaseData.numberOfCasesPerPage){",
+        "    archivedCasesQueryParameters: function() {",
+        "        if(!$data.archivedCaseData.activeTab || !$data.archivedCaseData.numberOfCasesPerPage || $data.openCaseData.activeTab){",
         "            return undefined;",
         "        }",
-        "        var casesPerPage = $data.archivedCaseData.numberOfCasesPerPage;",
-        "",
-        "        if(pageId === 0){",
-        "            //On first call we need to load next page",
-        "            casesPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + casesPerPage + \"&p=\" + pageId + \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";",
+        "        ",
+        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&t=\" + $data.casesData.timestamp;",
         "        ",
         "        if($data.archivedCaseData.filters.processDefinitionId){",
         "            queryParameters += \"&f=processDefinitionId=\" +  $data.archivedCaseData.filters.processDefinitionId;",
@@ -5262,49 +4855,6 @@
         "        return queryParameters;",
         "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "archivedCaseHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Archived Cases\r",
-        "// display the first page of archived cases on page load or when the filter change\r",
-        "if($data.archivedCases){\r",
-        "    //get the total number of archived cases\r",
-        "    if($data.archivedCaseData.archivedCasesHeaderResponse && $data.archivedCaseData.archivedCasesHeaderResponse['content-range']) {\r",
-        "        $data.archivedCaseData.totalArchivedCases = $data.archivedCaseData.archivedCasesHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCases.slice(0, $data.archivedCaseData.numberOfCasesPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.archivedCaseData.pageId = 2;\r",
-        "    $data.archivedCaseData.archivedCasesInMemory = $data.archivedCases.slice($data.archivedCaseData.numberOfCasesPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.archivedCaseData.numberOfArchivedCasesInMemory = $data.archivedCaseData.archivedCasesInMemory.length;\r",
-        "    // set archived cases to undefined as the script is triggered when click on load more cases button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedArchivedCases)\r",
-        "    $data.archivedCases = undefined;\r",
-        "    $data.archivedCaseData.archivedCasesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of archived cases to the list of next archived cases to display\r",
-        "// display the next cases from the memory\r",
-        "if($data.archivedCaseData.archivedCasesFromAPI && $data.archivedCaseData.archivedCasesFromAPI.length){\r",
-        "    $data.archivedCaseData.displayedArchivedCases = $data.archivedCaseData.displayedArchivedCases.concat($data.archivedCaseData.archivedCasesInMemory);\r",
-        "    $data.archivedCaseData.pageId++;\r",
-        "    $data.archivedCaseData.archivedCasesInMemory = $data.archivedCaseData.archivedCasesFromAPI;\r",
-        "    $data.archivedCaseData.numberOfArchivedCasesInMemory = $data.archivedCaseData.archivedCasesInMemory.length;\r",
-        "    $data.archivedCaseData.archivedCasesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more cases in the memory\r",
-        "if($data.archivedCaseData.numberOfArchivedCasesInMemory > 0 && $data.archivedCaseData.archivedCasesFromAPI && $data.archivedCaseData.archivedCasesFromAPI.length == 0){\r",
-        "     $data.archivedCaseData.displayedArchivedCases = $data.archivedCaseData.displayedArchivedCases.concat($data.archivedCaseData.archivedCasesInMemory);\r",
-        "     $data.archivedCaseData.archivedCasesInMemory = undefined;\r",
-        "     $data.archivedCaseData.archivedCasesFromAPI = undefined;\r",
-        "     $data.archivedCaseData.numberOfArchivedCasesInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -5346,9 +4896,14 @@
         "// After a case is successfully deleted",
         "if ($data.deleteCaseData.statusCode === 200 ",
         "        && !$data.deleteCaseData.hasRecentlyBeenDeleted) {",
-        "    $data.openCaseData.timestamp = new Date().getTime();",
-        "    $data.archivedCaseData.timestamp = new Date().getTime();",
+        "    $data.casesData.timestamp = new Date().getTime();",
         "    $data.deleteCaseData.hasRecentlyBeenDeleted = true;",
+        "}",
+        "",
+        "// When we click on refresh",
+        "if ($data.casesData.refreshAction && $data.casesData.refreshAction.length > 0) {",
+        "    $data.casesData.timestamp = new Date().getTime();",
+        "    $data.casesData.refreshAction = [];",
         "}"
       ],
       "exposed" : false
@@ -5357,6 +4912,36 @@
       "type" : "urlparameter",
       "value" : [
         "tab"
+      ],
+      "exposed" : false
+    },
+    "apiOpenCases" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/case"
+      ],
+      "exposed" : false
+    },
+    "apiArchivedCases" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/archivedCase"
+      ],
+      "exposed" : false
+    },
+    "casesCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getDefaultUrl: function() {",
+        "        if($data.openCaseData.activeTab && !$data.archivedCaseData.activeTab) {",
+        "            return $data.apiOpenCases;",
+        "        } else if($data.archivedCaseData.activeTab && !$data.openCaseData.activeTab) {",
+        "            return $data.apiArchivedCases;",
+        "        }",
+        "        return undefined;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }

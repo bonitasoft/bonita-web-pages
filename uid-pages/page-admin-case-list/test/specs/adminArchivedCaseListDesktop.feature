@@ -83,7 +83,7 @@ Feature: The admin archived case list in desktop resolution
 
   Scenario: The refresh button works correctly for open cases
     Given The filter response "default filter" is defined for archived cases
-    And The filter response "enable load more" is defined for archived cases
+    And The filter response "refresh archived case list" is defined for archived cases
     When I visit the admin case list page
     And I click on "Archived cases" tab
     Then A list of "10" items is displayed
@@ -91,44 +91,6 @@ Feature: The admin archived case list in desktop resolution
     Then A list of "20" items is displayed
     When I click on refresh
     Then A list of "10" items is displayed
-
-  Scenario: Load more button works correctly
-    And The filter response "enable load more" is defined for archived cases
-    When I visit the admin case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" items is displayed out of "35"
-    When I click on Load more archived cases button
-    Then A list of "20" items is displayed out of "35"
-    When I click on Load more archived cases button
-    Then A list of "30" items is displayed out of "35"
-    When I click on Load more archived cases button
-    Then A list of "35" items is displayed out of "35"
-    And The load more archived cases button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined for archived cases
-    When I visit the admin case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" items is displayed
-    When I click on Load more archived cases button
-    Then A list of "20" items is displayed
-    And The load more archived cases button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined for archived cases
-    And The filter response "sort during limitation" is defined for archived cases
-    When I visit the admin case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" items is displayed
-    When I click on Load more archived cases button
-    Then A list of "20" items is displayed
-    When I click on Load more archived cases button
-    Then A list of "30" items is displayed
-    And The load more archived cases button is disabled
-    When I put "Process name (Desc)" in "sort by" filter field for archived cases
-    Then A list of "10" items is displayed
-    When I click on Load more archived cases button
-    Then A list of "20" items is displayed
 
   Scenario: No archived cases display correctly
     Given The filter response "no archived case" is defined for archived cases

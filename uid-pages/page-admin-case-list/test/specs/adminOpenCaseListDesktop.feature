@@ -87,7 +87,7 @@ Feature: The admin open case list in desktop resolution
 
   Scenario: The refresh button works correctly for open cases
     Given The filter response "default filter" is defined for open cases
-    And The filter response "enable load more" is defined for open cases
+    And The filter response "refresh open case list" is defined for open cases
     When I visit the admin case list page
     Then A list of "10" items is displayed
     When I click on Load more open cases button
@@ -95,42 +95,7 @@ Feature: The admin open case list in desktop resolution
     When I click on refresh
     Then A list of "10" items is displayed
 
-  Scenario: Load more button works correctly
-    And The filter response "enable load more" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "30" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "35" items is displayed out of "35"
-    And The load more open cases button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-    And The load more open cases button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined for open cases
-    And The filter response "sort during limitation" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-    When I click on Load more open cases button
-    Then A list of "30" items is displayed
-    And The load more open cases button is disabled
-    When I put "Process name (Desc)" in "sort by" filter field for open cases
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-
-  Scenario: No open cases display correctly
+    Scenario: No open cases display correctly
     Given The filter response "default filter" is defined for open cases
     When I visit the admin case list page
     Then No open cases are available

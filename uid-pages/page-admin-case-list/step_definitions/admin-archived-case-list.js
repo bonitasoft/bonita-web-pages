@@ -28,35 +28,25 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488&t=0', 'process2CasesRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506&t=0', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
             break;
         case 'sort by':
-            createRoute('&o=sourceObjectId+ASC&t=0', 'sortByCaseIdAscRoute');
-            createRoute('&o=sourceObjectId+DESC&t=0', 'sortByCaseIdDescRoute');
-            createRoute('&o=name+ASC&t=0', 'sortByProcessNameAscRoute');
-            createRoute('&o=name+DESC&t=0', 'sortByProcessNameDescRoute');
-            createRoute('&o=startDate+DESC&t=0', 'sortByStartDateDescRoute');
-            createRoute('&o=startDate+ASC&t=0', 'sortByStartDateAscRoute');
+            createRoute('&t=0&o=sourceObjectId+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&t=0&o=sourceObjectId+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
-            createRoute('&s=Process&t=0', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0&s=Process', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'enable load more':
+        case 'refresh archived case list':
             createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'archivedCases5Route', 'archivedCases5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases20Route', 'archivedCases20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createRouteWithResponseAndPagination('&t=0', 'archivedCases10Route', 'archivedCases10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'archivedCases20Route', 'archivedCases20');
             break;
         case 'sort during limitation':
             createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases20');
@@ -318,8 +308,7 @@ then("The api call is made for {string} for archived cases", (filterValue) => {
 
 then("No archived cases are available", () => {
     cy.get('.case-item:visible').should('have.length', 0);
-    cy.get('h4').contains('No open cases to display').should('not.be.visible');
-    cy.get('h4').contains('No archived cases to display').should('be.visible');
+    cy.get('h4').contains('No cases to display').should('be.visible');
 });
 
 then("The load more archived cases button is disabled", () => {
