@@ -378,7 +378,7 @@ then("The do for modal is open and has a default state without form", () => {
 
 then("The task is submitted and has correct payload", () => {
     cy.wait('@taskWithoutFormRoute').then((xhr) => {
-        expect(xhr.request.body.ticket_comment).to.eq("comment");
+        expect(xhr.request.body.user).to.eq("3");
     });
 });
 

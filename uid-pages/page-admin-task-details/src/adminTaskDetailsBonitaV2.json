@@ -1,9 +1,9 @@
 {
-  "modelVersion" : "2.1",
-  "previousArtifactVersion" : "2.0",
-  "id" : "adminTaskDetailsBonitaV1",
-  "name" : "adminTaskDetailsBonitaV1",
-  "lastUpdate" : 1611138183043,
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
+  "id" : "adminTaskDetailsBonitaV2",
+  "name" : "adminTaskDetailsBonitaV2",
+  "lastUpdate" : 1632989179659,
   "rows" : [
     [
       {
@@ -2668,7 +2668,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{taskDetailsCtrl.getUserDisplayName(taskDetailsCtrl.getOpenOrArchivedTask().executedBy)}}"
+                        "value" : "{{doForTaskCtrl.getTaskExecutedBySubstitute(taskDetailsCtrl.getOpenOrArchivedTask().executedBy, taskDetailsCtrl.getOpenOrArchivedTask().executedBySubstitute)}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -8195,7 +8195,8 @@
                           "type" : "constant"
                         },
                         "urlParams" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "doForTaskCtrl.getDoForUrlParams()"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -9822,7 +9823,9 @@
         "        return $data.formMapping && $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
         "    },",
         "    getDoForTaskPayload: function() {",
-        "        return {\"ticket_comment\": $data.doForTaskData.comment};",
+        "        return {",
+        "            \"user\": $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : undefined",
+        "        };",
         "    },",
         "    getErrorMessageFor500: function() {",
         "        if (doesFailedResponseContain($data.doForTaskData.failedResponse, \"not assigned\")) {",
@@ -9838,6 +9841,20 @@
         "    },",
         "    getChangeButtonLabel: function() {",
         "      return $data.doForTaskData.wasRecentlyDone ? \"Close\" : \"Cancel\";",
+        "    },",
+        "    getDoForUrlParams: function() {",
+        "        return {",
+        "            \"user\": $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : undefined",
+        "        };",
+        "    },",
+        "    getTaskExecutedBySubstitute: function(executedBy, executedBySubstitute){",
+        "        if (executedBy && executedBySubstitute && executedBy.id !== executedBySubstitute.id) {",
+        "            var executedByDisplayName = $data.taskDetailsCtrl.getUserDisplayName(executedBy);",
+        "            var executedBySubstituteDisplayName = $data.taskDetailsCtrl.getUserDisplayName(executedBySubstitute);",
+        "            return executedBySubstituteDisplayName + \" \" + uiTranslate(\"for\") + \" \" + executedByDisplayName;",
+        "        } else {",
+        "            return $data.taskDetailsCtrl.getUserDisplayName(executedBy);",
+        "        }",
         "    }",
         "};"
       ],
