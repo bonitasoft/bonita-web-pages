@@ -1,0 +1,336 @@
+{
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
+  "id" : "fragmentLoadMoreV1",
+  "name" : "fragmentLoadMoreV1",
+  "lastUpdate" : 1633091887405,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "displayedItems.length"
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "{{noItemsMessage}}"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 4"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "8e7c6820-7a40-4c3b-a87e-6ab2a90fa3f7",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "expression",
+            "value" : "itemsShownCSSClasses"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "displayedItems.length === 0"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "{{itemsShownMessage|uiTranslate}}: {{displayedItems.length}} {{\"of\"|uiTranslate}} {{data.totalItems}}"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
+          }
+        },
+        "reference" : "d8bf88ee-554b-4845-9c9d-5ee66515c999",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "displayedItems.length === 0"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "displayedItems.length >= data.totalItems"
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "{{buttonLabel}}"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "link"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Add to collection"
+          },
+          "assign" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "url" : {
+            "type" : "interpolation",
+            "value" : "{{urlPrefix}}{{ctrl.getQueryParameters(data.pageId)}}"
+          },
+          "responseStatusCode" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "dataToSend" : {
+            "type" : "constant"
+          },
+          "dataFromSuccess" : {
+            "type" : "variable",
+            "value" : "data.itemsFromAPI"
+          },
+          "closeOnSuccess" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "dataFromError" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "targetUrlOnSuccess" : {
+            "type" : "interpolation"
+          },
+          "collectionToModify" : {
+            "type" : "variable",
+            "value" : "pageIndexes"
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "collectionPosition" : {
+            "type" : "constant",
+            "value" : "Last"
+          },
+          "valueToAdd" : {
+            "type" : "expression",
+            "value" : "data.pageIndex + 1"
+          },
+          "removeItem" : {
+            "type" : "variable"
+          }
+        },
+        "reference" : "6adbbe7c-0ae9-4508-9b3e-a11711eb7a55",
+        "hasValidationError" : false,
+        "id" : "pbButton",
+        "description" : ""
+      }
+    ]
+  ],
+  "assets" : [ ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "handler" : {
+      "type" : "expression",
+      "value" : [
+        "//if the API to call changes reset the displayed items\r",
+        "if($data.urlPrefix !== $data.data.currentURLPrefix\r",
+        "    || $data.filtersString !== $data.data.currentFilterString) {\r",
+        "    $data.displayedItems= [];\r",
+        "}\r",
+        "//update the page index when the load more button was clicked\r",
+        "if($data.pageIndexes.length - 1 > $data.data.pageIndex) {\r",
+        "    $data.data.pageIndex++;\r",
+        "}\r",
+        "//Handle an new API call response\r",
+        "if($data.itemsFromAPI){\r",
+        "    //get the total number of items\r",
+        "    if($data.data.itemsFromAPIHeaders && $data.data.itemsFromAPIHeaders['content-range']) {\r",
+        "        var totalItems = $data.data.itemsFromAPIHeaders['content-range'].split('/')[1];\r",
+        "        $data.data.totalItems = parseInt(totalItems);\r",
+        "    }\r",
+        "    // display the first results\r",
+        "    if($data.pageIndexes.length === 1) {\r",
+        "        $data.displayedItems = $data.itemsFromAPI\r",
+        "    } else {\r",
+        "        $data.displayedItems = $data.displayedItems.concat($data.itemsFromAPI);\r",
+        "    }\r",
+        "    // set itemsFromAPI to undefined as the script is triggered when click on load more button\r",
+        "    // and to prevent this block of code from being executed (prevent resetting the displayedItems)\r",
+        "    $data.itemsFromAPI = undefined;\r",
+        "}\r",
+        "//handle the case when the pagination should be reset (refresh button)\r",
+        "if (!$data.displayedItems || $data.displayedItems.length === 0) {\r",
+        "    $data.data.pageIndex = 0;\r",
+        "    $data.pageIndexes= [0];\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "displayedItems" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "data" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    totalItems: 0,",
+        "    pageIndex: 0,",
+        "    itemsFromAPIHeaders: undefined,",
+        "    currentURLPrefix: $data.urlPrefix,",
+        "    currentFilterString: $data.filtersString",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "numberOfItemsPerPage" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "buttonLabel" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "urlPrefix" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "ctrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getQueryParameters: function(pageIndex) {",
+        "        if(!$data.numberOfItemsPerPage || !$data.filtersString) {",
+        "            return undefined;",
+        "        }",
+        "        var filters = $data.filtersString ? $data.filtersString : '';",
+        "        ",
+        "        return \"?c=\" + $data.numberOfItemsPerPage + \"&p=\" + pageIndex + filters;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "noItemsMessage" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "itemsShownCSSClasses" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "itemsShownMessage" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "filtersString" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "pageIndexes" : {
+      "type" : "expression",
+      "value" : [
+        "return [0];"
+      ],
+      "exposed" : false
+    },
+    "itemsFromAPI" : {
+      "type" : "url",
+      "value" : [
+        "{{urlPrefix}}{{ctrl.getQueryParameters(data.pageIndex)}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "data.itemsFromAPIHeaders"
+      },
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "type" : "fragment"
+}
