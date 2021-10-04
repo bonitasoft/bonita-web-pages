@@ -2,11 +2,11 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
 const processListUrl = 'API/bpm/process';
-const defaultRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
-const disabledProcessRequestUrl = urlPrefix + processListUrl + '?c=20&p=0&time=0&d=deployedBy&f=activationState=DISABLED';
-const refreshUrl = urlPrefix + processListUrl + '?c=20&p=0' + defaultFilters + '&time=1*';
+const disabledProcessRequestUrl = urlPrefix + processListUrl + '?c=10&p=0&time=0&d=deployedBy&f=activationState=DISABLED';
+const refreshUrl = urlPrefix + processListUrl + '?c=10&p=0' + defaultFilters + '&time=1*';
 
 given("The page response {string} is defined", (filterType) => {
     cy.server();
@@ -41,8 +41,8 @@ given("The page response {string} is defined", (filterType) => {
             createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'enabledProcesses20');
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=2&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'enabledProcesses10');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'enabledProcesses10');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=1&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'enabledProcesses10');
             break;
         case 'search':
             createDefaultRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
@@ -50,33 +50,18 @@ given("The page response {string} is defined", (filterType) => {
             createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses10Route', 'enabledProcesses10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5', 3, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses10Route', 'enabledProcesses10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
         case 'disable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/7150158626056333703', "processDisableRoute", 'emptyResult', "PUT");
-            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
-            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=1*&d=deployedBy&f=activationState=DISABLED' + defaultSortOrder, "refreshDisabledProcessesList", "GET");
+            createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=1*' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
+            createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=1*&d=deployedBy&f=activationState=DISABLED' + defaultSortOrder, "refreshDisabledProcessesList", "GET");
             break;
         case 'disable state code 500':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '500');
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'disable state code 403':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '403');
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'delay disable':
             cy.fixture('json/emptyResult.json').as('emptyResult');
@@ -88,7 +73,7 @@ given("The page response {string} is defined", (filterType) => {
             }).as('delayDisableRoute');
             break;
         case 'refresh enabled process list':
-            createRoute(urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
+            createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
             break;
         case 'disabled process api is not called':
             cy.route({
@@ -236,10 +221,6 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
 
 when("I erase the search filter", () => {
     cy.get('pb-input input:visible').clear();
-});
-
-when("I click on load more processes button", () => {
-    cy.get('button').contains('Load more processes').click();
 });
 
 when("I click on {string} button on the item {string}", (iconName, itemNumber) => {
@@ -428,10 +409,6 @@ then("The api call is made for {string}", (filterValue) => {
 then("No enabled processes are available", () => {
     cy.get('.process-item:visible').should('have.length', 0);
     cy.contains('No processes to display').should('be.visible');
-});
-
-then("The load more processes button is disabled", () => {
-    cy.get('button').contains('Load more processes').should('be.disabled');
 });
 
 then("The {string} process modal is displayed for {string}", (fieldText, itemName) => {

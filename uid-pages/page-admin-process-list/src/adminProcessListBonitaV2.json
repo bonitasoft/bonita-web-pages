@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminProcessListBonitaV2",
   "name" : "adminProcessListBonitaV2",
-  "lastUpdate" : 1622044254683,
+  "lastUpdate" : 1633353206576,
   "rows" : [
     [
       {
@@ -530,7 +530,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -563,7 +563,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "processData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -571,10 +572,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -608,7 +610,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "enabledProcessData.displayedEnabledProcesses"
+                              "value" : "processData.displayedItems"
                             }
                           },
                           "reference" : "68cbb999-4f0f-4eff-ae59-bd858a8fa0db",
@@ -1730,185 +1732,6 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{enabledProcessData.displayedEnabledProcesses.length}} {{\"of\"|uiTranslate}} {{enabledProcessData.totalEnabledProcesses}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "5d9dffd5-36aa-4267-9be5-38bafa6d47b3",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No processes to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "66517563-b9b9-458d-a47f-40f4d9b0e180",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "enabledProcessData.displayedEnabledProcesses.length % enabledProcessData.numberOfEnabledProcessesPerPage > 0 || enabledProcessData.numberOfEnabledProcessesInMemory == 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more processes"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/process{{enabledProcessCtrl.enabledProcessesQueryParameters(enabledProcessData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "enabledProcessData.enabledProcessesFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "0744d7eb-10ce-4147-ba62-7d391eb8be60",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
@@ -2227,7 +2050,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -2260,7 +2083,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "processData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -2268,10 +2092,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -2305,7 +2130,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "disabledProcessData.displayedDisabledProcesses"
+                              "value" : "processData.displayedItems"
                             }
                           },
                           "reference" : "763eb9d3-f0ac-4885-931d-3d204d17cff9",
@@ -3429,190 +3254,45 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Processes shown\"|uiTranslate}}: {{disabledProcessData.displayedDisabledProcesses.length}} {{\"of\"|uiTranslate}} {{disabledProcessData.totalDisabledProcesses}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "e3ab51c2-5385-4bfc-8a27-02abb214fd8a",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No processes to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "d2a376be-9292-4f90-b8fc-c8253c49a6d1",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "disabledProcessData.displayedDisabledProcesses.length % disabledProcessData.numberOfDisabledProcessesPerPage > 0 || disabledProcessData.numberOfDisabledProcessesInMemory == 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more processes"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/process{{disabledProcessCtrl.disabledProcessesQueryParameters(disabledProcessData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "disabledProcessData.disabledProcessesFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "f2001a69-2a9c-4255-ab9f-b2fa618a8aa2",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
                 }
               ]
+            }
+          ],
+          [
+            {
+              "type" : "fragment",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                }
+              },
+              "reference" : "1c722d3e-3c04-4793-98f3-8fd0b19381bc",
+              "hasValidationError" : false,
+              "id" : "fragmentLoadMoreV1",
+              "binding" : {
+                "displayedItems" : "processData.displayedItems",
+                "numberOfItemsPerPage" : "processData.numberOfProcessesPerPage",
+                "buttonLabel" : "\"Load more processes\"",
+                "urlPrefix" : "defaultProcessUrl",
+                "noItemsMessage" : "\"No processes to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "\"Processes shown\"",
+                "filtersString" : "enabledProcessData.activeTab && !disabledProcessData.activeTab ? enabledProcessCtrl.enabledProcessesQueryParameters() : disabledProcessCtrl.disabledProcessesQueryParameters()"
+              }
             }
           ]
         ]
@@ -5154,28 +4834,13 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "enabledProcessUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{defaultProcessUrl}}{{enabledProcessCtrl.enabledProcessesQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "enabledProcessData.enabledProcessHeaderResponse",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
-      "exposed" : false
-    },
     "enabledProcessData" : {
       "type" : "expression",
       "value" : [
         "return {",
         "    enabledProcess: {},",
-        "    enabledProcessesInMemory: [],",
-        "    pageId: 0,",
-        "    timestamp: 0,",
         "    numberOfEnabledProcessesPerPage: 10,",
-        "    numberOfEnabledProcessesInMemory: 0,",
+        "    activeTab: true,",
         "    stateOptions: ",
         "        [{ displayName: uiTranslate(\"Resolved and unresolved\")}]",
         "        .concat([{displayName: uiTranslate(\"Resolved only\"), returnKey: 'resolved'}, {displayName: uiTranslate(\"Unresolved only\"), returnKey: 'unresolved'}]),",
@@ -5195,56 +4860,8 @@
         "        state: \"\",",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    enabledProcessesFromAPI: undefined,",
-        "    displayedEnabledProcesses: [],",
-        "    activeTab: true,",
-        "    totalEnabledProcesses: 0,",
-        "    enabledProcessHeaderResponse: undefined",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "enabledProcessHandler" : {
-      "type" : "expression",
-      "value" : [
-        "// Enabled Processes",
-        "// display the first page of enabled processes on page load or when the filter change",
-        "if($data.enabledProcessUrl){",
-        "    // get the total number of enabled processes",
-        "    if($data.enabledProcessData.enabledProcessHeaderResponse && $data.enabledProcessData.enabledProcessHeaderResponse['content-range']) {",
-        "        $data.enabledProcessData.totalEnabledProcesses = $data.enabledProcessData.enabledProcessHeaderResponse['content-range'].split('/')[1];",
         "    }",
-        "    // display half the elements loaded",
-        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessUrl.slice(0, $data.enabledProcessData.numberOfEnabledProcessesPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.enabledProcessData.pageId = 2;",
-        "    $data.enabledProcessData.enabledProcessesInMemory = $data.enabledProcessUrl.slice($data.enabledProcessData.numberOfEnabledProcessesPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = $data.enabledProcessData.enabledProcessesInMemory.length;",
-        "    // set enabled processes to undefined as the script is triggered when click on load more processes button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedEnabledProcesses)",
-        "    $data.enabledProcessUrl = undefined;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of enabled processes to the list of next enabled processes to display",
-        "// display the next enabled processes from the memory",
-        "if($data.enabledProcessData.enabledProcessesFromAPI && $data.enabledProcessData.enabledProcessesFromAPI.length){",
-        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesInMemory);",
-        "    $data.enabledProcessData.pageId++;",
-        "    $data.enabledProcessData.enabledProcessesInMemory = $data.enabledProcessData.enabledProcessesFromAPI;",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = $data.enabledProcessData.enabledProcessesInMemory.length;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more enabled processes in the memory",
-        "if($data.enabledProcessData.numberOfEnabledProcessesInMemory > 0 && $data.enabledProcessData.enabledProcessesFromAPI && $data.enabledProcessData.enabledProcessesFromAPI.length == 0){",
-        "    $data.enabledProcessData.displayedEnabledProcesses = $data.enabledProcessData.displayedEnabledProcesses.concat($data.enabledProcessData.enabledProcessesInMemory);",
-        "    $data.enabledProcessData.enabledProcessesInMemory = undefined;",
-        "    $data.enabledProcessData.enabledProcessesFromAPI = undefined;",
-        "    $data.enabledProcessData.numberOfEnabledProcessesInMemory = 0;",
-        "}"
+        "};"
       ],
       "exposed" : false
     },
@@ -5252,18 +4869,12 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    enabledProcessesQueryParameters: function(pageId) {\r",
+        "    enabledProcessesQueryParameters: function() {\r",
         "        if(!$data.enabledProcessData.activeTab) {\r",
         "            return undefined;\r",
         "        }\r",
-        "        var enabledProcessesPerPage = $data.enabledProcessData.numberOfEnabledProcessesPerPage;\r",
-        "\r",
-        "        if(pageId === 0){\r",
-        "            //on first call we need load next page\r",
-        "            enabledProcessesPerPage *= 2;\r",
-        "        }\r",
         "        \r",
-        "        var queryParameters = \"?c=\" + enabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.enabledProcessData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
+        "        var queryParameters = \"&time=\" + $data.processData.timestamp + \"&d=deployedBy&f=activationState=ENABLED\";\r",
         "        \r",
         "        if($data.enabledProcessData.filters.state){\r",
         "            queryParameters += \"&f=configurationState=\" +  $data.enabledProcessData.filters.state.toUpperCase();\r",
@@ -5292,11 +4903,8 @@
       "value" : [
         "return {\r",
         "    disabledProcess: {},\r",
-        "    disabledProcessesInMemory: [],\r",
-        "    pageId: 0, \r",
-        "    timestamp: 0,\r",
         "    numberOfDisabledProcessesPerPage: 10,\r",
-        "    numberOfDisabledProcessesInMemory: 0,\r",
+        "    activeTab: false,\r",
         "    stateOptions: \r",
         "        [{ displayName: uiTranslate(\"Resolved and unresolved\")}]\r",
         "        .concat([{displayName: uiTranslate(\"Resolved only\"), returnKey: 'resolved'}, {displayName: uiTranslate(\"Unresolved only\"), returnKey: 'unresolved'}]),\r",
@@ -5316,12 +4924,7 @@
         "        state: \"\",\r",
         "        sortOrder: \"\",\r",
         "        searchValue: \"\"\r",
-        "    },\r",
-        "    disabledProcessesFromAPI: undefined,\r",
-        "    displayedDisabledProcesses: [],\r",
-        "    activeTab: false,\r",
-        "    totalDisabledProcesses: 0,\r",
-        "    disabledProcessHeaderResponse: undefined\r",
+        "    }\r",
         "};"
       ],
       "exposed" : false
@@ -5330,18 +4933,12 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    disabledProcessesQueryParameters: function(pageId) {\r",
+        "    disabledProcessesQueryParameters: function() {\r",
         "        if(!$data.disabledProcessData.activeTab) {\r",
         "            return undefined;\r",
         "        }\r",
         "        \r",
-        "        var disabledProcessesPerPage = $data.disabledProcessData.numberOfDisabledProcessesPerPage;\r",
-        "        \r",
-        "        if(pageId === 0) {\r",
-        "            //on first call we need load next page\r",
-        "            disabledProcessesPerPage *= 2;\r",
-        "        }\r",
-        "        var queryParameters = \"?c=\" + disabledProcessesPerPage + \"&p=\" + pageId + \"&time=\" + $data.disabledProcessData.timestamp + \"&d=deployedBy&f=activationState=DISABLED\";\r",
+        "        var queryParameters = \"&time=\" + $data.processData.timestamp + \"&d=deployedBy&f=activationState=DISABLED\";\r",
         "\r",
         "        if($data.disabledProcessData.filters.state) {\r",
         "            queryParameters += \"&f=configurationState=\" +  $data.disabledProcessData.filters.state.toUpperCase();\r",
@@ -5371,59 +4968,6 @@
         "    }\r",
         "};"
       ],
-      "exposed" : false
-    },
-    "disabledProcessHandler" : {
-      "type" : "expression",
-      "value" : [
-        "// Disabled Processes\r",
-        "// display the first page of disabled processes on page load or when the filter change\r",
-        "if($data.disabledProcessUrl){\r",
-        "    // get the total number of disabled processes\r",
-        "    if($data.disabledProcessData.disabledProcessHeaderResponse && $data.disabledProcessData.disabledProcessHeaderResponse['content-range']) {\r",
-        "        $data.disabledProcessData.totalDisabledProcesses = $data.disabledProcessData.disabledProcessHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessUrl.slice(0, $data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.disabledProcessData.pageId = 2;\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = $data.disabledProcessUrl.slice($data.disabledProcessData.numberOfDisabledProcessesPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = $data.disabledProcessData.disabledProcessesInMemory.length;\r",
-        "    // set disabled processes to undefined as the script is triggered when click on load more processes button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedDisabledProcesses)\r",
-        "    $data.disabledProcessUrl = undefined;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of enabled processes to the list of next enabled processes to display\r",
-        "// display the next enabled processes from the memory\r",
-        "if($data.disabledProcessData.disabledProcessesFromAPI && $data.disabledProcessData.disabledProcessesFromAPI.length){\r",
-        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesInMemory);\r",
-        "    $data.disabledProcessData.pageId++;\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = $data.disabledProcessData.disabledProcessesFromAPI;\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = $data.disabledProcessData.disabledProcessesInMemory.length;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more enabled processes in the memory\r",
-        "if($data.disabledProcessData.numberOfDisabledProcessesInMemory > 0 && $data.disabledProcessData.disabledProcessesFromAPI && $data.disabledProcessData.disabledProcessesFromAPI.length == 0){\r",
-        "    $data.disabledProcessData.displayedDisabledProcesses = $data.disabledProcessData.displayedDisabledProcesses.concat($data.disabledProcessData.disabledProcessesInMemory);\r",
-        "    $data.disabledProcessData.disabledProcessesInMemory = undefined;\r",
-        "    $data.disabledProcessData.disabledProcessesFromAPI = undefined;\r",
-        "    $data.disabledProcessData.numberOfDisabledProcessesInMemory = 0;\r",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "disabledProcessUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{defaultProcessUrl}}{{disabledProcessCtrl.disabledProcessesQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "disabledProcessData.disabledProcessHeaderResponse"
-      },
       "exposed" : false
     },
     "tabsCtrl" : {
@@ -5514,8 +5058,7 @@
         "if($data.modalData.statusCode !== '' && ($data.modalData.disablingProcess || $data.modalData.enablingProcess)){\r",
         "    $data.modalData.disablingProcess = false;\r",
         "    $data.modalData.enablingProcess = false;\r",
-        "    $data.enabledProcessData.timestamp = new Date().getTime();\r",
-        "    $data.disabledProcessData.timestamp = new Date().getTime();\r",
+        "    $data.processData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.modalData.statusCode = '';\r",
         "    }, 2000);\r",
@@ -5534,7 +5077,6 @@
         "    }",
         "    return false;",
         "};",
-        "",
         "",
         "return {",
         "    installItem : function() {",
@@ -5585,8 +5127,7 @@
         "if($data.installModalData.statusCode !== '' && $data.installModalData.installingItem){",
         "    $data.installModalData.installingItem = false;",
         "    $data.installModalData.filePath = undefined;",
-        "    $data.enabledProcessData.timestamp = new Date().getTime();",
-        "    $data.disabledProcessData.timestamp = new Date().getTime();",
+        "    $data.processData.timestamp = new Date().getTime();",
         "    setTimeout(function() {",
         "        $data.installModalData.statusCode = '';",
         "    }, 2000);",
@@ -5598,6 +5139,30 @@
       "type" : "constant",
       "value" : [
         "../API/bpm/process"
+      ],
+      "exposed" : false
+    },
+    "processData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    displayedItems: [],",
+        "    numberOfProcessesPerPage: 10,",
+        "    refreshAction: [], ",
+        "    timestamp: 0",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "refreshHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// When we click on refresh",
+        "if ($data.processData.refreshAction && $data.processData.refreshAction.length > 0) {",
+        "    $data.processData.timestamp = new Date().getTime();",
+        "    $data.processData.refreshAction = [];",
+        "    $data.processData.displayedItems = [];",
+        "}"
       ],
       "exposed" : false
     }
