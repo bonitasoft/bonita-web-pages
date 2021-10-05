@@ -72,6 +72,8 @@ then("The done task details have the correct information", () => {
     cy.get('.item-value').contains('Walter Bates');
     cy.get('.item-label').contains('Assigned on');
     cy.get('.item-value').contains('4/30/20 9:22');
+    cy.get('.item-label').contains('Executed by');
+    cy.get('.item-value').contains('Daniela Angelo for Walter Bates');
 });
 
 then("The back button has correct href", () => {
