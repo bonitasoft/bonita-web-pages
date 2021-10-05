@@ -21,7 +21,7 @@ The following tasks can be executed with the Gradle wrapper (gradlew(.bat)) to a
 
 ### Run pages tests
 
-``gradle runIntegrationTests``
+``gradle runTestChrome``
 
 ### UID pages development
 
