@@ -2,14 +2,14 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0&d=updatedBy&f=isHidden=false';
 const resourceUrl = 'API/portal/page?';
-const defaultRequestUrl = urlPrefix + resourceUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + resourceUrl + 'c=10&p=0' + defaultFilters;
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-4/5'});
         case 'hide provided resources':
             createRoute('&f=isProvided=false' + defaultSortOrder, 'isNotProvidedRoute');
             break;
@@ -23,7 +23,8 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponse('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources20');
+            createRouteWithResponseAndHeaders('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources10', {'content-range': '0-9/10'});
+            createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute1', 'resources10', 1, 10);
             createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'resources10', 2, 10);
             break;
         case 'search by name':
@@ -45,7 +46,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponse(queryParameter, routeName, response) {
-        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 10);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
@@ -118,7 +119,7 @@ given("The {string} is not involved in application response is defined", (resour
     }).as("deletePageRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + resourceUrl + "c=20&p=0&time=1*&d=updatedBy&f=isHidden=false&o=lastUpdateDate+DESC"
+        url: urlPrefix + resourceUrl + "c=10&p=0&time=1*&d=updatedBy&f=isHidden=false&o=lastUpdateDate+DESC"
     }).as("refreshListRoute");
 });
 

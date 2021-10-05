@@ -2,7 +2,7 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0';
 const userUrl = 'API/identity/user?';
-const defaultRequestUrl = urlPrefix + userUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + userUrl + 'c=10&p=0' + defaultFilters;
 const enabledFilter = '&f=enabled=true';
 const defaultSortOrder = '&o=lastname+ASC' + enabledFilter;
 
@@ -10,7 +10,7 @@ given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case "default filter with headers":
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'usersRoute', 'users5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'usersRoute', 'users5', {'content-range': '0-4/5'});
             break;
         case 'sort by':
             createRoute('&o=firstname+ASC' + enabledFilter, 'sortByFirstNameAscRoute');
@@ -24,7 +24,8 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse('&o=lastname+ASC&s=Search term with no match' + enabledFilter, 'emptyResultRoute', 'emptyResult');
             break;
         case 'user search during limitation':
-            createRouteWithResponse('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute', 'users20');
+            createRouteWithResponseAndHeaders('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute', 'users10', {'content-range': '0-9/10'});
+            createRouteWithResponseAndPagination('&o=lastname+ASC&s=Walter' + enabledFilter, 'users10Route', 'users10', 1, 10);
             createRouteWithResponseAndPagination('&o=lastname+ASC&s=Walter' + enabledFilter, 'users10Route', 'users10', 2, 10);
             break;
         case 'show inactive':
@@ -45,7 +46,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponse(queryParameter, routeName, response) {
-        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 10);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
@@ -88,8 +89,9 @@ given("Deactivate user response is defined", () => {
     }).as("deactivateUserRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult'
+        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult',
+        headers: {'content-range': '0-0/0'}
     }).as("refreshListRoute");
 });
 
@@ -102,8 +104,9 @@ given("Activate user response is defined", () => {
     }).as("activateUserRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult'
+        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult',
+        headers: {'content-range': '0-0/0'}
     }).as("refreshListRoute");
 });
 
@@ -116,8 +119,9 @@ given("The deactivate status code {string} response is defined", (statusCode) =>
     }).as("deactivateUserWithError" + statusCode + "Route");
     cy.route({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@users5'
+        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@users5',
+        headers: {'content-range': '0-4/5'}
     }).as("usersRoute");
 });
 
@@ -131,8 +135,9 @@ given("Create user response is defined", () => {
     }).as("createUserRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult'
+        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@emptyResult',
+        headers: {'content-range': '0-0/0'}
     }).as("refreshListRoute");
 });
 

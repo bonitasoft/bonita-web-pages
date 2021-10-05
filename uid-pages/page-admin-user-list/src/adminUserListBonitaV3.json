@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV3",
   "name" : "adminUserListBonitaV3",
-  "lastUpdate" : 1630509292042,
+  "lastUpdate" : 1633423061890,
   "rows" : [
     [
       {
@@ -2999,12 +2999,14 @@
         "if ($data.createUserData.statusCode !== '' && $data.createUserData.hasRecentlyBeenCreated === false) {",
         "    $data.userListData.timestamp = new Date().getTime();",
         "    $data.createUserData.hasRecentlyBeenCreated = true;",
+        "    $data.userListData.displayedUsers = [];",
         "}",
         "",
         "// After the status is changed",
         "if ($data.changeStatusData.statusCode !== '' && $data.changeStatusData.hasRecentlyBeenUpdated === false) {",
         "    $data.userListData.timestamp = new Date().getTime();",
         "    $data.changeStatusData.hasRecentlyBeenUpdated = true;",
+        "    $data.userListData.displayedUsers = [];",
         "}"
       ],
       "exposed" : false

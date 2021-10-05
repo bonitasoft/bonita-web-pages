@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminGroupListBonitaV3",
   "name" : "adminGroupListBonitaV3",
-  "lastUpdate" : 1630692199899,
+  "lastUpdate" : 1633422820299,
   "rows" : [
     [
       {
@@ -6831,18 +6831,21 @@
         "if ($data.createGroupData.statusCode === 200 && !$data.createGroupData.hasRecentlyBeenCreated) {",
         "    $data.groupsData.timestamp = new Date().getTime();",
         "    $data.createGroupData.hasRecentlyBeenCreated = true;",
+        "    $data.groupsData.displayedGroups = [];",
         "}",
         "",
         "// After a group is successfully edited",
         "if ($data.editGroupData.statusCode === 200 && !$data.editGroupData.hasRecentlyBeenEdited) {",
         "    $data.groupsData.timestamp = new Date().getTime();",
         "    $data.editGroupData.hasRecentlyBeenEdited = true;",
+        "    $data.groupsData.displayedGroups = [];",
         "}",
         "",
         "// After a group is successfully deleted",
         "if ($data.deleteGroupData.statusCode === 200 && !$data.deleteGroupData.hasRecentlyBeenDeleted) {",
         "    $data.groupsData.timestamp = new Date().getTime();",
         "    $data.deleteGroupData.hasRecentlyBeenDeleted = true;",
+        "    $data.groupsData.displayedGroups = [];",
         "}"
       ],
       "exposed" : false

@@ -3,9 +3,9 @@ const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitut
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=9999&p=0&o=displayName ASC';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
-const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters;
-const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=20&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
-const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
+const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=10&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
+const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 
 given("The filter response {string} is defined for archived cases", (filterType) => {
@@ -44,12 +44,14 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'refresh archived case list':
-            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
+            createRouteWithResponseAndHeaders('&t=0', 'archivedCases10Route', 'archivedCases10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('&t=0', 'archivedCases10Route', 'archivedCases10', 1, 10);
             createRouteWithResponseAndPagination('&t=0', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'archivedCases20Route', 'archivedCases20');
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'archivedCases10Route', 'archivedCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases20');
+            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases10');
+            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
             createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
             break;
         case 'archived case deletion success':

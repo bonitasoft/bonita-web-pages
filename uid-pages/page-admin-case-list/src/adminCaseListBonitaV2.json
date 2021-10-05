@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV2",
   "name" : "adminCaseListBonitaV2",
-  "lastUpdate" : 1631113636789,
+  "lastUpdate" : 1633422850145,
   "rows" : [
     [
       {
@@ -4898,12 +4898,14 @@
         "        && !$data.deleteCaseData.hasRecentlyBeenDeleted) {",
         "    $data.casesData.timestamp = new Date().getTime();",
         "    $data.deleteCaseData.hasRecentlyBeenDeleted = true;",
+        "    $data.casesData.displayedItems = [];",
         "}",
         "",
         "// When we click on refresh",
         "if ($data.casesData.refreshAction && $data.casesData.refreshAction.length > 0) {",
         "    $data.casesData.timestamp = new Date().getTime();",
         "    $data.casesData.refreshAction = [];",
+        "    $data.casesData.displayedItems = [];",
         "}"
       ],
       "exposed" : false

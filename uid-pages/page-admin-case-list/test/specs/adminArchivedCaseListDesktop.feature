@@ -81,7 +81,7 @@ Feature: The admin archived case list in desktop resolution
     When I put "Search term with no match" in "search" filter field for archived cases
     Then No archived cases are available
 
-  Scenario: The refresh button works correctly for open cases
+  Scenario: The refresh button works correctly for archived cases
     Given The filter response "default filter" is defined for archived cases
     And The filter response "refresh archived case list" is defined for archived cases
     When I visit the admin case list page

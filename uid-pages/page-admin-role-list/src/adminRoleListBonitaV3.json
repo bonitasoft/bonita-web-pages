@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminRoleListBonitaV3",
   "name" : "adminRoleListBonitaV3",
-  "lastUpdate" : 1630678711694,
+  "lastUpdate" : 1633515065788,
   "rows" : [
     [
       {
@@ -4727,9 +4727,10 @@
       "type" : "expression",
       "value" : [
         "// After the item is updated",
-        "if ($data.createRoleData.statusCode !== '' && $data.createRoleData.hasRecentlyBeenCreated === false) {",
+        "if ($data.createRoleData.statusCode === 200 && $data.createRoleData.hasRecentlyBeenCreated === false) {",
         "    $data.rolesData.timestamp = new Date().getTime();",
         "    $data.createRoleData.hasRecentlyBeenCreated = true;",
+        "    $data.rolesData.displayedRoles = [];",
         "}"
       ],
       "exposed" : false
@@ -4777,9 +4778,10 @@
       "type" : "expression",
       "value" : [
         "// After the item is updated",
-        "if ($data.deleteRoleData.statusCode !== '' && $data.deleteRoleData.hasRecentlyBeenDeleted === false) {",
+        "if ($data.deleteRoleData.statusCode === 200 && $data.deleteRoleData.hasRecentlyBeenDeleted === false) {",
         "    $data.rolesData.timestamp = new Date().getTime();",
         "    $data.deleteRoleData.hasRecentlyBeenDeleted = true;",
+        "    $data.rolesData.displayedRoles = [];",
         "}"
       ],
       "exposed" : false
@@ -4871,9 +4873,10 @@
       "type" : "expression",
       "value" : [
         "// After the item is updated",
-        "if ($data.editRoleData.statusCode !== '' && $data.editRoleData.hasRecentlyBeenEdited === false) {",
+        "if ($data.editRoleData.statusCode === 200 && $data.editRoleData.hasRecentlyBeenEdited === false) {",
         "    $data.rolesData.timestamp = new Date().getTime();",
         "    $data.editRoleData.hasRecentlyBeenEdited = true;",
+        "    $data.rolesData.displayedRoles = [];",
         "}"
       ],
       "exposed" : false

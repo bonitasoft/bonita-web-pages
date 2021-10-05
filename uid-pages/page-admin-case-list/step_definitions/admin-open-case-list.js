@@ -5,10 +5,10 @@ const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=9999&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
-const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=20&p=0' + defaultFilters;
-const archivedCasesRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters;
+const archivedCasesRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=';
-const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 
 given("The filter response {string} is defined for open cases", (filterType) => {
@@ -50,12 +50,14 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
             break;
         case 'refresh open case list':
-            createRouteWithResponseAndHeaders('&t=0', 'openCases20Route', 'openCases20', {'content-range': '0-20/35'});
+            createRouteWithResponseAndHeaders('&t=0', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 1, 10);
             createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'openCases20Route', 'openCases20');
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'openCases10Route', 'openCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=20&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'openCases20');
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'openCases10');
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             break;
         case 'open case deletion success':
