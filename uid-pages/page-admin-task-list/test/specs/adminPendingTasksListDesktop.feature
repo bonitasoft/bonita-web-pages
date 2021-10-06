@@ -67,8 +67,7 @@ Feature: The pending tasks list in desktop resolution
     Then No pending tasks are available
 
   Scenario: The refresh button works correctly for done tasks
-    Given The filter response "default filter" is defined for pending tasks
-    And The filter response "enable load more" is defined for pending tasks
+    Given The filter response "refresh pending tasks list" is defined for pending tasks
     When I visit admin task list page
     And I click on "Pending tasks" tab
     Then A list of "10" items is displayed
@@ -83,54 +82,8 @@ Feature: The pending tasks list in desktop resolution
     And I click on "Pending tasks" tab
     Then The more button has correct href with "100227"
 
-  Scenario: Load more button works correctly
-    And The filter response "enable load more" is defined for pending tasks
-    When I visit admin task list page
-    And I click on "Pending tasks" tab
-    Then A list of "10" pending tasks is displayed out of "35"
-    When I click on Load more pending tasks button
-    Then A list of "20" pending tasks is displayed out of "35"
-    When I click on Load more pending tasks button
-    Then A list of "30" pending tasks is displayed out of "35"
-    When I click on Load more pending tasks button
-    Then A list of "35" pending tasks is displayed out of "35"
-    And The load more pending tasks button is disabled
-
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined for pending tasks
-    When I visit admin task list page
-    And I click on "Pending tasks" tab
-    Then A list of "10" items is displayed
-    When I click on Load more pending tasks button
-    Then A list of "20" items is displayed
-    And The load more pending tasks button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined for pending tasks
-    And The filter response "sort during limitation" is defined for pending tasks
-    When I visit admin task list page
-    And I click on "Pending tasks" tab
-    Then A list of "10" items is displayed
-    When I click on Load more pending tasks button
-    Then A list of "20" items is displayed
-    When I click on Load more pending tasks button
-    Then A list of "30" items is displayed
-    And The load more pending tasks button is disabled
-    When I put "Display name (Desc)" in "sort by" filter field for pending tasks
-    Then A list of "10" items is displayed
-    When I click on Load more pending tasks button
-    Then A list of "20" items is displayed
-
-  Scenario: Load more button has the correct text
-    Given The filter response "default filter" is defined for pending tasks
-    And The filter response "default filter" is defined
-    When I visit admin task list page
-    And I click on "Pending tasks" tab
-    Then A list of "5" items is displayed
-    And The load more button has the correct text
-
   Scenario: No pending task display correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "no pending task" is defined for pending tasks
     When I visit admin task list page
     And I click on "Pending tasks" tab
     Then No pending tasks are available

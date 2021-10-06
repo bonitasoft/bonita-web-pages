@@ -3,56 +3,46 @@ const defaultFilters = '&f=state=ready&d=rootContainerId&d=assigned_id';
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const pendingTasksUrl = 'API/bpm/humanTask?';
-const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=10&p=0' + defaultFilters;
 
 given("The filter response {string} is defined for pending tasks", (filterType) => {
     cy.server();
     switch (filterType) {
         case "default filter":
-            createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks5Route', 'pendingTasks5');
+            createRouteWithResponse(defaultRequestUrl, '&t=0', 'pendingTasks5Route', 'pendingTasks5');
             break;
         case "default filter with headers":
-            createRouteWithResponseAndHeaders('', 'pendingTasks5Route', 'pendingTasks5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders('&t=0', 'pendingTasks5Route', 'pendingTasks5', {'content-range': '0-5/5'});
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
             break;
         case 'sort by':
-            createRoute('&o=displayName+ASC', 'sortByDisplayNameAscRoute');
-            createRoute('&o=displayName+DESC', 'sortByDisplayNameDescRoute');
-            createRoute('&o=dueDate+ASC', 'sortByDueDateAscRoute');
-            createRoute('&o=dueDate+DESC', 'sortByDueDateDescRoute');
-            createRoute('&o=priority+ASC', 'sortByPriorityAscRoute');
-            createRoute('&o=priority+DESC', 'sortByPriorityDescRoute');
-            break;
-        case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + pendingTasksUrl + 'c=20&p=0', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute', 'pendingTasks20');
-            createRouteWithResponse(urlPrefix + pendingTasksUrl + 'c=10&p=2', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'pendingTasks10');
+            createRoute('&t=0&o=displayName+ASC', 'sortByDisplayNameAscRoute');
+            createRoute('&t=0&o=displayName+DESC', 'sortByDisplayNameDescRoute');
+            createRoute('&t=0&o=dueDate+ASC', 'sortByDueDateAscRoute');
+            createRoute('&t=0&o=dueDate+DESC', 'sortByDueDateDescRoute');
+            createRoute('&t=0&o=priority+ASC', 'sortByPriorityAscRoute');
+            createRoute('&t=0&o=priority+DESC', 'sortByPriorityDescRoute');
             break;
         case 'search by name':
-            createRoute('&s=InvolveUser', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0&s=InvolveUser', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&f=caseId=2001', 'filterByCaseId2001Route');
-            createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
+            createRoute('&t=0&f=caseId=2001', 'filterByCaseId2001Route');
+            createRoute('&t=0&f=caseId=3001', 'filterByCaseId3001Route');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders('', 'pendingTasks20Route', 'pendingTasks20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
-            createRouteWithResponseAndPagination('', 'pendingTasks5Route', 'pendingTasks5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+        case 'refresh pending tasks list':
+            createRouteWithResponseAndHeaders('&t=0', 'pendingTasks10Route', 'pendingTasks10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('&t=0', 'pendingTasks10Route', 'pendingTasks10', 1, 10);
+            createRouteWithResponseAndPagination('&t=0', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'pendingTasks10Route', 'pendingTasks10');
             break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks20Route', 'pendingTasks20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks20Route', 'pendingTasks20');
-            createRouteWithResponseAndPagination('', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+        case "no pending task":
+            createRouteWithResponse(defaultRequestUrl + defaultFilters, '&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -265,11 +255,6 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
     }
 });
 
-then("The load more button has the correct text", () => {
-    cy.get("button").contains("Load more tasks").should("exist");
-    cy.get("button").contains("Load more flow nodes").should("not.be.visible");
-});
-
 then("No pending tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4').contains('No pending tasks to display').should('be.visible');
@@ -283,8 +268,4 @@ then("{string} items in the list are overdue", (overdueItems) => {
 
 then("I see the pending tasks page", (overdueItems) => {
     cy.get('.item-value:visible').contains('100227');
-});
-
-then("The load more pending tasks button is disabled", () => {
-    cy.contains('button','Load more tasks').should('be.disabled');
 });

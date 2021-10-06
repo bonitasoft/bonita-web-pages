@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminTaskListBonitaV2",
-  "name" : "adminTaskListBonitaV2",
-  "lastUpdate" : 1623419145307,
+  "id" : "adminTaskListBonitaV3",
+  "name" : "adminTaskListBonitaV3",
+  "lastUpdate" : 1631537556241,
   "rows" : [
     [
       {
@@ -599,7 +599,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -632,7 +632,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "tasksData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -640,10 +641,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -677,7 +679,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes"
+                              "value" : "tasksData.displayedItems"
                             }
                           },
                           "reference" : "04d89a54-3682-415a-bcaa-5ab1507cb4c8",
@@ -2264,185 +2266,6 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label pt-5"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Failed flow nodes shown\"|uiTranslate}}: {{failedFlowNodeData.displayedFailedFlowNodes.length}} {{\"of\"|uiTranslate}} {{failedFlowNodeData.totalFailedFlowNodes}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "45f7705c-7665-4ccb-87f3-c9f4c007425e",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No failed flow nodes to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "6cb2c844-6622-4d57-a521-a069e38d1429",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "failedFlowNodeData.displayedFailedFlowNodes.length % failedFlowNodeData.numberOfFlowNodesPerPage> 0 || failedFlowNodeData.numberOfFailedFlowNodesInMemory=== 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more flow nodes"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(failedFlowNodeData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "failedFlowNodeData.failedFlowNodesFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "9e8cab47-82bb-4b14-8671-5998371407a9",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
@@ -2761,7 +2584,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -2794,7 +2617,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "tasksData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -2802,10 +2626,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -2839,7 +2664,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "pendingTaskData.displayedPendingTasks"
+                              "value" : "tasksData.displayedItems"
                             }
                           },
                           "reference" : "bf9e5d97-7611-496b-94a3-843c151afd51",
@@ -4429,185 +4254,6 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label pt-5"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Pending tasks shown\"|uiTranslate}}: {{pendingTaskData.displayedPendingTasks.length}} {{\"of\"|uiTranslate}} {{pendingTaskData.totalPendingTasks}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "f50c7aac-384b-4ceb-95d4-a202212340c2",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No pending tasks to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "1bf9534f-4ec4-43e3-9d4c-3a832e8f7aff",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "pendingTaskData.displayedPendingTasks.length % pendingTaskData.numberOfPendingTasksPerPage> 0 || pendingTaskData.numberOfPendingTasksInMemory=== 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more tasks"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(pendingTaskData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "pendingTaskData.pendingTasksFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "89f348b8-e2ea-43d5-9b48-e68a6c5d8876",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
@@ -4926,7 +4572,7 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "GET"
+                                    "value" : "Add to collection"
                                   },
                                   "assign" : {
                                     "type" : "constant",
@@ -4959,7 +4605,8 @@
                                     "type" : "interpolation"
                                   },
                                   "collectionToModify" : {
-                                    "type" : "variable"
+                                    "type" : "variable",
+                                    "value" : "tasksData.refreshAction"
                                   },
                                   "modalId" : {
                                     "type" : "constant",
@@ -4967,10 +4614,11 @@
                                   },
                                   "collectionPosition" : {
                                     "type" : "constant",
-                                    "value" : "Last"
+                                    "value" : "First"
                                   },
                                   "valueToAdd" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "refresh"
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
@@ -5004,7 +4652,7 @@
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "doneTaskData.displayedDoneTasks"
+                              "value" : "tasksData.displayedItems"
                             }
                           },
                           "reference" : "d41da5df-4935-4c98-9352-0a514ac3de0e",
@@ -6594,190 +6242,45 @@
                             ]
                           ]
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "text-primary item-label pt-5"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length == 0"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{\"Done tasks shown\"|uiTranslate}}: {{doneTaskData.displayedDoneTasks.length}} {{\"of\"|uiTranslate}} {{doneTaskData.totalDoneTasks}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            }
-                          },
-                          "reference" : "2dba5b7c-c99b-4e2f-a617-5bc6b82bb834",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length"
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "No done tasks to display"
-                            },
-                            "level" : {
-                              "type" : "constant",
-                              "value" : "Level 4"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            }
-                          },
-                          "reference" : "02eca70f-9b4c-4573-9097-ae8355f6890e",
-                          "hasValidationError" : false,
-                          "id" : "pbTitle"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length == 0"
-                            },
-                            "disabled" : {
-                              "type" : "expression",
-                              "value" : "doneTaskData.displayedDoneTasks.length % doneTaskData.numberOfDoneTasksPerPage> 0 || doneTaskData.numberOfDoneTasksInMemory=== 0"
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Load more tasks"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "center"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "GET"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation",
-                              "value" : "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(doneTaskData.pageId)}}"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : "doneTaskData.doneTasksFromAPI"
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "f244f3fd-ffae-4932-9478-3aa16cf13cea",
-                          "hasValidationError" : false,
-                          "id" : "pbButton"
-                        }
                       ]
                     ]
                   }
                 }
               ]
+            }
+          ],
+          [
+            {
+              "type" : "fragment",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                }
+              },
+              "reference" : "2bc274b3-334a-4693-8ae3-5d420bb92ef3",
+              "hasValidationError" : false,
+              "id" : "fragmentLoadMoreV1",
+              "binding" : {
+                "displayedItems" : "tasksData.displayedItems",
+                "numberOfItemsPerPage" : "tasksData.numberOfItemsPerPage",
+                "buttonLabel" : "tasksCtrl.getButtonLabel()",
+                "urlPrefix" : "tasksCtrl.getDefaultUrl()",
+                "noItemsMessage" : "tasksCtrl.getNoTasksMessage()",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "tasksCtrl.getTotalItemsShownMessage()",
+                "filtersString" : "tasksCtrl.tasksQueryParameters()"
+              }
             }
           ]
         ]
@@ -6838,32 +6341,16 @@
       ],
       "exposed" : false
     },
-    "failedFlowNodeUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/flowNode{{failedFlowNodeCtrl.failedFlowNodesQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "failedFlowNodeData.failedFlowNodesHeaderResponse"
-      },
-      "exposed" : false
-    },
     "failedFlowNodeCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    failedFlowNodesQueryParameters: function(pageId) {",
+        "    failedFlowNodesQueryParameters: function() {",
         "        if(!$data.failedFlowNodeData.activeTab) {",
         "            return undefined;",
         "        }",
         "        ",
-        "        var flowNodesPerPage = $data.failedFlowNodeData.numberOfFlowNodesPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            flowNodesPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"?c=\" + flowNodesPerPage + \"&p=\" + pageId + \"&f=state=failed&d=rootContainerId&d=assigned_id\";",
+        "        var queryParameters = \"&f=state=failed&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
         "            queryParameters += \"&f=caseId=\" + $data.caseId;",
@@ -6892,10 +6379,7 @@
       "value" : [
         "return {",
         "    flowNode: {},",
-        "    failedFlowNodesInMemory: [],",
-        "    pageId: 0, ",
-        "    numberOfFlowNodesPerPage: 10,",
-        "    numberOfFailedFlowNodesInMemory: 0,",
+        "    activeTab: true,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -6910,86 +6394,21 @@
         "        processId: \"\",",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    failedFlowNodesFromAPI: undefined,",
-        "    displayedFailedFlowNodes: [],",
-        "    activeTab: true,",
-        "    totalFailedFlowNodes: 0,",
-        "    failedFlowNodesHeaderResponse: undefined",
+        "    }",
         "};"
       ],
-      "exposed" : false
-    },
-    "failedFlowNodeHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Failed flowNodes",
-        "// display the first page of failed flowNodes on page load or when the filter change",
-        "if($data.failedFlowNodeUrl){",
-        "    // get the total number of failed flow nodes",
-        "    if($data.failedFlowNodeData.failedFlowNodesHeaderResponse && $data.failedFlowNodeData.failedFlowNodesHeaderResponse['content-range']) {",
-        "        $data.failedFlowNodeData.totalFailedFlowNodes = $data.failedFlowNodeData.failedFlowNodesHeaderResponse['content-range'].split('/')[1];",
-        "    }",
-        "    // display half the elements loaded",
-        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeUrl.slice(0, $data.failedFlowNodeData.numberOfFlowNodesPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.failedFlowNodeData.pageId = 2;",
-        "    $data.failedFlowNodeData.failedFlowNodesInMemory = $data.failedFlowNodeUrl.slice($data.failedFlowNodeData.numberOfFlowNodesPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesInMemory.length;",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.failedFlowNodeUrl = undefined;",
-        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of flowNodes to the list of next flowNodes to display",
-        "// display the next flowNodes from the memory",
-        "if($data.failedFlowNodeData.failedFlowNodesFromAPI && $data.failedFlowNodeData.failedFlowNodesFromAPI.length){",
-        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.failedFlowNodesInMemory);",
-        "    $data.failedFlowNodeData.pageId++;",
-        "    $data.failedFlowNodeData.failedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesFromAPI;",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = $data.failedFlowNodeData.failedFlowNodesInMemory.length;",
-        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more flowNodes in the memory",
-        "if($data.failedFlowNodeData.numberOfFailedFlowNodesInMemory > 0 && $data.failedFlowNodeData.failedFlowNodesFromAPI && $data.failedFlowNodeData.failedFlowNodesFromAPI.length == 0){",
-        "    $data.failedFlowNodeData.displayedFailedFlowNodes = $data.failedFlowNodeData.displayedFailedFlowNodes.concat($data.failedFlowNodeData.failedFlowNodesInMemory);",
-        "    $data.failedFlowNodeData.failedFlowNodesInMemory = undefined;",
-        "    $data.failedFlowNodeData.failedFlowNodesFromAPI = undefined;",
-        "    $data.failedFlowNodeData.numberOfFailedFlowNodesInMemory = 0;",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "pendingTaskUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/humanTask{{pendingTaskCtrl.pendingTasksQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "pendingTaskData.pendingTasksHeaderResponse"
-      },
       "exposed" : false
     },
     "pendingTaskCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    pendingTasksQueryParameters: function(pageId) {",
+        "    pendingTasksQueryParameters: function() {",
         "        if(!$data.pendingTaskData.activeTab) {",
         "            return undefined;",
         "        }",
         "        ",
-        "        var pendingTasksPerPage = $data.pendingTaskData.numberOfPendingTasksPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            pendingTasksPerPage *= 2;",
-        "        }",
-        "",
-        "        var queryParameters = \"?c=\" + pendingTasksPerPage + \"&p=\" + pageId + \"&f=state=ready&d=rootContainerId&d=assigned_id\";",
+        "        var queryParameters = \"&f=state=ready&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
         "            queryParameters += \"&f=caseId=\" + $data.caseId;",
@@ -7027,10 +6446,7 @@
       "value" : [
         "return {",
         "    pendingTask: {},",
-        "    pendingTasksInMemory: [],",
-        "    pageId: 0, ",
-        "    numberOfPendingTasksPerPage: 10,",
-        "    numberOfPendingTasksInMemory: 0,",
+        "    activeTab: false,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -7047,56 +6463,8 @@
         "        processId: \"\",",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    pendingTasksFromAPI: undefined,",
-        "    displayedPendingTasks: [],",
-        "    activeTab: false,",
-        "    totalPendingTasks: 0,",
-        "    pendingTasksHeaderResponse: undefined",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "pendingTaskHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Pending Tasks",
-        "// display the first page of pending tasks on page load or when the filter change",
-        "if($data.pendingTaskUrl){",
-        "    // get the total number of pending tasks",
-        "    if($data.pendingTaskData.pendingTasksHeaderResponse && $data.pendingTaskData.pendingTasksHeaderResponse['content-range']) {",
-        "        $data.pendingTaskData.totalPendingTasks = $data.pendingTaskData.pendingTasksHeaderResponse['content-range'].split('/')[1];",
         "    }",
-        "    // display half the elements loaded",
-        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskUrl.slice(0, $data.pendingTaskData.numberOfPendingTasksPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.pendingTaskData.pageId = 2;",
-        "    $data.pendingTaskData.pendingTasksInMemory = $data.pendingTaskUrl.slice($data.pendingTaskData.numberOfPendingTasksPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.pendingTaskData.numberOfPendingTasksInMemory = $data.pendingTaskData.pendingTasksInMemory.length;",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)",
-        "    $data.pendingTaskUrl = undefined;",
-        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of pending tasks to the list of next pending tasks to display",
-        "// display the next pending tasks from the memory",
-        "if($data.pendingTaskData.pendingTasksFromAPI && $data.pendingTaskData.pendingTasksFromAPI.length){",
-        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksInMemory);",
-        "    $data.pendingTaskData.pageId++;",
-        "    $data.pendingTaskData.pendingTasksInMemory = $data.pendingTaskData.pendingTasksFromAPI;",
-        "    $data.pendingTaskData.numberOfPendingTasksInMemory = $data.pendingTaskData.pendingTasksInMemory.length;",
-        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more pending tasks in the memory",
-        "if($data.pendingTaskData.numberOfPendingTasksInMemory > 0 && $data.pendingTaskData.pendingTasksFromAPI && $data.pendingTaskData.pendingTasksFromAPI.length == 0){",
-        "    $data.pendingTaskData.displayedPendingTasks = $data.pendingTaskData.displayedPendingTasks.concat($data.pendingTaskData.pendingTasksInMemory);",
-        "    $data.pendingTaskData.pendingTasksInMemory = undefined;",
-        "    $data.pendingTaskData.pendingTasksFromAPI = undefined;",
-        "    $data.pendingTaskData.numberOfPendingTasksInMemory = 0;",
-        "}"
+        "};"
       ],
       "exposed" : false
     },
@@ -7105,10 +6473,7 @@
       "value" : [
         "return {",
         "    doneTask: {},",
-        "    doneTasksInMemory: [],",
-        "    pageId: 0, ",
-        "    numberOfDoneTasksPerPage: 10,",
-        "    numberOfDoneTasksInMemory: 0,",
+        "    activeTab: false,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
@@ -7129,12 +6494,7 @@
         "        processId: \"\",",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    doneTasksFromAPI: undefined,",
-        "    displayedDoneTasks: [],",
-        "    activeTab: false,",
-        "    totalDoneTasks: 0,",
-        "    doneTasksHeaderResponse: undefined",
+        "    }",
         "};"
       ],
       "exposed" : false
@@ -7143,18 +6503,12 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    doneTasksQueryParameters: function(pageId) {",
+        "    doneTasksQueryParameters: function() {",
         "        if(!$data.doneTaskData.activeTab) {",
         "            return undefined;",
         "        }",
         "        ",
-        "        var doneTasksPerPage = $data.doneTaskData.numberOfDoneTasksPerPage;",
-        "        ",
-        "        if(pageId === 0){",
-        "            //on first call we need load next page",
-        "            doneTasksPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"?c=\" + doneTasksPerPage + \"&p=\" + pageId + \"&d=rootContainerId&d=assigned_id\";",
+        "        var queryParameters = \"&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
         "            queryParameters += \"&f=caseId=\" + $data.caseId;",
@@ -7180,59 +6534,6 @@
       ],
       "exposed" : false
     },
-    "doneTaskHandler" : {
-      "type" : "expression",
-      "value" : [
-        "//Done Tasks\r",
-        "// display the first page of done tasks on page load or when the filter change\r",
-        "if($data.doneTaskUrl){\r",
-        "    // get the total number of done tasks\r",
-        "    if($data.doneTaskData.doneTasksHeaderResponse && $data.doneTaskData.doneTasksHeaderResponse['content-range']) {\r",
-        "        $data.doneTaskData.totalDoneTasks = $data.doneTaskData.doneTasksHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskUrl.slice(0, $data.doneTaskData.numberOfDoneTasksPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.doneTaskData.pageId = 2;\r",
-        "    $data.doneTaskData.doneTasksInMemory = $data.doneTaskUrl.slice($data.doneTaskData.numberOfDoneTasksPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.doneTaskData.numberOfDoneTasksInMemory = $data.doneTaskData.doneTasksInMemory.length;\r",
-        "    // set open cases to undefined as the script is triggered when click on load more cases button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedOpenCases)\r",
-        "    $data.doneTaskUrl = undefined;\r",
-        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of done tasks to the list of next done tasks to display\r",
-        "// display the next done tasks from the memory\r",
-        "if($data.doneTaskData.doneTasksFromAPI && $data.doneTaskData.doneTasksFromAPI.length){\r",
-        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksInMemory);\r",
-        "    $data.doneTaskData.pageId++;\r",
-        "    $data.doneTaskData.doneTasksInMemory = $data.doneTaskData.doneTasksFromAPI;\r",
-        "    $data.doneTaskData.numberOfDoneTasksInMemory = $data.doneTaskData.doneTasksInMemory.length;\r",
-        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more done tasks in the memory\r",
-        "if($data.doneTaskData.numberOfDoneTasksInMemory > 0 && $data.doneTaskData.doneTasksFromAPI && $data.doneTaskData.doneTasksFromAPI.length == 0){\r",
-        "    $data.doneTaskData.displayedDoneTasks = $data.doneTaskData.displayedDoneTasks.concat($data.doneTaskData.doneTasksInMemory);\r",
-        "    $data.doneTaskData.doneTasksInMemory = undefined;\r",
-        "    $data.doneTaskData.doneTasksFromAPI = undefined;\r",
-        "    $data.doneTaskData.numberOfDoneTasksInMemory = 0;\r",
-        "}"
-      ],
-      "exposed" : false
-    },
-    "doneTaskUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedTask{{doneTaskCtrl.doneTasksQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "doneTaskData.doneTasksHeaderResponse"
-      },
-      "exposed" : false
-    },
     "isInformationEmpty" : {
       "type" : "expression",
       "value" : [
@@ -7249,6 +6550,102 @@
       "type" : "urlparameter",
       "value" : [
         "caseId"
+      ],
+      "exposed" : false
+    },
+    "tasksData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    displayedItems: [],",
+        "    numberOfItemsPerPage: 10,",
+        "    timestamp: 0,",
+        "    refreshAction: []",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "tasksCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    tasksQueryParameters() {",
+        "        if($data.failedFlowNodeData.activeTab && !$data.pendingTaskData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return $data.failedFlowNodeCtrl.failedFlowNodesQueryParameters();",
+        "        } else if($data.pendingTaskData.activeTab && !$data.failedFlowNodeData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return $data.pendingTaskCtrl.pendingTasksQueryParameters();",
+        "        } else {",
+        "            return $data.doneTaskCtrl.doneTasksQueryParameters();",
+        "        }",
+        "    },",
+        "    getButtonLabel: function() {",
+        "        if($data.failedFlowNodeData.activeTab && !$data.pendingTaskData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return \"Load more flow nodes\";",
+        "        } else {",
+        "            return \"Load more tasks\";",
+        "        }",
+        "    },",
+        "    getDefaultUrl: function() {",
+        "        if($data.failedFlowNodeData.activeTab && !$data.pendingTaskData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return $data.apiFailedFlowNodes;",
+        "        } else if($data.pendingTaskData.activeTab && !$data.failedFlowNodeData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return $data.apiPendingTasks;",
+        "        } else {",
+        "            return $data.apiDoneTasks;",
+        "        }",
+        "    },",
+        "    getTotalItemsShownMessage: function() {",
+        "        if($data.failedFlowNodeData.activeTab && !$data.pendingTaskData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return \"Failed flow nodes shown\";",
+        "        } else if($data.pendingTaskData.activeTab && !$data.failedFlowNodeData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return \"Pending tasks shown\";",
+        "        } else {",
+        "            return \"Done tasks shown\";",
+        "        }",
+        "    },",
+        "    getNoTasksMessage: function() {",
+        "        if($data.failedFlowNodeData.activeTab && !$data.pendingTaskData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return \"No failed flow nodes to display\";",
+        "        } else if($data.pendingTaskData.activeTab && !$data.failedFlowNodeData.activeTab && !$data.doneTaskData.activeTab) {",
+        "            return \"No pending tasks to display\";",
+        "        } else {",
+        "            return \"No done tasks to display\";",
+        "        }",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "apiFailedFlowNodes" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/flowNode"
+      ],
+      "exposed" : false
+    },
+    "apiPendingTasks" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/humanTask"
+      ],
+      "exposed" : false
+    },
+    "apiDoneTasks" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/archivedTask"
+      ],
+      "exposed" : false
+    },
+    "refreshHandler" : {
+      "type" : "expression",
+      "value" : [
+        "// When we click on refresh",
+        "if ($data.tasksData.refreshAction && $data.tasksData.refreshAction.length > 0) {",
+        "    $data.tasksData.timestamp = new Date().getTime();",
+        "    $data.tasksData.refreshAction = [];",
+        "    $data.tasksData.displayedItems = [];",
+        "}"
       ],
       "exposed" : false
     }
