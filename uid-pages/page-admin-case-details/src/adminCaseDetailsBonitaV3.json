@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseDetailsBonitaV3",
   "name" : "adminCaseDetailsBonitaV3",
-  "lastUpdate" : 1623657906547,
+  "lastUpdate" : 1633525819582,
   "rows" : [
     [
       {
@@ -3305,59 +3305,7 @@
                             ],
                             [
                               {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "sm" : 12,
-                                  "md" : 12,
-                                  "lg" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : "text-primary item-label pt-5"
-                                  },
-                                  "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "processVariablesData.displayedProcessVariables.length === 0"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : "Default label"
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
-                                  },
-                                  "allowHTML" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "{{\"Process variables shown\"|uiTranslate}}: {{processVariablesData.displayedProcessVariables.length}} {{\"of\"|uiTranslate}} {{processVariablesData.totalProcessVariables}}"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "right"
-                                  }
-                                },
-                                "reference" : "ab6e437b-3462-47b9-8c90-c6d5183cff1a",
-                                "hasValidationError" : false,
-                                "id" : "pbText"
-                              }
-                            ],
-                            [
-                              {
-                                "type" : "component",
+                                "type" : "fragment",
                                 "dimension" : {
                                   "xs" : 12,
                                   "sm" : 12,
@@ -3370,116 +3318,23 @@
                                     "value" : ""
                                   },
                                   "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "processVariablesData.displayedProcessVariables.length"
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "No process variable to display"
-                                  },
-                                  "level" : {
-                                    "type" : "constant",
-                                    "value" : "Level 5"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "center"
-                                  }
-                                },
-                                "reference" : "a1a34e6e-ec93-44ac-98c5-d4c1fc021054",
-                                "hasValidationError" : false,
-                                "id" : "pbTitle"
-                              }
-                            ],
-                            [
-                              {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "sm" : 12,
-                                  "md" : 12,
-                                  "lg" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : ""
-                                  },
-                                  "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "processVariablesData.displayedProcessVariables.length === 0"
-                                  },
-                                  "disabled" : {
-                                    "type" : "expression",
-                                    "value" : "processVariablesData.displayedProcessVariables.length % processVariablesData.numberOfProcessVariablesPerPage > 0 || processVariablesData.numberOfProcessVariablesInMemory === 0"
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : "Load more variables"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "center"
-                                  },
-                                  "buttonStyle" : {
-                                    "type" : "constant",
-                                    "value" : "link"
-                                  },
-                                  "action" : {
-                                    "type" : "constant",
-                                    "value" : "GET"
-                                  },
-                                  "assign" : {
                                     "type" : "constant",
                                     "value" : false
-                                  },
-                                  "url" : {
-                                    "type" : "interpolation",
-                                    "value" : "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(processVariablesData.pageId)}}"
-                                  },
-                                  "responseStatusCode" : {
-                                    "type" : "variable",
-                                    "value" : ""
-                                  },
-                                  "dataToSend" : {
-                                    "type" : "constant"
-                                  },
-                                  "dataFromSuccess" : {
-                                    "type" : "variable",
-                                    "value" : "processVariablesData.processVariablesFromAPI"
-                                  },
-                                  "closeOnSuccess" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "dataFromError" : {
-                                    "type" : "variable",
-                                    "value" : "processVariablesData.processVariablesFailedResponse"
-                                  },
-                                  "targetUrlOnSuccess" : {
-                                    "type" : "interpolation"
-                                  },
-                                  "collectionToModify" : {
-                                    "type" : "variable"
-                                  },
-                                  "modalId" : {
-                                    "type" : "constant",
-                                    "value" : ""
-                                  },
-                                  "collectionPosition" : {
-                                    "type" : "constant",
-                                    "value" : "Last"
-                                  },
-                                  "valueToAdd" : {
-                                    "type" : "constant"
-                                  },
-                                  "removeItem" : {
-                                    "type" : "variable"
                                   }
                                 },
-                                "reference" : "4eeb31e6-d4ca-4d68-9088-9767fc9b58cf",
+                                "reference" : "4726be17-84fc-4b06-a448-809d28d201da",
                                 "hasValidationError" : false,
-                                "id" : "pbButton"
+                                "id" : "fragmentLoadMoreV1",
+                                "binding" : {
+                                  "displayedItems" : "processVariablesData.displayedProcessVariables",
+                                  "numberOfItemsPerPage" : "processVariablesData.numberOfProcessVariablesPerPage",
+                                  "buttonLabel" : "\"Load more variables\"",
+                                  "urlPrefix" : "apiProcessVariables",
+                                  "noItemsMessage" : "\"No process variable to display\"",
+                                  "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                                  "itemsShownMessage" : "\"Process variables shown\"",
+                                  "filtersString" : "processVariablesCtrl.processVariablesQueryParameters()"
+                                }
                               }
                             ]
                           ]
@@ -4634,16 +4489,6 @@
       ],
       "exposed" : false
     },
-    "processVariables" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/caseVariable?{{processVariablesCtrl.processVariablesQueryParameters(0)}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "processVariablesData.processVariablesHeaderResponse"
-      },
-      "exposed" : false
-    },
     "processVariablesCtrl" : {
       "type" : "expression",
       "value" : [
@@ -4676,23 +4521,14 @@
         "};",
         "",
         "return {",
-        "    processVariablesQueryParameters: function(pageId) {",
+        "    processVariablesQueryParameters: function() {",
         "        if (!$data.processVariablesData.activeTab) {",
         "            return undefined;",
         "        }",
         "        ",
-        "        var processVariablesPerPage = $data.processVariablesData.numberOfProcessVariablesPerPage;",
+        "        var queryParameters = \"&f=case_id=\" + $data.caseIdQueryParameter + \"&t=\" + $data.processVariablesData.timestamp;",
         "        ",
-        "        if (pageId === 0) {",
-        "            //on first call we need load next page",
-        "            processVariablesPerPage *= 2;",
-        "        }",
-        "        ",
-        "        var timestamp = pageId === 0 ? \"&t=\" + $data.processVariablesData.timestamp : \"\";",
-        "        ",
-        "        var queryParameters = \"p=\" + pageId + \"&c=\" + processVariablesPerPage +  \"&f=case_id=\" + $data.caseIdQueryParameter;",
-        "        ",
-        "        return queryParameters + timestamp;",
+        "        return queryParameters;",
         "    },",
         "    getUpdateUrl : function() {",
         "        $data.processVariablesData.updatingItem = true;",
@@ -4750,16 +4586,10 @@
         "    timestamp: 0,",
         "    successUpdateResponse: undefined,",
         "    failedUpdateResponse: undefined,",
-        "    pageId: 0,",
-        "    processVariablesInMemory: [],",
         "    displayedProcessVariables: [],",
         "    numberOfProcessVariablesPerPage: 10,",
-        "    numberOfProcessVariablesInMemory: 0,",
-        "    processVariablesFromAPI: undefined,",
         "    processVariablesFailedResponse: \"\",",
         "    activeTab: false,",
-        "    totalProcessVariables: 0,",
-        "    processVariablesHeaderResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -4767,56 +4597,21 @@
     "processVariablesHandler" : {
       "type" : "expression",
       "value" : [
-        "//Process variables",
-        "// diplay the first page of processVariables on page load or when the filters change",
-        "if($data.processVariables) {",
-        "    // get the total number of process variables",
-        "    if($data.processVariablesData.processVariablesHeaderResponse && $data.processVariablesData.processVariablesHeaderResponse['content-range']) {",
-        "        $data.processVariablesData.totalProcessVariables = $data.processVariablesData.processVariablesHeaderResponse['content-range'].split('/')[1];",
-        "    }",
-        "    // display half the elements loaded",
-        "    $data.processVariablesData.displayedProcessVariables = $data.processVariables.slice(0, $data.processVariablesData.numberOfProcessVariablesPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.processVariablesData.pageId = 2;",
-        "    $data.processVariablesData.processVariablesInMemory = $data.processVariables.slice($data.processVariablesData.numberOfProcessVariablesPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.processVariablesData.numberOfProcessVariablesInMemory = $data.processVariablesData.processVariablesInMemory.length;",
-        "    // set processVariables to undefined as the script is triggered when click on load more processVariables button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedProcessVariables)",
-        "    $data.processVariables = undefined;",
-        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of processVariables to the list of next processVariables to display",
-        "// display the next processVariables from the memory",
-        "if($data.processVariablesData.processVariablesFromAPI ",
-        "        && $data.processVariablesData.processVariablesFromAPI.length){",
-        "    $data.processVariablesData.displayedProcessVariables = $data.processVariablesData.displayedProcessVariables.concat($data.processVariablesData.processVariablesInMemory);",
-        "    $data.processVariablesData.pageId++;",
-        "    $data.processVariablesData.processVariablesInMemory = $data.processVariablesData.processVariablesFromAPI;",
-        "    $data.processVariablesData.numberOfProcessVariablesInMemory = $data.processVariablesData.processVariablesInMemory.length;",
-        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more processVariables in the memory",
-        "if($data.processVariablesData.numberOfProcessVariablesInMemory > 0 ",
-        "        && (($data.processVariablesData.processVariablesFromAPI ",
-        "        && $data.processVariablesData.processVariablesFromAPI.length === 0) ",
-        "        || $data.processVariablesData.processVariablesFailedResponse)){",
-        "    $data.processVariablesData.displayedProcessVariables = $data.processVariablesData.displayedProcessVariables.concat($data.processVariablesData.processVariablesInMemory);",
-        "    $data.processVariablesData.processVariablesInMemory = undefined;",
-        "    $data.processVariablesData.processVariablesFromAPI = undefined;",
-        "    $data.processVariablesData.numberOfProcessVariablesInMemory = 0;",
-        "}",
-        "",
         "// After the item is updated",
-        "if($data.processVariablesData.statusCode !== '' && $data.processVariablesData.updatingItem){",
+        "if($data.processVariablesData.statusCode === 200 && $data.processVariablesData.updatingItem){",
         "    $data.processVariablesData.updatingItem = false;",
         "    $data.processVariablesData.timestamp = new Date().getTime();",
         "    setTimeout(function() {",
         "        $data.processVariablesData.statusCode = '';",
         "    }, 2000);",
         "}"
+      ],
+      "exposed" : false
+    },
+    "apiProcessVariables" : {
+      "type" : "constant",
+      "value" : [
+        "../API/bpm/caseVariable"
       ],
       "exposed" : false
     }
