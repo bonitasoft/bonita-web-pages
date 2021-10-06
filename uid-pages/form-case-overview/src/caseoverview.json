@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "caseoverview",
   "name" : "caseoverview",
-  "lastUpdate" : 1619097015951,
+  "lastUpdate" : 1633525115550,
   "rows" : [
     [
       {
@@ -456,88 +456,6 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "caseOverview.documentRefs"
-                },
-                "repeatedCollection" : {
-                  "type" : "variable",
-                  "value" : ""
-                }
-              },
-              "reference" : "ed91c941-f419-4937-9563-03880a62aee4",
-              "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "<div class=\"alert alert-info\" translate><i class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></i>{{\"No documents available\" | translate}}</div>"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : ""
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "e118a5fc-c787-4a72-b47f-d400791668e5",
-                    "hasValidationError" : false,
-                    "id" : "pbText"
-                  }
-                ]
-              ]
-            }
-          ],
-          [
-            {
-              "type" : "container",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
                   "value" : "padding-x-xl"
                 },
                 "hidden" : {
@@ -558,9 +476,9 @@
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "sm" : 6,
+                      "md" : 4,
+                      "lg" : 3
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -716,7 +634,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "col-md-6 col-lg-3 padding-x-lg"
+                              "value" : "padding-x-lg"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -898,6 +816,40 @@
                         }
                       ]
                     ]
+                  }
+                ],
+                [
+                  {
+                    "type" : "fragment",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      }
+                    },
+                    "reference" : "36a25e48-d321-4fa0-a0d9-57f7528b2564",
+                    "hasValidationError" : false,
+                    "id" : "fragmentLoadMoreV1",
+                    "binding" : {
+                      "displayedItems" : "data.documents",
+                      "numberOfItemsPerPage" : "data.numberOfItemsPerPage",
+                      "buttonLabel" : "\"Load more documents\"",
+                      "urlPrefix" : "defaultDocumentUrlPrefix",
+                      "noItemsMessage" : "\"No documents available\"",
+                      "itemsShownCSSClasses" : "",
+                      "itemsShownMessage" : "\"Documents shown\"",
+                      "filtersString" : "defaultDocumentFiltersString"
+                    }
                   }
                 ]
               ]
@@ -1156,6 +1108,13 @@
       "external" : false
     },
     {
+      "id" : "5c01a8a7-018a-4297-a4db-f4b5fd46dd81",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
       "id" : "3cc03bf1-08db-4d42-8292-b68a04de5244",
       "name" : "moment.min.js",
       "type" : "js",
@@ -1167,13 +1126,6 @@
       "name" : "localization.json",
       "type" : "json",
       "order" : 0,
-      "external" : false
-    },
-    {
-      "id" : "5c01a8a7-018a-4297-a4db-f4b5fd46dd81",
-      "name" : "style.css",
-      "type" : "css",
-      "order" : 1,
       "external" : false
     }
   ],
@@ -1189,6 +1141,10 @@
     "caseOverview" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.case) {",
+        "    return undefined;",
+        "}",
+        "",
         "function values(object){",
         "    if(!object){",
         "        return [];",
@@ -1199,11 +1155,14 @@
         "}",
         "",
         "function groupBy(xs, key) {",
-        "  var result = xs.reduce(function(rv, x) {",
-        "    (rv[x[key]] = rv[x[key]] || []).push(x);",
-        "    return rv;",
-        "  }, {});",
-        "  return result ? Object.keys(result).map(function(key) { return { \"name\" : key, \"description\" : result[key] && result[key].length > 0 ? result[key][0].description : null  , \"documents\" : Array.isArray(result[key]) ?  result[key] : [ result[key]] }}) : [];",
+        "    if (!xs || !key) {",
+        "        return undefined;",
+        "    }",
+        "    var result = xs.reduce(function(rv, x) {",
+        "        (rv[x[key]] = rv[x[key]] || []).push(x);",
+        "        return rv;",
+        "    }, {});",
+        "    return result ? Object.keys(result).map(function(key) { return { \"name\" : key, \"description\" : result[key] && result[key].length > 0 ? result[key][0].description : null  , \"documents\" : Array.isArray(result[key]) ?  result[key] : [ result[key]] }}) : [];",
         "}",
         "",
         "",
@@ -1213,7 +1172,7 @@
         "  });",
         "}",
         "",
-        "var businessDataRefs =  values($data.context).filter(function(ref){",
+        "var businessDataRefs = values($data.context).filter(function(ref){",
         "        return ref && ref.type;",
         "    }).map(function(businessDataRef){",
         "        return {",
@@ -1222,7 +1181,7 @@
         "        };",
         "    });",
         "",
-        "var documentRefs = groupBy($data.openedContext ? $data.openedCaseDocuments : $data.archivedDocuments,\"name\");",
+        "var documentRefs = $data.data.documents ? groupBy($data.data.documents, \"name\") : [];",
         "for(var index = 0; index < documentRefs.length; index++){",
         "          var doc = documentRefs[index];",
         "          var allVersionsById = groupBy(doc.documents, $data.openedContext ? \"id\" : \"sourceObjectId\");",
@@ -1245,11 +1204,11 @@
         "return {",
         "    \"found\" : !!$data.case,",
         "    \"id\" : $data.case.id,",
-        "    \"sourceObjectId\" : $data.case.rootCaseId ?  $data.case.rootCaseId  : $data.case.id ,",
+        "    \"sourceObjectId\" : $data.case.rootCaseId ?  $data.case.rootCaseId : $data.case.id ,",
         "    \"processName\" : $data.case.processDefinitionId.displayName + \" (\"+ $data.case.processDefinitionId.version+\")\",",
         "    \"businessDataRefs\" : businessDataRefs,",
         "    \"selectedBusinessDataRef\" : businessDataRefs[0],",
-        "    \"documentRefs\" : documentRefs ",
+        "    \"documentRefs\" : documentRefs",
         "};"
       ],
       "exposed" : false
@@ -1257,6 +1216,10 @@
     "timelineOrigin" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.case) {",
+        "    return undefined;",
+        "}",
+        "",
         "return {",
         " \"title\": \"Case started\",",
         " \"startTime\": $data.case.start,",
@@ -1280,20 +1243,6 @@
       ],
       "exposed" : false
     },
-    "openedCaseDocuments" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/caseDocument?f=caseId={{caseId}}"
-      ],
-      "exposed" : false
-    },
-    "archivedDocuments" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedCaseDocument?f=caseId={{caseId}}"
-      ],
-      "exposed" : false
-    },
     "selectedBusinessData" : {
       "type" : "url",
       "value" : [
@@ -1311,6 +1260,9 @@
     "timelineEvents" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.archivedTasks || !$data.openedTasks) {",
+        "    return undefined;",
+        "}",
         "function executedBy(task){",
         "    if (\"completed\" === task.state) {",
         "        var executedByString = uiTranslate(\"Executed by\") + \" \";",
@@ -1403,6 +1355,10 @@
         "    return header.endsWith(\"_string\") && headers.includes(header.replace(\"_string\", \"\"));",
         "}",
         "",
+        "if (!$data.selectedBusinessData) {",
+        "    return undefined;",
+        "}",
+        "",
         "var businessData = $data.selectedBusinessData.length ? $data.selectedBusinessData[0] :  $data.selectedBusinessData;",
         "",
         "return Object.keys(businessData).filter(function(header, index, headers){",
@@ -1410,7 +1366,7 @@
         "}).filter(function(header){",
         "    return  header !== \"persistenceId\"",
         "            && header.indexOf(\"persistenceVersion\") === -1 ",
-        "            && header !== \"links\" ",
+        "            && header !== \"links\";",
         "});"
       ],
       "exposed" : false
@@ -1418,7 +1374,7 @@
     "case" : {
       "type" : "expression",
       "value" : [
-        "return  (!$data.openCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;"
+        "return (!$data.openCase && $data.archivedCase && $data.archivedCase.length > 0) ? $data.archivedCase[0] : $data.openCase;"
       ],
       "exposed" : false
     },
@@ -1446,6 +1402,30 @@
         "    }",
         "    return getDisplayName(user);",
         "}"
+      ],
+      "exposed" : false
+    },
+    "data" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    numberOfItemsPerPage: 10,",
+        "    documents: []",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "defaultDocumentUrlPrefix" : {
+      "type" : "expression",
+      "value" : [
+        "return !$data.openCase && $data.archivedContext ? \"../API/bpm/archivedCaseDocument\" : \"../API/bpm/caseDocument\";"
+      ],
+      "exposed" : false
+    },
+    "defaultDocumentFiltersString" : {
+      "type" : "expression",
+      "value" : [
+        "return \"&f=caseId=\" + $data.caseId;"
       ],
       "exposed" : false
     }
