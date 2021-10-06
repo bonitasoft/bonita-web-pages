@@ -80,28 +80,28 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndHeaders(defaultUserUrl + '1', 'users10Route', 'users10', {'content-range': '0-9/18'});
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users8Route', 'users8', 1, 10);
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(defaultUserUrl + '9&t=1*', 'userUrlRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '9', 'userUrlRoute', 'emptyResult');
             break;
         case 'empty sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'emptyResult');
             break;
         case 'sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
             break;
         case 'sub-group list search':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*&s=Acme', 'searchAcmeRoute', 'subGroups1');
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*&s=Search term with no match', 'noMatchRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'searchAcmeRoute', 'subGroups1');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'sub-groups search during limitation':
-            createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'subGroups10Route', 'groups10');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'subGroups10Route', 'groups10');
             createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&o=displayName ASC&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
             break;
         case 'sub-groups list for two groups':
-            createRouteWithResponseAndHeaders(subGroupUrl + '/acme&t=1*', 'subGroups10Route', 'subGroups10', {'content-range': '0-9/18'});
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme&t=1*', 'subGroups8Route', 'subGroups8', 1, 10);
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme&t=1*', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(subGroupUrl + '/acme/sales/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
+            createRouteWithResponseAndHeaders(subGroupUrl + '/acme', 'subGroups10Route', 'subGroups10', {'content-range': '0-9/18'});
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups8Route', 'subGroups8', 1, 10);
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createRouteWithResponse(subGroupUrl + '/acme/sales/asia', 'SubGroupUrlRoute', 'emptyResult');
             break;
         case 'current parent information':
             createRouteWithResponse(urlPrefix + groupsUrl + '/8?t=1*', 'currentParentGroupEuropeRoute', 'currentParentGroupEurope');

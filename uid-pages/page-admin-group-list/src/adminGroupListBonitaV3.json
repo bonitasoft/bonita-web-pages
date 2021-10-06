@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminGroupListBonitaV3",
   "name" : "adminGroupListBonitaV3",
-  "lastUpdate" : 1633422820299,
+  "lastUpdate" : 1633510104416,
   "rows" : [
     [
       {
@@ -6908,7 +6908,6 @@
         "return {",
         "    initUserListModal: function(group) {",
         "        $data.userListData.selectedGroup = group;",
-        "        $data.userListData.timestamp = new Date().getTime();",
         "        $data.userListData.displayedUsers = [];",
         "        $data.userListData.userFilters.searchValue = \"\";",
         "        ",
@@ -6949,7 +6948,6 @@
         "return {",
         "    initSubGroupListModal: function(group) {",
         "        $data.subGroupListData.selectedGroup = group;",
-        "        $data.subGroupListData.timestamp = new Date().getTime();",
         "        $data.subGroupListData.displayedSubGroups = [];",
         "        $data.subGroupListData.subGroupsFilters.searchValue = \"\";",
         "        ",
@@ -6957,7 +6955,7 @@
         "    },",
         "    subGroupQueryParameters: function() {",
         "        var selectedGroupPath = $data.subGroupListData.selectedGroup ? $data.subGroupListData.selectedGroup.path : \"\";",
-        "        var queryParameters = \"&o=displayName%20ASC&f=parent_path=\" + selectedGroupPath + \"&t=\" + $data.subGroupListData.timestamp;",
+        "        var queryParameters = \"&o=displayName%20ASC&f=parent_path=\" + selectedGroupPath;",
         "",
         "        if($data.subGroupListData.subGroupsFilters.searchValue) {",
         "            queryParameters += \"&s=\" + $data.subGroupListData.subGroupsFilters.searchValue;",
