@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminProfileListBonitaV2",
-  "name" : "adminProfileListBonitaV2",
-  "lastUpdate" : 1627290235311,
+  "id" : "adminProfileListBonitaV3",
+  "name" : "adminProfileListBonitaV3",
+  "lastUpdate" : 1633599523365,
   "rows" : [
     [
       {
@@ -2637,59 +2637,7 @@
           ],
           [
             {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "text-primary item-label pt-5"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "profilesData.displayedProfiles.length === 0"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "{{\"Profiles shown\"|uiTranslate}}: {{profilesData.displayedProfiles.length}} {{\"of\"|uiTranslate}} {{profilesData.totalProfiles}}"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                }
-              },
-              "reference" : "88dd01d3-4a28-4dd8-943d-457bbfa5b839",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ],
-          [
-            {
-              "type" : "component",
+              "type" : "fragment",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -2702,116 +2650,23 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "profilesData.displayedProfiles.length"
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "No profiles to display"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                }
-              },
-              "reference" : "cdd13898-abd7-44f1-b0d0-042b9d0cba5e",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "profilesData.displayedProfiles.length === 0"
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "profilesData.displayedProfiles.length % profilesData.numberOfProfilesPerPage > 0 || profilesData.numberOfProfilesInMemory === 0"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Load more profiles"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "GET"
-                },
-                "assign" : {
                   "type" : "constant",
                   "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "{{defaultProfilesUrl}}?{{profilesCtrl.profilesQueryParameters(profilesData.pageId)}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "profilesData.profilesFromAPI"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
                 }
               },
-              "reference" : "fec2d693-48de-457f-81d1-e0abbf36bd9d",
+              "reference" : "7ba2aa6b-c296-46ed-96de-46cfd8a452cc",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "fragmentLoadMoreV1",
+              "binding" : {
+                "displayedItems" : "profilesData.displayedProfiles",
+                "numberOfItemsPerPage" : "profilesData.numberOfProfilesPerPage",
+                "buttonLabel" : "\"Load more profiles\"",
+                "urlPrefix" : "defaultProfilesUrl",
+                "noItemsMessage" : "\"No profiles to display\"",
+                "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                "itemsShownMessage" : "\"Profiles shown\"",
+                "filtersString" : "profilesCtrl.profilesQueryParameters()"
+              }
             }
           ]
         ]
@@ -6808,59 +6663,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : "text-primary item-label pt-5"
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editUsersMappingData.displayedUsers.length == 0"
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "{{\"Users shown\"|uiTranslate}}: {{editUsersMappingData.displayedUsers.length}} {{\"of\"|uiTranslate}} {{editUsersMappingData.totalUsers}}"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              }
-                            },
-                            "reference" : "5530af6e-b518-4bcd-be4c-f58135e2c593",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
+                            "type" : "fragment",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -6873,116 +6676,23 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "editUsersMappingData.displayedUsers.length"
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "No users to display"
-                              },
-                              "level" : {
-                                "type" : "constant",
-                                "value" : "Level 4"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              }
-                            },
-                            "reference" : "a24044b7-edb1-4ded-b347-2815c30fdf75",
-                            "hasValidationError" : false,
-                            "id" : "pbTitle"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editUsersMappingData.displayedUsers.length == 0"
-                              },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "editUsersMappingData.displayedUsers.length % editUsersMappingData.numberOfUsersPerPage > 0 || editUsersMappingData.numberOfUsersInMemory === 0"
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Load more users"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "link"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "GET"
-                              },
-                              "assign" : {
                                 "type" : "constant",
                                 "value" : false
-                              },
-                              "url" : {
-                                "type" : "interpolation",
-                                "value" : "{{profileMemberUrl}}{{editUsersMappingCtrl.mappedUsersQueryParameters(editUsersMappingData.pageId)}}"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "constant"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : "editUsersMappingData.usersFromAPI"
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
                               }
                             },
-                            "reference" : "de7c1cd8-0077-4391-86c9-10a38c588bd7",
+                            "reference" : "b25bc6f9-1942-4de8-ac48-91127a117dea",
                             "hasValidationError" : false,
-                            "id" : "pbButton"
+                            "id" : "fragmentLoadMoreV1",
+                            "binding" : {
+                              "displayedItems" : "editUsersMappingData.displayedUsers",
+                              "numberOfItemsPerPage" : "editUsersMappingData.numberOfUsersPerPage",
+                              "buttonLabel" : "\"Load more users\"",
+                              "urlPrefix" : "profileMemberUrl",
+                              "noItemsMessage" : "\"No users to display\"",
+                              "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                              "itemsShownMessage" : "\"Users shown\"",
+                              "filtersString" : "editUsersMappingCtrl.mappedUsersQueryParameters()"
+                            }
                           }
                         ]
                       ]
@@ -8512,59 +8222,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : "text-primary item-label pt-5"
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editRolesMappingData.displayedRoles.length == 0"
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "{{\"Roles shown\"|uiTranslate}}: {{editRolesMappingData.displayedRoles.length}} {{\"of\"|uiTranslate}} {{editRolesMappingData.totalRoles}}"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              }
-                            },
-                            "reference" : "680f3db6-5885-485d-892c-b7c0e9572a07",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
+                            "type" : "fragment",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -8577,116 +8235,23 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "editRolesMappingData.displayedRoles.length"
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "No roles to display"
-                              },
-                              "level" : {
-                                "type" : "constant",
-                                "value" : "Level 4"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              }
-                            },
-                            "reference" : "d4d1e3f2-e28f-40ff-b953-72ee8fdae6d9",
-                            "hasValidationError" : false,
-                            "id" : "pbTitle"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editRolesMappingData.displayedRoles.length == 0"
-                              },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "editRolesMappingData.displayedRoles.length % editRolesMappingData.numberOfRolesPerPage > 0 || editRolesMappingData.numberOfRolesInMemory === 0"
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Load more roles"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "link"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "GET"
-                              },
-                              "assign" : {
                                 "type" : "constant",
                                 "value" : false
-                              },
-                              "url" : {
-                                "type" : "interpolation",
-                                "value" : "{{profileMemberUrl}}{{editRolesMappingCtrl.mappedRolesQueryParameters(editRolesMappingData.pageId)}}"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "constant"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : "editRolesMappingData.rolesFromAPI"
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
                               }
                             },
-                            "reference" : "7ed12196-6e5c-4feb-a166-ad57730675b7",
+                            "reference" : "1c29943b-1d35-4f14-973d-0f5ae0e04b61",
                             "hasValidationError" : false,
-                            "id" : "pbButton"
+                            "id" : "fragmentLoadMoreV1",
+                            "binding" : {
+                              "displayedItems" : "editRolesMappingData.displayedRoles",
+                              "numberOfItemsPerPage" : "editRolesMappingData.numberOfRolesPerPage",
+                              "buttonLabel" : "\"Load more roles\"",
+                              "urlPrefix" : "profileMemberUrl",
+                              "noItemsMessage" : "\"No roles to display\"",
+                              "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                              "itemsShownMessage" : "\"Roles shown\"",
+                              "filtersString" : "editRolesMappingCtrl.mappedRolesQueryParameters()"
+                            }
                           }
                         ]
                       ]
@@ -10452,59 +10017,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : "text-primary item-label pt-5"
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editGroupsMappingData.displayedGroups.length == 0"
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "{{\"Groups shown\"|uiTranslate}}: {{editGroupsMappingData.displayedGroups.length}} {{\"of\"|uiTranslate}} {{editGroupsMappingData.totalGroups}}"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              }
-                            },
-                            "reference" : "c7902518-456d-4299-aef9-a4cd3e78c7cf",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
+                            "type" : "fragment",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -10517,116 +10030,23 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "editGroupsMappingData.displayedGroups.length"
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "No groups to display"
-                              },
-                              "level" : {
-                                "type" : "constant",
-                                "value" : "Level 4"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              }
-                            },
-                            "reference" : "73e992be-204d-4e2b-a593-9c6255ebf924",
-                            "hasValidationError" : false,
-                            "id" : "pbTitle"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editGroupsMappingData.displayedGroups.length == 0"
-                              },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "editGroupsMappingData.displayedGroups.length % editGroupsMappingData.numberOfGroupsPerPage > 0 || editGroupsMappingData.numberOfGroupsInMemory === 0"
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Load more groups"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "link"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "GET"
-                              },
-                              "assign" : {
                                 "type" : "constant",
                                 "value" : false
-                              },
-                              "url" : {
-                                "type" : "interpolation",
-                                "value" : "{{profileMemberUrl}}{{editGroupsMappingCtrl.mappedGroupsQueryParameters(editGroupsMappingData.pageId)}}"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "constant"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : "editGroupsMappingData.groupsFromAPI"
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
                               }
                             },
-                            "reference" : "ae1f9d4e-7c88-4151-b5d7-6aa53be0951d",
+                            "reference" : "17878096-5263-4b6b-b869-21b3dc12d59a",
                             "hasValidationError" : false,
-                            "id" : "pbButton"
+                            "id" : "fragmentLoadMoreV1",
+                            "binding" : {
+                              "displayedItems" : "editGroupsMappingData.displayedGroups",
+                              "numberOfItemsPerPage" : "editGroupsMappingData.numberOfGroupsPerPage",
+                              "buttonLabel" : "\"Load more groups\"",
+                              "urlPrefix" : "profileMemberUrl",
+                              "noItemsMessage" : "\"No groups to display\"",
+                              "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                              "itemsShownMessage" : "\"Groups shown\"",
+                              "filtersString" : "editGroupsMappingCtrl.mappedGroupsQueryParameters()"
+                            }
                           }
                         ]
                       ]
@@ -12546,59 +11966,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : "text-primary item-label pt-5"
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editMembershipsMappingData.displayedMemberships.length == 0"
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Default label"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "{{\"Memberships shown\"|uiTranslate}}: {{editMembershipsMappingData.displayedMemberships.length}} {{\"of\"|uiTranslate}} {{editMembershipsMappingData.totalMemberships}}"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              }
-                            },
-                            "reference" : "090892a6-52ab-4933-b320-ea4ce41ba412",
-                            "hasValidationError" : false,
-                            "id" : "pbText"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
+                            "type" : "fragment",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -12611,116 +11979,23 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "editMembershipsMappingData.displayedMemberships.length"
-                              },
-                              "text" : {
-                                "type" : "interpolation",
-                                "value" : "No memberships to display"
-                              },
-                              "level" : {
-                                "type" : "constant",
-                                "value" : "Level 4"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              }
-                            },
-                            "reference" : "26bd1190-628e-4e90-ac63-ab82393f1831",
-                            "hasValidationError" : false,
-                            "id" : "pbTitle"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "expression",
-                                "value" : "editMembershipsMappingData.displayedMemberships.length == 0"
-                              },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "editMembershipsMappingData.displayedMemberships.length % editMembershipsMappingData.numberOfMembershipsPerPage > 0 || editMembershipsMappingData.numberOfMembershipsInMemory === 0"
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Load more memberships"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "center"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "link"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "GET"
-                              },
-                              "assign" : {
                                 "type" : "constant",
                                 "value" : false
-                              },
-                              "url" : {
-                                "type" : "interpolation",
-                                "value" : "{{profileMemberUrl}}{{editMembershipsMappingCtrl.mappedMembershipsQueryParameters(editMembershipsMappingData.pageId)}}"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "constant"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : "editMembershipsMappingData.membershipsFromAPI"
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
                               }
                             },
-                            "reference" : "766d4b65-aa05-4095-bccd-16a6bf197563",
+                            "reference" : "898204a6-c583-4af2-aa17-0f1984ce3301",
                             "hasValidationError" : false,
-                            "id" : "pbButton"
+                            "id" : "fragmentLoadMoreV1",
+                            "binding" : {
+                              "displayedItems" : "editMembershipsMappingData.displayedMemberships",
+                              "numberOfItemsPerPage" : "editMembershipsMappingData.numberOfMembershipsPerPage",
+                              "buttonLabel" : "\"Load more memberships\"",
+                              "urlPrefix" : "profileMemberUrl",
+                              "noItemsMessage" : "\"No memberships to display\"",
+                              "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
+                              "itemsShownMessage" : "\"Memberships shown\"",
+                              "filtersString" : "editMembershipsMappingCtrl.mappedMembershipsQueryParameters()"
+                            }
                           }
                         ]
                       ]
@@ -12886,26 +12161,12 @@
       ],
       "exposed" : false
     },
-    "profilesUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{defaultProfilesUrl}}?{{profilesCtrl.profilesQueryParameters(0)}}&t={{profilesData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "profilesData.profilesHeaderResponse"
-      },
-      "exposed" : false
-    },
     "profilesData" : {
       "type" : "expression",
       "value" : [
         "return {",
         "    timestamp: 0,",
-        "    profilesInMemory: [],",
-        "    pageId: 0, ",
         "    numberOfProfilesPerPage: 10,",
-        "    numberOfProfilesInMemory: 0,",
-        "    profilesFromAPI: undefined,",
         "    displayedProfiles: [],",
         "    sortByOptions: [   ",
         "        { displayKey: \"Name (Asc)\", returnKey: \"name+ASC\" },",
@@ -12914,53 +12175,8 @@
         "    filters: {",
         "        sortOrder: \"\",",
         "        searchValue: \"\"",
-        "    },",
-        "    totalProfiles: 0,",
-        "    profilesHeaderResponse: undefined",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "profilesHandler" : {
-      "type" : "expression",
-      "value" : [
-        "// Profiles",
-        "// display the first page of profiles on page load or when the filter change",
-        "if($data.profilesUrl) {",
-        "    // get the total number of profiles",
-        "    if($data.profilesData.profilesHeaderResponse && $data.profilesData.profilesHeaderResponse['content-range']) {",
-        "        $data.profilesData.totalProfiles = $data.profilesData.profilesHeaderResponse['content-range'].split('/')[1];",
         "    }",
-        "    // display half the elements loaded",
-        "    $data.profilesData.displayedProfiles = $data.profilesUrl.slice(0, $data.profilesData.numberOfProfilesPerPage);",
-        "    // set the next page to be requested to 2 since the first page is in the memory",
-        "    $data.profilesData.pageId = 2;",
-        "    $data.profilesData.profilesInMemory = $data.profilesUrl.slice($data.profilesData.numberOfProfilesPerPage);",
-        "    // saving the other half to be displayed later",
-        "    $data.profilesData.numberOfProfilesInMemory = $data.profilesData.profilesInMemory.length;",
-        "    // set items to undefined as the script is triggered when click on load more items button",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedItems)",
-        "    $data.profilesUrl = undefined;",
-        "    $data.profilesData.profilesFromAPI = undefined;",
-        "}",
-        "",
-        "// add next page of profiles to the list of next profiles to display",
-        "// display the next profiles from the memory",
-        "if($data.profilesData.profilesFromAPI && $data.profilesData.profilesFromAPI.length) {",
-        "    $data.profilesData.displayedProfiles = $data.profilesData.displayedProfiles.concat($data.profilesData.profilesInMemory);",
-        "    $data.profilesData.pageId++;",
-        "    $data.profilesData.profilesInMemory = $data.profilesData.profilesFromAPI;",
-        "    $data.profilesData.numberOfProfilesInMemory = $data.profilesData.profilesInMemory.length;",
-        "    $data.profilesData.profilesFromAPI = undefined;",
-        "}",
-        "",
-        "// when there are no more profiles in the memory",
-        "if($data.profilesData.numberOfProfilesInMemory > 0 && $data.profilesData.profilesFromAPI && $data.profilesData.profilesFromAPI.length === 0) {",
-        "    $data.profilesData.displayedProfiles = $data.profilesData.displayedProfiles.concat($data.profilesData.profilesInMemory);",
-        "    $data.profilesData.profilesInMemory = undefined;",
-        "    $data.profilesData.profilesFromAPI = undefined;",
-        "    $data.profilesData.numberOfProfilesInMemory = 0;",
-        "}"
+        "};"
       ],
       "exposed" : false
     },
@@ -12968,14 +12184,8 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    profilesQueryParameters: function(pageId) {",
-        "        var profilesPerPage = $data.profilesData.numberOfProfilesPerPage;",
-        "        ",
-        "        if (pageId === 0) {",
-        "            //on first call we need load next page",
-        "            profilesPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"c=\" + profilesPerPage + \"&p=\" + pageId;",
+        "    profilesQueryParameters: function() {",
+        "        var queryParameters = \"&t=\" + $data.profilesData.timestamp;",
         "    ",
         "        if ($data.profilesData.filters.sortOrder) {",
         "            queryParameters += \"&o=\" + $data.profilesData.filters.sortOrder;",
@@ -13075,6 +12285,7 @@
         "        && !$data.createProfileData.hasRecentlyBeenCreated) {",
         "    $data.profilesData.timestamp = new Date().getTime();",
         "    $data.createProfileData.hasRecentlyBeenCreated = true;",
+        "    $data.profilesData.displayedProfiles = [];",
         "}",
         "",
         "if ($data.createProfileData.statusCode !== 200) {",
@@ -13090,6 +12301,7 @@
         "        && !$data.deleteProfileData.hasRecentlyBeenDeleted) {",
         "    $data.profilesData.timestamp = new Date().getTime();",
         "    $data.deleteProfileData.hasRecentlyBeenDeleted = true;",
+        "    $data.profilesData.displayedProfiles = [];",
         "}",
         "",
         "// Clean profileSelectedForMapping collection since we only need the first element",
@@ -13415,12 +12627,8 @@
         "    hasRecentlyBeenMapped:false,",
         "    selectedProfile: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfUsersPerPage: 10,",
         "    displayedUsers: [],",
-        "    numberOfUsersInMemory: 0,",
-        "    usersInMemory: [],",
-        "    usersFromAPI: undefined,",
         "    userToUnmap: undefined,",
         "    userToMap: undefined,",
         "    userFilters: {",
@@ -13432,9 +12640,7 @@
         "    addUserId: undefined,",
         "    selectedUserToAdd: [],",
         "    addUserStatusCode: undefined,",
-        "    addUserFailedResponse: undefined,",
-        "    totalUsers: 0,",
-        "    usersHeaderResponse: undefined",
+        "    addUserFailedResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -13446,11 +12652,7 @@
         "    initEditUsersMappingModal: function(profile) {\r",
         "        $data.editUsersMappingData.selectedProfile = profile;\r",
         "        $data.editUsersMappingData.timestamp = new Date().getTime();\r",
-        "        $data.editUsersMappingData.pageId = 0;\r",
         "        $data.editUsersMappingData.displayedUsers = [];\r",
-        "        $data.editUsersMappingData.numberOfUsersInMemory = 0;\r",
-        "        $data.editUsersMappingData.usersInMemory = [];\r",
-        "        $data.editUsersMappingData.usersFromAPI = undefined;\r",
         "        $data.editUsersMappingData.userFilters.searchValue = \"\";\r",
         "        $data.editUsersMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editUsersMappingData.hasRecentlyBeenMapped = false;\r",
@@ -13468,15 +12670,8 @@
         "        return \"editUsersMappingModal\";\r",
         "    },\r",
         "    mappedUsersQueryParameters: function(pageId) {\r",
-        "        var usersPerPage = $data.editUsersMappingData.numberOfUsersPerPage;\r",
-        "    \r",
-        "        if (pageId === 0) {\r",
-        "            //on first call we need load next page\r",
-        "            usersPerPage *= 2;\r",
-        "        }\r",
-        "        \r",
         "        var selectedProfileId = $data.editUsersMappingData.selectedProfile ? $data.editUsersMappingData.selectedProfile.id : \"\";\r",
-        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + usersPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=user&d=user_id\";\r",
+        "        var queryParameters = \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=user&d=user_id&t=\" + $data.editUsersMappingData.timestamp;\r",
         "        \r",
         "        if($data.editUsersMappingData.userFilters.searchValue) {\r",
         "            queryParameters += \"&s=\" + $data.editUsersMappingData.userFilters.searchValue;\r",
@@ -13572,48 +12767,6 @@
     "editUsersMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "// Mapped users\r",
-        "// diplay the first page of users on page load or when the filters change\r",
-        "if($data.editUsersMappingUrl) {\r",
-        "    // get the total number of users\r",
-        "    if($data.editUsersMappingData.usersHeaderResponse && $data.editUsersMappingData.usersHeaderResponse['content-range']) {\r",
-        "        $data.editUsersMappingData.totalUsers = $data.editUsersMappingData.usersHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.editUsersMappingData.displayedUsers = $data.editUsersMappingUrl.slice(0, $data.editUsersMappingData.numberOfUsersPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.editUsersMappingData.pageId = 2;\r",
-        "    $data.editUsersMappingData.usersInMemory = $data.editUsersMappingUrl.slice($data.editUsersMappingData.numberOfUsersPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.editUsersMappingData.numberOfUsersInMemory = $data.editUsersMappingData.usersInMemory.length;\r",
-        "    // set users to undefined as the script is triggered when click on load more users button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedUsers)\r",
-        "    $data.editUsersMappingUrl = undefined;\r",
-        "    $data.editUsersMappingData.usersFromAPI = undefined;\r",
-        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
-        "}\r",
-        "\r",
-        "// add next page of users to the list of next users to display\r",
-        "// display the next users from the memory\r",
-        "if($data.editUsersMappingData.usersFromAPI \r",
-        "        && $data.editUsersMappingData.usersFromAPI.length){\r",
-        "    $data.editUsersMappingData.displayedUsers = $data.editUsersMappingData.displayedUsers.concat($data.editUsersMappingData.usersInMemory);\r",
-        "    $data.editUsersMappingData.pageId++;\r",
-        "    $data.editUsersMappingData.usersInMemory = $data.editUsersMappingData.usersFromAPI;\r",
-        "    $data.editUsersMappingData.numberOfUsersInMemory = $data.editUsersMappingData.usersInMemory.length;\r",
-        "    $data.editUsersMappingData.usersFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more users in the memory\r",
-        "if($data.editUsersMappingData.numberOfUsersInMemory > 0 \r",
-        "        && $data.editUsersMappingData.usersFromAPI \r",
-        "        && $data.editUsersMappingData.usersFromAPI.length === 0){\r",
-        "    $data.editUsersMappingData.displayedUsers = $data.editUsersMappingData.displayedUsers.concat($data.editUsersMappingData.usersInMemory);\r",
-        "    $data.editUsersMappingData.usersInMemory = undefined;\r",
-        "    $data.editUsersMappingData.usersFromAPI = undefined;\r",
-        "    $data.editUsersMappingData.numberOfUsersInMemory = 0;\r",
-        "}\r",
-        "\r",
         "// Select users to add to mapping\r",
         "if ($data.editUsersMappingData.selectedUserToAdd \r",
         "        && $data.editUsersMappingData.selectedUserToAdd.length > 0) {\r",
@@ -13633,6 +12786,7 @@
         "    $data.editUsersMappingData.addUserSearchValue = \"\";\r",
         "    $data.editUsersMappingData.addUserDisplayName = undefined;\r",
         "    $data.editUsersMappingData.addUserId = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editUsersMappingData.hasRecentlyBeenMapped = false;\r",
         "        $data.editUsersMappingData.addUserStatusCode = undefined;\r",
@@ -13644,22 +12798,13 @@
         "        && !$data.editUsersMappingData.hasRecentlyBeenUnmapped) {\r",
         "    $data.editUsersMappingData.timestamp = new Date().getTime();\r",
         "    $data.editUsersMappingData.hasRecentlyBeenUnmapped = true;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editUsersMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editUsersMappingData.statusCode = undefined;\r",
         "    }, 2000);\r",
-        "}\r"
+        "}"
       ],
-      "exposed" : false
-    },
-    "editUsersMappingUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{profileMemberUrl}}{{editUsersMappingCtrl.mappedUsersQueryParameters(0)}}&t={{editUsersMappingData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "editUsersMappingData.usersHeaderResponse"
-      },
       "exposed" : false
     },
     "userListUrl" : {
@@ -13683,11 +12828,7 @@
         "    initEditRolesMappingModal: function(profile) {\r",
         "        $data.editRolesMappingData.selectedProfile = profile;\r",
         "        $data.editRolesMappingData.timestamp = new Date().getTime();\r",
-        "        $data.editRolesMappingData.pageId = 0;\r",
         "        $data.editRolesMappingData.displayedRoles = [];\r",
-        "        $data.editRolesMappingData.numberOfRolesInMemory = 0;\r",
-        "        $data.editRolesMappingData.rolesInMemory = [];\r",
-        "        $data.editRolesMappingData.rolesFromAPI = undefined;\r",
         "        $data.editRolesMappingData.roleFilters.searchValue = \"\";\r",
         "        $data.editRolesMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
@@ -13703,16 +12844,9 @@
         "        \r",
         "        return \"editRolesMappingModal\";\r",
         "    },\r",
-        "    mappedRolesQueryParameters: function(pageId) {\r",
-        "        var rolesPerPage = $data.editRolesMappingData.numberOfRolesPerPage;\r",
-        "    \r",
-        "        if (pageId === 0) {\r",
-        "            //on first call we need load next page\r",
-        "            rolesPerPage *= 2;\r",
-        "        }\r",
-        "        \r",
+        "    mappedRolesQueryParameters: function() {\r",
         "        var selectedProfileId = $data.editRolesMappingData.selectedProfile ? $data.editRolesMappingData.selectedProfile.id : \"\";\r",
-        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + rolesPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=role&d=role_id\";\r",
+        "        var queryParameters = \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=role&d=role_id&t=\" + $data.editRolesMappingData.timestamp;\r",
         "        \r",
         "        if($data.editRolesMappingData.roleFilters.searchValue) {\r",
         "            queryParameters += \"&s=\" + $data.editRolesMappingData.roleFilters.searchValue;\r",
@@ -13796,12 +12930,8 @@
         "    hasRecentlyBeenMapped:false,",
         "    selectedProfile: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfRolesPerPage: 10,",
         "    displayedRoles: [],",
-        "    numberOfRolesInMemory: 0,",
-        "    rolesInMemory: [],",
-        "    rolesFromAPI: undefined,",
         "    roleToUnmap: undefined,",
         "    roleToMap: undefined,",
         "    roleFilters: {",
@@ -13812,9 +12942,7 @@
         "    addRoleId: undefined,",
         "    selectedRoleToAdd: [],",
         "    addRoleStatusCode: undefined,",
-        "    addRoleFailedResponse: undefined,",
-        "    totalRoles: 0,",
-        "    rolesHeaderResponse: undefined",
+        "    addRoleFailedResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -13822,48 +12950,6 @@
     "editRolesMappingHandler" : {
       "type" : "expression",
       "value" : [
-        "// Mapped roles\r",
-        "// diplay the first page of roles on page load or when the filters change\r",
-        "if($data.editRolesMappingUrl) {\r",
-        "    // get the total number of roles\r",
-        "    if($data.editRolesMappingData.rolesHeaderResponse && $data.editRolesMappingData.rolesHeaderResponse['content-range']) {\r",
-        "        $data.editRolesMappingData.totalRoles = $data.editRolesMappingData.rolesHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingUrl.slice(0, $data.editRolesMappingData.numberOfRolesPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.editRolesMappingData.pageId = 2;\r",
-        "    $data.editRolesMappingData.rolesInMemory = $data.editRolesMappingUrl.slice($data.editRolesMappingData.numberOfRolesPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.editRolesMappingData.numberOfRolesInMemory = $data.editRolesMappingData.rolesInMemory.length;\r",
-        "    // set roles to undefined as the script is triggered when click on load more roles button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedRoles)\r",
-        "    $data.editRolesMappingUrl = undefined;\r",
-        "    $data.editRolesMappingData.rolesFromAPI = undefined;\r",
-        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
-        "}\r",
-        "\r",
-        "// add next page of roles to the list of next roles to display\r",
-        "// display the next roles from the memory\r",
-        "if($data.editRolesMappingData.rolesFromAPI \r",
-        "        && $data.editRolesMappingData.rolesFromAPI.length){\r",
-        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingData.displayedRoles.concat($data.editRolesMappingData.rolesInMemory);\r",
-        "    $data.editRolesMappingData.pageId++;\r",
-        "    $data.editRolesMappingData.rolesInMemory = $data.editRolesMappingData.rolesFromAPI;\r",
-        "    $data.editRolesMappingData.numberOfRolesInMemory = $data.editRolesMappingData.rolesInMemory.length;\r",
-        "    $data.editRolesMappingData.rolesFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more roles in the memory\r",
-        "if($data.editRolesMappingData.numberOfRolesInMemory > 0 \r",
-        "        && $data.editRolesMappingData.rolesFromAPI \r",
-        "        && $data.editRolesMappingData.rolesFromAPI.length === 0){\r",
-        "    $data.editRolesMappingData.displayedRoles = $data.editRolesMappingData.displayedRoles.concat($data.editRolesMappingData.rolesInMemory);\r",
-        "    $data.editRolesMappingData.rolesInMemory = undefined;\r",
-        "    $data.editRolesMappingData.rolesFromAPI = undefined;\r",
-        "    $data.editRolesMappingData.numberOfRolesInMemory = 0;\r",
-        "}\r",
-        "\r",
         "// Select roles to add to mapping\r",
         "if ($data.editRolesMappingData.selectedRoleToAdd \r",
         "        && $data.editRolesMappingData.selectedRoleToAdd.length > 0) {\r",
@@ -13882,6 +12968,7 @@
         "    $data.editRolesMappingData.addRoleSearchValue = \"\";\r",
         "    $data.editRolesMappingData.addRoleName = undefined;\r",
         "    $data.editRolesMappingData.addRoleId = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editRolesMappingData.hasRecentlyBeenMapped = false;\r",
         "        $data.editRolesMappingData.addRoleStatusCode = undefined;\r",
@@ -13894,22 +12981,13 @@
         "    $data.editRolesMappingData.timestamp = new Date().getTime();\r",
         "    $data.editRolesMappingData.hasRecentlyBeenUnmapped = true;\r",
         "    $data.organizationMappingData.rolesMapping = $data.rolesOfProfile;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editRolesMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editRolesMappingData.statusCode = undefined;\r",
         "    }, 2000);\r",
         "}"
       ],
-      "exposed" : false
-    },
-    "editRolesMappingUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{profileMemberUrl}}{{editRolesMappingCtrl.mappedRolesQueryParameters(0)}}&t={{editRolesMappingData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "editRolesMappingData.rolesHeaderResponse"
-      },
       "exposed" : false
     },
     "addRoleSearchList" : {
@@ -13926,11 +13004,7 @@
         "    initEditGroupsMappingModal: function(profile) {\r",
         "        $data.editGroupsMappingData.selectedProfile = profile;\r",
         "        $data.editGroupsMappingData.timestamp = new Date().getTime();\r",
-        "        $data.editGroupsMappingData.pageId = 0;\r",
         "        $data.editGroupsMappingData.displayedGroups = [];\r",
-        "        $data.editGroupsMappingData.numberOfGroupsInMemory = 0;\r",
-        "        $data.editGroupsMappingData.groupsInMemory = [];\r",
-        "        $data.editGroupsMappingData.groupsFromAPI = undefined;\r",
         "        $data.editGroupsMappingData.groupFilters.searchValue = \"\";\r",
         "        $data.editGroupsMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
@@ -13948,16 +13022,9 @@
         "        \r",
         "        return \"editGroupsMappingModal\";\r",
         "    },\r",
-        "    mappedGroupsQueryParameters: function(pageId) {\r",
-        "        var groupsPerPage = $data.editGroupsMappingData.numberOfGroupsPerPage;\r",
-        "    \r",
-        "        if (pageId === 0) {\r",
-        "            //on first call we need load next page\r",
-        "            groupsPerPage *= 2;\r",
-        "        }\r",
-        "        \r",
+        "    mappedGroupsQueryParameters: function() {\r",
         "        var selectedProfileId = $data.editGroupsMappingData.selectedProfile ? $data.editGroupsMappingData.selectedProfile.id : \"\";\r",
-        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + groupsPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=group&d=group_id\";\r",
+        "        var queryParameters = \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=group&d=group_id&t=\" + $data.editGroupsMappingData.timestamp;\r",
         "        \r",
         "        if($data.editGroupsMappingData.groupFilters.searchValue) {\r",
         "            queryParameters += \"&s=\" + $data.editGroupsMappingData.groupFilters.searchValue;\r",
@@ -14050,12 +13117,8 @@
         "    hasRecentlyBeenMapped:false,",
         "    selectedProfile: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfGroupsPerPage: 10,",
         "    displayedGroups: [],",
-        "    numberOfGroupsInMemory: 0,",
-        "    groupsInMemory: [],",
-        "    groupsFromAPI: undefined,",
         "    groupToUnmap: undefined,",
         "    groupToMap: undefined,",
         "    groupFilters: {",
@@ -14068,68 +13131,15 @@
         "    addGroupId: undefined,",
         "    selectedGroupToAdd: [],",
         "    addGroupStatusCode: undefined,",
-        "    addGroupFailedResponse: undefined,",
-        "    totalGroups: 0,",
-        "    groupsHeaderResponse: undefined",
+        "    addGroupFailedResponse: undefined",
         "};"
       ],
-      "exposed" : false
-    },
-    "editGroupsMappingUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{profileMemberUrl}}{{editGroupsMappingCtrl.mappedGroupsQueryParameters(0)}}&t={{editGroupsMappingData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "editGroupsMappingData.groupsHeaderResponse"
-      },
       "exposed" : false
     },
     "editGroupsMappingHandler" : {
       "type" : "expression",
       "value" : [
         "// Mapped groups\r",
-        "// diplay the first page of groups on page load or when the filters change\r",
-        "if($data.editGroupsMappingUrl) {\r",
-        "    // get the total number of groups\r",
-        "    if($data.editGroupsMappingData.groupsHeaderResponse && $data.editGroupsMappingData.groupsHeaderResponse['content-range']) {\r",
-        "        $data.editGroupsMappingData.totalGroups = $data.editGroupsMappingData.groupsHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingUrl.slice(0, $data.editGroupsMappingData.numberOfGroupsPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.editGroupsMappingData.pageId = 2;\r",
-        "    $data.editGroupsMappingData.groupsInMemory = $data.editGroupsMappingUrl.slice($data.editGroupsMappingData.numberOfGroupsPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.editGroupsMappingData.numberOfGroupsInMemory = $data.editGroupsMappingData.groupsInMemory.length;\r",
-        "    // set groups to undefined as the script is triggered when click on load more groups button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedGroups)\r",
-        "    $data.editGroupsMappingUrl = undefined;\r",
-        "    $data.editGroupsMappingData.groupsFromAPI = undefined;\r",
-        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
-        "}\r",
-        "\r",
-        "// add next page of groups to the list of next groups to display\r",
-        "// display the next groups from the memory\r",
-        "if($data.editGroupsMappingData.groupsFromAPI \r",
-        "        && $data.editGroupsMappingData.groupsFromAPI.length){\r",
-        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingData.displayedGroups.concat($data.editGroupsMappingData.groupsInMemory);\r",
-        "    $data.editGroupsMappingData.pageId++;\r",
-        "    $data.editGroupsMappingData.groupsInMemory = $data.editGroupsMappingData.groupsFromAPI;\r",
-        "    $data.editGroupsMappingData.numberOfGroupsInMemory = $data.editGroupsMappingData.groupsInMemory.length;\r",
-        "    $data.editGroupsMappingData.groupsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more groups in the memory\r",
-        "if($data.editGroupsMappingData.numberOfGroupsInMemory > 0 \r",
-        "        && $data.editGroupsMappingData.groupsFromAPI \r",
-        "        && $data.editGroupsMappingData.groupsFromAPI.length === 0){\r",
-        "    $data.editGroupsMappingData.displayedGroups = $data.editGroupsMappingData.displayedGroups.concat($data.editGroupsMappingData.groupsInMemory);\r",
-        "    $data.editGroupsMappingData.groupsInMemory = undefined;\r",
-        "    $data.editGroupsMappingData.groupsFromAPI = undefined;\r",
-        "    $data.editGroupsMappingData.numberOfGroupsInMemory = 0;\r",
-        "}\r",
-        "\r",
         "// Select groups to add to mapping\r",
         "if ($data.editGroupsMappingData.selectedGroupToAdd \r",
         "        && $data.editGroupsMappingData.selectedGroupToAdd.length > 0) {\r",
@@ -14148,6 +13158,7 @@
         "    $data.editGroupsMappingData.addGroupSearchValue = \"\";\r",
         "    $data.editGroupsMappingData.addGroupName = undefined;\r",
         "    $data.editGroupsMappingData.addGroupId = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editGroupsMappingData.hasRecentlyBeenMapped = false;\r",
         "        $data.editGroupsMappingData.addGroupStatusCode = undefined;\r",
@@ -14160,6 +13171,7 @@
         "    $data.editGroupsMappingData.timestamp = new Date().getTime();\r",
         "    $data.editGroupsMappingData.hasRecentlyBeenUnmapped = true;\r",
         "    $data.organizationMappingData.groupsMapping = $data.groupsOfProfile;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editGroupsMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editGroupsMappingData.statusCode = undefined;\r",
@@ -14182,11 +13194,7 @@
         "    initEditMembershipsMappingModal: function(profile) {",
         "        $data.editMembershipsMappingData.selectedProfile = profile;",
         "        $data.editMembershipsMappingData.timestamp = new Date().getTime();",
-        "        $data.editMembershipsMappingData.pageId = 0;",
         "        $data.editMembershipsMappingData.displayedMemberships = [];",
-        "        $data.editMembershipsMappingData.numberOfMembershipsInMemory = 0;",
-        "        $data.editMembershipsMappingData.membershipsInMemory = [];",
-        "        $data.editMembershipsMappingData.membershipsFromAPI = undefined;",
         "        $data.editMembershipsMappingData.membershipFilters.searchValue = \"\";",
         "        $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = false;",
         "        $data.editMembershipsMappingData.hasRecentlyBeenMapped = false;",
@@ -14208,16 +13216,9 @@
         "        ",
         "        return \"editMembershipsMappingModal\";",
         "    },",
-        "    mappedMembershipsQueryParameters: function(pageId) {",
-        "        var membershipsPerPage = $data.editMembershipsMappingData.numberOfMembershipsPerPage;",
-        "    ",
-        "        if (pageId === 0) {",
-        "            //on first call we need load next page",
-        "            membershipsPerPage *= 2;",
-        "        }",
-        "        ",
+        "    mappedMembershipsQueryParameters: function() {",
         "        var selectedProfileId = $data.editMembershipsMappingData.selectedProfile ? $data.editMembershipsMappingData.selectedProfile.id : \"\";",
-        "        var queryParameters = \"?p=\" + pageId + \"&c=\" + membershipsPerPage + \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=roleAndGroup&d=group_id&d=role_id\";",
+        "        var queryParameters = \"&f=profile_id=\" + selectedProfileId + \"&f=member_type=roleAndGroup&d=group_id&d=role_id&t=\" + $data.editMembershipsMappingData.timestamp;",
         "        ",
         "        if($data.editMembershipsMappingData.membershipFilters.searchValue) {",
         "            queryParameters += \"&s=\" + $data.editMembershipsMappingData.membershipFilters.searchValue;",
@@ -14337,12 +13338,8 @@
         "    hasRecentlyBeenMapped:false,",
         "    selectedProfile: undefined,",
         "    timestamp: 0,",
-        "    pageId: 0,",
         "    numberOfMembershipsPerPage: 10,",
         "    displayedMemberships: [],",
-        "    numberOfMembershipsInMemory: 0,",
-        "    membershipsInMemory: [],",
-        "    membershipsFromAPI: undefined,",
         "    groupToUnmap: undefined,",
         "    groupToMap: undefined,",
         "    roleToUnmap: undefined,",
@@ -14361,9 +13358,7 @@
         "    addRoleId: undefined,",
         "    selectedRoleToAdd: [],",
         "    addMembershipStatusCode: undefined,",
-        "    addMembershipFailedResponse: undefined,",
-        "    totalMemberships: 0,",
-        "    membershipsHeaderResponse: undefined",
+        "    addMembershipFailedResponse: undefined",
         "};"
       ],
       "exposed" : false
@@ -14372,47 +13367,6 @@
       "type" : "expression",
       "value" : [
         "// Mapped memberships\r",
-        "// diplay the first page of memberships on page load or when the filters change\r",
-        "if($data.editMembershipsMappingUrl) {\r",
-        "    //get the total number of memberships\r",
-        "    if($data.editMembershipsMappingData.membershipsHeaderResponse && $data.editMembershipsMappingData.membershipsHeaderResponse['content-range']) {\r",
-        "        $data.editMembershipsMappingData.totalMemberships = $data.editMembershipsMappingData.membershipsHeaderResponse['content-range'].split('/')[1];\r",
-        "    }\r",
-        "    // display half the elements loaded\r",
-        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingUrl.slice(0, $data.editMembershipsMappingData.numberOfMembershipsPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.editMembershipsMappingData.pageId = 2;\r",
-        "    $data.editMembershipsMappingData.membershipsInMemory = $data.editMembershipsMappingUrl.slice($data.editMembershipsMappingData.numberOfMembershipsPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.editMembershipsMappingData.numberOfMembershipsInMemory = $data.editMembershipsMappingData.membershipsInMemory.length;\r",
-        "    // set memberships to undefined as the script is triggered when click on load more memberships button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedMemberships)\r",
-        "    $data.editMembershipsMappingUrl = undefined;\r",
-        "    $data.editMembershipsMappingData.membershipsFromAPI = undefined;\r",
-        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
-        "}\r",
-        "\r",
-        "// add next page of memberships to the list of next memberships to display\r",
-        "// display the next memberships from the memory\r",
-        "if($data.editMembershipsMappingData.membershipsFromAPI \r",
-        "        && $data.editMembershipsMappingData.membershipsFromAPI.length){\r",
-        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingData.displayedMemberships.concat($data.editMembershipsMappingData.membershipsInMemory);\r",
-        "    $data.editMembershipsMappingData.pageId++;\r",
-        "    $data.editMembershipsMappingData.membershipsInMemory = $data.editMembershipsMappingData.membershipsFromAPI;\r",
-        "    $data.editMembershipsMappingData.numberOfMembershipsInMemory = $data.editMembershipsMappingData.membershipsInMemory.length;\r",
-        "    $data.editMembershipsMappingData.membershipsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more memberships in the memory\r",
-        "if($data.editMembershipsMappingData.numberOfMembershipsInMemory > 0 \r",
-        "        && $data.editMembershipsMappingData.membershipsFromAPI \r",
-        "        && $data.editMembershipsMappingData.membershipsFromAPI.length === 0){\r",
-        "    $data.editMembershipsMappingData.displayedMemberships = $data.editMembershipsMappingData.displayedMemberships.concat($data.editMembershipsMappingData.membershipsInMemory);\r",
-        "    $data.editMembershipsMappingData.membershipsInMemory = undefined;\r",
-        "    $data.editMembershipsMappingData.membershipsFromAPI = undefined;\r",
-        "    $data.editMembershipsMappingData.numberOfMembershipsInMemory = 0;\r",
-        "}\r",
-        "\r",
         "// Select group to add to membership mapping\r",
         "if ($data.editMembershipsMappingData.selectedGroupToAdd \r",
         "        && $data.editMembershipsMappingData.selectedGroupToAdd.length > 0) {\r",
@@ -14444,6 +13398,7 @@
         "    $data.editMembershipsMappingData.addRoleName = undefined;\r",
         "    $data.editMembershipsMappingData.addGroupId = undefined;\r",
         "    $data.editMembershipsMappingData.addRoleId = undefined;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editMembershipsMappingData.hasRecentlyBeenMapped = false;\r",
         "        $data.editMembershipsMappingData.addMembershipStatusCode = undefined;\r",
@@ -14456,22 +13411,13 @@
         "    $data.editMembershipsMappingData.timestamp = new Date().getTime();\r",
         "    $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = true;\r",
         "    $data.organizationMappingData.membershipsMapping = $data.membershipsOfProfile;\r",
+        "    $data.organizationMappingData.timestamp = new Date().getTime();\r",
         "    setTimeout(function() {\r",
         "        $data.editMembershipsMappingData.hasRecentlyBeenUnmapped = false;\r",
         "        $data.editMembershipsMappingData.statusCode = undefined;\r",
         "    }, 2000);\r",
         "}"
       ],
-      "exposed" : false
-    },
-    "editMembershipsMappingUrl" : {
-      "type" : "url",
-      "value" : [
-        "{{profileMemberUrl}}{{editMembershipsMappingCtrl.mappedMembershipsQueryParameters(0)}}&t={{editMembershipsMappingData.timestamp}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "editMembershipsMappingData.membershipsHeaderResponse"
-      },
       "exposed" : false
     },
     "addMembershipGroupSearchList" : {

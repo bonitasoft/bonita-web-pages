@@ -28,41 +28,6 @@ Feature: The Admin Profiles in desktop resolution
     When I put "Search term with no match" in "search" filter field
     Then No profiles are displayed
 
-  Scenario: Load more button works correctly
-    Given The response "profiles load more" is defined
-    When I visit the admin profiles page
-    Then A list of 10 items is displayed out of 38
-    When I click on Load more profiles button
-    Then A list of 20 items is displayed out of 38
-    When I click on Load more profiles button
-    Then A list of 30 items is displayed out of 38
-    When I click on Load more profiles button
-    Then A list of 38 items is displayed out of 38
-    And The load more profiles button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The response "profiles 20 load more" is defined
-    When I visit the admin profiles page
-    Then A list of 10 items is displayed
-    When I click on Load more profiles button
-    Then A list of 20 items is displayed
-    And The load more profiles button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The response "profiles 30 load more" is defined
-    And The response "sort during limitation" is defined
-    When I visit the admin profiles page
-    Then A list of 10 items is displayed
-    When I click on Load more profiles button
-    Then A list of 20 items is displayed
-    When I click on Load more profiles button
-    Then A list of 30 items is displayed
-    And The load more profiles button is disabled
-    When I put "Name (Desc)" in "sort by" filter field
-    Then A list of 10 items is displayed
-    When I click on Load more profiles button
-    Then A list of 20 items is displayed
-
   Scenario: The delete profile modal is opened and closed
     Given The response "refresh not called" is defined
     And The response "default filter with headers" is defined
