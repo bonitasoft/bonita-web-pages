@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "ApplicationDirectoryBonitaV1",
-  "name" : "ApplicationDirectoryBonitaV1",
-  "lastUpdate" : 1625822746732,
+  "id" : "ApplicationDirectoryBonitaV2",
+  "name" : "ApplicationDirectoryBonitaV2",
+  "lastUpdate" : 1631696180034,
   "rows" : [
     [
       {
@@ -1139,7 +1139,7 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "fragment",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -1152,116 +1152,23 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "applicationData.displayedApplications.length"
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "No applications to display"
-                },
-                "level" : {
-                  "type" : "constant",
-                  "value" : "Level 4"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                }
-              },
-              "reference" : "61a7a306-0b01-47d4-8f7f-ff022f2811a8",
-              "hasValidationError" : false,
-              "id" : "pbTitle"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : "mt-25"
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "applicationData.displayedApplications.length === 0"
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "applicationData.displayedApplications.length % applicationData.numberOfApplicationsPerPage > 0 || applicationData.numberOfApplicationsInMemory === 0"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Load more applications"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "GET"
-                },
-                "assign" : {
                   "type" : "constant",
                   "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/living/application{{applicationCtrl.applicationQueryParameters(applicationData.pageId)}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "applicationData.applicationsFromAPI"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
                 }
               },
-              "reference" : "e72c4c62-6b37-4334-bc5a-7980fe5888dd",
+              "reference" : "16471a21-56d9-423d-85cd-50927a3ad2fb",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "fragmentLoadMoreV1",
+              "binding" : {
+                "displayedItems" : "applicationData.displayedApplications",
+                "numberOfItemsPerPage" : "applicationData.numberOfApplicationsPerPage",
+                "buttonLabel" : "\"Load more applications\"",
+                "urlPrefix" : "apiApplicationUrl",
+                "noItemsMessage" : "\"No applications to display\"",
+                "itemsShownCSSClasses" : "\"hidden\"",
+                "itemsShownMessage" : "\"\"",
+                "filtersString" : "applicationCtrl.applicationQueryParameters()"
+              }
             }
           ]
         ]
@@ -2111,11 +2018,7 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    pageId: 0,",
         "    numberOfApplicationsPerPage: 10,",
-        "    applicationsInMemory: [],",
-        "    applicationsFromAPI: undefined,",
-        "    numberOfApplicationsInMemory: 0,",
         "    displayedApplications: [],",
         "    filters: {",
         "        searchValue: \"\"",
@@ -2124,28 +2027,16 @@
       ],
       "exposed" : false
     },
-    "applicationUrl" : {
-      "type" : "url",
-      "value" : [
-        "../API/living/application{{applicationCtrl.applicationQueryParameters(0)}}"
-      ],
-      "exposed" : false
-    },
     "applicationCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    applicationQueryParameters: function(pageId) {",
+        "    applicationQueryParameters: function() {",
         "        if(!$data.applicationData.numberOfApplicationsPerPage){",
         "            return undefined;",
         "        }",
         "      ",
-        "        var applicationsPerPage = $data.applicationData.numberOfApplicationsPerPage;",
-        "        if(pageId === 0){",
-        "            //On first call we need to load next page",
-        "            applicationsPerPage *= 2;",
-        "        }",
-        "        var queryParameters = \"?c=\" + applicationsPerPage + \"&p=\" + pageId + \"&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=\" + $data.session.user_id;",
+        "        var queryParameters = \"&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=\" + $data.session.user_id;",
         "        ",
         "        if($data.applicationData.filters.searchValue){",
         "            queryParameters += \"&s=\" +  $data.applicationData.filters.searchValue;",
@@ -2168,45 +2059,6 @@
         "        return cssClasses;",
         "    }",
         "};"
-      ],
-      "exposed" : false
-    },
-    "applicationHandler" : {
-      "type" : "expression",
-      "value" : [
-        "// Applications\r",
-        "// display the first page of items on page load or when the filters change\r",
-        "if($data.applicationUrl){\r",
-        "    // display half the elements loaded\r",
-        "    $data.applicationData.displayedApplications = $data.applicationUrl.slice(0, $data.applicationData.numberOfApplicationsPerPage);\r",
-        "    // set the next page to be requested to 2 since the first page is in the memory\r",
-        "    $data.applicationData.pageId = 2;\r",
-        "    $data.applicationData.applicationsInMemory = $data.applicationUrl.slice($data.applicationData.numberOfApplicationsPerPage);\r",
-        "    // saving the other half to be displayed later\r",
-        "    $data.applicationData.numberOfApplicationsInMemory = $data.applicationData.applicationsInMemory.length;\r",
-        "    // set items to undefined as the script is triggered when click on load more items button\r",
-        "    // and to prevent this block of code from being executed (prevent resetting the displayedApplications)\r",
-        "    $data.applicationUrl = undefined;\r",
-        "    $data.applicationData.applicationsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// add next page of items to the list of next items to display\r",
-        "// display the next items from the memory\r",
-        "if($data.applicationData.applicationsFromAPI && $data.applicationData.applicationsFromAPI.length){\r",
-        "    $data.applicationData.displayedApplications = $data.applicationData.displayedApplications.concat($data.applicationData.applicationsInMemory);\r",
-        "    $data.applicationData.pageId++;\r",
-        "    $data.applicationData.applicationsInMemory = $data.applicationData.applicationsFromAPI;\r",
-        "    $data.applicationData.numberOfApplicationsInMemory = $data.applicationData.applicationsInMemory.length;\r",
-        "    $data.applicationData.applicationsFromAPI = undefined;\r",
-        "}\r",
-        "\r",
-        "// when there are no more items in the memory\r",
-        "if($data.applicationData.numberOfApplicationsInMemory > 0 && $data.applicationData.applicationsFromAPI && $data.applicationData.applicationsFromAPI.length === 0){\r",
-        "     $data.applicationData.displayedApplications = $data.applicationData.displayedApplications.concat($data.applicationData.applicationsInMemory);\r",
-        "     $data.applicationData.applicationsInMemory = undefined;\r",
-        "     $data.applicationData.applicationsFromAPI = undefined;\r",
-        "     $data.applicationData.numberOfApplicationsInMemory = 0;\r",
-        "}"
       ],
       "exposed" : false
     },
@@ -2386,6 +2238,13 @@
         "    return '';",
         "}",
         "return \"../API/identity/user/\" + $data.session.user_id + \"?d=professional_data\";"
+      ],
+      "exposed" : false
+    },
+    "apiApplicationUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/living/application"
       ],
       "exposed" : false
     }

@@ -2,7 +2,7 @@ const urlPrefix = 'build/dist/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
 const defaultFilters = '&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=4';
-const defaultRequestUrl = urlPrefix + applicationUrl + '?c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + applicationUrl + '?c=10&p=0' + defaultFilters;
 const defaultUserUrl = urlPrefix + 'API/identity/user/4?d=professional_data';
 const languageUrl = urlPrefix + 'API/system/i18nlocale*';
 
@@ -10,7 +10,7 @@ given("The response {string} is defined", (responseType) => {
     cy.server();
     switch (responseType) {
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl, 'applications5Route', 'applications5');
+            createRouteWithResponseAndHeaders(defaultRequestUrl, 'applications5Route', 'applications5', {'content-range': '0-4/5'});
             break;
         case 'session':
             createRouteWithResponse(urlPrefix + session, 'sessionRoute', 'session');
@@ -30,25 +30,6 @@ given("The response {string} is defined", (responseType) => {
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Bonita', 'applications1Route', 'applications1');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
-            break;
-        case 'applications load more':
-            createRouteWithResponse(defaultRequestUrl, 'applications20Route', 'applications20');
-            createApplicationsRouteWithResponseAndPagination('', 'applications10Route', 'applications10', 2, 10);
-            createApplicationsRouteWithResponseAndPagination('', 'applications5Route', 'applications5', 3, 10);
-            createApplicationsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'applications 20 load more':
-            createRouteWithResponse(defaultRequestUrl, 'applications20Route', 'applications20');
-            createApplicationsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'applications 30 load more':
-            createRouteWithResponse(defaultRequestUrl, 'applications20Route', 'applications20');
-            createApplicationsRouteWithResponseAndPagination('', 'applications10Route', 'applications10', 2, 10);
-            createApplicationsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
-        case 'search during limitation':
-            createRouteWithResponse(defaultRequestUrl + '&s=Bonita', 'applications20Route', 'applications20');
-            createApplicationsRouteWithResponseAndPagination('&s=Bonita', 'applications10Route', 'applications10', 2, 10);
             break;
         case 'user':
             createRouteWithResponse(defaultUserUrl, 'userRoute', 'user');
@@ -93,6 +74,21 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
     }
 
+    function createRouteWithResponseAndHeaders(url, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: url,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
+    }
+
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
         createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
     }
@@ -104,36 +100,6 @@ given("The response {string} is defined", (responseType) => {
             url: url,
             status: status,
             response: '@' + response
-        }).as(routeName);
-    }
-
-    function createApplicationsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + applicationUrl + '?c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
-        }).as(routeName);
-    }
-
-    function createRouteWithResponseAndPagination(urlSuffix, queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + urlSuffix + '?p=' + page + '&c=' + count;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
         }).as(routeName);
     }
 });
@@ -156,10 +122,6 @@ when("I put {string} in search filter field", (filterValue) => {
 
 when("I erase the search filter", () => {
     cy.get('pb-input input').clear();
-});
-
-when("I click on Load more applications button", () => {
-    cy.get('button').contains('Load more applications').click();
 });
 
 when('I click the {string}', (username) => {
@@ -237,10 +199,6 @@ then("The api call is made for {string}", (filterValue) => {
 then("No applications are displayed", () => {
     cy.get('.application-card').should('have.length', 0);
     cy.contains('No applications to display').should('be.visible');
-});
-
-then("The load more applications button is disabled", () => {
-    cy.get('button').contains('Load more applications').should('be.disabled');
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {
