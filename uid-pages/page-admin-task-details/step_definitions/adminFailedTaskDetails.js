@@ -15,6 +15,7 @@ const replayTaskUrl = 'API/bpm/activityReplay/1';
 const refreshFailedTaskUrl = failedTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 const refreshArchivedTaskUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 const featureListUrl = 'API/system/feature?p=0&c=100';
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1'
 
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
@@ -27,6 +28,7 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createRouteWithResponse(failedTaskUrl + defaultFilters, 'failedTaskDetailsRoute', 'failedTaskDetails');
             break;
         case 'comments':
+            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
             createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
             break;
         case 'add new comment':
