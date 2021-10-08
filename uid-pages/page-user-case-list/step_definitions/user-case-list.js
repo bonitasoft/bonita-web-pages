@@ -7,7 +7,7 @@ given("A list of open cases is available", ()=> {
     cy.fixture('json/openCases.json').as('openCases');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes',
+        url: 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0',
         response: '@openCases'
     }).as('openCasesRoute');
 });
@@ -17,7 +17,7 @@ given("A list of open cases with headers is available", ()=> {
     cy.fixture('json/openCases.json').as('openCases');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes',
+        url: 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0',
         response: '@openCases',
         headers: {'content-range': '0-5/5'}
     }).as('openCasesRoute');
@@ -28,7 +28,7 @@ given("A list of archived cases is available", ()=>{
     cy.fixture('json/archivedCases.json').as('archivedCases');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
+        url: 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0',
         response: '@archivedCases'
     }).as('archivedCasesRoute');
 });
@@ -38,7 +38,7 @@ given("A list of archived cases with headers is available", ()=>{
     cy.fixture('json/archivedCases.json').as('archivedCases');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
+        url: 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0',
         response: '@archivedCases',
         headers: {'content-range': '0-4/4'}
     }).as('archivedCasesRoute');
@@ -48,7 +48,7 @@ given("The archived cases api is not called", ()=>{
     cy.server();
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
+        url: 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4',
         onRequest: () => {
             throw new Error("The archived cases api should have not been called");
         }
@@ -77,7 +77,7 @@ given("The responses filtered by process name are defined for open cases", ()=>{
     cy.fixture('json/openCasesFilteredByProcessName.json').as('openCasesFilteredByProcessName');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=processDefinitionId=4713701278409746992',
+        url: 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0&f=processDefinitionId=4713701278409746992',
         response: '@openCasesFilteredByProcessName',
     }).as('openCasesFilteredByProcessNameRoute');
 });
@@ -86,13 +86,13 @@ given("The responses filtered by process name are defined for archived cases", (
     cy.fixture('json/archivedCasesFilteredByProcessName.json').as('archivedCasesFilteredByProcessName');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=processDefinitionId=4713701278409746992',
+        url: 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0&f=processDefinitionId=4713701278409746992',
         response: '@archivedCasesFilteredByProcessName',
     }).as('archivedCasesFilteredByProcessNameRoute');
 });
 
 given("A list of open cases sorted by {string} is available", (sortType)=> {
-    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
 
     cy.route({
         method: 'GET',
@@ -104,19 +104,19 @@ given("A list of open cases sorted by {string} is available", (sortType)=> {
 function sortOrderOpenCasesParameter(sortType) {
     switch(sortType) {
         case 'openCasesSortedByCaseIdAsc':
-            return '&o=id+ASC';
+            return '&t=0&o=id+ASC';
 
         case 'openCasesSortedByCaseIdDesc':
-            return '&o=id+DESC';
+            return '&t=0&o=id+DESC';
 
         case 'openCasesSortedByProcessNameAsc':
-            return '&o=name+ASC';
+            return '&t=0&o=name+ASC';
 
         case 'openCasesSortedByProcessNameDesc':
-            return '&o=name+DESC';
+            return '&t=0&o=name+DESC';
 
         case 'openCasesSortedByStartDateNew':
-            return '&o=startDate+DESC';
+            return '&t=0&o=startDate+DESC';
 
         case 'openCases':
             return '&o=startDate+ASC';
@@ -124,7 +124,7 @@ function sortOrderOpenCasesParameter(sortType) {
 }
 
 given("A list of archived cases sorted by {string} is available", (sortType)=> {
-    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
 
     cy.route({
         method: 'GET',
@@ -139,34 +139,34 @@ function sortOrderArchivedCasesParameter(sortType) {
             return '&o=id+ASC';
 
         case 'archivedCasesSortedByOriginalCaseIdAsc':
-            return '&o=sourceObjectId+ASC';
+            return '&t=0&o=sourceObjectId+ASC';
 
         case 'archivedCasesSortedByOriginalCaseIdDesc':
-            return '&o=sourceObjectId+DESC';
+            return '&t=0&o=sourceObjectId+DESC';
 
         case 'archivedCasesSortedByProcessNameAsc':
-            return '&o=name+ASC';
+            return '&t=0&o=name+ASC';
 
         case 'archivedCasesSortedByProcessNameDesc':
-            return '&o=name+DESC';
+            return '&t=0&o=name+DESC';
 
         case 'archivedCasesSortedByStartDateNew':
-            return '&o=startDate+DESC';
+            return '&t=0&o=startDate+DESC';
 
         case 'archivedCases':
-            return '&o=startDate+ASC';
+            return '&t=0&o=startDate+ASC';
 
         case 'archivedCasesSortedByEndDateNew':
-            return '&o=endDate+DESC';
+            return '&t=0&o=endDate+DESC';
 
         case 'archivedCasesSortedByEndDateOld':
-            return '&o=endDate+ASC';
+            return '&t=0&o=endDate+ASC';
     }
 }
 
 given("No open cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as('emptyResult');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0';
     switch(filterType) {
         case 'process name':
             cy.route({
@@ -187,7 +187,7 @@ given("No open cases for {string} are available response is defined", (filterTyp
 
 given("No archived cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as('emptyResult');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0';
     switch(filterType) {
         case 'process name':
             cy.route({
@@ -210,7 +210,7 @@ given("The filter response only started by me is defined for open cases", ()=>{
     cy.fixture('json/openCasesFilteredStartedByMe.json').as('openCasesFilteredStartedByMe');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4',
+        url: 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0&f=started_by=4',
         response: '@openCasesFilteredStartedByMe',
     }).as('openCasesFilteredStartedByMeRoute');
 });
@@ -219,7 +219,7 @@ given("The filter response only started by me is defined for archived cases", ()
     cy.fixture('json/archivedCasesFilteredStartedByMe.json').as('archivedCasesFilteredStartedByMe');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4',
+        url: 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0&f=started_by=4',
         response: '@archivedCasesFilteredStartedByMe',
     }).as('archivedCasesFilteredStartedByMeRoute');
 });
@@ -227,7 +227,7 @@ given("The filter response only started by me is defined for archived cases", ()
 given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as('openCasesSearchPool3');
     cy.fixture('json/openCasesSearchKey.json').as('openCasesSearchKey');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -243,7 +243,7 @@ given("The filter responses search are defined for open cases", ()=>{
 given("The filter responses search are defined for archived cases", ()=>{
     cy.fixture('json/archivedCasesSearchPool3.json').as('archivedCasesSearchPool3');
     cy.fixture('json/archivedCasesSearchKey.json').as('archivedCasesSearchKey');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=20&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4';
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4';
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -258,30 +258,38 @@ given("The filter responses search are defined for archived cases", ()=>{
 
 given("A list of open cases with several pages is available", ()=>{
     cy.server();
-    function getOpenCasesQuery(casesPerPage, pageIndex) {
-        return 'build/dist/API/bpm/case?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    function getOpenCasesQuery(casesPerPage, pageIndex, timestamp) {
+        return 'build/dist/API/bpm/case?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=' + timestamp;
     }
 
     cy.fixture('json/openCasesPage0.json').as('openCasesPage0');
-    cy.fixture('json/openCases.json').as('openCasesPage1');
-    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.fixture('json/openCases10.json').as('openCasesPage1');
+    cy.fixture('json/openCases.json').as('openCasesPage2');
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(20, 0),
+        url: getOpenCasesQuery(10, 0, 0),
         response: '@openCasesPage0',
+        headers: {'content-range': '0-9/25'}
     }).as('openCasesPage0Route');
 
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(10, 2),
+        url: getOpenCasesQuery(10, 1, 0),
         response:  '@openCasesPage1',
     }).as('openCasesPage1Route');
 
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(10, 3),
-        response:  '@emptyResult',
-    }).as('emptyResultRoute');
+        url: getOpenCasesQuery(10, 2, 0),
+        response:  '@openCasesPage2',
+    }).as('openCasesPage2Route');
+
+    cy.route({
+        method: 'GET',
+        url: getOpenCasesQuery(10, 0, '1*'),
+        response:  '@openCasesPage0',
+        headers: {'content-range': '0-9/25'}
+    }).as('openCasesPage0Route');
 });
 
 given("A list of open cases with headers with several pages is available", ()=>{
@@ -291,20 +299,27 @@ given("A list of open cases with headers with several pages is available", ()=>{
     }
 
     cy.fixture('json/openCasesPage0.json').as('openCasesPage0');
-    cy.fixture('json/openCases.json').as('openCasesPage1');
+    cy.fixture('json/openCases10.json').as('openCasesPage1');
+    cy.fixture('json/openCases.json').as('openCasesPage2');
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(20, 0),
+        url: getOpenCasesQuery(10, 0),
         response: '@openCasesPage0',
-        headers: {'content-range': '0-20/25'}
+        headers: {'content-range': '0-9/25'}
     }).as('openCasesPage0Route');
 
     cy.route({
         method: 'GET',
-        url: getOpenCasesQuery(10, 2),
+        url: getOpenCasesQuery(10, 1),
         response:  '@openCasesPage1',
     }).as('openCasesPage1Route');
+
+    cy.route({
+        method: 'GET',
+        url: getOpenCasesQuery(10, 2),
+        response:  '@openCasesPage2',
+    }).as('openCasesPage2Route');
 
     cy.route({
         method: 'GET',
@@ -315,30 +330,38 @@ given("A list of open cases with headers with several pages is available", ()=>{
 
 given("A list of archived cases with several pages is available", ()=>{
     cy.server();
-    function getArchivedCasesQuery(casesPerPage, pageIndex) {
-        return 'build/dist/API/bpm/archivedCase?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    function getArchivedCasesQuery(casesPerPage, pageIndex, timestamp) {
+        return 'build/dist/API/bpm/archivedCase?c=' + casesPerPage + '&p=' + pageIndex +'&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=' + timestamp;
     }
 
     cy.fixture('json/archivedCasesPage0.json').as('archivedCasesPage0');
-    cy.fixture('json/archivedCases.json').as('archivedCasesPage1');
-    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.fixture('json/archivedCases10.json').as('archivedCasesPage1');
+    cy.fixture('json/archivedCases.json').as('archivedCasesPage2');
     cy.route({
         method: 'GET',
-        url: getArchivedCasesQuery(20, 0),
+        url: getArchivedCasesQuery(10, 0, 0),
         response: '@archivedCasesPage0',
+        headers: {'content-range': '0-9/24'}
     }).as('archivedCasesPage0Route');
 
     cy.route({
         method: 'GET',
-        url: getArchivedCasesQuery(10, 2),
+        url: getArchivedCasesQuery(10, 1, 0),
         response:  '@archivedCasesPage1',
     }).as('archivedCasesPage1Route');
 
     cy.route({
         method: 'GET',
-        url: getArchivedCasesQuery(10, 3),
-        response:  '@emptyResult',
-    }).as('emptyResultRoute');
+        url: getArchivedCasesQuery(10, 2, 0),
+        response:  '@archivedCasesPage2',
+    }).as('archivedCasesPage2Route');
+
+    cy.route({
+        method: 'GET',
+        url: getArchivedCasesQuery(10, 0, '1*'),
+        response:  '@archivedCasesPage0',
+        headers: {'content-range': '0-9/24'}
+    }).as('archivedCasesPage0Route');
 });
 
 given("A list of archived cases with headers with several pages is available", ()=>{
@@ -349,19 +372,26 @@ given("A list of archived cases with headers with several pages is available", (
 
     cy.fixture('json/archivedCasesPage0.json').as('archivedCasesPage0');
     cy.fixture('json/archivedCases.json').as('archivedCasesPage1');
+    cy.fixture('json/archivedCases.json').as('archivedCasesPage2');
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: getArchivedCasesQuery(20, 0),
+        url: getArchivedCasesQuery(10, 0),
         response: '@archivedCasesPage0',
-        headers: {'content-range': '0-20/24'}
+        headers: {'content-range': '0-9/24'}
     }).as('archivedCasesPage0Route');
 
     cy.route({
         method: 'GET',
-        url: getArchivedCasesQuery(10, 2),
+        url: getArchivedCasesQuery(10, 1),
         response:  '@archivedCasesPage1',
     }).as('archivedCasesPage1Route');
+
+    cy.route({
+        method: 'GET',
+        url: getArchivedCasesQuery(10, 2),
+        response:  '@archivedCasesPage2',
+    }).as('archivedCasesPage2Route');
 
     cy.route({
         method: 'GET',
@@ -374,98 +404,6 @@ given('The resolution is set to mobile', () => {
     /* 766 instead of 767 because bootstrap issue with hidden-xs
     *  hidden-xs break point is <767 whereas it should be <768 */
     cy.viewport(766, 1000);
-});
-
-given("The response {string} is defined", (responseType) => {
-    cy.server();
-    const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
-    const defaultArchivedCaseFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
-    const defaultRequestUrl = 'build/dist/API/bpm/case?c=20&p=0' + defaultFilters;
-    const defaultArchivedCaseRequestUrl = 'build/dist/API/bpm/archivedCase?c=20&p=0' + defaultArchivedCaseFilters;
-
-    switch (responseType) {
-        case 'open case list 20 load more':
-            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'open case list 30 load more':
-            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
-        case 'sort open case list during limitation':
-            createRouteWithResponse(defaultRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters + '&o=name+DESC', 'openCases10Route', 'openCases10', 2, 10);
-            break;
-        case 'archived case list 20 load more':
-            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'archived case list 30 load more':
-            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
-        case 'sort archived case list during limitation':
-            createRouteWithResponse(defaultArchivedCaseRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'archivedCasesPage0');
-            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters + '&o=name+DESC', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            break;
-        default:
-            throw new Error("Unsupported case");
-    }
-
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix
-        }).as(routeName);
-    }
-
-    function createRouteWithMethod(urlSuffix, routeName, method) {
-        createRouteWithMethodAndStatus(urlSuffix, routeName, method, 200);
-    }
-
-    function createRouteWithResponse(url, routeName, response) {
-        createRouteWithResponseAndMethod(url, routeName, response, 'GET');
-    }
-
-    function createRouteWithResponseAndMethod(url, routeName, response, method) {
-        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
-    }
-
-    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
-        }).as(routeName);
-    }
-
-    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
-        }).as(routeName);
-    }
-
-    function createRouteWithResponseAndPagination(urlPrefix, queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + '?c=' + count + '&p=' + page;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
-        }).as(routeName);
-    }
 });
 
 when("I visit the user case list page", ()=>{
@@ -869,16 +807,8 @@ then("A list of {string} cases is displayed", (numberOfCases)=>{
     checkNumberOfCases(numberOfCases);
 });
 
-then("A list of {string} cases is displayed out of {string}", (numberOfCases, totalCases)=> {
-    cy.contains('.case-property-label', 'Cases shown: ' + numberOfCases + ' of ' + totalCases);
-});
-
 then("I see more cases added to the list", ()=>{
     checkNumberOfCases(25);
-});
-
-then("The Load more cases button is disabled", ()=>{
-    cy.get('.btn-link:visible').contains('Load more cases').should('be.disabled');
 });
 
 then('The tasks field is not displayed in mobile view', () => {
