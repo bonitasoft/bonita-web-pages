@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "ApplicationDirectoryBonitaV1",
-  "name" : "ApplicationDirectoryBonitaV1",
-  "lastUpdate" : 1625822746732,
+  "id" : "ApplicationDirectoryBonitaV2",
+  "name" : "ApplicationDirectoryBonitaV2",
+  "lastUpdate" : 1633702340777,
   "rows" : [
     [
       {
@@ -2332,8 +2332,7 @@
     "logoutServiceRedirectURL" : {
       "type" : "expression",
       "value" : [
-        "let location = window.top.location.pathname + window.top.location.search;",
-        "return $data.logoutURL + '?locale=' + $data.storageLanguage + '&redirectUrl=' + encodeURIComponent(location);"
+        "return $data.logoutURL + '?locale=' + $data.storageLanguage + '&redirect=true';"
       ],
       "exposed" : false
     },
