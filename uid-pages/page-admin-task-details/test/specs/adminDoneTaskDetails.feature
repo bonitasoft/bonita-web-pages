@@ -13,6 +13,7 @@ Feature: The Admin Done Task Details in desktop resolution
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"
     And The add comment button is "disabled"
+    And The comments have the correct information for done tasks
 
   Scenario: The admin done task details display the archived connectors correctly
     Given The response "default details" is defined for done tasks

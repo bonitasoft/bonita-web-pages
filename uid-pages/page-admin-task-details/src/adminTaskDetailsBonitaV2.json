@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminTaskDetailsBonitaV2",
   "name" : "adminTaskDetailsBonitaV2",
-  "lastUpdate" : 1632989179659,
+  "lastUpdate" : 1633597736071,
   "rows" : [
     [
       {
@@ -9914,7 +9914,15 @@
         "        };",
         "    },",
         "    getCommentUrl: function(){",
-        "        return $data.taskDetailsCtrl.isDoneTask() ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\" ; ",
+        "        // Only make the call for the comment once the archivedCaseUrl response has been received",
+        "        if($data.archivedCaseUrl) {",
+        "            var isArchivedCase = $data.archivedCaseUrl && $data.archivedCaseUrl.length === 1;",
+        "            if($data.taskDetailsCtrl.isDoneTask() && isArchivedCase) {",
+        "                return \"../API/bpm/archivedComment\";",
+        "            }",
+        "           return \"../API/bpm/comment\";   ",
+        "        }",
+        "        return undefined;",
         "    },",
         "    getCommentQueryParameters: function(){",
         "        var caseId = $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().caseId : \"\";",
@@ -10352,6 +10360,18 @@
         "    }, 3000);",
         "}"
       ],
+      "exposed" : false
+    },
+    "archivedCaseUrl" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId={{taskDetailsCtrl.getOpenOrArchivedTask().caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },
