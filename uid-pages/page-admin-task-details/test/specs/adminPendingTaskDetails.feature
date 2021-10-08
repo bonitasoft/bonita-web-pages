@@ -268,6 +268,37 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The success message is displayed
     And The fields are disabled
 
+  Scenario: The do for modal without form should add a comment
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    And The response "comments" is defined for pending tasks
+    And The response "add new comment" is defined for pending tasks
+    When I visit the admin pending task details page
+    Then The comments have the correct information
+    When I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    Then The add comment button in the modal is "enabled"
+    When I click on add comment button in the modal
+    Then The success message for adding comment is displayed
+    And The new comment input is empty
+    And The add comment button in the modal is "disabled"
+    When I click on the cancel button
+    Then There is a new comment
+
+  Scenario: The do for modal without form should display comment not added message
+    Given The response "empty done task" is defined for pending tasks
+    And The response "default details" is defined for pending tasks
+    And The response "task without form" is defined for pending tasks
+    When I visit the admin pending task details page
+    And I click on do for button
+    Then The do for modal is open and has a default state without form
+    When I fill in the comment field
+    Then The add comment button in the modal is "enabled"
+    When I click on add comment button in the modal
+    Then The error message for adding comment is displayed
+
   Scenario: The do for modal should display not assigned anymore message
     Given The response "empty done task" is defined for pending tasks
     And The response "default details" is defined for pending tasks

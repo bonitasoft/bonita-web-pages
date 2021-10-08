@@ -4325,7 +4325,7 @@
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "commentCtrl.getCommentPayload()"
+                          "value" : "commentCtrl.getCommentPayload(commentData.comment)"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -7671,7 +7671,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{'This task does not require a form to fill, but a comment to explain the action you have performed.'|translate}}"
+                          "value" : "{{'This task does not require a form to fill, but you can add a comment to the case to explain the action you have performed.'|translate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7711,11 +7711,11 @@
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 512
                         },
                         "readOnly" : {
                           "type" : "expression",
-                          "value" : "doForTaskData.wasRecentlyDone"
+                          "value" : "taskDetailsCtrl.isDoneTask()"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -7734,7 +7734,8 @@
                           "value" : 4
                         },
                         "placeholder" : {
-                          "type" : "interpolation"
+                          "type" : "interpolation",
+                          "value" : "{{taskDetailsCtrl.isDoneTask()?\"Comments cannot be added to archived cases\":\"Type new comment\"}}"
                         },
                         "value" : {
                           "type" : "variable",
@@ -7758,6 +7759,148 @@
                       "reference" : "889607b7-80b4-4a84-9d5b-14ff235eb82f",
                       "hasValidationError" : false,
                       "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 7,
+                        "lg" : 7
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskCtrl.doesTaskHaveNoForm()"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{'This will add a comment to the case.'|translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "ca71e465-10f6-475d-ae4a-7268b3bca65b",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 5,
+                        "lg" : 5
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskCtrl.doesTaskHaveNoForm()"
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "!doForTaskData.comment || doForTaskData.wasRecentlyDone"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "<i class=\"glyphicon glyphicon-plus\"></i> {{\"Add comment\" | uiTranslate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "POST"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation",
+                          "value" : "../API/bpm/comment/"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : "doForTaskData.commentStatusCode"
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "commentCtrl.getCommentPayload(doForTaskData.comment)"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "14021931-7140-4e56-9908-1a418df239e8",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
                     }
                   ],
                   [
@@ -7984,6 +8127,58 @@
                         },
                         "hidden" : {
                           "type" : "expression",
+                          "value" : "!doForTaskData.commentStatusCode || doForTaskData.commentStatusCode === 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'The comment has not been added.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "a2b6614a-6a97-4f26-a14a-87c44449472d",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
                           "value" : "doForTaskData.statusCode !== 204"
                         },
                         "labelHidden" : {
@@ -8016,6 +8211,58 @@
                         }
                       },
                       "reference" : "05f211f9-dda0-4198-9a99-efa7c88bafd0",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "doForTaskData.commentStatusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'The comment has been successfully added.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "bc86c7cb-62ac-4a52-9c0f-262f799515aa",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -9548,6 +9795,7 @@
         "    $data.commentData.timestamp = new Date().getTime();",
         "    $data.commentData.statusCode = \"\";",
         "    $data.commentData.comment = \"\";",
+        "    $data.doForTaskData.comment = \"\";",
         "}"
       ],
       "exposed" : false
@@ -9657,14 +9905,12 @@
     "commentCtrl" : {
       "type" : "expression",
       "value" : [
-        "var taskDetails = $data.taskDetailsCtrl.getOpenOrArchivedTask();",
-        "var caseId = taskDetails ? taskDetails.caseId : \"\";",
-        "",
         "return {",
-        "    getCommentPayload: function() {",
+        "    getCommentPayload: function(content) {",
+        "        var caseId = $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().caseId : \"\";",
         "        return {",
         "            processInstanceId: caseId,",
-        "            content: $data.commentData.comment",
+        "            content: content",
         "        };",
         "    },",
         "    getCommentUrl: function(){",
@@ -9782,6 +10028,7 @@
       "value" : [
         "return {",
         "    statusCode: \"\",",
+        "    commentStatusCode: \"\",",
         "    comment: \"\",",
         "    failedResponse: \"\",",
         "    recentlyOpenedDoForModal: false,",
@@ -9810,6 +10057,7 @@
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
         "        $data.doForTaskData.wasRecentlyDone = false;",
+        "        $data.doForTaskData.comment = \"\";",
         "        return \"doForTaskModal\";",
         "    },",
         "    getUnassignedTaskTooltip: function() {",
@@ -10092,6 +10340,16 @@
         "if ($data.doForTaskData.statusCode !== '' && $data.doForTaskData.wasRecentlyDone === false) {",
         "    $data.taskDetailsData.timestamp = new Date().getTime();",
         "    $data.doForTaskData.wasRecentlyDone = true;",
+        "}",
+        "",
+        "// After comment is added",
+        "if($data.doForTaskData.commentStatusCode === 200){",
+        "    $data.commentData.timestamp = new Date().getTime();",
+        "    $data.doForTaskData.comment = \"\";",
+        "    $data.doForTaskData.wasRecentlyDone = false;",
+        "    setTimeout(function() {",
+        "        $data.doForTaskData.commentStatusCode = \"\";",
+        "    }, 3000);",
         "}"
       ],
       "exposed" : false

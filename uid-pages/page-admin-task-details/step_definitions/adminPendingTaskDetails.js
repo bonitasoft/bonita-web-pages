@@ -12,6 +12,8 @@ const session = "API/system/session/unusedId";
 const identity = "API/identity/user/4";
 const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
 const featureListUrl = 'API/system/feature?p=0&c=100';
+const commentUrl = 'API/bpm/comment';
+const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=0';
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
@@ -64,6 +66,13 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'pending task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
+        case 'comments':
+            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            break;
+        case 'add new comment':
+            createPostRoute(commentUrl, 'addNewCommentRoute');
+            createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=1*', 'commentsRoute', 'newComments');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -90,6 +99,15 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             response: '@' + response
         }).as(routeName);
     }
+
+    function createPostRoute(urlSuffix, routeName) {
+        cy.route({
+            method: 'POST',
+            url: urlPrefix + urlSuffix,
+            response: ""
+        }).as(routeName);
+    }
+
 });
 
 given("The assign status code {int} is defined for pending tasks", (statusCode) => {
@@ -167,6 +185,10 @@ when("I click on do task link", () => {
 
 when("I click on submit button", () => {
     cy.contains('.modal-footer button', 'Submit').click();
+});
+
+when("I click on add comment button in the modal", () => {
+    cy.get('.modal-body button').contains('Add comment').click();
 });
 
 when("I fill in the comment field", () => {
@@ -368,7 +390,10 @@ then("The do for modal is open and has a default state without form", () => {
     cy.contains('.modal', 'Do Request Vacation for Helen Kelly').should('be.visible');
     cy.contains('.modal-content p.text-left', 'You are about to perform the task for the current assignee.');
     cy.contains('.modal-content p.text-left', 'It will be recorded as "Done by Walter Bates for Helen Kelly"');
-    cy.contains('.modal-content p.text-left', 'This task does not require a form to fill, but a comment to explain the action you have performed.');
+    cy.contains('.modal-content p.text-left', 'This task does not require a form to fill, but you can add a comment to the case to explain the action you have performed.');
+    cy.contains('.modal-body p.text-left', 'This will add a comment to the case.');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Type new comment').should('be.enabled');
+    cy.get('.modal-body button').contains('Add comment').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
     cy.contains('.modal-footer a', 'Do the task').should('not.exist');
@@ -409,11 +434,38 @@ then("The success message is displayed", () => {
     cy.contains('.modal-body', 'The task has been successfully done.').should('be.visible');
 });
 
+then("The success message for adding comment is displayed", () => {
+    cy.get('.modal-body .glyphicon-ok-sign').should('be.visible');
+    cy.contains('.modal-body', 'The comment has been successfully added.').should('be.visible');
+});
+
+then("The error message for adding comment is displayed", () => {
+    cy.get('.modal-body .glyphicon-remove-sign').should('be.visible');
+    cy.contains('.modal-body', 'The comment has not been added.').should('be.visible');
+});
+
 then("The fields are disabled", () => {
     cy.contains('.modal-header', 'Do Request Vacation for Helen Kelly').should('be.visible');
+    cy.get('.modal-body button').contains('Add comment').should('be.disabled');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.contains('.modal-footer button', 'Cancel').should('not.exist');
     cy.contains('.modal-footer a', 'Do the task').should('not.exist');
     cy.contains('.modal-footer button', 'Submit').should('be.disabled');
-    cy.get('.modal-body input').should('have.attr', 'readonly', 'readonly');
+});
+
+then("The add comment button in the modal is {string}", (state) => {
+    cy.get('.modal-body button').contains('Add comment').should('be.' + state);
+});
+
+then("The comments have the correct information", () => {
+    // Check that the element be.visible.
+    cy.wait('@commentsRoute');
+    cy.get('.item-value').contains('comment no. 1');
+    cy.get('.item-value').contains('William Jobs');
+    cy.get('.item-value').contains('comment no. 2');
+    cy.get('.item-value').contains('helen.kelly');
+    cy.get('.item-value').contains('comment no. 3');
+    cy.get('.item-value').contains('walter.bates');
+    cy.get('.item-value').contains('comment no. 4');
+    cy.get('.item-value').contains('anthony.nichols');
 });
