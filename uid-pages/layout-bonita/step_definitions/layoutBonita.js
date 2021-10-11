@@ -448,7 +448,7 @@ then('The logout button is visible', () => {
 });
 
 then('The logout button has the correct url', () => {
-    cy.get('.btn-danger').eq(0).should('have.attr', 'href').and('contains', 'logoutservice?locale=en&redirectUrl=%2F'+url.replaceAll('/', '%2F'));
+    cy.get('.btn-danger').eq(0).should('have.attr', 'href').and('contains', 'logoutservice?locale=en&redirect=true');
 });
 
 then('The apply and close buttons are visible', () => {

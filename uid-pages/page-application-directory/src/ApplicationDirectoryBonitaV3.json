@@ -2184,8 +2184,7 @@
     "logoutServiceRedirectURL" : {
       "type" : "expression",
       "value" : [
-        "let location = window.top.location.pathname + window.top.location.search;",
-        "return $data.logoutURL + '?locale=' + $data.storageLanguage + '&redirectUrl=' + encodeURIComponent(location);"
+        "return $data.logoutURL + '?locale=' + $data.storageLanguage + '&redirect=true';"
       ],
       "exposed" : false
     },
