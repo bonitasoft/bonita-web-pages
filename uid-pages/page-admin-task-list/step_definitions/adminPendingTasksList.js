@@ -202,6 +202,8 @@ then("The pending tasks list have the correct information", () => {
         cy.get('.item-value').contains('VacationRequest (2.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('New vacation request with means of transportation');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('This is a pending task description.');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
     });
 });

@@ -233,6 +233,8 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('generateRandomCases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('generateRandomCases display name');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('This is a failed flow node description.');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(1).within(() => {

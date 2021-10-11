@@ -212,6 +212,8 @@ then("The done tasks list have the correct information", () => {
         cy.get('.item-value').contains('PublishDailyMeal (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('Publish daily meal by mail for all the team');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('This is a done task description.');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details');
     });
 });
