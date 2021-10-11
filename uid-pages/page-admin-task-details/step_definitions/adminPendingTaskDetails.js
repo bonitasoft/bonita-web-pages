@@ -14,6 +14,8 @@ const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=0';
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4277'
+
 
 given("The response {string} is defined for pending tasks", (responseType) => {
     cy.server();
@@ -67,6 +69,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
         case 'comments':
+            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'emptyResult');
             createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
             break;
         case 'add new comment':
