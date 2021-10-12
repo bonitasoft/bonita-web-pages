@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminTaskDetailsBonitaV2",
   "name" : "adminTaskDetailsBonitaV2",
-  "lastUpdate" : 1633597736071,
+  "lastUpdate" : 1634046575385,
   "rows" : [
     [
       {
@@ -8341,15 +8341,14 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "../API/bpm/userTask/{{taskIdQueryParameter}}/execution"
+                          "value" : "../API/bpm/userTask/{{taskIdQueryParameter}}/execution{{doForTaskCtrl.getDoForTaskQuerystring()}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
                           "value" : "doForTaskData.statusCode"
                         },
                         "dataToSend" : {
-                          "type" : "expression",
-                          "value" : "doForTaskCtrl.getDoForTaskPayload()"
+                          "type" : "constant"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -10078,10 +10077,8 @@
         "    doesTaskHaveNoForm: function() {",
         "        return $data.formMapping && $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
         "    },",
-        "    getDoForTaskPayload: function() {",
-        "        return {",
-        "            \"user\": $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : undefined",
-        "        };",
+        "    getDoForTaskQuerystring: function() {",
+        "        return $data.taskDetailsCtrl.getOpenOrArchivedTask() ? \"?user=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : \"\";",
         "    },",
         "    getErrorMessageFor500: function() {",
         "        if (doesFailedResponseContain($data.doForTaskData.failedResponse, \"not assigned\")) {",

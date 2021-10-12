@@ -264,7 +264,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The do for modal is open and has a default state without form
     When I fill in the comment field
     And I click on submit button
-    Then The task is submitted and has correct payload
+    Then The task without form is submitted
     And The success message is displayed
     And The fields are disabled
 
