@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminTaskDetailsBonitaV2",
   "name" : "adminTaskDetailsBonitaV2",
-  "lastUpdate" : 1634046575385,
+  "lastUpdate" : 1634053214790,
   "rows" : [
     [
       {
@@ -7831,7 +7831,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!doForTaskData.comment || doForTaskData.wasRecentlyDone"
+                          "value" : "!doForTaskData.comment || doForTaskData.wasRecentlyDone || doForTaskData.wasRecentlyCommented"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -10040,6 +10040,7 @@
         "    failedResponse: \"\",",
         "    recentlyOpenedDoForModal: false,",
         "    wasRecentlyDone: false,",
+        "    wasRecentlyCommented: false",
         "};"
       ],
       "exposed" : false
@@ -10064,6 +10065,7 @@
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
         "        $data.doForTaskData.wasRecentlyDone = false;",
+        "        $data.doForTaskData.wasRecentlyCommented = false;",
         "        $data.doForTaskData.comment = \"\";",
         "        return \"doForTaskModal\";",
         "    },",
@@ -10348,13 +10350,16 @@
         "}",
         "",
         "// After comment is added",
-        "if($data.doForTaskData.commentStatusCode === 200){",
+        "if($data.doForTaskData.commentStatusCode === 200 && $data.doForTaskData.wasRecentlyCommented === false) {",
         "    $data.commentData.timestamp = new Date().getTime();",
         "    $data.doForTaskData.comment = \"\";",
-        "    $data.doForTaskData.wasRecentlyDone = false;",
+        "    $data.doForTaskData.wasRecentlyCommented = true;",
+        "}",
+        "if($data.doForTaskData.wasRecentlyCommented === true) {",
         "    setTimeout(function() {",
         "        $data.doForTaskData.commentStatusCode = \"\";",
-        "    }, 3000);",
+        "        $data.doForTaskData.wasRecentlyCommented = false;",
+        "    }, 1000);",
         "}"
       ],
       "exposed" : false
