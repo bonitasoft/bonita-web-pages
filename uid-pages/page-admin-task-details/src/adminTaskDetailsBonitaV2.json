@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminTaskDetailsBonitaV2",
   "name" : "adminTaskDetailsBonitaV2",
-  "lastUpdate" : 1633597736071,
+  "lastUpdate" : 1634053214790,
   "rows" : [
     [
       {
@@ -7831,7 +7831,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!doForTaskData.comment || doForTaskData.wasRecentlyDone"
+                          "value" : "!doForTaskData.comment || doForTaskData.wasRecentlyDone || doForTaskData.wasRecentlyCommented"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -8341,15 +8341,14 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "../API/bpm/userTask/{{taskIdQueryParameter}}/execution"
+                          "value" : "../API/bpm/userTask/{{taskIdQueryParameter}}/execution{{doForTaskCtrl.getDoForTaskQuerystring()}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
                           "value" : "doForTaskData.statusCode"
                         },
                         "dataToSend" : {
-                          "type" : "expression",
-                          "value" : "doForTaskCtrl.getDoForTaskPayload()"
+                          "type" : "constant"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -10041,6 +10040,7 @@
         "    failedResponse: \"\",",
         "    recentlyOpenedDoForModal: false,",
         "    wasRecentlyDone: false,",
+        "    wasRecentlyCommented: false",
         "};"
       ],
       "exposed" : false
@@ -10065,6 +10065,7 @@
         "        $data.assignModalData.statusCode = \"\";",
         "        $data.userListData.searchUserValue = undefined;",
         "        $data.doForTaskData.wasRecentlyDone = false;",
+        "        $data.doForTaskData.wasRecentlyCommented = false;",
         "        $data.doForTaskData.comment = \"\";",
         "        return \"doForTaskModal\";",
         "    },",
@@ -10078,10 +10079,8 @@
         "    doesTaskHaveNoForm: function() {",
         "        return $data.formMapping && $data.formMapping.length && $data.formMapping[0].target === \"NONE\";",
         "    },",
-        "    getDoForTaskPayload: function() {",
-        "        return {",
-        "            \"user\": $data.taskDetailsCtrl.getOpenOrArchivedTask() ? $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : undefined",
-        "        };",
+        "    getDoForTaskQuerystring: function() {",
+        "        return $data.taskDetailsCtrl.getOpenOrArchivedTask() ? \"?user=\" + $data.taskDetailsCtrl.getOpenOrArchivedTask().assigned_id.id : \"\";",
         "    },",
         "    getErrorMessageFor500: function() {",
         "        if (doesFailedResponseContain($data.doForTaskData.failedResponse, \"not assigned\")) {",
@@ -10351,13 +10350,16 @@
         "}",
         "",
         "// After comment is added",
-        "if($data.doForTaskData.commentStatusCode === 200){",
+        "if($data.doForTaskData.commentStatusCode === 200 && $data.doForTaskData.wasRecentlyCommented === false) {",
         "    $data.commentData.timestamp = new Date().getTime();",
         "    $data.doForTaskData.comment = \"\";",
-        "    $data.doForTaskData.wasRecentlyDone = false;",
+        "    $data.doForTaskData.wasRecentlyCommented = true;",
+        "}",
+        "if($data.doForTaskData.wasRecentlyCommented === true) {",
         "    setTimeout(function() {",
         "        $data.doForTaskData.commentStatusCode = \"\";",
-        "    }, 3000);",
+        "        $data.doForTaskData.wasRecentlyCommented = false;",
+        "    }, 1000);",
         "}"
       ],
       "exposed" : false

@@ -10,7 +10,7 @@ const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=ro
 const formMappingUrl = "API/form/mapping?c=10&p=0&f=processDefinitionId=8835222915848848756&f=task=request_vacation";
 const session = "API/system/session/unusedId";
 const identity = "API/identity/user/4";
-const taskWithoutFormExecution = "API/bpm/userTask/2/execution";
+const taskWithoutFormExecution = "API/bpm/userTask/2/execution?user=3";
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=0';
@@ -404,10 +404,8 @@ then("The do for modal is open and has a default state without form", () => {
     cy.contains('.modal-body', 'Comment').should('be.visible');
 });
 
-then("The task is submitted and has correct payload", () => {
-    cy.wait('@taskWithoutFormRoute').then((xhr) => {
-        expect(xhr.request.body.user).to.eq("3");
-    });
+then("The task without form is submitted", () => {
+    cy.wait('@taskWithoutFormRoute');
 });
 
 then("The unassigned error message is displayed", () => {
