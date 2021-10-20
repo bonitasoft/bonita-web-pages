@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseDetailsBonitaV4",
   "name" : "adminCaseDetailsBonitaV4",
-  "lastUpdate" : 1633682184963,
+  "lastUpdate" : 1633687149306,
   "rows" : [
     [
       {
@@ -233,6 +233,58 @@
               "reference" : "8b476f54-0461-4506-a566-bef6c2780476",
               "hasValidationError" : false,
               "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "item-value"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "{{caseDetailsCtrl.getDisplayDescription()}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "734d3d42-391f-4129-a56e-3859a4a3188f",
+              "hasValidationError" : false,
+              "id" : "pbText"
             }
           ],
           [
@@ -4488,6 +4540,10 @@
         "    return numberOfTasks > 10 ? \"10+\" : numberOfTasks; ",
         "};",
         "",
+        "var getOpenOrArchivedCase = function() {",
+        "    return  isArchived ? $data.archivedCase[0] : $data.openCase;",
+        "};",
+        "",
         "function getUserDisplayName(user) {",
         "    if(!user) {",
         "        return \"\";",
@@ -4507,7 +4563,8 @@
         "}",
         "",
         "return {",
-        "    getUserDetailsQueryParameters: function(isArchived) {",
+        "    getOpenOrArchivedCase: getOpenOrArchivedCase,",
+        "    getUserDetailsQueryParameters: function(isArchived){",
         "        if($data.caseIdQueryParameter === \"\") {",
         "            return undefined;",
         "        }",
@@ -4522,9 +4579,6 @@
         "        }",
         "        var commentUrl = isArchived ? \"../API/bpm/archivedComment\" : \"../API/bpm/comment\";",
         "        return commentUrl + \"?p=0&c=999&o=postDate%20DESC&f=processInstanceId=\" + $data.caseIdQueryParameter + \"&d=userId&t=\" + $data.commentData.timestamp;",
-        "    },",
-        "    getOpenOrArchivedCase: function() {",
-        "        return  isArchived ? $data.archivedCase[0] : $data.openCase;",
         "    },",
         "    isArchived: function() {",
         "        return isArchived;",
@@ -4551,6 +4605,10 @@
         "        } else {",
         "            return getUserDisplayName(startedBy);",
         "        }",
+        "    },",
+        "    getDisplayDescription: function() {",
+        "        var displayDescription = getOpenOrArchivedCase().processDefinitionId.displayDescription;",
+        "        return displayDescription ? displayDescription : uiTranslate(\"No description\");",
         "    }",
         "};"
       ],

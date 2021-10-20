@@ -710,6 +710,58 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
+                  "value" : "item-value"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "{{taskDetailsCtrl.getDisplayDescription()}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "1d089327-26ac-41f4-b85c-d3d82fb33613",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
                   "value" : ""
                 },
                 "hidden" : {
@@ -9763,6 +9815,10 @@
         "    },",
         "    isTaskFound: function() {",
         "        return (!!$data.archivedTaskDetails && !!$data.archivedTaskDetails[0]) || !!$data.taskDetails;",
+        "    },",
+        "    getDisplayDescription: function() {",
+        "        var displayDescription = getOpenOrArchivedTask().displayDescription;",
+        "        return displayDescription ? displayDescription : uiTranslate(\"No description\");",
         "    }",
         "};"
       ],

@@ -200,6 +200,7 @@ when("I fill in the comment field", () => {
 
 then("The pending task details have the correct information", () => {
     cy.get('h3').contains('Request Vacation (2)');
+    cy.get('.item-value').contains('This is a task display description.');
     cy.get('h4').contains('Original Id:').should('not.exist');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
