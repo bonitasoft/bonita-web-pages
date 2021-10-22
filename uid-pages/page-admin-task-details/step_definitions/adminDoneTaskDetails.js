@@ -50,6 +50,7 @@ when("I visit the admin done task details page", () => {
 
 then("The done task details have the correct information", () => {
     cy.get('h3').contains('InvolveUser (81358)');
+    cy.get('.item-value').contains('This is a task display description.');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
     cy.get('.item-value').contains('InvolveUser');

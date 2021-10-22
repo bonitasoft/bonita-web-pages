@@ -177,6 +177,7 @@ when("I skip the first and the third connectors", () => {
 
 then("The failed task details have the correct information", () => {
     cy.get('h3').contains('1 failed task (1)');
+    cy.get('.item-value').contains('This is a task display description.');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
     cy.get('.item-value').contains('1 failed task');
