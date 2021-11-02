@@ -264,8 +264,8 @@ then("The archived case list have the correct information", () => {
         cy.get('.item-value').contains('2/5/21 4:00 PM');
         cy.get('.item-label').contains('State');
         cy.get('.item-value').contains('completed');
-        cy.get('.item-label').contains('Pending tasks').should('not.exist');
-        cy.get('.item-label').contains('Failed Flow Nodes').should('not.exist');
+        cy.get('.item-label').contains('Pending flow nodes').should('not.exist');
+        cy.get('.item-label').contains('Failed flow nodes').should('not.exist');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
     });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');

@@ -286,9 +286,9 @@ then("The open case list have the correct information", () => {
         cy.get('.item-label').contains('Start date');
         cy.get('.item-value').contains('2/8/21 10:41 AM');
         cy.get('.item-label').contains('End date').should("not.exist");
-        cy.get('.item-label').contains('Pending tasks');
+        cy.get('.item-label').contains('Pending flow nodes');
         cy.get('.item-value').contains('16');
-        cy.get('.item-label').contains('Failed Flow Nodes');
+        cy.get('.item-label').contains('Failed flow nodes');
         cy.get('.item-value').contains('0');
         cy.get('.item-label').contains('Key 1');
         cy.get('.item-value').contains('Value 1');
