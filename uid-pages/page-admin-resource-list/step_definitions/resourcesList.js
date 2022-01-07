@@ -1,6 +1,6 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
-const defaultFilters = '&time=0&d=updatedBy&f=isHidden=false';
+const defaultFilters = '&time=0&d=updatedBy';
 const resourceUrl = 'API/portal/page?';
 const defaultRequestUrl = urlPrefix + resourceUrl + 'c=10&p=0' + defaultFilters;
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
@@ -119,7 +119,7 @@ given("The {string} is not involved in application response is defined", (resour
     }).as("deletePageRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + resourceUrl + "c=10&p=0&time=1*&d=updatedBy&f=isHidden=false&o=lastUpdateDate+DESC"
+        url: urlPrefix + resourceUrl + "c=10&p=0&time=1*&d=updatedBy&o=lastUpdateDate+DESC"
     }).as("refreshListRoute");
 });
 
