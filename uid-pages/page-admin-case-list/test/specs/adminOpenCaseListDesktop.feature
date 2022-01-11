@@ -95,11 +95,6 @@ Feature: The admin open case list in desktop resolution
     When I click on refresh
     Then A list of "10" items is displayed
 
-    Scenario: No open cases display correctly
-    Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page
-    Then No open cases are available
-
   Scenario: The delete open case modal is opened and closed
     Given The filter response "refresh not called" is defined for open cases
     Given The filter response "default filter" is defined for open cases

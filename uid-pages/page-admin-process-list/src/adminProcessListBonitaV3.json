@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminProcessListBonitaV3",
   "name" : "adminProcessListBonitaV3",
-  "lastUpdate" : 1633353206576,
+  "lastUpdate" : 1641822058103,
   "rows" : [
     [
       {
@@ -3291,7 +3291,9 @@
                 "noItemsMessage" : "\"No processes to display\"",
                 "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                 "itemsShownMessage" : "\"Processes shown\"",
-                "filtersString" : "enabledProcessData.activeTab && !disabledProcessData.activeTab ? enabledProcessCtrl.enabledProcessesQueryParameters() : disabledProcessCtrl.disabledProcessesQueryParameters()"
+                "filtersString" : "enabledProcessData.activeTab && !disabledProcessData.activeTab ? enabledProcessCtrl.enabledProcessesQueryParameters() : disabledProcessCtrl.disabledProcessesQueryParameters()",
+                "callStatusCode" : "tabsData.statusCode",
+                "loadingItemsMessage" : "\"Loading processes\""
               }
             }
           ]
@@ -5163,6 +5165,15 @@
         "    $data.processData.refreshAction = [];",
         "    $data.processData.displayedItems = [];",
         "}"
+      ],
+      "exposed" : false
+    },
+    "tabsData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: undefined",
+        "};"
       ],
       "exposed" : false
     }

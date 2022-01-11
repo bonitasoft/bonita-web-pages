@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "fragmentLoadMoreTest",
   "name" : "fragmentLoadMoreTest",
-  "lastUpdate" : 1633106868784,
+  "lastUpdate" : 1641812094501,
   "rows" : [
     [
       {
@@ -457,8 +457,8 @@
                 "value" : false
               },
               "disabled" : {
-                "type" : "constant",
-                "value" : false
+                "type" : "expression",
+                "value" : "!data.statusCode"
               },
               "title" : {
                 "type" : "interpolation",
@@ -504,8 +504,8 @@
                 "value" : false
               },
               "disabled" : {
-                "type" : "constant",
-                "value" : false
+                "type" : "expression",
+                "value" : "!data.statusCode"
               },
               "title" : {
                 "type" : "interpolation",
@@ -566,7 +566,9 @@
           "noItemsMessage" : "",
           "itemsShownCSSClasses" : "",
           "itemsShownMessage" : "",
-          "filtersString" : "data.tab1Active && !data.tab2Active ? \"&filters1\" : \"&filters2\""
+          "filtersString" : "data.tab1Active && !data.tab2Active ? \"&filters1\" : \"&filters2\"",
+          "callStatusCode" : "data.statusCode",
+          "loadingItemsMessage" : "\"Loading items\""
         }
       }
     ]
@@ -590,7 +592,8 @@
         "        { displayKey: \"Last\", returnKey: \"last\" }",
         "    ],",
         "    tab1Active: true,",
-        "    tab2Active: false",
+        "    tab2Active: false,",
+        "    statusCode: undefined",
         "};"
       ],
       "exposed" : false

@@ -60,6 +60,15 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute(tab1Url, '', 'tab1Route');
             createRoute(tab2Url, '', 'tab2Route');
             break;
+        case 'delayed tab 1 response':
+            cy.fixture('json/users5.json').as("users5Route");
+            cy.route({
+                method: 'GET',
+                url: tab1Url,
+                delay: 2000,
+                response: '@users5Route'
+            }).as('tab1Route');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -263,4 +272,20 @@ then("The Load more users button is disabled", () => {
 
 then("The {int} of {int} users shown message displayed correctly", (usersShown, totalUsers) => {
     cy.get('.text-primary p').contains('Users shown: ' + usersShown + ' of ' + totalUsers);
+});
+
+then("The second tab is disabled", () => {
+    cy.contains('li.disabled', 'Tab 2').should('be.visible');
+});
+
+then("There is a loader displayed", () => {
+    cy.get('.glyphicon.glyphicon-cog').should('be.visible');
+});
+
+then("The second tab is not disabled", () => {
+    cy.contains('li.disabled', 'Tab 2').should('not.exist');
+});
+
+then("There is no loader", () => {
+    cy.get('.glyphicon.glyphicon-cog').should('not.exist');
 });

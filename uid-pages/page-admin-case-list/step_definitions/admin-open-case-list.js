@@ -4,9 +4,7 @@ const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitut
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=9999&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
-const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
 const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters;
-const archivedCasesRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=';
 const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
@@ -72,6 +70,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         case '500 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + adminOpenCaseListUrl + "/3001", 'unauthorizedDeleteCaseRoute', 'emptyResult', 'DELETE', '500');
+            break;
+        case 'no open cases':
+            createRouteWithResponse(defaultRequestUrl, '&t=0', 'noOpenCasesRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -273,7 +274,12 @@ when("I click on the {string} button in modal footer", (buttonName) => {
     cy.contains('.modal-footer button', buttonName).click();
 });
 
+when("I wait for no open cases api call", (buttonName) => {
+    cy.wait('@noOpenCasesRoute');
+});
+
 then("The open case list have the correct information", () => {
+    cy.wait('@openCases5Route');
     cy.get('.case-item:visible').eq(0).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('Case ID');
@@ -311,12 +317,8 @@ then("I see an open case list page", () => {
     cy.get('.item-value:visible').contains('3001');
 });
 
-then("I see an archived case list page", () => {
-    cy.get('.item-value:visible').contains('2042');
-});
-
 then("A list of {string} items is displayed", (nbrOfItems) => {
-    cy.get('.case-item:visible').should('have.length', nbrOfItems);
+    cy.get('.case-item:visible', {timeout: 10000}).should('have.length', nbrOfItems);
 });
 
 then("A list of {string} items is displayed out of {string}", (nbrOfItems, totalItems) => {

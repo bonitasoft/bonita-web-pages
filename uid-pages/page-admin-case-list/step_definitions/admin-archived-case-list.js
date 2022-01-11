@@ -149,16 +149,6 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 });
 
-given("No api call is made for open cases", () => {
-    cy.route({
-        method: "GET",
-        url: openCasesRequestUrl,
-        onRequest: () => {
-            throw new Error("This should have not been called");
-        }
-    });
-});
-
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {
     switch (filterType) {
         case 'process name':
@@ -248,7 +238,12 @@ when("I click on Load more archived cases button", () => {
     cy.contains('button','Load more cases').click();
 });
 
+then("I see an archived case list page", () => {
+    cy.get('.item-value:visible').contains('2042');
+});
+
 then("The archived case list have the correct information", () => {
+    cy.wait('@archivedCases5Route');
     cy.get('.case-item:visible').eq(0).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('Case ID (original)');

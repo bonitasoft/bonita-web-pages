@@ -406,6 +406,16 @@ given('The resolution is set to mobile', () => {
     cy.viewport(766, 1000);
 });
 
+given("A list of no open cases is available", ()=> {
+    cy.server();
+    cy.fixture('json/emptyResult.json').as('emptyResultRoute');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0',
+        response: '@emptyResultRoute'
+    }).as('noOpenCasesRoute');
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });
@@ -527,6 +537,10 @@ when("I search {string} in caseId input", (searchValue)=>{
 
 when("I click on go to case details button", ()=>{
     cy.get('a .glyphicon-share-alt').click();
+});
+
+when("I wait for no open cases api call", () => {
+    cy.wait('@noOpenCasesRoute');
 });
 
 then("A list of open cases is displayed", ()=>{

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminTaskListBonitaV3",
   "name" : "adminTaskListBonitaV3",
-  "lastUpdate" : 1633964074555,
+  "lastUpdate" : 1641819814156,
   "rows" : [
     [
       {
@@ -303,8 +303,8 @@
                       "value" : false
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!tasksData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -2420,8 +2420,8 @@
                       "value" : false
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!tasksData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -4540,8 +4540,8 @@
                       "value" : false
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!tasksData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -6675,7 +6675,9 @@
                 "noItemsMessage" : "tasksCtrl.getNoTasksMessage()",
                 "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                 "itemsShownMessage" : "tasksCtrl.getTotalItemsShownMessage()",
-                "filtersString" : "tasksCtrl.tasksQueryParameters()"
+                "filtersString" : "tasksCtrl.tasksQueryParameters()",
+                "callStatusCode" : "tasksData.statusCode",
+                "loadingItemsMessage" : "\"Loading items\""
               }
             }
           ]
@@ -6956,7 +6958,8 @@
         "    displayedItems: [],",
         "    numberOfItemsPerPage: 10,",
         "    timestamp: 0,",
-        "    refreshAction: []",
+        "    refreshAction: [],",
+        "    statusCode: undefined",
         "};"
       ],
       "exposed" : false

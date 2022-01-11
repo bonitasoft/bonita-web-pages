@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "UserCaseListBonitaV5",
   "name" : "UserCaseListBonitaV5",
-  "lastUpdate" : 1633598801387,
+  "lastUpdate" : 1641821050437,
   "rows" : [
     [
       {
@@ -319,8 +319,8 @@
                       "value" : ""
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!casesData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -1732,8 +1732,8 @@
                       "value" : ""
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!casesData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -3163,7 +3163,9 @@
                 "noItemsMessage" : "\"No cases to display\"",
                 "itemsShownCSSClasses" : "\"case-property-label text-primary pt-5\"",
                 "itemsShownMessage" : "\"Cases shown\"",
-                "filtersString" : "openCaseData.activeTab && !archivedCaseData.activeTab ? openCaseCtrl.openCasesQueryParameters() : archivedCaseCtrl.archivedCasesQueryParameters()"
+                "filtersString" : "openCaseData.activeTab && !archivedCaseData.activeTab ? openCaseCtrl.openCasesQueryParameters() : archivedCaseCtrl.archivedCasesQueryParameters()",
+                "callStatusCode" : "casesData.statusCode",
+                "loadingItemsMessage" : "\"Loading cases\""
               }
             }
           ]
@@ -3421,11 +3423,12 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    \"caseIdFilter\": \"\",",
+        "    caseIdFilter: \"\",",
         "    numberOfCasesPerPage: 10,",
         "    displayedCases: [],",
         "    refreshAction: [],",
-        "    timestamp: 0",
+        "    timestamp: 0,",
+        "    statusCode: undefined",
         "};"
       ],
       "exposed" : false

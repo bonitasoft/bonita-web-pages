@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "fragmentLoadMoreV1",
   "name" : "fragmentLoadMoreV1",
-  "lastUpdate" : 1633091887405,
+  "lastUpdate" : 1641813132043,
   "rows" : [
     [
       {
@@ -21,7 +21,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "displayedItems.length"
+            "value" : "displayedItems.length || !callStatusCode"
           },
           "text" : {
             "type" : "interpolation",
@@ -91,6 +91,42 @@
         "reference" : "d8bf88ee-554b-4845-9c9d-5ee66515c999",
         "hasValidationError" : false,
         "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "callStatusCode"
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<i class=\"glyphicon glyphicon-cog text-primary gly-spin\"></i> {{loadingItemsMessage | uiTranslate}}"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 5"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "33273b53-5a90-4456-baaa-b48fad1c03de",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
       }
     ],
     [
@@ -197,7 +233,8 @@
         "//if the API to call changes reset the displayed items\r",
         "if($data.urlPrefix !== $data.data.currentURLPrefix\r",
         "    || $data.filtersString !== $data.data.currentFilterString) {\r",
-        "    $data.displayedItems= [];\r",
+        "    $data.displayedItems = [];\r",
+        "    $data.callStatusCode = undefined;\r",
         "}\r",
         "//update the page index when the load more button was clicked\r",
         "if($data.pageIndexes.length - 1 > $data.data.pageIndex) {\r",
@@ -326,9 +363,24 @@
         "{{urlPrefix}}{{ctrl.getQueryParameters(data.pageIndex)}}"
       ],
       "advancedOptions" : {
-        "headers" : "data.itemsFromAPIHeaders"
+        "headers" : "data.itemsFromAPIHeaders",
+        "statusCode" : "callStatusCode"
       },
       "exposed" : false
+    },
+    "callStatusCode" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "loadingItemsMessage" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
     }
   },
   "hasValidationError" : false,

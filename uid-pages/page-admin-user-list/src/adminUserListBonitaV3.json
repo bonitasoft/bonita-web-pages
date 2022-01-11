@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV3",
   "name" : "adminUserListBonitaV3",
-  "lastUpdate" : 1633423061890,
+  "lastUpdate" : 1641820382585,
   "rows" : [
     [
       {
@@ -373,8 +373,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "!userListData.statusCode"
                       },
                       "required" : {
                         "type" : "constant",
@@ -1045,7 +1045,9 @@
                 "itemsShownMessage" : "\"Users shown\"",
                 "filters" : "",
                 "filtersSting" : "userListCtrl.userQueryParameters()",
-                "filtersString" : "userListCtrl.userQueryParameters()"
+                "filtersString" : "userListCtrl.userQueryParameters()",
+                "callStatusCode" : "userListData.statusCode",
+                "loadingItemsMessage" : "\"Loading users\""
               }
             }
           ]
@@ -2892,7 +2894,8 @@
         "        searchValue: \"\",",
         "        userStatusEnabled: \"active\"",
         "    },",
-        "    displayedUsers: []",
+        "    displayedUsers: [],",
+        "    statusCode: undefined",
         "};"
       ],
       "exposed" : false

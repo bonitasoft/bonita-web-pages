@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV2",
   "name" : "adminCaseListBonitaV2",
-  "lastUpdate" : 1633422850145,
+  "lastUpdate" : 1641821902364,
   "rows" : [
     [
       {
@@ -322,8 +322,8 @@
                       "value" : false
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!casesData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -2108,8 +2108,8 @@
                       "value" : false
                     },
                     "disabled" : {
-                      "type" : "constant",
-                      "value" : false
+                      "type" : "expression",
+                      "value" : "!casesData.statusCode"
                     },
                     "title" : {
                       "type" : "interpolation",
@@ -3841,7 +3841,9 @@
                 "noItemsMessage" : "\"No cases to display\"",
                 "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                 "itemsShownMessage" : "\"Cases shown\"",
-                "filtersString" : "openCaseData.activeTab && !archivedCaseData.activeTab ? openCaseCtrl.openCasesQueryParameters() : archivedCaseCtrl. archivedCasesQueryParameters()"
+                "filtersString" : "openCaseData.activeTab && !archivedCaseData.activeTab ? openCaseCtrl.openCasesQueryParameters() : archivedCaseCtrl. archivedCasesQueryParameters()",
+                "callStatusCode" : "casesData.statusCode",
+                "loadingItemsMessage" : "\"Loading cases\""
               }
             }
           ]
@@ -4652,7 +4654,8 @@
         "    caseIdFilter: \"\",",
         "    displayedItems: [],",
         "    refreshAction: [],",
-        "    timestamp: 0",
+        "    timestamp: 0,",
+        "    statusCode: undefined",
         "};"
       ],
       "exposed" : false
