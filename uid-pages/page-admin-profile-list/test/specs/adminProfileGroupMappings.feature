@@ -148,7 +148,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "500" group mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "500" group mapping error message
+    Then I don't see "500" group mapping error message
     And The search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -159,6 +159,32 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "500" group mapping error message
+
+  Scenario: The edit group mapping modal should display generic 404 error message
+    Given The response "default filter with headers" is defined
+    And The response "404 during edit group mapping" is defined
+    And The response "group list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit group mapping button for first profile
+    Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
+    And The mapped group list is displayed
+    When The search input is filled with "A"
+    And I click on the remove "group" button in modal
+    Then I see "404" group mapping error message
+    When I wait for 2000
+    And I click inside the modal
+    Then I don't see "404" group mapping error message
+    And The search input has the value "A"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on edit group mapping button for first profile
+    Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
+    And The mapped group list is displayed
+    When I type "A" in the selection input
+    And I click on "Acme" in the list
+    And I click on the "Add" button in modal
+    Then I see "404" group mapping error message
 
   Scenario: The edit group mapping modal should display generic 403 error message
     Given The response "default filter with headers" is defined
@@ -174,7 +200,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "403" group mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "403" group mapping error message
+    Then I don't see "403" group mapping error message
     And The search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed

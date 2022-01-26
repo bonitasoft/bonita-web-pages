@@ -171,7 +171,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "500" membership mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "500" membership mapping error message
+    Then I don't see "500" membership mapping error message
     And The mapped membership search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -187,6 +187,25 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on the "Add" button in modal
     Then I see "500" membership mapping error message
 
+  Scenario: The edit membership mapping modal should display generic 404 error message
+    Given The response "default filter with headers" is defined
+    And The response "404 during edit membership mapping" is defined
+    And The response "membership list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit membership mapping button for first profile
+    Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
+    And The mapped membership list is displayed
+    When The mapped membership search input is filled with "A"
+    And I click on the remove "membership" button in modal
+    Then I see "404" membership mapping error message
+    When I wait for 2000
+    And I click inside the modal
+    Then I don't see "404" membership mapping error message
+    And The mapped membership search input has the value "A"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
   Scenario: The edit membership mapping modal should display generic 403 error message
     Given The response "default filter with headers" is defined
     And The response "403 during edit membership mapping" is defined
@@ -201,7 +220,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "403" membership mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "403" membership mapping error message
+    Then I don't see "403" membership mapping error message
     And The mapped membership search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed

@@ -148,6 +148,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addUserMemberRoute', 'POST', 500);
             break;
+        case '404 during edit user mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id&s=H&t=1*', 'searchUserRoute', 'profileMappingUsers8');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&t=1*', 'profileMappingUsers10Route', 'profileMappingUsers10', '0', '10');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE', 404);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addUserMemberRoute', 'POST', 404);
+            break;
         case '403 during edit user mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id&s=H&t=1*', 'searchUserRoute', 'profileMappingUsers8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&t=1*', 'profileMappingUsers10Route', 'profileMappingUsers10', '0', '10');
@@ -192,6 +198,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addRoleMemberRoute', 'POST', 500);
             break;
+        case '404 during edit role mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id&s=E&t=1*', 'searchRoleRoute', 'profileMappingRoles8');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles10Route', 'profileMappingRoles10', '0', '10');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE', 404);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addRoleMemberRoute', 'POST', 404);
+            break;
         case '403 during edit role mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id&s=E&t=1*', 'searchRoleRoute', 'profileMappingRoles8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles10Route', 'profileMappingRoles10', '0', '10');
@@ -235,6 +247,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups10Route', 'profileMappingGroups10', '0', '10');
             createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 500);
+            break;
+        case '404 during edit group mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?&c=10&p=0f=profile_id=101&f=member_type=group&d=group_id&s=A&t=1*', 'searchGroupRoute', 'profileMappingGroups8');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups10Route', 'profileMappingGroups10', '0', '10');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 404);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 404);
             break;
         case '403 during edit group mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&s=A&t=1*', 'searchGroupRoute', 'profileMappingGroups8');
@@ -283,6 +301,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 500);
+            break;
+        case '404 during edit membership mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?&c=10&p=0f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 404);
+            createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 404);
             break;
         case '403 during edit membership mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
@@ -732,6 +756,9 @@ then("I see {string} user mapping error message", (error) => {
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
             break;
+        case '404':
+            cy.contains('.modal-body', 'The user is not mapped to this profile.').should('be.visible');
+            break;
         case '500':
             cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
             break;
@@ -750,10 +777,30 @@ then("I see {string} user mapping error message", (error) => {
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
 });
 
+then("I don't see {string} user mapping error message", (error) => {
+    switch (error) {
+    case '403':
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        break;
+    case '404':
+        cy.contains('.modal-body', 'The user is not mapped to this profile.').should('not.be.visible');
+        break;
+    case '500':
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        break;
+    default:
+        throw new Error("Unsupported case");
+    }
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+});
+
 then("I see {string} role mapping error message", (error) => {
     switch (error) {
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal-body', 'The role is not mapped to this profile.').should('be.visible');
             break;
         case '500':
             cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
@@ -773,10 +820,30 @@ then("I see {string} role mapping error message", (error) => {
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
 });
 
+then("I don't see {string} role mapping error message", (error) => {
+    switch (error) {
+    case '403':
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        break;
+    case '404':
+        cy.contains('.modal-body', 'The role is not mapped to this profile.').should('not.be.visible');
+        break;
+    case '500':
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        break;
+    default:
+        throw new Error("Unsupported case");
+    }
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+});
+
 then("I see {string} group mapping error message", (error) => {
     switch (error) {
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal-body', 'The group is not mapped to this profile.').should('be.visible');
             break;
         case '500':
             cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
@@ -794,6 +861,23 @@ then("I see {string} group mapping error message", (error) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
+});
+
+then("I don't see {string} group mapping error message", (error) => {
+    switch (error) {
+    case '403':
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        break;
+    case '404':
+        cy.contains('.modal-body', 'The group is not mapped to this profile.').should('not.be.visible');
+        break;
+    case '500':
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        break;
+    default:
+        throw new Error("Unsupported case");
+    }
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
 });
 
 then("The import profiles section shows the correct information", () => {
@@ -1191,6 +1275,9 @@ then("I see {string} membership mapping error message", (error) => {
         case '403':
             cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('be.visible');
             break;
+        case '404':
+            cy.contains('.modal-body', 'The Executive of Europe is not mapped to this profile.').should('be.visible');
+            break;
         case '500':
             cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('be.visible');
             break;
@@ -1207,6 +1294,23 @@ then("I see {string} membership mapping error message", (error) => {
             throw new Error("Unsupported case");
     }
     cy.get('.modal').contains('The profile mapping has not been updated.').scrollIntoView().should('be.visible');
+});
+
+then("I don't see {string} membership mapping error message", (error) => {
+    switch (error) {
+    case '403':
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        break;
+    case '404':
+        cy.contains('.modal-body', 'The Executive of Europe is not mapped to this profile.').should('not.be.visible');
+        break;
+    case '500':
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        break;
+    default:
+        throw new Error("Unsupported case");
+    }
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
 });
 
 then("Some features are not available", () => {
