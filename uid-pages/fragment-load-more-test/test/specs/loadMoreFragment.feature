@@ -106,11 +106,11 @@ Feature: Test the load more fragment
     When I click on "Tab 1"
     Then The api call is made for "tab 1"
 
-  Scenario: The tabs are disabled while the first page api call is made
+  Scenario: The content is for tab 2 when i switch before response for tab 1 is arrived
     Given The filter response "delayed tab 1 response" is defined
+    And The filter response "tab 2 response" is defined
     When I visit the user list page
-    Then The second tab is disabled
-    And There is a loader displayed
-    And The api call is made for "tab 1"
-    Then The second tab is not disabled
-    And There is no loader
+    Then There is a loader displayed
+    When I click on "Tab 2"
+    Then There is a loader displayed
+    And Then content is for Tab 2

@@ -69,6 +69,14 @@ given("The filter response {string} is defined", (filterType) => {
                 response: '@users5Route'
             }).as('tab1Route');
             break;
+        case 'tab 2 response':
+            cy.fixture('json/users10.json').as("users10Route");
+            cy.route({
+                method: 'GET',
+                url: tab2Url,
+                response: '@users10Route'
+            }).as('tab2Route');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -289,3 +297,9 @@ then("The second tab is not disabled", () => {
 then("There is no loader", () => {
     cy.get('.glyphicon.glyphicon-cog').should('not.exist');
 });
+
+then("Then content is for Tab 2", () => {
+    cy.wait('@tab2Route');
+    cy.get('.tab1Item').should('not.exist');
+    cy.get('.tab2Item').should('have.length', 10);
+})
