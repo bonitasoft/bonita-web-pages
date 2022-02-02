@@ -99,6 +99,18 @@ Feature: The disabled process list in desktop resolution
     And I click on "ok" button on the item "2"
     Then The correct text is shown in enable modal
 
+  Scenario: The enable process modal should display 404 error message
+    Given The page response "default filter with headers" is defined for disabled processes
+    And The page response "enable state code 404" is defined for disabled processes
+    When I visit admin process list page
+    And I click on Disabled tab
+    And I click on "ok" button on the item "2"
+    And I click on enable button in modal
+    Then I see "404" error message for disabled processes
+    When I click on "Cancel" button in the modal
+    And I click on "ok" button on the item "2"
+    Then The correct text is shown in enable modal
+
   Scenario: The enable process modal should display 403 error message
     Given The page response "default filter with headers" is defined for disabled processes
     And The page response "enable state code 403" is defined for disabled processes

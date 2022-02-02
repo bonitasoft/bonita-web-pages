@@ -47,6 +47,10 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '500');
             createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=0&time=1*'  + defaultFilters + defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5');
             break;
+        case 'enable state code 404':
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '404');
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=0&time=1*'  + defaultFilters + defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5');
+            break;
         case 'enable state code 403':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT", '403');
             createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=0&time=1*'  + defaultFilters + defaultSortOrder, 'disabledProcesses5Route', 'disabledProcesses5');
@@ -420,6 +424,9 @@ then("I see {string} error message for disabled processes", (errorCode) => {
     switch (errorCode) {
         case '500':
             cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('be.visible');
+            break;
+        case '404':
+            cy.contains('.modal', 'The process does not exist. Reload the page to see the new list of processes.').should('be.visible');
             break;
         case '403':
             cy.contains('.modal', 'Access denied. For more information, check the log file.').should('be.visible');

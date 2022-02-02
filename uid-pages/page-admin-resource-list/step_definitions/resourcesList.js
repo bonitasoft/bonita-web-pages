@@ -481,7 +481,7 @@ then("I see {string} error message", (statusCode) => {
             cy.get('.modal').contains('An error has occurred. For more information, check the log file.').should('be.visible');
             break;
         case '404':
-            cy.get('.modal').contains('Resource not found. Maybe it was already deleted.').should('be.visible');
+            cy.get('.modal').contains('The resource does not exist. Reload the page to see the new list of resources.').should('be.visible');
             break;
         case '403':
             cy.get('.modal').contains('Access denied. For more information, check the log file.').should('be.visible');
