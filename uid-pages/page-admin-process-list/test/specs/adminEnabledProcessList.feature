@@ -112,6 +112,8 @@ Feature: The enabled process list in desktop resolution
     And The correct text is shown in disable modal
     When I click on disable button in modal
     Then The api call is made for "refresh list"
+    And The successfully disabled message is displayed
+    And The "Disable" button is disable
     When I click on "Close" button in the modal
     And The modal is closed
 

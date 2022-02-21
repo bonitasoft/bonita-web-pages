@@ -425,6 +425,18 @@ then("The api call is made for {string}", (filterValue) => {
     }
 });
 
+then("The {string} button is disable", (state) => {
+   cy.contains('.modal-footer button', state).should('be.disabled');
+});
+
+then("The successfully enabled message is displayed", () => {
+   cy.contains('.modal-body p', 'The process has been successfully enabled.').should('be.visible');
+});
+
+then("The successfully disabled message is displayed", () => {
+   cy.contains('.modal-body p', 'The process has been successfully disabled.').should('be.visible');
+});
+
 then("No enabled processes are available", () => {
     cy.get('.process-item:visible').should('have.length', 0);
     cy.contains('No processes to display').should('be.visible');
