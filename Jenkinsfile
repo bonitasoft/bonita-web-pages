@@ -44,7 +44,7 @@ def isBaseBranch() {
 }
 
 def gradle(args) {
-    sh "./gradlew ${args}"
+    sh "./gradlew ${args} -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS}"
 }
 
 // wrap a stage in try/catch and notify team by slack in case of failure
