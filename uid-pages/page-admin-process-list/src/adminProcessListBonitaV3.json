@@ -3929,6 +3929,58 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "modalData.statusCode !== 200"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<div class=\"glyphicon glyphicon-ok-sign text-success\"></div>\n{{'The process has been successfully' | translate}} {{modalCtrl.getStateLabel(modalData.process.activationState)}}."
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "24d5098e-ab1e-44b3-a04a-a5ca5738b7fa",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -3979,8 +4031,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "modalData.hasAlreadyBeenChanged"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -5064,6 +5116,7 @@
         "    initStateModal: function(process){",
         "        $data.modalData.statusCode = \"\";",
         "        $data.modalData.process = process;",
+        "        $data.modalData.hasAlreadyBeenChanged = false;",
         "        return \"changeStateModal\";",
         "    },",
         "    getErrorMessageFor500: function(failedStateResponse) {",
@@ -5087,6 +5140,9 @@
         "    },",
         "    getChangeButtonLabel: function(statusCode) {",
         "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");",
+        "    },",
+        "    getStateLabel: function(state) {",
+        "        return state === \"ENABLED\" ? uiTranslate(\"disabled\") : uiTranslate(\"enabled\");",
         "    }",
         "};"
       ],
@@ -5100,7 +5156,8 @@
         "    failedStateResponse: undefined,",
         "    statusCode: \"\",",
         "    disablingProcess: false,",
-        "    enablingProcess: false",
+        "    enablingProcess: false,",
+        "    hasAlreadyBeenChanged: false",
         "};"
       ],
       "exposed" : false
@@ -5109,13 +5166,11 @@
       "type" : "expression",
       "value" : [
         "// After the item is disabled or enabled\r",
-        "if($data.modalData.statusCode !== '' && ($data.modalData.disablingProcess || $data.modalData.enablingProcess)){\r",
+        "if($data.modalData.statusCode !== '' && !$data.modalData.hasAlreadyBeenChanged && ($data.modalData.disablingProcess || $data.modalData.enablingProcess)){\r",
         "    $data.modalData.disablingProcess = false;\r",
         "    $data.modalData.enablingProcess = false;\r",
         "    $data.processData.timestamp = new Date().getTime();\r",
-        "    setTimeout(function() {\r",
-        "        $data.modalData.statusCode = '';\r",
-        "    }, 2000);\r",
+        "    $data.modalData.hasAlreadyBeenChanged = true;\r",
         "}"
       ],
       "exposed" : false
