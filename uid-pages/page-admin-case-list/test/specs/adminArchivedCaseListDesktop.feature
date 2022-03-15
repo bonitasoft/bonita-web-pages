@@ -204,7 +204,7 @@ Feature: The admin archived case list in desktop resolution
     And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of "5" items is displayed
-    And The view archived case diagram button in the list has correct href with "6680445060902959515"-"6071"
+    And The view archived case diagram button in the list has correct href with "6680445060902959515"-"2042"
 
   Scenario: The tab parameter for archived tab should be taken into account
     Given The filter response "no open cases" is defined for open cases

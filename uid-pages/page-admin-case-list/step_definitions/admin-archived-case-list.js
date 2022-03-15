@@ -327,6 +327,6 @@ then("The archived case list is refreshed", () => {
     cy.wait('@refreshArchivedCaseUrlRoute');
 });
 
-then("The view archived case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, caseId) => {
-    cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', archivedCaseDiagramUrl + processDefinitionId + '-' + caseId);
+then("The view archived case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, sourceObjecId) => {
+    cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', archivedCaseDiagramUrl + processDefinitionId + '-' + sourceObjecId);
 });
