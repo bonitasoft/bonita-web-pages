@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=DISABLED';
@@ -400,13 +402,13 @@ then("A list of {string} items is displayed", (nbrOfItems) => {
 
 then("The correct text is shown in enable modal", () => {
     cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('be.visible');
-    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('not.be.visible');
-    cy.contains('.modal', 'This process is already disabled.').should('not.be.visible');
-    cy.contains('.modal', 'This process is already enabled.').should('not.be.visible');
-    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Disabling process...').should('not.be.visible');
-    cy.contains('.modal', 'Enabling process...').should('not.be.visible');
+    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('not.exist');
+    cy.contains('.modal', 'This process is already disabled.').should('not.exist');
+    cy.contains('.modal', 'This process is already enabled.').should('not.exist');
+    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.exist');
+    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.exist');
+    cy.contains('.modal', 'Disabling process...').should('not.exist');
+    cy.contains('.modal', 'Enabling process...').should('not.exist');
 });
 
 then("I see enabling message", () => {
@@ -419,7 +421,7 @@ then("The {string} button is disabled for item {string}", (iconName, processNumb
 });
 
 then("I see {string} error message for disabled processes", (errorCode) => {
-    //  cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it.').should('be.visible');
+    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it.').should('be.visible');
     cy.contains('.modal', 'The process has not been enabled.').should('be.visible');
     switch (errorCode) {
         case '500':
@@ -434,15 +436,4 @@ then("I see {string} error message for disabled processes", (errorCode) => {
         default:
             throw new Error("Unsupported case");
     }
-});
-
-then("The correct text is shown in enable modal", () => {
-    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('be.visible');
-    cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('not.be.visible');
-    cy.contains('.modal', 'This process is already disabled.').should('not.be.visible');
-    cy.contains('.modal', 'This process is already enabled.').should('not.be.visible');
-    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Disabling process...').should('not.be.visible');
-    cy.contains('.modal', 'Enabling process...').should('not.be.visible');
 });

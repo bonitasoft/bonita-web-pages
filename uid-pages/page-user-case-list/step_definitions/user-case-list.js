@@ -1,3 +1,6 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
+
 const url = 'build/dist/resources/index.html';
 const checkNumberOfCases = (numberOfCases) => { cy.get('.case-item:visible').should('have.length', numberOfCases); }
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-details?id=';
@@ -793,14 +796,9 @@ then("I don't see the cases that are unmatched by the {string} filter", (filterT
     }
 });
 
-then("No open cases are available", ()=>{
+then("No cases are available", ()=>{
     checkNumberOfCases(0);
-    cy.contains('No open cases to display').should('be.visible');
-});
-
-then("No archived cases are available", ()=>{
-    checkNumberOfCases(0);
-    cy.contains('No archived cases to display').should('be.visible');
+    cy.contains('No cases to display').should('be.visible');
 });
 
 then ("A list of open cases sorted by {string} is displayed", (sortOrder)=>{

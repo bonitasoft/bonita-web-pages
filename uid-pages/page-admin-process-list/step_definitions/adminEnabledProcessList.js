@@ -1,3 +1,6 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
@@ -54,6 +57,12 @@ given("The page response {string} is defined", (filterType) => {
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/7150158626056333703', "processDisableRoute", 'emptyResult', "PUT");
             createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=1*' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
             createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=1*&d=deployedBy&f=activationState=DISABLED' + defaultSortOrder, "refreshDisabledProcessesList", "GET");
+            break;
+        case 'file upload':
+            cy.intercept('POST', urlPrefix + 'API/processUpload', {"filename":"Pool.bar","tempPath":"tmp_632726332956609779.bar","contentType":"text\/xml"})
+            break;
+        case 'process installation':
+            cy.intercept('POST', urlPrefix + 'API/bpm/process', {"fileupload": "tmp_5586848544544004207.bar"});
             break;
         case 'disable state code 500':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '500');
@@ -228,7 +237,7 @@ when("I click on {string} button on the item {string}", (iconName, itemNumber) =
 });
 
 when("I click on {string} button in the modal", (btnName) => {
-    cy.get('button').contains(btnName).click();
+    cy.get('.modal-footer button').contains(btnName).click();
 });
 
 when("I click on disable button in modal", () => {
@@ -428,18 +437,18 @@ then("The {string} process modal is displayed for {string}", (fieldText, itemNam
 });
 
 then("The modal is closed",() => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The correct text is shown in disable modal", () => {
     cy.contains('.modal', 'Disabling this process will remove it from the list of processes that users can start.').should('be.visible');
-    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('not.be.visible');
-    cy.contains('.modal', 'This process is already disabled.').should('not.be.visible');
-    cy.contains('.modal', 'This process is already enabled.').should('not.be.visible');
-    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.be.visible');
-    cy.contains('.modal', 'Disabling process...').should('not.be.visible');
-    cy.contains('.modal', 'Enabling process...').should('not.be.visible');
+    cy.contains('.modal', 'Enabling this process will make it visible to the users who can start it').should('not.exist');
+    cy.contains('.modal', 'This process is already disabled.').should('not.exist');
+    cy.contains('.modal', 'This process is already enabled.').should('not.exist');
+    cy.contains('.modal', 'An error has occurred. For more information, check the log file.').should('not.exist');
+    cy.contains('.modal', 'Access denied. For more information, check the log file.').should('not.exist');
+    cy.contains('.modal', 'Disabling process...').should('not.exist');
+    cy.contains('.modal', 'Enabling process...').should('not.exist');
 });
 
 then("I see {string} error message", (errorCode) => {
@@ -467,9 +476,28 @@ then("The modal {string} button is disabled",(buttonLabel) => {
     cy.get('.modal-footer button').contains(buttonLabel).should('be.disabled');
 });
 
+then("The modal {string} button is enabled",(buttonLabel) => {
+    cy.get('.modal-footer button').contains(buttonLabel).should('be.enabled');
+});
+
 then("The loading text is displayed", () => {
     cy.get('button').contains('Load more processes').should('not.be.visible');
     cy.contains('Processes shown:').should('not.be.visible');
     cy.get('.text-center').contains('Loading processes...').should('be.visible');
     cy.get('h4').should('not.exist');
+});
+
+then("The process is installed", () => {
+    cy.contains(".modal-body p", "Process successfully installed")
+});
+
+
+when("I click on attach icon", () => {
+    cy.get('.modal-body .file-upload .input-group-btn').click();
+});
+
+then("It uploads a process", () => {
+    cy.get('.modal-body input[type="file"]').selectFile('test/mockServer/Pool.bar', {force: true});
+    cy.get('.modal-body input[type="text"]').should('have.value', 'Uploading...');
+    cy.get('.modal-body .file-upload input[type="text"]').should('have.value', 'Pool.bar');
 });

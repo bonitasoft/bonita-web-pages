@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=81358';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
@@ -121,7 +123,7 @@ then("The done task details show the connectors correctly", () => {
     cy.wait('@archivedConnectorRoute');
     cy.get('h4').eq(1).contains('Connectors');
     cy.get('h5').eq(0).contains('Failed');
-    cy.get('.btn-link').contains('failedConnectorName').should('not.be.visible');
+    cy.get('.btn-link').contains('failedConnectorName').should('not.exist');
     cy.get('.item-value').contains('failedConnectorName').should('be.visible');
     cy.get('h5').eq(1).contains('To be executed');
     cy.get('.item-value').contains('throwException');

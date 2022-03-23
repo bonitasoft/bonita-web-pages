@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0';
@@ -359,7 +361,7 @@ then("The change status modal is displayed for {string}", (userName) => {
 });
 
 then("The modal is closed",() => {
-    cy.get('.modal').should('not.be.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The {string} title is displayed", (titleContent) => {
@@ -401,7 +403,7 @@ then("I see {string} error message", (errorMessage) => {
 });
 
 then("I don't see {string} error message", (errorMessage) => {
-    cy.get('.modal').contains(errorMessage).should('not.be.visible');
+    cy.get('.modal').contains(errorMessage).should('not.exist');
 });
 
 then("All create user modal information is cleared", () => {
@@ -418,8 +420,8 @@ then("The create modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-body', 'Confirm password').should('be.visible');
     cy.contains('.modal-body', 'First name').should('be.visible');
     cy.contains('.modal-body', 'Last name').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Create').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -461,8 +463,8 @@ then("The deactivate modal is open and has a default state for {string}", (state
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body h4', 'Warning').should('be.visible');
     cy.contains('.modal-body p', 'If this is the only user able to perform a task, this will cause the interruption of a Process.').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Deactivate').should('be.visible');
     cy.contains('.modal-footer button', 'Activate').should('not.exist');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
@@ -473,8 +475,8 @@ then("The activate modal is open and has a default state for {string}", (state) 
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body h4', 'Warning').should('be.visible');
     cy.contains('.modal-body p', 'Are you sure you want to activate this user?').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Activate').should('be.visible');
     cy.contains('.modal-footer button', 'Deactivate').should('not.exist');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');

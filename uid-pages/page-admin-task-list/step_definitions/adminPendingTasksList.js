@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const defaultFilters = '&f=state=ready&d=rootContainerId&d=assigned_id';
 const processUrl = urlPrefix + 'API/bpm/process?';
@@ -260,7 +262,7 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
 then("No pending tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4').contains('No pending tasks to display').should('be.visible');
-    cy.get('h4').contains('No failed flow nodes to display').should('not.be.visible');
+    cy.get('h4').contains('No failed flow nodes to display').should('not.exist');
 });
 
 then("{string} items in the list are overdue", (overdueItems) => {

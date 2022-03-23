@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
@@ -316,8 +318,8 @@ then("The delete archived case modal is open and has a default state for {string
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body p', 'The deleted case will be permanently deleted and will not be stored in the archives. Are you sure you want to delete it?').should('not.exist');
     cy.contains('.modal-body p', 'The deleted case will be permanently deleted from the archives. Are you sure you want to delete it?').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Delete').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');

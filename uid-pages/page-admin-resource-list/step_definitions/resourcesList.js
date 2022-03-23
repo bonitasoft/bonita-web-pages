@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0&d=updatedBy';
@@ -33,6 +35,12 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
+            break;
+        case 'file upload':
+            cy.intercept('POST', urlPrefix + 'API/pageUpload?action=add', {"filename": "resource.zip","tempPath":"tmp_16316991244937497118.zip","contentType":"application\/zip"});
+            break;
+        case 'resource installation':
+            cy.intercept('POST', urlPrefix + 'API/portal/page', {pageZip: "tmp_16316991244937497118.zip", contentName: "resource.zip"});
             break;
         default:
             throw new Error("Unsupported case");
@@ -241,6 +249,10 @@ when("I click on install button in the page", () => {
         cy.get('button').contains('Install').click();
 });
 
+when("I click on install button in modal", () => {
+    cy.get('.modal-footer button').contains('Install').click();
+});
+
 when("I click on close button in the modal", () => {
     cy.get('button').contains('Close').click();
 });
@@ -255,6 +267,10 @@ when("I click on {string} button on the resource {string}", (iconName, resourceN
 
 when("I click on delete button in modal", () => {
     cy.get('button').contains('Delete').click();
+});
+
+when("I click on attach icon", () => {
+    cy.get('.modal-body .file-upload .input-group-btn').click();
 });
 
 then("The resources have the correct information", () => {
@@ -423,7 +439,7 @@ then("The modal {string} button is disabled",(buttonLabel) => {
 });
 
 then("The modal is closed",() => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The modal delete is displayed for {string}", (resourceName) => {
@@ -514,3 +530,13 @@ then("The {string} button for the resource {string} is disabled and has a toolti
     cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('be.disabled');
     cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('have.attr', 'title');
 });
+
+then("It uploads a resource", () => {
+    cy.get('.modal-body input[type="file"]').selectFile('test/mockServer/resource.zip', {force: true});
+    cy.get('.modal-body input[type="text"]').should('have.value', 'Uploading...');
+    cy.get('.modal-body .file-upload input[type="text"]').should('have.value', 'resource.zip');
+});
+
+then("The resource is installed", () => {
+    cy. contains(".modal-body p", "Resource successfully installed")
+})

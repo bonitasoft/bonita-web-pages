@@ -54,14 +54,14 @@ Feature: The Bonita layout header in desktop resolution
     And A user is connected as guest
     When I visit the index page
     Then The login link is displayed
-    And I don't see "guest" as the user name
+    And The username button does not exist
 
   Scenario: The login button is hidden if sso is active and guest user is connected
     Given The URL target to the application "appName1"
     And A user is connected as guest with sso
     When I visit the index page
     Then The login link does not exist
-    And I don't see "guest" as the user name
+    And The username button does not exist
 
   Scenario: The Bonita layout shows the user default icon
     Given The URL target to the application "appName1"

@@ -12,7 +12,8 @@ Feature: The admin archived case list in desktop resolution
     Given The filter response "default filter" is defined for open cases
     And The filter response "default filter" is defined for archived cases
     When I visit the admin case list page
-    And I click on "Archived cases" tab
+    Then I see an open case list page
+    When I click on "Archived cases" tab
     Then I see an archived case list page
     When I click on "Open cases" tab
     Then I see an open case list page

@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
@@ -428,8 +430,8 @@ then("The create modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
     cy.contains('.modal-body', 'Parent group').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Create').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -437,15 +439,15 @@ then("The create modal is open and has a default state for {string}", (state) =>
 
 then("The delete modal is open and has a default state for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Delete').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
 then("There is no modal displayed", () => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The {string} button in modal is {string}", (buttonName, buttonState) => {
@@ -457,7 +459,7 @@ then("The parent group list is displayed", () => {
 });
 
 then("The parent group list is not displayed", () => {
-    cy.get('.modal-body .dropdown-menu').should('not.be.visible');
+    cy.get('.modal-body .dropdown-menu').should('not.exist');
 });
 
 then("The parent group input is filled with {string}", (parentGroupName) => {
@@ -524,7 +526,7 @@ then("The type more message is displayed and disabled", () => {
 });
 
 then("The type more message is not displayed", () => {
-    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.exist');
 });
 
 then("I see {string} error message for {string}", (error, action) => {
@@ -573,8 +575,8 @@ then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name, or username').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No users to display').should('be.visible');
-    cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
-    cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
+    cy.contains('.modal-body p.text-right', 'Users shown:').should('not.exist');
+    cy.contains('.modal-body button', 'Load more users').should('not.exist');
     cy.get('.modal-body .glyphicon-option-horizontal').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
@@ -582,7 +584,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
 then("The user list modal is open and has {int} users for {string}", (numberOfUsers, state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name, or username').should('not.have.attr', 'readonly', 'readonly');
-    cy.contains('.modal-body h4', 'No users to display').should('not.be.visible');
+    cy.contains('.modal-body h4', 'No users to display').should('not.exist');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
     cy.contains('.modal-body button', 'Load more users').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
@@ -605,15 +607,15 @@ then("The sub-group list modal is open and has no sub-groups for {string}", (sta
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by display name, or name').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No sub-groups to display').should('be.visible');
-    cy.contains('.modal-body p.text-right', 'Sub-groups shown:').should('not.be.visible');
-    cy.contains('.modal-body button', 'Load more sub-groups').should('not.be.visible');
+    cy.contains('.modal-body p.text-right', 'Sub-groups shown:').should('not.exist');
+    cy.contains('.modal-body button', 'Load more sub-groups').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
 
 then("The sub-group list modal is open and has {int} sub-groups for {string}", (numberOfSubGroups, state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by display name, or name').should('not.have.attr', 'readonly', 'readonly');
-    cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('not.be.visible');
+    cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('not.exist');
     cy.contains('.modal-body p.text-right', 'Sub-groups shown:').scrollIntoView().should('be.visible');
     cy.contains('.modal-body button', 'Load more sub-groups').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
@@ -627,8 +629,8 @@ then("The edit modal is open and has a default state for {string}, {string}, {st
     cy.contains('.modal-body', 'Display name').should('be.visible');
     cy.contains('.modal-body', 'Description').should('be.visible');
     cy.contains('.modal-body', 'Parent group').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');

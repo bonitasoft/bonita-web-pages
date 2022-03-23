@@ -44,7 +44,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And The logout button is hidden
+    And The logout button should not exist
 
   Scenario: The current session modal has the user icon correctly set
     Given The URL target to the application "appName1"

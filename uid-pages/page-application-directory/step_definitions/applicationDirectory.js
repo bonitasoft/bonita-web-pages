@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
@@ -259,7 +261,7 @@ then('The apply and close buttons are visible', () => {
 });
 
 then('The logout button is hidden', () => {
-    cy.contains('.modal-footer .btn-danger', 'Sign out').should('not.be.visible');
+    cy.contains('.modal-footer .btn-danger', 'Sign out').should('not.exist');
 });
 
 then('I see {string} as the user modal icon', (userIcon) => {
@@ -317,5 +319,5 @@ then('The current language is {string}', (language) => {
 });
 
 then('The technical user email is hidden', () => {
-    cy.contains('.user-details--break-all p', 'Email').should('not.be.visible');
+    cy.contains('.user-details--break-all p', 'Email').should('not.exist');
 });

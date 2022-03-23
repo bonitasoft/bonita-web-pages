@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=rootContainerId&d=assigned_id';
@@ -286,7 +288,7 @@ then("I see the done tasks page", () => {
 then("No done tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4:visible').contains('No done tasks to display').should('be.visible');
-    cy.get('h4:visible').contains('No failed flow nodes to display').should('not.be.visible');
+    cy.get('h4:visible').contains('No failed flow nodes to display').should('not.exist');
 });
 
 then("The more button has correct href with {string} for done tasks", (doneTaskId) => {

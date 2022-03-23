@@ -28,3 +28,14 @@ Feature: The install-export Organization
     When I open the install-export organization page
     Then I see "Instalar" label on the install button
     And I see "Exportar" label on the export button
+
+  Scenario: I install an organization
+    Given I'm user with "en" bos_local
+    And The response for fileUpload is defined
+    And The response for install Organisation is defined
+    When I open the install-export organization page
+    And I click on attach icon
+    Then It uploads a organization
+    Then The "Install" button is enabled
+    When I click on "Install" button
+    Then The process is installed and I see "Organization successfully installed"

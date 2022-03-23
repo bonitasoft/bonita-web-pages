@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
@@ -386,8 +388,8 @@ then("The more button has correct href with {string}", (flowNodeId) => {
 
 then("Only the no failed flow node is displayed", () => {
     cy.contains('h4:visible', 'No failed flow nodes to display').should('be.visible');
-    cy.contains('h4:visible', 'No done tasks to display').should('not.be.visible');
-    cy.contains('h4:visible', 'No pending tasks to display').should('not.be.visible');
+    cy.contains('h4:visible', 'No done tasks to display').should('not.exist');
+    cy.contains('h4:visible', 'No pending tasks to display').should('not.exist');
 });
 
 then("The filter by process is disabled", () => {

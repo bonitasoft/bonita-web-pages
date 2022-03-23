@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
@@ -313,7 +315,7 @@ then("{string} is shown at the end of the comments", (text) => {
 });
 
 then("There is no {string}", (text) => {
-    cy.get('.comments .item-value').contains(text).should('not.be.visible');
+    cy.contains('.comments .item-value', text).should('not.exist');
 });
 
 then("The input placeholder is {string}", (placeholder) => {
@@ -329,11 +331,11 @@ then("The task list link has correct href", () => {
 });
 
 then("The no task message is not visible", () => {
-    cy.get('.item-value').contains('No task in the task list for this case.').should('not.visible');
+    cy.contains('.item-value', 'No task in the task list for this case.').should('not.exist');
 });
 
 then("The task list link is not visible", () => {
-    cy.get('a.item-value').should('not.visible');
+    cy.get('a.item-value').should('not.exist');
 });
 
 then("The process variables have the correct information", () => {
@@ -426,7 +428,7 @@ then("I see the updated successfully message", () => {
 });
 
 then("The modal is closed", () => {
-    cy.contains('.modal').should('not.be.visible');
+    cy.contains('.modal').should('not.exist');
 });
 
 then("I see the value is updated for variable {string}", (variableNumber) => {

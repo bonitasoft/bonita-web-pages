@@ -130,3 +130,15 @@ Feature: The enabled process list in desktop resolution
     Then The modal "Install" button is disabled
     When I click on "Cancel" button in the modal
     Then The modal is closed
+
+  Scenario: The install modal should install a process
+    Given The page response "file upload" is defined
+    And The page response "default filter with headers" is defined
+    And The page response "process installation" is defined
+    When I visit admin process list page
+    And I click on install button in the page
+    And I click on attach icon
+    Then It uploads a process
+    Then The modal "Install" button is enabled
+    When I click on "Install" button in the modal
+    Then The process is installed

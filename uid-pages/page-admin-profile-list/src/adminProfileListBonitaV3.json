@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminProfileListBonitaV3",
   "name" : "adminProfileListBonitaV3",
-  "lastUpdate" : 1642445796874,
+  "lastUpdate" : 1647008330378,
   "rows" : [
     [
       {
@@ -4610,6 +4610,58 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
+                          "value" : "text-danger"
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "editProfileData.name !== ''"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "* {{'This field is required.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "992b0770-201d-4592-8091-b7f84e18dfef",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
                           "value" : ""
                         },
                         "hidden" : {
@@ -4750,7 +4802,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{\"Access denied. For more information, check the log file.\" | translate}}"
+                          "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Access denied. For more information, check the log file.' | translate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
