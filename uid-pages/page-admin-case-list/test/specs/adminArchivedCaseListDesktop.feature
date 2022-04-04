@@ -27,12 +27,14 @@ Feature: The admin archived case list in desktop resolution
     And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of "5" items is displayed
-    When I put "Process 1 (1.0)" in "process name" filter field for archived cases
+    When I put "Process" in "process name" filter field for archived cases
+    When I click on "Process 1" in process dropdown
     Then The api call is made for "Process 1 (1.0)" for archived cases
     And A list of "3" items is displayed
-    When I put "All processes (all versions)" in "process name" filter field for archived cases
+    When I clear the process name filter
     Then A list of "5" items is displayed
-    When I put "Process 2 (1.0)" in "process name" filter field for archived cases
+    When I put "Process" in "process name" filter field for archived cases
+    And I click on "Process 2" in process dropdown
     Then The api call is made for "Process 2 (1.0)" for archived cases
     And No archived cases are available
 
