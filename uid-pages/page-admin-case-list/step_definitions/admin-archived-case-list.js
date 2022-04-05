@@ -3,7 +3,7 @@ import { Given as given, Then as then, When as when } from "cypress-cucumber-pre
 const urlPrefix = 'build/dist/';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
-const processFilters = '?c=9999&p=0&o=displayName ASC';
+const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
 const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
 const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=10&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
@@ -29,9 +29,9 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponseAndHeaders('&t=0', 'archivedCases5Route', 'archivedCases5', {'content-range': '0-5/5'});
             break;
         case 'process name':
-            createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
             break;
         case 'sort by':
             createRoute('&t=0&o=sourceObjectId+ASC', 'sortByCaseIdAscRoute');
@@ -107,6 +107,10 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 
     function createRouteWithResponse(url, queryParameter, routeName, response) {
+        createRouteWithResponseAndDelay(url, queryParameter, routeName, response, 0);
+    }
+
+    function createRouteWithResponseAndDelay(url, queryParameter, routeName, response, delay) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -116,7 +120,8 @@ given("The filter response {string} is defined for archived cases", (filterType)
         cy.route({
             method: 'GET',
             url: url + queryParameter,
-            response: responseValue
+            response: responseValue,
+            delay: delay
         }).as(routeName);
     }
 
@@ -173,41 +178,29 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     }
 
     function selectFilterProcessNameOption(filterValue) {
-        switch (filterValue) {
-            case 'All processes (all versions)':
-                cy.get('select:visible').eq(0).select('0');
-                cy.wait('@archivedProcess1CasesRoute');
-                break;
-            case 'Process 1 (1.0)':
-                cy.get('select:visible').eq(0).select('1');
-                break;
-            case 'Process 2 (1.0)':
-                cy.get('select:visible').eq(0).select('2');
-                break;
-            default:
-                throw new Error("Unsupported case");
-        }
+        cy.get('.dropdown input').type(filterValue);
+        cy.wait('@processesRoute');
     }
 
     function selectSortByOption(filterValue) {
         switch (filterValue) {
             case 'Case ID (Asc)':
-                cy.get('select:visible').eq(1).select('0');
+                cy.get('.filter-sort select:visible').select('0');
                 break;
             case 'Case ID (Desc)':
-                cy.get('select:visible').eq(1).select('1');
+                cy.get('.filter-sort select:visible').select('1');
                 break;
             case 'Process name (Asc)':
-                cy.get('select:visible').eq(1).select('2');
+                cy.get('.filter-sort select:visible').select('2');
                 break;
             case 'Process name (Desc)':
-                cy.get('select:visible').eq(1).select('3');
+                cy.get('.filter-sort select:visible').select('3');
                 break;
             case 'Start date (Newest first)':
-                cy.get('select:visible').eq(1).select('4');
+                cy.get('.filter-sort select:visible').select('4');
                 break;
             case 'Start date (Oldest first)':
-                cy.get('select:visible').eq(1).select('5');
+                cy.get('.filter-sort select:visible').select('5');
                 break;
             default:
                 throw new Error("Unsupported case");
@@ -217,10 +210,10 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     function caseStateFilterOption(filterValue) {
         switch (filterValue) {
             case 'All states':
-                cy.get('select:visible').eq(2).select('0');
+                cy.get('.filter-state select:visible').select('0');
                 break;
             case 'With failures':
-                cy.get('select:visible').eq(2).select('1');
+                cy.get('.filter-state select:visible').select('1');
                 break;
             default:
                 throw new Error("Unsupported case");
@@ -228,11 +221,11 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(1).type(filterValue);
+        cy.get('.filter-search input:visible').type(filterValue);
     }
 
     function filterCaseIdForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(0).type(filterValue);
+        cy.get('.case-input input:visible').eq(0).type(filterValue);
     }
 });
 
@@ -271,10 +264,10 @@ then("The archived case list have the correct information", () => {
 then("The api call is made for {string} for archived cases", (filterValue) => {
     switch (filterValue) {
         case 'Process 1 (1.0)':
-            cy.wait('@processesRoute');
+            cy.wait('@archivedProcess1CasesRoute');
             break;
         case 'Process 2 (1.0)':
-            cy.wait('@process2CasesRoute');
+            cy.wait('@archivedProcess2CasesRoute');
             break;
         case 'Case ID (Asc)':
             cy.wait('@sortByCaseIdAscRoute');

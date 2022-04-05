@@ -27,7 +27,7 @@ ansiColor('xterm') {
                     gradle 'runTestChrome'
                 } finally {
                     junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
-                    archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'
+                    archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip'
                 }
             }
         }

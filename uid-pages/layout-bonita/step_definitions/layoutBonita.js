@@ -91,7 +91,7 @@ given('The user has a first and last name defined', () => {
         method: 'GET',
         url: '/build/dist/API/identity/user/*',
         response: '@userFull'
-    });
+    }).as('userRoute');
 });
 
 given('The user has the default icon', () => {
@@ -289,7 +289,7 @@ when('I visit the index page with a parameter {string} in the URL', (localeParam
 });
 
 when('I click the user name', () => {
-    cy.get('.text-right > .ng-binding').click();
+    cy.get('.user-menu-name button').click();
 });
 
 when ('I click the user name in dropdown', () => {
@@ -360,6 +360,18 @@ when('I click on the appName', () => {
 when("I click on Load more applications button", () => {
     cy.get('button').contains('Load more applications').click();
 });
+
+when("I wait for user API call", () => {
+    checkUserRouteUntilItSucceeds();
+});
+
+function checkUserRouteUntilItSucceeds() {
+    cy.wait('@userRoute').then((interception) => {
+        if (interception.status !== 200) {
+            checkUserRouteUntilItSucceeds();
+        }
+    });
+}
 
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
     switch (pageNumber) {

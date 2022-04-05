@@ -20,12 +20,14 @@ Feature: The admin open case list in desktop resolution
     And The filter response "process name" is defined for open cases
     When I visit the admin case list page
     Then A list of "5" items is displayed
-    When I put "Process 1 (1.0)" in "process name" filter field for open cases
+    When I put "Process" in "process name" filter field for open cases
+    And I click on "Process 1" in process dropdown
     Then The api call is made for "Process 1 (1.0)" for open cases
     And A list of "2" items is displayed
-    When I put "All processes (all versions)" in "process name" filter field for open cases
+    When I clear the process name filter
     Then A list of "5" items is displayed
-    When I put "Process 2 (1.0)" in "process name" filter field for open cases
+    When I put "Process" in "process name" filter field for open cases
+    And I click on "Process 2" in process dropdown
     Then The api call is made for "Process 2 (1.0)" for open cases
     And No open cases are available
 
