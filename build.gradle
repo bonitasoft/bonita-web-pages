@@ -1,6 +1,6 @@
 plugins {
     id "org.ajoberstar.grgit" version "4.0.1"
-    id 'com.bonitasoft.gradle.bonita-release' version '0.1.53'
+    id 'com.bonitasoft.gradle.bonita-release' version '0.1.54'
     id 'com.bonitasoft.gradle.maven-settings' version '0.7.3'
 
     // plugin only available internally, used for quickly deploying into a runtime environment
@@ -39,18 +39,3 @@ allprojects {
     }
 }
 
-configure(subprojects.findAll { it.name.contains('page-process-list') }) {
-    apply plugin: BonitaPagePlugin
-
-    bonitaPage {
-        nodeVersion = '8.9.4'
-        npmVersion = '6.2.0'
-        frontendBuildDir = 'dist'
-    }
-
-    publishing {
-        publications {
-            distributionZip(MavenPublication) { artifact distZip }
-        }
-    }
-}

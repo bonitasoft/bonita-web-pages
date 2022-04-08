@@ -1,7 +1,15 @@
 apply plugin: BonitaPagePlugin
 
-bonitaPage { frontendBuildDir = 'build' }
+bonitaPage {
+    frontendBuildDir = 'build'
+}
 
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) { artifact distZip }
+    }
+}
 // Workaround to manage React-CLI non conventional build directory
 project.buildDir = 'build-gradle'
 project.tasks.buildPage.configure { inputs.dir('public') }
