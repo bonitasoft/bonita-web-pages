@@ -12,7 +12,6 @@ git branch --force $branch origin/$branch
 git checkout $branch
 
 sed -i "s/^version=.*/version=${params.newVersion}/g" gradle.properties
-sed -i "s/^version=.*/version=${params.newVersion}/g" community/gradle.properties
 
 git commit -a -m "chore(release): prepare next version ${params.newVersion}"
 git push origin $branch
