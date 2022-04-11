@@ -17,6 +17,5 @@ sed -i "s/^version=.*/version=${params.newVersion}/g" community/gradle.propertie
 git commit -a -m "chore(release): prepare next version ${params.newVersion}"
 git push origin $branch
 """
-        }
     }
 }
