@@ -45,10 +45,19 @@ def isBaseBranch() {
     currentBranch == 'master' || currentBranch == 'dev' || currentBranch?.startsWith('release-') || currentBranch?.matches('7\\..+\\.x')
 }
 
-def gradle(args) {
-    sh "./gradlew ${args} -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS}"
-}
+def gradle(String args) {
+    // the -B flag disables download progress logs
 
+    withCredentials([usernamePassword(credentialsId: 'jfrog', passwordVariable: 'REPOSITORY_PASSWORD', usernameVariable: 'REPOSITORY_USERNAME')]) {
+        args += " -PextraRepositories=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS},${env.ALT_DEPLOYMENT_REPOSITORY_RELEASES}"
+        args += " -PreleasesUsername=${env.REPOSITORY_USERNAME}"
+        args += " -PreleasesPassword=${env.REPOSITORY_PASSWORD}"
+        args += " -PsnapshotsUsername=${env.REPOSITORY_USERNAME}"
+        args += " -PsnapshotsPassword=${env.REPOSITORY_PASSWORD}"
+
+        sh "./gradlew ${args} -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS}"
+    }
+}
 // wrap a stage in try/catch and notify team by slack in case of failure
 def slackStage(def name, boolean isBaseBranch, Closure body) {
     try {
