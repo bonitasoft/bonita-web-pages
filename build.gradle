@@ -15,12 +15,10 @@ UIDesigner {
 allprojects {
     apply plugin: 'distribution'
     apply plugin: 'maven-publish'
-    apply plugin: 'com.bonitasoft.gradle.maven-settings'
 
     group 'org.bonitasoft.web.pages'
 
     repositories {
-        mavenLocal()
         mavenCentral()
         if (project.hasProperty("extraRepositories")) {
             def extraRepositories = project.getProperties().get("extraRepositories")
