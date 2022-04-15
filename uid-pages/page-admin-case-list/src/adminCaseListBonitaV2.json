@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV2",
   "name" : "adminCaseListBonitaV2",
-  "lastUpdate" : 1649079875231,
+  "lastUpdate" : 1649767598108,
   "rows" : [
     [
       {
@@ -526,7 +526,7 @@
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable",
-                                                "value" : "processCtrl.getFullListOfProcessOptions()"
+                                                "value" : "processUrl"
                                               }
                                             },
                                             "reference" : "02d79f24-0b42-4b5c-b088-d499cb6fc3fa",
@@ -557,7 +557,7 @@
                                                     },
                                                     "label" : {
                                                       "type" : "interpolation",
-                                                      "value" : "{{$item.displayName}} ({{$item.version}})"
+                                                      "value" : "<span title=\"{{$item.displayName}} ({{$item.version}})\">{{$item.displayName}} ({{$item.version}})</span>"
                                                     },
                                                     "alignment" : {
                                                       "type" : "constant",
@@ -626,6 +626,97 @@
                                                 }
                                               ]
                                             ]
+                                          }
+                                        ],
+                                        [
+                                          {
+                                            "type" : "component",
+                                            "dimension" : {
+                                              "xs" : 12,
+                                              "sm" : 12,
+                                              "md" : 12,
+                                              "lg" : 12
+                                            },
+                                            "propertyValues" : {
+                                              "cssClasses" : {
+                                                "type" : "constant",
+                                                "value" : ""
+                                              },
+                                              "hidden" : {
+                                                "type" : "expression",
+                                                "value" : "processUrl.length < 20"
+                                              },
+                                              "disabled" : {
+                                                "type" : "constant",
+                                                "value" : true
+                                              },
+                                              "label" : {
+                                                "type" : "interpolation",
+                                                "value" : "Or type more..."
+                                              },
+                                              "alignment" : {
+                                                "type" : "constant",
+                                                "value" : "left"
+                                              },
+                                              "buttonStyle" : {
+                                                "type" : "constant",
+                                                "value" : "link"
+                                              },
+                                              "action" : {
+                                                "type" : "constant",
+                                                "value" : "Open modal"
+                                              },
+                                              "assign" : {
+                                                "type" : "constant",
+                                                "value" : false
+                                              },
+                                              "url" : {
+                                                "type" : "interpolation"
+                                              },
+                                              "responseStatusCode" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "dataToSend" : {
+                                                "type" : "constant"
+                                              },
+                                              "dataFromSuccess" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "closeOnSuccess" : {
+                                                "type" : "constant",
+                                                "value" : false
+                                              },
+                                              "dataFromError" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "targetUrlOnSuccess" : {
+                                                "type" : "interpolation"
+                                              },
+                                              "collectionToModify" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "modalId" : {
+                                                "type" : "constant",
+                                                "value" : ""
+                                              },
+                                              "collectionPosition" : {
+                                                "type" : "constant",
+                                                "value" : "Last"
+                                              },
+                                              "valueToAdd" : {
+                                                "type" : "constant"
+                                              },
+                                              "removeItem" : {
+                                                "type" : "variable"
+                                              }
+                                            },
+                                            "reference" : "81347510-372c-414b-ac73-b52616334564",
+                                            "hasValidationError" : false,
+                                            "id" : "pbButton"
                                           }
                                         ]
                                       ]
@@ -2504,7 +2595,7 @@
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable",
-                                                "value" : "processCtrl.getFullListOfProcessOptions()"
+                                                "value" : "processUrl"
                                               }
                                             },
                                             "reference" : "1eb7f6fe-e7b9-417b-b820-1633467f5b0c",
@@ -2535,7 +2626,7 @@
                                                     },
                                                     "label" : {
                                                       "type" : "interpolation",
-                                                      "value" : "{{$item.displayName}} ({{$item.version}})"
+                                                      "value" : "<span title=\"{{$item.displayName}} ({{$item.version}})\">{{$item.displayName}} ({{$item.version}})</span>"
                                                     },
                                                     "alignment" : {
                                                       "type" : "constant",
@@ -2604,6 +2695,97 @@
                                                 }
                                               ]
                                             ]
+                                          }
+                                        ],
+                                        [
+                                          {
+                                            "type" : "component",
+                                            "dimension" : {
+                                              "xs" : 12,
+                                              "sm" : 12,
+                                              "md" : 12,
+                                              "lg" : 12
+                                            },
+                                            "propertyValues" : {
+                                              "cssClasses" : {
+                                                "type" : "constant",
+                                                "value" : ""
+                                              },
+                                              "hidden" : {
+                                                "type" : "expression",
+                                                "value" : "processUrl.length < 20"
+                                              },
+                                              "disabled" : {
+                                                "type" : "constant",
+                                                "value" : true
+                                              },
+                                              "label" : {
+                                                "type" : "interpolation",
+                                                "value" : "Or type more..."
+                                              },
+                                              "alignment" : {
+                                                "type" : "constant",
+                                                "value" : "left"
+                                              },
+                                              "buttonStyle" : {
+                                                "type" : "constant",
+                                                "value" : "link"
+                                              },
+                                              "action" : {
+                                                "type" : "constant",
+                                                "value" : "Open modal"
+                                              },
+                                              "assign" : {
+                                                "type" : "constant",
+                                                "value" : false
+                                              },
+                                              "url" : {
+                                                "type" : "interpolation"
+                                              },
+                                              "responseStatusCode" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "dataToSend" : {
+                                                "type" : "constant"
+                                              },
+                                              "dataFromSuccess" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "closeOnSuccess" : {
+                                                "type" : "constant",
+                                                "value" : false
+                                              },
+                                              "dataFromError" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "targetUrlOnSuccess" : {
+                                                "type" : "interpolation"
+                                              },
+                                              "collectionToModify" : {
+                                                "type" : "variable",
+                                                "value" : ""
+                                              },
+                                              "modalId" : {
+                                                "type" : "constant",
+                                                "value" : ""
+                                              },
+                                              "collectionPosition" : {
+                                                "type" : "constant",
+                                                "value" : "Last"
+                                              },
+                                              "valueToAdd" : {
+                                                "type" : "constant"
+                                              },
+                                              "removeItem" : {
+                                                "type" : "variable"
+                                              }
+                                            },
+                                            "reference" : "9f95f53f-434c-406c-aaef-4726fddbd7e5",
+                                            "hasValidationError" : false,
+                                            "id" : "pbButton"
                                           }
                                         ]
                                       ]
@@ -5385,15 +5567,6 @@
         "            return \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch;    ",
         "        }",
         "        return undefined;",
-        "    },",
-        "    getFullListOfProcessOptions: function() {",
-        "        var fullProcessList = $data.processUrl;",
-        "        if (fullProcessList && fullProcessList.length >= 20) {",
-        "            fullProcessList.push({",
-        "                displayName: uiTranslate(\"Or type more...\")",
-        "            });",
-        "        }",
-        "        return fullProcessList;",
         "    }",
         "};"
       ],
@@ -5424,7 +5597,7 @@
         "}",
         "",
         "if ($data.processData.statusCode !== \"\" && $data.processData.statusCode !== 200) {",
-        "    $data.processUrl = \"\";",
+        "    $data.processUrl = undefined;",
         "}",
         "",
         "if ($data.processData.processId && $data.processData.processSearch === \"\") {",
