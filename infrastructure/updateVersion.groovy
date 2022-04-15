@@ -1,20 +1,20 @@
 node {
     stage('Checkout') {
+        sh "git config --global credential.helper 'cache'"
         checkout scm
     }
 
     stage('Update version') {
         branch = params.BASE_BRANCH
-        withEnv(["PATH=${env.JAVA_HOME_11}/bin:${env.PATH}", "JAVA_HOME=${env.JAVA_HOME_11}"]) {
-            withCredentials([usernamePassword(
-                    credentialsId: 'github',
-                    passwordVariable: 'GIT_PASSWORD',
-                    usernameVariable: 'GIT_USERNAME')]) {
-                sh "git branch --force $branch origin/$branch"
-                sh "git checkout $branch"
+        newVersion = params.newVersion
+        sh """
+git branch --force $branch origin/$branch
+git checkout $branch
 
-                sh "./gradlew markNextVersion -Pnext.snapshot=${params.newVersion} -Prelease.customUsername=${GIT_USERNAME} -Prelease.customPassword=${GIT_PASSWORD}"
-            }
-        }
+sed -i "s/^version=.*/version=${params.newVersion}/g" gradle.properties
+
+git commit -a -m "chore(release): prepare next version ${params.newVersion}"
+git push origin $branch
+"""
     }
 }
