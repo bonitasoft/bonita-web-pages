@@ -211,7 +211,7 @@ when("I filter show inactive users", () => {
 });
 
 when("I click on {string} button on the user {string}", (iconName, userNumber) => {
-    cy.get('button .glyphicon-' + iconName).eq(userNumber - 1).click();
+    cy.get('.action-button-container .glyphicon-' + iconName).eq(userNumber - 1).click();
 });
 
 when("I click on {string} button in modal", (buttonLabel) => {
@@ -258,52 +258,44 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 then("The users have the correct information", () => {
+    cy.contains('.item-label-container p', 'First name').should('be.visible');
+    cy.contains('.item-label-container p', 'Last name').should('be.visible');
+    cy.contains('.item-label-container p', 'Username').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
+
     cy.get('.item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Giovanna');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Almeida');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('giovanna.almeida');
+        cy.get('.action-button-container i.glyphicon-eye-open').should('have.attr', 'title', 'View user details');
     });
 
     cy.get('.item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Angelo');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('daniela.angelo');
     });
 
     cy.get('.item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Walter');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('walter.bates');
     });
 
     cy.get('.item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('isabel.bleasdale');
     });
 
     cy.get('.item').eq(4).within(() => {
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Jan');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Fisher');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('jan.fisher');
     });
     cy.get('.text-primary.item-property-label:visible').contains('Users shown: 5 of 5');

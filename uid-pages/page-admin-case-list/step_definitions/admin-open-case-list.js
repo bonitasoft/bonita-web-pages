@@ -283,21 +283,23 @@ when("I clear the process name filter", () => {
 
 then("The open case list have the correct information", () => {
     cy.wait('@openCases5Route');
+    cy.contains('.item-label-container p', 'Case ID').should('be.visible');
+    cy.contains('.item-label-container p', 'Process name (version)').should('be.visible');
+    cy.contains('.item-label-container p', 'Started by').should('be.visible');
+    cy.contains('.item-label-container p', 'Start date').should('be.visible');
+    cy.contains('.item-label-container p', 'End date').should("not.exist");
+    cy.contains('.item-label-container p', 'Failed flow nodes').should('be.visible');
+    cy.get('.item-label-container i.glyphicon-info-sign').should('have.attr', 'title', 'Aggregates tasks in states ready, waiting, executing, completing, and initializing.');
+    cy.contains('.item-label-container p', 'Pending flow nodes').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
     cy.get('.case-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('3001');
-        cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('Process 1 (1.0)');
         cy.get('.item-value').contains('Process display name 1');
-        cy.get('.item-label').contains('Started by');
         cy.get('.item-value').contains('Walter Bates');
-        cy.get('.item-label').contains('Start date');
         cy.get('.item-value').contains('2/8/21 10:41 AM');
-        cy.get('.item-label').contains('End date').should("not.exist");
-        cy.get('.item-label').contains('Pending flow nodes');
         cy.get('.item-value').contains('16');
-        cy.get('.item-label').contains('Failed flow nodes');
         cy.get('.item-value').contains('0');
         cy.get('.item-label').contains('Key 1');
         cy.get('.item-value').contains('Value 1');
@@ -310,7 +312,7 @@ then("The open case list have the correct information", () => {
         cy.get('.item-label').contains('Key 5');
         cy.get('.item-value').contains('Value 5');
         cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details');
         cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case');
     });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
@@ -388,11 +390,11 @@ then("The go to case details button is enabled", () => {
 });
 
 then("The view case details button at top has correct href with {string}", (caseId) => {
-    cy.get('.btn-primary .glyphicon-option-horizontal').parent().should('have.attr', 'href', caseDetailsUrl + caseId);
+    cy.get('.btn-primary .glyphicon-eye-open').parent().should('have.attr', 'href', caseDetailsUrl + caseId);
 });
 
 then("The view case details button in the list has correct href with {string}", (caseId) => {
-    cy.get('.btn-link .glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', caseDetailsUrl + caseId);
+    cy.get('.btn-link .glyphicon-eye-open').eq(0).parent().should('have.attr', 'href', caseDetailsUrl + caseId);
 });
 
 then("The delete open case modal is open and has a default state for {string}", (state) => {

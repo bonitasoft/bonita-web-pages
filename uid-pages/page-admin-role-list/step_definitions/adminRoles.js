@@ -277,37 +277,39 @@ when("I click on delete button for first role", () => {
 });
 
 when("I click on edit button for first role", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(0).parent().click();
 });
 
 when("I click on edit button for second role", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(1).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(1).parent().click();
 });
 
 when("I click on user button for first role", () => {
-    cy.get('.glyphicon.glyphicon-user').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-user').eq(0).parent().click();
 });
 
 when("I click on user button for second role", () => {
-    cy.get('.glyphicon.glyphicon-user').eq(1).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-user').eq(1).parent().click();
 });
 
 then("The roles page have the correct information", () => {
-    cy.contains('h3', 'Roles');
+    cy.contains('.item-label-container p', 'Display name').should('be.visible');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Created on').should('be.visible');
+    cy.contains('.item-label-container p', 'Updated on').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
     cy.get('.role-item').should('have.length', 8);
-    cy.get('.role-item').eq(0).contains('.item-label', 'Name');
-    cy.get('.role-item').eq(0).contains('.item-value', 'member');
-    cy.get('.role-item').eq(0).contains('.item-label', 'Display name');
-    cy.get('.role-item').eq(0).contains('.item-value', 'Member');
-    cy.get('.role-item').eq(0).contains('.item-label', 'Created on');
-    cy.get('.role-item').eq(0).contains('.item-value', '3/20/20 8:58 AM');
-    cy.get('.role-item').eq(0).contains('.item-label', 'Updated on');
-    cy.get('.role-item').eq(0).contains('.item-value', '7/15/20 3:05 PM');
-    cy.get('.role-item').eq(0).contains('.item-label', 'This is a description.');
-    cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-pencil');
-    cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-trash');
-    cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View the list of users mapped to this role');
-    cy.contains('.item-label', 'Roles shown: 8 of 8');
+    cy.get('.role-item').eq(0).within(() => {
+        // Check that the element exist.
+        cy.contains('.item-value', 'Member').should('be.visible');
+        cy.contains('.item-value', 'member').should('be.visible');
+        cy.contains('.item-value', '3/20/20 8:58 AM').should('be.visible');
+        cy.contains('.item-value', '7/15/20 3:05 PM').should('be.visible');
+        cy.contains('.item-label', 'This is a description.').should('be.visible');
+        cy.get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View the list of users mapped to this role');
+        cy.get('.btn.btn-link .glyphicon-pencil').should('have.attr', 'title', 'Edit role details');
+        cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete role');
+    });
 });
 
 then("A list of {int} roles is displayed", (nbrOfItems) => {
@@ -430,7 +432,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-body h4', 'No users to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.exist');
     cy.contains('.modal-body button', 'Load more users').should('not.exist');
-    cy.get('.modal-body .glyphicon-option-horizontal').should('not.exist');
+    cy.get('.modal-body .glyphicon-eye-open').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
 });
 
@@ -530,7 +532,7 @@ then("The first role has a different name", () => {
 });
 
 then("The first user details link has the correct url", () => {
-    cy.get('.modal-body .glyphicon.glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
+    cy.get('.modal-body .glyphicon.glyphicon-eye-open').eq(0).parent().should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-user-details?id=7');
 });
 
 then("The user search is not disabled", () => {

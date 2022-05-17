@@ -184,19 +184,21 @@ then("I see the failed flow nodes page", () => {
 });
 
 then("The pending tasks list have the correct information", () => {
+    cy.contains('.item-label-container p', 'Priority').should('be.visible');
+    cy.contains('.item-label-container p', 'ID').should('be.visible');
+    cy.contains('.item-label-container p', 'Display name').should('be.visible');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Type').should('be.visible');
+    cy.contains('.item-label-container p', 'Due date').should('be.visible');
+    cy.contains('.item-label-container p', 'Done on').should('not.exist');
+    cy.contains('.item-label-container p', 'Failed on').should('not.exist');
+    cy.contains('.item-label-container p', 'View details').should('be.visible');
     cy.get('.task-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Highest');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('100227');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-label').contains('Done on').should("not.exist");
-        cy.get('.item-label').contains('Failed on').should("not.exist");
-        cy.get('.item-label').contains('Due date');
         cy.get('.item-value').contains('--');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('5049');
@@ -206,7 +208,26 @@ then("The pending tasks list have the correct information", () => {
         cy.get('.item-value').contains('New vacation request with means of transportation');
         cy.get('.item-label').contains('Description');
         cy.get('.item-value').contains('This is a pending task description.');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
+    });
+
+    cy.get('.task-item:visible').eq(1).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('--');
+        cy.get('.item-value').contains('100229');
+        cy.get('.item-value').contains('InvolveUser');
+        cy.get('.item-value').contains('InvolveUser');
+        cy.get('.item-value').contains('1/22/20 5:51 PM');
+        cy.get('.item-value i.glyphicon-alert').should('have.attr', 'title', 'This task is overdue');
+        cy.get('.item-label').contains('Case ID');
+        cy.get('.item-value').contains('5050');
+        cy.get('.item-label').contains('Process name (version)');
+        cy.get('.item-value').contains('VacationRequest (2.0)');
+        cy.get('.item-label').contains('Process display name');
+        cy.get('.item-value').contains('New vacation request with means of transportation');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('No description');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
 });
 

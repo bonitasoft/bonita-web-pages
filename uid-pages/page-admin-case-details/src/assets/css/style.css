@@ -45,8 +45,13 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 /* Custom css */
 
+.pl-0,
 .pl-0.component {
     padding-left: 0;
+}
+
+.pl-10 {
+    padding-left: 10px;
 }
 
 .pr-0.component {
@@ -98,7 +103,7 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     border-bottom: 1px solid lightgray;
     overflow: hidden;
     transition: 0.3s;
-    padding-top: 0.5rem;
+    padding: 0;
 }
 
 .process-variable-item p  {
@@ -155,7 +160,56 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     text-overflow: unset;
     max-height: 100%;
     white-space: inherit;
+}
 
+.tab-content .tab-pane .row:nth-child(1),
+.tab-content .tab-pane .row:nth-child(1)>div,
+.item-label-container > .row{
+    display: contents;
+}
+
+.tab-content .tab-pane > div > div > div > .row:nth-child(1) {
+    display: block;
+    position: sticky;
+    z-index: 2;
+    top: -15px;
+}
+
+.item-label-container {
+    position: sticky;
+    margin-top: 15px;
+    top: 2px;
+    padding-top: 10px;
+    font-size: 13px;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: bold;
+    z-index: 2;
+    border-radius: 5px;
+    margin-left: -15px;
+    width: calc(100% + 3rem);
+}
+
+.action-button-container button {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* For mobile view only */
+.mobile-action-buttons-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+}
+
+.mobile-action-buttons-container .row {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
 }
 
 /* Spinner */

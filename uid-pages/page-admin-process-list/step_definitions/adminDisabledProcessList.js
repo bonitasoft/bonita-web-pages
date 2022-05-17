@@ -227,108 +227,91 @@ when("I click on enable button in modal", () => {
     cy.get('button').contains('Enable').click();
 });
 
+when("I click on {string} button on the item {int}", (iconName, itemNumber) => {
+    cy.get('button .glyphicon-' + iconName).eq(itemNumber).click();
+});
+
 then("The disabled process list have the correct information", () => {
+    cy.contains('.item-label-container p', 'State').should('be.visible');
+    cy.contains('.item-label-container p', 'Display name').should('be.visible');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Version').should('be.visible');
+    cy.contains('.item-label-container p', 'Installed on').should('be.visible');
+    cy.contains('.item-label-container p', 'Installed by').should('be.visible');
+    cy.contains('.item-label-container p', 'Updated on').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
+
     cy.get('.process-item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('State');
         cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved. Click on "View process details" to complete the configuration.');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('New vacation request with means of transportation');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('VacationRequest');
-        cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('2.0');
-        cy.get('.item-label').contains('Installed on');
         cy.get('.item-value').contains('2/19/20 4:09 PM');
-        cy.get('.item-label').contains('Updated on');
+        cy.get('.item-value').contains('Walter Bates');
         cy.get('.item-value').contains('2/20/20 9:30 AM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
-        cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', processDetailsUrl + '4623447657350219626');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View process details');
+        cy.get('a .glyphicon-eye-open').parent().should('have.attr', 'href', processDetailsUrl + '4623447657350219626');
         cy.get('.glyphicon-ban-circle').should('not.exist');
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'This process is not fully configured. It cannot be enabled. Click on the "View process details" icon.');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
     cy.get('.process-item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('State');
         cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool 1');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('Display name for Pool 1');
-        cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('1.0');
-        cy.get('.item-label').contains('Installed on');
         cy.get('.item-value').contains('2/20/20 2:09 PM');
-        cy.get('.item-label').contains('Updated on');
+        cy.get('.item-value').contains('Anthony Nichols');
         cy.get('.item-value').contains('2/20/20 12:30 PM');
         cy.get('.item-label').contains('Pool 1 process description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
-        cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', processDetailsUrl + '4623447657350219626');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View process details');
+        cy.get('a .glyphicon-eye-open').parent().should('have.attr', 'href', processDetailsUrl + '4623447657350219626');
         cy.get('.glyphicon-ban-circle').should('not.exist');
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Anthony Nichols');
     });
     cy.get('.process-item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('State');
         cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved. Click on "View process details" to complete the configuration.');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Pool 2');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('Display name for Pool 2');
-        cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('3.0');
-        cy.get('.item-label').contains('Installed on');
         cy.get('.item-value').contains('1/20/20 4:09 PM');
-        cy.get('.item-label').contains('Updated on');
+        cy.get('.item-value').contains('Helen Kelly');
         cy.get('.item-value').contains('1/25/20 9:30 AM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('not.exist');
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'This process is not fully configured. It cannot be enabled. Click on the "View process details" icon.');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Helen Kelly');
     });
     cy.get('.process-item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('State');
         cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('New Pool 3');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('New Pool 3 display name');
-        cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('2.0');
-        cy.get('.item-label').contains('Installed on');
         cy.get('.item-value').contains('2/15/20 4:09 PM');
-        cy.get('.item-label').contains('Updated on');
+        cy.get('.item-value').contains('Walter Bates');
         cy.get('.item-value').contains('2/15/20 9:30 AM');
         cy.get('.item-label').contains('No description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('not.exist');
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
     cy.get('.process-item').eq(4).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('State');
         cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('Second Vacation Request');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('Second vacation request with means of transportation');
-        cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('2.0');
-        cy.get('.item-label').contains('Installed on');
         cy.get('.item-value').contains('2/21/20 4:09 PM');
-        cy.get('.item-label').contains('Updated on');
+        cy.get('.item-value').contains('Walter Bates');
         cy.get('.item-value').contains('2/21/20 9:30 AM');
         cy.get('.item-label').contains('Vacation request process description');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View process details');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View process details');
         cy.get('.glyphicon-ban-circle').should('not.exist');
         cy.get('.glyphicon-ok').should('have.attr', 'title', 'Enable');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Installed by: Walter Bates');
     });
     cy.get('.text-primary.item-label:visible').contains('Processes shown: 5 of 5');
 });

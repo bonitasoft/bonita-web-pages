@@ -470,7 +470,7 @@ when("I erase the search filter in the modal", () => {
 });
 
 when("I click on delete button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-trash').eq(0).parent().click();
 });
 
 when("I click on add button", () => {
@@ -511,11 +511,11 @@ when("I click inside the modal", () => {
 });
 
 when("I click on edit button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(0).parent().click();
 });
 
 when("I click on edit button for fifth profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(4).parent().click();
 });
 
 when("I click on the {string} button in modal", (buttonName) => {
@@ -537,51 +537,51 @@ when("I fill in the information", () => {
 });
 
 when("I click on show organization mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
 });
 
 when("I click on show organization mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
 });
 
 when("I click on show organization mapping button for second profile without closing the first", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
 });
 
 when("I click on hide organization mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-top').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-top').eq(0).parent().click();
 });
 
 when("I click on edit user mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(1).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).click();
 });
 
 when("I click on edit user mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).click();
 });
 
 when("I click on edit role mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).click();
 });
 
 when("I click on edit role mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).click();
 });
 
 when("I click on edit group mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).click();
 });
 
 when("I click on edit group mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).click();
 });
 
 when("I click on edit membership mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).click();
 });
 
 when("I click on edit membership mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(5).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).click();
 });
 
 when("I type {string} in the selection input", (selectedValue) => {
@@ -626,26 +626,26 @@ when("I erase one character", (userName) => {
 
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Created on').should('be.visible');
+    cy.contains('.item-label-container p', 'Updated on').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
     cy.get('.profile-item').should('have.length', 8);
     cy.get('.profile-item').eq(0).within(() => {
-        cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Custom profile 1');
-        cy.contains('.item-label', 'Created on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
-        cy.contains('.item-label', 'Updated on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
         cy.contains('.item-label', 'This is a sample description.');
-        cy.get('.btn.btn-link .glyphicon-triangle-bottom').should('have.attr', 'title', 'Show mapping with organization');
-        cy.get('.btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
-        cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-triangle-bottom').should('have.attr', 'title', 'Show mapping with organization');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
         cy.get('.is-provided-icon').should('not.exist');
     });
     cy.get('.profile-item').eq(1).within(() => {
-        cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Administrator');
         cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
         cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
-        cy.get('.btn.btn-link .glyphicon-trash').should('not.be.enabled');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-trash').should('not.be.enabled');
     });
     cy.contains('.item-label', 'Profiles shown: 8 of 8');
 });
@@ -989,7 +989,7 @@ then('I can export a profile', () => {
 });
 
 then("I see the mapping information for first profile", () => {
-    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.get('.action-button-container .glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
@@ -1006,7 +1006,7 @@ then("I see the mapping information for first profile", () => {
 });
 
 then("I see the mapping information for second profile", () => {
-    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.get('.action-button-container .glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Dumitru Corini').should('be.visible');
@@ -1019,8 +1019,8 @@ then("I see the mapping information for second profile", () => {
 
 then("The hide organization mapping button is displayed", () => {
     cy.get('.profile-item').eq(0).within(() => {
-        cy.get('.glyphicon-triangle-top').should('be.visible');
-        cy.get('.glyphicon-triangle-bottom').should('not.exist');
+        cy.get('.action-button-container .glyphicon-triangle-top').should('be.visible');
+        cy.get('.action-button-container .glyphicon-triangle-bottom').should('not.exist');
     });
 });
 
