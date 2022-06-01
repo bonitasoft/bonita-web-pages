@@ -1,0 +1,329 @@
+/* -------------------------------
+ *
+ * Regroup Crowdin related build
+ *
+ * -------------------------------
+ */
+
+import okhttp3.OkHttpClient
+import org.apache.tools.ant.taskdefs.condition.Os
+
+import org.yaml.snakeyaml.Yaml
+
+import org.kohsuke.github.GitHub;
+import org.kohsuke.github.GitHubBuilder;
+import org.kohsuke.github.HttpConnector;
+import org.kohsuke.github.extras.okhttp3.OkHttpConnector;
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.yaml:snakeyaml:1.25'
+        classpath 'org.kohsuke:github-api:1.101'
+        classpath 'com.squareup.okhttp3:okhttp:4.2.2'
+    }
+}
+
+def crowdinLanguages = ['fr', 'es-ES', 'pt-BR', 'ja']
+
+def uidPages = ['page-tenant-status',
+                'page-install-export-organization',
+                'form-case-overview',
+                'layout-bonita',
+                'page-admin-process-list',
+                'page-admin-task-list',
+                'page-application-home',
+                'page-resources-list',
+                'page-user-case-list',
+                'page-user-case-details',
+                'page-user-list']
+def reactPages = ['page-process-list']
+
+
+task generateCrowdinFile(group: 'crowdin') {
+    def fileGenerated = file('crowdin.yaml')
+    configure {
+        outputs.file(fileGenerated)
+    }
+    doFirst {
+        def crowdinConf = [:]
+
+        // Your Crowdin's credentials
+        crowdinConf.project_identifier = crowdinProjectIdentifier()
+        crowdinConf.api_key = project.getProperty('crowdinApiKey')
+        crowdinConf.base_path = rootDir.absolutePath
+
+        // Choose file structure in Crowdin, e.g. true or false
+        crowdinConf.preserve_hierarchy = true
+
+        // Files configuration
+        crowdinConf.files = []
+        uidPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'uid_page_template.yaml') }
+        reactPages.each { crowdinConf.files << generateCrowdinConfigurationForPage(it, 'react_page_template.yaml') }
+
+        // Generate YAML
+        def generatedYaml = new Yaml().dump(crowdinConf)
+
+        // make this work on Windows
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            generatedYaml = generatedYaml.replace('\\', '\\\\') // for the crowdin base path
+            generatedYaml = generatedYaml.replace('/', '\\\\')
+        }
+        logger.quiet('generated crowdin yaml:\n' + generatedYaml);
+        fileGenerated.text = generatedYaml
+    }
+}
+
+private String crowdinProjectIdentifier() {
+    project.getProperty('crowdinProjectIdentifier')
+}
+
+private generateCrowdinConfigurationForPage(String pageName, String templateName) {
+    logger.info("Generate the content of Crowdin configuration of the page '$pageName'")
+    def fileTemplate = file("infrastructure/crowdin/$templateName")
+    String content = fileTemplate.text
+    content = content.replace('@PAGE_NAME@', pageName)
+
+    new Yaml().load(content)
+}
+
+
+// ===============================================================================
+// Crowdin cli tooling
+// ===============================================================================
+task ensureCrowdinCliIsAvailable(group: 'crowdin') {
+    doLast {
+        crowdinCli '--version'
+    }
+}
+
+private void crowdinCli(String options) {
+    def commandLineOptions = []
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLineOptions << 'cmd'
+        commandLineOptions << '/c'
+    } else {
+        commandLineOptions << 'bash'
+        commandLineOptions << '-c'
+    }
+
+    commandLineOptions << "crowdin ${options}"
+
+    logger.quiet "Run: ${commandLineOptions.toListString()}"
+    exec {
+        commandLine commandLineOptions
+    }
+}
+
+private String gitBranchName() {
+    project.properties.getOrDefault('gitBranch', grgit.branch.current().getName())
+}
+
+private String crowdinBranchName() {
+    gitBranchName().replace('/', '@')
+}
+
+private String crowdinDryRunOptionsIfConfigured() {
+    project.properties.getOrDefault('crowdinCliDryRun', 'false') == 'true' ? '--dryrun' : ''
+}
+
+
+// ===============================================================================
+// Crowdin upload sources
+// ===============================================================================
+task prepareForCrowdinUploadSources(group: 'crowdin') {
+    dependsOn 'generateCrowdinFile'
+    uidPages.each { dependsOn "uid-pages:$it:generateI18nKeysForUpload" }
+}
+
+task performUploadCrowdinSources(group: 'crowdin') {
+    dependsOn 'ensureCrowdinCliIsAvailable'
+    doLast {
+        crowdinCli "upload sources -b ${crowdinBranchName()} ${crowdinDryRunOptionsIfConfigured()}"
+    }
+}
+
+task uploadCrowdinSources(description: 'Upload sources to Crowdin.', group: 'crowdin') {
+    dependsOn 'prepareForCrowdinUploadSources'
+    dependsOn 'performUploadCrowdinSources'
+    tasks.findByName('performUploadCrowdinSources').mustRunAfter 'prepareForCrowdinUploadSources'
+}
+
+
+// ===============================================================================
+// Crowdin upload translations
+// ===============================================================================
+task performUploadCrowdinTranslations(group: 'crowdin') {
+    dependsOn 'ensureCrowdinCliIsAvailable'
+    doLast {
+        crowdinLanguages.each { language ->
+            crowdinCli "upload translations -l ${language} -b ${crowdinBranchName()} ${crowdinDryRunOptionsIfConfigured()}"
+        }
+    }
+}
+
+task prepareForCrowdinTranslations(group: 'crowdin') {
+    dependsOn 'generateCrowdinFile'
+    uidPages.each { dependsOn "uid-pages:$it:generateI18nTranslationsForUpload" }
+    // Need to have the key files in order to upload the translations to Crowdin
+    uidPages.each { dependsOn "uid-pages:$it:generateI18nKeysForUpload" }
+}
+
+task uploadCrowdinTranslations(description: 'Upload translations to Crowdin.', group: 'crowdin') {
+    dependsOn 'prepareForCrowdinTranslations'
+    dependsOn 'performUploadCrowdinTranslations'
+    tasks.findByName('performUploadCrowdinTranslations').mustRunAfter 'prepareForCrowdinTranslations'
+
+    // Need to have the key files in order to upload the translations to Crowdin
+    afterEvaluate {
+        uidPages.each {
+            dependsOn "uid-pages:$it:generateI18nKeysForUpload"
+            tasks.findByName('performCrowdinDownloadTranslations').mustRunAfter "uid-pages:$it:generateI18nKeysForUpload"
+        }
+    }
+}
+
+// ===============================================================================
+// Crowdin download translations
+// ===============================================================================
+task performCrowdinDownloadTranslations(group: 'crowdin') {
+    dependsOn 'ensureCrowdinCliIsAvailable'
+    doLast {
+        crowdinLanguages.each { language ->
+            crowdinCli "download translations -l ${language} -b ${crowdinBranchName()} ${crowdinDryRunOptionsIfConfigured()}"
+        }
+    }
+}
+
+// no need to explicitly call the Crowdin Project Build as the CLI will trigger it
+task downloadCrowdinTranslations(description: 'Download translations to Crowdin.', group: 'crowdin') {
+    dependsOn 'prepareForCrowdinTranslations'
+    dependsOn 'performCrowdinDownloadTranslations'
+    tasks.findByName('performCrowdinDownloadTranslations').mustRunAfter 'prepareForCrowdinTranslations'
+}
+
+
+// ===============================================================================
+// Crowdin translations integration
+// ===============================================================================
+task integrateCrowdinUIDTranslations(group: 'crowdin') {
+    uidPages.each { dependsOn "uid-pages:$it:integrateDownloadedI18nTranslations" }
+}
+
+task switchToGitTranslationBranchIfExists(group: 'crowdin') {
+    doLast {
+        def baseBranch = gitBranchName()
+        logger.quiet("base Branch:  ${baseBranch}");
+        def translationGitBranch = "chore/${baseBranch}/update-translations"
+        try {
+            logger.quiet("switching to Git Branch: ${translationGitBranch}");
+            if(grgit.branch.list().find { it.name == translationGitBranch }) {
+                //if the branch exists locally, switch to it
+                grgit.checkout{
+                    branch = translationGitBranch
+                }
+                grgit.pull()
+                logger.quiet("switched to Git Branch: ${translationGitBranch}");
+            } else {
+                //if the branch does not exist locally, try to check it out on origin
+                grgit.checkout{
+                    branch = translationGitBranch
+                    createBranch = true
+                    startPoint = 'origin/' + translationGitBranch
+                }
+                logger.quiet("create locale branch tracking origin/${translationGitBranch}");
+            }
+        } catch (Exception e) {
+            logger.quiet("Translation branch does not seem to exist yet.");
+            logger.quiet(e.getMessage());
+        }
+    }
+}
+
+task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
+    doLast {
+        if (!grgit.status().isClean()) {
+            logger.quiet 'Git status detected changes'
+            def baseBranch = gitBranchName()
+            def translationGitBranch = "chore/${baseBranch}/update-translations"
+            def currentBranch = grgit.branch.current().getName()
+            logger.quiet("translation Branch:  ${translationGitBranch}");
+            logger.quiet("current Branch:  ${currentBranch}");
+            def translationBranchExists = (currentBranch == translationGitBranch)
+            if (!translationBranchExists) {
+                logger.quiet("new Git Branch: ${translationGitBranch}");
+                grgit.checkout{
+                    branch = translationGitBranch
+                    createBranch = true
+                    startPoint = baseBranch
+                }
+            }
+            grgit.commit {
+                message = 'feat(l18n): update translations from Crowdin'
+                all = true
+            }
+            logger.quiet("commited changes on branch ${translationGitBranch}");
+            grgit.push()
+            if (!translationBranchExists) {
+                createPullRequest('bonita-web-pages', baseBranch, translationGitBranch)
+            }
+        } else {
+            logger.quiet("No translation changes to commit.");
+        }
+    }
+}
+
+private void createPullRequest(String githubRepositoryName, String baseBranch, String headBranch) {
+    try {
+        logger.quiet("Listing bonitasoft organization repositories on GitHub");
+        HttpConnector connector = new OkHttpConnector(new OkHttpClient());
+        
+        String githubUsername = project.findProperty('org.ajoberstar.grgit.auth.username')
+        String githubPassword = project.findProperty('org.ajoberstar.grgit.auth.password')
+        String githubApiKey = project.findProperty('githubApiKey')
+        GitHubBuilder gitHubBuilder = new GitHubBuilder();
+        if (githubUsername != null) {
+            logger.quiet("Connecting with username and password");
+            gitHubBuilder.withPassword(githubUsername, githubPassword)
+        } else if (githubApiKey != null) {
+            logger.quiet("Connecting with oauth token");
+            gitHubBuilder.withOAuthToken(githubApiKey)
+        } else {
+            logger.quiet("Github credentials are missing");
+            throw new GradleException('PR creation failed! Missing credentials.')
+        }
+        GitHub gitHub = gitHubBuilder.withConnector(connector)
+                .build();
+        logger.quiet("Connected!");
+
+        logger.quiet 'Creating PR'
+        def title = "chore(l10n) Update translations from Crowdin"
+        def body = "Latest translations made in [Crowdin](https://crowdin.com/project/${crowdinProjectIdentifier()}) for branch ${baseBranch}"
+        def base = baseBranch
+        def head = headBranch
+        def repository = gitHub.getRepository("bonitasoft/${githubRepositoryName}")
+
+        if (repository == null) {
+            logger.quiet 'PR creation failed!'
+            logger.quiet "Repository bonitasoft/${githubRepositoryName} doesn't exist !!"
+            throw new GradleException("PR creation failed! \n" +
+                    "Repository bonitasoft/${githubRepositoryName} doesn\'t exist !!")
+        } else {
+            repository.createPullRequest(title, head, base, body)
+            logger.quiet 'PR created!'
+        }
+    } catch (IOException e) {
+        logger.quiet('PR creation failed!', e)
+        throw new GradleException('PR creation failed!', e)
+    }
+}
+
+task integrateCrowdinTranslations(description: 'Integrate Crowdin translations.', group: 'crowdin') {
+    dependsOn 'switchToGitTranslationBranchIfExists'
+    dependsOn 'integrateCrowdinUIDTranslations'
+    dependsOn 'crowdinGitBranchAndPRIfNeeded'
+    tasks.findByName('integrateCrowdinUIDTranslations').mustRunAfter 'switchToGitTranslationBranchIfExists'
+    tasks.findByName('crowdinGitBranchAndPRIfNeeded').mustRunAfter 'integrateCrowdinUIDTranslations'
+}

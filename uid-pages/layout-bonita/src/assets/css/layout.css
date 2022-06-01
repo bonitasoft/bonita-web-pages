@@ -1,0 +1,235 @@
+/*
+    The layout made of three containers:
+        - layout-header
+            Comes with the living application menu.                
+        - layout-content
+            Comes with the living application iframe to display pages or forms.
+        - layout-footer
+            Empty by default
+    
+    You can add more widgets in those containers by using the UI Designer.
+     
+    This CSS file manages the layout behaviour,   
+    It allows to display the content container in full height, 
+    and header and footer fixed on the top and on the bottom of the page.
+
+    Note: All the CSS rules defined in this file override the values defined in UIDesigner properties panel.
+*/
+html,
+body {
+	height: 100vh;
+}
+
+/*
+    Begin (flexbox vertical layout)
+    Force the layout-content to take all the available space between the layout-header and the layout-footer 
+*/
+body > .container-fluid {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+body > .container-fluid > div.row:nth-child(2),
+body > div.container-fluid > div.row:nth-child(2) div,
+.living-application-iframe :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+body > div.container-fluid > div.row:nth-child(2) iframe {
+    flex: 1;
+}
+/*
+    End (flexbox vertical layout)
+*/
+
+.remove-padding-and-margin.component {
+    margin: 0;
+    padding: 0;
+}
+
+.remove-padding-and-margin-left.component {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.remove-padding-and-margin-right.component {
+    margin-right: 0;
+    padding-right: 0;
+}
+
+/* Begin (Page header) */
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.resized-image img {
+    max-width: none;
+    height: 38.5px;
+    padding-bottom: 0.6em;
+}
+
+.row-centered > .row {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5em;
+}
+
+/* Application title */
+.row-centered > .row > div:nth-child(2) {
+    flex: 2 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+.app-title {
+    width: 100%;
+}
+
+.app-title a {
+    font-size: 1.6em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    text-align: left;
+}
+
+.app-title a:hover,
+.app-title a:focus {
+    text-decoration: none;
+}
+
+/* User info */
+.row-centered > .row > div:nth-child(3){
+    flex: 1 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+.user-info {
+    width: 100%;
+}
+
+.user-info > .row {
+    display: flex;
+    align-items: center;
+}
+
+.user-info > .row > div:nth-child(1){
+    flex: 1 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+
+.user-menu button {
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.user-menu button i {
+    font-size: 1.5em;    
+}
+
+.user-menu button:hover,
+.user-menu button:focus {
+    text-decoration: none;
+}
+
+.user-menu-name {
+    width: 100%; 
+}
+
+.user-menu-name button {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    text-align: right;
+}
+
+.image-circle span {
+    border-radius: 100%;
+    display: flex;
+    flex: 0 0 32px;
+    height: 32px;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    width: 32px;
+    border: solid 1px lightgray;
+}
+
+.image-circle--large span {
+    flex: 0 0 152px;
+    height: 152px;
+    width: 152px;
+}
+
+.image-circle img {
+    height: 100%;
+}
+
+.userIcon--large i {
+    font-size: 10em;
+    display: block;
+    text-align: center;
+}
+
+.user-details--break-all p,
+.user-details--break-all pb-title:first-child {
+    word-break: break-all;
+}
+
+.app-item-container {
+    padding: 0px 20px 20px 20px;
+}
+
+.app-item {
+    border: 2px solid lightgray;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.app-item--current {
+    border-color: #798d8f;
+    box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
+}
+
+.app-name-in-list a {
+    display: block;
+    text-align: left;
+}
+
+.app-name-in-list p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.app-name-in-list--multiline a {
+    white-space: normal;
+    word-break: break-word;
+    text-align: left;
+}
+
+.app-version-in-list {
+    font-size: 0.9em;
+    opacity: 0.5;
+}
+
+.max-modal-width {
+    max-width: 100%;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-body.infinite-scroll {
+    overflow-y: auto;
+    max-height: 61vh;
+}
+
+/* End (Page header) */
+

@@ -1,0 +1,51 @@
+plugins {
+    id "org.ajoberstar.grgit" version "4.0.1"
+    id 'com.bonitasoft.gradle.bonita-uid' version '0.1.54'
+
+    // plugin only available internally, used for quickly deploying into a runtime environment
+    // id 'com.bonitasoft.deployer.bonita-resources-deployer' version '0.1.25'
+}
+
+apply from: 'crowdin.gradle'
+
+UIDesigner {
+  version "1.11.50"
+}
+
+allprojects {
+    apply plugin: 'distribution'
+    apply plugin: 'maven-publish'
+
+    group 'org.bonitasoft.web.pages'
+
+    repositories {
+        mavenCentral()
+        if (project.hasProperty("extraRepositories")) {
+            def extraRepositories = project.getProperties().get("extraRepositories")
+            extraRepositories.split(",").each { repo ->
+                def repoProperties = repo.split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+
+    publishing {
+        repositories {
+            if (project.hasProperty("altDeploymentRepository")) {
+                def repoProperties = project.getProperties()."altDeploymentRepository".split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+}
+
