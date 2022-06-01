@@ -26,6 +26,10 @@ given("The page response {string} is defined", (filterType) => {
             createDefaultRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
             createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=20&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'enabledProcesses20');
+            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=2&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'enabledProcesses10');
+            break;
         case 'search':
             createDefaultRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
@@ -41,6 +45,11 @@ given("The page response {string} is defined", (filterType) => {
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses20Route', 'enabledProcesses20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'enabledProcesses10Route', 'enabledProcesses10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'disable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/7150158626056333703', "processDisableRoute", 'emptyResult', "PUT");
@@ -145,16 +154,16 @@ when("I put {string} in {string} filter field", (filterValue, filterType) => {
 
     function selectSortByOption(filterValue) {
         switch (filterValue) {
-            case 'Name (Asc)':
+            case 'Display name (Asc)':
                 cy.get('select').eq(1).select('0');
                 break;
-            case 'Name (Desc)':
+            case 'Display name (Desc)':
                 cy.get('select').eq(1).select('1');
                 break;
-            case 'Display name (Asc)':
+            case 'Name (Asc)':
                 cy.get('select').eq(1).select('2');
                 break;
-            case 'Display name (Desc)':
+            case 'Name (Desc)':
                 cy.get('select').eq(1).select('3');
                 break;
             case 'Version (Asc)':
@@ -218,10 +227,10 @@ then("The enabled process list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
         cy.get('.glyphicon-check').should('have.attr', 'title', 'Resolved');
-        cy.get('.item-label').contains('Name');
-        cy.get('.item-value').contains('VacationRequest');
         cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('New vacation request with means of transportation');
+        cy.get('.item-label').contains('Name');
+        cy.get('.item-value').contains('VacationRequest');
         cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('2.0');
         cy.get('.item-label').contains('Installed on');

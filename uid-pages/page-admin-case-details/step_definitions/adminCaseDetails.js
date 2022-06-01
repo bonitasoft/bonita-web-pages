@@ -1,5 +1,7 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
+const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
+const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by';
 const commentUrl = 'API/bpm/comment';
@@ -7,8 +9,10 @@ const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
-const processVariableUrl = 'API/bpm/caseVariable?p=0&c=999&f=case_id=1';
+const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
+const processVariableUrl =  defaultProcessVariablesUrl + 'p=0&c=20&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
+
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -37,23 +41,23 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse('API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=4&f=caseId=1', 'availableTasksRoute', 'availableTasks');
             break;
         case 'monitor 9 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '9TasksRoute', '9Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '9TasksRoute', '9Tasks');
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '9FlowNodeRoute', '9Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '9HumanTask', '9Tasks');
             createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '9TasksRoute', '9Tasks');
             break;
         case 'monitor 10 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10TasksRoute', '10Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10TasksRoute', '10Tasks');
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10FlowNodeRoute', '10Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10HumanTask', '10Tasks');
             createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10TasksRoute', '10Tasks');
             break;
         case 'monitor 10+ tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10+TasksRoute', '10+Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10+TasksRoute', '10+Tasks');
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10+FlowNodeRoute', '10+Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10+HumanTask', '10+Tasks');
             createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10+TasksRoute', '10+Tasks');
             break;
         case 'monitor 0 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '0TasksRoute', '0Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '0TasksRoute', '0Tasks');
+            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '0FlowNodeRoute', '0Tasks');
+            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '0HumanTask', '0Tasks');
             createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '0TasksRoute', '0Tasks');
             break;
         case 'process variables':
@@ -70,8 +74,38 @@ given("The response {string} is defined", (responseType) => {
         case '500 error':
             createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
             break;
+        case 'process variables load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariablesRoute', 'processVariables', 3, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+            break;
+        case 'process variables 20 load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'process variables 30 load more':
+            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
+            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createProcessVariablesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + defaultProcessVariablesUrl + 'p=' + page + '&c=' + count + '&f=case_id=1';
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
     }
 
     function createRoute(urlSuffix, routeName) {
@@ -116,6 +150,14 @@ when("I visit the admin case details page", () => {
     cy.visit(url);
 });
 
+when("I visit the admin case details page without an id", () => {
+    cy.visit(urlWithoutId);
+});
+
+when("I visit the admin case details page with an empty id", () => {
+    cy.visit(urlWithEmptyId);
+});
+
 when("I click on case overview button", () => {
     cy.get('a').contains('Overview').click();
 });
@@ -155,12 +197,16 @@ when("I click on {string} button in the modal", (buttonLabel) => {
     cy.get('.modal button').contains(buttonLabel).click();
 });
 
+when("I click on Load more variables button", () => {
+    cy.get('button').contains('Load more variables').click();
+});
+
 then("The case details have the correct information", () => {
     // Check that the element exist.
     cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
     cy.get('.item-label').contains('Process name');
     cy.get('.item-value').contains('Pool');
-    cy.get('.item-label').contains('Display name');
+    cy.get('.item-label').contains('Process display name');
     cy.get('.item-value').contains('Pool display name');
     cy.get('.item-label').contains('Version');
     cy.get('.item-value').contains('1.0');
@@ -201,19 +247,19 @@ then("The monitoring have the correct information for {string} tasks", (numberOf
     // Check that the element exist.
     switch (numberOfTasks) {
         case "9":
-            cy.wait('@9TasksRoute');
+            cy.wait(['@9TasksRoute', '@9FlowNodeRoute', '@9HumanTask']);
             cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
             break;
         case "10":
-            cy.wait('@10TasksRoute');
+            cy.wait(['@10TasksRoute', '@10FlowNodeRoute', '@10HumanTask']);
             cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
             break;
         case "11":
-            cy.wait('@10+TasksRoute');
+            cy.wait(['@10+TasksRoute', '@10+FlowNodeRoute', '@10+HumanTask']);
             cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
             break;
         case "0":
-            cy.wait('@0TasksRoute');
+            cy.wait(['@0TasksRoute', '@0FlowNodeRoute', '@0HumanTask']);
             cy.get('.item-value').contains('No task in the task list for this case.');
             break;
     }
@@ -410,4 +456,16 @@ then("The value for variable 1 is not changed", () => {
         cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('Description about the leave request.');
     });
+});
+
+then("I see that {string}", (message) => {
+    cy.contains('div', message).should('be.visible');
+});
+
+then("A list of {int} items is displayed", (nbrOfItems) => {
+    cy.get('.process-variable-item').should('have.length', nbrOfItems);
+});
+
+then("The load more variables button is disabled", () => {
+    cy.get('button').contains('Load more variables').should('be.disabled');
 });

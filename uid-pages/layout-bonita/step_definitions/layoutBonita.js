@@ -248,6 +248,11 @@ when('I visit the index page', () => {
     cy.wait('@app1Route');
 });
 
+when('I visit the index page with a parameter {string} in the URL', (localeParamName) => {
+    cy.visit(url + '?' + localeParamName + '=es');
+    cy.wait('@app1Route');
+});
+
 when('I click the user name', () => {
     cy.get('.text-right > .ng-binding').click();
 });
@@ -273,8 +278,8 @@ when('I select {string} in language picker', (languageSelected) => {
     }
 });
 
-when('I press the apply button', () => {
-    cy.get('button').contains('Apply').click();
+when('I press the button {string}', (buttonText) => {
+    cy.get('button').contains(buttonText).click();
 });
 
 when('I click the burger', () => {
@@ -329,6 +334,10 @@ when('I click next to the current session modal', () => {
 
 then( 'The application displayName is {string}', (appName) => {
     cy.get('pb-link > .text-left > .ng-binding').should('have.text', appName);
+});
+
+when('I click on the appName', () => {
+    cy.get('.navbar-brand').click();
 });
 
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
@@ -431,6 +440,14 @@ then('The language in BOS_Locale is {string}', (languageSelected) => {
     cy.getCookie('BOS_Locale').should('have.property', 'value', languageSelected);
 });
 
+then('The parameter {string} is not in the URL', (parameterName) => {
+    cy.url().should('not.include', parameterName + '=');
+});
+
+then('The parameter {string} is in the URL', (parameterName) => {
+    cy.url().should('include', parameterName + '=');
+});
+
 then('The current session modal is not visible', () => {
     cy.get('.modal').should('not.exist');
 });
@@ -445,11 +462,11 @@ then('The burger shows correctly', () => {
 });
 
 then('I see the dropdown that opened', () => {
-    cy.get('.navbar-responsive-collapse').should('be.visible');
+    cy.get('.navbar-nav').should('be.visible');
 });
 
 then('I don\'t see the dropdown', () => {
-    cy.get('.navbar-responsive-collapse').should('not.be.visible');
+    cy.get('.navbar-nav').should('not.be.visible');
 });
 
 then('I see the page name dropdown', () => {
@@ -611,10 +628,6 @@ then('Application name has {string} as application href', (homePageHref) => {
     cy.get('.app-title a').should('have.attr', 'href', homePageHref);
 });
 
-when('I click on the appName', () => {
-    cy.get('.navbar-brand').click();
-});
-
 then('Application name has {string} as application href in mobile view', (homePageHref) => {
     cy.url().should('include', homePageHref);
 });
@@ -638,4 +651,9 @@ then('The current language is {string}', (language) => {
             cy.get('select').should('have.value','3');
             break;
     }
+});
+
+then('Page reloads', () => {
+    //necessary when the page reloads to avoid modale opening failure
+    cy.reload();
 });

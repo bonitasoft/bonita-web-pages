@@ -1,0 +1,31 @@
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand visible-xs" ng-click="ctrl.displayPage(properties.homePageToken)" href="../{{properties.homePageToken}}/">{{ctrl.applicationName}}</a>
+            <button type="button" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div collapse="navCollapsed" class="collapse navbar-responsive-collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active:ctrl.pageToken===menu.applicationPageId.token}" ng-repeat="menu in ctrl.filterChildren(-1)" dropdown>
+                    <a ng-if="!ctrl.isParentMenu(menu)" ng-click="ctrl.displayPage(menu.applicationPageId.token)" href="../{{menu.applicationPageId.token}}/"><span class="maxTitleWidth">{{menu.displayName | uiTranslate}}</span></a>
+                    <a ng-if="ctrl.isParentMenu(menu)" href="javascript:void(0);" dropdown-toggle>{{menu.displayName | uiTranslate}}<span class="caret"></span></a>
+                    <ul ng-if="ctrl.isParentMenu(menu)"  class="dropdown-menu">
+                        <li ng-repeat="childMenu in ctrl.filterChildren(menu.id)">
+                            <a ng-click="ctrl.displayPage(childMenu.applicationPageId.token)" href="../{{childMenu.applicationPageId.token}}/">{{childMenu.displayName | uiTranslate}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav visible-xs">
+                <hr ng-show="ctrl.applicationMenuList.length>0"/>
+                <li ng-if="!properties.isGuestUser"><a ng-click="ctrl.openCurrentSessionModal()" class="btn btn-link btn-account"><span class="max-title-width">{{properties.userName}}</span></a></li>
+                <li ng-if="properties.isGuestUser"><a ng-click="ctrl.logoutAndUpdateSuccessfulLogoutVariable()" class="btn btn-link btn-account"><span class="max-title-width" translate>Sign in</span></a></li>
+                <li><a ng-click="ctrl.openAppSelectionModal()" class="btn btn-link btn-account"><span class="glyphicon glyphicon-th"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>

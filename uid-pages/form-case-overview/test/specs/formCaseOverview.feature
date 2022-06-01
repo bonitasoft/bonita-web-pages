@@ -97,3 +97,7 @@ Feature: Form case overview
   Scenario: No id is specified
     When I visit the open case index page without an id
     Then I see that "Case id not provided. Unable to retrieve the case."
+
+  Scenario: No id is specified message is shown when id is empty
+    When I visit the open case index page with an empty id
+    Then I see that "Case id not provided. Unable to retrieve the case."

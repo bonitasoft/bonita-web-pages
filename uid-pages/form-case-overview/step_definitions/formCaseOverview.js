@@ -1,6 +1,7 @@
 const archivedCaseUrl = 'build/dist/resources/index.html?id=30003';
 const openCaseUrl = 'build/dist/resources/index.html?id=30004';
-const caseUrlWithoutId = 'build/dist/resources/index.html?id=';
+const caseUrlWithoutId = 'build/dist/resources/index.html';
+const caseUrlWithEmptyId = 'build/dist/resources/index.html?id=';
 const trimSpaces = (element) => element.text().trim();
 
 given('The archived case {string} server response is defined', (archivedCaseId) => {
@@ -189,6 +190,10 @@ when('I visit the open case index page', () => {
 
 when('I visit the open case index page without an id', () => {
     cy.visit(caseUrlWithoutId);
+});
+
+when('I visit the open case index page with an empty id', () => {
+    cy.visit(caseUrlWithEmptyId);
 });
 
 then('I can see both IDs have correct values', () => {

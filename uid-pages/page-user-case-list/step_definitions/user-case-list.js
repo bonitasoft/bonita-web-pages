@@ -1,5 +1,6 @@
 const url = 'build/dist/resources/index.html';
 const checkNumberOfCases = (numberOfCases) => { cy.get('.case-item:visible').should('have.length', numberOfCases); }
+const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-details?id=';
 
 given("A list of open cases is available", ()=> {
     cy.server();
@@ -284,6 +285,98 @@ given('The resolution is set to mobile', () => {
     cy.viewport(766, 1000);
 });
 
+given("The response {string} is defined", (responseType) => {
+    cy.server();
+    const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes';
+    const defaultArchivedCaseFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4';
+    const defaultRequestUrl = 'build/dist/API/bpm/case?c=20&p=0' + defaultFilters;
+    const defaultArchivedCaseRequestUrl = 'build/dist/API/bpm/archivedCase?c=20&p=0' + defaultArchivedCaseFilters;
+
+    switch (responseType) {
+        case 'open case list 20 load more':
+            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'open case list 30 load more':
+            createRouteWithResponse(defaultRequestUrl, 'openCasesPage0Route', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters,'openCases10Route', 'openCases10', 2, 10);
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
+        case 'sort open case list during limitation':
+            createRouteWithResponse(defaultRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/case', defaultFilters + '&o=name+DESC', 'openCases10Route', 'openCases10', 2, 10);
+            break;
+        case 'archived case list 20 load more':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'archived case list 30 load more':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl, 'archivedCasesPage0Route', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters,'archivedCases10Route', 'archivedCases10', 2, 10);
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters, 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
+        case 'sort archived case list during limitation':
+            createRouteWithResponse(defaultArchivedCaseRequestUrl + '&o=name+DESC', 'sortProcessNameDescRoute', 'archivedCasesPage0');
+            createRouteWithResponseAndPagination('build/dist/API/bpm/archivedCase', defaultArchivedCaseFilters + '&o=name+DESC', 'archivedCases10Route', 'archivedCases10', 2, 10);
+            break;
+        default:
+            throw new Error("Unsupported case");
+    }
+
+    function createRoute(urlSuffix, routeName) {
+        cy.route({
+            method: 'GET',
+            url: urlPrefix + urlSuffix
+        }).as(routeName);
+    }
+
+    function createRouteWithMethod(urlSuffix, routeName, method) {
+        createRouteWithMethodAndStatus(urlSuffix, routeName, method, 200);
+    }
+
+    function createRouteWithResponse(url, routeName, response) {
+        createRouteWithResponseAndMethod(url, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndMethod(url, routeName, response, method) {
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
+    }
+
+    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
+        cy.route({
+            method: method,
+            url: urlPrefix + urlSuffix,
+            response: "",
+            status: status
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
+        cy.fixture('json/' + response + '.json').as(response);
+        cy.route({
+            method: method,
+            url: url,
+            status: status,
+            response: '@' + response
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndPagination(urlPrefix, queryParameter, routeName, response, page, count) {
+        const loadMoreUrl = urlPrefix + '?c=' + count + '&p=' + page;
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: loadMoreUrl + queryParameter,
+            response: responseValue
+        }).as(routeName);
+    }
+});
+
 when("I visit the user case list page", ()=>{
     cy.visit(url);
 });
@@ -340,10 +433,10 @@ function selectOpenCasesSortByOption(filterValue) {
         case 'Process name (Desc)':
             cy.get('select:visible').eq(1).select('3');
             break;
-        case 'Start date - newest first':
+        case 'Start date (Newest first)':
             cy.get('select:visible').eq(1).select('4');
             break;
-        case 'Start date - oldest first':
+        case 'Start date (Oldest first)':
             cy.get('select:visible').eq(1).select('5');
             break;
     }
@@ -364,16 +457,16 @@ function selectArchivedCasesSortByOption(filterValue) {
         case 'Process name (Desc)':
             cy.get('select:visible').eq(1).select('3');
             break;
-        case 'Start date - newest first':
+        case 'Start date (Newest first)':
             cy.get('select:visible').eq(1).select('4');
             break;
-        case 'Start date - oldest first':
+        case 'Start date (Oldest first)':
             cy.get('select:visible').eq(1).select('5');
             break;
-        case 'End date - newest first':
+        case 'End date (Newest first)':
             cy.get('select:visible').eq(1).select('6');
             break;
-        case 'End date - oldest first':
+        case 'End date (Oldest first)':
             cy.get('select:visible').eq(1).select('7');
             break;
     }
@@ -388,7 +481,7 @@ when("I filter only started by me", ()=>{
 });
 
 when("I search {string} in search filter", (searchValue)=>{
-    cy.get('pb-input input:visible').type(searchValue);
+    cy.get('pb-input input:visible').eq(1).type(searchValue);
 });
 
 when("I click on Load more cases button", ()=>{
@@ -397,6 +490,14 @@ when("I click on Load more cases button", ()=>{
 
 when("I click on refresh", ()=>{
     cy.get('button i.glyphicon-repeat:visible').click();
+});
+
+when("I search {string} in caseId input", (searchValue)=>{
+    cy.get('pb-input input:visible').eq(0).type(searchValue);
+});
+
+when("I click on go to case details button", ()=>{
+    cy.get('a .glyphicon-share-alt').click();
 });
 
 then("A list of open cases is displayed", ()=>{
@@ -422,6 +523,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('walter.bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -446,6 +548,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -470,6 +573,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
 
             cy.get('.case-item:visible').eq(3).within(() => {
@@ -484,6 +588,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('2');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -507,6 +612,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('Walter Bates');
                 cy.get('.case-property-label').contains('Pending tasks');
                 cy.get('.case-property-value').contains('1');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
                 cy.get('.case-property-value').contains('Long Search Value 1');
                 cy.get('.case-property-label').contains('Long Search Key 2');
@@ -530,11 +636,13 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8/9/19 2:21 PM');
                 cy.get('.case-property-label').contains('Started by');
                 cy.get('.case-property-value').contains('helen.kelly');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
             cy.get('.case-item:visible').eq(1).within(() => {
                 cy.get('.case-property-label').contains('Case ID (original)');
                 cy.get('.case-property-value').contains('3004');
                 cy.get('.case-property-value').contains('Walter Bates');
+                cy.get('.btn-link .glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
             });
             break;
     }
@@ -690,4 +798,20 @@ then("The open case list have the correct item shown number", () => {
 then("The archived case list have the correct item shown number", () => {
     cy.contains('div', 'Cases shown: 4').should('be.visible');
     cy.contains('div', 'Cases shown: 5').should('be.hidden');
+});
+
+then("The go to case details button is disabled", () => {
+    cy.get('.isDisabled a').should('have.css', 'pointer-events', 'none');
+});
+
+then("The go to case details button is enabled", () => {
+    cy.get('.isDisabled').should('not.exist');
+});
+
+then("The view case details button at top has correct href with {string}", (caseId) => {
+    cy.get('.btn-primary .glyphicon-option-horizontal').parent().should('have.attr', 'href', caseDetailsUrl + caseId);
+});
+
+then("The view case details button in the list has correct href with {string}", (caseId) => {
+    cy.get('.btn-link .glyphicon-option-horizontal').eq(0).parent().should('have.attr', 'href', caseDetailsUrl + caseId);
 });

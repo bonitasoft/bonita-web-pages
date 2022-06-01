@@ -25,6 +25,10 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
             createRoute(defaultSortOrder, 'sortByUpdateDateDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + failedFlowNodesUrl + 'c=20&p=0', defaultFilters + '&o=name+DESC', 'sortDisplayNameDescRoute', 'failedFlowNodes20');
+            createRouteWithResponse(urlPrefix + failedFlowNodesUrl + 'c=10&p=2', defaultFilters + '&o=name+DESC', 'sortDisplayNameDescRoute2', 'failedFlowNodes10');
+            break;
         case 'search by name':
             createRoute('&s=Alowscenario', 'searchRoute');
             createRouteWithResponse(defaultRequestUrl, '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -42,6 +46,11 @@ given("The filter response {string} is defined", (filterType) => {
         case 'enable 20 load more':
             createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'enable 30 load more':
+            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
+            createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
+            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'empty default filter':
             createRouteWithResponse(defaultRequestUrl, '', 'emptyResultRoute', 'emptyResult');
@@ -173,6 +182,10 @@ when("I erase the caseId filter", () => {
 
 when("I click on Load more flow nodes button", () => {
     cy.get('button').contains('Load more flow nodes').click();
+});
+
+when("I click on refresh", ()=>{
+    cy.get('button i.glyphicon-repeat:visible').click();
 });
 
 then("The failed flow nodes list have the correct information", () => {

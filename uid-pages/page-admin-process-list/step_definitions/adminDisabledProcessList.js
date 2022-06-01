@@ -26,6 +26,10 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             createDefaultRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
             createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
             break;
+        case 'sort during limitation':
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=20&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'disabledProcesses20');
+            createRouteWithResponse(urlPrefix + processListUrl, '?c=10&p=2&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'disabledProcesses10');
+            break;
         case 'search':
             createDefaultRoute( defaultSortOrder + '&s=VacationRequest', 'searchByNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
@@ -41,6 +45,11 @@ given("The page response {string} is defined for disabled processes", (filterTyp
         case 'disable 20 load more':
             createRouteWithResponse(defaultRequestUrl, defaultSortOrder, 'disabledProcesses20Route', 'disabledProcesses20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
+            break;
+        case 'disable 30 load more':
+            createRouteWithResponse(defaultRequestUrl, defaultSortOrder, 'disabledProcesses20Route', 'disabledProcesses20');
+            createRouteWithResponseAndPagination(defaultSortOrder, 'disabledProcesses10Route', 'disabledProcesses10', 2, 10);
+            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'enable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/4623447657350219626', "processEnableRoute", 'emptyResult', "PUT");
@@ -160,16 +169,16 @@ when("I put {string} in {string} filter field in disabled processes list", (filt
 
     function selectSortByOption(filterValue) {
         switch (filterValue) {
-            case 'Name (Asc)':
+            case 'Display name (Asc)':
                 cy.get('select:visible').eq(1).select('0');
                 break;
-            case 'Name (Desc)':
+            case 'Display name (Desc)':
                 cy.get('select:visible').eq(1).select('1');
                 break;
-            case 'Display name (Asc)':
+            case 'Name (Asc)':
                 cy.get('select:visible').eq(1).select('2');
                 break;
-            case 'Display name (Desc)':
+            case 'Name (Desc)':
                 cy.get('select:visible').eq(1).select('3');
                 break;
             case 'Version (Asc)':
@@ -213,10 +222,10 @@ then("The disabled process list have the correct information", () => {
         // Check that the element exist.
         cy.get('.item-label').contains('State');
         cy.get('.glyphicon-alert').should('have.attr', 'title', 'Unresolved. Click on "View process details" to complete the configuration.');
-        cy.get('.item-label').contains('Name');
-        cy.get('.item-value').contains('VacationRequest');
         cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('New vacation request with means of transportation');
+        cy.get('.item-label').contains('Name');
+        cy.get('.item-value').contains('VacationRequest');
         cy.get('.item-label').contains('Version');
         cy.get('.item-value').contains('2.0');
         cy.get('.item-label').contains('Installed on');

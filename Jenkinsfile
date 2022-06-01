@@ -22,9 +22,9 @@ ansiColor('xterm') {
         slackStage('🔧 Build', isBaseBranch) {
             wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24', parallelBuild: true]) {
                 try {
-                    gradle 'buildUIDPage --parallel --max-workers 2'
+                    gradle 'buildUIDPage'
                     gradle 'build'
-                    gradle 'runTest --parallel --max-workers 2'
+                    gradle 'runTestChrome'
                 } finally {
                     junit testResults: '**/build*/tests/results/*.xml', allowEmptyResults: true
                     archiveArtifacts '**/build*/distributions/*.zip, **/build*/*.zip, uid-pages/**/videos/*'
@@ -51,7 +51,7 @@ def gradle(String args) {
     withCredentials([usernamePassword(credentialsId: 'jfrog', passwordVariable: 'REPOSITORY_PASSWORD', usernameVariable: 'REPOSITORY_USERNAME')]) {
         args += " -PextraRepositories=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS},${env.ALT_DEPLOYMENT_REPOSITORY_RELEASES}"
         args += " -PreleasesUsername=${env.REPOSITORY_USERNAME}"
-        args += " -PreleasesPassword=${env.REPOSITORY_PASSWORD}"
+        args += " -PreleasesPassword=${env.REPOSITORY_PASSWORD} -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_SNAPSHOTS}"
         args += " -PsnapshotsUsername=${env.REPOSITORY_USERNAME}"
         args += " -PsnapshotsPassword=${env.REPOSITORY_PASSWORD}"
 
