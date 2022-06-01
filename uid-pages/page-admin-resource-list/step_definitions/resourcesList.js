@@ -1,15 +1,15 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
-const defaultFilters = '&time=0&d=updatedBy&f=isHidden=false';
+const defaultFilters = '&time=0&d=updatedBy';
 const resourceUrl = 'API/portal/page?';
-const defaultRequestUrl = urlPrefix + resourceUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + resourceUrl + 'c=10&p=0' + defaultFilters;
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-4/5'});
         case 'hide provided resources':
             createRoute('&f=isProvided=false' + defaultSortOrder, 'isNotProvidedRoute');
             break;
@@ -23,28 +23,13 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponse('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources20');
+            createRouteWithResponseAndHeaders('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources10', {'content-range': '0-9/10'});
+            createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute1', 'resources10', 1, 10);
             createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'resources10', 2, 10);
             break;
         case 'search by name':
             createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
-            break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'resources20Route', 'resources20', {'content-range': '0-20/35'});
-            //createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources5Route', 'resources5', 3, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
-            createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
-            createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
@@ -61,7 +46,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponse(queryParameter, routeName, response) {
-        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+        createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 10);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
@@ -134,7 +119,7 @@ given("The {string} is not involved in application response is defined", (resour
     }).as("deletePageRoute");
     cy.route({
         method: 'GET',
-        url: urlPrefix + resourceUrl + "c=20&p=0&time=1*&d=updatedBy&f=isHidden=false&o=lastUpdateDate+DESC"
+        url: urlPrefix + resourceUrl + "c=10&p=0&time=1*&d=updatedBy&o=lastUpdateDate+DESC"
     }).as("refreshListRoute");
 });
 
@@ -252,10 +237,6 @@ when("I filter hide provided resources", () => {
     cy.get('.checkbox').click();
 });
 
-when("I click on Load more resources button", () => {
-    cy.get('button').contains('Load more resources').click();
-});
-
 when("I click on install button in the page", () => {
         cy.get('button').contains('Install').click();
 });
@@ -350,11 +331,6 @@ then("A list of {string} resources is displayed", (nbrOfResources) => {
     cy.get('.resource-item').should('have.length', nbrOfResources);
 });
 
-then("A list of {string} resources is displayed out of {string}", (nbrOfItems, totalItems) => {
-    cy.get('.resource-item').should('have.length', nbrOfItems);
-    cy.contains('.resource-property-label', 'Resources shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
 then("I see only the filtered resources by {string}", (filterType) => {
     switch (filterType) {
         case 'content type':
@@ -442,10 +418,6 @@ then("The api call is made for {string}", (filterValue) => {
     }
 });
 
-then("The Load more resources button is disabled", () => {
-    cy.get('button').contains('Load more resources').should('be.disabled');
-});
-
 then("The modal {string} button is disabled",(buttonLabel) => {
     cy.get('.modal-footer button').contains(buttonLabel).should('be.disabled');
 });
@@ -509,7 +481,7 @@ then("I see {string} error message", (statusCode) => {
             cy.get('.modal').contains('An error has occurred. For more information, check the log file.').should('be.visible');
             break;
         case '404':
-            cy.get('.modal').contains('Resource not found. Maybe it was already deleted.').should('be.visible');
+            cy.get('.modal').contains('The resource does not exist. Reload the page to see the new list of resources.').should('be.visible');
             break;
         case '403':
             cy.get('.modal').contains('Access denied. For more information, check the log file.').should('be.visible');

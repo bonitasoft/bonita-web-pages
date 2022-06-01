@@ -48,8 +48,7 @@ Feature: The failed flow nodes list in desktop resolution
     Then No failed flow nodes are available
 
   Scenario: The refresh button works correctly for failed flow nodes
-    Given The filter response "default filter" is defined
-    And The filter response "enable load more" is defined
+    Given The filter response "refresh failed flow nodes list" is defined
     When I visit admin task list page
     Then A list of "10" items is displayed
     When I click on Load more flow nodes button
@@ -61,47 +60,6 @@ Feature: The failed flow nodes list in desktop resolution
     Given The filter response "default filter" is defined
     When I visit admin task list page
     Then The more button has correct href with "60002"
-
-  Scenario: Load more button works correctly
-    And The filter response "enable load more" is defined
-    When I visit admin task list page
-    Then A list of "10" failed flow nodes is displayed out of "35"
-    When I click on Load more flow nodes button
-    Then A list of "20" failed flow nodes is displayed out of "35"
-    When I click on Load more flow nodes button
-    Then A list of "30" failed flow nodes is displayed out of "35"
-    When I click on Load more flow nodes button
-    Then A list of "35" failed flow nodes is displayed out of "35"
-    And The load more flow nodes button is disabled
-
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined
-    When I visit admin task list page
-    Then A list of "10" items is displayed
-    When I click on Load more flow nodes button
-    Then A list of "20" items is displayed
-    And The load more flow nodes button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined
-    And The filter response "sort during limitation" is defined
-    When I visit admin task list page
-    Then A list of "10" items is displayed
-    When I click on Load more flow nodes button
-    Then A list of "20" items is displayed
-    When I click on Load more flow nodes button
-    Then A list of "30" items is displayed
-    And The load more flow nodes button is disabled
-    When I put "Flow node name (Desc)" in "sort by" filter field
-    Then A list of "10" items is displayed
-    When I click on Load more flow nodes button
-    Then A list of "20" items is displayed
-
-  Scenario: Load more button has the correct text
-    Given The filter response "default filter" is defined
-    When I visit admin task list page
-    Then A list of "5" items is displayed
-    And The load more flow nodes button has the correct text
 
   Scenario: No failed flow nodes text display correctly
     Given The filter response "empty default filter" is defined

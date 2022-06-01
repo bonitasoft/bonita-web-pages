@@ -2,10 +2,10 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const rolesUrl = 'API/identity/role';
 const defaultFilters = '&o=displayName ASC';
-const defaultRequestUrl = urlPrefix + rolesUrl + '?c=20&p=0' + defaultFilters;
-const refreshUrl = urlPrefix + rolesUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const defaultRequestUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=0' + defaultFilters;
+const refreshUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=1*' + defaultFilters;
 const userUrl = 'API/identity/user';
-const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=role_id=';
+const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=role_id=';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -20,41 +20,27 @@ given("The response {string} is defined", (responseType) => {
             });
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'roles8Route', 'roles8', {'content-range': '0-8/8'});
-            break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'roles20Route', 'roles20', {'content-range': '0-20/38'});
-            createRolesRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
-            createRolesRouteWithResponseAndPagination('', 'roles8Route', 'roles8', 3, 10);
-            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles20Route', 'roles20');
-            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles20Route', 'roles20');
-            createRolesRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
-            createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createRouteWithResponseAndHeaders(defaultRequestUrl,'', 'roles8Route', 'roles8', {'content-range': '0-7/8'});
             break;
         case 'sort by':
-            createRoute(rolesUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
-            createRoute(rolesUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
-            createRoute(rolesUrl + '?c=20&p=0&o=name+DESC&t=0', 'sortNameDescRoute');
+            createRoute(rolesUrl + '?c=10&p=0&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
+            createRoute(rolesUrl + '?c=10&p=0&t=0&o=name+ASC', 'sortNameAscRoute');
+            createRoute(rolesUrl + '?c=10&p=0&t=0&o=name+DESC', 'sortNameDescRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + rolesUrl + '?c=20&p=0&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'roles20');
+            createRouteWithResponseAndHeaders(urlPrefix + rolesUrl, '?c=10&p=0&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute', 'roles10', {'content-range': '0-9/30'});
+            createRouteWithResponse(urlPrefix + rolesUrl + '?c=10&p=1&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'roles10');
             createRouteWithResponse(urlPrefix + rolesUrl + '?c=10&p=2&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'roles10');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Member&t=0', 'searchMemberRoute', 'roles1');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0 ', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl + '&s=Member', 'searchMemberRoute', 'roles1');
+            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'role creation success':
             createRouteWithMethod(rolesUrl, 'roleCreationRoute', 'POST');
             break;
         case 'refresh list after create':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles9');
+            createRouteWithResponseAndHeaders(refreshUrl,'', 'refreshUrlRoute', 'roles9', {'content-range': '0-8/9'});
             break;
         case 'already exists during creation':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl, 'createRoleAlreadyExistsRoute', 'createRoleAlreadyExists', 'POST', '403');
@@ -67,14 +53,14 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'role deletion success':
             createRouteWithResponseAndMethod(urlPrefix + rolesUrl + "/1", 'deleteSuccessRoute', 'emptyResult', 'DELETE');
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles7');
+            createRouteWithResponseAndHeaders(refreshUrl, '','refreshUrlRoute', 'roles7'), {'content-range': '0-6/7'};
             break;
         case '403 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '403');
             break;
         case 'not exists during delete':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'deleteRoleDoesNotExist', 'DELETE', '500');
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles8');
+            createRouteWithResponseAndHeaders(refreshUrl, '', 'refreshUrlRoute', 'roles8', {'content-range': '0-7/8'});
             break;
         case '500 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '500');
@@ -92,23 +78,8 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'emptyResult');
             break;
         case 'user search during limitation':
-            createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'users20Route', 'users20');
-            createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=2&f=enabled=true&f=role_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
-            break;
-        case 'user list load more':
-            createRouteWithResponseAndHeaders(defaultUserUrl,'1', 'users20Route', 'users20', {'content-range': '0-20/38'});
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users5Route', 'users5', 3, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'user list 20 load more':
-            createRouteWithResponse(defaultUserUrl + '1', 'users20Route', 'users20');
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'user list 30 load more':
-            createRouteWithResponse(defaultUserUrl + '1', 'users20Route', 'users20');
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createRouteWithResponseAndHeaders(defaultUserUrl, "1&s=Virginie", 'users10Route', 'users10', {'content-range': '0-9/10'});
+            createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=1&f=enabled=true&f=role_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
             break;
         case 'user list for two roles':
             createRouteWithResponse(defaultUserUrl + "1", 'emptyResultRoute', 'emptyResult');
@@ -118,7 +89,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(rolesUrl + "/1", 'roleEditionRoute', 'PUT');
             break;
         case 'refresh list after edit':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'roles8Modified');
+            createRouteWithResponseAndHeaders(refreshUrl,'', 'refreshUrlRoute', 'roles8Modified', {'content-range': '0-7/8'});
             break;
         case '403 during edition':
             createRouteWithMethodAndStatus(rolesUrl + "/1", 'unauthorizedEditRoleRoute', 'PUT', '403');
@@ -220,14 +191,6 @@ given("The response {string} is defined", (responseType) => {
 when("I visit the admin roles page", () => {
     cy.visit(url);
     cy.wait(1000);
-});
-
-when("I click on Load more roles button", () => {
-    cy.get('button').contains('Load more roles').click();
-});
-
-when("I click on Load more users button", () => {
-    cy.get('.modal-body button').contains('Load more users').click();
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
@@ -348,30 +311,12 @@ then("A list of {int} roles is displayed", (nbrOfItems) => {
     cy.get('.role-item:visible').should('have.length', nbrOfItems);
 });
 
-then("A list of {int} roles is displayed out of {int}", (nbrOfItems, totalItems) => {
-    cy.get('.role-item:visible').should('have.length', nbrOfItems);
-    cy.contains('.text-primary.item-label', 'Roles shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
 then("A list of {int} users is displayed", (nbrOfItems) => {
     cy.get('.modal-body .role-item').should('have.length', nbrOfItems);
 });
 
-then("A list of {int} users is displayed out of {int}", (nbrOfItems, totalItems) => {
-    cy.get('.modal-body .role-item').should('have.length', nbrOfItems);
-    cy.contains('.text-primary.item-label', 'Users shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
 then("Only one user is displayed", () => {
     cy.get('.modal-body .role-item').should('have.length', 1);
-});
-
-then("The load more roles button is disabled", () => {
-    cy.get('button').contains('Load more roles').should('be.disabled');
-});
-
-then("The load more users button is disabled", () => {
-    cy.get('.modal-body button').contains('Load more users').should('be.disabled');
 });
 
 then("The api call is made for {string}", (filterValue) => {

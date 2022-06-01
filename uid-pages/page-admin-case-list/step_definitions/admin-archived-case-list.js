@@ -1,11 +1,11 @@
 const urlPrefix = 'build/dist/';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
-const processFilters = '?c=9999&p=0&o=displayName ASC';
+const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
-const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters;
-const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=20&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
-const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
+const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=10&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
+const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 
 given("The filter response {string} is defined for archived cases", (filterType) => {
@@ -27,39 +27,31 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponseAndHeaders('&t=0', 'archivedCases5Route', 'archivedCases5', {'content-range': '0-5/5'});
             break;
         case 'process name':
-            createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488&t=0', 'process2CasesRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506&t=0', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
+            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
             break;
         case 'sort by':
-            createRoute('&o=sourceObjectId+ASC&t=0', 'sortByCaseIdAscRoute');
-            createRoute('&o=sourceObjectId+DESC&t=0', 'sortByCaseIdDescRoute');
-            createRoute('&o=name+ASC&t=0', 'sortByProcessNameAscRoute');
-            createRoute('&o=name+DESC&t=0', 'sortByProcessNameDescRoute');
-            createRoute('&o=startDate+DESC&t=0', 'sortByStartDateDescRoute');
-            createRoute('&o=startDate+ASC&t=0', 'sortByStartDateAscRoute');
+            createRoute('&t=0&o=sourceObjectId+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&t=0&o=sourceObjectId+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
-            createRoute('&s=Process&t=0', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0&s=Process', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'archivedCases5Route', 'archivedCases5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases20Route', 'archivedCases20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponseAndHeaders('&t=0', 'archivedCases20Route', 'archivedCases20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'archivedCases10Route', 'archivedCases10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+        case 'refresh archived case list':
+            createRouteWithResponseAndHeaders('&t=0', 'archivedCases10Route', 'archivedCases10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('&t=0', 'archivedCases10Route', 'archivedCases10', 1, 10);
+            createRouteWithResponseAndPagination('&t=0', 'archivedCases10Route', 'archivedCases10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'archivedCases10Route', 'archivedCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=20&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases20');
+            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases10');
+            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
             createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
             break;
         case 'archived case deletion success':
@@ -113,6 +105,10 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 
     function createRouteWithResponse(url, queryParameter, routeName, response) {
+        createRouteWithResponseAndDelay(url, queryParameter, routeName, response, 0);
+    }
+
+    function createRouteWithResponseAndDelay(url, queryParameter, routeName, response, delay) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -122,7 +118,8 @@ given("The filter response {string} is defined for archived cases", (filterType)
         cy.route({
             method: 'GET',
             url: url + queryParameter,
-            response: responseValue
+            response: responseValue,
+            delay: delay
         }).as(routeName);
     }
 
@@ -157,16 +154,6 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 });
 
-given("No api call is made for open cases", () => {
-    cy.route({
-        method: "GET",
-        url: openCasesRequestUrl,
-        onRequest: () => {
-            throw new Error("This should have not been called");
-        }
-    });
-});
-
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {
     switch (filterType) {
         case 'process name':
@@ -189,41 +176,29 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     }
 
     function selectFilterProcessNameOption(filterValue) {
-        switch (filterValue) {
-            case 'All processes (all versions)':
-                cy.get('select:visible').eq(0).select('0');
-                cy.wait('@archivedProcess1CasesRoute');
-                break;
-            case 'Process 1 (1.0)':
-                cy.get('select:visible').eq(0).select('1');
-                break;
-            case 'Process 2 (1.0)':
-                cy.get('select:visible').eq(0).select('2');
-                break;
-            default:
-                throw new Error("Unsupported case");
-        }
+        cy.get('.dropdown input').type(filterValue);
+        cy.wait('@processesRoute');
     }
 
     function selectSortByOption(filterValue) {
         switch (filterValue) {
             case 'Case ID (Asc)':
-                cy.get('select:visible').eq(1).select('0');
+                cy.get('.filter-sort select:visible').select('0');
                 break;
             case 'Case ID (Desc)':
-                cy.get('select:visible').eq(1).select('1');
+                cy.get('.filter-sort select:visible').select('1');
                 break;
             case 'Process name (Asc)':
-                cy.get('select:visible').eq(1).select('2');
+                cy.get('.filter-sort select:visible').select('2');
                 break;
             case 'Process name (Desc)':
-                cy.get('select:visible').eq(1).select('3');
+                cy.get('.filter-sort select:visible').select('3');
                 break;
             case 'Start date (Newest first)':
-                cy.get('select:visible').eq(1).select('4');
+                cy.get('.filter-sort select:visible').select('4');
                 break;
             case 'Start date (Oldest first)':
-                cy.get('select:visible').eq(1).select('5');
+                cy.get('.filter-sort select:visible').select('5');
                 break;
             default:
                 throw new Error("Unsupported case");
@@ -233,10 +208,10 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     function caseStateFilterOption(filterValue) {
         switch (filterValue) {
             case 'All states':
-                cy.get('select:visible').eq(2).select('0');
+                cy.get('.filter-state select:visible').select('0');
                 break;
             case 'With failures':
-                cy.get('select:visible').eq(2).select('1');
+                cy.get('.filter-state select:visible').select('1');
                 break;
             default:
                 throw new Error("Unsupported case");
@@ -244,11 +219,11 @@ when("I put {string} in {string} filter field for archived cases", (filterValue,
     }
 
     function searchForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(1).type(filterValue);
+        cy.get('.filter-search input:visible').type(filterValue);
     }
 
     function filterCaseIdForValue(filterValue) {
-        cy.get('pb-input input:visible').eq(0).type(filterValue);
+        cy.get('.case-input input:visible').eq(0).type(filterValue);
     }
 });
 
@@ -256,7 +231,12 @@ when("I click on Load more archived cases button", () => {
     cy.contains('button','Load more cases').click();
 });
 
+then("I see an archived case list page", () => {
+    cy.get('.item-value:visible').contains('2042');
+});
+
 then("The archived case list have the correct information", () => {
+    cy.wait('@archivedCases5Route');
     cy.get('.case-item:visible').eq(0).within(() => {
         // Check that the element exist.
         cy.get('.item-label').contains('Case ID (original)');
@@ -272,8 +252,8 @@ then("The archived case list have the correct information", () => {
         cy.get('.item-value').contains('2/5/21 4:00 PM');
         cy.get('.item-label').contains('State');
         cy.get('.item-value').contains('completed');
-        cy.get('.item-label').contains('Pending tasks').should('not.exist');
-        cy.get('.item-label').contains('Failed Flow Nodes').should('not.exist');
+        cy.get('.item-label').contains('Pending flow nodes').should('not.exist');
+        cy.get('.item-label').contains('Failed flow nodes').should('not.exist');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
     });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
@@ -282,10 +262,10 @@ then("The archived case list have the correct information", () => {
 then("The api call is made for {string} for archived cases", (filterValue) => {
     switch (filterValue) {
         case 'Process 1 (1.0)':
-            cy.wait('@processesRoute');
+            cy.wait('@archivedProcess1CasesRoute');
             break;
         case 'Process 2 (1.0)':
-            cy.wait('@process2CasesRoute');
+            cy.wait('@archivedProcess2CasesRoute');
             break;
         case 'Case ID (Asc)':
             cy.wait('@sortByCaseIdAscRoute');
@@ -318,8 +298,7 @@ then("The api call is made for {string} for archived cases", (filterValue) => {
 
 then("No archived cases are available", () => {
     cy.get('.case-item:visible').should('have.length', 0);
-    cy.get('h4').contains('No open cases to display').should('not.be.visible');
-    cy.get('h4').contains('No archived cases to display').should('be.visible');
+    cy.get('h4').contains('No cases to display').should('be.visible');
 });
 
 then("The load more archived cases button is disabled", () => {

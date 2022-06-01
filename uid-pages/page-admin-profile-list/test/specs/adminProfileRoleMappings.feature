@@ -56,85 +56,6 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When The search input is filled with "Search term with no match"
     Then No role mappings are displayed
 
-  Scenario: Load more mapped roles button works correctly for role mapping
-    Given The response "default filter with headers" is defined
-    And The response "role mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit role mapping button for first profile
-    Then The load more role mapped button is not disabled
-    And A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    And A list of 20 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 28 "Roles" mapped is displayed
-    And The load more role mapped button is disabled
-
-  Scenario: Load more mapped roles is disabled when result is a multiple of count
-    Given The response "default filter with headers" is defined
-    And The response "role mapping 20 load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit role mapping button for first profile
-    Then The load more role mapped button is not disabled
-    And A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-    And The load more role mapped button is disabled
-
-  Scenario: Load more mapped roles resets correctly after the limitation is triggered
-    Given The response "default filter with headers" is defined
-    And The response "role mapping 30 load more" is defined
-    And The response "search mapped role during limitation" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit role mapping button for first profile
-    Then A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 30 "Roles" mapped is displayed
-    And The load more role mapped button is disabled
-    When The search input is filled with "E"
-    Then A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-
-  Scenario: Load more mapped role resets correctly after modal is reopened
-    Given The response "default filter with headers" is defined
-    And The response "role mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit role mapping button for first profile
-    Then A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-    When I click on the "Close" button in modal
-    And I click on edit role mapping button for first profile
-    Then A list of 10 "Roles" mapped is displayed
-
-  Scenario: Load more mapped roles resets correctly after we change the list of roles mapped
-    Given The response "default filter with headers" is defined
-    And The response "role mapping load more" is defined
-    And The response "role list" is defined
-    And The response "add role and refresh list" is defined
-    And The response "remove role and refresh list" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit role mapping button for first profile
-    Then A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-    And I type "E" in the selection input
-    Then The "role" list is displayed
-    When I click on "Executive" in the list
-    And I click on the "Add" button in modal
-    Then A list of 10 "Roles" mapped is displayed
-    When I click on Load more roles mapped button
-    Then A list of 20 "Roles" mapped is displayed
-    When I click on the remove "role" button in modal
-    Then A list of 10 "Roles" mapped is displayed
-
   Scenario: The roles mapping modal should display information about typing more
     Given The response "default filter with headers" is defined
     And The response "mapping" is defined
@@ -227,7 +148,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see "500" role mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "500" role mapping error message
+    Then I don't see "500" role mapping error message
     And The search input has the value "E"
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -238,6 +159,32 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "500" role mapping error message
+
+  Scenario: The edit role mapping modal should display generic 404 error message
+    Given The response "default filter with headers" is defined
+    And The response "404 during edit role mapping" is defined
+    And The response "role list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit role mapping button for first profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
+    And The mapped role list is displayed
+    When The search input is filled with "E"
+    And I click on the remove "role" button in modal
+    Then I see "404" role mapping error message
+    When I wait for 2000
+    And I click inside the modal
+    Then I don't see "404" role mapping error message
+    And The search input has the value "E"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on edit role mapping button for first profile
+    Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
+    And The mapped role list is displayed
+    When I type "E" in the selection input
+    And I click on "Executive Assistants" in the list
+    And I click on the "Add" button in modal
+    Then I see "404" role mapping error message
 
   Scenario: The edit role mapping modal should display generic 403 error message
     Given The response "default filter with headers" is defined
@@ -253,7 +200,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see "403" role mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "403" role mapping error message
+    Then I don't see "403" role mapping error message
     And The search input has the value "E"
     When I click on the "Close" button in modal
     Then There is no modal displayed

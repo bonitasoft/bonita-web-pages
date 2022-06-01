@@ -1,13 +1,13 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
-const defaultFilters = '&d=parent_group_id&o=displayName ASC';
-const defaultRequestUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters;
-const refreshUrl = urlPrefix + groupsUrl + '?c=20&p=0' + defaultFilters + '&t=1*';
+const defaultFilters = '&d=parent_group_id&t=0&o=displayName ASC';
+const defaultRequestUrl = urlPrefix + groupsUrl + '?c=10&p=0' + defaultFilters;
+const refreshUrl = urlPrefix + groupsUrl + '?c=10&p=0&d=parent_group_id&t=1*&o=displayName ASC';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
-const subGroupUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=displayName ASC&f=parent_path=';
+const subGroupUrl = urlPrefix + groupsUrl + '?c=10&p=0&o=displayName ASC&f=parent_path=';
 const userUrl = 'API/identity/user';
-const defaultUserUrl = urlPrefix + userUrl + '?c=20&p=0&f=enabled=true&f=group_id=';
+const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=group_id=';
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -22,31 +22,16 @@ given("The response {string} is defined", (responseType) => {
             });
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders('&t=0', 'groups8Route', 'groups8', {'content-range': '0-8/8'});
+            createRouteWithResponseAndHeaders(defaultRequestUrl, 'groups8Route', 'groups8', {'content-range': '0-7/8'});
             break;
         case 'sort by':
-            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
-            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=name+ASC&t=0', 'sortNameAscRoute');
-            createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=name+DESC&t=0', 'sortNameDescRoute');
+            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
+            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=name+ASC', 'sortNameAscRoute');
+            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=name+DESC', 'sortNameDescRoute');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Acme&t=0', 'searchAcmeRoute', 'groups1');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
-            break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders('&t=0', 'groups20Route', 'groups20', {'content-range': '0-20/35'});
-            createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
-            createGroupsRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
-            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
-            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups20Route', 'groups20');
-            createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
-            createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
+            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'group creation success':
             createRouteWithMethod(groupsUrl, 'parentGroupCreationRoute', 'POST');
@@ -58,7 +43,8 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + groupsUrl + '?c=20&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'groups20');
+            createRouteWithResponseAndHeaders(urlPrefix + groupsUrl + '?c=10&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'groups10', {'content-range': '0-9/30'});
+            createRouteWithResponse(urlPrefix + groupsUrl + '?c=10&p=1&d=parent_group_id&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'groups10');
             createRouteWithResponse(urlPrefix + groupsUrl + '?c=10&p=2&d=parent_group_id&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'groups10');
             break;
         case 'parent group list with 20 groups':
@@ -75,74 +61,47 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '500');
             break;
         case 'empty user list':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '1', 'userUrlRoute', 'emptyResult');
             break;
         case 'user list':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + '1', 'userUrlRoute', 'users5');
             break;
         case 'user list search':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'userUrlRoute', 'users5');
-            createRouteWithResponse(defaultUserUrl + '1&s=Virginie&t=1*', 'oneUserRoute', 'users1');
-            createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '1', 'userUrlRoute', 'users5');
+            createRouteWithResponse(defaultUserUrl + '1&s=Virginie', 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'user search during limitation':
-            createRouteWithResponse(defaultUserUrl + '1&s=Virginie&t=1*', 'users20Route', 'users20');
+            createRouteWithResponseAndHeaders(defaultUserUrl + '1&s=Virginie', 'users10Route', 'users10', {'content-range': '0-9/20'});
+            createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=1&f=enabled=true&f=group_id=1&s=Virginie', 'users10Route', 'users10');
             createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=2&f=enabled=true&f=group_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'user list load more':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*','users20Route', 'users20');
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users10Route', 'users10', 2, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users5Route', 'users5', 3, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'user list 20 load more':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'users20Route', 'users20');
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'user list 30 load more':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'users20Route', 'users20');
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users10Route', 'users10', 2, 10);
-            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
         case 'user list for two groups':
-            createRouteWithResponse(defaultUserUrl + '1&t=1*', 'emptyResultRoute', 'users18');
+            createRouteWithResponseAndHeaders(defaultUserUrl + '1', 'users10Route', 'users10', {'content-range': '0-9/18'});
+            createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'users8Route', 'users8', 1, 10);
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=group_id=1', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(defaultUserUrl + '9&t=1*', 'userUrlRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + '9', 'userUrlRoute', 'emptyResult');
             break;
         case 'empty sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'emptyResult');
             break;
         case 'sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
             break;
         case 'sub-group list search':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroupUrlRoute', 'subGroups5');
-            createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'searchAcmeRoute', 'subGroups1');
-            createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match&t=1*', 'noMatchRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'searchAcmeRoute', 'subGroups1');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'sub-groups search during limitation':
-            createRouteWithResponse(subGroupUrl + '/acme&s=Acme&t=1*', 'subGroups20Route', 'groups20');
+            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'subGroups10Route', 'groups10');
             createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&o=displayName ASC&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
             break;
-        case 'sub-groups list load more':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*','subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups5Route', 'subGroups5', 3, 10);
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'sub-groups list 20 load more':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'sub-groups list 30 load more':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'subGroups20Route', 'groups20');
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups10Route', 'groups10', 2, 10);
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 3, 10);
-            break;
         case 'sub-groups list for two groups':
-            createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
+            createRouteWithResponseAndHeaders(subGroupUrl + '/acme', 'subGroups10Route', 'subGroups10', {'content-range': '0-9/18'});
+            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups8Route', 'subGroups8', 1, 10);
             createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(subGroupUrl + '/acme/sales/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme/sales/asia', 'SubGroupUrlRoute', 'emptyResult');
             break;
         case 'current parent information':
             createRouteWithResponse(urlPrefix + groupsUrl + '/8?t=1*', 'currentParentGroupEuropeRoute', 'currentParentGroupEurope');
@@ -203,7 +162,7 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
     }
 
-    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+    function createRouteWithResponseAndHeaders(url, routeName, response, headers) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -212,7 +171,7 @@ given("The response {string} is defined", (responseType) => {
 
         cy.route({
             method: 'GET',
-            url: defaultRequestUrl + queryParameter,
+            url: url,
             response: responseValue,
             headers: headers
         }).as(routeName);
@@ -241,21 +200,6 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createGroupsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + groupsUrl + '?c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
-        }).as(routeName);
-    }
-
     function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
         let responseValue = undefined;
@@ -272,7 +216,7 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createSubGroupsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + groupsUrl + '?p=' + page + '&c=' + count;
+        const loadMoreUrl = urlPrefix + groupsUrl + '?c=' + count + '&p=' + page;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -446,11 +390,6 @@ then("A list of {int} groups is displayed", (nbrOfItems) => {
     cy.get('.group-item:visible').should('have.length', nbrOfItems);
 });
 
-then("A list of {int} groups is displayed out of {int}", (nbrOfItems, totalItems) => {
-    cy.get('.group-item:visible').should('have.length', nbrOfItems);
-    cy.get('.text-primary.item-label:visible').contains('Groups shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
 then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
         case 'Display name (Asc)':
@@ -479,10 +418,6 @@ then("The api call is made for {string}", (filterValue) => {
 then("No groups are available", () => {
     cy.get('.group-item:visible').should('have.length', 0);
     cy.contains('No groups to display').should('be.visible');
-});
-
-then("The load more groups button is disabled", () => {
-    cy.get('button').contains('Load more groups').should('be.disabled');
 });
 
 then("The create modal is open and has a default state for {string}", (state) => {

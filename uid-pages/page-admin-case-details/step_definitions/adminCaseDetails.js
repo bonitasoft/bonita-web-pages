@@ -10,7 +10,7 @@ const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceI
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
-const processVariableUrl =  defaultProcessVariablesUrl + 'p=0&c=20&f=case_id=1';
+const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
 
 
@@ -76,21 +76,6 @@ given("The response {string} is defined", (responseType) => {
             break;
         case '500 error':
             createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
-            break;
-        case 'process variables load more':
-            createRouteWithResponseAndHeaders('&t=0', 'processVariables20Route', 'processVariables20', {'content-range': '0-20/36'});
-            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
-            createProcessVariablesRouteWithResponseAndPagination('', 'processVariablesRoute', 'processVariables', 3, 10);
-            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'process variables 20 load more':
-            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
-            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'process variables 30 load more':
-            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
-            createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
-            createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
             break;
         case 'process variable api is not called':
             cy.route({
@@ -222,10 +207,6 @@ when("I modify the value for variable {string}", (variableNumber) => {
 
 when("I click on {string} button in the modal", (buttonLabel) => {
     cy.get('.modal button').contains(buttonLabel).click();
-});
-
-when("I click on Load more variables button", () => {
-    cy.get('button').contains('Load more variables').click();
 });
 
 then("The case details have the correct information", () => {
@@ -498,8 +479,4 @@ then("A list of {int} items is displayed", (nbrOfItems) => {
 then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems) => {
     cy.get('.process-variable-item').should('have.length', nbrOfItems);
     cy.get('.text-primary.item-label:visible').contains('Process variables shown: ' + nbrOfItems + ' of ' + totalItems);
-});
-
-then("The load more variables button is disabled", () => {
-    cy.get('button').contains('Load more variables').should('be.disabled');
 });

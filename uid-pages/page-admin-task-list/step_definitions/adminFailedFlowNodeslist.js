@@ -2,60 +2,47 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
 const failedFlowNodesUrl = 'API/bpm/flowNode?';
-const defaultRequestUrl = urlPrefix + failedFlowNodesUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + failedFlowNodesUrl + 'c=10&p=0' + defaultFilters;
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
-const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=20&p=0' + defaultFilters;
-const doneTaskRequestUrl = urlPrefix + 'API/bpm/archivedTask?c=20&p=0' + defaultFilters;
+const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=10&p=0' + defaultFilters;
+const doneTaskRequestUrl = urlPrefix + 'API/bpm/archivedTask?c=10&p=0' + defaultFilters;
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes5Route', 'failedFlowNodes5');
+            createRouteWithResponse(defaultRequestUrl, '&t=0', 'failedFlowNodes5Route', 'failedFlowNodes5');
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders('', 'failedFlowNodes5Route', 'failedFlowNodes5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders('&t=0', 'failedFlowNodes5Route', 'failedFlowNodes5', {'content-range': '0-5/5'});
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl, '&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl, '&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
+            createRouteWithResponse(defaultRequestUrl, '&t=0&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '&t=0&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
             break;
         case 'sort by':
-            createRoute('&o=name+ASC', 'sortByNameAscRoute');
-            createRoute('&o=name+DESC', 'sortByNameDescRoute');
-            createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
-            createRoute(defaultSortOrder, 'sortByUpdateDateDescRoute');
-            break;
-        case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + failedFlowNodesUrl + 'c=20&p=0', defaultFilters + '&o=name+DESC', 'sortDisplayNameDescRoute', 'failedFlowNodes20');
-            createRouteWithResponse(urlPrefix + failedFlowNodesUrl + 'c=10&p=2', defaultFilters + '&o=name+DESC', 'sortDisplayNameDescRoute2', 'failedFlowNodes10');
+            createRoute('&t=0&o=name+ASC', 'sortByNameAscRoute');
+            createRoute('&t=0&o=name+DESC', 'sortByNameDescRoute');
+            createRoute('&t=0&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
+            createRoute('&t=0' + defaultSortOrder, 'sortByUpdateDateDescRoute');
             break;
         case 'search by name':
-            createRoute('&s=Alowscenario', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl, '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0&s=Alowscenario', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl, '&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&f=caseId=2001', 'filterByCaseId2001Route');
-            createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
+            createRoute('&t=0&f=caseId=2001', 'filterByCaseId2001Route');
+            createRoute('&t=0&f=caseId=3001', 'filterByCaseId3001Route');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders('', 'failedFlowNodes20Route', 'failedFlowNodes20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
-            createRouteWithResponseAndPagination('', 'failedFlowNodes5Route', 'failedFlowNodes5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
-            break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl, '', 'failedFlowNodes20Route', 'failedFlowNodes20');
-            createRouteWithResponseAndPagination('', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+        case 'refresh failed flow nodes list':
+            createRouteWithResponseAndHeaders('&t=0', 'failedFlowNodes10Route', 'failedFlowNodes10', {'content-range': '0-10/35'})
+            createRouteWithResponseAndPagination('&t=0', 'failedFlowNodes10Route', 'failedFlowNodes10', 1, 10);
+            createRouteWithResponseAndPagination('&t=0', 'failedFlowNodes10Route', 'failedFlowNodes10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'failedFlowNodes10Route', 'failedFlowNodes10');
             break;
         case 'empty default filter':
             createRouteWithResponse(defaultRequestUrl, '', 'emptyResultRoute', 'emptyResult');
@@ -246,6 +233,8 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('generateRandomCases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('generateRandomCases display name');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('This is a failed flow node description.');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(1).within(() => {
@@ -393,15 +382,6 @@ then("No failed flow nodes are available", () => {
 
 then("The more button has correct href with {string}", (flowNodeId) => {
     cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', failedFlowNodeDetailsUrl + flowNodeId);
-});
-
-then("The load more flow nodes button is disabled", () => {
-    cy.get('button').contains('Load more flow nodes').should('be.disabled');
-});
-
-then("The load more flow nodes button has the correct text", () => {
-    cy.contains("button", "Load more tasks").should("not.be.visible");
-    cy.contains("button", "Load more flow nodes").should("be.visible");
 });
 
 then("Only the no failed flow node is displayed", () => {

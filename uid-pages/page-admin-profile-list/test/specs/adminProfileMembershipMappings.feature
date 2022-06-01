@@ -66,90 +66,6 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When The search input is filled with "Search term with no match"
     Then No membership mappings are displayed
 
-  Scenario: Load more mapped memberships button works correctly for membership mapping
-    Given The response "default filter with headers" is defined
-    And The response "membership mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit membership mapping button for first profile
-    Then The load more membership mapped button is not disabled
-    And A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    And A list of 20 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 28 "Memberships" mapped is displayed
-    And The load more membership mapped button is disabled
-
-  Scenario: Load more mapped memberships is disabled when result is a multiple of count
-    Given The response "default filter with headers" is defined
-    And The response "membership mapping 20 load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit membership mapping button for first profile
-    Then The load more membership mapped button is not disabled
-    And A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-    And The load more membership mapped button is disabled
-
-  Scenario: Load more mapped memberships resets correctly after the limitation is triggered
-    Given The response "default filter with headers" is defined
-    And The response "membership mapping 30 load more" is defined
-    And The response "search mapped membership during limitation" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit membership mapping button for first profile
-    Then A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 30 "Memberships" mapped is displayed
-    And The load more membership mapped button is disabled
-    When The mapped membership search input is filled with "E"
-    Then A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-
-  Scenario: Load more mapped membership resets correctly after modal is reopened
-    Given The response "default filter with headers" is defined
-    And The response "membership mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit membership mapping button for first profile
-    Then A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-    When I click on the "Close" button in modal
-    And I click on edit membership mapping button for first profile
-    Then A list of 10 "Memberships" mapped is displayed
-
-  Scenario: Load more mapped memberships resets correctly after we change the list of memberships mapped
-    Given The response "default filter with headers" is defined
-    And The response "membership mapping load more" is defined
-    And The response "membership list" is defined
-    And The response "add membership and refresh list" is defined
-    And The response "remove membership and refresh list" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit membership mapping button for first profile
-    Then A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-    When I type "E" in the role selection input
-    Then The "role" list is displayed
-    When I click on "Executive" in the list
-    Then The role input in membership is filled with "Executive"
-    When I type "A" in the group selection input
-    Then The "group" list is displayed
-    When I click on "Acme" in the list
-    Then The group input in membership is filled with "Acme"
-    And I click on the "Add" button in modal
-    Then A list of 10 "Memberships" mapped is displayed
-    When I click on Load more memberships mapped button
-    Then A list of 20 "Memberships" mapped is displayed
-    When I click on the remove "membership" button in modal
-    And A list of 10 "Memberships" mapped is displayed
-
   Scenario: The memberships mapping modal should display information about typing more
     Given The response "default filter with headers" is defined
     And The response "mapping" is defined
@@ -255,7 +171,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "500" membership mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "500" membership mapping error message
+    Then I don't see "500" membership mapping error message
     And The mapped membership search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -271,6 +187,25 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on the "Add" button in modal
     Then I see "500" membership mapping error message
 
+  Scenario: The edit membership mapping modal should display generic 404 error message
+    Given The response "default filter with headers" is defined
+    And The response "404 during edit membership mapping" is defined
+    And The response "membership list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit membership mapping button for first profile
+    Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
+    And The mapped membership list is displayed
+    When The mapped membership search input is filled with "A"
+    And I click on the remove "membership" button in modal
+    Then I see "404" membership mapping error message
+    When I wait for 2000
+    And I click inside the modal
+    Then I don't see "404" membership mapping error message
+    And The mapped membership search input has the value "A"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+
   Scenario: The edit membership mapping modal should display generic 403 error message
     Given The response "default filter with headers" is defined
     And The response "403 during edit membership mapping" is defined
@@ -285,7 +220,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "403" membership mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "403" membership mapping error message
+    Then I don't see "403" membership mapping error message
     And The mapped membership search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed

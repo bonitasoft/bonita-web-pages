@@ -51,41 +51,6 @@ Feature: The resources list in desktop resolution
     When I filter hide provided resources
     Then The api call is made for "hide provided resources"
 
-  Scenario: Load more resources button works correctly
-    Given The filter response "enable load more" is defined
-    When I visit the resources list page
-    Then A list of "10" resources is displayed out of "35"
-    When I click on Load more resources button
-    Then A list of "20" resources is displayed out of "35"
-    When I click on Load more resources button
-    Then A list of "30" resources is displayed out of "35"
-    When I click on Load more resources button
-    Then A list of "35" resources is displayed out of "35"
-    And The Load more resources button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined
-    When I visit the resources list page
-    Then A list of "10" resources is displayed
-    When I click on Load more resources button
-    Then A list of "20" resources is displayed
-    And The Load more resources button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined
-    And The filter response "sort during limitation" is defined
-    When I visit the resources list page
-    Then A list of "10" resources is displayed
-    When I click on Load more resources button
-    Then A list of "20" resources is displayed
-    When I click on Load more resources button
-    Then A list of "30" resources is displayed
-    And The Load more resources button is disabled
-    When I put "Resource name (Desc)" in "sort by" filter field
-    Then A list of "10" resources is displayed
-    When I click on Load more resources button
-    Then A list of "20" resources is displayed
-
   Scenario: Should export a resource
     Given The filter response "default filter with headers" is defined
     When I visit the index page

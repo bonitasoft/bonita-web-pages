@@ -60,41 +60,6 @@ Feature: The enabled process list in desktop resolution
     When I put "Search term with no match" in "search" filter field
     Then No enabled processes are available
 
-  Scenario: Load more button works correctly
-    And The page response "enable load more" is defined
-    When I visit admin process list page
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    When I click on load more processes button
-    Then A list of "30" items is displayed
-    When I click on load more processes button
-    Then A list of "35" items is displayed
-    And The load more processes button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The page response "enable 20 load more" is defined
-    When I visit admin process list page
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    And The load more processes button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The page response "enable 30 load more" is defined
-    And The page response "sort during limitation" is defined
-    When I visit admin process list page
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    When I click on load more processes button
-    Then A list of "30" items is displayed
-    And The load more processes button is disabled
-    When I put "Display name (Desc)" in "sort by" filter field
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-
   Scenario: The disable process modal is displayed and closed
     Given The page response "default filter with headers" is defined
     When I visit admin process list page

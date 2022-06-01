@@ -75,8 +75,7 @@ Feature: The done tasks list in desktop resolution
     Then No done tasks are available
 
   Scenario: The refresh button works correctly for done tasks
-    Given The filter response "default filter" is defined for done tasks
-    And The filter response "enable load more" is defined for done tasks
+    Given The filter response "refresh done tasks list" is defined for done tasks
     When I visit admin task list page
     And I click on "Done tasks" tab
     Then A list of "10" items is displayed
@@ -91,54 +90,8 @@ Feature: The done tasks list in desktop resolution
     And I click on "Done tasks" tab
     Then The more button has correct href with "140081" for done tasks
 
-  Scenario: Load more button works correctly
-    Given The filter response "enable load more" is defined for done tasks
-    When I visit admin task list page
-    And I click on "Done tasks" tab
-    Then A list of "10" done tasks is displayed out of "35"
-    When I click on Load more tasks button
-    Then A list of "20" done tasks is displayed out of "35"
-    When I click on Load more tasks button
-    Then A list of "30" done tasks is displayed out of "35"
-    When I click on Load more tasks button
-    Then A list of "35" done tasks is displayed out of "35"
-    And The load more tasks button is disabled
-
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined for done tasks
-    When I visit admin task list page
-    And I click on "Done tasks" tab
-    Then A list of "10" items is displayed
-    When I click on Load more tasks button
-    Then A list of "20" items is displayed
-    And The load more tasks button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined for done tasks
-    And The filter response "sort during limitation" is defined for done tasks
-    When I visit admin task list page
-    And I click on "Done tasks" tab
-    Then A list of "10" items is displayed
-    When I click on Load more tasks button
-    Then A list of "20" items is displayed
-    When I click on Load more tasks button
-    Then A list of "30" items is displayed
-    And The load more tasks button is disabled
-    When I put "Display name (Desc)" in "sort by" filter field for done tasks
-    Then A list of "10" items is displayed
-    When I click on Load more tasks button
-    Then A list of "20" items is displayed
-
-  Scenario: Load more button has the correct text
-    Given The filter response "default filter" is defined for done tasks
-    And The filter response "default filter" is defined
-    When I visit admin task list page
-    And I click on "Done tasks" tab
-    Then A list of "5" items is displayed
-    And The load more button has the correct text
-
   Scenario: No done task display correctly
-    Given The filter response "default filter" is defined
+    Given The filter response "no done task" is defined for done tasks
     When I visit admin task list page
     And I click on "Done tasks" tab
     Then No done tasks are available

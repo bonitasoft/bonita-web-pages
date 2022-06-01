@@ -2,7 +2,7 @@ const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=rootContainerId&d=assigned_id';
 const doneTasksUrl = 'API/bpm/archivedTask?';
-const defaultRequestUrl = urlPrefix + doneTasksUrl + 'c=20&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + doneTasksUrl + 'c=10&p=0';
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=reached_state_date+DESC';
@@ -12,53 +12,43 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
     cy.server();
     switch (filterType) {
         case "default filter":
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'doneTasks5Route', 'doneTasks5');
+            createRouteWithResponse(defaultRequestUrl + defaultFilters, '&t=0' + defaultSortOrder, 'doneTasks5Route', 'doneTasks5');
             break;
         case "default filter with headers":
-            createRouteWithResponseAndHeaders('', 'doneTasks5Route', 'doneTasks5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders('&t=0' + defaultSortOrder, 'doneTasks5Route', 'doneTasks5', {'content-range': '0-5/5'});
             break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=7623202965572839246' + defaultSortOrder, 'newVacationRequestRoute', 'emptyResult');
-            createRouteWithResponse(defaultRequestUrl,'&f=processId=8617198282405797017' + defaultSortOrder, 'generateRandomCasesRoute', 'generateRandomCases');
+            createRouteWithResponse(defaultRequestUrl + defaultFilters,'&t=0&f=processId=7623202965572839246' + defaultSortOrder, 'newVacationRequestRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl + defaultFilters,'&t=0&f=processId=8617198282405797017' + defaultSortOrder, 'generateRandomCasesRoute', 'generateRandomCases');
             break;
         case 'sort by':
-            createRoute('&o=sourceObjectId+ASC', 'sortByOriginalIdAscRoute');
-            createRoute('&o=sourceObjectId+DESC', 'sortByOriginalIdDescRoute');
-            createRoute('&o=priority+ASC', 'sortByPriorityAscRoute');
-            createRoute('&o=priority+DESC', 'sortByPriorityDescRoute');
-            createRoute('&o=displayName+ASC', 'sortByDisplayNameAscRoute');
-            createRoute('&o=displayName+DESC', 'sortByDisplayNameDescRoute');
-            createRoute('&o=reached_state_date+ASC', 'sortByDoneOnAscRoute');
-            createRoute('&o=caseId+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&o=caseId+DESC', 'sortByCaseIdDescRoute');
-            break;
-        case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + doneTasksUrl + 'c=20&p=0', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute', 'doneTasks20');
-            createRouteWithResponse(urlPrefix + doneTasksUrl + 'c=10&p=2', defaultFilters + '&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'doneTasks10');
+            createRoute('&t=0&o=sourceObjectId+ASC', 'sortByOriginalIdAscRoute');
+            createRoute('&t=0&o=sourceObjectId+DESC', 'sortByOriginalIdDescRoute');
+            createRoute('&t=0&o=priority+ASC', 'sortByPriorityAscRoute');
+            createRoute('&t=0&o=priority+DESC', 'sortByPriorityDescRoute');
+            createRoute('&t=0&o=displayName+ASC', 'sortByDisplayNameAscRoute');
+            createRoute('&t=0&o=displayName+DESC', 'sortByDisplayNameDescRoute');
+            createRoute('&t=0&o=reached_state_date+ASC', 'sortByDoneOnAscRoute');
+            createRoute('&t=0&o=caseId+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&t=0&o=caseId+DESC', 'sortByCaseIdDescRoute');
             break;
         case 'search by name':
-            createRoute(defaultSortOrder + '&s=Alowscenario', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&t=0' + defaultSortOrder + '&s=Alowscenario', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl + defaultFilters + '&t=0' + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&f=caseId=2001' + defaultSortOrder, 'filterByCaseId2001Route');
-            createRoute('&f=caseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
+            createRoute('&t=0&f=caseId=2001' + defaultSortOrder, 'filterByCaseId2001Route');
+            createRoute('&t=0&f=caseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
             break;
-        case 'enable load more':
-            createRouteWithResponseAndHeaders('', 'doneTasks20Route', 'doneTasks20', {'content-range': '0-20/35'});
-            createRouteWithResponseAndPagination('', 'doneTasks10Route', 'doneTasks10', 2, 10);
-            createRouteWithResponseAndPagination('', 'doneTasks5Route', 'doneTasks5', 3, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
+        case 'refresh done tasks list':
+            createRouteWithResponseAndHeaders('&t=0' + defaultSortOrder, 'doneTasks10Route', 'doneTasks10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('&t=0' + defaultSortOrder, 'doneTasks10Route', 'doneTasks10', 1, 10);
+            createRouteWithResponseAndPagination('&t=0' + defaultSortOrder, 'doneTasks10Route', 'doneTasks10', 2, 10);
+            createRouteWithResponse(defaultRequestUrl + defaultFilters, '&t=1*' + defaultSortOrder, 'doneTasks10Route', 'doneTasks10');
             break;
-        case 'enable 20 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'doneTasks20Route', 'doneTasks20');
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 2, 10);
-            break;
-        case 'enable 30 load more':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '', 'doneTasksRoute', 'doneTasks20');
-            createRouteWithResponseAndPagination('', 'doneTasks10Route', 'doneTasks10', 2, 10);
-            createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+        case "no done task":
+            createRouteWithResponse(defaultRequestUrl + defaultFilters, '&t=0' + defaultSortOrder, 'emptyResultRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -67,7 +57,7 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
     function createRoute(queryParameter, routeName) {
         cy.route({
             method: 'GET',
-            url: defaultRequestUrl + queryParameter,
+            url: defaultRequestUrl + defaultFilters + queryParameter,
         }).as(routeName);
     }
 
@@ -94,14 +84,14 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
 
         cy.route({
             method: 'GET',
-            url: defaultRequestUrl + defaultSortOrder + queryParameter,
+            url: defaultRequestUrl + defaultFilters + queryParameter,
             response: responseValue,
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + doneTasksUrl + 'c=' + count + '&p=' + page + defaultFilters + defaultSortOrder;
+        const loadMoreUrl = urlPrefix + doneTasksUrl + 'c=' + count + '&p=' + page + defaultFilters;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -222,6 +212,8 @@ then("The done tasks list have the correct information", () => {
         cy.get('.item-value').contains('PublishDailyMeal (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('Publish daily meal by mail for all the team');
+        cy.get('.item-label').contains('Description');
+        cy.get('.item-value').contains('This is a done task description.');
         cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details');
     });
 });
@@ -291,11 +283,6 @@ then("I see the done tasks page", () => {
     cy.get('.item-value:visible').contains('140081');
 });
 
-then("The load more button has the correct text", () => {
-    cy.get("button").contains("Load more tasks").should("exist");
-    cy.get("button").contains("Load more flow nodes").should("not.be.visible");
-});
-
 then("No done tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4:visible').contains('No done tasks to display').should('be.visible');
@@ -304,8 +291,4 @@ then("No done tasks are available", () => {
 
 then("The more button has correct href with {string} for done tasks", (doneTaskId) => {
     cy.get('a .glyphicon-option-horizontal:visible').parent().should('have.attr', 'href', doneTaskDetailsUrl + doneTaskId);
-});
-
-then("The load more tasks button is disabled", () => {
-    cy.contains('button','Load more tasks').should('be.disabled');
 });

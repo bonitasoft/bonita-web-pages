@@ -56,85 +56,6 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When The search input is filled with "Search term with no match"
     Then No group mappings are displayed
 
-  Scenario: Load more mapped groups button works correctly for group mapping
-    Given The response "default filter with headers" is defined
-    And The response "group mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit group mapping button for first profile
-    Then The load more group mapped button is not disabled
-    And A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    And A list of 20 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 28 "Groups" mapped is displayed
-    And The load more group mapped button is disabled
-
-  Scenario: Load more mapped groups is disabled when result is a multiple of count
-    Given The response "default filter with headers" is defined
-    And The response "group mapping 20 load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit group mapping button for first profile
-    Then The load more group mapped button is not disabled
-    And A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-    And The load more group mapped button is disabled
-
-  Scenario: Load more mapped groups resets correctly after the limitation is triggered
-    Given The response "default filter with headers" is defined
-    And The response "group mapping 30 load more" is defined
-    And The response "search mapped group during limitation" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit group mapping button for first profile
-    Then A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 30 "Groups" mapped is displayed
-    And The load more group mapped button is disabled
-    When The search input is filled with "A"
-    Then A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-
-  Scenario: Load more mapped group resets correctly after modal is reopened
-    Given The response "default filter with headers" is defined
-    And The response "group mapping load more" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit group mapping button for first profile
-    Then A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-    When I click on the "Close" button in modal
-    And I click on edit group mapping button for first profile
-    Then A list of 10 "Groups" mapped is displayed
-
-  Scenario: Load more mapped groups resets correctly after we change the list of groups mapped
-    Given The response "default filter with headers" is defined
-    And The response "group mapping load more" is defined
-    And The response "group list" is defined
-    And The response "add group and refresh list" is defined
-    And The response "remove group and refresh list" is defined
-    When I visit the admin profiles page
-    And I click on show organization mapping button for first profile
-    And I click on edit group mapping button for first profile
-    Then A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-    And I type "A" in the selection input
-    Then The "group" list is displayed
-    When I click on "Acme" in the list
-    And I click on the "Add" button in modal
-    Then A list of 10 "Groups" mapped is displayed
-    When I click on Load more groups mapped button
-    Then A list of 20 "Groups" mapped is displayed
-    When I click on the remove "group" button in modal
-    Then A list of 10 "Groups" mapped is displayed
-
   Scenario: The groups mapping modal should display information about typing more
     Given The response "default filter with headers" is defined
     And The response "mapping" is defined
@@ -227,7 +148,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "500" group mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "500" group mapping error message
+    Then I don't see "500" group mapping error message
     And The search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -238,6 +159,32 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "500" group mapping error message
+
+  Scenario: The edit group mapping modal should display generic 404 error message
+    Given The response "default filter with headers" is defined
+    And The response "404 during edit group mapping" is defined
+    And The response "group list" is defined
+    When I visit the admin profiles page
+    And I click on show organization mapping button for first profile
+    And I click on edit group mapping button for first profile
+    Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
+    And The mapped group list is displayed
+    When The search input is filled with "A"
+    And I click on the remove "group" button in modal
+    Then I see "404" group mapping error message
+    When I wait for 2000
+    And I click inside the modal
+    Then I don't see "404" group mapping error message
+    And The search input has the value "A"
+    When I click on the "Close" button in modal
+    Then There is no modal displayed
+    When I click on edit group mapping button for first profile
+    Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
+    And The mapped group list is displayed
+    When I type "A" in the selection input
+    And I click on "Acme" in the list
+    And I click on the "Add" button in modal
+    Then I see "404" group mapping error message
 
   Scenario: The edit group mapping modal should display generic 403 error message
     Given The response "default filter with headers" is defined
@@ -253,7 +200,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see "403" group mapping error message
     When I wait for 2000
     And I click inside the modal
-    Then I see "403" group mapping error message
+    Then I don't see "403" group mapping error message
     And The search input has the value "A"
     When I click on the "Close" button in modal
     Then There is no modal displayed

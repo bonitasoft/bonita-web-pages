@@ -64,44 +64,6 @@ Feature: The disabled process list in desktop resolution
     When I put "Search term with no match" in "search" filter field in disabled processes list
     Then No disabled processes are available
 
-  Scenario: Load more button works correctly in disabled processes list
-    And The page response "disable load more" is defined for disabled processes
-    When I visit admin process list page
-    And I click on Disabled tab
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    When I click on load more processes button
-    Then A list of "30" items is displayed
-    When I click on load more processes button
-    Then A list of "35" items is displayed
-    And The load more processes button is disabled in disabled processes list
-
-  Scenario: Load more is disabled when result is a multiple of count in disabled processes list
-    Given The page response "disable 20 load more" is defined for disabled processes
-    When I visit admin process list page
-    And I click on Disabled tab
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    And The load more processes button is disabled in disabled processes list
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The page response "disable 30 load more" is defined for disabled processes
-    And The page response "sort during limitation" is defined for disabled processes
-    When I visit admin process list page
-    And I click on Disabled tab
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-    When I click on load more processes button
-    Then A list of "30" items is displayed
-    And The load more processes button is disabled
-    When I put "Display name (Desc)" in "sort by" filter field in disabled processes list
-    Then A list of "10" items is displayed
-    When I click on load more processes button
-    Then A list of "20" items is displayed
-
   Scenario: The enable process modal is displayed and closed
     Given The page response "default filter with headers" is defined for disabled processes
     When I visit admin process list page
@@ -135,6 +97,18 @@ Feature: The disabled process list in desktop resolution
     And I click on "ok" button on the item "2"
     And I click on enable button in modal
     Then I see "500" error message for disabled processes
+    When I click on "Cancel" button in the modal
+    And I click on "ok" button on the item "2"
+    Then The correct text is shown in enable modal
+
+  Scenario: The enable process modal should display 404 error message
+    Given The page response "default filter with headers" is defined for disabled processes
+    And The page response "enable state code 404" is defined for disabled processes
+    When I visit admin process list page
+    And I click on Disabled tab
+    And I click on "ok" button on the item "2"
+    And I click on enable button in modal
+    Then I see "404" error message for disabled processes
     When I click on "Cancel" button in the modal
     And I click on "ok" button on the item "2"
     Then The correct text is shown in enable modal

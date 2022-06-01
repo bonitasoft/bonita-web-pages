@@ -49,12 +49,14 @@ Feature: The user open case list in desktop resolution
     Then No open cases are available
 
   Scenario: The user archived case list filter by process name works correctly
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     And The responses filtered by process name are defined for archived cases
     And No archived cases for "process name" are available response is defined
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     When I select "Another My Pool (1.0)" in "process name" filter for "archived" cases
@@ -91,7 +93,8 @@ Feature: The user open case list in desktop resolution
     Then A list of open cases sorted by "openCases" is displayed
 
   Scenario: The user archived case list sort by works correctly
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     And A list of archived cases sorted by "archivedCasesSortedByOriginalCaseIdAsc" is available
@@ -103,6 +106,7 @@ Feature: The user open case list in desktop resolution
     And A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is available
     And A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is available
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     When I select "Original case ID (Asc)" in "archived cases sort by" filter for "archived" cases
@@ -142,12 +146,14 @@ Feature: The user open case list in desktop resolution
     Then No open cases are available
 
   Scenario: Search by process name and search keys works correctly for archived cases
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     And The filter responses search are defined for archived cases
     And No archived cases for "search" are available response is defined
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     When I search "Pool3" in search filter
@@ -170,10 +176,12 @@ Feature: The user open case list in desktop resolution
     And The view case details button in the list has correct href with "2001"
 
   Scenario: The view archived case details button works correctly
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     And The view case details button in the list has correct href with "1004"
@@ -190,10 +198,12 @@ Feature: The user open case list in desktop resolution
     And The view case details button at top has correct href with "2001"
 
   Scenario: The archived case id redirect to the case details correctly
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     And The go to case details button is disabled
@@ -213,98 +223,18 @@ Feature: The user open case list in desktop resolution
     And I don't see the cases that are unmatched by the "started by me" filter
 
   Scenario: Show archived cases only started by me works correctly
-    Given A list of archived cases is available
+    Given A list of no open cases is available
+    And A list of archived cases is available
     And A user session is available
     And A list of processes is available
     And The filter response only started by me is defined for archived cases
     When I visit the user case list page
+    And I wait for no open cases api call
     And I click on "Archived cases" tab
     Then A list of archived cases is displayed
     When I filter only started by me
     Then I see only the filtered archived cases by "started by me"
     And I don't see the cases that are unmatched by the "started by me" filter
-
-  Scenario: Load more open cases button works correctly
-    Given A list of open cases with headers with several pages is available
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    Then A list of "10" cases is displayed out of "25"
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed out of "25"
-    When I click on Load more cases button
-    Then A list of "25" cases is displayed out of "25"
-    And The Load more cases button is disabled
-
-  Scenario: Load more archived cases button works correctly
-    Given A list of archived cases with headers with several pages is available
-    And A list of open cases is available
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" cases is displayed out of "24"
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed out of "24"
-    When I click on Load more cases button
-    Then A list of "24" cases is displayed out of "24"
-    And The Load more cases button is disabled
-
-  Scenario: Load more open cases is not disabled when result is a multiple of count
-    Given The response "open case list 20 load more" is defined
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
-    And The Load more cases button is disabled
-
-  Scenario: Load more archived cases is not disabled when result is a multiple of count
-    Given The response "archived case list 20 load more" is defined
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
-    And The Load more cases button is disabled
-
-  Scenario: Load more open cases resets correctly after the limitation is triggered
-    Given The response "open case list 30 load more" is defined
-    And The response "sort open case list during limitation" is defined
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
-    When I click on Load more cases button
-    Then A list of "30" cases is displayed
-    And The Load more cases button is disabled
-    When I select "Process name (Desc)" in "open cases sort by" filter for "open" cases
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
-
-  Scenario: Load more archived cases resets correctly after the limitation is triggered
-    Given The response "archived case list 30 load more" is defined
-    And The response "sort archived case list during limitation" is defined
-    And A user session is available
-    And A list of processes is available
-    When I visit the user case list page
-    And I click on "Archived cases" tab
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
-    When I click on Load more cases button
-    Then A list of "30" cases is displayed
-    And The Load more cases button is disabled
-    When I select "Process name (Desc)" in "open cases sort by" filter for "archived" cases
-    Then A list of "10" cases is displayed
-    When I click on Load more cases button
-    Then A list of "20" cases is displayed
 
   Scenario: The refresh button works correctly for open cases
     Given A list of open cases with several pages is available
@@ -323,7 +253,8 @@ Feature: The user open case list in desktop resolution
     And A user session is available
     And A list of processes is available
     When I visit the user case list page
-    And I click on "Archived cases" tab
+    Then A list of open cases is displayed
+    When I click on "Archived cases" tab
     Then A list of "10" cases is displayed
     When I click on Load more cases button
     Then A list of "20" cases is displayed

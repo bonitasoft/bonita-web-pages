@@ -85,6 +85,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     And The user has a first and last name defined
     And I have languages available
     When I visit the index page with a parameter "_l" in the URL
+    And I wait for user API call
     And I click the user name
     Then The current session modal is visible
     And The parameter "_l" is in the URL
@@ -99,6 +100,7 @@ Feature: The Bonita layout current session modal in desktop resolution
     And A user is connected without sso
     And The user has a first and last name defined
     When I visit the index page
+    And I wait for user API call
     And I click the user name
     Then The current session modal is visible
     When I click the close button
