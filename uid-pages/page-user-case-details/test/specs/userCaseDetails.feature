@@ -2,7 +2,7 @@ Feature: The User Case Details in desktop resolution
 
   Scenario: The user case details displays the correct attributes
     Given The response "default details" is defined
-    Given The response "available tasks" is defined
+    And The response "available tasks" is defined
     When I visit the user case details page
     Then The case details have the correct information
 
@@ -41,7 +41,7 @@ Feature: The User Case Details in desktop resolution
     When I click on add comment button
     Then There is a new comment
     And The new comment input is empty
-    Then The add comment button is "disabled"
+    And The add comment button is "disabled"
 
   Scenario: The user case details should display an archived case
     Given The response "archived case" is defined

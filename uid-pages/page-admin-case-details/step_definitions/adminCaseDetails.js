@@ -3,7 +3,7 @@ const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
 const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
-const defaultFilters = 'd=processDefinitionId&d=started_by';
+const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
@@ -63,6 +63,9 @@ given("The response {string} is defined", (responseType) => {
         case 'process variables':
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
             break;
+        case 'process variables with headers':
+            createRouteWithResponseAndHeaders('&t=0', 'processVariablesRoute', 'processVariables', {'content-range': '0-6/6'});
+            break;
         case 'process variable update':
             createRouteWithResponseAndMethod(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
@@ -75,7 +78,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
             break;
         case 'process variables load more':
-            createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
+            createRouteWithResponseAndHeaders('&t=0', 'processVariables20Route', 'processVariables20', {'content-range': '0-20/36'});
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariablesRoute', 'processVariables', 3, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -88,6 +91,15 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariables20Route', 'processVariables20');
             createProcessVariablesRouteWithResponseAndPagination('', 'processVariables10Route', 'processVariables10', 2, 10);
             createProcessVariablesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 3, 10);
+            break;
+        case 'process variable api is not called':
+            cy.route({
+                method: "GET",
+                url: processVariableUrl + '&t=0',
+                onRequest: () => {
+                    throw new Error("The process variable api should not have been called");
+                }
+            });
             break;
         default:
             throw new Error("Unsupported case");
@@ -125,6 +137,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
         createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: urlPrefix + processVariableUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
@@ -204,6 +231,7 @@ when("I click on Load more variables button", () => {
 then("The case details have the correct information", () => {
     // Check that the element exist.
     cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
+    cy.get('.item-value').contains('This is a display description of Pool.');
     cy.get('.item-label').contains('Process name');
     cy.get('.item-value').contains('Pool');
     cy.get('.item-label').contains('Process display name');
@@ -213,7 +241,7 @@ then("The case details have the correct information", () => {
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('started');
     cy.get('.item-label').contains('Started by');
-    cy.get('.item-value').contains('William Jobs');
+    cy.get('.item-value').contains('Walter Bates for William Jobs');
     cy.get('.item-label').contains('Started on');
     cy.get('.item-value').contains('12/30/19 4:01 PM');
     cy.get('.item-label').contains('Last updated');
@@ -381,6 +409,7 @@ then("The process variables have the correct information", () => {
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
     });
+    cy.contains('.text-primary.item-label:visible', 'Process variables shown: 6 of 6');
 });
 
 then("Edit modal for variable {string} is displayed", (variableNumber) => {
@@ -464,6 +493,11 @@ then("I see that {string}", (message) => {
 
 then("A list of {int} items is displayed", (nbrOfItems) => {
     cy.get('.process-variable-item').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.process-variable-item').should('have.length', nbrOfItems);
+    cy.get('.text-primary.item-label:visible').contains('Process variables shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The load more variables button is disabled", () => {

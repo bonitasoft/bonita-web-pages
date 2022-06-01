@@ -1,0 +1,61 @@
+/*
+    The layout made of three containers:
+        - layout-header
+            Comes with the living application menu.                
+        - layout-content
+            Comes with the living application iframe to display pages or forms.
+        - layout-footer
+            Empty by default
+    
+    You can add more widgets in those containers by using the UI Designer.
+     
+    This CSS file manages the layout behaviour,   
+    It allows to display the content container in full height, 
+    and header and footer fixed on the top and on the bottom of the page.
+
+    Note: All the CSS rules defined in this file override the values defined in UIDesigner properties panel.
+*/
+html,
+body {
+	height: 100vh;
+}
+
+/*
+    Begin (flexbox vertical layout)
+    Force the layout-content to take all the available space between the layout-header and the layout-footer 
+*/
+body > .container-fluid {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+body > .container-fluid > div.row:nth-child(2),
+body > div.container-fluid > div.row:nth-child(2) div,
+.living-application-iframe :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+body > div.container-fluid > div.row:nth-child(2) iframe {
+    flex: 1;
+}
+/*
+    End (flexbox vertical layout)
+*/
+
+.remove-padding-and-margin.component {
+    margin: 0;
+    padding: 0;
+}
+
+.remove-padding-and-margin-left.component {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.remove-padding-and-margin-right.component {
+    margin-right: 0;
+    padding-right: 0;
+}

@@ -22,8 +22,33 @@ given('The URL target to the application {string}', () => {
     });
 });
 
+given('The URL target to the application {string} with icon', () => {
+    cy.server();
+    cy.fixture('json/app1WithIcon.json').as('app1WithIcon');
+    cy.fixture('json/pageList.json').as('pageList');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application/*',
+        response: '@app1WithIcon',
+    }).as('app1Route');
+    cy.route({
+        method: 'GET',
+        url: 'build/dist/API/living/application-menu/**',
+        response: '@pageList'
+    });
+});
+
 given('A user is connected without sso', () => {
     cy.fixture('json/session.json').as('session');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/system/session/*',
+        response: '@session'
+    });
+});
+
+given('A technical user is connected without sso', () => {
+    cy.fixture('json/sessionTechnicalUser.json').as('session');
     cy.route({
         method: 'GET',
         url: '/build/dist/API/system/session/*',
@@ -55,14 +80,6 @@ given('A user is connected as guest with sso', () => {
         method: 'GET',
         url: '/build/dist/API/system/session/*',
         response: '@sessionAsGuestWithSSO'
-    });
-});
-
-given('A logo is available in the theme', () => {
-    cy.route({
-        method: 'GET',
-        url: '/build/dist/theme/images/logo.png',
-        response: 'logo content'
     });
 });
 
@@ -124,11 +141,86 @@ given('I have languages available', () => {
 });
 
 given('Multiple applications are available for the user', () => {
-    cy.fixture('json/appsList.json').as('appsList');
+    cy.fixture('json/appsList5.json').as('appsList');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
         response: '@appsList'
+    });
+});
+
+given('35 applications are available for the user', () => {
+    cy.fixture('json/appsList20.json').as('appsList20');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        response: '@appsList20'
+    });
+    cy.fixture('json/appsList10.json').as('appsList10');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        response: '@appsList10'
+    });
+    cy.fixture('json/appsList5.json').as('appsList5');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=3&f=userId=4',
+        response: '@appsList5'
+    });
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=4&f=userId=4',
+        response: '@emptyResult'
+    });
+});
+
+given('30 applications are available for the user', () => {
+    cy.fixture('json/appsList20.json').as('appsList20');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        response: '@appsList20'
+    });
+    cy.fixture('json/appsList10.json').as('appsList10');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        response: '@appsList10'
+    });
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=3&f=userId=4',
+        response: '@emptyResult'
+    });
+    cy.fixture('json/appsList20.json').as('appsList20');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=Bonita',
+        response: '@appsList20'
+    });
+    cy.fixture('json/appsList10.json').as('appsList10');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4&s=Bonita',
+        response: '@appsList10'
+    });
+});
+
+given('20 applications are available for the user', () => {
+    cy.fixture('json/appsList20.json').as('appsList20');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        response: '@appsList20'
+    });
+    cy.fixture('json/emptyResult.json').as('emptyResult');
+    cy.route({
+        method: 'GET',
+        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        response: '@emptyResult'
     });
 });
 
@@ -138,17 +230,17 @@ given('The filter responses are defined', () => {
     cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=My first',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=My first',
         response: '@filteredAppsListMyFirst'
     }).as('filteredAppsListMyFirstRoute');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=app1',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=app1',
         response: '@filteredAppsListapp1'
     }).as('filteredAppsListapp1Route');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=1.0.5',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=1.0.5',
         response: '@filteredAppsList105'
     }).as('filteredAppsList105Route');
 });
@@ -157,59 +249,9 @@ given('Incorrect name filter response is defined', () => {
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=Incorrect name',
+        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=Incorrect name',
         response: '@emptyResult'
     }).as('emptyResultRoute');
-    cy.route({
-        method: 'GET',
-        url: '/build/dist/API/living/application?c=9999&s=Incorrect name&f=profileId=2',
-        response: '@emptyResult'
-    }).as('emptyResultRoute');
-});
-
-given('The profiles list is defined', () => {
-    cy.fixture('json/profilesList.json').as('profilesList');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/portal/profile?p=0&c=100&f=user_id=4',
-        response: '@profilesList'
-    }).as('profilesListRoute');
-});
-
-given('The filter responses are defined for all profiles', () => {
-    cy.fixture('json/filteredAppsListForAllProfiles.json').as('filteredAppsListByAllProfiles');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999',
-        response: '@filteredAppsListByAllProfiles'
-    }).as('filteredAppsListByAllProfilesRoute');
-});
-
-given('The filter responses are defined for the user profile', () => {
-    cy.fixture('json/filteredAppsListForUserProfile.json').as('filteredAppsListByUserProfile');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&f=profileId=1',
-        response: '@filteredAppsListByUserProfile'
-    }).as('filteredAppsListByUserProfileRoute');
-});
-
-given('The filter responses are defined for the administrator profile', () => {
-    cy.fixture('json/filteredAppsListForAdminProfile.json').as('filteredAppsListByAdminProfile');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&f=profileId=2',
-        response: '@filteredAppsListByAdminProfile'
-    }).as('filteredAppsListByAdminProfileRoute');
-});
-
-given('The response for both administrator profile and app name is defined', () => {
-    cy.fixture('json/filteredAppsListAdminProfileMyFirst.json').as('filteredAppsListAdminProfileMyFirst');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=My first&f=profileId=2',
-        response: '@filteredAppsListAdminProfileMyFirst'
-    }).as('filteredAppsListAdminProfileMyFirstRoute');
 });
 
 given('I have the application home page token defined', () => {
@@ -225,18 +267,9 @@ given('Multiple applications are available for the user, some without access rig
     cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=9999',
+        url: 'build/dist/API/living/application?c=20&p=0&f=userId=4',
         response: '@appsListWithUnauthorizedApp'
     }).as('appsListWithUnauthorizedAppRoute');
-});
-
-given('Unauthorized applications response is defined', () => {
-    cy.fixture('json/filteredAppsListNoAccess.json').as('filteredAppsListNoAccess');
-    cy.route({
-        method: 'GET',
-        url: 'build/dist/API/living/application?c=9999&s=noAccess',
-        response: '@filteredAppsListNoAccess'
-    }).as('filteredAppsListNoAccessRoute');
 });
 
 given('The current language in BOS_Locale is {string}', (language) => {
@@ -307,25 +340,7 @@ when('I click the close button', () => {
 });
 
 when('I hover over the appName', () => {
-    cy.get('.app-name-in-list a').eq(0).trigger('mouseover');
-});
-
-when('I select {string} in dropdown', (profileName) => {
-    cy.wait('@profilesListRoute');
-    switch(profileName) {
-        case 'All profile':
-            cy.get('pb-select .form-control').select('0');
-            cy.wait('@filteredAppsListByAllProfilesRoute');
-            break;
-        case 'User':
-            cy.get('pb-select .form-control').select('1');
-            cy.wait('@filteredAppsListByUserProfileRoute');
-            break;
-        case 'Administrator':
-            cy.get('pb-select .form-control').select('2');
-            cy.wait('@filteredAppsListByAdminProfileRoute');
-            break;
-    }
+    cy.get('.application-title a').eq(0).trigger('mouseover');
 });
 
 when('I click next to the current session modal', () => {
@@ -338,6 +353,10 @@ then( 'The application displayName is {string}', (appName) => {
 
 when('I click on the appName', () => {
     cy.get('.navbar-brand').click();
+});
+
+when("I click on Load more applications button", () => {
+    cy.get('button').contains('Load more applications').click();
 });
 
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
@@ -359,8 +378,8 @@ then('The login link is displayed', () => {
     cy.get('.text-right > .ng-binding').should('have.text', 'Sign in');
 });
 
-then('The login link is hidden', () => {
-    cy.contains('Sign in').should('be.hidden');
+then('The login link does not exist', () => {
+    cy.contains('.user-menu-name', 'Sign in').should('not.exist');
 });
 
 then('I see {string} as the user menu icon', (userIcon) => {
@@ -387,7 +406,11 @@ then('I see the app selection icon', () => {
     cy.get('.ng-binding > .glyphicon').should('have.attr', 'class', 'glyphicon glyphicon-th');
 });
 
-then('The image has the correct source', () => {
+then('The application icon has the correct source', () => {
+    cy.get('.resized-image img').should('have.attr', 'src', '../API/applicationIcon/1?t=1618565660762');
+});
+
+then('The default application icon has the correct source', () => {
     cy.get('img.img-responsive.ng-scope').should('have.attr','src', '../theme/images/logo.png');
 });
 
@@ -397,6 +420,7 @@ then('The image is not displayed', () => {
 
 then('The current session modal is visible', () => {
     cy.get('.modal').should('be.visible');
+    cy.waitFor('.modal', 10000);
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {
@@ -408,7 +432,11 @@ then('The user name {string} is shown', (userName) => {
 });
 
 then('The user email {string} is shown', (userEmail) => {
-    cy.get('.user-details--break-all p').eq(1).should('have.text', userEmail)
+    cy.get('.user-details--break-all p').eq(1).should('have.text', userEmail);
+});
+
+then('The technical user email is hidden', () => {
+    cy.contains('.user-details--break-all p', 'Email').should('not.be.visible');
 });
 
 then('The language select is visible', () => {
@@ -416,7 +444,11 @@ then('The language select is visible', () => {
 });
 
 then('The logout button is visible', () => {
-    cy.get('button').contains('Sign out').should('be.visible');
+    cy.get('.btn-danger').eq(0).should('have.text', 'Sign out');
+});
+
+then('The logout button has the correct url', () => {
+    cy.get('.btn-danger').eq(0).should('have.attr', 'href').and('contains', 'logoutservice?locale=en&redirect=true');
 });
 
 then('The apply and close buttons are visible', () => {
@@ -425,7 +457,7 @@ then('The apply and close buttons are visible', () => {
 });
 
 then('The logout button is hidden', () => {
-    cy.get('button').contains('Sign out').should('not.exist');
+    cy.get('.btn-danger').should('not.be.visible');
 });
 
 then('The apply button is disabled', () => {
@@ -508,44 +540,23 @@ then('The app selection modal is visible', () => {
     cy.get('.modal-content').should('be.visible');
 });
 
-then('I see my apps in mobile', () => {
-    var appNameSelectorForMobile = '.app-name-in-list--multiline a';
-    cy.get(appNameSelectorForMobile).eq(0).should('have.text', 'My first app');
-    cy.get(appNameSelectorForMobile).eq(1).should('have.text', 'My second app');
-    cy.get(appNameSelectorForMobile).eq(2).should('have.text', 'My app administrator');
-    cy.get(appNameSelectorForMobile).eq(3).should('have.text', 'My first app administrator');
-    cy.get(appNameSelectorForMobile).eq(4).should('have.text', 'Current application');
-});
-
-then('I don\'t see the desktop names', () => {
-    var appNameSelectorForDestop = '.app-name-in-list a';
-    cy.get(appNameSelectorForDestop).eq(0).should('be.hidden');
-    cy.get(appNameSelectorForDestop).eq(1).should('be.hidden');
-    cy.get(appNameSelectorForDestop).eq(2).should('be.hidden');
-    cy.get(appNameSelectorForDestop).eq(3).should('be.hidden');
-    cy.get(appNameSelectorForDestop).eq(4).should('be.hidden');
-});
-
-then('I see my apps in desktop', () => {
-    var appNameSelectorForDestop = '.app-name-in-list a';
-    cy.get(appNameSelectorForDestop).eq(0).should('have.text', 'My first app');
-    cy.get(appNameSelectorForDestop).eq(1).should('have.text', 'My second app');
-    cy.get(appNameSelectorForDestop).eq(2).should('have.text', 'My app administrator');
-    cy.get(appNameSelectorForDestop).eq(3).should('have.text', 'My first app administrator');
-    cy.get(appNameSelectorForDestop).eq(4).should('have.text', 'Current application');
-});
-
-then('I don\'t see the mobile names', () => {
-    var appNameSelectorForMobile = '.app-name-in-list--multiline a';
-    cy.get(appNameSelectorForMobile).eq(0).should('be.hidden');
-    cy.get(appNameSelectorForMobile).eq(1).should('be.hidden');
-    cy.get(appNameSelectorForMobile).eq(2).should('be.hidden');
-    cy.get(appNameSelectorForMobile).eq(3).should('be.hidden');
-    cy.get(appNameSelectorForMobile).eq(4).should('be.hidden');
+then('I see my apps', () => {
+    cy.get('.application-container').eq(0).within(() => {
+        cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../API/applicationIcon/15');
+        cy.contains('.application-title a', 'My first app').should('have.attr', 'href', '/bonita/apps/app1/');
+        cy.contains('1.0.5').should('be.visible');
+    });
+    cy.get('.application-container').eq(1).within(() => {
+        cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../theme/images/logo.png');
+        cy.contains('.application-title span', 'My second app');
+        cy.contains('.application-title a', 'My second app').should('have.attr', 'href', '/bonita/apps/app2/');
+        cy.contains('1.0').should('be.visible');
+    });
+    cy.contains('h4', 'No applications to display').should('not.exist');
 });
 
 then ('I see only the filtered applications by {string} in desktop', (type)=> {
-    var appNameSelectorForDestop = '.app-name-in-list a';
+    var appNameSelectorForDestop = '.application-title a';
     switch (type) {
         case 'name':
             cy.wait('@filteredAppsListMyFirstRoute');
@@ -571,7 +582,7 @@ then('The app selection modal is not visible', () => {
 });
 
 then('The app on-hover text should be {string}', (appHover) => {
-    cy.get('.app-name-in-list p').eq(0).should('have.attr','title', appHover);
+    cy.get('.application-title span').eq(0).should('have.attr','title', appHover);
 });
 
 then('I see the filter dropdown', () => {
@@ -579,37 +590,33 @@ then('I see the filter dropdown', () => {
 });
 
 then('I see only my user apps', () => {
-    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app');
-    cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My second app');
-    cy.get('.app-name-in-list a').eq(2).should('not.exist');
+    cy.get('.application-title a').eq(0).should('be.visible').should('have.text', 'My first app');
+    cy.get('.application-title a').eq(1).should('be.visible').should('have.text', 'My second app');
+    cy.get('.application-title a').eq(2).should('not.exist');
 });
 
 then('I see only my administrator apps', () => {
-    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My app administrator');
-    cy.get('.app-name-in-list a').eq(1).should('be.visible').should('have.text', 'My first app administrator');
-    cy.get('.app-name-in-list a').eq(2).should('not.exist');
-});
-
-then('I see only the app with correct profile and name', () => {
-    cy.wait('@filteredAppsListAdminProfileMyFirstRoute');
-    cy.get('.app-name-in-list a').eq(0).should('be.visible').should('have.text', 'My first app administrator');
-    cy.get('.app-name-in-list a').eq(1).should('not.exist');
+    cy.get('.application-title a').eq(0).should('be.visible').should('have.text', 'My app administrator');
+    cy.get('.application-title a').eq(1).should('be.visible').should('have.text', 'My first app administrator');
+    cy.get('.application-title a').eq(2).should('not.exist');
 });
 
 then('I don\'t see any apps', () => {
-    cy.get('.app-name-in-list a').should('have.length', 0);
+    cy.get('.application-title a').should('have.length', 0);
 });
 
 then('The no app is available text is {string}', (noAppMessage) => {
-    cy.get('.text-center').should('have.text', noAppMessage);
+    cy.get('h4.text-center').should('have.text', noAppMessage);
 });
 
 then('The current application has the class {string}', (currentAppClass) => {
-    cy.get('.app-item').contains('.app-item', 'Current application').should('have.class', currentAppClass);
+    cy.contains('.application-container', 'Current application').within(() => {
+        cy.get('.application-card').should('have.class', currentAppClass);
+    });
 });
 
 then('The other applications don\'t have the class {string}', (currentAppClass) => {
-    cy.get('.app-item').not(currentAppClass).should('have.length', 4);
+    cy.get('.application-card').not("." + currentAppClass).should('have.length', 4);
 });
 
 then('The favicon link should be set to {string}', (faviconURL) => {
@@ -633,7 +640,7 @@ then('Application name has {string} as application href in mobile view', (homePa
 });
 
 then('I don\'t see the apps without access rights', () => {
-    cy.get('.app-name-in-list p').contains('App without access rights').should('not.exist');
+    cy.get('.application-title p').contains('App without access rights').should('not.exist');
 });
 
 then('The current language is {string}', (language) => {
@@ -656,4 +663,12 @@ then('The current language is {string}', (language) => {
 then('Page reloads', () => {
     //necessary when the page reloads to avoid modale opening failure
     cy.reload();
+});
+
+then("A list of {int} items is displayed", (nbrOfItems) => {
+    cy.get('.application-container').should('have.length', nbrOfItems);
+});
+
+then("The load more applications button is disabled", () => {
+    cy.get('button').contains('Load more applications').should('be.disabled');
 });

@@ -1,7 +1,8 @@
 Feature: The failed flow nodes list in desktop resolution
 
   Scenario: The failed flow nodes list displays the correct attributes
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
+    And The filter response "only failed flow node api call" is defined
     When I visit admin task list page
     Then The failed flow nodes list have the correct information
     And The failed flow nodes list have the correct item shown number
@@ -64,13 +65,13 @@ Feature: The failed flow nodes list in desktop resolution
   Scenario: Load more button works correctly
     And The filter response "enable load more" is defined
     When I visit admin task list page
-    Then A list of "10" items is displayed
+    Then A list of "10" failed flow nodes is displayed out of "35"
     When I click on Load more flow nodes button
-    Then A list of "20" items is displayed
+    Then A list of "20" failed flow nodes is displayed out of "35"
     When I click on Load more flow nodes button
-    Then A list of "30" items is displayed
+    Then A list of "30" failed flow nodes is displayed out of "35"
     When I click on Load more flow nodes button
-    Then A list of "35" items is displayed
+    Then A list of "35" failed flow nodes is displayed out of "35"
     And The load more flow nodes button is disabled
 
   Scenario: [Limitation] Load more is not disabled when result is a multiple of count

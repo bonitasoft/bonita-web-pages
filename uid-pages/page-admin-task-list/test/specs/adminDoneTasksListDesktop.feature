@@ -1,7 +1,7 @@
 Feature: The done tasks list in desktop resolution
 
   Scenario: The done tasks list displays the correct attributes
-    Given The filter response "default filter" is defined for done tasks
+    Given The filter response "default filter with headers" is defined for done tasks
     And The filter response "default filter" is defined
     When I visit admin task list page
     Then I see the failed flow nodes page
@@ -95,13 +95,13 @@ Feature: The done tasks list in desktop resolution
     Given The filter response "enable load more" is defined for done tasks
     When I visit admin task list page
     And I click on "Done tasks" tab
-    Then A list of "10" items is displayed
+    Then A list of "10" done tasks is displayed out of "35"
     When I click on Load more tasks button
-    Then A list of "20" items is displayed
+    Then A list of "20" done tasks is displayed out of "35"
     When I click on Load more tasks button
-    Then A list of "30" items is displayed
+    Then A list of "30" done tasks is displayed out of "35"
     When I click on Load more tasks button
-    Then A list of "35" items is displayed
+    Then A list of "35" done tasks is displayed out of "35"
     And The load more tasks button is disabled
 
   Scenario: [Limitation] Load more is not disabled when result is a multiple of count
@@ -146,6 +146,7 @@ Feature: The done tasks list in desktop resolution
   Scenario: The done task list search by caseId works correctly
     Given The filter response "filter by caseId" is defined for done tasks
     When I visit admin task list page with caseId "2001" in URL parameter
+    And I click on "Done tasks" tab
     Then The api call is made for "2001" for done tasks
     When I erase the caseId filter
     And I put "3001" in "caseId" filter field for done tasks

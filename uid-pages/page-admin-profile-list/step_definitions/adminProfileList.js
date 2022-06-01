@@ -41,6 +41,10 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
             createRouteWithResponse(urlPrefix + featureListUrl, 'featureListRoute', 'featureList');
             break;
+        case 'default filter with headers':
+            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'profiles8Route', 'profiles8', {'content-range': '0-8/8'});
+            createRouteWithResponse(urlPrefix + featureListUrl, 'featureListRoute', 'featureList');
+            break;
         case 'sort by':
             createRoute(profilesUrl + '?c=20&p=0&o=name+ASC&t=0', 'sortNameAscRoute');
             createRoute(profilesUrl + '?c=20&p=0&o=name+DESC&t=0', 'sortNameDescRoute');
@@ -66,7 +70,7 @@ given("The response {string} is defined", (responseType) => {
             createRoute(profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profiles load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles20Route', 'profiles20');
+            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'profiles20Route', 'profiles20', {'content-range': '0-20/38'});
             createProfilesRouteWithResponseAndPagination('', 'profiles10Route', 'profiles10', 2, 10);
             createProfilesRouteWithResponseAndPagination('', 'profiles8Route', 'profiles8', 3, 10);
             createProfilesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -150,6 +154,7 @@ given("The response {string} is defined", (responseType) => {
             createRoute(userMappingUrl + '&t=1*', 'refreshUserMappingUrlRoute');
             break;
         case 'remove user and refresh list':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id&s=H&t=1*', 'searchUserRoute', 'profileMappingUsers8');
             createRouteWithMethod(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE');
             createRoute(userMappingUrl + '&t=1*', 'refreshUserMappingUrlRoute');
             break;
@@ -175,11 +180,13 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&s=H', 'searchUserByDisplayNameDescRoute8', 'profileMappingUsers8', '2', '10');
             break;
         case '500 during edit user mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id&s=H&t=1*', 'searchUserRoute', 'profileMappingUsers8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&t=1*', 'profileMappingUsers20Route', 'profileMappingUsers20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addUserMemberRoute', 'POST', 500);
             break;
         case '403 during edit user mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=user&d=user_id&s=H&t=1*', 'searchUserRoute', 'profileMappingUsers8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultUserMappingFilters + '&t=1*', 'profileMappingUsers20Route', 'profileMappingUsers20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/68', 'removeUserMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addUserMemberRoute', 'POST', 403);
@@ -227,6 +234,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&s=E', 'searchRoleByDisplayNameDescRoute8', 'profileMappingRoles8', '2', '10');
             break;
         case 'remove role and refresh list':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id&s=E&t=1*', 'searchRoleRoute', 'profileMappingRoles8');
             createRouteWithMethod(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE');
             createRoute(roleMappingUrl + '&t=1*', 'refreshRoleMappingUrlRoute');
             break;
@@ -234,11 +242,13 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(refreshRoleMappingUrl + '&t=1*', 'refreshRolesMappingRoute', 'profileMappingRoles10');
             break;
         case '500 during edit role mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id&s=E&t=1*', 'searchRoleRoute', 'profileMappingRoles8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles20Route', 'profileMappingRoles20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addRoleMemberRoute', 'POST', 500);
             break;
         case '403 during edit role mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=role&d=role_id&s=E&t=1*', 'searchRoleRoute', 'profileMappingRoles8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultRoleMappingFilters + '&t=1*', 'profileMappingRoles20Route', 'profileMappingRoles20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/956', 'removeRoleMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addRoleMemberRoute', 'POST', 403);
@@ -286,6 +296,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&s=A', 'searchGroupByNameDescRoute8', 'profileMappingGroups8', '2', '10');
             break;
         case 'remove group and refresh list':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=A&t=1*', 'searchGroupRoute', 'profileMappingGroups8');
             createRouteWithMethod(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE');
             createRoute(groupMappingUrl + '&t=1*', 'refreshGroupMappingUrlRoute');
             break;
@@ -293,11 +304,13 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(refreshGroupMappingUrl + '&t=1*', 'refreshGroupsMappingRoute', 'profileMappingGroups10');
             break;
         case '500 during edit group mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=A&t=1*', 'searchGroupRoute', 'profileMappingGroups8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 500);
             break;
         case '403 during edit group mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=group&d=group_id&s=A&t=1*', 'searchGroupRoute', 'profileMappingGroups8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultGroupMappingFilters + '&t=1*', 'profileMappingGroups20Route', 'profileMappingGroups20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/82', 'removeGroupMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addGroupMemberRoute', 'POST', 403);
@@ -349,6 +362,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&s=E', 'searchMembershipByNameDescRoute8', 'profileMappingMemberships8', '2', '10');
             break;
         case 'remove membership and refresh list':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
             createRouteWithMethod(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE');
             createRoute(membershipMappingUrl + '&t=1*', 'refreshMembershipMappingUrlRoute');
             break;
@@ -356,11 +370,13 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(refreshMembershipMappingUrl + '&t=1*', 'refreshMembershipsMappingRoute', 'profileMappingMemberships10');
             break;
         case '500 during edit membership mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 500);
             break;
         case '403 during edit membership mapping':
+            createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=20&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
             createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships20Route', 'profileMappingMemberships20', '0', '20');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 403);
@@ -406,6 +422,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createRouteWithResponse(url, routeName, response) {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: url + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
@@ -682,14 +713,20 @@ then("The profiles page has the correct information", () => {
     cy.get('.profile-item').eq(1).within(() => {
         cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Administrator');
-        cy.get('.is-provided-icon').should('be.visible');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
         cy.get('.btn.btn-link .glyphicon-trash').should('not.be.enabled');
     });
-    cy.contains('.item-label', 'Profiles shown: 8');
+    cy.contains('.item-label', 'Profiles shown: 8 of 8');
 });
 
 then("A list of {int} items is displayed", (nbrOfItems) => {
     cy.get('.profile-item').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.profile-item').should('have.length', nbrOfItems);
+    cy.contains('.text-primary.item-label', 'Profiles shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string}", (filterValue) => {

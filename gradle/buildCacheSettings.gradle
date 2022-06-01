@@ -1,0 +1,9 @@
+def isCiServer = System.getenv().containsKey("BUILD_ID")
+logger.info("Environment detected : {}, pushing build cache is {}", isCiServer ? 'CI' : 'local', isCiServer ? 'enabled' : 'disabled')
+buildCache {
+    local { enabled = !isCiServer }
+    remote(HttpBuildCache) {
+        url = 'http://gradle-cache.rd.lan/cache/'
+        push = isCiServer
+    }
+}

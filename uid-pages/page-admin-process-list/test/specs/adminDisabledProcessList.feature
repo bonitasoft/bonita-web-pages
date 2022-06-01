@@ -1,14 +1,13 @@
 Feature: The disabled process list in desktop resolution
 
   Scenario: The disabled process list displays the correct attributes
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     Then The disabled process list have the correct information
-    And The disabled process list have the correct item shown number
 
   Scenario: The disabled process list filtered by state works correctly
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "state" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
@@ -20,7 +19,7 @@ Feature: The disabled process list in desktop resolution
     And A list of "5" items is displayed
 
   Scenario: The disabled process list sort by works correctly
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "sort by" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
@@ -47,7 +46,7 @@ Feature: The disabled process list in desktop resolution
     Then The api call is made for "Updated on (Oldest first)" processes
 
   Scenario: The disabled process list search by name, display name or version works correctly
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "search" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
@@ -78,7 +77,7 @@ Feature: The disabled process list in desktop resolution
     Then A list of "35" items is displayed
     And The load more processes button is disabled in disabled processes list
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count in disabled processes list
+  Scenario: Load more is disabled when result is a multiple of count in disabled processes list
     Given The page response "disable 20 load more" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
@@ -104,17 +103,17 @@ Feature: The disabled process list in desktop resolution
     Then A list of "20" items is displayed
 
   Scenario: The enable process modal is displayed and closed
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     And I click on "ok" button on the item "2"
     Then The "Enable" process modal is displayed for "Pool 1 (1.0)"
     And The correct text is shown in enable modal
-    When I click on close button in the modal
+    When I click on "Cancel" button in the modal
     Then The modal is closed
 
   Scenario: The enable process modal should enable a process
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "enable process" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
@@ -122,43 +121,45 @@ Feature: The disabled process list in desktop resolution
     Then The "Enable" process modal is displayed for "Pool 1 (1.0)"
     And The correct text is shown in enable modal
     When I click on enable button in modal
-    Then The api call is made for "enable process" processes
-    And The api call is made for "refresh list" processes
+    Then The api call is made for "refresh list" processes
+    And The successfully enabled message is displayed
+    And The "Enable" button is disable
+    When I click on "Close" button in the modal
     And The modal is closed
 
   Scenario: The enable process modal should display 500 error message
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "enable state code 500" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     And I click on "ok" button on the item "2"
     And I click on enable button in modal
     Then I see "500" error message for disabled processes
-    When I click on close button in the modal
+    When I click on "Cancel" button in the modal
     And I click on "ok" button on the item "2"
     Then The correct text is shown in enable modal
 
   Scenario: The enable process modal should display 403 error message
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "enable state code 403" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     And I click on "ok" button on the item "2"
     And I click on enable button in modal
     Then I see "403" error message for disabled processes
-    When I click on close button in the modal
+    When I click on "Cancel" button in the modal
     And I click on "ok" button on the item "2"
     Then The correct text is shown in enable modal
 
   Scenario: The enable process modal should display enabling
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     And The page response "delay enable" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     And I click on "ok" button on the item "2"
     And I click on enable button in modal
     Then I see enabling message
-    When I click on close button in the modal
+    When I click on "Cancel" button in the modal
     And I click on "ok" button on the item "2"
     Then The correct text is shown in enable modal
 
@@ -170,7 +171,7 @@ Feature: The disabled process list in desktop resolution
     Then The api call is made for "refresh disabled process list" processes
 
   Scenario: The enable button is disabled for unresolved processes
-    Given The page response "default filter" is defined for disabled processes
+    Given The page response "default filter with headers" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
     Then The "ok" button is disabled for item "1"

@@ -1,12 +1,12 @@
 Feature: The Admin Profiles in desktop resolution
 
   Scenario: The profiles displays the correct attributes
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then The profiles page has the correct information
 
   Scenario: The profiles list sort by works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sort by" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
@@ -16,7 +16,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The api call is made for "Name (Asc)"
 
   Scenario: The profiles list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "search" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
@@ -31,16 +31,16 @@ Feature: The Admin Profiles in desktop resolution
   Scenario: Load more button works correctly
     Given The response "profiles load more" is defined
     When I visit the admin profiles page
-    Then A list of 10 items is displayed
+    Then A list of 10 items is displayed out of 38
     When I click on Load more profiles button
-    Then A list of 20 items is displayed
+    Then A list of 20 items is displayed out of 38
     When I click on Load more profiles button
-    Then A list of 30 items is displayed
+    Then A list of 30 items is displayed out of 38
     When I click on Load more profiles button
-    Then A list of 38 items is displayed
+    Then A list of 38 items is displayed out of 38
     And The load more profiles button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is disabled when result is a multiple of count
     Given The response "profiles 20 load more" is defined
     When I visit the admin profiles page
     Then A list of 10 items is displayed
@@ -65,7 +65,7 @@ Feature: The Admin Profiles in desktop resolution
 
   Scenario: The delete profile modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on delete button for first profile
@@ -76,7 +76,7 @@ Feature: The Admin Profiles in desktop resolution
   Scenario: The delete profile modal deletes successfully
     Given The response "profile deletion success" is defined
     And The response "refresh list after delete" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on delete button for first profile
@@ -91,7 +91,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The delete modal is open and has a default state for "Delete New Profile"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -105,7 +105,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The delete modal is open and has a default state for "Delete Custom profile 1"
 
   Scenario: The modal should display generic 404 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "404 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -119,7 +119,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The delete modal is open and has a default state for "Delete Custom profile 1"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -134,7 +134,7 @@ Feature: The Admin Profiles in desktop resolution
 
   Scenario: The add profile modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on add button
@@ -149,7 +149,7 @@ Feature: The Admin Profiles in desktop resolution
   Scenario: The add profile modal creates successfully
     Given The response "profile creation success" is defined
     And The response "refresh list after create" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on add button
@@ -170,7 +170,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The name and description are empty
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -193,7 +193,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The name and description are empty
 
   Scenario: The modal should display already exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "already exists during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -216,7 +216,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The name and description are empty
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during creation" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -240,7 +240,7 @@ Feature: The Admin Profiles in desktop resolution
 
   Scenario: The edit profile modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on edit button for first profile
@@ -250,7 +250,7 @@ Feature: The Admin Profiles in desktop resolution
 
   Scenario: The edit profile modal shows different information when opening another profile
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on edit button for first profile
@@ -263,7 +263,7 @@ Feature: The Admin Profiles in desktop resolution
   Scenario: The edit profile modal edits successfully
     Given The response "profile edition success" is defined
     And The response "refresh list after edit" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on edit button for first profile
@@ -281,7 +281,7 @@ Feature: The Admin Profiles in desktop resolution
 
   Scenario: The edit profile modal requires name
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     When I click on edit button for first profile
@@ -294,7 +294,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
 
   Scenario: The edit modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -309,7 +309,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
 
   Scenario: The edit modal should display generic 404 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "404 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -324,7 +324,7 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
 
   Scenario: The edit modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edition" is defined
     And The response "refresh not called" is defined
     When I visit the admin profiles page
@@ -339,13 +339,13 @@ Feature: The Admin Profiles in desktop resolution
     Then The edit modal is open and has a default state for "Edit profile Custom profile 1" for profile 1
 
   Scenario: The export profile button works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
     Then I can export a profile
 
   Scenario: The organization mapping show and hide button works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed

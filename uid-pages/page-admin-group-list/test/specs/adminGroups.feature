@@ -1,12 +1,12 @@
 Feature: The Admin Groups in desktop resolution
 
   Scenario: The groups displays the correct attributes
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     When I visit the admin groups page
     Then The groups page have the correct information
 
   Scenario: The groups list sort by works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sort by" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -20,7 +20,7 @@ Feature: The Admin Groups in desktop resolution
     Then The api call is made for "Display name (Asc)"
 
   Scenario: The groups list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "search" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -35,16 +35,16 @@ Feature: The Admin Groups in desktop resolution
   Scenario: Load more button works correctly
     Given The response "enable load more" is defined
     When I visit the admin groups page
-    Then A list of 10 groups is displayed
+    Then A list of 10 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 20 groups is displayed
+    Then A list of 20 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 30 groups is displayed
+    Then A list of 30 groups is displayed out of 35
     When I click on Load more groups button
-    Then A list of 38 groups is displayed
+    Then A list of 38 groups is displayed out of 35
     And The load more groups button is disabled
 
-  Scenario: [Limitation] Load more is not disabled when result is a multiple of count
+  Scenario: Load more is disabled when result is a multiple of count
     Given The response "enable 20 load more" is defined
     When I visit the admin groups page
     Then A list of 10 groups is displayed
@@ -69,7 +69,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: The create group modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on create button
@@ -81,7 +81,7 @@ Feature: The Admin Groups in desktop resolution
     Given The response "group creation success" is defined
     And The response "refresh list after create" is defined
     And The response "parent group list" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on create button
@@ -103,7 +103,7 @@ Feature: The Admin Groups in desktop resolution
     Then The create modal is open and has a default state for "Create a group"
 
   Scenario: The create group modal should display information about typing more
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "parent group list with 20 groups" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -119,8 +119,8 @@ Feature: The Admin Groups in desktop resolution
     Then The parent group list is displayed
     And The type more message is displayed and disabled
 
-  Scenario: The modal should display already exists error message
-    Given The response "default filter" is defined
+  Scenario: The create modal should display already exists error message
+    Given The response "default filter with headers" is defined
     And The response "already exists during creation" is defined
     And The response "refresh not called" is defined
     And The response "parent group list" is defined
@@ -140,7 +140,7 @@ Feature: The Admin Groups in desktop resolution
     Then The create modal is open and has a default state for "Create a group"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during creation" is defined
     And The response "refresh not called" is defined
     And The response "parent group list" is defined
@@ -160,7 +160,7 @@ Feature: The Admin Groups in desktop resolution
     Then The create modal is open and has a default state for "Create a group"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during creation" is defined
     And The response "refresh not called" is defined
     And The response "parent group list" is defined
@@ -181,7 +181,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: The user list modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "empty user list" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -191,7 +191,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The user list modal displays a list
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -201,7 +201,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The user list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     And The response "user list search" is defined
     When I visit the admin groups page
@@ -219,7 +219,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: Load more users button works correctly
     Given The response "user list load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on user button for first group
@@ -236,9 +236,9 @@ Feature: The Admin Groups in desktop resolution
     When I click on user button for first group
     Then A list of 10 items is displayed
 
-  Scenario: [Limitation] Load more users is not disabled when result is a multiple of count
+  Scenario: Load more users is disabled when result is a multiple of count
     Given The response "user list 20 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on user button for first group
@@ -250,7 +250,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: Load more users resets correctly after the limitation is triggered
     Given The response "user list 30 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "user search during limitation" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -268,7 +268,7 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 20 items is displayed
 
   Scenario: The user list modal resets when open for a different group
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list for two groups" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -282,7 +282,7 @@ Feature: The Admin Groups in desktop resolution
     Then The user list modal is open and has no users for "Users in the group Asia"
 
   Scenario: The user list modal navigates to the user details
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "user list" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -291,7 +291,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: The sub-group list modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "empty sub-group list" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -301,7 +301,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The sub-group list modal displays a list
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sub-group list" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -311,7 +311,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The sub-group list search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sub-group list" is defined
     And The response "sub-group list search" is defined
     When I visit the admin groups page
@@ -329,7 +329,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: Load more sub groups button works correctly
     Given The response "sub-groups list load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on sub-group button for first group
@@ -346,9 +346,9 @@ Feature: The Admin Groups in desktop resolution
     When I click on sub-group button for first group
     Then A list of 10 items is displayed
 
-  Scenario: [Limitation] Load more sub groups is not disabled when result is a multiple of count
+  Scenario: Load more sub groups is disabled when result is a multiple of count
     Given The response "sub-groups list 20 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on sub-group button for first group
@@ -360,7 +360,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: Load more sub groups resets correctly after the limitation is triggered
     Given The response "sub-groups list 30 load more" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "sub-groups search during limitation" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -378,7 +378,7 @@ Feature: The Admin Groups in desktop resolution
     Then A list of 20 items is displayed
 
   Scenario: The sub groups list modal resets when open for a different group
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "sub-groups list for two groups" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -393,7 +393,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: The edit group modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     And The response "current parent information" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
@@ -407,7 +407,7 @@ Feature: The Admin Groups in desktop resolution
     And The response "refresh list after edit" is defined
     And The response "current parent information" is defined
     And The response "parent group list" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on edit button for first group
@@ -430,7 +430,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Group display name", "Group name", "Group display name", "Group description", "Asia"
 
   Scenario: The edit group modal should display information about typing more
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "current parent information" is defined
     And The response "parent group list with 20 groups" is defined
     When I visit the admin groups page
@@ -448,8 +448,8 @@ Feature: The Admin Groups in desktop resolution
     Then The parent group list is displayed
     And The type more message is displayed and disabled
 
-  Scenario: The modal should display already exists error message
-    Given The response "default filter" is defined
+  Scenario: The edit modal should display already exists error message
+    Given The response "default filter with headers" is defined
     And The response "already exists during edition" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
@@ -472,7 +472,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edition" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
@@ -495,7 +495,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
 
   Scenario: The modal should display generic 404 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "404 during edition" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
@@ -518,7 +518,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edition" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
@@ -541,7 +541,7 @@ Feature: The Admin Groups in desktop resolution
     Then The edit modal is open and has a default state for "Edit group Acme", "acme", "Acme", "This group represents the acme department of the ACME organization", "Europe"
 
   Scenario: The cancel button for parent group works and gets reset correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
     And The response "parent group list" is defined
@@ -575,7 +575,7 @@ Feature: The Admin Groups in desktop resolution
     And The response "refresh list after edit" is defined
     And The response "current parent information" is defined
     And The response "parent group list" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on edit button for first group
@@ -600,7 +600,7 @@ Feature: The Admin Groups in desktop resolution
     Then There is no modal displayed
 
   Scenario: The parent group selection is reset after opening the second modal
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "refresh not called" is defined
     And The response "current parent information" is defined
     And The response "current parent information for second group" is defined
@@ -624,7 +624,7 @@ Feature: The Admin Groups in desktop resolution
 
   Scenario: The delete group modal is opened and closed
     Given The response "refresh not called" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on delete button for first group
@@ -635,7 +635,7 @@ Feature: The Admin Groups in desktop resolution
   Scenario: The delete group modal deletes successfully
     Given The response "group deletion success" is defined
     And The response "refresh list after delete" is defined
-    And The response "default filter" is defined
+    And The response "default filter with headers" is defined
     When I visit the admin groups page
     Then A list of 8 groups is displayed
     When I click on delete button for first group
@@ -650,7 +650,7 @@ Feature: The Admin Groups in desktop resolution
     Then The delete modal is open and has a default state for "Delete Asia"
 
   Scenario: The modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin groups page
@@ -664,7 +664,7 @@ Feature: The Admin Groups in desktop resolution
     Then The delete modal is open and has a default state for "Delete Acme"
 
   Scenario: The modal should display generic 404 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "404 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin groups page
@@ -678,7 +678,7 @@ Feature: The Admin Groups in desktop resolution
     Then The delete modal is open and has a default state for "Delete Acme"
 
   Scenario: The modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during deletion" is defined
     And The response "refresh not called" is defined
     When I visit the admin groups page

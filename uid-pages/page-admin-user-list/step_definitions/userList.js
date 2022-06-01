@@ -9,8 +9,8 @@ const defaultSortOrder = '&o=lastname+ASC' + enabledFilter;
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
-        case 'default filter':
-            createRouteWithResponse(defaultSortOrder, 'usersRoute', 'users5');
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'usersRoute', 'users5', {'content-range': '0-5/5'});
             break;
         case 'sort by':
             createRoute('&o=firstname+ASC' + enabledFilter, 'sortByFirstNameAscRoute');
@@ -31,7 +31,7 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastname+ASC&f=enabled=false', 'showInactiveRoute');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultSortOrder, 'users20Route', 'users20');
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'users20Route', 'users20', {'content-range': '0-20/35'});
             createRouteWithResponseAndPagination(defaultSortOrder, 'users10Route', 'users10', 2, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'users5Route', 'users5', 3, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -61,6 +61,21 @@ given("The filter response {string} is defined", (filterType) => {
 
     function createRouteWithResponse(queryParameter, routeName, response) {
         createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
@@ -114,6 +129,11 @@ given("The deactivate status code {string} response is defined", (statusCode) =>
         status: statusCode,
         response: ''
     }).as("deactivateUserWithError" + statusCode + "Route");
+    cy.route({
+        method: 'GET',
+        url: urlPrefix + userUrl + 'c=20&p=0&time=1*&o=lastname+ASC' + enabledFilter,
+        response: '@users5'
+    }).as("usersRoute");
 });
 
 given("Create user response is defined", () => {
@@ -298,14 +318,16 @@ then("The users have the correct information", () => {
         cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('jan.fisher');
     });
-});
-
-then("The user list have the correct item shown number", () => {
-    cy.get('.text-primary.item-property-label:visible').contains('Users shown: 5');
+    cy.get('.text-primary.item-property-label:visible').contains('Users shown: 5 of 5');
 });
 
 then("A list of {string} users is displayed", (nbrOfUsers) => {
     cy.get('.item').should('have.length', nbrOfUsers);
+});
+
+then("A list of {string} users is displayed out of {string}", (nbrOfUsers, totalUsers) => {
+    cy.get('.item:visible').should('have.length', nbrOfUsers);
+    cy.get('.text-primary.item-property-label:visible').contains('Users shown: ' + nbrOfUsers + ' of ' + totalUsers);
 });
 
 then("The api call is made for {string}", (filterValue) => {

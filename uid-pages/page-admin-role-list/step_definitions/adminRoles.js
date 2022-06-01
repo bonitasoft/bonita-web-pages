@@ -19,11 +19,11 @@ given("The response {string} is defined", (responseType) => {
                 }
             });
             break;
-        case 'default filter':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'roles8Route', 'roles8');
+        case 'default filter with headers':
+            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'roles8Route', 'roles8', {'content-range': '0-8/8'});
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0','roles20Route', 'roles20');
+            createRouteWithResponseAndHeaders(defaultRequestUrl,'&t=0', 'roles20Route', 'roles20', {'content-range': '0-20/38'});
             createRolesRouteWithResponseAndPagination('', 'roles10Route', 'roles10', 2, 10);
             createRolesRouteWithResponseAndPagination('', 'roles8Route', 'roles8', 3, 10);
             createRolesRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -83,19 +83,20 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'emptyResult');
             break;
         case 'user list':
-            createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
+            createRouteWithResponseAndHeaders(defaultUserUrl, '1', 'userUrlRoute', 'users5', {'content-range': '0-5/5'});
             break;
         case 'user list search':
             createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
             createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'oneUserRoute', 'users1');
             createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match", 'noMatchRoute', 'emptyResult');
+            createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'emptyResult');
             break;
         case 'user search during limitation':
             createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'users20Route', 'users20');
             createRouteWithResponse(urlPrefix + userUrl + '?c=10&p=2&f=enabled=true&f=role_id=1&s=Virginie', 'emptyResultRoute', 'emptyResult');
             break;
         case 'user list load more':
-            createRouteWithResponse(defaultUserUrl + '1','users20Route', 'users20');
+            createRouteWithResponseAndHeaders(defaultUserUrl,'1', 'users20Route', 'users20', {'content-range': '0-20/38'});
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users10Route', 'users10', 2, 10);
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'users5Route', 'users5', 3, 10);
             createUserRouteWithResponseAndPagination('&f=enabled=true&f=role_id=1', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -145,6 +146,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createRouteWithResponse(url, routeName, response) {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: url + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
@@ -325,14 +341,25 @@ then("The roles page have the correct information", () => {
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-pencil');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-trash');
     cy.get('.role-item').eq(0).get('.btn.btn-link .glyphicon-user').should('have.attr', 'title', 'View the list of users mapped to this role');
+    cy.contains('.item-label', 'Roles shown: 8 of 8');
 });
 
 then("A list of {int} roles is displayed", (nbrOfItems) => {
     cy.get('.role-item:visible').should('have.length', nbrOfItems);
 });
 
+then("A list of {int} roles is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.role-item:visible').should('have.length', nbrOfItems);
+    cy.contains('.text-primary.item-label', 'Roles shown: ' + nbrOfItems + ' of ' + totalItems);
+});
+
 then("A list of {int} users is displayed", (nbrOfItems) => {
     cy.get('.modal-body .role-item').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} users is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.modal-body .role-item').should('have.length', nbrOfItems);
+    cy.contains('.text-primary.item-label', 'Users shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("Only one user is displayed", () => {
@@ -451,7 +478,7 @@ then("The edit modal is open and has a edited state for {string}", (state, roleN
 
 then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name or username').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No users to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
@@ -461,7 +488,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
 
 then("The user list modal is open and has users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name or username').should('not.have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No users to display').should('not.be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
     cy.contains('.modal-body button', 'Load more users').should('be.visible');

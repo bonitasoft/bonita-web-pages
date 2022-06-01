@@ -4,9 +4,10 @@ const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
 const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
+const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4288&d=userId&t=0';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
-const archivedConnectorUrl= 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358';
+const archivedConnectorUrl = 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358';
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4288'
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();
@@ -15,7 +16,8 @@ given("The response {string} is defined for done tasks", (responseType) => {
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'doneTaskDetailsRoute', 'doneTaskDetails');
             break;
         case 'archived comments':
-            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
+            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'archivedCommentsRoute', 'archivedComments');
             break;
         case 'empty connectors':
             createRouteWithResponse(connectorUrl, 'connectorRoute', 'emptyResult');
@@ -48,6 +50,7 @@ when("I visit the admin done task details page", () => {
 
 then("The done task details have the correct information", () => {
     cy.get('h3').contains('InvolveUser (81358)');
+    cy.get('.item-value').contains('This is a task display description.');
     cy.get('h4').contains('General');
     cy.get('.item-label').contains('Display name');
     cy.get('.item-value').contains('InvolveUser');
@@ -72,6 +75,8 @@ then("The done task details have the correct information", () => {
     cy.get('.item-value').contains('Walter Bates');
     cy.get('.item-label').contains('Assigned on');
     cy.get('.item-value').contains('4/30/20 9:22');
+    cy.get('.item-label').contains('Executed by');
+    cy.get('.item-value').contains('Daniela Angelo for Walter Bates');
 });
 
 then("The back button has correct href", () => {
@@ -99,15 +104,15 @@ then("The input placeholder is not {string}", (placeholder) => {
     cy.get('input').should('not.have.attr', 'placeholder', placeholder);
 });
 
-then("The comments have the correct information", () => {
-    // Check that the element exist.
-    cy.wait('@commentsRoute');
+then("The comments have the correct information for done tasks", () => {
+    // Check that the element be.visible.
+    cy.wait('@archivedCommentsRoute');
     cy.get('.item-value').contains('comment no. 1');
-    cy.get('.item-value').contains('William Jobs');
+    cy.get('.item-value').contains('Walter Bates');
     cy.get('.item-value').contains('comment no. 2');
-    cy.get('.item-value').contains('helen.kelly');
+    cy.get('.item-value').contains('Helen Kelly');
     cy.get('.item-value').contains('comment no. 3');
-    cy.get('.item-value').contains('walter.bates');
+    cy.get('.item-value').contains('Walter Bates');
     cy.get('.item-value').contains('comment no. 4');
     cy.get('.item-value').contains('anthony.nichols');
 });

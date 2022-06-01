@@ -1,12 +1,14 @@
 Feature: delete resource modal in desktop resolution
 
   Scenario: The delete modal is displayed and closed
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
     When I visit the index page
-    And I click on "trash" button on the resource "1"
+    Then The "trash" button for the resource "1" is not disabled and has no tooltip
+    When I click on "trash" button on the resource "1"
     Then The modal delete is displayed for "Page 1"
     When I click on cancel button in the modal
     Then The modal is closed
+    And The "trash" button for the resource "2" is disabled and has a tooltip
 
   Scenario: The delete modal should delete a page
     Given The filter response "all types of resources" is defined
@@ -108,13 +110,9 @@ Feature: delete resource modal in desktop resolution
     And The api call is made for "refresh list"
     And The modal is closed
 
-  Scenario: The trash button is disabled for provided resources
-    Given The filter response "default filter" is defined
-    When I visit the index page
-    Then The "trash" button is disabled for resource "3"
-
   Scenario: The delete modal should display 500 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
+    And The "page" is not involved in application response is defined
     And The delete status code "500" response is defined
     When I visit the index page
     And I click on "trash" button on the resource "1"
@@ -125,7 +123,8 @@ Feature: delete resource modal in desktop resolution
     Then I don't see any error message
 
   Scenario: The delete modal should display 404 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
+    And The "page" is not involved in application response is defined
     And The delete status code "404" response is defined
     When I visit the index page
     And I click on "trash" button on the resource "1"
@@ -136,7 +135,8 @@ Feature: delete resource modal in desktop resolution
     Then I don't see any error message
 
   Scenario: The delete modal should display 403 error message
-    Given The filter response "default filter" is defined
+    Given The filter response "default filter with headers" is defined
+    And The "page" is not involved in application response is defined
     And The delete status code "403" response is defined
     When I visit the index page
     And I click on "trash" button on the resource "1"

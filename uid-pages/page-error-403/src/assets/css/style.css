@@ -1,0 +1,140 @@
+/* Add margin bottom and top to each widgets */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.component {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+h1 {
+    margin-bottom: 50px;
+}
+
+/* Set cursor to pointer on table with selectable rows */
+.table-hover tr {
+    cursor: pointer;
+}
+
+/* Set a red border to invalid input fields in forms */
+input[type='text'].ng-invalid.ng-dirty, input[type='email'].ng-invalid.ng-dirty,
+input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-dirty {
+  border-color: #C00;
+  border-width: 1px;
+}
+
+/* Add a red star after required inputs */
+.control-label--required:after {
+  content: "*";
+  color: #C00;
+}
+.btn-invalid {
+    border-color: #C00;
+    border-width: 1px;
+}
+
+.text-upperCase {
+    text-transform: uppercase;
+}
+
+.bonita-modal {
+    overflow-y: auto;
+}
+
+.modal-open .datepicker,
+.modal-open .timepicker {
+    z-index: 9999;
+}
+
+/* CUSTOM CSS */
+body {
+    background-image: url(../img/background.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.error-title h1 {
+  font-weight: 700;
+  font-size: 10rem;
+  margin-bottom: 0.2rem;
+}
+
+.error-message h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.error-message p {
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.error-message .btn {
+  border-radius: 2rem;
+}
+
+.illustration-container {
+    position: absolute;
+    top: 0;
+    right: 10rem;
+    width: 30rem;
+    height: 30rem;
+}
+
+@media screen and (min-width: 1200px) {
+    .illustration-container {
+        right: 15rem;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .illustration-container {
+        right: 5rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .illustration-container {
+        right: 0;
+        height: 25rem;
+        width: 25rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .error-title h1 {
+        font-weight: 700;
+        font-size: 7rem;
+    }
+    
+    .illustration-container {
+        position: relative;
+        top: 0;
+        right: 0;
+        height: auto;
+        width: 100%;
+    }
+    
+    .illustration-container img {
+        height: 25rem;
+        width: 25rem;
+        margin: 0 auto;
+    }
+}

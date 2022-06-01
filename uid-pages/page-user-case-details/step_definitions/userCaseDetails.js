@@ -3,7 +3,7 @@ const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html';
 const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
-const defaultFilters = 'd=processDefinitionId&d=started_by';
+const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
@@ -93,11 +93,12 @@ then("The case details have the correct information", () => {
     // Check that the element exist.
     cy.get('h3.text-left').contains('Case ID : 1').should('be.visible');
     cy.get('.item-label').contains('Process name (version)');
+    cy.get('.item-value').contains('This is a display description of Pool.');
     cy.get('.item-value').contains('Pool (1.0)');
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('started');
     cy.get('.item-label').contains('Started by');
-    cy.get('.item-value').contains('William Jobs');
+    cy.get('.item-value').contains('Helen Kelly for William Jobs');
     cy.get('.item-label').contains('Started on');
     cy.get('.item-value').contains('12/30/19 4:01 PM');
     cy.get('.item-label').contains('Last updated');

@@ -11,6 +11,9 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
         case "default filter":
             createRouteWithResponse(defaultRequestUrl, '', 'pendingTasks5Route', 'pendingTasks5');
             break;
+        case "default filter with headers":
+            createRouteWithResponseAndHeaders('', 'pendingTasks5Route', 'pendingTasks5', {'content-range': '0-5/5'});
+            break;
         case 'process name':
             createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
             createRouteWithResponse(defaultRequestUrl,'&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
@@ -37,7 +40,7 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             createRoute('&f=caseId=3001', 'filterByCaseId3001Route');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl,'', 'pendingTasks20Route', 'pendingTasks20');
+            createRouteWithResponseAndHeaders('', 'pendingTasks20Route', 'pendingTasks20', {'content-range': '0-20/35'});
             createRouteWithResponseAndPagination('', 'pendingTasks10Route', 'pendingTasks10', 2, 10);
             createRouteWithResponseAndPagination('', 'pendingTasks5Route', 'pendingTasks5', 3, 10);
             createRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -73,6 +76,21 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             method: 'GET',
             url: url + queryParameter,
             response: responseValue
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
         }).as(routeName);
     }
 
@@ -199,7 +217,12 @@ then("The pending tasks list have the correct information", () => {
 });
 
 then("The pending tasks list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: 5');
+    cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: 5 of 5');
+});
+
+then("A list of {string} pending tasks is displayed out of {string}", (nbrOfItems, totalItems) => {
+    cy.get('.task-item:visible').should('have.length', nbrOfItems);
+cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string} for pending tasks", (filterValue) => {

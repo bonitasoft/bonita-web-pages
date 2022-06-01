@@ -1,7 +1,7 @@
 Feature: The admin profiles mapping with memberships in desktop resolution
 
   Scenario: The edit membership mapping modal is opened and closed
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     When I visit the admin profiles page
     Then A list of 8 items is displayed
@@ -13,7 +13,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit membership mapping modal changes profile id correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "membership list" is defined
     And The response "add membership and refresh list" is defined
@@ -52,7 +52,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit membership mapping search works correctly
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "search mapped membership" is defined
     When I visit the admin profiles page
@@ -67,7 +67,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then No membership mappings are displayed
 
   Scenario: Load more mapped memberships button works correctly for membership mapping
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -80,8 +80,8 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then A list of 28 "Memberships" mapped is displayed
     And The load more membership mapped button is disabled
 
-  Scenario: [Limitation] Load more mapped memberships is not disabled when result is a multiple of count
-    Given The response "default filter" is defined
+  Scenario: Load more mapped memberships is disabled when result is a multiple of count
+    Given The response "default filter with headers" is defined
     And The response "membership mapping 20 load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -93,7 +93,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And The load more membership mapped button is disabled
 
   Scenario: Load more mapped memberships resets correctly after the limitation is triggered
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership mapping 30 load more" is defined
     And The response "search mapped membership during limitation" is defined
     When I visit the admin profiles page
@@ -111,7 +111,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then A list of 20 "Memberships" mapped is displayed
 
   Scenario: Load more mapped membership resets correctly after modal is reopened
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership mapping load more" is defined
     When I visit the admin profiles page
     And I click on show organization mapping button for first profile
@@ -124,7 +124,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then A list of 10 "Memberships" mapped is displayed
 
   Scenario: Load more mapped memberships resets correctly after we change the list of memberships mapped
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership mapping load more" is defined
     And The response "membership list" is defined
     And The response "add membership and refresh list" is defined
@@ -151,7 +151,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And A list of 10 "Memberships" mapped is displayed
 
   Scenario: The memberships mapping modal should display information about typing more
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "mapping" is defined
     And The response "membership list with 10 elements" is defined
     When I visit the admin profiles page
@@ -173,7 +173,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then The type more message is not displayed
 
   Scenario: The edit membership mapping modal adds memberships successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership list" is defined
     And The response "refresh mapped membership list" is defined
     And The response "add membership and refresh list" is defined
@@ -219,7 +219,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And The group input in membership is filled with ""
 
   Scenario: The edit membership mapping modal removes memberships successfully
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "refresh mapped membership list" is defined
     And The response "remove membership and refresh list" is defined
     And The response "mapping" is defined
@@ -242,7 +242,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then There is no modal displayed
 
   Scenario: The edit membership mapping modal should display generic 500 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "500 during edit membership mapping" is defined
     And The response "membership list" is defined
     When I visit the admin profiles page
@@ -272,7 +272,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "500" membership mapping error message
 
   Scenario: The edit membership mapping modal should display generic 403 error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "403 during edit membership mapping" is defined
     And The response "membership list" is defined
     When I visit the admin profiles page
@@ -302,7 +302,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see "403" membership mapping error message
 
   Scenario: The edit membership mapping modal should display membership already exists error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership already exists during edit membership mapping" is defined
     And The response "membership list" is defined
     When I visit the admin profiles page
@@ -332,7 +332,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And The mapped membership list is displayed
 
   Scenario: The edit membership mapping modal should display membership does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "membership does not exist during edit membership mapping" is defined
     And The response "membership list" is defined
     When I visit the admin profiles page
@@ -362,7 +362,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And The mapped membership list is displayed
 
   Scenario: The edit membership mapping modal should display member does not exist error message
-    Given The response "default filter" is defined
+    Given The response "default filter with headers" is defined
     And The response "member does not exist during edit membership mapping" is defined
     And The response "membership list" is defined
     When I visit the admin profiles page

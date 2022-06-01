@@ -5,19 +5,19 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 
 ansiColor('xterm') {
     node('web-pages') {
+        withEnv(["JAVA_HOME=${env.JAVA_HOME_11}"]) {
+            def isBaseBranch = isBaseBranch()
 
-        def isBaseBranch = isBaseBranch()
-
-        slackStage('🌍 Setup', isBaseBranch) {
-            // all this just to fetch tags since default behaviour has changed in jenkins
-            checkout([
-                    $class: 'GitSCM',
-                    branches: scm.branches,
-                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '']],
-                    userRemoteConfigs: scm.userRemoteConfigs,
-            ])
-        }
+            slackStage('🌍 Setup', isBaseBranch) {
+                // all this just to fetch tags since default behaviour has changed in jenkins
+                checkout([
+                        $class                           : 'GitSCM',
+                        branches                         : scm.branches,
+                        doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                        extensions                       : [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '']],
+                        userRemoteConfigs                : scm.userRemoteConfigs,
+                ])
+            }
 
         slackStage('🔧 Build', isBaseBranch) {
             wrap([$class: 'Xvfb', autoDisplayName: true, screen: '1920x1280x24', parallelBuild: true]) {
@@ -32,9 +32,10 @@ ansiColor('xterm') {
             }
         }
 
-        if (isBaseBranch){
-            slackStage('🐸 Publish', isBaseBranch) {
-                gradle 'publish'
+            if (isBaseBranch) {
+                slackStage('🐸 Publish', isBaseBranch) {
+                    gradle 'publish'
+                }
             }
         }
     }
@@ -67,13 +68,13 @@ def slackStage(def name, boolean isBaseBranch, Closure body) {
     } catch (e) {
         if (isBaseBranch) {
             def attachment = [
-                    title     : "bonita-web-pages/${env.BRANCH_NAME} build is failing!",
+                    title     : "bonita-web-pages-internal/${env.BRANCH_NAME} build is failing!",
                     title_link: env.BUILD_URL,
                     text      : "Stage ${name} has failed"
             ]
-            
+
             // Publish notification in portal-ci channel
-            slackSend(color: 'danger', channel: 'CRJSZM7QB', attachments: toJson([attachment]))            
+            slackSend(color: 'danger', channel: 'CRJSZM7QB', attachments: toJson([attachment]))
         }
         throw e
     }

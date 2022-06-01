@@ -8,9 +8,8 @@ const defaultSortOrder = '&o=lastUpdateDate+DESC';
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {
-        case 'default filter':
-            createRouteWithResponse(defaultSortOrder, 'resourcesRoute', 'resources5');
-            break;
+        case 'default filter with headers':
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-5/5'});
         case 'hide provided resources':
             createRoute('&f=isProvided=false' + defaultSortOrder, 'isNotProvidedRoute');
             break;
@@ -32,7 +31,8 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
+            createRouteWithResponseAndHeaders(defaultSortOrder, 'resources20Route', 'resources20', {'content-range': '0-20/35'});
+            //createRouteWithResponse(defaultSortOrder, 'resources20Route', 'resources20');
             createRouteWithResponseAndPagination(defaultSortOrder, 'resources10Route', 'resources10', 2, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'resources5Route', 'resources5', 3, 10);
             createRouteWithResponseAndPagination(defaultSortOrder, 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -62,6 +62,21 @@ given("The filter response {string} is defined", (filterType) => {
 
     function createRouteWithResponse(queryParameter, routeName, response) {
         createRouteWithResponseAndPagination(queryParameter, routeName, response, 0, 20);
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
@@ -272,7 +287,7 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('Walter Bates');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 2:00 PM');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_userApplication')
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_userApplication');
     });
 
     cy.get('.resource-item').eq(1).within(() => {
@@ -285,7 +300,9 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('helen.kelly');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
-        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_myCustomThemeReadable')
+        cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_myCustomThemeReadable');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(2).within(() => {
@@ -298,6 +315,8 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('System');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(3).within(() => {
@@ -310,6 +329,8 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-value').contains('thomas.wallis');
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:28 AM');
+        cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
+        cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(4).within(() => {
@@ -322,10 +343,16 @@ then("The resources have the correct information", () => {
         cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:27 AM');
     });
+    cy.contains('.text-primary.resource-property-label', 'Resources shown: 5 of 5');
 });
 
 then("A list of {string} resources is displayed", (nbrOfResources) => {
     cy.get('.resource-item').should('have.length', nbrOfResources);
+});
+
+then("A list of {string} resources is displayed out of {string}", (nbrOfItems, totalItems) => {
+    cy.get('.resource-item').should('have.length', nbrOfItems);
+    cy.contains('.resource-property-label', 'Resources shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("I see only the filtered resources by {string}", (filterType) => {
@@ -476,10 +503,6 @@ then("The list of processes using the theme is displayed", () => {
     cy.get('.modal').contains('Application 2 as theme').should('be.visible');
 });
 
-then("The {string} button is disabled for resource {string}", (iconName, resourceNumber) => {
-    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).click();
-});
-
 then("I see {string} error message", (statusCode) => {
     switch (statusCode) {
         case '500':
@@ -510,6 +533,12 @@ then("The warning message is displayed with the token {string}", (pageToken) => 
     cy.get('.modal').contains(pageToken).should('be.visible');
 });
 
-then("The resources list have the correct item shown number", () => {
-    cy.get('.text-primary.resource-property-label:visible').contains('Resources shown: 5');
+then("The {string} button for the resource {string} is not disabled and has no tooltip", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('not.be.disabled');
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('not.have.attr', 'title');
+});
+
+then("The {string} button for the resource {string} is disabled and has a tooltip", (iconName, resourceNumber) => {
+    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('be.disabled');
+    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('have.attr', 'title');
 });

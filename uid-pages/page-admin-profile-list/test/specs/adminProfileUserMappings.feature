@@ -70,7 +70,7 @@ Feature: The admin profiles mapping with users in desktop resolution
     Then A list of 28 "Users" mapped is displayed
     And The load more user mapped button is disabled
 
-  Scenario: [Limitation] Load more mapped users is not disabled when result is a multiple of count
+  Scenario: Load more mapped users is disabled when result is a multiple of count
     Given The response "default filter" is defined
     And The response "user mapping 20 load more" is defined
     When I visit the admin profiles page

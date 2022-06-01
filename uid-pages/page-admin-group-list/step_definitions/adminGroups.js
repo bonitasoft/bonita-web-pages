@@ -21,8 +21,8 @@ given("The response {string} is defined", (responseType) => {
                 }
             });
             break;
-        case 'default filter':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'groups8Route', 'groups8');
+        case 'default filter with headers':
+            createRouteWithResponseAndHeaders('&t=0', 'groups8Route', 'groups8', {'content-range': '0-8/8'});
             break;
         case 'sort by':
             createRoute(groupsUrl + '?c=20&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute');
@@ -34,7 +34,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match&t=0', 'emptyResultRoute', 'emptyResult');
             break;
         case 'enable load more':
-            createRouteWithResponse(defaultRequestUrl + '&t=0','groups20Route', 'groups20');
+            createRouteWithResponseAndHeaders('&t=0', 'groups20Route', 'groups20', {'content-range': '0-20/35'});
             createGroupsRouteWithResponseAndPagination('', 'groups10Route', 'groups10', 2, 10);
             createGroupsRouteWithResponseAndPagination('', 'groups8Route', 'groups8', 3, 10);
             createGroupsRouteWithResponseAndPagination('', 'emptyResultRoute', 'emptyResult', 4, 10);
@@ -66,7 +66,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(parentGroupSearchUrl + 'Au', 'parentGroupWith8GroupsRoute', 'groups8');
             break;
         case 'already exists during creation':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl, 'createGroupAlreadyExistsRoute', 'createGroupAlreadyExists', 'POST', '500');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl, 'createGroupAlreadyExistsRoute', 'createGroupAlreadyExists', 'POST', '403');
             break;
         case '403 during creation':
             createRouteWithMethodAndStatus(groupsUrl, 'unauthorizedCreateGroupRoute', 'POST', '403');
@@ -142,7 +142,7 @@ given("The response {string} is defined", (responseType) => {
         case 'sub-groups list for two groups':
             createRouteWithResponse(subGroupUrl + '/acme&t=1*', 'emptyResultRoute', 'subGroups18');
             createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(subGroupUrl + '/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
+            createRouteWithResponse(subGroupUrl + '/acme/sales/asia&t=1*', 'SubGroupUrlRoute', 'emptyResult');
             break;
         case 'current parent information':
             createRouteWithResponse(urlPrefix + groupsUrl + '/8?t=1*', 'currentParentGroupEuropeRoute', 'currentParentGroupEurope');
@@ -201,6 +201,21 @@ given("The response {string} is defined", (responseType) => {
 
     function createRouteWithResponse(url, routeName, response) {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
+    }
+
+    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+        let responseValue = undefined;
+        if (response) {
+            cy.fixture('json/' + response + '.json').as(response);
+            responseValue = '@' + response;
+        }
+
+        cy.route({
+            method: 'GET',
+            url: defaultRequestUrl + queryParameter,
+            response: responseValue,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
@@ -424,11 +439,16 @@ then("The groups page have the correct information", () => {
         cy.wrap(item).get('.btn.btn-link .glyphicon-pencil').should('have.attr', 'title', 'Edit group');
         cy.wrap(item).get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete group');
     });
-    cy.contains('.item-label', 'Groups shown: 8');
+    cy.contains('.item-label', 'Groups shown: 8 of 8');
 });
 
 then("A list of {int} groups is displayed", (nbrOfItems) => {
     cy.get('.group-item:visible').should('have.length', nbrOfItems);
+});
+
+then("A list of {int} groups is displayed out of {int}", (nbrOfItems, totalItems) => {
+    cy.get('.group-item:visible').should('have.length', nbrOfItems);
+    cy.get('.text-primary.item-label:visible').contains('Groups shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string}", (filterValue) => {
@@ -616,7 +636,7 @@ then("No users are available", () => {
 
 then("The user list modal is open and has no users for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name, or username').should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name, or username').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No users to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more users').should('not.be.visible');
@@ -626,7 +646,7 @@ then("The user list modal is open and has no users for {string}", (state) => {
 
 then("The user list modal is open and has {int} users for {string}", (numberOfUsers, state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search on first name, last name, or username').should('not.have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by first name, last name, or username').should('not.have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No users to display').should('not.be.visible');
     cy.contains('.modal-body p.text-right', 'Users shown:').should('be.visible');
     cy.contains('.modal-body button', 'Load more users').should('be.visible');
@@ -648,7 +668,7 @@ then("The search input is not disable", () => {
 
 then("The sub-group list modal is open and has no sub-groups for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search sub-group').should('have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by display name, or name').should('have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'No sub-groups to display').should('be.visible');
     cy.contains('.modal-body p.text-right', 'Sub-groups shown:').should('not.be.visible');
     cy.contains('.modal-body button', 'Load more sub-groups').should('not.be.visible');
@@ -657,7 +677,7 @@ then("The sub-group list modal is open and has no sub-groups for {string}", (sta
 
 then("The sub-group list modal is open and has {int} sub-groups for {string}", (numberOfSubGroups, state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
-    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search sub-group').should('not.have.attr', 'readonly', 'readonly');
+    cy.get('.modal-body input').should('have.attr', 'placeholder', 'Search by display name, or name').should('not.have.attr', 'readonly', 'readonly');
     cy.contains('.modal-body h4', 'There are no sub-groups in this group').should('not.be.visible');
     cy.contains('.modal-body p.text-right', 'Sub-groups shown:').scrollIntoView().should('be.visible');
     cy.contains('.modal-body button', 'Load more sub-groups').should('be.visible');
