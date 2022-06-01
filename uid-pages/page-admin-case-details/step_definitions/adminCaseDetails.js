@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
@@ -309,11 +311,14 @@ then("The add comment button is {string}", (buttonState) => {
 });
 
 then("{string} is shown at the end of the comments", (text) => {
-    cy.get('h5').contains(text).should('be.visible');
+    cy.get('h5').contains(text)
+        .should('exist')
+        .scrollIntoView()
+        .should('be.visible');
 });
 
 then("There is no {string}", (text) => {
-    cy.get('.comments .item-value').contains(text).should('not.be.visible');
+    cy.contains('.comments .item-value', text).should('not.exist');
 });
 
 then("The input placeholder is {string}", (placeholder) => {
@@ -329,63 +334,53 @@ then("The task list link has correct href", () => {
 });
 
 then("The no task message is not visible", () => {
-    cy.get('.item-value').contains('No task in the task list for this case.').should('not.visible');
+    cy.contains('.item-value', 'No task in the task list for this case.').should('not.exist');
 });
 
 then("The task list link is not visible", () => {
-    cy.get('a.item-value').should('not.visible');
+    cy.get('a.item-value').should('not.exist');
 });
 
 then("The process variables have the correct information", () => {
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Type').should('be.visible');
+    cy.contains('.item-label-container p', 'Value').should('be.visible');
+    cy.contains('.item-label-container p', 'Edit').should('be.visible');
     // Check that the element exist.
     cy.get('.process-variable-item').eq(0).within(() => {
-        cy.get('.item-label').eq(0).contains('Name');
         cy.get('.item-value').eq(0).contains('description');
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.lang.String');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('Description about the leave request.');
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit description');
     });
     cy.get('.process-variable-item').eq(1).within(() => {
-        cy.get('.item-label').eq(0).contains('Name');
         cy.get('.item-value').eq(0).contains('isUrgentRequest');
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.lang.Boolean');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('false');
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit isUrgentRequest');
     });
     cy.get('.process-variable-item').eq(2).within(() => {
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.util.Collection');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('[Multiple description, about the leave request.]');
         cy.get('button').should('be.disabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'java.util.Collection variables cannot be edited at runtime.');
     });
     cy.get('.process-variable-item').eq(3).within(() => {
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.lang.Integer');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('55');
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit numberOfDays');
     });
     cy.get('.process-variable-item').eq(4).within(() => {
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.lang.Double');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('0.0');
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit ticketFare');
     });
     cy.get('.process-variable-item').eq(5).within(() => {
-        cy.get('.item-label').eq(1).contains('Type');
         cy.get('.item-value').eq(1).contains('java.lang.Long');
-        cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('123456789');
         cy.get('button').should('be.enabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
@@ -426,7 +421,7 @@ then("I see the updated successfully message", () => {
 });
 
 then("The modal is closed", () => {
-    cy.contains('.modal').should('not.be.visible');
+    cy.contains('.modal').should('not.exist');
 });
 
 then("I see the value is updated for variable {string}", (variableNumber) => {

@@ -68,7 +68,7 @@ Feature: The disabled process list in desktop resolution
     Given The page response "default filter with headers" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The "Enable" process modal is displayed for "Pool 1 (1.0)"
     And The correct text is shown in enable modal
     When I click on "Cancel" button in the modal
@@ -79,7 +79,7 @@ Feature: The disabled process list in desktop resolution
     And The page response "enable process" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The "Enable" process modal is displayed for "Pool 1 (1.0)"
     And The correct text is shown in enable modal
     When I click on enable button in modal
@@ -94,11 +94,11 @@ Feature: The disabled process list in desktop resolution
     And The page response "enable state code 500" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     And I click on enable button in modal
     Then I see "500" error message for disabled processes
     When I click on "Cancel" button in the modal
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The correct text is shown in enable modal
 
   Scenario: The enable process modal should display 404 error message
@@ -106,11 +106,11 @@ Feature: The disabled process list in desktop resolution
     And The page response "enable state code 404" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     And I click on enable button in modal
     Then I see "404" error message for disabled processes
     When I click on "Cancel" button in the modal
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The correct text is shown in enable modal
 
   Scenario: The enable process modal should display 403 error message
@@ -118,11 +118,11 @@ Feature: The disabled process list in desktop resolution
     And The page response "enable state code 403" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     And I click on enable button in modal
     Then I see "403" error message for disabled processes
     When I click on "Cancel" button in the modal
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The correct text is shown in enable modal
 
   Scenario: The enable process modal should display enabling
@@ -130,11 +130,11 @@ Feature: The disabled process list in desktop resolution
     And The page response "delay enable" is defined for disabled processes
     When I visit admin process list page
     And I click on Disabled tab
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     And I click on enable button in modal
     Then I see enabling message
     When I click on "Cancel" button in the modal
-    And I click on "ok" button on the item "2"
+    And I click on "ok" button on the item 2
     Then The correct text is shown in enable modal
 
   Scenario: The refresh button works correctly

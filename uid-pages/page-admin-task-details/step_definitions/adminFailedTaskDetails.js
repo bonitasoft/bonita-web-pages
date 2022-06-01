@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html';
@@ -195,7 +197,7 @@ then("The failed task details have the correct information", () => {
     cy.get('.item-value').contains('Failed vacation request');
     cy.get('.item-label').contains('State');
     cy.get('.item-value').contains('Failed');
-    cy.get('.item-label').contains('Done on').should('not.be.visible');
+    cy.get('.item-label').contains('Done on').should('not.exist');
     cy.get('.item-label').contains('Failed on');
     cy.get('.item-value').contains('4/30/20 9:22 AM');
     cy.get('.item-label').contains('Assigned to');
@@ -226,11 +228,11 @@ then("{string} is shown at the end of the comments", (text) => {
 });
 
 then("There is no {string}", (text) => {
-    cy.get('.comments .item-value').contains(text).should('not.be.visible');
+    cy.get('.comments .item-value').contains(text).should('not.exist');
 });
 
 then("There are no comments", () => {
-    cy.get('.comments').should('not.be.visible');
+    cy.get('.comments').should('not.exist');
 });
 
 then("The add comment button is {string}", (buttonState) => {
@@ -251,7 +253,7 @@ then("The connectors section have the correct information", () => {
     cy.get('h4').eq(1).contains('Connectors');
     cy.get('h5').eq(0).contains('Failed');
     cy.get('button.btn-link').contains('failedConnectorName').should('be.visible');
-    cy.get('.item-value').contains('failedConnectorName').should('not.be.visible');
+    cy.get('.item-value').contains('failedConnectorName').should('not.exist');
     cy.get('h5').eq(1).contains('To be executed');
     cy.get('.item-value').contains('throwException');
     cy.get('.item-value').contains('throwNewException1');
@@ -264,7 +266,7 @@ then("The connectors section have the correct information", () => {
 });
 
 then("The connectors section is empty", () => {
-    cy.get('.connectors button').should('not.be.visible');
+    cy.get('.connectors button').should('not.exist');
     cy.contains('h4','Connectors').should('be.visible');
     cy.contains('h5','Failed').should('be.visible');
     cy.contains('.item-value','No failed connector').should('be.visible');
@@ -308,7 +310,7 @@ then("The replay modal is open and has a default state for {string}", (taskName)
     cy.contains('.modal-body', 'secondFailedConnector').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
-    cy.contains('.modal-footer button', 'Close').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
 then("The replay modal is open and has three failed connectors", () => {
@@ -327,11 +329,11 @@ then("The replay modal is open and has one less connector for {string}", (taskNa
     cy.contains('.modal-body', 'secondFailedConnector').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
-    cy.contains('.modal-footer button', 'Close').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Close').should('not.exist');
 });
 
 then("There is no modal displayed", () => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("There is a confirmation for task being successfully skipped", () => {
@@ -345,7 +347,7 @@ then("There is a confirmation for task being successfully replayed", () => {
     });
     cy.contains('.modal', 'The task is now executing. You can close this modal and check the status once the connectors have been executed.').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
-    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.get('.modal-body input[type="radio"]').should('have.length', 4);
@@ -361,7 +363,7 @@ then("There is a confirmation for task being successfully replayed with second c
     });
     cy.contains('.modal', 'The task is now executing. You can close this modal and check the status once the connectors have been executed.').should('be.visible');
     cy.contains('.modal-footer button', 'Replay').should('be.visible');
-    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('be.visible');
     cy.get('.modal-body input[type="radio"]').should('have.length', 4);

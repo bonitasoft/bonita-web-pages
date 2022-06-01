@@ -1,3 +1,6 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
+
 const urlPrefix = 'build/dist/';
 const profilesUrl = 'API/portal/profile';
 const profileMemberUrl = 'API/portal/profileMember';
@@ -329,6 +332,12 @@ given("The response {string} is defined", (responseType) => {
         case 'default filter with missing features':
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
             break;
+        case 'file upload':
+            cy.intercept('POST', urlPrefix + 'API/profilesUpload', {"filename":"Profile_Data.xml","tempPath":"tmp_7171129632133896602.xml","contentType":"text\/xml"});
+            break;
+        case 'profile installation':
+            cy.intercept('POST', urlPrefix + 'API/services/profile/import', {importPolicy: "REPLACE_DUPLICATES", profilesDataUpload: "tmp_7171129632133896602.xml"});
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -461,7 +470,7 @@ when("I erase the search filter in the modal", () => {
 });
 
 when("I click on delete button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-trash').eq(0).parent().click();
 });
 
 when("I click on add button", () => {
@@ -470,6 +479,14 @@ when("I click on add button", () => {
 
 when("I switch to create a profile", () => {
     cy.get('.modal-body input[type=radio]').eq(0).click();
+});
+
+when("I click on import profiles", () => {
+    cy.get('.modal-body input[type=radio]').eq(1).click();
+});
+
+when("I click on attach icon", () => {
+    cy.get('.modal-body .file-upload .input-group-btn').click();
 });
 
 when("I switch to import profiles", () => {
@@ -494,11 +511,11 @@ when("I click inside the modal", () => {
 });
 
 when("I click on edit button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(0).parent().click();
 });
 
 when("I click on edit button for fifth profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(4).parent().click();
 });
 
 when("I click on the {string} button in modal", (buttonName) => {
@@ -520,51 +537,51 @@ when("I fill in the information", () => {
 });
 
 when("I click on show organization mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
 });
 
 when("I click on show organization mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(1).parent().click();
 });
 
 when("I click on show organization mapping button for second profile without closing the first", () => {
-    cy.get('.glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).parent().click();
 });
 
 when("I click on hide organization mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-triangle-top').eq(0).parent().click();
+    cy.get('.action-button-container .glyphicon.glyphicon-triangle-top').eq(0).parent().click();
 });
 
 when("I click on edit user mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(1).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).click();
 });
 
 when("I click on edit user mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).click();
 });
 
 when("I click on edit role mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).click();
 });
 
 when("I click on edit role mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).click();
 });
 
 when("I click on edit group mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(2).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).click();
 });
 
 when("I click on edit group mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(3).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).click();
 });
 
 when("I click on edit membership mapping button for first profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(4).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).click();
 });
 
 when("I click on edit membership mapping button for second profile", () => {
-    cy.get('.glyphicon.glyphicon-pencil').eq(5).click();
+    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).click();
 });
 
 when("I type {string} in the selection input", (selectedValue) => {
@@ -609,26 +626,26 @@ when("I erase one character", (userName) => {
 
 then("The profiles page has the correct information", () => {
     cy.contains('h3', 'Profiles');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Created on').should('be.visible');
+    cy.contains('.item-label-container p', 'Updated on').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
     cy.get('.profile-item').should('have.length', 8);
     cy.get('.profile-item').eq(0).within(() => {
-        cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Custom profile 1');
-        cy.contains('.item-label', 'Created on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
-        cy.contains('.item-label', 'Updated on');
         cy.contains('.item-value', '8/18/20 4:45 PM');
         cy.contains('.item-label', 'This is a sample description.');
-        cy.get('.btn.btn-link .glyphicon-triangle-bottom').should('have.attr', 'title', 'Show mapping with organization');
-        cy.get('.btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
-        cy.get('.btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
-        cy.get('.is-provided-icon').should('not.be.visible');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-triangle-bottom').should('have.attr', 'title', 'Show mapping with organization');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-export').should('have.attr', 'title', 'Export profile');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-trash').should('have.attr', 'title', 'Delete profile');
+        cy.get('.is-provided-icon').should('not.exist');
     });
     cy.get('.profile-item').eq(1).within(() => {
-        cy.contains('.item-label', 'Name');
         cy.contains('.item-value', 'Administrator');
         cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
         cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
-        cy.get('.btn.btn-link .glyphicon-trash').should('not.be.enabled');
+        cy.get('.action-button-container .btn.btn-link .glyphicon-trash').should('not.be.enabled');
     });
     cy.contains('.item-label', 'Profiles shown: 8 of 8');
 });
@@ -680,8 +697,8 @@ then("No user mappings are displayed", () => {
 then("The delete modal is open and has a default state for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body p', 'Are you sure you want to delete this profile?');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Delete').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -690,8 +707,8 @@ then("The delete modal is open and has a default state for {string}", (state) =>
 then("The add modal is open and has a default state for {string}", (state) => {
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body p', 'Select how you want to add profiles.');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.get('.modal-body input[type=radio]').should('have.length', 2);
     cy.get('.modal-body input[type=radio]').eq(0).check();
     cy.get('.modal-body input[type=text]').should('have.value', '');
@@ -702,7 +719,7 @@ then("The add modal is open and has a default state for {string}", (state) => {
 });
 
 then("There is no modal displayed", () => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The deletion is successful", () => {
@@ -780,18 +797,18 @@ then("I see {string} user mapping error message", (error) => {
 then("I don't see {string} user mapping error message", (error) => {
     switch (error) {
     case '403':
-        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.exist');
         break;
     case '404':
-        cy.contains('.modal-body', 'The user is not mapped to this profile.').should('not.be.visible');
+        cy.contains('.modal-body', 'The user is not mapped to this profile.').should('not.exist');
         break;
     case '500':
-        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.exist');
         break;
     default:
         throw new Error("Unsupported case");
     }
-    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.exist');
 });
 
 then("I see {string} role mapping error message", (error) => {
@@ -823,18 +840,18 @@ then("I see {string} role mapping error message", (error) => {
 then("I don't see {string} role mapping error message", (error) => {
     switch (error) {
     case '403':
-        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.exist');
         break;
     case '404':
-        cy.contains('.modal-body', 'The role is not mapped to this profile.').should('not.be.visible');
+        cy.contains('.modal-body', 'The role is not mapped to this profile.').should('not.exist');
         break;
     case '500':
-        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.exist');
         break;
     default:
         throw new Error("Unsupported case");
     }
-    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.exist');
 });
 
 then("I see {string} group mapping error message", (error) => {
@@ -866,18 +883,18 @@ then("I see {string} group mapping error message", (error) => {
 then("I don't see {string} group mapping error message", (error) => {
     switch (error) {
     case '403':
-        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.exist');
         break;
     case '404':
-        cy.contains('.modal-body', 'The group is not mapped to this profile.').should('not.be.visible');
+        cy.contains('.modal-body', 'The group is not mapped to this profile.').should('not.exist');
         break;
     case '500':
-        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.exist');
         break;
     default:
         throw new Error("Unsupported case");
     }
-    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.exist');
 });
 
 then("The import profiles section shows the correct information", () => {
@@ -895,8 +912,8 @@ then("The success message does not disappear", () => {
 });
 
 then("There is no error or success", () => {
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
 });
 
 then("The edit modal is open and has a default state for {string} for profile {int}", (state, profileNumber) => {
@@ -915,8 +932,8 @@ then("The edit modal is open and has a default state for {string} for profile {i
         default:
             throw new Error("Unsupported case");
     }
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -948,8 +965,8 @@ then("The edit modal is open and has a edited state for {string}", (state, profi
     cy.contains('.modal-body', 'Description').should('be.visible');
     cy.get('.modal-body input').should('have.value', 'New custom profile 1');
     cy.get('.modal-body textarea').should('have.value', 'This is a new description.');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Save').should('not.be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -972,7 +989,7 @@ then('I can export a profile', () => {
 });
 
 then("I see the mapping information for first profile", () => {
-    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.get('.action-button-container .glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Giovanna Almeida').should('be.visible');
@@ -989,7 +1006,7 @@ then("I see the mapping information for first profile", () => {
 });
 
 then("I see the mapping information for second profile", () => {
-    cy.get('.glyphicon-triangle-top').should('have.length', 1);
+    cy.get('.action-button-container .glyphicon-triangle-top').should('have.length', 1);
     cy.contains('.mapping-label', 'Mapping with Users').should('be.visible');
     cy.get('.btn-edit .glyphicon-pencil').eq(0).should('be.visible');
     cy.contains('.badge', 'Dumitru Corini').should('be.visible');
@@ -1002,16 +1019,16 @@ then("I see the mapping information for second profile", () => {
 
 then("The hide organization mapping button is displayed", () => {
     cy.get('.profile-item').eq(0).within(() => {
-        cy.get('.glyphicon-triangle-top').should('be.visible');
-        cy.get('.glyphicon-triangle-bottom').should('not.be.visible');
+        cy.get('.action-button-container .glyphicon-triangle-top').should('be.visible');
+        cy.get('.action-button-container .glyphicon-triangle-bottom').should('not.exist');
     });
 });
 
 then("There is no mapping information displayed", () => {
-    cy.contains('.mapping-label', 'Mapping with Users').should('not.be.visible');
-    cy.contains('.mapping-label', 'Mapping with Groups').should('not.be.visible');
-    cy.contains('.mapping-label', 'Mapping with Roles').should('not.be.visible');
-    cy.contains('.mapping-label', 'Mapping with Memberships').should('not.be.visible');
+    cy.contains('.mapping-label', 'Mapping with Users').should('not.exist');
+    cy.contains('.mapping-label', 'Mapping with Groups').should('not.exist');
+    cy.contains('.mapping-label', 'Mapping with Roles').should('not.exist');
+    cy.contains('.mapping-label', 'Mapping with Memberships').should('not.exist');
 });
 
 then("The edit user mapping modal is open and has a default state for {string} profile", (organization) => {
@@ -1031,7 +1048,7 @@ then("The {string} list is displayed", () => {
 });
 
 then("The {string} list is not displayed", () => {
-    cy.get('.modal-content .dropdown-menu').should('not.be.visible');
+    cy.get('.modal-content .dropdown-menu').should('not.exist');
 });
 
 then("The mapped user list is displayed", () => {
@@ -1048,7 +1065,7 @@ then("The mapped user list is displayed", () => {
 });
 
 then("The {string} list is not displayed", () => {
-    cy.get('.modal-body .dropdown-menu').should('not.be.visible');
+    cy.get('.modal-body .dropdown-menu').should('not.exist');
 });
 
 then("The role input in membership is filled with {string}", (selectedValue) => {
@@ -1299,18 +1316,18 @@ then("I see {string} membership mapping error message", (error) => {
 then("I don't see {string} membership mapping error message", (error) => {
     switch (error) {
     case '403':
-        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'Access denied. For more information, check the log file.').should('not.exist');
         break;
     case '404':
-        cy.contains('.modal-body', 'The Executive of Europe is not mapped to this profile.').should('not.be.visible');
+        cy.contains('.modal-body', 'The Executive of Europe is not mapped to this profile.').should('not.exist');
         break;
     case '500':
-        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.be.visible');
+        cy.contains('.modal-body', 'An error has occurred. For more information, check the log file.').should('not.exist');
         break;
     default:
         throw new Error("Unsupported case");
     }
-    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.be.visible');
+    cy.contains('.modal p', 'The profile mapping has not been updated.').should('not.exist');
 });
 
 then("Some features are not available", () => {
@@ -1328,5 +1345,15 @@ then("The type more message is displayed and disabled", () => {
 });
 
 then("The type more message is not displayed", () => {
-    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.exist');
 });
+
+then("It uploads a profile", () => {
+    cy.get('.modal-body input[type="file"]').selectFile('test/mockServer/Profile_Data.xml', {force: true});
+    cy.get('.modal-body input[type="text"]').should('have.value', 'Uploading...');
+    cy.get('.modal-body .file-upload input[type="text"]').should('have.value', 'Profile_Data.xml');
+});
+
+then("The profile is installed", () => {
+    cy. contains(".modal-body p", "The profile has been successfully added")
+})

@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=2';
 const pendingTaskUrl = 'API/bpm/flowNode/2?';
@@ -245,7 +247,7 @@ then("The connectors section have the correct information for pending tasks", ()
 });
 
 then("The unassign button is not displayed", () => {
-    cy.contains('button', 'Unassign').should('not.be.visible');
+    cy.contains('button', 'Unassign').should('not.exist');
 });
 
 then("The unassign button is displayed", () => {
@@ -253,7 +255,7 @@ then("The unassign button is displayed", () => {
 });
 
 then("The assign button is not displayed", () => {
-    cy.contains('button', 'Assign').should('not.be.visible');
+    cy.contains('button', 'Assign').should('not.exist');
 });
 
 then("The assign modal is open and has a default state for {string}", (taskName) => {
@@ -261,12 +263,12 @@ then("The assign modal is open and has a default state for {string}", (taskName)
     cy.contains('.modal-content p.text-left', 'Start typing the first name, last name, user name, or job title of the user to assign the task to, and then select among the options.');
     cy.contains('.form-group label', 'User');
     cy.get('.modal-content .form-group input').should('be.empty');
-    cy.get('.modal-content .dropdown-menu').should('not.be.visible');
+    cy.get('.modal-content .dropdown-menu').should('not.exist');
     cy.contains('.modal-footer button', 'Cancel');
 });
 
 then("The modal is closed", () => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The assign button in the modal is disabled", () => {
@@ -278,7 +280,7 @@ then("The user list is displayed", () => {
 });
 
 then("The user list is not displayed", () => {
-    cy.get('.modal-content .dropdown-menu').should('not.be.visible');
+    cy.get('.modal-content .dropdown-menu').should('not.exist');
 });
 
 then("The user input is filled with {string}", (userName) => {
@@ -333,7 +335,7 @@ then('The unassigned page is refreshed', () => {
 });
 
 then("The unassign button is not displayed", () => {
-    cy.contains('button', 'Unassign').should('not.be.visible');
+    cy.contains('button', 'Unassign').should('not.exist');
 });
 
 then("The assign button is displayed", () => {
@@ -349,11 +351,11 @@ then("There is a confirmation for task being successfully unassigned", () => {
 });
 
 then("The cancel button is not displayed", () => {
-    cy.contains('.modal-footer button', 'Cancel').should('not.be.visible');
+    cy.contains('.modal-footer button', 'Cancel').should('not.exist');
 });
 
 then("There is no confirmation message for unassign", () => {
-    cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?').should('not.be.visible');
+    cy.contains('.modal-content p.text-left', 'Do you want to unassign the task from Helen Kelly?').should('not.exist');
 });
 
 then("The type more message is displayed and disabled", () => {
@@ -364,7 +366,7 @@ then("The type more message is displayed and disabled", () => {
 });
 
 then("The type more message is not displayed", () => {
-    cy.contains('.dropdown-menu button', 'Or type more...').should('not.be.visible');
+    cy.contains('.dropdown-menu button', 'Or type more...').should('not.exist');
 });
 
 then("The do for button is disabled", () => {

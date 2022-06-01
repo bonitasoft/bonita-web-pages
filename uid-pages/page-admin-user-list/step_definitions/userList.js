@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0';
@@ -209,7 +211,7 @@ when("I filter show inactive users", () => {
 });
 
 when("I click on {string} button on the user {string}", (iconName, userNumber) => {
-    cy.get('button .glyphicon-' + iconName).eq(userNumber - 1).click();
+    cy.get('.action-button-container .glyphicon-' + iconName).eq(userNumber - 1).click();
 });
 
 when("I click on {string} button in modal", (buttonLabel) => {
@@ -256,52 +258,44 @@ when("I click on the {string} button in modal", (buttonName) => {
 });
 
 then("The users have the correct information", () => {
+    cy.contains('.item-label-container p', 'First name').should('be.visible');
+    cy.contains('.item-label-container p', 'Last name').should('be.visible');
+    cy.contains('.item-label-container p', 'Username').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
+
     cy.get('.item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Giovanna');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Almeida');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('giovanna.almeida');
+        cy.get('.action-button-container i.glyphicon-eye-open').should('have.attr', 'title', 'View user details');
     });
 
     cy.get('.item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Angelo');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('daniela.angelo');
     });
 
     cy.get('.item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Walter');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('walter.bates');
     });
 
     cy.get('.item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('--');
         cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('--');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('isabel.bleasdale');
     });
 
     cy.get('.item').eq(4).within(() => {
-        cy.get('.item-property-label').contains('First name');
         cy.get('.item-property-value').contains('Jan');
-        cy.get('.item-property-label').contains('Last name');
         cy.get('.item-property-value').contains('Fisher');
-        cy.get('.item-property-label').contains('Username');
         cy.get('.item-property-value').contains('jan.fisher');
     });
     cy.get('.text-primary.item-property-label:visible').contains('Users shown: 5 of 5');
@@ -359,7 +353,7 @@ then("The change status modal is displayed for {string}", (userName) => {
 });
 
 then("The modal is closed",() => {
-    cy.get('.modal').should('not.be.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The {string} title is displayed", (titleContent) => {
@@ -401,7 +395,7 @@ then("I see {string} error message", (errorMessage) => {
 });
 
 then("I don't see {string} error message", (errorMessage) => {
-    cy.get('.modal').contains(errorMessage).should('not.be.visible');
+    cy.get('.modal').contains(errorMessage).should('not.exist');
 });
 
 then("All create user modal information is cleared", () => {
@@ -418,8 +412,8 @@ then("The create modal is open and has a default state for {string}", (state) =>
     cy.contains('.modal-body', 'Confirm password').should('be.visible');
     cy.contains('.modal-body', 'First name').should('be.visible');
     cy.contains('.modal-body', 'Last name').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Create').should('be.disabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');
@@ -461,8 +455,8 @@ then("The deactivate modal is open and has a default state for {string}", (state
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body h4', 'Warning').should('be.visible');
     cy.contains('.modal-body p', 'If this is the only user able to perform a task, this will cause the interruption of a Process.').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Deactivate').should('be.visible');
     cy.contains('.modal-footer button', 'Activate').should('not.exist');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
@@ -473,8 +467,8 @@ then("The activate modal is open and has a default state for {string}", (state) 
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body h4', 'Warning').should('be.visible');
     cy.contains('.modal-body p', 'Are you sure you want to activate this user?').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Activate').should('be.visible');
     cy.contains('.modal-footer button', 'Deactivate').should('not.exist');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');

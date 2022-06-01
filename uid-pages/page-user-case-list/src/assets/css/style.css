@@ -44,6 +44,14 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 }
 
 /* Case list page CSS starts here */
+.pl-0 {
+    padding-left: 0;    
+}
+
+.pt-5 {
+    padding-top: 5px;    
+}
+
 .mr-0.component {
     margin-right: 0;
 }
@@ -141,6 +149,76 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 .pt-5.component {
     padding-top: 5px;
+}
+
+.tab-content .tab-pane .row:nth-child(2),
+.tab-content .tab-pane .row:nth-child(2)>div,
+.item-label-container > .row{
+    display: contents;
+}
+
+.tab-content .tab-pane > div > div > div > .row:nth-child(2) {
+    display: block;
+    position: sticky;
+    z-index: 2;
+    top: -15px;
+}
+
+.item-label-container {
+    position: sticky;
+    margin-top: 15px;
+    top: 2px;
+    padding-top: 10px;
+    font-size: 13px;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: bold;
+    z-index: 2;
+    border-radius: 5px;
+    margin-left: -15px;
+    width: calc(100% + 3rem);
+}
+
+.action-button-container a,
+.action-button-container button {
+    padding: 0;
+}
+
+/* For mobile view only */
+.mobile-action-buttons-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+}
+
+.mobile-action-buttons-container .row {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 767px) {
+    .action-button-container {
+        margin-top: 15px;
+    }
+
+    .action-button-container i {
+        padding: 12px;
+        border-radius: 50%;
+        line-height: 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .action-button-container a,
+    .action-button-container button {
+        background-opacity: 1;
+    }
 }
 
 /* Spinner */

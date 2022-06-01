@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html';
@@ -174,7 +176,7 @@ then("{string} is shown at the end of the comments", (text) => {
 });
 
 then("There is no {string}", (text) => {
-    cy.get('.comments .item-value').contains(text).should('not.be.visible');
+    cy.get('.comments .item-value').contains(text).should('not.exist');
 });
 
 then("The input placeholder is {string}", (placeholder) => {

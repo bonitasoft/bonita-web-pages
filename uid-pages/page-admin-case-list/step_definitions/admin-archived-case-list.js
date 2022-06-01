@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
@@ -237,24 +239,26 @@ then("I see an archived case list page", () => {
 
 then("The archived case list have the correct information", () => {
     cy.wait('@archivedCases5Route');
+    cy.contains('.item-label-container p', 'Case ID (original)')
+    cy.contains('.item-label-container p', 'Process name (version)')
+    cy.contains('.item-label-container p', 'Started by')
+    cy.contains('.item-label-container p', 'Start date')
+    cy.contains('.item-label-container p', 'End date')
+    cy.contains('.item-label-container p', 'State')
+    cy.contains('.item-label-container p', 'Pending flow nodes').should('not.exist');
+    cy.contains('.item-label-container p', 'Failed flow nodes').should('not.exist');
     cy.get('.case-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Case ID (original)');
         cy.get('.item-value').contains('2042');
-        cy.get('.item-label').contains('Process name (version)');
         cy.get('.item-value').contains('Process 1 (1.0)');
         cy.get('.item-value').contains('Process display name 1');
-        cy.get('.item-label').contains('Started by');
         cy.get('.item-value').contains('Walter Bates');
-        cy.get('.item-label').contains('Start date');
         cy.get('.item-value').contains('2/5/21 2:12 PM');
-        cy.get('.item-label').contains('End date');
         cy.get('.item-value').contains('2/5/21 4:00 PM');
-        cy.get('.item-label').contains('State');
         cy.get('.item-value').contains('completed');
-        cy.get('.item-label').contains('Pending flow nodes').should('not.exist');
-        cy.get('.item-label').contains('Failed flow nodes').should('not.exist');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case');
     });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
 });
@@ -309,8 +313,8 @@ then("The delete archived case modal is open and has a default state for {string
     cy.contains('.modal-header h3', state).should('be.visible');
     cy.contains('.modal-body p', 'The deleted case will be permanently deleted and will not be stored in the archives. Are you sure you want to delete it?').should('not.exist');
     cy.contains('.modal-body p', 'The deleted case will be permanently deleted from the archives. Are you sure you want to delete it?').should('be.visible');
-    cy.get('.modal-body .glyphicon-remove-sign').should('not.be.visible');
-    cy.get('.modal-body .glyphicon-ok-sign').should('not.be.visible');
+    cy.get('.modal-body .glyphicon-remove-sign').should('not.exist');
+    cy.get('.modal-body .glyphicon-ok-sign').should('not.exist');
     cy.contains('.modal-footer button', 'Delete').should('be.enabled');
     cy.contains('.modal-footer button', 'Cancel').should('be.visible');
     cy.contains('.modal-footer button', 'Close').should('not.exist');

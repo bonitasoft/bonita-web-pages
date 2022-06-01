@@ -432,8 +432,8 @@ Feature: The Admin Groups in desktop resolution
     When I click on the "pencil" glyphicon button in modal body
     Then The parent group edition field should contain ""
     And The parent group dropdown is not shown
-    When I click on the "Save" button in modal footer
-    Then The edition is successful with empty parent field
+    When I click on the "Cancel" button in modal footer
+    Then There is no modal displayed
 
   Scenario: The edit group modal resets the old parent value correctly
     Given The response "group edition success" is defined

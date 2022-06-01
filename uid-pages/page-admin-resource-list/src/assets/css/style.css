@@ -93,6 +93,7 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     padding-right: 0;
 }
 
+.pt-5,
 .pt-5.component {
     padding-top: 5px;
 }
@@ -108,6 +109,7 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 .description {
     padding-bottom: 6px;
+    padding-left: 0;
 }
 
 .is-provided-icon-container {
@@ -119,6 +121,56 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 .is-provided-icon{
     width: 1em;
+}
+
+.main-container .row:nth-child(3),
+.main-container .row:nth-child(3) > div,
+.item-label-container > .row{
+    display: contents;
+}
+
+.main-container > .row:nth-child(3) {
+    display: block;
+    position: sticky;
+    z-index: 2;
+    top: -15px;
+}
+
+.action-button-container a,
+.action-button-container button {
+    padding: 0;
+}
+
+.item-label-container {
+    position: sticky;
+    margin-top: 15px;
+    top: 2px;
+    padding-top: 10px;
+    font-size: 13px;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: bold;
+    z-index: 2;
+    border-radius: 5px;
+    margin-left: -15px;
+    width: calc(100% + 3rem);
+}
+
+/* For mobile view only */
+.mobile-action-buttons-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+}
+
+.mobile-action-buttons-container .row {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
 }
 
 /* Spinner */

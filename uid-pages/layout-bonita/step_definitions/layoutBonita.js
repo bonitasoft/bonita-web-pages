@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const url = 'build/dist/resources/index.html';
 
 given('The resolution is set to mobile', () => {
@@ -411,7 +413,11 @@ then('I see default user icon as the user modal icon', () => {
 });
 
 then('I don\'t see {string} as the user name', (userName) => {
-    cy.get('.text-right > .ng-binding').should('not.have.text', userName);
+    cy.get('.user-menu-name button span').should('not.have.text', userName);
+});
+
+then('The username button does not exist', () => {
+    cy.get('.user-menu-name button span').should('not.exist');
 });
 
 then('I see the app selection icon', () => {
@@ -431,8 +437,7 @@ then('The image is not displayed', () => {
 });
 
 then('The current session modal is visible', () => {
-    cy.get('.modal').should('be.visible');
-    cy.waitFor('.modal', 10000);
+    cy.get('.modal', { timeout: 10000 }).should('be.visible');
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {
@@ -448,7 +453,7 @@ then('The user email {string} is shown', (userEmail) => {
 });
 
 then('The technical user email is hidden', () => {
-    cy.contains('.user-details--break-all p', 'Email').should('not.be.visible');
+    cy.contains('.user-details--break-all p', 'Email').should('not.exist');
 });
 
 then('The language select is visible', () => {
@@ -468,8 +473,8 @@ then('The apply and close buttons are visible', () => {
     cy.get('button').contains('Close').should('be.visible');
 });
 
-then('The logout button is hidden', () => {
-    cy.get('.btn-danger').should('not.be.visible');
+then('The logout button should not exist', () => {
+    cy.get('.btn-danger').should('not.exist');
 });
 
 then('The apply button is disabled', () => {

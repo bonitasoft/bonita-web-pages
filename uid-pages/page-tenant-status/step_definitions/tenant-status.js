@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const url = 'build/dist/resources/index.html';
 
 given('Server tenant is running', () => {
@@ -85,8 +87,8 @@ then('I see the license information is displayed correctly for the community edi
         cy.contains('p', '7.8.0-SNAPSHOT').should('be.visible');
         cy.contains('label', 'Edition:').should('be.visible');
         cy.contains('p', 'Community').should('be.visible');
-        cy.contains('label', 'License expiration date:').should('not.be.visible');
-        cy.contains('p', '7/28/21 12:00 AM').should('not.be.visible');
+        cy.contains('label', 'License expiration date:').should('not.exist');
+        cy.contains('p', '7/28/21 12:00 AM').should('not.exist');
 
     });
 });

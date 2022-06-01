@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
@@ -213,19 +215,22 @@ when("I click on refresh", ()=>{
 });
 
 then("The failed flow nodes list have the correct information", () => {
+    cy.contains('.item-label-container p', 'Priority').should('be.visible');
+    cy.contains('.item-label-container p', 'ID').should('be.visible');
+    cy.contains('.item-label-container p', 'Display name').should('be.visible');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Type').should('be.visible');
+    cy.contains('.item-label-container p', 'Failed on').should('be.visible');
+    cy.contains('.item-label-container p', 'Done on').should('not.exist');
+    cy.contains('.item-label-container p', 'Due date').should('not.exist');
+    cy.contains('.item-label-container p', 'View details').should('be.visible');
     cy.get('.task-item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('--');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60002');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('ALowScenario');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('ALowScenario display name');
-        cy.get('.item-label').contains('Type');
         cy.get('.item-value').contains('User task');
-        cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('3001');
@@ -235,21 +240,15 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('generateRandomCases display name');
         cy.get('.item-label').contains('Description');
         cy.get('.item-value').contains('This is a failed flow node description.');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Lowest');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60003');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Lowest Scenario');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('A Lowest Scenario display name');
-        cy.get('.item-label').contains('Type');
         cy.get('.item-value').contains('User task');
-        cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('4001');
@@ -257,21 +256,15 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('generateCases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('generateCases display name');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Highest');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60004');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Highest Scenario');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('A Highest Scenario display name');
-        cy.get('.item-label').contains('Type');
         cy.get('.item-value').contains('User task');
-        cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('5001');
@@ -279,21 +272,15 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('cases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('Cases display name');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('High');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60005');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A High Scenario');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('A High Scenario display name');
-        cy.get('.item-label').contains('Type');
         cy.get('.item-value').contains('User task');
-        cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('6001');
@@ -301,21 +288,15 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('donotgenerateRandomCases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('Do not generateRandomCases display name');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(4).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Normal');
-        cy.get('.item-label').contains('ID');
         cy.get('.item-value').contains('60006');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('A Normal Scenario');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('A Normal Scenario display name');
-        cy.get('.item-label').contains('Type');
         cy.get('.item-value').contains('User task');
-        cy.get('.item-label').contains('Failed on');
         cy.get('.item-value').contains('1/16/20 10:13 AM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('7001');
@@ -323,7 +304,7 @@ then("The failed flow nodes list have the correct information", () => {
         cy.get('.item-value').contains('donotgenerateCases (1.0)');
         cy.get('.item-label').contains('Process display name');
         cy.get('.item-value').contains('Do not generateCases display name');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details')
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
 });
 
@@ -381,13 +362,13 @@ then("No failed flow nodes are available", () => {
 });
 
 then("The more button has correct href with {string}", (flowNodeId) => {
-    cy.get('a .glyphicon-option-horizontal').parent().should('have.attr', 'href', failedFlowNodeDetailsUrl + flowNodeId);
+    cy.get('a .glyphicon-eye-open').parent().should('have.attr', 'href', failedFlowNodeDetailsUrl + flowNodeId);
 });
 
 then("Only the no failed flow node is displayed", () => {
     cy.contains('h4:visible', 'No failed flow nodes to display').should('be.visible');
-    cy.contains('h4:visible', 'No done tasks to display').should('not.be.visible');
-    cy.contains('h4:visible', 'No pending tasks to display').should('not.be.visible');
+    cy.contains('h4:visible', 'No done tasks to display').should('not.exist');
+    cy.contains('h4:visible', 'No pending tasks to display').should('not.exist');
 });
 
 then("The filter by process is disabled", () => {

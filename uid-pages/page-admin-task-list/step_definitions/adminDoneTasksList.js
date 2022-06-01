@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=rootContainerId&d=assigned_id';
@@ -192,19 +194,22 @@ when("I click on Load more tasks button", () => {
 });
 
 then("The done tasks list have the correct information", () => {
+    cy.contains('.item-label-container p', 'Priority').should('be.visible');
+    cy.contains('.item-label-container p', 'ID (original)').should('be.visible');
+    cy.contains('.item-label-container p', 'Display name').should('be.visible');
+    cy.contains('.item-label-container p', 'Name').should('be.visible');
+    cy.contains('.item-label-container p', 'Type').should('be.visible');
+    cy.contains('.item-label-container p', 'Done on').should('be.visible');
+    cy.contains('.item-label-container p', 'Failed on').should('not.exist');
+    cy.contains('.item-label-container p', 'Due date').should('not.exist');
+    cy.contains('.item-label-container p', 'View details').should('be.visible');
+
     cy.get('.task-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-label').contains('Priority');
         cy.get('.item-value').contains('Lowest');
-        cy.get('.item-label').contains('ID (original)');
         cy.get('.item-value').contains('140081');
-        cy.get('.item-label').contains('Name');
         cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-label').contains('Display name');
         cy.get('.item-value').contains('InvolveUserDisplayName');
-        cy.get('.item-label').contains('Failed on').should("not.exist");
-        cy.get('.item-label').contains('Due date').should("not.exist");
-        cy.get('.item-label').contains('Done on');
         cy.get('.item-value').contains('2/5/20 4:00 PM');
         cy.get('.item-label').contains('Case ID');
         cy.get('.item-value').contains('7024');
@@ -214,7 +219,7 @@ then("The done tasks list have the correct information", () => {
         cy.get('.item-value').contains('Publish daily meal by mail for all the team');
         cy.get('.item-label').contains('Description');
         cy.get('.item-value').contains('This is a done task description.');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View task details');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details');
     });
 });
 
@@ -286,9 +291,9 @@ then("I see the done tasks page", () => {
 then("No done tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
     cy.get('h4:visible').contains('No done tasks to display').should('be.visible');
-    cy.get('h4:visible').contains('No failed flow nodes to display').should('not.be.visible');
+    cy.get('h4:visible').contains('No failed flow nodes to display').should('not.exist');
 });
 
 then("The more button has correct href with {string} for done tasks", (doneTaskId) => {
-    cy.get('a .glyphicon-option-horizontal:visible').parent().should('have.attr', 'href', doneTaskDetailsUrl + doneTaskId);
+    cy.get('a .glyphicon-eye-open:visible').parent().should('have.attr', 'href', doneTaskDetailsUrl + doneTaskId);
 });

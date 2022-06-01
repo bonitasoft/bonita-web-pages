@@ -324,7 +324,20 @@ Feature: The Admin Profiles in desktop resolution
     When I click on show organization mapping button for first profile
     Then I see the mapping information for first profile
 
-  Scenario: The do for button is not displayed when feature does not exist
+  Scenario: The missing profile features works correctly
     Given The response "default filter with missing features" is defined
     When I visit the admin profiles page
     Then Some features are not available
+
+  Scenario: The import profile works correctly
+    Given The response "file upload" is defined
+    And The response "default filter with headers" is defined
+    And The response "profile installation" is defined
+    When I visit the admin profiles page
+    And I click on add button
+    And I click on import profiles
+    And I click on attach icon
+    Then It uploads a profile
+    When I click on the "Add" button in modal footer
+    Then The profile is installed
+

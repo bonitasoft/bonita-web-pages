@@ -101,9 +101,70 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     margin-right: 0;
 }
 
+.pt-5,
 .pt-5.component {
     padding-top: 5px;
 }
+
+.main-container .row:nth-child(3),
+.main-container .row:nth-child(3)>div,
+.item-label-container > .row 
+{
+    display: contents;
+}
+
+
+.main-container > .row:nth-child(3){
+    display: block;
+    position: sticky;
+    z-index: 2;
+    top: -15px;
+}
+
+.item-label-container {
+    position: sticky;
+    margin-top: 15px;
+    padding-top: 10px;
+    font-size: 13px;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: bold;
+    z-index: 2;
+    border-radius: 5px;
+    margin-left: -15px;
+    width: calc(100% + 3rem);
+}
+
+.action-button-container a,
+.action-button-container button {
+    padding: 0;
+}
+
+/* For mobile view only */
+.mobile-action-buttons-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+}
+
+.mobile-action-buttons-container .row {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+/* Spinner */
+.gly-spin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+
 
 /* Spinner */
 .gly-spin {

@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const archivedCaseUrl = 'build/dist/resources/index.html?id=30003';
 const openCaseUrl = 'build/dist/resources/index.html?id=30004';
 const caseUrlWithoutId = 'build/dist/resources/index.html';
@@ -208,7 +210,7 @@ then('I can see the open case ID', () => {
 });
 
 then('I cannot see the archived case ID', () => {
-    cy.get('pb-title').contains('Archived case id').should('not.be.visible');
+    cy.get('pb-title').contains('Archived case id').should('not.exist');
 });
 
 then('The correct BDM headers are visible', () => {

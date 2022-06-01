@@ -1,3 +1,5 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0&d=updatedBy';
@@ -33,6 +35,12 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
+            break;
+        case 'file upload':
+            cy.intercept('POST', urlPrefix + 'API/pageUpload?action=add', {"filename": "resource.zip","tempPath":"tmp_16316991244937497118.zip","contentType":"application\/zip"});
+            break;
+        case 'resource installation':
+            cy.intercept('POST', urlPrefix + 'API/portal/page', {pageZip: "tmp_16316991244937497118.zip", contentName: "resource.zip"});
             break;
         default:
             throw new Error("Unsupported case");
@@ -241,6 +249,10 @@ when("I click on install button in the page", () => {
         cy.get('button').contains('Install').click();
 });
 
+when("I click on install button in modal", () => {
+    cy.get('.modal-footer button').contains('Install').click();
+});
+
 when("I click on close button in the modal", () => {
     cy.get('button').contains('Close').click();
 });
@@ -250,36 +262,37 @@ when("I click on cancel button in the modal", () => {
 });
 
 when("I click on {string} button on the resource {string}", (iconName, resourceNumber) => {
-    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).click();
+    cy.get('.action-button-container .glyphicon-' + iconName).eq(resourceNumber - 1).click();
 });
 
 when("I click on delete button in modal", () => {
     cy.get('button').contains('Delete').click();
 });
 
+when("I click on attach icon", () => {
+    cy.get('.modal-body .file-upload .input-group-btn').click();
+});
+
 then("The resources have the correct information", () => {
+    cy.contains('.item-label-container', 'Resource name').should('be.visible');
+    cy.contains('.item-label-container', 'Type').should('be.visible');
+    cy.contains('.item-label-container', 'Updated by').should('be.visible');
+    cy.contains('.item-label-container', 'Updated on').should('be.visible');
+    cy.contains('.item-label-container', 'Actions').should('be.visible');
     cy.get('.resource-item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.resource-property-label').contains('Resource name');
         cy.get('.resource-property-value').contains('Page 1');
-        cy.get('.resource-property-label').contains('Type');
         cy.get('.resource-property-value').contains('Pages');
-        cy.get('.resource-property-label').contains('Updated by');
         cy.get('.resource-property-value').contains('Walter Bates');
-        cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 2:00 PM');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_userApplication');
     });
 
     cy.get('.resource-item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.resource-property-label').contains('Resource name');
         cy.get('.resource-property-value').contains('Page 2');
-        cy.get('.resource-property-label').contains('Type');
         cy.get('.resource-property-value').contains('Pages');
-        cy.get('.resource-property-label').contains('Updated by');
         cy.get('.resource-property-value').contains('helen.kelly');
-        cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
         cy.get('.glyphicon-info-sign').should('have.attr', 'title', 'Resource token: custompage_myCustomThemeReadable');
         cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
@@ -288,13 +301,9 @@ then("The resources have the correct information", () => {
 
     cy.get('.resource-item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.resource-property-label').contains('Resource name');
         cy.get('.resource-property-value').contains('Page 3');
-        cy.get('.resource-property-label').contains('Type');
         cy.get('.resource-property-value').contains('Pages');
-        cy.get('.resource-property-label').contains('Updated by');
         cy.get('.resource-property-value').contains('System');
-        cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:29 AM');
         cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
         cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
@@ -302,26 +311,18 @@ then("The resources have the correct information", () => {
 
     cy.get('.resource-item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.resource-property-label').contains('Resource name');
         cy.get('.resource-property-value').contains('Page 4');
-        cy.get('.resource-property-label').contains('Type');
         cy.get('.resource-property-value').contains('Pages');
-        cy.get('.resource-property-label').contains('Updated by');
         cy.get('.resource-property-value').contains('thomas.wallis');
-        cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:28 AM');
         cy.get('img.is-provided-icon').should('be.visible').should('have.attr', 'src', 'assets/img/bonitasoftLogo.png');
         cy.get('img.is-provided-icon').should('have.attr', 'title', 'Provided');
     });
 
     cy.get('.resource-item').eq(4).within(() => {
-        cy.get('.resource-property-label').contains('Resource name');
         cy.get('.resource-property-value').contains('Theme 1');
-        cy.get('.resource-property-label').contains('Type');
         cy.get('.resource-property-value').contains('Themes');
-        cy.get('.resource-property-label').contains('Updated by');
         cy.get('.resource-property-value').contains('william.jobs');
-        cy.get('.resource-property-label').contains('Updated on');
         cy.get('.resource-property-value').contains('12/10/19 11:27 AM');
     });
     cy.contains('.text-primary.resource-property-label', 'Resources shown: 5 of 5');
@@ -423,7 +424,7 @@ then("The modal {string} button is disabled",(buttonLabel) => {
 });
 
 then("The modal is closed",() => {
-    cy.get('.modal').should('not.visible');
+    cy.get('.modal').should('not.exist');
 });
 
 then("The modal delete is displayed for {string}", (resourceName) => {
@@ -506,11 +507,21 @@ then("The warning message is displayed with the token {string}", (pageToken) => 
 });
 
 then("The {string} button for the resource {string} is not disabled and has no tooltip", (iconName, resourceNumber) => {
-    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('not.be.disabled');
-    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('not.have.attr', 'title');
+    cy.get('.action-button-container .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('not.be.disabled');
+    cy.get('.action-button-container .glyphicon-' + iconName).eq(resourceNumber - 1).should('not.have.attr', 'title');
 });
 
 then("The {string} button for the resource {string} is disabled and has a tooltip", (iconName, resourceNumber) => {
-    cy.get('button .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('be.disabled');
-    cy.get('button .glyphicon-' + iconName).eq(resourceNumber - 1).should('have.attr', 'title');
+    cy.get('.action-button-container .glyphicon-' + iconName).parent().eq(resourceNumber - 1).should('be.disabled');
+    cy.get('.action-button-container .glyphicon-' + iconName).eq(resourceNumber - 1).should('have.attr', 'title');
 });
+
+then("It uploads a resource", () => {
+    cy.get('.modal-body input[type="file"]').selectFile('test/mockServer/resource.zip', {force: true});
+    cy.get('.modal-body input[type="text"]').should('have.value', 'Uploading...');
+    cy.get('.modal-body .file-upload input[type="text"]').should('have.value', 'resource.zip');
+});
+
+then("The resource is installed", () => {
+    cy. contains(".modal-body p", "Resource successfully installed")
+})

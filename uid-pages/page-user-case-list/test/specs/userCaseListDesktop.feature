@@ -46,7 +46,7 @@ Feature: The user open case list in desktop resolution
     When I select "All processes (all versions)" in "process name" filter for "open" cases
     Then A list of open cases is displayed
     When I select "Cancel Vacation Request (1.0)" in "process name" filter for "open" cases
-    Then No open cases are available
+    Then No cases are available
 
   Scenario: The user archived case list filter by process name works correctly
     Given A list of no open cases is available
@@ -65,7 +65,7 @@ Feature: The user open case list in desktop resolution
     When I select "All processes (all versions)" in "process name" filter for "archived" cases
     Then A list of archived cases is displayed
     When I select "Cancel Vacation Request (1.0)" in "process name" filter for "archived" cases
-    Then No archived cases are available
+    Then No cases are available
 
   Scenario: The user open case list sort by works correctly
     Given A list of open cases is available
@@ -143,7 +143,7 @@ Feature: The user open case list in desktop resolution
     And I don't see the cases that are unmatched by the "search" filter
     And I erase the search filter
     When I search "Incorrect" in search filter
-    Then No open cases are available
+    Then No cases are available
 
   Scenario: Search by process name and search keys works correctly for archived cases
     Given A list of no open cases is available
@@ -165,7 +165,7 @@ Feature: The user open case list in desktop resolution
     And I don't see the cases that are unmatched by the "search" filter
     And I erase the search filter
     When I search "Incorrect" in search filter
-    Then No archived cases are available
+    Then No cases are available
 
   Scenario: The view open case details button works correctly
     Given A list of open cases is available
