@@ -1,0 +1,40 @@
+UIDesigner {
+    version "1.13.8"
+}
+
+allprojects {
+    apply plugin: 'distribution'
+    apply plugin: 'maven-publish'
+
+    group 'org.bonitasoft.web.page'
+
+    repositories {
+        mavenCentral()
+        if (project.hasProperty("extraRepositories")) {
+            def extraRepositories = project.getProperties().get("extraRepositories")
+            extraRepositories.split(",").each { repo ->
+                def repoProperties = repo.split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+
+    publishing {
+        repositories {
+            if (project.hasProperty("altDeploymentRepository")) {
+                def repoProperties = project.getProperties()."altDeploymentRepository".split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+}
