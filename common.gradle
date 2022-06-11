@@ -9,6 +9,7 @@ allprojects {
     group 'org.bonitasoft.web.page'
 
     repositories {
+        mavenLocal() // Keep me! Required for community build script
         mavenCentral()
         if (project.hasProperty("extraRepositories")) {
             def extraRepositories = project.getProperties().get("extraRepositories")
