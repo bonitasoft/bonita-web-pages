@@ -9,7 +9,10 @@ allprojects {
     group 'org.bonitasoft.web.page'
 
     repositories {
-        mavenLocal() // Keep me! Required for community build script
+        // Keep me! Required for interoperability with maven built dependencies (UI Designer)
+        // https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local
+        mavenLocal() 
+        
         mavenCentral()
         if (project.hasProperty("extraRepositories")) {
             def extraRepositories = project.getProperties().get("extraRepositories")
