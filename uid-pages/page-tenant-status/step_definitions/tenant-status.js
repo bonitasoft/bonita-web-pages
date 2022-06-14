@@ -4,12 +4,12 @@ const url = 'build/dist/resources/index.html';
 
 given('Server tenant is running', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantRunning').as('tenant');
+    cy.route('GET', 'build/dist/API/system/tenant/unusedId?t=0', 'fixture:tenantRunning').as('tenant');
 });
 
 given('Server tenant is paused', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantPaused').as('tenant');
+    cy.route('GET', 'build/dist/API/system/tenant/unusedId?t=0', 'fixture:tenantPaused').as('tenant');
 });
 
 given('I\'m logged as technical user', () => {
@@ -19,7 +19,7 @@ given('I\'m logged as technical user', () => {
 
 given('The tenant status page can refresh', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=1*', 'fixture:tenantPaused').as('tenantAfterRefresh');
+    cy.route('GET', 'build/dist/API/system/tenant/unusedId?t=1*', 'fixture:tenantPaused').as('tenantAfterRefresh');
 });
 
 given('The license information is defined', () => {
