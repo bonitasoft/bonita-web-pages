@@ -221,3 +221,17 @@ Feature: The admin archived case list in desktop resolution
     And No api call is made for open cases
     When I visit the admin case list page with "archived" tab query parameter
     Then I see an archived case list page
+
+  Scenario: The processId parameter for archived cases should be taken into account
+    Given The filter response "process name" is defined for archived cases
+    When I visit the admin archived case list page with processId query parameter
+    Then The api call is made with processId filter
+    And The process dropdown contains the name of the process from url
+
+  Scenario: The processId parameter for archived cases shouldn't be taken into account when the user selects a different process
+    Given The filter response "process name" is defined for archived cases
+    When I visit the admin archived case list page with processId query parameter
+    Then The api call is made with processId filter
+    And The process dropdown contains the name of the process from url
+    When I select a different process from process dropdown
+    Then The api call is made with a different processId for archived cases

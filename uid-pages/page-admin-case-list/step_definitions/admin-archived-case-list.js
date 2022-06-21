@@ -1,4 +1,5 @@
 const urlPrefix = 'build/dist/';
+const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=9999&p=0&o=displayName ASC';
@@ -165,6 +166,10 @@ given("No api call is made for open cases", () => {
             throw new Error("This should have not been called");
         }
     });
+});
+
+when("I visit the admin archived case list page with processId query parameter", () => {
+    cy.visit(url + '?tab=archived&processId=4778742813773463488');
 });
 
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {
@@ -343,4 +348,8 @@ then("The archived case list is refreshed", () => {
 
 then("The view archived case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, sourceObjecId) => {
     cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', archivedCaseDiagramUrl + processDefinitionId + '-' + sourceObjecId);
+});
+
+then("The api call is made with a different processId for archived cases", () => {
+    cy.wait('@archivedProcess1CasesRoute');
 });
