@@ -162,6 +162,10 @@ when("I visit the admin case list page", () => {
     cy.visit(url);
 });
 
+when("I visit the admin case list page with processId query parameter", () => {
+    cy.visit(url + "?processId=4778742813773463488");
+});
+
 when("I visit the admin case list page with {string} tab query parameter", (tabQueryParameterValue) => {
     cy.visit(url + "?tab=" + tabQueryParameterValue);
 });
@@ -277,6 +281,10 @@ when("I click on {string} in process dropdown", (processName) => {
 
 when("I clear the process name filter", () => {
     cy.get('.dropdown input').clear();
+});
+
+when("I select a different process from process dropdown", () => {
+    cy.get('select').eq(0).select('1');
 });
 
 then("The open case list have the correct information", () => {
@@ -440,4 +448,18 @@ then("I see {string} error message for {string}", (error, action) => {
 
 then("The view open case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, caseId) => {
     cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', openCaseDiagramUrl + processDefinitionId + '-' + caseId);
+});
+
+then("The api call is made with processId filter", () => {
+    cy.wait('@processesRoute');
+    cy.wait('@process2CasesRoute');
+});
+
+then("The process dropdown contains the name of the process from url", () => {
+    // Value 2 is the one for Process 2
+    cy.get('select').eq(0).should('have.value', '2');
+});
+
+then("The api call is made with a different processId", () => {
+    cy.wait('@process1CasesRoute');
 });
