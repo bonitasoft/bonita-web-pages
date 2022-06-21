@@ -5276,6 +5276,9 @@
         "        ",
         "        if ($data.processData.processId) {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
+        "        } else if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
+        "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
+        "            $data.processData.processId = $data.processIdQueryParam;",
         "        }",
         "        ",
         "        if ($data.openCaseData.filters.startedByMe) {",
@@ -5336,7 +5339,6 @@
         "// add next page of open cases to the list of next open cases to display\r",
         "// display the next cases from the memory\r",
         "if ($data.openCaseData.openCasesFromAPI && $data.openCaseData.openCasesFromAPI.length){\r",
-        "    console.log(\"Second\", $data.openCaseData.openCasesFromAPI);\r",
         "    $data.openCaseData.displayedOpenCases = $data.openCaseData.displayedOpenCases.concat($data.openCaseData.openCasesInMemory);\r",
         "    $data.openCaseData.pageId++;\r",
         "    $data.openCaseData.openCasesInMemory = $data.openCaseData.openCasesFromAPI;\r",
@@ -5444,6 +5446,9 @@
         "        ",
         "        if ($data.processData.processId) {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
+        "        } else if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
+        "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
+        "            $data.processData.processId = $data.processIdQueryParam;",
         "        }",
         "        ",
         "        if ($data.archivedCaseData.filters.startedByMe) {",
@@ -5607,13 +5612,20 @@
       "exposed" : false
     },
     "processUrl" : {
-      "type" : "url",
-      "value" : [
+      "type": "url",
+      "value": [
         "{{processCtrl.getProcessSearchUrl()}}"
       ],
-      "advancedOptions" : {
-        "statusCode" : "processData.statusCode"
+      "advancedOptions": {
+        "statusCode": "processData.statusCode"
       },
+      "exposed": false
+    },
+    "processIdQueryParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "processId"
+      ],
       "exposed" : false
     }
   },
