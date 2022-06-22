@@ -32,6 +32,12 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
+        case 'processId filter':
+            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            break;
         case 'sort by':
             createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
             createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
@@ -283,10 +289,6 @@ when("I clear the process name filter", () => {
     cy.get('.dropdown input').clear();
 });
 
-when("I select a different process from process dropdown", () => {
-    cy.get('select').eq(0).select('1');
-});
-
 then("The open case list have the correct information", () => {
     cy.wait('@openCases5Route');
     cy.get('.case-item:visible').eq(0).within(() => {
@@ -451,13 +453,12 @@ then("The view open case diagram button in the list has correct href with {strin
 });
 
 then("The api call is made with processId filter", () => {
-    cy.wait('@processesRoute');
     cy.wait('@process2CasesRoute');
 });
 
-then("The process dropdown contains the name of the process from url", () => {
+then("The process filter contains the name of the process from url", () => {
     // Value 2 is the one for Process 2
-    cy.get('select').eq(0).should('have.value', '2');
+    cy.get('.dropdown input').should('have.value', 'Process 2');
 });
 
 then("The api call is made with a different processId", () => {

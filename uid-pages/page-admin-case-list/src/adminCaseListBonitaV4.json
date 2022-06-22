@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV4",
   "name" : "adminCaseListBonitaV4",
-  "lastUpdate" : 1649767598108,
+  "lastUpdate" : 1655908507453,
   "rows" : [
     [
       {
@@ -5276,9 +5276,8 @@
         "        ",
         "        if ($data.processData.processId) {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
-        "        } else if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
+        "        } else if ($data.processData.processByIdStatusCode === \"\" && $data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
-        "            $data.processData.processId = $data.processIdQueryParam;",
         "        }",
         "        ",
         "        if ($data.openCaseData.filters.startedByMe) {",
@@ -5309,7 +5308,9 @@
         "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters()}}&t={{openCaseData.timestamp}}"
       ],
       "advancedOptions" : {
-        "headers" : "openCaseData.openCasesHeaderResponse"
+        "headers" : "openCaseData.openCasesHeaderResponse",
+        "statusCode" : "",
+        "failedResponseValue" : ""
       },
       "exposed" : false
     },
@@ -5446,9 +5447,8 @@
         "        ",
         "        if ($data.processData.processId) {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
-        "        } else if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
+        "        } else if ($data.processData.processByIdStatusCode === \"\" && $data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
         "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
-        "            $data.processData.processId = $data.processIdQueryParam;",
         "        }",
         "        ",
         "        if ($data.archivedCaseData.filters.startedByMe) {",
@@ -5572,6 +5572,12 @@
         "            return \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch;    ",
         "        }",
         "        return undefined;",
+        "    },",
+        "    getProcessByIdUrl: function() {",
+        "        if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") { ",
+        "            return \"../API/bpm/process/\" + $data.processIdQueryParam;    ",
+        "        }",
+        "        return undefined;",
         "    }",
         "};"
       ],
@@ -5585,7 +5591,8 @@
         "    selectedProcessName: undefined,",
         "    processSearch: \"\",",
         "    processId: undefined,",
-        "    statusCode: \"\"",
+        "    statusCode: \"\",",
+        "    processByIdStatusCode: \"\"",
         "};"
       ],
       "exposed" : false
@@ -5612,19 +5619,43 @@
       "exposed" : false
     },
     "processUrl" : {
-      "type": "url",
-      "value": [
+      "type" : "url",
+      "value" : [
         "{{processCtrl.getProcessSearchUrl()}}"
       ],
-      "advancedOptions": {
-        "statusCode": "processData.statusCode"
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "processData.statusCode",
+        "failedResponseValue" : ""
       },
-      "exposed": false
+      "exposed" : false
     },
     "processIdQueryParam" : {
       "type" : "urlparameter",
       "value" : [
         "processId"
+      ],
+      "exposed" : false
+    },
+    "processById" : {
+      "type" : "url",
+      "value" : [
+        "{{processCtrl.getProcessByIdUrl()}}"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "processData.processByIdStatusCode"
+      },
+      "exposed" : false
+    },
+    "processByIdHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.processById) {",
+        "    $data.processData.processId = $data.processById.id;",
+        "    $data.processData.processSearch = $data.processById.displayName;",
+        "    $data.processData.selectedProcessName = $data.processData.processSearch;",
+        "    $data.processById = undefined;",
+        "}"
       ],
       "exposed" : false
     }
