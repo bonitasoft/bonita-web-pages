@@ -34,6 +34,12 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
+        case 'processId filter':
+            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            break;
         case 'sort by':
             createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
             createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
@@ -162,6 +168,10 @@ given("The filter response {string} is defined for open cases", (filterType) => 
 
 when("I visit the admin case list page", () => {
     cy.visit(url);
+});
+
+when("I visit the admin case list page with processId query parameter", () => {
+    cy.visit(url + "?processId=4778742813773463488");
 });
 
 when("I visit the admin case list page with {string} tab query parameter", (tabQueryParameterValue) => {
@@ -444,4 +454,17 @@ then("I see {string} error message for {string}", (error, action) => {
 
 then("The view open case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, caseId) => {
     cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', openCaseDiagramUrl + processDefinitionId + '-' + caseId);
+});
+
+then("The api call is made with processId filter", () => {
+    cy.wait('@process2CasesRoute');
+});
+
+then("The process filter contains the name of the process from url", () => {
+    // Value 2 is the one for Process 2
+    cy.get('.dropdown input').should('have.value', 'Process 2');
+});
+
+then("The api call is made with a different processId", () => {
+    cy.wait('@process1CasesRoute');
 });
