@@ -1,12 +1,12 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
 const urlPrefix = 'build/dist/';
+const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
 const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
-const openCasesRequestUrl = urlPrefix + 'API/bpm/case' + '?c=10&p=0' + defaultFilters + '&n=activeFlowNodes&n=failedFlowNodes&t=0';
 const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 
@@ -30,6 +30,12 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         case 'process name':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
+            break;
+        case 'processId filter':
+            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
             createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
             break;
@@ -154,6 +160,10 @@ given("The filter response {string} is defined for archived cases", (filterType)
             headers: headers
         }).as(routeName);
     }
+});
+
+when("I visit the admin archived case list page with processId query parameter", () => {
+    cy.visit(url + '?tab=archived&processId=4778742813773463488');
 });
 
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {
@@ -326,4 +336,12 @@ then("The archived case list is refreshed", () => {
 
 then("The view archived case diagram button in the list has correct href with {string}-{string}", (processDefinitionId, sourceObjecId) => {
     cy.get('.btn-link .glyphicon-picture').eq(0).parent().should('have.attr', 'href', archivedCaseDiagramUrl + processDefinitionId + '-' + sourceObjecId);
+});
+
+then("The api call is made with processId filter for archived cases", () => {
+    cy.wait('@archivedProcess2CasesRoute');
+});
+
+then("The api call is made with a different processId for archived cases", () => {
+    cy.wait('@archivedProcess1CasesRoute');
 });
