@@ -196,3 +196,9 @@ Feature: The admin open case list in desktop resolution
     And I put "Process" in "process name" filter field for open cases
     And I click on "Process 1" in process dropdown
     Then The api call is made with a different processId
+
+  Scenario: The case visu button in open case list is not displayed when features does not exist
+    Given The filter response "default filter without features" is defined for open cases
+    When I visit the admin case list page
+    Then I see an open case list page
+    And There is no "case visu" button in the open case list

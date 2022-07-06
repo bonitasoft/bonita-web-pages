@@ -229,3 +229,12 @@ Feature: The admin archived case list in desktop resolution
     And I put "Process" in "process name" filter field for archived cases
     And I click on "Process 1" in process dropdown
     Then The api call is made with a different processId for archived cases
+
+  Scenario: The case visu button in archived case list is not displayed when features does not exist
+    Given The filter response "no open cases" is defined for open cases
+    And The filter response "default filter without features" is defined for archived cases
+    When I visit the admin case list page
+    And I wait for no open cases api call
+    And I click on "Archived cases" tab
+    Then I see an archived case list page
+    And There is no "case visu" button in the archived case list
