@@ -7,6 +7,7 @@ const adminArchivedCaseListUrl = 'API/bpm/archivedCase';
 const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters;
 const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
+const featuresListUrl = urlPrefix + 'API/system/feature?p=0&c=100';
 
 given("The filter response {string} is defined for archived cases", (filterType) => {
     cy.server();
@@ -22,9 +23,14 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         case "default filter":
             createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases5Route', 'archivedCases5');
+            createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
+            break;
+        case "default filter without features":
+            createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases5Route', 'archivedCases5');
             break;
         case "default filter with headers":
             createRouteWithResponseAndHeaders('&t=0', 'archivedCases5Route', 'archivedCases5', {'content-range': '0-5/5'});
+            createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case 'process name':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
@@ -264,7 +270,9 @@ then("The archived case list have the correct information", () => {
         cy.get('.item-value').contains('completed');
         cy.get('.item-label').contains('Pending flow nodes').should('not.exist');
         cy.get('.item-label').contains('Failed flow nodes').should('not.exist');
-        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-option-horizontal').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
     });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
 });
@@ -340,4 +348,8 @@ then("The api call is made with processId filter for archived cases", () => {
 
 then("The api call is made with a different processId for archived cases", () => {
     cy.wait('@archivedProcess1CasesRoute');
+});
+
+then("There is no {string} button in the archived case list", (btnLabel) => {
+    cy.get('.glyphicon-picture').should('not.exist');
 });
