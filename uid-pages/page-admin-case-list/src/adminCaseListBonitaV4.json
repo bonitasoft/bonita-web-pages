@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV4",
   "name" : "adminCaseListBonitaV4",
-  "lastUpdate" : 1655908507453,
+  "lastUpdate" : 1657101322043,
   "rows" : [
     [
       {
@@ -2550,8 +2550,8 @@
                                           "value" : "mr-0 p-0"
                                         },
                                         "hidden" : {
-                                          "type" : "constant",
-                                          "value" : false
+                                          "type" : "expression",
+                                          "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")"
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -5403,8 +5403,8 @@
                                           "value" : "mr-0 p-0"
                                         },
                                         "hidden" : {
-                                          "type" : "constant",
-                                          "value" : false
+                                          "type" : "expression",
+                                          "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")"
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -7357,6 +7357,37 @@
         "    $data.processData.selectedProcessName = $data.processData.processSearch;",
         "    $data.processById = undefined;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        if (!$data.featuresList) {",
+        "            return false;",
+        "        }",
+        "        var featureAvailable = false;",
+        "        ",
+        "        $data.featuresList.forEach((f) => {",
+        "            if (f.name === feature) {",
+        "                featureAvailable = true;",
+        "                return;",
+        "            }",
+        "        });",
+        "        ",
+        "        return featureAvailable;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
