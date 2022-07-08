@@ -15,7 +15,7 @@ pipeline {
                             " -PsnapshotsPassword=${env.REPOSITORY_PASSWORD}" +
                             " -PstagingUsername=${env.REPOSITORY_USERNAME}" +
                             " -PstagingPassword=${env.REPOSITORY_PASSWORD}" +
-                            " -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_TAG}"
+                            " -PaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_STAGING}"
                 }
             }
         }
