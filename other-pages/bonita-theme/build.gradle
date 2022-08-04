@@ -1,0 +1,14 @@
+apply plugin: BonitaPagePlugin
+
+bonitaPage {
+    frontendBuildDir = 'public'
+    lintCheck.enabled=false
+}
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) { artifact distZip }
+    }
+}
+
+
