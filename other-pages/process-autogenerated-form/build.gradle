@@ -1,0 +1,14 @@
+apply plugin: BonitaPagePlugin
+
+bonitaPage {
+    frontendBuildDir = 'build'
+}
+
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) { artifact distZip }
+    }
+}
+// Workaround to manage non conventional build directory
+project.buildDir = 'build-gradle'
