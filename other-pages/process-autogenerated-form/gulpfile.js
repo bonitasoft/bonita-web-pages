@@ -18,7 +18,6 @@ var usemin = require('gulp-usemin');
 var htmlmin = require('gulp-htmlmin');
 var rev = require('gulp-rev');
 var clean = require('gulp-clean');
-var html2js = require('gulp-ng-html2js');
 var concat = require('gulp-concat');
 var zip = require('gulp-zip');
 var runSequence = require('gulp4-run-sequence');
@@ -86,26 +85,13 @@ gulp.task('clean', function () {
     }));
 });
 
-/**
- * template inlining
- */
-gulp.task('html2js', function () {
-  return gulp.src(['src/**/*.html', '!src/index.html'])
-    .pipe(plumber())
-    .pipe(html2js({
-      useStrict: true
-    }))
-    .pipe(concat('templates.js'))
-    .pipe(gulp.dest('build/work'));
-});
-
 /* usemin task */
-gulp.task('usemin',  gulp.series(['html2js'], function () {
+gulp.task('usemin', function () {
   return gulp.src('src/index.html')
     .pipe(plumber())
     .pipe(usemin(useminOpt))
     .pipe(gulp.dest('build/dist'));
-}));
+});
 
 /** temp task to rename resource path after building dist */
 var replace = require('gulp-replace');
@@ -146,11 +132,11 @@ gulp.task('jshint', function () {
 /**
  * Server task
  */
-gulp.task('server', gulp.series(['html2js'], function () {
+gulp.task('server', function () {
   serve({
     livereload: true
   });
-}));
+});
 
 /**
  * Watch task
