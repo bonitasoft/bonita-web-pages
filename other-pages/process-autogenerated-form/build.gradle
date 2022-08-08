@@ -1,14 +1,24 @@
 apply plugin: BonitaPagePlugin
 
 bonitaPage {
-    frontendBuildDir = 'build'
+    frontendBuildDir = 'build/dist/resources'
 }
 
+distTar.enabled = false
+
+project.distributions {
+    main {
+        contents {
+            from('build/dist') {
+                into '/'
+                include 'index.html'
+            }
+        }
+    }
+}
 
 publishing {
     publications {
         distributionZip(MavenPublication) { artifact distZip }
     }
 }
-// Workaround to manage non conventional build directory
-project.buildDir = 'build-gradle'

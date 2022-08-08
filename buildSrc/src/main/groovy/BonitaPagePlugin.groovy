@@ -1,6 +1,5 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.repositories.IvyArtifactRepository
 
 class BonitaPagePlugin implements Plugin<Project> {
 
@@ -60,7 +59,7 @@ class BonitaPagePlugin implements Plugin<Project> {
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             group 'Bonita'
-            description 'Clean node moodule for this project'
+            description 'Clean node module for this project'
             doFirst {
                 project.delete extension.frontendBuildDir
             }
