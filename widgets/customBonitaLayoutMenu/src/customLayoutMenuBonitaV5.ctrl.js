@@ -29,6 +29,7 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
         // if the super admin is logged in there is no userId
         if (!$scope.properties.userId) {
             refreshPage();
+            return false;
         }
         // make sure the user is still logged in before refreshing the iframe
         verifySession().then(setTargetedUrl, refreshPage);
