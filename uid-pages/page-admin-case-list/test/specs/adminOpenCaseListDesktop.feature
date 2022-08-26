@@ -202,3 +202,9 @@ Feature: The admin open case list in desktop resolution
     When I visit the admin case list page
     Then I see an open case list page
     And There is no "case visu" button in the open case list
+
+  Scenario: The open case list header is visible when there is no item displayed
+    Given The filter response "process name" is defined for open cases
+    When I visit the admin case list page
+    Then The open case item header is displayed correctly
+    And No open cases are available
