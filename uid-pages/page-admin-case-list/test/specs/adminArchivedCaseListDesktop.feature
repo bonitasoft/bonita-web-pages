@@ -239,3 +239,12 @@ Feature: The admin archived case list in desktop resolution
     And I click on "Archived cases" tab
     Then I see an archived case list page
     And There is no "case visu" button in the archived case list
+
+  Scenario: The archived case list header is visible when there is no item displayed
+    Given The filter response "no open cases" is defined for open cases
+    And The filter response "process name" is defined for archived cases
+    When I visit the admin case list page
+    And I wait for no open cases api call
+    And I click on "Archived cases" tab
+    Then The archived case item header is displayed correctly
+    And No archived cases are available
