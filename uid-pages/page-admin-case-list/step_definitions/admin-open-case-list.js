@@ -478,3 +478,15 @@ then("The api call is made with a different processId", () => {
 then("There is no {string} button in the open case list", (btnLabel) => {
     cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('not.be.visible');
 });
+
+then("The open case item header is displayed correctly", () => {
+    cy.contains('.item-label-container p', 'Case ID').should('be.visible');
+    cy.contains('.item-label-container p', 'Process name (version)').should('be.visible');
+    cy.contains('.item-label-container p', 'Started by').should('be.visible');
+    cy.contains('.item-label-container p', 'Start date').should('be.visible');
+    cy.contains('.item-label-container p', 'End date').should("not.exist");
+    cy.contains('.item-label-container p', 'Failed flow nodes').should('be.visible');
+    cy.get('.item-label-container i.glyphicon-info-sign').should('have.attr', 'title', 'Aggregates tasks in states ready, waiting, executing, completing, and initializing.');
+    cy.contains('.item-label-container p', 'Pending flow nodes').should('be.visible');
+    cy.contains('.item-label-container p', 'Actions').should('be.visible');
+});
