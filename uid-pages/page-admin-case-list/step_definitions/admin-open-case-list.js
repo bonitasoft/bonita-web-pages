@@ -331,6 +331,72 @@ then("The open case list have the correct information", () => {
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
         cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
     });
+    cy.get('.case-item:visible').eq(2).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('3003');
+        cy.get('.item-value').contains('Process 1 (1.0)');
+        cy.get('.item-value').contains('System for Walter Bates');
+        cy.get('.item-value').contains('2/8/21 10:41 AM');
+        cy.get('.item-value').contains('16');
+        cy.get('.item-value').contains('0');
+        cy.get('.item-label').contains('Key 1');
+        cy.get('.item-value').contains('Value 1');
+        cy.get('.item-label').contains('Key 2');
+        cy.get('.item-value').contains('Value 2');
+        cy.get('.item-label').contains('Key 3');
+        cy.get('.item-value').contains('Value 3');
+        cy.get('.item-label').contains('Key 4');
+        cy.get('.item-value').contains('Value 4');
+        cy.get('.item-label').contains('Key 5');
+        cy.get('.item-value').contains('Value 5');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
+    cy.get('.case-item:visible').eq(3).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('3004');
+        cy.get('.item-value').contains('Process 2 (1.0)');
+        cy.get('.item-value').contains('Helen Kelly for Walter Bates');
+        cy.get('.item-value').contains('2/8/21 10:43 AM');
+        cy.get('.item-value').contains('16');
+        cy.get('.item-value').contains('0');
+        cy.get('.item-label').contains('Key 1');
+        cy.get('.item-value').contains('Value 1');
+        cy.get('.item-label').contains('Key 2');
+        cy.get('.item-value').contains('Value 2');
+        cy.get('.item-label').contains('Key 3');
+        cy.get('.item-value').contains('Value 3');
+        cy.get('.item-label').contains('Key 4');
+        cy.get('.item-value').contains('Value 4');
+        cy.get('.item-label').contains('Key 5');
+        cy.get('.item-value').contains('Value 5');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
+    cy.get('.case-item:visible').eq(4).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('3005');
+        cy.get('.item-value').contains('Process 3 (1.0)');
+        cy.get('.item-value').contains('System');
+        cy.get('.item-value').contains('2/8/21 10:41 AM');
+        cy.get('.item-value').contains('16');
+        cy.get('.item-value').contains('0');
+        cy.get('.item-label').contains('Key 1');
+        cy.get('.item-value').contains('Value 1');
+        cy.get('.item-label').contains('Key 2');
+        cy.get('.item-value').contains('Value 2');
+        cy.get('.item-label').contains('Key 3');
+        cy.get('.item-value').contains('Value 3');
+        cy.get('.item-label').contains('Key 4');
+        cy.get('.item-value').contains('Value 4');
+        cy.get('.item-label').contains('Key 5');
+        cy.get('.item-value').contains('Value 5');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
     cy.get('.text-primary.item-label:visible').contains('Cases shown: 5 of 5');
 });
 
