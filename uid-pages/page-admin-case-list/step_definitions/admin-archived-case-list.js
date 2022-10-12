@@ -268,9 +268,45 @@ then("The archived case list have the correct information", () => {
         cy.get('.item-value').contains('2042');
         cy.get('.item-value').contains('Process 1 (1.0)');
         cy.get('.item-value').contains('Process display name 1');
-        cy.get('.item-value').contains('Walter Bates');
+        cy.get('.item-value').contains('System for Walter Bates');
         cy.get('.item-value').contains('2/5/21 2:12 PM');
         cy.get('.item-value').contains('2/5/21 4:00 PM');
+        cy.get('.item-value').contains('completed');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
+    cy.get('.case-item:visible').eq(1).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('2048');
+        cy.get('.item-value').contains('Process 2 (1.0)');
+        cy.get('.item-value').contains('Walter Bates');
+        cy.get('.item-value').contains('2/5/21 2:13 PM');
+        cy.get('.item-value').contains('2/5/21 6:10 PM');
+        cy.get('.item-value').contains('completed');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
+    cy.get('.case-item:visible').eq(2).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('2049');
+        cy.get('.item-value').contains('Process 3 (1.0)');
+        cy.get('.item-value').contains('System');
+        cy.get('.item-value').contains('2/5/21 2:13 PM');
+        cy.get('.item-value').contains('2/5/21 6:10 PM');
+        cy.get('.item-value').contains('completed');
+        cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
+        cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
+        cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
+    });
+    cy.get('.case-item:visible').eq(4).within(() => {
+        // Check that the element exist.
+        cy.get('.item-value').contains('2060');
+        cy.get('.item-value').contains('Process 1 (1.0)');
+        cy.get('.item-value').contains('Walter Bates for Helen Kelly');
+        cy.get('.item-value').contains('2/5/21 6:13 PM');
+        cy.get('.item-value').contains('2/5/21 6:13 PM');
         cy.get('.item-value').contains('completed');
         cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('be.visible');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
