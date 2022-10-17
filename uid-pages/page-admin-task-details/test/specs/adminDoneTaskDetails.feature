@@ -20,3 +20,8 @@ Feature: The Admin Done Task Details in desktop resolution
     And The response "archived connectors" is defined for done tasks
     When I visit the admin done task details page
     Then The done task details show the connectors correctly
+
+  Scenario: The admin done task details displays the correct attributes
+    Given The response "default details without executedBySubstitute" is defined for done tasks
+    When I visit the admin done task details page
+    Then The executedBy information is displayed correctly when executedBySubstitute is undefined

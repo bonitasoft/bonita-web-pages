@@ -17,6 +17,9 @@ given("The response {string} is defined for done tasks", (responseType) => {
         case 'default details':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'doneTaskDetailsRoute', 'doneTaskDetails');
             break;
+        case 'default details without executedBySubstitute':
+            createRouteWithResponse(doneTaskUrl + defaultFilters, 'doneTaskDetailsNoSubstituteRoute', 'doneTaskDetailsNoSubstitute');
+            break;
         case 'archived comments':
             createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
             createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'archivedCommentsRoute', 'archivedComments');
@@ -79,6 +82,37 @@ then("The done task details have the correct information", () => {
     cy.get('.item-value').contains('4/30/20 9:22');
     cy.get('.item-label').contains('Executed by');
     cy.get('.item-value').contains('Daniela Angelo for Walter Bates');
+});
+
+then("The executedBy information is displayed correctly when executedBySubstitute is undefined", () => {
+    cy.get('h3').contains('New task without executedBySubstitute (81358)');
+    cy.get('.item-value').contains('This is a task display description without executedBySubstitute.');
+    cy.get('h4').contains('General');
+    cy.get('.item-label').contains('Display name');
+    cy.get('.item-value').contains('New task without executedBySubstitute');
+    cy.get('.item-label').contains('Type');
+    cy.get('.item-value').contains('USER_TASK');
+    cy.get('.item-label').contains('Priority');
+    cy.get('.item-value').contains('normal');
+    cy.get('.item-label').contains('Due date');
+    cy.get('.item-value').contains('--');
+    cy.get('.item-label').contains('Case Id');
+    cy.get('.item-value a.btn-link').should('have.attr', 'href', '../../admin-case-details/content/?id=4288');
+    cy.get('.item-label').contains('Process name (version)');
+    cy.get('.item-value').contains('PublishDailyMeal (1.0)');
+    cy.get('.item-label').contains('Process display name');
+    cy.get('.item-value').contains('Publish daily meal by mail for all the team');
+    cy.get('.item-label').contains('State');
+    cy.get('.item-value').contains('completed');
+    cy.get('.item-label').contains('Failed on').should('not.exist');
+    cy.get('.item-label').contains('Done on');
+    cy.get('.item-value').contains('4/30/21 9:22 AM');
+    cy.get('.item-label').contains('Assigned to');
+    cy.get('.item-value').contains('Walter Bates');
+    cy.get('.item-label').contains('Assigned on');
+    cy.get('.item-value').contains('4/30/21 9:22');
+    cy.get('.item-label').contains('Executed by');
+    cy.get('.item-value').contains('Walter Bates');
 });
 
 then("The back button has correct href", () => {
