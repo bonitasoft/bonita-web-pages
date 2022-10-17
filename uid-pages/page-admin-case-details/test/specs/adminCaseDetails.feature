@@ -8,7 +8,8 @@ Feature: The Admin Case Details in desktop resolution
   Scenario: The admin case details displays no search keys
     Given The response "default details without search keys" is defined
     When I visit the admin case details page
-    Then There are no search keys
+    Then The startedBy information is displayed correctly when startedBySubstitute is undefined
+    And There are no search keys
 
   Scenario: The admin case details has the correct link to case list
     Given The response "default details" is defined

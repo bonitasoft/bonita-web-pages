@@ -241,6 +241,20 @@ then("The case details have the correct information", () => {
     cy.get('.item-value').contains('Search value 5');
 });
 
+then("The startedBy information is displayed correctly when startedBySubstitute is undefined", () => {
+    // Check that the element exist.
+    cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
+    cy.get('.item-value').contains('No description');
+    cy.get('.item-label').contains('Process display name');
+    cy.get('.item-value').contains('Pool display name');
+    cy.get('.item-label').contains('Started by');
+    cy.get('.item-value').contains('William Jobs');
+    cy.get('.item-label').contains('Started on');
+    cy.get('.item-value').contains('12/30/19 4:01 PM');
+    cy.get('.item-label').contains('Last updated');
+    cy.get('.item-value').contains('12/30/19 4:01 PM');
+});
+
 then("The comments have the correct information", () => {
     // Check that the element exist.
     cy.wait('@commentsRoute');
