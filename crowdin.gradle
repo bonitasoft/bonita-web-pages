@@ -276,7 +276,7 @@ task crowdinGitBranchAndPRIfNeeded(group: 'crowdin') {
             logger.quiet("commited changes on branch ${translationGitBranch}");
             grgit.push()
             if (!translationBranchExists) {
-                createPullRequest('bonita-web-pages-internal', baseBranch, translationGitBranch)
+                createPullRequest('bonita-web-pages-sp', baseBranch, translationGitBranch)
             }
         } else {
             logger.quiet("No translation changes to commit.");
