@@ -568,7 +568,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('2001');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
                 cy.get('.case-property-value').contains('8/12/19 10:07 AM');
-                cy.get('.case-property-value').contains('walter.bates');
+                cy.get('.case-property-value').contains('Helen Kelly for Walter Bates');
                 cy.get('.case-property-value').contains('2');
                 cy.get('.btn-link .glyphicon-eye-open').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
@@ -588,7 +588,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('32001');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
                 cy.get('.case-property-value').contains('8/13/19 10:07 AM');
-                cy.get('.case-property-value').contains('Walter Bates');
+                cy.get('.case-property-value').contains('walter.bates');
                 cy.get('.case-property-value').contains('2');
                 cy.get('.btn-link .glyphicon-eye-open').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
@@ -637,7 +637,7 @@ then("The {string} cases have the correct information", (caseType)=>{
                 cy.get('.case-property-value').contains('8008');
                 cy.get('.case-property-value').contains('Pool3 (1.0)');
                 cy.get('.case-property-value').contains('9/17/19 3:42 PM');
-                cy.get('.case-property-value').contains('Walter Bates');
+                cy.get('.case-property-value').contains('walter.bates');
                 cy.get('.case-property-value').contains('1');
                 cy.get('.btn-link .glyphicon-eye-open').should('have.attr', 'title', 'View case details');
                 cy.get('.case-property-label').contains('Long Search Key 1');
@@ -669,7 +669,7 @@ then("The {string} cases have the correct information", (caseType)=>{
             });
             cy.get('.case-item:visible').eq(1).within(() => {
                 cy.get('.case-property-value').contains('3004');
-                cy.get('.case-property-value').contains('Walter Bates');
+                cy.get('.case-property-value').contains('Helen Kelly for Walter Bates');
                 cy.get('.btn-link .glyphicon-eye-open').should('have.attr', 'title', 'View case details');
             });
             break;
