@@ -333,10 +333,19 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
             break;
         case 'file upload':
-            cy.intercept('POST', urlPrefix + 'API/profilesUpload', {"filename":"Profile_Data.xml","tempPath":"tmp_7171129632133896602.xml","contentType":"text\/xml"});
+            cy.intercept('POST', urlPrefix + 'API/profilesUpload', { "filename":"Profile_Data.xml","tempPath":"tmp_7171129632133896602.xml","contentType":"text\/xml" });
             break;
-        case 'profile installation':
-            cy.intercept('POST', urlPrefix + 'API/services/profile/import', {importPolicy: "REPLACE_DUPLICATES", profilesDataUpload: "tmp_7171129632133896602.xml"});
+        case 'profile installation for imported only':
+            cy.intercept('POST', urlPrefix + 'API/services/profile/import', { fixture: 'json/importProfile.json' });
+            break;
+        case 'profile installation for skipped only':
+            cy.intercept('POST', urlPrefix + 'API/services/profile/import', { fixture: 'json/skippedProfile.json' });
+            break;
+        case 'profile installation for imported and skipped profiles':
+            cy.intercept('POST', urlPrefix + 'API/services/profile/import', { fixture: 'json/importAndSkippedProfile.json' });
+            break;
+        case 'profile installation for incorrect import':
+            cy.intercept('POST', urlPrefix + 'API/services/profile/import', { fixture: 'json/incorrectProfile.json' });
             break;
         default:
             throw new Error("Unsupported case");
@@ -1354,6 +1363,30 @@ then("It uploads a profile", () => {
     cy.get('.modal-body .file-upload input[type="text"]').should('have.value', 'Profile_Data.xml');
 });
 
-then("The profile is installed", () => {
-    cy. contains(".modal-body p", "The profile has been successfully added")
-})
+then("The successfully imported message displayed correctly", () => {
+    cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
+    cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.contains(".modal-body p", "1 profile(s) has been successfully imported.");
+});
+
+then("The skipped message displayed correctly", () => {
+    cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
+    cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.contains(".modal-body p", "1 profile(s) has been SKIPPED. Check the .xml file and retry.");
+});
+
+then("The imported and skipped messages are displayed correctly", () => {
+    cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
+    cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.contains(".modal-body p", "1 profile(s) has been successfully imported.");
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');
+    cy.contains(".modal-body p", "1 profile(s) has been SKIPPED. Check the .xml file and retry.");
+});
+
+then("The incorrect profile import message is displayed correctly", () => {
+    cy.get(".modal-body p .glyphicon-remove-sign").should('be.visible');
+    cy.contains(".modal-body p", "The imported profile(s) file seems incorrect. It may affect the REST API and the profile page. Check the .xml file and retry.");
+});
