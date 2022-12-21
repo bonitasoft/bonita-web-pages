@@ -329,15 +329,50 @@ Feature: The Admin Profiles in desktop resolution
     When I visit the admin profiles page
     Then Some features are not available
 
-  Scenario: The import profile works correctly
+  Scenario: The imported profile is successful message displays correctly
     Given The response "file upload" is defined
     And The response "default filter with headers" is defined
-    And The response "profile installation" is defined
+    And The response "profile installation for imported only" is defined
     When I visit the admin profiles page
     And I click on add button
     And I click on import profiles
     And I click on attach icon
     Then It uploads a profile
     When I click on the "Add" button in modal footer
-    Then The profile is installed
+    Then The successfully imported message displayed correctly
 
+  Scenario: The imported profile is skipped message displays correctly
+    Given The response "file upload" is defined
+    And The response "default filter with headers" is defined
+    And The response "profile installation for skipped only" is defined
+    When I visit the admin profiles page
+    And I click on add button
+    And I click on import profiles
+    And I click on attach icon
+    Then It uploads a profile
+    When I click on the "Add" button in modal footer
+    Then The skipped message displayed correctly
+
+  Scenario: The imported and skipped profile message displays correctly
+    Given The response "file upload" is defined
+    And The response "default filter with headers" is defined
+    And The response "profile installation for imported and skipped profiles" is defined
+    When I visit the admin profiles page
+    And I click on add button
+    And I click on import profiles
+    And I click on attach icon
+    Then It uploads a profile
+    When I click on the "Add" button in modal footer
+    Then The imported and skipped messages are displayed correctly
+
+  Scenario: The incorrect profile import message displays correctly
+    Given The response "file upload" is defined
+    And The response "default filter with headers" is defined
+    And The response "profile installation for incorrect import" is defined
+    When I visit the admin profiles page
+    And I click on add button
+    And I click on import profiles
+    And I click on attach icon
+    Then It uploads a profile
+    When I click on the "Add" button in modal footer
+    Then The incorrect profile import message is displayed correctly
