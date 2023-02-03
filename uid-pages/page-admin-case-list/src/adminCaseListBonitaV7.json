@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV7",
   "name" : "adminCaseListBonitaV7",
-  "lastUpdate" : 1675417145715,
+  "lastUpdate" : 1675423863362,
   "rows" : [
     [
       {
@@ -2154,7 +2154,7 @@
                                         },
                                         "modalId" : {
                                           "type" : "expression",
-                                          "value" : "deleteCaseCtrl.initDeleteOpenCaseModal($item)"
+                                          "value" : "deleteCaseCtrl.initDeleteCaseModal($item)"
                                         },
                                         "collectionPosition" : {
                                           "type" : "constant",
@@ -2400,7 +2400,7 @@
                     },
                     "active" : {
                       "type" : "variable",
-                      "value" : "archivedCaseData.activeTab"
+                      "value" : "!openCaseData.activeTab"
                     }
                   },
                   "reference" : "02f5fd1d-0ec9-43cb-8ab8-fc0ad7bfffc7",
@@ -3541,7 +3541,7 @@
                                         },
                                         "modalId" : {
                                           "type" : "expression",
-                                          "value" : "deleteCaseCtrl.initDeleteOpenCaseModal($item)"
+                                          "value" : "deleteCaseCtrl.initDeleteCaseModal($item)"
                                         },
                                         "collectionPosition" : {
                                           "type" : "constant",
@@ -3918,7 +3918,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Delete case ID\"|uiTranslate}}: {{deleteCaseData.selectedOpenCase.id}}"
+                          "value" : "{{\"Delete case ID\"|uiTranslate}}: {{deleteCaseData.selectedCase.id}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -3950,11 +3950,11 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!archivedCaseData.activeTab"
+                          "value" : "openCaseData.activeTab"
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{\"Delete case ID\"|uiTranslate}}: {{deleteCaseData.selectedOpenCase.sourceObjectId}}"
+                          "value" : "{{\"Delete case ID\"|uiTranslate}}: {{deleteCaseData.selectedCase.sourceObjectId}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -4068,7 +4068,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!archivedCaseData.activeTab"
+                          "value" : "openCaseData.activeTab"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4438,7 +4438,7 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "{{deleteCaseCtrl.deleteCaseUrl()}}/{{deleteCaseData.selectedOpenCase.id}}"
+                          "value" : "{{deleteCaseCtrl.deleteCaseUrl()}}/{{deleteCaseData.selectedCase.id}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
@@ -4729,9 +4729,9 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    initDeleteOpenCaseModal: function($item) {\r",
+        "    initDeleteCaseModal: function($item) {\r",
         "        $data.deleteCaseData.hasRecentlyBeenDeleted = false;\r",
-        "        $data.deleteCaseData.selectedOpenCase = $item;\r",
+        "        $data.deleteCaseData.selectedCase = $item;\r",
         "        $data.deleteCaseData.statusCode = undefined;\r",
         "        \r",
         "        return \"deleteCaseModal\";\r",
@@ -4803,7 +4803,7 @@
       "value" : [
         "return {",
         "    getCaseQueryParameters: function() {",
-        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";",
+        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&t=\" + $data.caseData.timestamp;",
         "        ",
         "        if ($data.openCaseData.activeTab) {",
         "            queryParameters += $data.openCaseCtrl.openCasesQueryParameters();",
@@ -4820,8 +4820,9 @@
         "            if ($data.caseData.filters.sortOrder === \"ASC\" || $data.caseData.filters.sortOrder === \"DESC\") {",
         "                if ($data.openCaseData.activeTab) {",
         "                    idModifier = \"id+\";",
+        "                } else {",
+        "                    idModifier = \"sourceObjectId+\";",
         "                }",
-        "                idModifier = \"sourceObjectId+\";",
         "            }",
         "            queryParameters += \"&o=\" + idModifier + $data.caseData.filters.sortOrder;",
         "        }",

@@ -1,10 +1,11 @@
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
-const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes';
+const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
+const flowNodeCounters = '&n=activeFlowNodes&n=failedFlowNodes';
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
-const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=0' + flowNodeCounters;
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=';
 const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
@@ -23,50 +24,51 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             });
             break;
         case "default filter":
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
+            createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case "default filter without features":
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
+            createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             break;
         case "default filter with headers":
-            createRouteWithResponseAndHeaders('&t=0', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders('', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case 'process name':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
         case 'processId filter':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
             createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
         case 'sort by':
-            createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
-            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
-            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
-            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
-            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
+            createRoute('&o=id+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&o=id+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
-            createRoute('&t=0&s=Process', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&s=Process', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
+            createRouteWithResponse(defaultRequestUrl,'&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
+            createRouteWithResponse(defaultRequestUrl,'&f=state=allStates', 'openCases5Route', 'openCases5');
             break;
         case 'refresh open case list':
-            createRouteWithResponseAndHeaders('&t=0', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
-            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 1, 10);
-            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'openCases10Route', 'openCases10');
+            createRouteWithResponseAndHeaders('', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 1, 10);
+            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 2, 10);
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters, '&t=1*' + flowNodeCounters, 'openCases10Route', 'openCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'openCases10');
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCases10');
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             break;
@@ -84,7 +86,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponseAndMethodAndStatus(urlPrefix + adminOpenCaseListUrl + "/3001", 'unauthorizedDeleteCaseRoute', 'emptyResult', 'DELETE', '500');
             break;
         case 'no open cases':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'noOpenCasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '', 'noOpenCasesRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -140,7 +142,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + adminOpenCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters;
+        const loadMoreUrl = urlPrefix + adminOpenCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters + '&t=0' + flowNodeCounters;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
