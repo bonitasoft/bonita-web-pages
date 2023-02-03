@@ -1,62 +1,10 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminCaseListBonitaV3",
-  "name" : "adminCaseListBonitaV3",
-  "lastUpdate" : 1675352859906,
+  "id" : "adminCaseListBonitaV4",
+  "name" : "adminCaseListBonitaV4",
+  "lastUpdate" : 1675417145715,
   "rows" : [
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "// One bugs: <br/>\n// With processDefId in url, can't select \"All processes\" <br/>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "c559ff31-161c-43d7-8552-320050473c99",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
     [
       {
         "type" : "container",
@@ -133,7 +81,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{\"Case list\"|uiTranslate}}<i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Only cases from root processes are displayed in the list below. No details are available for cases started by call activities.\" | uiTranslate}}\"></i>"
+                  "value" : "{{\"Case list\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Only cases from root processes are displayed in the list below. No details are available for cases started by call activities.\" | uiTranslate}}\"></i>"
                 },
                 "level" : {
                   "type" : "constant",
@@ -180,179 +128,149 @@
               ]
             },
             {
-              "type" : "container",
+              "type" : "component",
               "dimension" : {
                 "xs" : 12,
-                "sm" : 12,
-                "md" : 6,
-                "lg" : 6
+                "sm" : 10,
+                "md" : 5,
+                "lg" : 5
               },
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "case-input"
                 },
                 "hidden" : {
                   "type" : "constant",
                   "value" : false
                 },
-                "repeatedCollection" : {
-                  "type" : "variable",
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
                   "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Case ID"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Enter an id to see case details"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "caseData.filters.caseIdFilter"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
                 }
               },
-              "reference" : "015331f4-94f3-49a3-9ba7-129736ecf43a",
+              "reference" : "c3ab3912-3fd6-4c95-80cf-613a1018ed5e",
               "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 10,
-                      "md" : 11,
-                      "lg" : 11
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : "case-input"
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "minLength" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "maxLength" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "readOnly" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Case ID"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "placeholder" : {
-                        "type" : "interpolation",
-                        "value" : "Enter an id to see case details"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "caseData.filters.caseIdFilter"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "text"
-                      },
-                      "min" : {
-                        "type" : "constant"
-                      },
-                      "max" : {
-                        "type" : "constant"
-                      },
-                      "step" : {
-                        "type" : "constant",
-                        "value" : 1
-                      }
-                    },
-                    "reference" : "c3ab3912-3fd6-4c95-80cf-613a1018ed5e",
-                    "hasValidationError" : false,
-                    "id" : "pbInput"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 2,
-                      "md" : 1,
-                      "lg" : 1
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "expression",
-                        "value" : "(!caseData.filters.caseIdFilter || caseData.filters.caseIdFilter === \"\") ? \"isDisabled\" : \"\""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-option-horizontal\" title=\"{{\"View case details\" | uiTranslate}}\"></i>"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "page"
-                      },
-                      "targetUrl" : {
-                        "type" : "constant",
-                        "value" : "http://"
-                      },
-                      "pageToken" : {
-                        "type" : "constant",
-                        "value" : "admin-case-details"
-                      },
-                      "processName" : {
-                        "type" : "constant"
-                      },
-                      "processVersion" : {
-                        "type" : "constant"
-                      },
-                      "taskId" : {
-                        "type" : "constant"
-                      },
-                      "caseId" : {
-                        "type" : "constant"
-                      },
-                      "target" : {
-                        "type" : "constant",
-                        "value" : "_self"
-                      },
-                      "appToken" : {
-                        "type" : "constant"
-                      },
-                      "urlParams" : {
-                        "type" : "expression",
-                        "value" : "caseDetailsQueryParameters.payload(caseData.filters.caseIdFilter)"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      }
-                    },
-                    "reference" : "6df0f1bf-238b-41cf-9d9e-54debfa6242f",
-                    "hasValidationError" : false,
-                    "id" : "pbLink"
-                  }
-                ]
-              ]
+              "id" : "pbInput"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 2,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "expression",
+                  "value" : "(!caseData.filters.caseIdFilter || caseData.filters.caseIdFilter === \"\") ? \"isDisabled\" : \"\""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<i class=\"glyphicon glyphicon-option-horizontal\" title=\"{{\"View case details\" | uiTranslate}}\"></i>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-case-details"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "caseDetailsQueryParameters.payload(caseData.filters.caseIdFilter)"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                }
+              },
+              "reference" : "6df0f1bf-238b-41cf-9d9e-54debfa6242f",
+              "hasValidationError" : false,
+              "id" : "pbLink"
             }
           ],
           [
@@ -384,7 +302,7 @@
               "rows" : [
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -394,60 +312,343 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "filter-widget"
+                        "value" : "dropdown add-mapping"
                       },
                       "hidden" : {
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Select"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "placeholder" : {
-                        "type" : "interpolation",
-                        "value" : "{{\"All processes\" |uiTranslate}}   ({{\"all versions\"|uiTranslate}})"
-                      },
-                      "availableValues" : {
-                        "type" : "expression",
-                        "value" : "caseData.processesOptions"
-                      },
-                      "displayedKey" : {
-                        "type" : "constant",
-                        "value" : "displayName + \" (\" + version + \")\""
-                      },
-                      "returnedKey" : {
-                        "type" : "constant",
-                        "value" : "id"
-                      },
-                      "value" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "caseData.filters.processDefinitionId"
+                        "value" : ""
                       }
                     },
-                    "reference" : "c8f872d5-5880-4482-a246-0e14ec650634",
+                    "reference" : "50f8869d-dd11-452f-a197-58789099f56c",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation",
+                              "value" : "Filter by process"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "processData.processSearch"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "6f273a2e-9abd-4347-8d67-8b6c5a80f742",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "dropdown-menu"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "processCtrl.hideDropdownMenu()"
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "26a50f2e-311b-4531-9eec-fe9c7a0b57ad",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "container",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "repeatedCollection" : {
+                                    "type" : "variable",
+                                    "value" : "processUrl"
+                                  }
+                                },
+                                "reference" : "02d79f24-0b42-4b5c-b088-d499cb6fc3fa",
+                                "hasValidationError" : false,
+                                "id" : "pbContainer",
+                                "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "hidden" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "disabled" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "label" : {
+                                          "type" : "interpolation",
+                                          "value" : "<span title=\"{{$item.displayName}} ({{$item.version}})\">{{$item.displayName}} ({{$item.version}})</span>"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "left"
+                                        },
+                                        "buttonStyle" : {
+                                          "type" : "constant",
+                                          "value" : "link"
+                                        },
+                                        "action" : {
+                                          "type" : "constant",
+                                          "value" : "Add to collection"
+                                        },
+                                        "assign" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "url" : {
+                                          "type" : "interpolation"
+                                        },
+                                        "responseStatusCode" : {
+                                          "type" : "variable",
+                                          "value" : ""
+                                        },
+                                        "dataToSend" : {
+                                          "type" : "constant"
+                                        },
+                                        "dataFromSuccess" : {
+                                          "type" : "variable",
+                                          "value" : ""
+                                        },
+                                        "closeOnSuccess" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "dataFromError" : {
+                                          "type" : "variable",
+                                          "value" : ""
+                                        },
+                                        "targetUrlOnSuccess" : {
+                                          "type" : "interpolation"
+                                        },
+                                        "collectionToModify" : {
+                                          "type" : "variable",
+                                          "value" : "processData.selectedProcessList"
+                                        },
+                                        "modalId" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "collectionPosition" : {
+                                          "type" : "constant",
+                                          "value" : "First"
+                                        },
+                                        "valueToAdd" : {
+                                          "type" : "expression",
+                                          "value" : "$item"
+                                        },
+                                        "removeItem" : {
+                                          "type" : "variable"
+                                        }
+                                      },
+                                      "reference" : "f5a46fd6-b185-44b2-b9dd-98b8f228e576",
+                                      "hasValidationError" : false,
+                                      "id" : "pbButton"
+                                    }
+                                  ]
+                                ]
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "processUrl.length < 20"
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Or type more..."
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "link"
+                                  },
+                                  "action" : {
+                                    "type" : "constant",
+                                    "value" : "Open modal"
+                                  },
+                                  "assign" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "url" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "responseStatusCode" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "dataToSend" : {
+                                    "type" : "constant"
+                                  },
+                                  "dataFromSuccess" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "closeOnSuccess" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "dataFromError" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "targetUrlOnSuccess" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "collectionToModify" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "modalId" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "collectionPosition" : {
+                                    "type" : "constant",
+                                    "value" : "Last"
+                                  },
+                                  "valueToAdd" : {
+                                    "type" : "constant"
+                                  },
+                                  "removeItem" : {
+                                    "type" : "variable"
+                                  }
+                                },
+                                "reference" : "81347510-372c-414b-ac73-b52616334564",
+                                "hasValidationError" : false,
+                                "id" : "pbButton"
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
                   },
                   {
                     "type" : "component",
@@ -460,7 +661,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "filter-widget"
+                        "value" : "filter-sort"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -526,7 +727,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "filter-widget"
+                        "value" : "filter-search"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -602,7 +803,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "filter-widget"
+                        "value" : "filter-state"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -700,7 +901,7 @@
                       },
                       "url" : {
                         "type" : "interpolation",
-                        "value" : ""
+                        "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}&t={{openCaseData.timestamp}}"
                       },
                       "responseStatusCode" : {
                         "type" : "variable",
@@ -711,7 +912,7 @@
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "openCases"
                       },
                       "closeOnSuccess" : {
                         "type" : "constant",
@@ -734,7 +935,7 @@
                       },
                       "collectionPosition" : {
                         "type" : "constant",
-                        "value" : "Last"
+                        "value" : "First"
                       },
                       "valueToAdd" : {
                         "type" : "constant",
@@ -1519,7 +1720,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "{{\"Failed Flow Nodes\"|uiTranslate}}"
+                                          "value" : "{{\"Failed flow nodes\"|uiTranslate}}"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -1651,7 +1852,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "{{\"Pending tasks\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Aggregates tasks in states ready, waiting, executing, completing, and initializing.\" | uiTranslate}}\"></i>"
+                                          "value" : "{{\"Pending flow nodes\"|uiTranslate}} <i class=\"glyphicon glyphicon-info-sign\" title=\"{{\"Aggregates tasks in states ready, waiting, executing, completing, and initializing.\" | uiTranslate}}\"></i>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -1758,8 +1959,8 @@
                                           "value" : "mr-0 p-0"
                                         },
                                         "hidden" : {
-                                          "type" : "constant",
-                                          "value" : false
+                                          "type" : "expression",
+                                          "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")"
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -3145,8 +3346,8 @@
                                           "value" : ""
                                         },
                                         "hidden" : {
-                                          "type" : "constant",
-                                          "value" : false
+                                          "type" : "expression",
+                                          "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")"
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -3581,7 +3782,7 @@
                   "value" : false
                 }
               },
-              "reference" : "92cb18ff-dacb-4f56-ba77-47cd98907c1e",
+              "reference" : "2c276e06-8f2b-4991-a31e-260488750935",
               "hasValidationError" : false,
               "id" : "fragmentLoadMoreV1",
               "binding" : {
@@ -3592,7 +3793,8 @@
                 "noItemsMessage" : "\"No cases to display\"",
                 "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                 "itemsShownMessage" : "\"Cases shown\"",
-                "filtersString" : "caseCtrl.getQueryParameters()",
+                "filtersString" : "caseCtrl.getCaseQueryParameters()",
+                "callStatusCode" : "caseData.statusCode",
                 "loadingItemsMessage" : "\"Loading cases\""
               }
             }
@@ -4397,6 +4599,31 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
+    "caseData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    sortByOptions: [",
+        "        { displayKey: \"Case ID (Asc)\", returnKey: \"ASC\" },",
+        "        { displayKey: \"Case ID (Desc)\", returnKey: \"DESC\" },",
+        "        { displayKey: \"Process name (Asc)\", returnKey: \"name+ASC\" },",
+        "        { displayKey: \"Process name (Desc)\", returnKey: \"name+DESC\" },",
+        "        { displayKey: \"Start date (Newest first)\", returnKey: \"startDate+DESC\" },",
+        "        { displayKey: \"Start date (Oldest first)\", returnKey: \"startDate+ASC\" }",
+        "    ],",
+        "    filters: {",
+        "        caseIdFilter: \"\",",
+        "        sortOrder: \"\",",
+        "        searchValue: \"\"",
+        "    },",
+        "    displayedItems: [],",
+        "    numberOfCasesPerPage: 10,",
+        "    refreshAction: [],",
+        "    timestamp: 0",
+        "};"
+      ],
+      "exposed" : false
+    },
     "caseDetailsQueryParameters" : {
       "type" : "expression",
       "value" : [
@@ -4412,14 +4639,14 @@
       "type" : "expression",
       "value" : [
         "return {",
+        "    activeTab: $data.activeTab === \"\" || $data.activeTab !== \"archived\",",
         "    filters: {",
         "        caseState: \"\"",
         "    },",
         "    statesOptions: [",
-        "        { displayName: \"All states\", returnKey: \"allStates\"},",
+        "        { displayName: \"All states\", returnKey: \"allStates\" },",
         "        { displayName: \"With failures\", returnKey: \"error\"}",
-        "    ],",
-        "    activeTab: $data.activeTab !== \"archived\"",
+        "    ]",
         "};"
       ],
       "exposed" : false
@@ -4430,10 +4657,10 @@
         "return {",
         "    openCasesQueryParameters: function() {",
         "        var queryParameters = \"&n=activeFlowNodes&n=failedFlowNodes\";",
-        "",
+        "        ",
         "        if ($data.openCaseData.filters.caseState) {",
         "            queryParameters += \"&f=state=\" +  $data.openCaseData.filters.caseState;",
-        "        } else if ($data.caseStateFilter && $data.caseStateFilter !== \"\") {",
+        "        } else if ($data.caseStateFilter) {",
         "            console.log('filterCaseState');",
         "            $data.openCaseData.filters.caseState = angular.copy($data.caseStateFilter);",
         "            queryParameters += \"&f=state=\" + angular.copy($data.caseStateFilter);",
@@ -4470,14 +4697,6 @@
       ],
       "exposed" : false
     },
-    "processes" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/process?c=9999&p=0&o=displayName%20ASC"
-      ],
-      "advancedOptions" : { },
-      "exposed" : false
-    },
     "searchKeysHTML" : {
       "type" : "expression",
       "value" : [
@@ -4506,18 +4725,6 @@
       ],
       "exposed" : false
     },
-    "archivedCaseData" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    filters: {",
-        "        searchValue: \"\"",
-        "    },",
-        "    activeTab: $data.activeTab === \"archived\"",
-        "};"
-      ],
-      "exposed" : false
-    },
     "deleteCaseCtrl" : {
       "type" : "expression",
       "value" : [
@@ -4533,7 +4740,7 @@
         "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");\r",
         "    },\r",
         "    deleteCaseUrl: function() {\r",
-        "        return $data.openCaseData.activeTab ? $data.apiOpenCases : $data.apiArchivedCases;\r",
+        "        return $data.openCaseData.activeTab ? '../API/bpm/case' : '../API/bpm/archivedCase';\r",
         "    }\r",
         "};"
       ],
@@ -4556,16 +4763,16 @@
         "// After a case is successfully deleted",
         "if ($data.deleteCaseData.statusCode === 200 ",
         "        && !$data.deleteCaseData.hasRecentlyBeenDeleted) {",
-        "    $data.openCaseData.timestamp = new Date().getTime();",
-        "    $data.archivedCaseData.timestamp = new Date().getTime();",
+        "    $data.caseData.timestamp = new Date().getTime();",
         "    $data.deleteCaseData.hasRecentlyBeenDeleted = true;",
+        "    $data.caseData.displayedItems = [];",
         "}",
         "",
         "// When we click on refresh",
-        "if ($data.caseData && $data.caseData.refreshAction && $data.caseData.refreshAction.length > 0) {",
+        "if ($data.caseData.refreshAction && $data.caseData.refreshAction.length > 0) {",
         "    $data.caseData.timestamp = new Date().getTime();",
-        "    $data.caseData.displayedItems = [];",
         "    $data.caseData.refreshAction = [];",
+        "    $data.caseData.displayedItems = [];",
         "}"
       ],
       "exposed" : false
@@ -4574,104 +4781,6 @@
       "type" : "urlparameter",
       "value" : [
         "tab"
-      ],
-      "exposed" : false
-    },
-    "processIdQueryParam" : {
-      "type" : "urlparameter",
-      "value" : [
-        "processId"
-      ],
-      "exposed" : false
-    },
-    "caseStateFilter" : {
-      "type" : "urlparameter",
-      "value" : [
-        "caseStateFilter"
-      ],
-      "exposed" : false
-    },
-    "firstSet" : {
-      "type" : "expression",
-      "value" : [
-        "return false;"
-      ],
-      "exposed" : false
-    },
-    "caseData" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    displayedItems: [],",
-        "    numberOfCasesPerPage: 10,",
-        "    processesOptions: ",
-        "        [{ displayName: uiTranslate(\"All processes\"),",
-        "            version: uiTranslate(\"all versions\"),",
-        "            id: \"\"",
-        "        }].concat($data.processes),",
-        "    sortByOptions: [   ",
-        "        { displayKey: \"Case ID (Asc)\", returnKey: \"ASC\" },",
-        "        { displayKey: \"Case ID (Desc)\", returnKey: \"DESC\" },",
-        "        { displayKey: \"Process name (Asc)\", returnKey: \"name+ASC\" },",
-        "        { displayKey: \"Process name (Desc)\", returnKey: \"name+DESC\" },",
-        "        { displayKey: \"Start date (Newest first)\", returnKey: \"startDate+DESC\" },",
-        "        { displayKey: \"Start date (Oldest first)\", returnKey: \"startDate+ASC\" }",
-        "    ],",
-        "    filters: {",
-        "        caseIdFilter: \"\",",
-        "        processDefinitionId: \"\",",
-        "        sortOrder: \"\",",
-        "        searchValue: \"\"",
-        "    },",
-        "    refreshAction: [],",
-        "    timestamp: 0",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "caseCtrl" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    getQueryParameters: function() {",
-        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";",
-        "        ",
-        "        if ($data.openCaseData.activeTab) {",
-        "            queryParameters += $data.openCaseCtrl.openCasesQueryParameters();",
-        "        }",
-        "        ",
-        "        if ($data.caseData.filters.processDefinitionId) {",
-        "            queryParameters += \"&f=processDefinitionId=\" + $data.caseData.filters.processDefinitionId;",
-        "        } else if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
-        "            console.log('ent', $data.caseData.filters.processDefinitionId);",
-        "            $data.caseData.filters.processDefinitionId = angular.copy($data.processIdQueryParam);",
-        "            queryParameters += \"&f=processDefinitionId=\" + angular.copy($data.processIdQueryParam);",
-        "        }",
-        "        ",
-        "        if ($data.caseData.filters.sortOrder) {",
-        "            var idModifier = \"\";",
-        "            if ($data.caseData.filters.sortOrder === \"ASC\" || $data.caseData.filters.sortOrder === \"DESC\") {",
-        "                if ($data.openCaseData.activeTab) {",
-        "                    idModifier = \"id+\";",
-        "                }",
-        "                idModifier = \"sourceObjectId+\";",
-        "            }",
-        "            queryParameters += \"&o=\" + idModifier + $data.caseData.filters.sortOrder ;",
-        "        }",
-        "        ",
-        "        if ($data.caseData.filters.searchValue) {",
-        "            queryParameters += \"&s=\" +  $data.caseData.filters.searchValue;",
-        "        }",
-        "        ",
-        "        return queryParameters; ",
-        "    },",
-        "    getRefreshUrl: function() {",
-        "        if ($data.archivedCaseData.activeTab) {",
-        "            return $data.apiOpenCases + $data.openCaseCtrl.openCasesQueryParameters() + \"&t=\" + $data.caseData.timestamp;",
-        "        }",
-        "        return $data.apiArchivedCases + $data.archivedCaseCtrl.archivedCasesQueryParameters() + \"&t=\" + $data.caseData.timestamp;",
-        "    }",
-        "};"
       ],
       "exposed" : false
     },
@@ -4689,10 +4798,180 @@
       ],
       "exposed" : false
     },
-    "archivedCaseCtrl" : {
+    "caseCtrl" : {
       "type" : "expression",
       "value" : [
-        "return {};"
+        "return {",
+        "    getCaseQueryParameters: function() {",
+        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute\";",
+        "        ",
+        "        if ($data.openCaseData.activeTab) {",
+        "            queryParameters += $data.openCaseCtrl.openCasesQueryParameters();",
+        "        }",
+        "        ",
+        "        if ($data.processData.processId) {",
+        "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
+        "        } else if ($data.processData.processByIdStatusCode === \"\" && $data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
+        "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
+        "        }",
+        "        ",
+        "        if ($data.caseData.filters.sortOrder) {",
+        "            var idModifier = \"\";",
+        "            if ($data.caseData.filters.sortOrder === \"ASC\" || $data.caseData.filters.sortOrder === \"DESC\") {",
+        "                if ($data.openCaseData.activeTab) {",
+        "                    idModifier = \"id+\";",
+        "                }",
+        "                idModifier = \"sourceObjectId+\";",
+        "            }",
+        "            queryParameters += \"&o=\" + idModifier + $data.caseData.filters.sortOrder;",
+        "        }",
+        "        ",
+        "        if ($data.caseData.filters.searchValue) {",
+        "            queryParameters += \"&s=\" +  $data.caseData.filters.searchValue;",
+        "        }",
+        "        ",
+        "        return queryParameters;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "processCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    hideDropdownMenu: function() {",
+        "        return !$data.processUrl",
+        "                || $data.processUrl.length === 0 ",
+        "                || $data.processData.processSearch === \"\";",
+        "    },",
+        "    getProcessSearchUrl: function() {",
+        "        if ($data.processData.processSearch && $data.processData.selectedProcessName !== $data.processData.processSearch) { ",
+        "            return \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch;    ",
+        "        }",
+        "        return undefined;",
+        "    },",
+        "    getProcessByIdUrl: function() {",
+        "        if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") { ",
+        "            return \"../API/bpm/process/\" + $data.processIdQueryParam;    ",
+        "        }",
+        "        return undefined;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "processData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    selectedProcessList: [],",
+        "    selectedProcessName: undefined,",
+        "    processSearch: \"\",",
+        "    processId: undefined,",
+        "    statusCode: \"\",",
+        "    processByIdStatusCode: \"\"",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "processHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.processData.selectedProcessList && $data.processData.selectedProcessList.length > 0) {",
+        "    $data.processData.processSearch = $data.processData.selectedProcessList[0].displayName;",
+        "    $data.processData.selectedProcessName = $data.processData.processSearch;",
+        "    $data.processData.processId = $data.processData.selectedProcessList[0].id;",
+        "    $data.processData.selectedProcessList = [];",
+        "    $data.processUrl = undefined;",
+        "}",
+        "",
+        "if ($data.processData.statusCode !== \"\" && $data.processData.statusCode !== 200) {",
+        "    $data.processUrl = undefined;",
+        "}",
+        "",
+        "if ($data.processData.processId && $data.processData.processSearch === \"\") {",
+        "    $data.processData.processId = undefined;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "processUrl" : {
+      "type" : "url",
+      "value" : [
+        "{{processCtrl.getProcessSearchUrl()}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "processData.statusCode",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "processIdQueryParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "processId"
+      ],
+      "exposed" : false
+    },
+    "processById" : {
+      "type" : "url",
+      "value" : [
+        "{{processCtrl.getProcessByIdUrl()}}"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "processData.processByIdStatusCode"
+      },
+      "exposed" : false
+    },
+    "processByIdHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.processById) {",
+        "    $data.processData.processId = $data.processById.id;",
+        "    $data.processData.processSearch = $data.processById.displayName;",
+        "    $data.processData.selectedProcessName = $data.processData.processSearch;",
+        "    $data.processById = undefined;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        if (!$data.featuresList) {",
+        "            return false;",
+        "        }",
+        "        var featureAvailable = false;",
+        "        ",
+        "        $data.featuresList.forEach((f) => {",
+        "            if (f.name === feature) {",
+        "                featureAvailable = true;",
+        "                return;",
+        "            }",
+        "        });",
+        "        ",
+        "        return featureAvailable;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "caseStateFilter" : {
+      "type" : "urlparameter",
+      "value" : [
+        "caseStateFilter"
       ],
       "exposed" : false
     }

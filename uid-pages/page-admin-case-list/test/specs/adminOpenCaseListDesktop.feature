@@ -20,12 +20,14 @@ Feature: The admin open case list in desktop resolution
     And The filter response "process name" is defined for open cases
     When I visit the admin case list page
     Then A list of "5" items is displayed
-    When I put "Process 1 (1.0)" in "process name" filter field for open cases
+    When I put "Process" in "process name" filter field for open cases
+    And I click on "Process 1" in process dropdown
     Then The api call is made for "Process 1 (1.0)" for open cases
     And A list of "2" items is displayed
-    When I put "All processes (all versions)" in "process name" filter field for open cases
+    When I clear the process name filter
     Then A list of "5" items is displayed
-    When I put "Process 2 (1.0)" in "process name" filter field for open cases
+    When I put "Process" in "process name" filter field for open cases
+    And I click on "Process 2" in process dropdown
     Then The api call is made for "Process 2 (1.0)" for open cases
     And No open cases are available
 
@@ -87,53 +89,13 @@ Feature: The admin open case list in desktop resolution
 
   Scenario: The refresh button works correctly for open cases
     Given The filter response "default filter" is defined for open cases
-    And The filter response "enable load more" is defined for open cases
+    And The filter response "refresh open case list" is defined for open cases
     When I visit the admin case list page
     Then A list of "10" items is displayed
     When I click on Load more open cases button
     Then A list of "20" items is displayed
     When I click on refresh
     Then A list of "10" items is displayed
-
-  Scenario: Load more button works correctly
-    And The filter response "enable load more" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "30" items is displayed out of "35"
-    When I click on Load more open cases button
-    Then A list of "35" items is displayed out of "35"
-    And The load more open cases button is disabled
-
-  Scenario: Load more is disabled when result is a multiple of count
-    Given The filter response "enable 20 load more" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-    And The load more open cases button is disabled
-
-  Scenario: Load more resets correctly after the limitation is triggered
-    Given The filter response "enable 30 load more" is defined for open cases
-    And The filter response "sort during limitation" is defined for open cases
-    When I visit the admin case list page
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-    When I click on Load more open cases button
-    Then A list of "30" items is displayed
-    And The load more open cases button is disabled
-    When I put "Process name (Desc)" in "sort by" filter field for open cases
-    Then A list of "10" items is displayed
-    When I click on Load more open cases button
-    Then A list of "20" items is displayed
-
-  Scenario: No open cases display correctly
-    Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page
-    Then No open cases are available
 
   Scenario: The delete open case modal is opened and closed
     Given The filter response "refresh not called" is defined for open cases
@@ -220,15 +182,23 @@ Feature: The admin open case list in desktop resolution
     Then I see an open case list page
 
   Scenario: The processId parameter should be taken into account
-    Given The filter response "process name" is defined for open cases
+    Given The filter response "processId filter" is defined for open cases
     When I visit the admin case list page with processId query parameter
     Then The api call is made with processId filter
-    And The process dropdown contains the name of the process from url
+    And The process filter contains the name of the process from url
 
   Scenario: The processId parameter shouldn't be taken into account when the user selects a different process
-    Given The filter response "process name" is defined for open cases
+    Given The filter response "processId filter" is defined for open cases
     When I visit the admin case list page with processId query parameter
     Then The api call is made with processId filter
-    And The process dropdown contains the name of the process from url
-    When I select a different process from process dropdown
+    And The process filter contains the name of the process from url
+    When I clear the process name filter
+    And I put "Process" in "process name" filter field for open cases
+    And I click on "Process 1" in process dropdown
     Then The api call is made with a different processId
+
+  Scenario: The case visu button in open case list is not displayed when features does not exist
+    Given The filter response "default filter without features" is defined for open cases
+    When I visit the admin case list page
+    Then I see an open case list page
+    And There is no "case visu" button in the open case list
