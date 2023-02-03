@@ -84,6 +84,10 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     padding: 0;
 }
 
+.pt-5.component {
+    padding-top: 5px;
+}
+
 .case-item {
     border-bottom: 1px solid lightgray;
     /*box-shadow: 0 1px 2px 0;*/
@@ -98,7 +102,7 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 
 .case-item:hover {
     box-shadow: 0 0 5px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .item-label {
@@ -146,4 +150,53 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
 h3 .glyphicon-info-sign {
     font-size: 1.5rem;
     opacity: 0.6;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 35px;
+    width: 300px;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    text-align: left;
+    z-index: 1000;
+}
+
+.dropdown-menu button {
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-menu button:hover,
+.dropdown-menu-right button:hover {
+    background: #2c3e50;
+    color: #fff;
+    width: 100%;
+    text-decoration: none;
+    text-align: left;
+}
+
+/* Spinner */
+.gly-spin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin{
+    0%{
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100%{
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
