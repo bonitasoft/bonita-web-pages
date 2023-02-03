@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV7",
   "name" : "adminCaseListBonitaV7",
-  "lastUpdate" : 1675423863362,
+  "lastUpdate" : 1675433528537,
   "rows" : [
     [
       {
@@ -4646,7 +4646,8 @@
         "    statesOptions: [",
         "        { displayName: \"All states\", returnKey: \"allStates\" },",
         "        { displayName: \"With failures\", returnKey: \"error\"}",
-        "    ]",
+        "    ],",
+        "    acceptableStates: [\"allStates\", \"error\"]",
         "};"
       ],
       "exposed" : false
@@ -4661,9 +4662,10 @@
         "        if ($data.openCaseData.filters.caseState) {",
         "            queryParameters += \"&f=state=\" +  $data.openCaseData.filters.caseState;",
         "        } else if ($data.caseStateFilter) {",
-        "            console.log('filterCaseState');",
-        "            $data.openCaseData.filters.caseState = angular.copy($data.caseStateFilter);",
-        "            queryParameters += \"&f=state=\" + angular.copy($data.caseStateFilter);",
+        "            if ($data.openCaseData.acceptableStates.includes($data.caseStateFilter)) {",
+        "                $data.openCaseData.filters.caseState = angular.copy($data.caseStateFilter);",
+        "                queryParameters += \"&f=state=\" + angular.copy($data.caseStateFilter);",
+        "            }",
         "        }",
         "        ",
         "        return queryParameters;",

@@ -88,6 +88,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
         case 'no open cases':
             createRouteWithResponse(defaultRequestUrl, '', 'noOpenCasesRoute', 'emptyResult');
             break;
+        case 'open cases with errors':
+            createRouteWithResponse(defaultRequestUrl, '&f=state=error', 'casesWithErrorCaseStateFilterRoute', 'emptyResult');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -177,11 +180,11 @@ when("I visit the admin case list page", () => {
 });
 
 when("I visit the admin case list page with processId query parameter", () => {
-    cy.visit(url + "?processId=4778742813773463488");
+    cy.visit(url + '?processId=4778742813773463488');
 });
 
-when("I visit the admin case list page with {string} tab query parameter", (tabQueryParameterValue) => {
-    cy.visit(url + "?tab=" + tabQueryParameterValue);
+when("I visit the admin case list page with {string} {string} query parameter", (queryParamName, queryParameterValue) => {
+    cy.visit(url + '?' + queryParamName + '=' + queryParameterValue);
 });
 
 when("I click on {string} tab", (tabName) => {
@@ -475,4 +478,12 @@ then("The api call is made with a different processId", () => {
 
 then("There is no {string} button in the open case list", () => {
     cy.get('.glyphicon-picture').should('not.exist');
+});
+
+then("The api call is made for open cases with errors", () => {
+    cy.wait('@casesWithErrorCaseStateFilterRoute');
+});
+
+then("The api call is made for the default request", () => {
+    cy.wait('@openCases5Route');
 });
