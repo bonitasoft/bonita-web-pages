@@ -1,0 +1,28 @@
+subprojects { subProject ->
+
+    apply plugin: 'com.github.node-gradle.node'
+
+    node {
+        download = true
+        version = Versions.nodeVersion
+        npmVersion = Versions.npmVersion
+    }
+
+    task unzip(type: Copy) {
+        dependsOn('buildUIDFragment')
+        def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
+        def outputDir = file("${buildDir}/dist")
+
+        from zipTree(zipFile)
+        into outputDir
+    }
+
+    apply plugin: 'com.bonitasoft.gradle.bonita-uid-fragment'
+    publishToMavenLocal.dependsOn buildUIDFragment
+
+    publishing {
+        publications {
+            create('zip', MavenPublication) { artifact file("${project.buildDir}/${project.name}-${project.version}.zip") }
+        }
+    }
+}
