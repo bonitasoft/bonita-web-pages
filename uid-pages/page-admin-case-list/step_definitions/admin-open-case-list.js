@@ -29,10 +29,6 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         case "default filter without features":
             createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
-            createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
-            break;
-        case "default filter without features":
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
             break;
         case "default filter with headers":
             createRouteWithResponseAndHeaders('', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
@@ -50,12 +46,12 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
         case 'sort by':
-            createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
-            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
-            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
-            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
-            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
+            createRoute('&o=id+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&o=id+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
             createRoute('&s=Process', 'searchRoute');
