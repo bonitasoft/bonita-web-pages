@@ -350,6 +350,10 @@ then("The api call is made with a different processId for archived cases", () =>
     cy.wait('@archivedProcess1CasesRoute');
 });
 
-then("There is no {string} button in the archived case list", (btnLabel) => {
+then("There is no {string} button in the archived case list", () => {
     cy.get('.glyphicon-picture').should('not.exist');
+});
+
+then("The api call is made for default archived cases", () => {
+    cy.wait('@archivedCases5Route');
 });

@@ -173,13 +173,23 @@ Feature: The admin open case list in desktop resolution
 
   Scenario: The tab parameter for open tab should be taken into account
     Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page with "open" tab query parameter
+    When I visit the admin case list page with "tab" "open" query parameter
     Then I see an open case list page
 
   Scenario: The tab parameter for unknownValue tab should be taken into account
     Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page with "unknownValue" tab query parameter
+    When I visit the admin case list page with "tab" "unknownValue" query parameter
     Then I see an open case list page
+
+  Scenario: The caseStateFilter parameter for cases with error should be taken into account
+    Given The filter response "open cases with errors" is defined for open cases
+    When I visit the admin case list page with "caseStateFilter" "error" query parameter
+    Then The api call is made for open cases with errors
+
+  Scenario: The caseStateFilter parameter for unknownValue should be taken into account
+    Given The filter response "default filter" is defined for open cases
+    When I visit the admin case list page with "caseStateFilter" "unknownValue" query parameter
+    Then The api call is made for the default request
 
   Scenario: The processId parameter should be taken into account
     Given The filter response "processId filter" is defined for open cases

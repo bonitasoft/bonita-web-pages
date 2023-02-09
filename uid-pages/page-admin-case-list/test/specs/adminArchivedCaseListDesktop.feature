@@ -211,8 +211,14 @@ Feature: The admin archived case list in desktop resolution
   Scenario: The tab parameter for archived tab should be taken into account
     Given The filter response "no open cases" is defined for open cases
     And  The filter response "default filter" is defined for archived cases
-    When I visit the admin case list page with "archived" tab query parameter
+    When I visit the admin case list page with "tab" "archived" query parameter
     Then I see an archived case list page
+
+  Scenario: The caseState parameter should not be taken into account
+    Given The filter response "default filter" is defined for archived cases
+    When I visit the admin case list page with "caseStateFilter" "error" query parameter
+    And I click on "Archived cases" tab
+    Then The api call is made for default archived cases
 
   Scenario: The processId parameter for archived cases should be taken into account
     Given The filter response "processId filter" is defined for archived cases
