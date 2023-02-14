@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminCaseDetailsBonitaV4",
-  "name" : "adminCaseDetailsBonitaV4",
-  "lastUpdate" : 1633687149306,
+  "id" : "adminCaseDetailsBonitaV8",
+  "name" : "adminCaseDetailsBonitaV8",
+  "lastUpdate" : 1675437967895,
   "rows" : [
     [
       {
@@ -79,43 +79,13 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "text" : {
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
                   "type" : "interpolation",
                   "value" : "Back"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "page"
-                },
-                "targetUrl" : {
-                  "type" : "constant",
-                  "value" : "http://"
-                },
-                "pageToken" : {
-                  "type" : "constant",
-                  "value" : "admin-case-list"
-                },
-                "processName" : {
-                  "type" : "constant"
-                },
-                "processVersion" : {
-                  "type" : "constant"
-                },
-                "taskId" : {
-                  "type" : "constant"
-                },
-                "caseId" : {
-                  "type" : "constant"
-                },
-                "target" : {
-                  "type" : "constant",
-                  "value" : "_self"
-                },
-                "appToken" : {
-                  "type" : "constant"
-                },
-                "urlParams" : {
-                  "type" : "constant"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -124,11 +94,63 @@
                 "buttonStyle" : {
                   "type" : "constant",
                   "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Add to collection"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable",
+                  "value" : "backButtonAction"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant",
+                  "value" : "goToPreviousPage"
+                },
+                "removeItem" : {
+                  "type" : "variable"
                 }
               },
-              "reference" : "c417a394-2f75-41e9-add0-c8f62c611ce1",
+              "reference" : "7074b4bb-6fc7-4765-b4a8-d99afea07380",
               "hasValidationError" : false,
-              "id" : "pbLink"
+              "id" : "pbButton"
             },
             {
               "type" : "component",
@@ -4886,6 +4908,22 @@
         "    setTimeout(function() {",
         "        $data.processVariablesData.statusCode = '';",
         "    }, 2000);",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "backButtonAction" : {
+      "type" : "expression",
+      "value" : [
+        "return [];"
+      ],
+      "exposed" : false
+    },
+    "backButtonHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.backButtonAction.length && $data.backButtonAction.includes('goToPreviousPage')) {",
+        "    window.history.back();",
         "}"
       ],
       "exposed" : false

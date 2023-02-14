@@ -298,10 +298,6 @@ then("There are no search keys", () => {
     cy.get('h5').contains('Search keys').should('not.exist');
 });
 
-then("The back button has correct href", () => {
-    cy.get('a').contains('Back').should('have.attr', 'href', caseListUrl);
-});
-
 then("The case overview url is displayed", () => {
     cy.location('pathname').should('be.equal', '/bonita/portal/form/processInstance/1')
 });
