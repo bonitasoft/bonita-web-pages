@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV7",
   "name" : "adminCaseListBonitaV7",
-  "lastUpdate" : 1675433528537,
+  "lastUpdate" : 1676302624406,
   "rows" : [
     [
       {
@@ -2400,7 +2400,7 @@
                     },
                     "active" : {
                       "type" : "variable",
-                      "value" : "!openCaseData.activeTab"
+                      "value" : "caseData.archivedCaseActiveTab"
                     }
                   },
                   "reference" : "02f5fd1d-0ec9-43cb-8ab8-fc0ad7bfffc7",
@@ -4619,7 +4619,9 @@
         "    displayedItems: [],",
         "    numberOfCasesPerPage: 10,",
         "    refreshAction: [],",
-        "    timestamp: 0",
+        "    timestamp: 0,",
+        "    // Only needed as a setter for the archived tab in the tab container",
+        "    archivedCaseActiveTab: $data.activeTab === \"archived\"",
         "};"
       ],
       "exposed" : false
