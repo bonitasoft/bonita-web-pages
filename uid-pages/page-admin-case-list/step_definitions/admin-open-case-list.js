@@ -179,12 +179,12 @@ when("I visit the admin case list page", () => {
     cy.visit(url);
 });
 
-when("I visit the admin case list page with processId query parameter", () => {
-    cy.visit(url + '?processId=4778742813773463488');
-});
-
-when("I visit the admin case list page with {string} {string} query parameter", (queryParamName, queryParameterValue) => {
-    cy.visit(url + '?' + queryParamName + '=' + queryParameterValue);
+when("I visit the admin case list page with the following url parameters", (urlParams) => {
+    const searchParams = new URLSearchParams();
+    for(let [name, value] of Object.entries(urlParams.rowsHash())){
+        searchParams.set(name, value);
+    }
+    cy.visit(url + '?' + searchParams.toString());
 });
 
 when("I click on {string} tab", (tabName) => {
@@ -486,4 +486,26 @@ then("The api call is made for open cases with errors", () => {
 
 then("The api call is made for the default request", () => {
     cy.wait('@openCases5Route');
+});
+
+then("{string} url parameter is set to {string}", (name, value) => {
+    cy.url().should('include', `${name}=${value}`);
+});
+
+then("{string} url parameter is absent or empty", (name) => {
+    cy.url().should('satisfy', (urlString) => {
+        const url = new URL(urlString);
+        return !url.searchParams.has(name) || url.searchParams.get(name) === '' 
+                    || url.searchParams.get(name) === undefined;
+    });
+});
+
+then("The process name filter is set to {string}", (processName) => {
+    cy.get('.dropdown input').should('have.value', processName);
+});
+
+then("The case state filter is set to {string}", (state) => {
+    cy.get('.filter-state option:selected')
+        .invoke("text")
+        .should("eq", state);
 });
