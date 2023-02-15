@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV7",
   "name" : "adminCaseListBonitaV7",
-  "lastUpdate" : 1676302624406,
+  "lastUpdate" : 1676390195740,
   "rows" : [
     [
       {
@@ -788,7 +788,7 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "9c9e0a68-2497-4b3a-82e0-d1c03761a46d",
+                    "reference" : "fbb44139-2bc4-4e04-b5c8-c0a3491f1753",
                     "hasValidationError" : false,
                     "id" : "pbInput"
                   },
@@ -4579,6 +4579,34 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "params" : {
+            "type" : "expression",
+            "value" : "filterParams"
+          }
+        },
+        "reference" : "128dd787-f5ec-40e4-812b-75c460514a18",
+        "hasValidationError" : false,
+        "id" : "customURLSearchParams"
+      }
     ]
   ],
   "assets" : [
@@ -4857,8 +4885,8 @@
         "        return undefined;",
         "    },",
         "    getProcessByIdUrl: function() {",
-        "        if ($data.processIdQueryParam && $data.processIdQueryParam !== \"\") { ",
-        "            return \"../API/bpm/process/\" + $data.processIdQueryParam;    ",
+        "        if ($data.processData.selectedProcessList === undefined && $data.filterParams && $data.filterParams.processId) { ",
+        "            return \"../API/bpm/process/\" + $data.filterParams.processId;    ",
         "        }",
         "        return undefined;",
         "    }",
@@ -4870,7 +4898,7 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    selectedProcessList: [],",
+        "    selectedProcessList: undefined,",
         "    selectedProcessName: undefined,",
         "    processSearch: \"\",",
         "    processId: undefined,",
@@ -4897,6 +4925,9 @@
         "",
         "if ($data.processData.processId && $data.processData.processSearch === \"\") {",
         "    $data.processData.processId = undefined;",
+        "    // Reset the url parameter",
+        "    $data.processIdQueryParam = undefined;",
+        "    $data.filterParams.processId = undefined;",
         "}"
       ],
       "exposed" : false
@@ -4926,7 +4957,9 @@
         "{{processCtrl.getProcessByIdUrl()}}"
       ],
       "advancedOptions" : {
-        "statusCode" : "processData.processByIdStatusCode"
+        "headers" : "",
+        "statusCode" : "processData.processByIdStatusCode",
+        "failedResponseValue" : ""
       },
       "exposed" : false
     },
@@ -4977,6 +5010,17 @@
       "type" : "urlparameter",
       "value" : [
         "caseStateFilter"
+      ],
+      "exposed" : false
+    },
+    "filterParams" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    tab: $data.caseData && $data.caseData.archivedCaseActiveTab ? 'archived' : undefined ,",
+        "    caseStateFilter: ($data.openCaseData && $data.openCaseData.filters && $data.openCaseData.filters.caseState ? $data.openCaseData.filters.caseState : undefined) || $data.caseStateFilter,",
+        "    processId: ($data.processData ? $data.processData.processId : undefined) || $data.processIdQueryParam",
+        "};"
       ],
       "exposed" : false
     }
