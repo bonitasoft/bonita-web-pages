@@ -79,43 +79,13 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "text" : {
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
                   "type" : "interpolation",
                   "value" : "Back"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "page"
-                },
-                "targetUrl" : {
-                  "type" : "constant",
-                  "value" : "http://"
-                },
-                "pageToken" : {
-                  "type" : "constant",
-                  "value" : "admin-case-list"
-                },
-                "processName" : {
-                  "type" : "constant"
-                },
-                "processVersion" : {
-                  "type" : "constant"
-                },
-                "taskId" : {
-                  "type" : "constant"
-                },
-                "caseId" : {
-                  "type" : "constant"
-                },
-                "target" : {
-                  "type" : "constant",
-                  "value" : "_self"
-                },
-                "appToken" : {
-                  "type" : "constant"
-                },
-                "urlParams" : {
-                  "type" : "constant"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -130,9 +100,9 @@
                   "value" : true
                 }
               },
-              "reference" : "c417a394-2f75-41e9-add0-c8f62c611ce1",
+              "reference" : "7074b4bb-6fc7-4765-b4a8-d99afea07380",
               "hasValidationError" : false,
-              "id" : "pbLink"
+              "id" : "pbButton"
             },
             {
               "type" : "component",
@@ -5119,9 +5089,25 @@
       "exposed" : false
     },
     "apiProcessVariables" : {
-      "type" : "constant",
-      "value" : [
+      "type": "constant",
+      "value": [
         "../API/bpm/caseVariable"
+      ],
+      "exposed": false
+    },
+    "backButtonAction" : {
+      "type" : "expression",
+      "value" : [
+        "return [];"
+      ],
+      "exposed" : false
+    },
+    "backButtonHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.backButtonAction.length && $data.backButtonAction.includes('goToPreviousPage')) {",
+        "    window.history.back();",
+        "}"
       ],
       "exposed" : false
     }

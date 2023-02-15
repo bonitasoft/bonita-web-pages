@@ -11,11 +11,6 @@ Feature: The Admin Case Details in desktop resolution
     Then The startedBy information is displayed correctly when startedBySubstitute is undefined
     And There are no search keys
 
-  Scenario: The admin case details has the correct link to case list
-    Given The response "default details" is defined
-    When I visit the admin case details page
-    Then The back button has correct href
-
   Scenario: The admin case details has the correct link to case overview
     Given The response "default details" is defined
     When I visit the admin case details page
