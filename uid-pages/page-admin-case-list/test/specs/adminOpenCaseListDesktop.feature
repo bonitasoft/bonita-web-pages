@@ -173,33 +173,39 @@ Feature: The admin open case list in desktop resolution
 
   Scenario: The tab parameter for open tab should be taken into account
     Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page with "tab" "open" query parameter
+    When I visit the admin case list page with the following url parameters
+        | tab | open |
     Then I see an open case list page
 
   Scenario: The tab parameter for unknownValue tab should be taken into account
     Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page with "tab" "unknownValue" query parameter
+    When I visit the admin case list page with the following url parameters
+        | tab | unknownValue |
     Then I see an open case list page
 
   Scenario: The caseStateFilter parameter for cases with error should be taken into account
     Given The filter response "open cases with errors" is defined for open cases
-    When I visit the admin case list page with "caseStateFilter" "error" query parameter
+    When I visit the admin case list page with the following url parameters
+        | caseStateFilter | error |
     Then The api call is made for open cases with errors
 
   Scenario: The caseStateFilter parameter for unknownValue should be taken into account
     Given The filter response "default filter" is defined for open cases
-    When I visit the admin case list page with "caseStateFilter" "unknownValue" query parameter
+    When I visit the admin case list page with the following url parameters
+        | caseStateFilter | unknownValue |
     Then The api call is made for the default request
 
   Scenario: The processId parameter should be taken into account
     Given The filter response "processId filter" is defined for open cases
-    When I visit the admin case list page with processId query parameter
+    When I visit the admin case list page with the following url parameters
+        | processId | 4778742813773463488 |
     Then The api call is made with processId filter
     And The process filter contains the name of the process from url
 
   Scenario: The processId parameter shouldn't be taken into account when the user selects a different process
     Given The filter response "processId filter" is defined for open cases
-    When I visit the admin case list page with processId query parameter
+    When I visit the admin case list page with the following url parameters
+        | processId | 4778742813773463488 |
     Then The api call is made with processId filter
     And The process filter contains the name of the process from url
     When I clear the process name filter
@@ -212,3 +218,35 @@ Feature: The admin open case list in desktop resolution
     When I visit the admin case list page
     Then I see an open case list page
     And There is no "case visu" button in the open case list
+  
+  Scenario: The url search parameters are synchronized with the filters states
+    Given The filter response "default filter" is defined for open cases
+    And The filter response "process name" is defined for open cases
+    When I visit the admin case list page
+    And I click on "Archived cases" tab
+    Then "tab" url parameter is set to "archived"
+    When I click on "Open cases" tab
+    Then "tab" url parameter is absent or empty
+    And "caseStateFilter" url parameter is absent or empty
+    And "processId" url parameter is absent or empty
+    When I put "With failures" in "case state" filter field for open cases 
+    Then "caseStateFilter" url parameter is set to "error"
+    When I put "All states" in "case state" filter field for open cases 
+    Then "caseStateFilter" url parameter is set to "allStates"
+    When I put "Process" in "process name" filter field for open cases
+    And I click on "Process 1" in process dropdown
+    Then "processId" url parameter is set to "7724628355784275506"
+    When I clear the process name filter
+    Then "processId" url parameter is absent or empty
+
+  Scenario: Open case admin page with valued url parameters for filters
+    Given The filter response "default filter" is defined for open cases
+    And The filter response "processId filter" is defined for open cases
+    When I visit the admin case list page with the following url parameters
+        | caseStateFilter | error               |
+        | processId       | 4778742813773463488 |
+    Then The process name filter is set to "Process 2"
+    And The case state filter is set to "With failures"
+    
+   
+

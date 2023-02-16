@@ -15,6 +15,17 @@ function initMessageListener() {
             } else if (jsonEventData.targetUrlOnSuccess && jsonEventData.targetUrlOnSuccess != "/bonita") {
                 window.location.assign(jsonEventData.targetUrlOnSuccess);
             }
+        }else if(jsonEventData.message === 'replaceState') {
+            const search = jsonEventData.search;
+            const url = new URL(window.location);
+            for(const [name, value] of Object.entries(search)){
+                if(value){
+                   url.searchParams.set(name, value);
+                }else{
+                   url.searchParams.delete(name);
+                }
+            }
+            window.history.replaceState({}, '', url);
         }
       } catch (e) {
         //The message is not json, so not for us 
