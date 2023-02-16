@@ -211,24 +211,30 @@ Feature: The admin archived case list in desktop resolution
   Scenario: The tab parameter for archived tab should be taken into account
     Given The filter response "no open cases" is defined for open cases
     And  The filter response "default filter" is defined for archived cases
-    When I visit the admin case list page with "tab" "archived" query parameter
+    When I visit the admin case list page with the following url parameters
+        | tab       | archived            |
     Then I see an archived case list page
 
   Scenario: The caseState parameter should not be taken into account
     Given The filter response "default filter" is defined for archived cases
-    When I visit the admin case list page with "caseStateFilter" "error" query parameter
+    When I visit the admin case list page with the following url parameters
+        | caseStateFilter | error |
     And I click on "Archived cases" tab
     Then The api call is made for default archived cases
 
   Scenario: The processId parameter for archived cases should be taken into account
     Given The filter response "processId filter" is defined for archived cases
-    When I visit the admin archived case list page with processId query parameter
+    When I visit the admin case list page with the following url parameters
+        | processId | 4778742813773463488 |
+        | tab       | archived            |
     Then The api call is made with processId filter for archived cases
     And The process filter contains the name of the process from url
 
   Scenario: The processId parameter for archived cases shouldn't be taken into account when the user selects a different process
     Given The filter response "processId filter" is defined for archived cases
-    When I visit the admin archived case list page with processId query parameter
+    When I visit the admin case list page with the following url parameters
+        | processId | 4778742813773463488 |
+        | tab       | archived            |
     Then The api call is made with processId filter for archived cases
     And The process filter contains the name of the process from url
     When I clear the process name filter

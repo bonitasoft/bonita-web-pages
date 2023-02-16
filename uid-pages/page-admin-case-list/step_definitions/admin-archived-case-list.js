@@ -166,10 +166,6 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 });
 
-when("I visit the admin archived case list page with processId query parameter", () => {
-    cy.visit(url + '?tab=archived&processId=4778742813773463488');
-});
-
 when("I put {string} in {string} filter field for archived cases", (filterValue, filterType) => {
     switch (filterType) {
         case 'process name':
