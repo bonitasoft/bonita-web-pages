@@ -91,6 +91,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
         case 'open cases with errors':
             createRouteWithResponse(defaultRequestUrl, '&f=state=error', 'casesWithErrorCaseStateFilterRoute', 'emptyResult');
             break;
+        case 'case list with all filters':
+            createRouteWithResponse(defaultRequestUrl, '&f=state=error&f=processDefinitionId=4778742813773463488&o=id+ASC&s=Pool', 'casesWithAllFiltersRoute', 'emptyResult');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -504,8 +507,22 @@ then("The process name filter is set to {string}", (processName) => {
     cy.get('.dropdown input').should('have.value', processName);
 });
 
+then("The sort filter is set to {string}", (sortValue) => {
+    cy.get('.filter-sort option:selected')
+        .invoke("text")
+        .should("eq", sortValue);
+});
+
+then("The search filter is set to {string}", (searchValue) => {
+    cy.get('.filter-search input').should('have.value', searchValue);
+});
+
 then("The case state filter is set to {string}", (state) => {
     cy.get('.filter-state option:selected')
         .invoke("text")
         .should("eq", state);
+});
+
+then("The API call is made with all filters", () => {
+    cy.wait('@casesWithAllFiltersRoute');
 });
