@@ -388,7 +388,7 @@ then("The api call is made with a different processId for archived cases", () =>
     cy.wait('@archivedProcess1CasesRoute');
 });
 
-then("There is no {string} button in the archived case list", (btnLabel) => {
+then("There is no {string} button in the archived case list", () => {
     cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('not.be.visible');
 });
 
@@ -401,4 +401,8 @@ then("The archived case item header is displayed correctly", () => {
     cy.contains('.item-label-container p', 'State')
     cy.contains('.item-label-container p', 'Pending flow nodes').should('not.exist');
     cy.contains('.item-label-container p', 'Failed flow nodes').should('not.exist');
+});
+
+then("The api call is made for default archived cases", () => {
+    cy.wait('@archivedCases5Route');
 });
