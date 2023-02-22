@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseListBonitaV7",
   "name" : "adminCaseListBonitaV7",
-  "lastUpdate" : 1676390195740,
+  "lastUpdate" : 1676995405952,
   "rows" : [
     [
       {
@@ -421,7 +421,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "processCtrl.hideDropdownMenu()"
+                              "value" : "processCtrl.hideDropdownMenu"
                             },
                             "repeatedCollection" : {
                               "type" : "variable",
@@ -655,7 +655,7 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 3,
+                      "md" : 2,
                       "lg" : 3
                     },
                     "propertyValues" : {
@@ -693,11 +693,11 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Sort by"
+                        "value" : "{{\"Sort by\" |uiTranslate}}"
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "caseData.sortByOptions"
+                        "value" : "caseFilterData.SORT_OPTIONS"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -709,12 +709,13 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "caseData.filters.sortOrder"
+                        "value" : "sortParam"
                       }
                     },
-                    "reference" : "6fff4cd0-b512-49ad-be21-d6f65fc210e7",
+                    "reference" : "99a8c967-d826-4b48-aaec-198918b6e3b8",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "pbSelect",
+                    "description" : ""
                   },
                   {
                     "type" : "component",
@@ -771,7 +772,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "caseData.filters.searchValue"
+                        "value" : "searchParam"
                       },
                       "type" : {
                         "type" : "constant",
@@ -811,7 +812,7 @@
                       },
                       "disabled" : {
                         "type" : "expression",
-                        "value" : "!openCaseData.activeTab"
+                        "value" : "caseFilterData.archivedCaseTabIsActive"
                       },
                       "required" : {
                         "type" : "constant",
@@ -839,7 +840,7 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "openCaseData.statesOptions"
+                        "value" : "caseFilterData.STATE_OPTIONS"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -851,10 +852,10 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "openCaseData.filters.caseState"
+                        "value" : "caseStateParam"
                       }
                     },
-                    "reference" : "a8ec7838-2f29-44c9-a63d-dd6c368e3c68",
+                    "reference" : "1e7e4a36-45d1-45dc-af7f-97dcfb100527",
                     "hasValidationError" : false,
                     "id" : "pbSelect"
                   },
@@ -901,7 +902,7 @@
                       },
                       "url" : {
                         "type" : "interpolation",
-                        "value" : "../API/bpm/case?{{openCaseCtrl.openCasesQueryParameters(0)}}&t={{openCaseData.timestamp}}"
+                        "value" : ""
                       },
                       "responseStatusCode" : {
                         "type" : "variable",
@@ -1011,7 +1012,7 @@
                     },
                     "active" : {
                       "type" : "variable",
-                      "value" : "openCaseData.activeTab"
+                      "value" : ""
                     }
                   },
                   "reference" : "190fbc8c-d05e-40d4-a110-b3c49641ec89",
@@ -2400,7 +2401,7 @@
                     },
                     "active" : {
                       "type" : "variable",
-                      "value" : "caseData.archivedCaseActiveTab"
+                      "value" : "caseFilterData.archivedCaseTabIsActive"
                     }
                   },
                   "reference" : "02f5fd1d-0ec9-43cb-8ab8-fc0ad7bfffc7",
@@ -3789,11 +3790,11 @@
                 "displayedItems" : "caseData.displayedItems",
                 "numberOfItemsPerPage" : "caseData.numberOfCasesPerPage",
                 "buttonLabel" : "\"Load more cases\"",
-                "urlPrefix" : "openCaseData.activeTab ? apiOpenCases : apiArchivedCases",
+                "urlPrefix" : "caseQueryParameters.api",
                 "noItemsMessage" : "\"No cases to display\"",
                 "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                 "itemsShownMessage" : "\"Cases shown\"",
-                "filtersString" : "caseCtrl.getCaseQueryParameters()",
+                "filtersString" : "caseQueryParameters.queryParameters",
                 "callStatusCode" : "caseData.statusCode",
                 "loadingItemsMessage" : "\"Loading cases\""
               }
@@ -3914,7 +3915,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!openCaseData.activeTab"
+                          "value" : "caseFilterData.archivedCaseTabIsActive"
                         },
                         "text" : {
                           "type" : "interpolation",
@@ -3950,7 +3951,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "openCaseData.activeTab"
+                          "value" : "!caseFilterData.archivedCaseTabIsActive"
                         },
                         "text" : {
                           "type" : "interpolation",
@@ -4016,7 +4017,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "!openCaseData.activeTab"
+                          "value" : "caseFilterData.archivedCaseTabIsActive"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4068,7 +4069,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "openCaseData.activeTab"
+                          "value" : "!caseFilterData.archivedCaseTabIsActive"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -4438,7 +4439,7 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "{{deleteCaseCtrl.deleteCaseUrl()}}/{{deleteCaseData.selectedCase.id}}"
+                          "value" : "{{ deleteCaseCtrl.deleteCaseUrl }}/{{deleteCaseData.selectedCase.id}}"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
@@ -4600,10 +4601,10 @@
           },
           "params" : {
             "type" : "expression",
-            "value" : "filterParams"
+            "value" : "caseFilterData.filters"
           }
         },
-        "reference" : "128dd787-f5ec-40e4-812b-75c460514a18",
+        "reference" : "df04be35-e6b1-48e7-b6b3-af5cb3e88b22",
         "hasValidationError" : false,
         "id" : "customURLSearchParams"
       }
@@ -4631,25 +4632,14 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    sortByOptions: [",
-        "        { displayKey: \"Case ID (Asc)\", returnKey: \"ASC\" },",
-        "        { displayKey: \"Case ID (Desc)\", returnKey: \"DESC\" },",
-        "        { displayKey: \"Process name (Asc)\", returnKey: \"name+ASC\" },",
-        "        { displayKey: \"Process name (Desc)\", returnKey: \"name+DESC\" },",
-        "        { displayKey: \"Start date (Newest first)\", returnKey: \"startDate+DESC\" },",
-        "        { displayKey: \"Start date (Oldest first)\", returnKey: \"startDate+ASC\" }",
-        "    ],",
         "    filters: {",
-        "        caseIdFilter: \"\",",
-        "        sortOrder: \"\",",
-        "        searchValue: \"\"",
+        "        caseIdFilter: \"\"",
         "    },",
         "    displayedItems: [],",
         "    numberOfCasesPerPage: 10,",
         "    refreshAction: [],",
         "    timestamp: 0,",
-        "    // Only needed as a setter for the archived tab in the tab container",
-        "    archivedCaseActiveTab: $data.activeTab === \"archived\"",
+        "    previousSearchValue: \"\"",
         "};"
       ],
       "exposed" : false
@@ -4660,45 +4650,6 @@
         "return {",
         "    payload: function(id){",
         "        return {\"id\": id};",
-        "    }",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "openCaseData" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    activeTab: $data.activeTab === \"\" || $data.activeTab !== \"archived\",",
-        "    filters: {",
-        "        caseState: \"\"",
-        "    },",
-        "    statesOptions: [",
-        "        { displayName: \"All states\", returnKey: \"allStates\" },",
-        "        { displayName: \"With failures\", returnKey: \"error\"}",
-        "    ],",
-        "    acceptableStates: [\"allStates\", \"error\"]",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "openCaseCtrl" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    openCasesQueryParameters: function() {",
-        "        var queryParameters = \"&n=activeFlowNodes&n=failedFlowNodes\";",
-        "        ",
-        "        if ($data.openCaseData.filters.caseState) {",
-        "            queryParameters += \"&f=state=\" +  $data.openCaseData.filters.caseState;",
-        "        } else if ($data.caseStateFilter) {",
-        "            if ($data.openCaseData.acceptableStates.includes($data.caseStateFilter)) {",
-        "                $data.openCaseData.filters.caseState = angular.copy($data.caseStateFilter);",
-        "                queryParameters += \"&f=state=\" + angular.copy($data.caseStateFilter);",
-        "            }",
-        "        }",
-        "        ",
-        "        return queryParameters;",
         "    }",
         "};"
       ],
@@ -4771,9 +4722,7 @@
         "    getChangeButtonLabel: function(statusCode) {\r",
         "        return statusCode === 200 ? uiTranslate(\"Close\") : uiTranslate(\"Cancel\");\r",
         "    },\r",
-        "    deleteCaseUrl: function() {\r",
-        "        return $data.openCaseData.activeTab ? '../API/bpm/case' : '../API/bpm/archivedCase';\r",
-        "    }\r",
+        "    deleteCaseUrl: $data.caseFilterData.archivedCaseTabIsActive ? '../API/bpm/archivedCase' : '../API/bpm/case'\r",
         "};"
       ],
       "exposed" : false
@@ -4809,63 +4758,51 @@
       ],
       "exposed" : false
     },
-    "activeTab" : {
+    "activeTabParam" : {
       "type" : "urlparameter",
       "value" : [
         "tab"
       ],
       "exposed" : false
     },
-    "apiOpenCases" : {
-      "type" : "constant",
-      "value" : [
-        "../API/bpm/case"
-      ],
-      "exposed" : false
-    },
-    "apiArchivedCases" : {
-      "type" : "constant",
-      "value" : [
-        "../API/bpm/archivedCase"
-      ],
-      "exposed" : false
-    },
-    "caseCtrl" : {
+    "caseQueryParameters" : {
       "type" : "expression",
       "value" : [
-        "return {",
-        "    getCaseQueryParameters: function() {",
-        "        var queryParameters = \"&d=processDefinitionId&d=started_by&d=startedBySubstitute&t=\" + $data.caseData.timestamp;",
-        "        ",
-        "        if ($data.openCaseData.activeTab) {",
-        "            queryParameters += $data.openCaseCtrl.openCasesQueryParameters();",
-        "        }",
-        "        ",
-        "        if ($data.processData.processId) {",
-        "            queryParameters += \"&f=processDefinitionId=\" + $data.processData.processId;",
-        "        } else if ($data.processData.processByIdStatusCode === \"\" && $data.processIdQueryParam && $data.processIdQueryParam !== \"\") {",
-        "            queryParameters += \"&f=processDefinitionId=\" + $data.processIdQueryParam;",
-        "        }",
-        "        ",
-        "        if ($data.caseData.filters.sortOrder) {",
-        "            var idModifier = \"\";",
-        "            if ($data.caseData.filters.sortOrder === \"ASC\" || $data.caseData.filters.sortOrder === \"DESC\") {",
-        "                if ($data.openCaseData.activeTab) {",
-        "                    idModifier = \"id+\";",
-        "                } else {",
-        "                    idModifier = \"sourceObjectId+\";",
-        "                }",
-        "            }",
-        "            queryParameters += \"&o=\" + idModifier + $data.caseData.filters.sortOrder;",
-        "        }",
-        "        ",
-        "        if ($data.caseData.filters.searchValue) {",
-        "            queryParameters += \"&s=\" +  $data.caseData.filters.searchValue;",
-        "        }",
-        "        ",
-        "        return queryParameters;",
+        "const sortId = function(filters, archived){",
+        "    return filters.sort === \"ASC\" || filters.sort === \"DESC\" ? archived ? 'sourceObjectId ' : 'id ' : '';",
+        "};",
+        "",
+        "const buildURLSearchParams = function(filters, archived, timestamp){",
+        "    const urlSearchParams = new URLSearchParams();",
+        "    urlSearchParams.append('d', 'processDefinitionId');",
+        "    urlSearchParams.append('d', 'started_by');",
+        "    urlSearchParams.append('d', 'startedBySubstitute');",
+        "    urlSearchParams.append('t', timestamp);",
+        "    if(!archived){",
+        "        urlSearchParams.append('n', 'activeFlowNodes');",
+        "        urlSearchParams.append('n', 'failedFlowNodes');",
         "    }",
-        "};"
+        "    if(!archived && filters.caseStateFilter){",
+        "        urlSearchParams.append('f', 'state='+ filters.caseStateFilter);",
+        "    }",
+        "    if(filters.processId){",
+        "        urlSearchParams.append('f', 'processDefinitionId='+ filters.processId);",
+        "    }",
+        "    if(filters.sort){",
+        "        urlSearchParams.append('o', `${sortId(filters, archived)}${filters.sort}`);",
+        "    }",
+        "     if(filters.search){",
+        "        urlSearchParams.append('s', filters.search);",
+        "    }",
+        "    return '&' + urlSearchParams.toString();",
+        "};",
+        "",
+        "if ($data.caseFilterData && $data.caseFilterData.filters) {",
+        "  return {",
+        "        api: $data.caseFilterData.archivedCaseTabIsActive ? '../API/bpm/archivedCase' : '../API/bpm/case',",
+        "        queryParameters: buildURLSearchParams($data.caseFilterData.filters, $data.caseFilterData.archivedCaseTabIsActive, $data.caseData.timestamp)",
+        "   };",
+        "}"
       ],
       "exposed" : false
     },
@@ -4873,23 +4810,9 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    hideDropdownMenu: function() {",
-        "        return !$data.processUrl",
-        "                || $data.processUrl.length === 0 ",
-        "                || $data.processData.processSearch === \"\";",
-        "    },",
-        "    getProcessSearchUrl: function() {",
-        "        if ($data.processData.processSearch && $data.processData.selectedProcessName !== $data.processData.processSearch) { ",
-        "            return \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch;    ",
-        "        }",
-        "        return undefined;",
-        "    },",
-        "    getProcessByIdUrl: function() {",
-        "        if ($data.processData.selectedProcessList === undefined && $data.filterParams && $data.filterParams.processId) { ",
-        "            return \"../API/bpm/process/\" + $data.filterParams.processId;    ",
-        "        }",
-        "        return undefined;",
-        "    }",
+        "    hideDropdownMenu: !$data.processUrl || $data.processUrl.length === 0 || $data.processData.processSearch === \"\",",
+        "    getProcessSearchUrl: $data.processData.processSearch && $data.processData.selectedProcessName !== $data.processData.processSearch ? \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch  : undefined,",
+        "    getProcessByIdUrl: $data.processData.selectedProcessList === undefined && $data.caseFilterData && $data.caseFilterData.filters && $data.caseFilterData.filters.processId ? \"../API/bpm/process/\" + $data.caseFilterData.filters.processId : undefined",
         "};"
       ],
       "exposed" : false
@@ -4901,7 +4824,6 @@
         "    selectedProcessList: undefined,",
         "    selectedProcessName: undefined,",
         "    processSearch: \"\",",
-        "    processId: undefined,",
         "    statusCode: \"\",",
         "    processByIdStatusCode: \"\"",
         "};"
@@ -4911,23 +4833,29 @@
     "processHandler" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.caseFilterData) {",
+        "    return;",
+        "}",
+        "",
         "if ($data.processData.selectedProcessList && $data.processData.selectedProcessList.length > 0) {",
         "    $data.processData.processSearch = $data.processData.selectedProcessList[0].displayName;",
         "    $data.processData.selectedProcessName = $data.processData.processSearch;",
-        "    $data.processData.processId = $data.processData.selectedProcessList[0].id;",
+        "    $data.processIdParam = $data.processData.selectedProcessList[0].id;",
         "    $data.processData.selectedProcessList = [];",
         "    $data.processUrl = undefined;",
+        "    $data.processData._initialized = true;",
         "}",
         "",
         "if ($data.processData.statusCode !== \"\" && $data.processData.statusCode !== 200) {",
         "    $data.processUrl = undefined;",
         "}",
         "",
-        "if ($data.processData.processId && $data.processData.processSearch === \"\") {",
-        "    $data.processData.processId = undefined;",
-        "    // Reset the url parameter",
-        "    $data.processIdQueryParam = undefined;",
-        "    $data.filterParams.processId = undefined;",
+        "if ($data.processData._initialized",
+        "       && $data.caseFilterData ",
+        "       && $data.caseFilterData.filters.processId ",
+        "       && $data.processData.processSearch === \"\") {",
+        "    // Reset the processIdParam if set set and processSearch is cleared",
+        "    $data.processIdParam = undefined;",
         "}"
       ],
       "exposed" : false
@@ -4935,7 +4863,7 @@
     "processUrl" : {
       "type" : "url",
       "value" : [
-        "{{processCtrl.getProcessSearchUrl()}}"
+        "{{processCtrl.getProcessSearchUrl}}"
       ],
       "advancedOptions" : {
         "headers" : "",
@@ -4944,7 +4872,7 @@
       },
       "exposed" : false
     },
-    "processIdQueryParam" : {
+    "processIdParam" : {
       "type" : "urlparameter",
       "value" : [
         "processId"
@@ -4954,7 +4882,7 @@
     "processById" : {
       "type" : "url",
       "value" : [
-        "{{processCtrl.getProcessByIdUrl()}}"
+        "{{processCtrl.getProcessByIdUrl}}"
       ],
       "advancedOptions" : {
         "headers" : "",
@@ -4967,9 +4895,10 @@
       "type" : "expression",
       "value" : [
         "if ($data.processById) {",
-        "    $data.processData.processId = $data.processById.id;",
+        "    $data.processIdParam = $data.processById.id;",
         "    $data.processData.processSearch = $data.processById.displayName;",
         "    $data.processData.selectedProcessName = $data.processData.processSearch;",
+        "    $data.processData._initialized = true;",
         "    $data.processById = undefined;",
         "}"
       ],
@@ -5006,21 +4935,61 @@
       ],
       "exposed" : false
     },
-    "caseStateFilter" : {
+    "caseStateParam" : {
       "type" : "urlparameter",
       "value" : [
         "caseStateFilter"
       ],
       "exposed" : false
     },
-    "filterParams" : {
+    "sortParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "sort"
+      ],
+      "exposed" : false
+    },
+    "searchParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "search"
+      ],
+      "exposed" : false
+    },
+    "caseFilterData" : {
       "type" : "expression",
       "value" : [
-        "return {",
-        "    tab: $data.caseData && $data.caseData.archivedCaseActiveTab ? 'archived' : undefined ,",
-        "    caseStateFilter: ($data.openCaseData && $data.openCaseData.filters && $data.openCaseData.filters.caseState ? $data.openCaseData.filters.caseState : undefined) || $data.caseStateFilter,",
-        "    processId: ($data.processData ? $data.processData.processId : undefined) || $data.processIdQueryParam",
-        "};"
+        "const result = $data.caseFilterData ? angular.copy($data.caseFilterData) : {};",
+        "if(!result.filters){",
+        "    result.filters = {};",
+        "}",
+        "if(!result.SORT_OPTIONS){",
+        "    result.SORT_OPTIONS = [",
+        "            { displayKey: \"Case ID (Asc)\", returnKey: \"ASC\" },",
+        "            { displayKey: \"Case ID (Desc)\", returnKey: \"DESC\" },",
+        "            { displayKey: \"Process name (Asc)\", returnKey: \"name ASC\" },",
+        "            { displayKey: \"Process name (Desc)\", returnKey: \"name DESC\" },",
+        "            { displayKey: \"Start date (Newest first)\", returnKey: \"startDate DESC\" },",
+        "            { displayKey: \"Start date (Oldest first)\", returnKey: \"startDate ASC\" }",
+        "        ];",
+        "}",
+        "if(!result.STATE_OPTIONS){",
+        "    result.STATE_OPTIONS = [",
+        "        { displayName: \"All states\", returnKey: \"allStates\" },",
+        "        { displayName: \"With failures\", returnKey: \"error\"}",
+        "    ];",
+        "}",
+        "// Initialized tab state with url param on first page load based on the tab url parameter",
+        "// We must do this due to the accepted type for selected value in the Tab container (boolean vs string for url param)",
+        "if(result.filters.tab === undefined){",
+        "    result.archivedCaseTabIsActive = ($data.activeTabParam &&  $data.activeTabParam === 'archived') || false;",
+        "}",
+        "result.filters.processId = $data.processIdParam;",
+        "result.filters.sort = $data.sortParam && result.SORT_OPTIONS.map( (option) => option.returnKey ).includes($data.sortParam) ? $data.sortParam : undefined;",
+        "result.filters.search = $data.searchParam;",
+        "result.filters.caseStateFilter = $data.caseStateParam && result.STATE_OPTIONS.map( (option) => option.returnKey ).includes($data.caseStateParam) ?  $data.caseStateParam : undefined;",
+        "result.filters.tab = result.archivedCaseTabIsActive ? 'archived' : '';",
+        "return result;"
       ],
       "exposed" : false
     }
