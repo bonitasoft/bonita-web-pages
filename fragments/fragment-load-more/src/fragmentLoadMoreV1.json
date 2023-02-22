@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.2",
   "id" : "fragmentLoadMoreV1",
   "name" : "fragmentLoadMoreV1",
-  "lastUpdate" : 1660815030807,
+  "lastUpdate" : 1676391077897,
   "rows" : [
     [
       {
@@ -242,6 +242,10 @@
     "handler" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.data) {\r",
+        "    return;\r",
+        "}\r",
+        "\r",
         "//if the API to call changes reset the displayed items\r",
         "if($data.urlPrefix !== $data.data.currentURLPrefix\r",
         "    || $data.filtersString !== $data.data.currentFilterString) {\r",
@@ -410,7 +414,7 @@
     "addToQueueRequest" : {
       "type" : "expression",
       "value" : [
-        "if(!$data.urlPrefix || !$data.filtersString)",
+        "if(!$data.data || !$data.urlPrefix || !$data.filtersString)",
         "    return;",
         "    ",
         "//If the request is already in the queue or is the current one we return",

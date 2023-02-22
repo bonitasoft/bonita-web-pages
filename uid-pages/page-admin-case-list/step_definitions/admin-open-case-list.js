@@ -2,11 +2,12 @@ import { Given as given, Then as then, When as when } from "cypress-cucumber-pre
 
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
-const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes';
+const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
+const flowNodeCounters = '&n=activeFlowNodes&n=failedFlowNodes';
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
-const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters;
+const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=0' + flowNodeCounters;
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=';
 const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
@@ -25,50 +26,51 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             });
             break;
         case "default filter":
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
+            createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case "default filter without features":
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'openCases5Route', 'openCases5');
+            createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             break;
         case "default filter with headers":
-            createRouteWithResponseAndHeaders('&t=0', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndHeaders('', 'openCases5Route', 'openCases5', {'content-range': '0-5/5'});
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case 'process name':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
         case 'processId filter':
             createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
             createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
+            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
             break;
         case 'sort by':
-            createRoute('&t=0&o=id+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&t=0&o=id+DESC', 'sortByCaseIdDescRoute');
-            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
-            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
-            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
-            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
+            createRoute('&o=id+ASC', 'sortByCaseIdAscRoute');
+            createRoute('&o=id+DESC', 'sortByCaseIdDescRoute');
+            createRoute('&o=name+ASC', 'sortByProcessNameAscRoute');
+            createRoute('&o=name+DESC', 'sortByProcessNameDescRoute');
+            createRoute('&o=startDate+DESC', 'sortByStartDateDescRoute');
+            createRoute('&o=startDate+ASC', 'sortByStartDateAscRoute');
             break;
         case 'search by name':
-            createRoute('&t=0&s=Process', 'searchRoute');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRoute('&s=Process', 'searchRoute');
+            createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
+            createRouteWithResponse(defaultRequestUrl,'&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
+            createRouteWithResponse(defaultRequestUrl,'&f=state=allStates', 'openCases5Route', 'openCases5');
             break;
         case 'refresh open case list':
-            createRouteWithResponseAndHeaders('&t=0', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
-            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 1, 10);
-            createRouteWithResponseAndPagination('&t=0', 'openCases10Route', 'openCases10', 2, 10);
-            createRouteWithResponse(defaultRequestUrl, '&t=1*', 'openCases10Route', 'openCases10');
+            createRouteWithResponseAndHeaders('', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
+            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 1, 10);
+            createRouteWithResponseAndPagination('', 'openCases10Route', 'openCases10', 2, 10);
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters, '&t=1*' + flowNodeCounters, 'openCases10Route', 'openCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'openCases10');
+            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCases10');
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
             break;
@@ -86,7 +88,13 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponseAndMethodAndStatus(urlPrefix + adminOpenCaseListUrl + "/3001", 'unauthorizedDeleteCaseRoute', 'emptyResult', 'DELETE', '500');
             break;
         case 'no open cases':
-            createRouteWithResponse(defaultRequestUrl, '&t=0', 'noOpenCasesRoute', 'emptyResult');
+            createRouteWithResponse(defaultRequestUrl, '', 'noOpenCasesRoute', 'emptyResult');
+            break;
+        case 'open cases with errors':
+            createRouteWithResponse(defaultRequestUrl, '&f=state=error', 'casesWithErrorCaseStateFilterRoute', 'emptyResult');
+            break;
+        case 'case list with all filters':
+            createRouteWithResponse(defaultRequestUrl, '&f=state=error&f=processDefinitionId=4778742813773463488&o=id+ASC&s=Pool', 'casesWithAllFiltersRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
@@ -142,7 +150,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + adminOpenCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters;
+        const loadMoreUrl = urlPrefix + adminOpenCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters + '&t=0' + flowNodeCounters;
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -172,16 +180,20 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 });
 
+given("The viewport is bigger than usual", () => {
+    cy.viewport(1366, 1500);
+});
+
 when("I visit the admin case list page", () => {
     cy.visit(url);
 });
 
-when("I visit the admin case list page with processId query parameter", () => {
-    cy.visit(url + "?processId=4778742813773463488");
-});
-
-when("I visit the admin case list page with {string} tab query parameter", (tabQueryParameterValue) => {
-    cy.visit(url + "?tab=" + tabQueryParameterValue);
+when("I visit the admin case list page with the following url parameters", (urlParams) => {
+    const searchParams = new URLSearchParams();
+    for(let [name, value] of Object.entries(urlParams.rowsHash())){
+        searchParams.set(name, value);
+    }
+    cy.visit(url + '?' + searchParams.toString());
 });
 
 when("I click on {string} tab", (tabName) => {
@@ -375,6 +387,7 @@ then("The open case list have the correct information", () => {
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View case details').should('be.visible');
         cy.get('.glyphicon-trash').should('have.attr', 'title', 'Delete case').should('be.visible');
     });
+    cy.contains('.text-primary.item-label:visible', 'Cases shown: ').scrollIntoView();
     cy.get('.case-item:visible').eq(4).within(() => {
         // Check that the element exist.
         cy.get('.item-value').contains('3005');
@@ -405,10 +418,12 @@ then("I see an open case list page", () => {
 });
 
 then("A list of {string} items is displayed", (nbrOfItems) => {
+    cy.contains('.text-primary.item-label:visible', 'Cases shown: ').scrollIntoView();
     cy.get('.case-item:visible', {timeout: 10000}).should('have.length', nbrOfItems);
 });
 
 then("A list of {string} items is displayed out of {string}", (nbrOfItems, totalItems) => {
+    cy.contains('.text-primary.item-label:visible', 'Cases shown: ').scrollIntoView();
     cy.get('.case-item:visible').should('have.length', nbrOfItems);
     cy.get('.text-primary.item-label:visible').contains('Cases shown: ' + nbrOfItems + ' of ' + totalItems);
 });
@@ -541,7 +556,7 @@ then("The api call is made with a different processId", () => {
     cy.wait('@process1CasesRoute');
 });
 
-then("There is no {string} button in the open case list", (btnLabel) => {
+then("There is no {string} button in the open case list", () => {
     cy.get('.glyphicon-picture').should('have.attr', 'title', 'View diagram').should('not.be.visible');
 });
 
@@ -555,4 +570,48 @@ then("The open case item header is displayed correctly", () => {
     cy.get('.item-label-container i.glyphicon-info-sign').should('have.attr', 'title', 'Aggregates tasks in states ready, waiting, executing, completing, and initializing.');
     cy.contains('.item-label-container p', 'Pending flow nodes').should('be.visible');
     cy.contains('.item-label-container p', 'Actions').should('be.visible');
+});
+
+then("The api call is made for open cases with errors", () => {
+    cy.wait('@casesWithErrorCaseStateFilterRoute');
+});
+
+then("The api call is made for the default request", () => {
+    cy.wait('@openCases5Route');
+});
+
+then("{string} url parameter is set to {string}", (name, value) => {
+    cy.url().should('include', `${name}=${value}`);
+});
+
+then("{string} url parameter is absent or empty", (name) => {
+    cy.url().should('satisfy', (urlString) => {
+        const url = new URL(urlString);
+        return !url.searchParams.has(name) || url.searchParams.get(name) === '' 
+                    || url.searchParams.get(name) === undefined;
+    });
+});
+
+then("The process name filter is set to {string}", (processName) => {
+    cy.get('.dropdown input').should('have.value', processName);
+});
+
+then("The sort filter is set to {string}", (sortValue) => {
+    cy.get('.filter-sort option:selected')
+        .invoke("text")
+        .should("eq", sortValue);
+});
+
+then("The search filter is set to {string}", (searchValue) => {
+    cy.get('.filter-search input').should('have.value', searchValue);
+});
+
+then("The case state filter is set to {string}", (state) => {
+    cy.get('.filter-state option:selected')
+        .invoke("text")
+        .should("eq", state);
+});
+
+then("The API call is made with all filters", () => {
+    cy.wait('@casesWithAllFiltersRoute');
 });
