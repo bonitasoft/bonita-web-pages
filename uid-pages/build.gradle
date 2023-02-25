@@ -39,12 +39,17 @@ subprojects { subProject ->
 
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page-crowdin'
-    publishToMavenLocal.dependsOn buildUIDPage
 
+    def pageArchiveFile = layout.buildDirectory.file("${project.name}-${project.version}.zip")
+    def pagetArtifact = artifacts.add('archives', pageArchiveFile.get().asFile) {
+        type 'zip'
+        builtBy 'buildUIDPage'
+    }
+    
     publishing {
         publications {
             maven(MavenPublication) {
-                artifact (file("${project.buildDir}/${project.name}-${project.version}.zip"))
+                artifact pagetArtifact
                 artifact (sourceUIDPage) {
                     classifier "sources"
                     extension "zip"
@@ -52,4 +57,5 @@ subprojects { subProject ->
             }
         }
     }
+
 }
