@@ -12,7 +12,7 @@ subprojects { subProject ->
         task unzip(type: Copy) {
             dependsOn('buildUIDPage')
             def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
-            def outputDir = file("${buildDir}/dist")
+            def outputDir = file("build/dist")
 
             from zipTree(zipFile)
             into outputDir

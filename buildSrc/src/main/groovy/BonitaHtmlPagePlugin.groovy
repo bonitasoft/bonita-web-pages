@@ -9,11 +9,15 @@ class BonitaHtmlPagePlugin implements Plugin<Project> {
         project.plugins.apply('com.github.node-gradle.node')
         project.plugins.apply('distribution')
         def projectRootDir = project.rootProject.projectDir
+        def cacheDir = project.rootProject.layout.projectDirectory.dir(".gradle")
 
         project.node {
-            download = true
             version = Versions.nodeVersion
             npmVersion = Versions.npmVersion
+            // Use a single node + npm install location for all the sub projects
+            workDir = cacheDir.dir('nodejs')
+            npmWorkDir = cacheDir.dir('npm')
+            download = !workDir.getAsFile().get().exists()
         }
 
         project.tasks.npm_install.configure {

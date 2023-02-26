@@ -9,19 +9,21 @@ class BonitaPagePlugin implements Plugin<Project> {
         project.plugins.apply('com.github.node-gradle.node')
         project.plugins.apply('distribution')
         def currentDir = project.rootProject.projectDir
+        def cacheDir = project.rootProject.layout.projectDirectory.dir(".gradle")
 
         project.node {
-            download = true
-
             version = Versions.nodeVersion
             npmVersion = Versions.npmVersion
+            // Use a single node + npm install location for all the sub projects
+            workDir = cacheDir.dir('nodejs')
+            npmWorkDir = cacheDir.dir('npm')
+            download = !workDir.getAsFile().get().exists()
         }
 
         project.tasks.npm_install.configure {
             group 'Bonita'
             description 'Install node moodule for this project'
             inputs.files('package.json', 'package-lock.json')
-            outputs.dirs('node_modules')
         }
 
         def buildPage = project.task([type: com.github.gradle.node.npm.task.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
