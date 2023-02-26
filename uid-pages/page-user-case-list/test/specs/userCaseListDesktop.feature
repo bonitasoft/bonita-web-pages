@@ -40,6 +40,7 @@ Feature: The user open case list in desktop resolution
     And No open cases for "process name" are available response is defined
     When I visit the user case list page
     Then A list of open cases is displayed
+    And The process list has the right content
     When I select "Another My Pool (1.0)" in "process name" filter for "open" cases
     Then I see only the filtered open cases by "process name"
     And I don't see the cases that are unmatched by the "process name" filter
