@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "UserCaseListBonitaV5",
-  "name" : "UserCaseListBonitaV5",
-  "lastUpdate" : 1643725900851,
+  "id" : "UserCaseListBonitaV8",
+  "name" : "UserCaseListBonitaV8",
+  "lastUpdate" : 1677141732350,
   "rows" : [
     [
       {
@@ -3256,7 +3256,7 @@
     "processes" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/process?c=9999&o=displayName%20ASC"
+        "../API/bpm/process?c=9999&f=user_id%3D{{session.user_id}}&o=displayName%20ASC"
       ],
       "exposed" : false
     },
@@ -3265,10 +3265,6 @@
       "value" : [
         "../API/system/session/unusedId"
       ],
-      "exposed" : false
-    },
-    "processFilter" : {
-      "type" : "constant",
       "exposed" : false
     },
     "openCaseCtrl" : {
@@ -3395,12 +3391,19 @@
     "openCaseData" : {
       "type" : "expression",
       "value" : [
+        "let uniqueProcesses = [];",
+        "//concat processes the user can start and processes with pending or assign task for the user",
+        "if ($data.processes && $data.processesWithTask) {",
+        "    uniqueProcesses = $data.processes.concat($data.processesWithTask.filter((value) =>",
+        "      $data.processes.findIndex((t) => (t.id === value.id)) < 0",
+        "    )).sort((a,b) => a.displayName.localeCompare(b.displayName));",
+        "}",
         "return {",
         "    activeTab: true,",
         "    processesOptions: ",
         "        [{ displayName: uiTranslate(\"All processes\"),",
         "            version: uiTranslate(\"all versions\")",
-        "        }].concat($data.processes),",
+        "        }].concat(uniqueProcesses),",
         "    sortByOptions: [   ",
         "        { displayKey: \"Case ID (Asc)\", returnKey: \"id+ASC\" },",
         "        { displayKey: \"Case ID (Desc)\", returnKey: \"id+DESC\" },",
@@ -3471,6 +3474,13 @@
         "    $data.casesData.refreshAction = [];",
         "    $data.casesData.displayedCases = [];",
         "}"
+      ],
+      "exposed" : false
+    },
+    "processesWithTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?c=9999&f=user_id%3D{{session.user_id}}&f=forPendingOrAssignedTask%3Dtrue&o=displayName%20ASC"
       ],
       "exposed" : false
     }
