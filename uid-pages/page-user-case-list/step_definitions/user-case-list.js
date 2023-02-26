@@ -71,7 +71,7 @@ given("A list of processes is available", ()=>{
     cy.fixture('json/processes.json').as('processes');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/bpm/process*',
+        url: 'build/dist/API/bpm/process?c=9999&f=user_id*',
         response: '@processes',
     }).as('processesRoute');
 });
@@ -544,6 +544,20 @@ when("I click on go to case details button", ()=>{
 
 when("I wait for no open cases api call", () => {
     cy.wait('@noOpenCasesRoute');
+});
+
+then("The process list has the right content", ()=>{
+    cy.get('select:visible').eq(0).children('option:visible').then(options => {
+        const actual = [...options].map(o => o.text);
+        expect(actual).to.deep.eq([
+            'All processes (all versions)',
+            'Another My Pool (1.0)',
+            'Cancel Vacation Request (1.0)',
+            'Pool (1.0)',
+            'Pool3 (1.0)',
+            'Pool3 (2.0)'
+        ]);
+    })
 });
 
 then("A list of open cases is displayed", ()=>{
