@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminResourceListBonitaV4",
-  "name" : "adminResourceListBonitaV4",
-  "lastUpdate" : 1652713933714,
+  "id" : "adminResourceListBonitaV7",
+  "name" : "adminResourceListBonitaV7",
+  "lastUpdate" : 1677082913032,
   "rows" : [
     [
       {
@@ -2437,7 +2437,7 @@
                                 },
                                 "value" : {
                                   "type" : "variable",
-                                  "value" : "installData.filePath"
+                                  "value" : "installData.uploadResponse"
                                 },
                                 "errorContent" : {
                                   "type" : "variable",
@@ -2621,6 +2621,58 @@
                                 },
                                 "hidden" : {
                                   "type" : "expression",
+                                  "value" : "!installCtrl.isResourcePermissionsWarningVisible()"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'The page grants concerned user profiles the following authorizations:' | translate}}\n<ul>{{installCtrl.getResourcePermissions()}}</ul>"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "a55b1717-341c-486e-992a-0f0236cb04be",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
                                   "value" : "installData.statusCode !== 200"
                                 },
                                 "allowHTML" : {
@@ -2763,7 +2815,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!installData.filePath || !installData.filePath.tempPath"
+                          "value" : "!installData.uploadResponse || !installData.uploadResponse.tempPath"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -3195,7 +3247,7 @@
                                 },
                                 "value" : {
                                   "type" : "variable",
-                                  "value" : "installData.filePath"
+                                  "value" : "installData.uploadResponse"
                                 },
                                 "errorContent" : {
                                   "type" : "variable",
@@ -3431,6 +3483,58 @@
                                 },
                                 "hidden" : {
                                   "type" : "expression",
+                                  "value" : "!installCtrl.isResourcePermissionsWarningVisible()"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'The page grants concerned user profiles the following authorizations:' | translate}}\n<ul>{{installCtrl.getResourcePermissions()}}</ul>"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "aec6043d-b1df-44fd-8b30-f457579c8a4e",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
                                   "value" : "installData.statusCode !== 200"
                                 },
                                 "labelHidden" : {
@@ -3573,7 +3677,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "!installData.filePath || !installData.filePath.tempPath"
+                          "value" : "!installData.uploadResponse || !installData.uploadResponse.tempPath"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -4868,7 +4972,6 @@
         "    return false;",
         "};",
         "",
-        "",
         "return {",
         "    installItem : function(url) {",
         "        $data.installData.installingItem = true;",
@@ -4883,21 +4986,36 @@
         "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");",
         "    },",
         "    initInstallModal : function() {",
-        "        $data.installData.filePath = undefined;",
+        "        $data.installData.uploadResponse = undefined;",
         "        $data.installData.statusCode = '';",
         "        return \"addItem\";",
         "    },",
         "    initUpdateModal : function(item) {",
-        "        $data.installData.filePath = undefined;",
+        "        $data.installData.uploadResponse = undefined;",
         "        $data.installData.item = item;",
         "        $data.installData.statusCode = '';",
         "        return \"updateItem\";",
         "    },",
         "    getInstallPayload : function() {",
         "        return {",
-        "            pageZip: $data.installData.filePath.tempPath,",
-        "            contentName: $data.installData.filePath.filename",
+        "            pageZip: $data.installData.uploadResponse.tempPath,",
+        "            contentName: $data.installData.uploadResponse.filename",
         "        };",
+        "    },",
+        "    isResourcePermissionsWarningVisible : function() {",
+        "        if ($data.installData.uploadResponse) {",
+        "           return Array.isArray($data.installData.uploadResponse.permissions) && $data.installData.uploadResponse.permissions.length !== 0;",
+        "        }",
+        "        return false;",
+        "    },",
+        "    getResourcePermissions : function() {",
+        "        let permissions = \"\";",
+        "        if (Array.isArray($data.installData.uploadResponse.permissions)) {",
+        "           $data.installData.uploadResponse.permissions.forEach((element) => {",
+        "               permissions = permissions + \"<li>\" + element + \"</li>\\n\";",
+        "           });",
+        "        }",
+        "        return permissions;",
         "    },",
         "    getChangeButtonLabel: function() {",
         "        var buttonLabel = $data.installData.statusCode === 200 ? \"Close\" : \"Cancel\";",
@@ -4920,7 +5038,7 @@
         "return {",
         "    item: undefined,",
         "    statusCode : \"\",",
-        "    filePath : undefined,",
+        "    uploadResponse : undefined,",
         "    installingItem : false,",
         "    successInstallResponse: undefined,",
         "    failedInstallResponse : undefined",
@@ -4934,7 +5052,7 @@
         "// After the item is installed",
         "if($data.installData.statusCode !== '' && $data.installData.installingItem){",
         "    $data.installData.installingItem = false;",
-        "    $data.installData.filePath = undefined;",
+        "    $data.installData.uploadResponse = undefined;",
         "    $data.resourceListData.timestamp = new Date().getTime();",
         "    setTimeout(function() {",
         "        $data.installData.statusCode = '';",
