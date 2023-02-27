@@ -14,10 +14,7 @@ class BonitaPagePlugin implements Plugin<Project> {
         project.node {
             version = Versions.nodeVersion
             npmVersion = Versions.npmVersion
-            // Use a single node + npm install location for all the sub projects
-            workDir = cacheDir.dir('nodejs')
-            npmWorkDir = cacheDir.dir('npm')
-            download = !workDir.getAsFile().get().exists()
+            download = true
         }
 
         project.tasks.npm_install.configure {
