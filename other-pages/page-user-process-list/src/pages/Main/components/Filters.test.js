@@ -12,7 +12,7 @@ const mockupState = {
         name: 'azdfesfe',
         description: '',
         creation_date: '2018-03-02 11:05:39.490',
-        id: i.toString()
+        id: i.toString(),
       };
       return categories;
     },
@@ -23,14 +23,14 @@ const mockupState = {
         name: 'all',
         description: 'All Categories among processes',
         creation_date: 'a',
-        id: 'all'
-      }
+        id: 'all',
+      },
     }
   ),
   filters: {
     categoryId: '0',
-    search: ''
-  }
+    search: '',
+  },
 };
 
 describe('<Filters />', () => {
@@ -47,10 +47,7 @@ describe('<Filters />', () => {
     const wrapper = mount(
       <Filters {...mockupState} onChange={updateFiltersMock} />
     );
-    wrapper
-      .find('.Filters-category-item a')
-      .at(0)
-      .simulate('click');
+    wrapper.find('.Filters-category-item a').at(0).simulate('click');
     expect(updateFiltersMock.mock.calls[0]).toEqual([{ categoryId: '0' }]);
   });
 });

@@ -29,7 +29,7 @@ class Url {
         },
         {
           queries: Url.parseQueries(parser.search),
-          fragments: Url.parseFragments(parser.hash)
+          fragments: Url.parseFragments(parser.hash),
         }
       );
     }
@@ -47,7 +47,7 @@ class Url {
     const url = [
       this.getPath(),
       Url.stringifyQueries(queries),
-      Url.stringifyFragments(fragments)
+      Url.stringifyFragments(fragments),
     ];
 
     return url.join('');
@@ -64,8 +64,8 @@ class Url {
       .replace('?', '')
       .replace(/\+/g, ' ')
       .split('&')
-      .filter(param => param) // to have empty array if split on empty str
-      .map(param => param.split('='))
+      .filter((param) => param) // to have empty array if split on empty str
+      .map((param) => param.split('='))
       .map(([key, value]) => [key, value])
       .reduce((queries, [key, value]) => {
         queries[key] =
@@ -79,13 +79,12 @@ class Url {
 
   static stringifyQueries(obj) {
     const str = Object.keys(obj)
-      .map(key => [key, obj[key]])
+      .map((key) => [key, obj[key]])
       .filter(([key, value]) => typeof value !== 'undefined')
-      .map(
-        ([key, value]) =>
-          !Array.isArray(value)
-            ? `${key}=${value}`
-            : value.map(element => `${key}=${element}`).join('&')
+      .map(([key, value]) =>
+        !Array.isArray(value)
+          ? `${key}=${value}`
+          : value.map((element) => `${key}=${element}`).join('&')
       )
       .join('&');
 

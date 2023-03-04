@@ -25,13 +25,13 @@ describe('Main', () => {
     history: { push: push },
     location: {},
     session: {
-      user_id: 1
-    }
+      user_id: 1,
+    },
   };
 
   it('should load processes and categories on mount', () => {
     const wrapper = shallow(<Main.WrappedComponent {...props} />, {
-      disableLifecycleMethods: true
+      disableLifecycleMethods: true,
     }).instance();
     const getProcesses = jest.fn();
     const getCategories = jest.fn();
@@ -46,7 +46,7 @@ describe('Main', () => {
 
   it('should format page number for bonita API', () => {
     const wrapper = shallow(<Main.WrappedComponent {...props} />, {
-      disableLifecycleMethods: true
+      disableLifecycleMethods: true,
     });
     let formatedNumber = wrapper.instance().formatPageNumberForBonitaAPI(2);
     expect(formatedNumber).toEqual(1);
@@ -58,7 +58,7 @@ describe('Main', () => {
     let component;
     beforeEach(() => {
       component = shallow(<Main.WrappedComponent {...props} />, {
-        disableLifecycleMethods: true
+        disableLifecycleMethods: true,
       }).instance();
       fetchMock.config.overwriteRoutes = true;
     });
@@ -75,18 +75,18 @@ describe('Main', () => {
           lastUpdatedBy: '0',
           lastUpdateDate: null,
           formRequired: false,
-          url: null
-        }
+          url: null,
+        },
       ];
       fetchMock.get(
         '../API/form/mapping?c=10&p=0&f=processDefinitionId%3D1114&f=type%3DPROCESS_START',
         {
-          body: expectedResponse
+          body: expectedResponse,
         }
       );
 
       const hasNoFormMapping = await component.hasInstantiationFormMapping({
-        id: '1114'
+        id: '1114',
       });
 
       expect(hasNoFormMapping).toEqual(false);
@@ -105,18 +105,18 @@ describe('Main', () => {
           lastUpdatedBy: '0',
           lastUpdateDate: null,
           formRequired: false,
-          url: null
-        }
+          url: null,
+        },
       ];
       fetchMock.get(
         '../API/form/mapping?c=10&p=0&f=processDefinitionId%3D1114&f=type%3DPROCESS_START',
         {
-          body: expectedResponse
+          body: expectedResponse,
         }
       );
 
       const hasNoFormMapping = await component.hasInstantiationFormMapping({
-        id: '1114'
+        id: '1114',
       });
 
       expect(hasNoFormMapping).toEqual(true);
@@ -128,7 +128,7 @@ describe('Main', () => {
 
     beforeEach(() => {
       wrapper = shallow(<Main.WrappedComponent {...props} />, {
-        disableLifecycleMethods: true
+        disableLifecycleMethods: true,
       }).instance();
     });
 
@@ -138,14 +138,14 @@ describe('Main', () => {
       await wrapper.handleProcessStart({
         version: '1.0',
         id: '12458725157',
-        displayName: 'My Process'
+        displayName: 'My Process',
       });
 
       expect(wrapper.state.show).toBe(true);
       expect(wrapper.state.process).toEqual({
         version: '1.0',
         id: '12458725157',
-        displayName: 'My Process'
+        displayName: 'My Process',
       });
       expect(push.mock.calls.length).toEqual(0);
     });
@@ -160,7 +160,7 @@ describe('Main', () => {
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process',
-        name: 'MyProcess'
+        name: 'MyProcess',
       });
 
       expect(!wrapper.state.process);
@@ -181,7 +181,7 @@ describe('Main', () => {
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process',
-        name: 'MyProcess'
+        name: 'MyProcess',
       });
 
       expect(!wrapper.state.process);
@@ -202,7 +202,7 @@ describe('Main', () => {
         version: '1.0',
         id: '12458725157',
         displayName: 'My Process',
-        name: 'MyProcess'
+        name: 'MyProcess',
       });
 
       expect(push.mock.calls[0][0]).toEqual(
@@ -214,7 +214,7 @@ describe('Main', () => {
   describe('redirectToInstantiationForm', () => {
     function generateWrapper(props, mountComponent) {
       let wrapper = shallow(<Main.WrappedComponent {...props} />, {
-        disableLifecycleMethods: true
+        disableLifecycleMethods: true,
       }).instance();
 
       wrapper.getProcesses = jest.fn();
@@ -238,14 +238,14 @@ describe('Main', () => {
       expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(0);
 
       window.location = {
-        search: '?redirect=task-list&processName=Pool'
+        search: '?redirect=task-list&processName=Pool',
       };
       props.location = window.location;
       wrapper = generateWrapper(props, true);
       expect(wrapper.redirectToInstantiationForm.mock.calls.length).toBe(0);
 
       window.location = {
-        search: '?redirect=task-list&processVersion=1.0'
+        search: '?redirect=task-list&processVersion=1.0',
       };
       props.location = window.location;
       wrapper = generateWrapper(props, true);
@@ -258,7 +258,7 @@ describe('Main', () => {
       window.location = {
         origin: 'http://localhost:8080',
         pathname: '/bonita/apps/process-list',
-        search: '?processName=Pool&processVersion=1.0'
+        search: '?processName=Pool&processVersion=1.0',
       };
       props.location = window.location;
       let wrapper = generateWrapper(props, true);
@@ -272,7 +272,7 @@ describe('Main', () => {
       window.location = {
         origin: 'http://localhost:8080',
         pathname: '/bonita/apps/process-list',
-        search: '?processName=Pool&processVersion=1.0'
+        search: '?processName=Pool&processVersion=1.0',
       };
       props.location = window.location;
       let wrapper = generateWrapper(props, false);
@@ -292,7 +292,7 @@ describe('Main', () => {
       window.location = {
         origin: 'http://localhost:8080',
         pathname: '/bonita/apps/process-list',
-        search: '?processName=Pool&processVersion=1.0'
+        search: '?processName=Pool&processVersion=1.0',
       };
       let query = querystring.parse(window.location.search.replace('?', ''));
       window.history.pushState = jest.fn();
@@ -310,7 +310,7 @@ describe('Main', () => {
       expect(window.history.pushState.mock.calls[0]).toEqual([
         {},
         '',
-        'http://localhost:8080/bonita/apps/process-list'
+        'http://localhost:8080/bonita/apps/process-list',
       ]);
     });
 
@@ -320,7 +320,7 @@ describe('Main', () => {
       window.location = {
         origin: 'http://localhost:8080',
         pathname: '/bonita/apps/process-list',
-        search: '?processName=Pool&processVersion=1.0&redirect=task-list'
+        search: '?processName=Pool&processVersion=1.0&redirect=task-list',
       };
       let query = querystring.parse(window.location.search.replace('?', ''));
       window.history.pushState = jest.fn();
@@ -346,7 +346,7 @@ describe('Main', () => {
       window.location = {
         origin: 'http://localhost:8080',
         pathname: '/bonita/apps/process-list',
-        search: '?processName=Pool&processVersion=1.0&redirect=task-list'
+        search: '?processName=Pool&processVersion=1.0&redirect=task-list',
       };
       let query = querystring.parse(window.location.search.replace('?', ''));
       window.history.pushState = jest.fn();
@@ -368,7 +368,7 @@ describe('Main', () => {
       expect(window.history.pushState.mock.calls[0]).toEqual([
         {},
         '',
-        'http://localhost:8080/bonita/apps/process-list'
+        'http://localhost:8080/bonita/apps/process-list',
       ]);
       expect(push.mock.calls).toEqual([]);
       await wrapper.instantiateProcess();

@@ -14,15 +14,15 @@
  */
 import service from './alert-service';
 
-const first = o => {
+const first = (o) => {
   const key = Object.keys(o)[0];
   const value = o[key];
   return { key, value };
 };
 
-const isEmpty = alerts => Object.keys(alerts).length === 0;
+const isEmpty = (alerts) => Object.keys(alerts).length === 0;
 
-const advanceTimersByTime = time => jest.runTimersToTime(time); // should be renamed to advanceTimersByTime with jest > 22.0.0
+const advanceTimersByTime = (time) => jest.advanceTimersByTime(time);
 
 jest.useFakeTimers();
 
@@ -37,7 +37,7 @@ describe('Alert service', () => {
     expect(first(service.alerts).key).toBeDefined();
     expect(first(service.alerts).value).toEqual({
       message: 'a warning',
-      severity: 'warning'
+      severity: 'warning',
     });
   });
 
@@ -80,7 +80,7 @@ describe('Alert service', () => {
     expect(first(service.alerts).key).toBeDefined();
     expect(first(service.alerts).value).toEqual({
       message: 'an error',
-      severity: 'danger'
+      severity: 'danger',
     });
   });
 
@@ -123,7 +123,7 @@ describe('Alert service', () => {
     expect(first(service.alerts).key).toBeDefined();
     expect(first(service.alerts).value).toEqual({
       message: 'a success',
-      severity: 'success'
+      severity: 'success',
     });
   });
 
@@ -166,7 +166,7 @@ describe('Alert service', () => {
     expect(first(service.alerts).key).toBeDefined();
     expect(first(service.alerts).value).toEqual({
       message: 'Some info',
-      severity: 'info'
+      severity: 'info',
     });
   });
 

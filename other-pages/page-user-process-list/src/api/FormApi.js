@@ -28,7 +28,7 @@ class FormApi {
           processId +
           '&f=type%3DPROCESS_START'
       )
-      .then(response => response.json());
+      .then((response) => response.json());
   }
 }
 

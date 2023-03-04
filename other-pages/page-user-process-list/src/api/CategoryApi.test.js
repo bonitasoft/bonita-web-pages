@@ -23,7 +23,7 @@ const mockupCategories = Array(3)
     name: 'tests',
     description: '',
     creation_date: '2018-03-02 11:05:39.490',
-    id: i.toString()
+    id: i.toString(),
   }));
 
 const mockupProcesses = Array(4)
@@ -41,7 +41,7 @@ const mockupProcesses = Array(4)
     configurationState: 'RESOLVED',
     last_update_date: '2018-02-14 12:18:34.723',
     actorinitiatorid: '1',
-    categories: []
+    categories: [],
   }));
 
 const mockupCache = mockupProcesses.reduce((cache, process) => {
@@ -60,9 +60,9 @@ describe('Category API', () => {
     beforeAll(async () => {
       spyApi.mockReset();
 
-      spyApi.mockImplementation(
-        () => new Response(JSON.stringify(mockupCategories))
-      );
+      spyApi.mockImplementation(() => {
+        return Promise.resolve(new Response(JSON.stringify(mockupCategories)));
+      });
 
       fetchedCategories = await CategoryApi.fetchAll();
     });
@@ -79,19 +79,21 @@ describe('Category API', () => {
     beforeAll(async () => {
       spyApi.mockReset();
 
-      spyApi.mockImplementation(
-        () => new Response(JSON.stringify(mockupCategories))
-      );
+      spyApi.mockImplementation(() => {
+        return Promise.resolve(new Response(JSON.stringify(mockupCategories)));
+      });
 
       fetchedCategories = await Promise.all(
-        mockupProcesses.map(process => CategoryApi.fetchByProcess(process))
+        mockupProcesses.map((process) => CategoryApi.fetchByProcess(process))
       );
 
       spyApi.mockClear();
 
       fetchedCategories2 = await Promise.all([
-        ...mockupProcesses.map(process => CategoryApi.fetchByProcess(process)),
-        CategoryApi.fetchByProcess(extraProcess)
+        ...mockupProcesses.map((process) =>
+          CategoryApi.fetchByProcess(process)
+        ),
+        CategoryApi.fetchByProcess(extraProcess),
       ]);
     });
 
