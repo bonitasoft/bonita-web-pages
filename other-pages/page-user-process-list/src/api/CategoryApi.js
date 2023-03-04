@@ -26,8 +26,8 @@ class CategoryApi {
     const url = new Url('../API/bpm/category', {
       queries: {
         p: 0,
-        c: Math.pow(2, 31) - 1
-      }
+        c: Math.pow(2, 31) - 1,
+      },
     });
 
     const response = await this.apiClient.get(url.get());
@@ -37,13 +37,13 @@ class CategoryApi {
   }
 
   async fetchByProcess({ id }) {
-    const buildCategoryUrl = processId =>
+    const buildCategoryUrl = (processId) =>
       new Url('../API/bpm/category', {
         queries: {
           p: 0,
           c: Math.pow(2, 31) - 1,
-          f: processId ? `id=${processId}` : undefined
-        }
+          f: processId ? `id=${processId}` : undefined,
+        },
       });
 
     if (this.cache[id]) {

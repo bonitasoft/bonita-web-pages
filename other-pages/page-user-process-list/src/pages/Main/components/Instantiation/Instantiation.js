@@ -64,7 +64,7 @@ class Instantiation extends Component {
           }
           Alerts.success(
             t('The case {{caseId}} has been started successfully.', {
-              caseId: caseId
+              caseId: caseId,
             })
           );
         }

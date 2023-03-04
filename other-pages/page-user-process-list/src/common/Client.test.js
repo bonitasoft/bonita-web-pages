@@ -32,8 +32,8 @@ describe('Client', () => {
     return new Response(response, {
       status: status,
       headers: {
-        'Content-type': 'application/json'
-      }
+        'Content-type': 'application/json',
+      },
     });
   };
 
@@ -42,16 +42,18 @@ describe('Client', () => {
 
     const response = client.get('/some/url');
 
-    await expect(response.then(response => response.json())).resolves.toEqual({
-      some: 'fetched response'
-    });
+    await expect(response.then((response) => response.json())).resolves.toEqual(
+      {
+        some: 'fetched response',
+      }
+    );
     expect(window.fetch).toHaveBeenCalledWith('/some/url', {
       method: 'GET',
       credentials: 'same-origin',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
   });
 
@@ -61,7 +63,7 @@ describe('Client', () => {
     const response = client.get('/some/url');
 
     await expect(response).rejects.toMatchObject({
-      status: 400
+      status: 400,
     });
   });
 
@@ -70,17 +72,19 @@ describe('Client', () => {
 
     const response = client.post('/whatever/url', { the: 'body' });
 
-    await expect(response.then(response => response.json())).resolves.toEqual({
-      some: 'fetched response'
-    });
+    await expect(response.then((response) => response.json())).resolves.toEqual(
+      {
+        some: 'fetched response',
+      }
+    );
     expect(window.fetch).toHaveBeenCalledWith('/whatever/url', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: '{"the":"body"}'
+      body: '{"the":"body"}',
     });
   });
 
@@ -93,8 +97,8 @@ describe('Client', () => {
     await expect(response).resolves.toBeDefined();
     expect(window.fetch.mock.calls[0][1]).toMatchObject({
       headers: {
-        'X-Bonita-API-Token': '6966c161-1363-4526-b0bd-78e02225415b'
-      }
+        'X-Bonita-API-Token': '6966c161-1363-4526-b0bd-78e02225415b',
+      },
     });
   });
 
@@ -107,8 +111,8 @@ describe('Client', () => {
     await expect(response).resolves.toBeDefined();
     expect(window.fetch.mock.calls[0][1]).toMatchObject({
       headers: {
-        'X-Bonita-API-Token': '6966c161-1363-4526-b0bd-78e02225415b'
-      }
+        'X-Bonita-API-Token': '6966c161-1363-4526-b0bd-78e02225415b',
+      },
     });
   });
 
@@ -118,43 +122,43 @@ describe('Client', () => {
     const response = client.post('/some/url', { the: 'body' });
 
     await expect(response).rejects.toMatchObject({
-      status: 400
+      status: 400,
     });
   });
 
   it('should execute responseErrors interceptors when posting data', async () => {
     expectedResponse = mockResponse(400);
     client.register({
-      responseError: response => {
+      responseError: (response) => {
         return Promise.reject({
           ...response,
-          statusText: response.statusText + ' altered by interceptor'
+          statusText: response.status + ' altered by interceptor',
         });
-      }
+      },
     });
 
     const response = client.post('/whatever/url', { the: 'body' });
 
     await expect(response).rejects.toMatchObject({
-      statusText: 'OK altered by interceptor'
+      statusText: '400 altered by interceptor',
     });
   });
 
   it('should execute responseError interceptors when getting data', async () => {
     expectedResponse = mockResponse(400);
     client.register({
-      responseError: response => {
+      responseError: (response) => {
         return Promise.reject({
           ...response,
-          statusText: response.statusText + ' altered by interceptor'
+          statusText: response.status + ' altered by interceptor',
         });
-      }
+      },
     });
 
     const response = client.get('/whatever/url');
 
     await expect(response).rejects.toMatchObject({
-      statusText: 'OK altered by interceptor'
+      statusText: '400 altered by interceptor',
     });
   });
 });

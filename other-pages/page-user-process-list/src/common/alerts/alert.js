@@ -20,7 +20,7 @@ export default class Alert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      closed: false
+      closed: false,
     };
 
     this.handleClose = this.handleClose.bind(this);

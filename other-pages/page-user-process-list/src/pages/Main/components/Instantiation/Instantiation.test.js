@@ -26,12 +26,13 @@ describe('Instantiation page', () => {
       match: {
         params: {
           processName: 'My process name',
-          processVersion: '1.0'
-        }
+          processVersion: '1.0',
+        },
       },
       location: {
-        search: '?id=1&autoInstantiate=false'
-      }
+        search: '?id=1&autoInstantiate=false',
+      },
+      history: [],
     };
   });
 
@@ -39,7 +40,7 @@ describe('Instantiation page', () => {
     Object.defineProperty(window.location, 'href', {
       writable: true,
       value:
-        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1'
+        'http://localhost:8080/bonita/portal/homepage#?_p=tasklistinguser&_pf=1',
     });
     const wrapper = shallow(<Instantiation {...props} />);
 
@@ -52,7 +53,7 @@ describe('Instantiation page', () => {
     Object.defineProperty(window.location, 'href', {
       writable: true,
       value:
-        'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/'
+        'http://localhost:8080/customWar/portal/resource/app/demo/process/content/?app=demo#/',
     });
     const wrapper = shallow(<Instantiation {...props} />);
 
@@ -64,36 +65,36 @@ describe('Instantiation page', () => {
   it('should update history on success submit message.', async () => {
     const testProps = {
       ...props,
-      history: { push: jest.fn() }
+      history: { push: jest.fn() },
     };
     shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
       action: 'Start process',
-      message: 'success'
+      message: 'success',
     };
 
     window.postMessage(message, '*');
     //New to add this Promise to allows message to be read
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(testProps.history.push).toHaveBeenCalledWith('/');
   });
 
   it('should redirect to the page from url after instantiating process', async () => {
     const testProps = {
       ...props,
-      history: { push: jest.fn() }
+      history: { push: jest.fn() },
     };
     testProps.location.search = '?redirect=task-list';
 
     Object.defineProperty(window.location, 'origin', {
       writable: true,
-      value: 'http://localhost:8080'
+      value: 'http://localhost:8080',
     });
     Object.defineProperty(window.location, 'pathname', {
       writable: true,
-      value: '/bonita/apps/process-list'
+      value: '/bonita/apps/process-list',
     });
 
     shallow(<Instantiation {...testProps} />);
@@ -101,12 +102,12 @@ describe('Instantiation page', () => {
     // Simulate a message being sent
     var message = {
       action: 'Start process',
-      message: 'success'
+      message: 'success',
     };
 
     window.postMessage(message, '*');
     //New to add this Promise to allows message to be read
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(window.location.href).toBe(
       'http://localhost:8080/bonita/apps/process-list../task-list'
     );
@@ -116,38 +117,38 @@ describe('Instantiation page', () => {
   it('should not update history on error submit message.', async () => {
     const testProps = {
       ...props,
-      history: { push: jest.fn() }
+      history: { push: jest.fn() },
     };
     shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
       action: 'Start process',
-      message: 'error'
+      message: 'error',
     };
 
     window.postMessage(message, '*');
     //New to add this Promise to allows message to be read
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(testProps.history.push).not.toHaveBeenCalled();
   });
 
   it('should not update history on success random message.', async () => {
     const testProps = {
       ...props,
-      history: { push: jest.fn() }
+      history: { push: jest.fn() },
     };
     shallow(<Instantiation {...testProps} />);
 
     // Simulate a message being sent
     var message = {
       action: 'Success random',
-      message: 'success'
+      message: 'success',
     };
 
     window.postMessage(message, '*');
     //New to add this Promise to allows message to be read
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(testProps.history.push).not.toHaveBeenCalled();
   });
 
@@ -179,7 +180,7 @@ describe('Instantiation page', () => {
     it('should display message when successful.', async () => {
       const testProps = {
         ...props,
-        history: { push: jest.fn() }
+        history: { push: jest.fn() },
       };
       const wrapper = shallow(<Instantiation {...testProps} />);
 
@@ -188,13 +189,13 @@ describe('Instantiation page', () => {
         action: 'Start process',
         message: 'success',
         dataFromSuccess: {
-          caseId: 300
-        }
+          caseId: 300,
+        },
       };
 
       window.postMessage(message, '*');
       //New to add this Promise to allows message to be read
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(Alerts.success).toHaveBeenCalledWith(
         'The case {{caseId}} has been started successfully.'
       );
@@ -204,19 +205,19 @@ describe('Instantiation page', () => {
     it('should display error for failures.', async () => {
       const testProps = {
         ...props,
-        history: { push: jest.fn() }
+        history: { push: jest.fn() },
       };
       const wrapper = shallow(<Instantiation {...testProps} />);
 
       // Simulate a message being sent
       var message = {
         action: 'Start process',
-        message: 'failed'
+        message: 'failed',
       };
 
       window.postMessage(message, '*');
       //New to add this Promise to allows message to be read
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(Alerts.success).not.toHaveBeenCalled();
       expect(Alerts.error).toHaveBeenCalledWith(
         'Error while starting the case.'

@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import uuidv1 from 'uuid/v1';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Alerts service used to push alerts to Alerts component
@@ -36,11 +36,11 @@ class AlertService {
   }
 
   _executeListeners() {
-    this.listeners.forEach(l => l());
+    this.listeners.forEach((l) => l());
   }
 
   _push(message, severity, delayMs) {
-    const uuid = uuidv1();
+    const uuid = uuidv4();
     this.alerts[uuid] = { message, severity };
     this._executeListeners();
     if (delayMs !== Infinity) {

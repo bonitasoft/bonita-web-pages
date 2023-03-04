@@ -24,10 +24,10 @@ describe('API', () => {
   it('should get session', async () => {
     const expectedSession = {
       user_id: '4',
-      session_id: '-3183098326138618519'
+      session_id: '-3183098326138618519',
     };
     fetchMock.get('../API/system/session/unusedId', {
-      body: expectedSession
+      body: expectedSession,
     });
 
     const response = await api.fetchSession();

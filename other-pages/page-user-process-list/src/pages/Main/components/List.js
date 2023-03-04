@@ -23,7 +23,7 @@ import {
   Label,
   Glyphicon,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
 } from 'react-bootstrap';
 import Pagination from 'react-js-pagination';
 
@@ -70,7 +70,7 @@ class List extends Component {
               </tr>
             </thead>
             <tbody>
-              {processes.map(process => (
+              {processes.map((process) => (
                 <OverlayTrigger
                   placement="top"
                   delayShow={500}
@@ -88,7 +88,7 @@ class List extends Component {
                     <td>{process.displayName}</td>
                     <td>{process.version}</td>
                     <td className="hidden-xs">
-                      {process.categories.map(category => (
+                      {process.categories.map((category) => (
                         <Label key={category.id} bsStyle="default">
                           {category.displayName}
                         </Label>
@@ -150,7 +150,7 @@ const categoryType = shape({
   name: string,
   description: string,
   creation_date: string,
-  id: string
+  id: string,
 });
 
 const processType = shape({
@@ -168,16 +168,16 @@ const processType = shape({
     'UNRESOLVED',
     'RESOLVED',
     'DEACTIVATED',
-    'ACTIVATED'
+    'ACTIVATED',
   ]),
   last_update_date: string,
-  actorinitiatorid: string
+  actorinitiatorid: string,
 });
 
 List.propTypes = {
   processes: arrayOf(processType),
   filters: objectOf(string),
-  toggleOrder: func
+  toggleOrder: func,
 };
 
 export default withTranslation()(List);

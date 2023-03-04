@@ -22,7 +22,7 @@ import 'core-js';
 
 const App = React.lazy(() => import('./App'));
 
-SystemApi.fetchSession().then(session => {
+SystemApi.fetchSession().then((session) => {
   ReactDOM.render(
     <I18nextProvider i18n={i18n}>
       <Suspense fallback={<span>{'Loading...'}</span>}>

@@ -37,17 +37,17 @@ class Main extends Component {
           displayName: t('AllCategories'),
           name: 'all',
           creation_date: 'a',
-          id: '0'
-        }
+          id: '0',
+        },
       },
       pagination: { page: 0, size: 10, total: 0 }, // avoid NaN errors
       filters: {
         queryParams: '',
         categoryId: '0',
         search: '',
-        order: 'ASC'
+        order: 'ASC',
       },
-      show: false
+      show: false,
     };
 
     this.getProcesses = this.getProcesses.bind(this);
@@ -108,7 +108,7 @@ class Main extends Component {
       } else {
         Alert.success(
           t('The case {{caseId}} has been started successfully.', {
-            caseId: response.caseId
+            caseId: response.caseId,
           })
         );
       }
@@ -156,27 +156,29 @@ class Main extends Component {
   }
 
   getCategories() {
-    CategoryApi.fetchAll().then(categories =>
-      this.setState(prevState => ({
+    CategoryApi.fetchAll().then((categories) =>
+      this.setState((prevState) => ({
         categories: categories.reduce((categories, category) => {
           categories[category.id] = category;
           return categories;
-        }, prevState.categories)
+        }, prevState.categories),
       }))
     );
   }
 
   updateFilters(_filters) {
     this.getProcesses(0, _filters);
-    this.setState(prevState => ({
-      filters: { ...prevState.filters, ..._filters }
+    this.setState((prevState) => ({
+      filters: { ...prevState.filters, ..._filters },
     }));
   }
 
   toggleOrder() {
     const order = { DESC: 'ASC', ASC: 'DESC' }[this.state.filters.order];
     this.getProcesses(0, { order }, this.props.session);
-    this.setState(prevState => ({ filters: { ...prevState.filters, order } }));
+    this.setState((prevState) => ({
+      filters: { ...prevState.filters, order },
+    }));
   }
 
   handleClose() {
@@ -215,7 +217,7 @@ class Main extends Component {
     const { processes, categories, pagination, filters } = this.state;
     const message = this.state.process
       ? t('Start a new case for process {{displayName}}', {
-          displayName: this.state.process.displayName
+          displayName: this.state.process.displayName,
         })
       : '';
     return (

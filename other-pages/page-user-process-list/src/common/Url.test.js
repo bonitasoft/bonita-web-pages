@@ -19,7 +19,7 @@ describe('Url', () => {
 
   equivalence.queries = {
     string: '?a=a&array=a&array=2',
-    object: { a: 'a', array: ['a', '2'] }
+    object: { a: 'a', array: ['a', '2'] },
   };
   equivalence.fragments = {
     string: '#array:[a,2,3],a:a,object:{a:a,b:2,c:3,d:[a,2,3],e:{a:a,b:2,c:3}}',
@@ -31,19 +31,17 @@ describe('Url', () => {
         b: '2',
         c: '3',
         d: ['a', '2', '3'],
-        e: { a: 'a', b: '2', c: '3' }
-      }
-    }
+        e: { a: 'a', b: '2', c: '3' },
+      },
+    },
   };
   equivalence.url = {
-    string: `/bonita/portal/${equivalence.queries.string}${
-      equivalence.fragments.string
-    }`,
+    string: `/bonita/portal/${equivalence.queries.string}${equivalence.fragments.string}`,
     object: {
       pathname: '/bonita/portal/',
       queries: equivalence.queries.object,
-      fragments: equivalence.fragments.object
-    }
+      fragments: equivalence.fragments.object,
+    },
   };
 
   describe('constructor', () => {
@@ -57,7 +55,7 @@ describe('Url', () => {
       expect(url).toEqual({
         pathname: '/bonita/portal',
         queries: {},
-        fragments: {}
+        fragments: {},
       });
     });
 
@@ -72,12 +70,12 @@ describe('Url', () => {
 
       const url2 = new Url(equivalence.url.string, {
         queries: {},
-        fragments: {}
+        fragments: {},
       });
       expect(url2).toEqual({
         pathname: equivalence.url.object.pathname,
         queries: {},
-        fragments: {}
+        fragments: {},
       });
     });
   });
@@ -104,7 +102,7 @@ describe('Url', () => {
         hostname: 'bonita',
         port: '1337',
         queries: {},
-        fragments: {}
+        fragments: {},
       });
       expect(url).toEqual({
         protocol: 'https:',
@@ -112,7 +110,7 @@ describe('Url', () => {
         port: '1337',
         pathname: equivalence.url.object.pathname,
         queries: {},
-        fragments: {}
+        fragments: {},
       });
     });
   });

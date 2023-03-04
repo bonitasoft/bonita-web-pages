@@ -24,7 +24,7 @@ class SystemApi {
   async fetchSession() {
     return this.apiClient
       .get('../API/system/session/unusedId')
-      .then(response => response.json());
+      .then((response) => response.json());
   }
 }
 

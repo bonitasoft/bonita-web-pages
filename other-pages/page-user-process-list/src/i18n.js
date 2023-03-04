@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import i18n from 'i18next';
-import Backend from 'i18next-xhr-backend';
+import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import bonitaLanguageDetector from './bonitaLanguageDetector';
 
@@ -26,7 +26,7 @@ i18n
   .init({
     // we init with resources
     backend: {
-      loadPath: './locales/{{lng}}.json'
+      loadPath: './locales/{{lng}}.json',
     },
     fallbackLng: 'en',
     debug: true,
@@ -40,15 +40,15 @@ i18n
 
     interpolation: {
       escapeValue: false, // not needed for react!!
-      formatSeparator: ','
+      formatSeparator: ',',
     },
 
     react: {
-      wait: true
+      useSuspense: true,
     },
     detection: {
-      order: ['bonitaLanguageDetector']
-    }
+      order: ['bonitaLanguageDetector'],
+    },
   });
 
 export default i18n;
