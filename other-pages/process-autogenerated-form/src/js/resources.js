@@ -16,7 +16,7 @@
    * @return {Object}                 pagination object
    */
   function parseContentRange(strContentRange) {
-    if (strContentRange === null) {
+    if (!strContentRange) {
       return {};
     }
     var arrayContentRange = strContentRange.split('/');
