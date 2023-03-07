@@ -66,23 +66,24 @@
         $scope.importUrl = '../API/formFileUpload';
         $scope.filename = '';
 
-        $http({ method: 'GET', url: '../API/system/session/unusedId' }).success(
-          function(data, status, headers) {
-            $scope.csrfToken = headers('X-Bonita-API-Token');
+        $http({ method: 'GET', url: '../API/system/session/unusedId' }).then(
+          function(response) {
+            $scope.csrfToken = response.headers('X-Bonita-API-Token');
             $http.defaults.headers.common['X-Bonita-API-Token'] =
               $scope.csrfToken;
             init();
-          }
+          },
+          angular.noop
         );
 
         var init = function() {
           i18nService.then(function() {
             $scope.i18nLoaded = true;
-          });
+          }, angular.noop);
 
           contractSrvc.fetchContract(taskId).then(function(result) {
             $scope.contract = result.data;
-          });
+          }, angular.noop);
 
           humanTaskAPI.get({ id: taskId }, function(result) {
             $scope.task = result;
