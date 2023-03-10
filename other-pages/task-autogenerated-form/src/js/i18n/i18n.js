@@ -35,9 +35,13 @@
             .query({
               f: 'locale=' + ($cookies.get('BOS_Locale') || 'en')
             })
-            .$promise.then(updateCatalog, function(reason) {
-              console.log('Unable to load translations!', reason);
-            }, angular.noop);
+            .$promise.then(
+              updateCatalog,
+              function(reason) {
+                console.log('Unable to load translations!', reason);
+              },
+              angular.noop
+            );
         })();
       }
     ]);
