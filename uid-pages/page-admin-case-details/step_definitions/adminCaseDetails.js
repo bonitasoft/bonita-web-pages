@@ -11,6 +11,7 @@ const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
+const archivedProcessVariableUrl = 'API/bpm/archivedCaseVariable?c=10&p=0&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
 
 
@@ -64,8 +65,11 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
             break;
         case 'process variables with headers':
-            createRouteWithResponseAndHeaders('&t=0', 'processVariablesRoute', 'processVariables', {'content-range': '0-6/6'});
+            createRouteWithResponseAndHeaders(processVariableUrl,'&t=0', 'processVariablesRoute', 'processVariables', {'content-range': '0-6/6'});
             break;
+        case 'archived process variables with headers':
+                createRouteWithResponseAndHeaders(archivedProcessVariableUrl, '&t=0', 'archivedProcessVariablesRoute', 'processVariables', {'content-range': '0-6/6'});
+                break;
         case 'process variable update':
             createRouteWithResponseAndMethod(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
@@ -124,7 +128,7 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
     }
 
-    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
+    function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
         let responseValue = undefined;
         if (response) {
             cy.fixture('json/' + response + '.json').as(response);
@@ -133,7 +137,7 @@ given("The response {string} is defined", (responseType) => {
 
         cy.route({
             method: 'GET',
-            url: urlPrefix + processVariableUrl + queryParameter,
+            url: urlPrefix + url + queryParameter,
             response: responseValue,
             headers: headers
         }).as(routeName);
@@ -384,6 +388,63 @@ then("The process variables have the correct information", () => {
         cy.get('.item-label').eq(2).contains('Value');
         cy.get('.item-value').eq(2).contains('123456789');
         cy.get('button').should('be.enabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
+    });
+    cy.contains('.text-primary.item-label:visible', 'Process variables shown: 6 of 6');
+});
+
+then("The archived process variables have the correct information", () => {
+    // Check that the element exist.
+    cy.get('.process-variable-item').eq(0).within(() => {
+        cy.get('.item-label').eq(0).contains('Name');
+        cy.get('.item-value').eq(0).contains('description');
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.String');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('Description about the leave request.');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit description');
+    });
+    cy.get('.process-variable-item').eq(1).within(() => {
+        cy.get('.item-label').eq(0).contains('Name');
+        cy.get('.item-value').eq(0).contains('isUrgentRequest');
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Boolean');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('false');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit isUrgentRequest');
+    });
+    cy.get('.process-variable-item').eq(2).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.util.Collection');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('[Multiple description, about the leave request.]');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'java.util.Collection variables cannot be edited at runtime.');
+    });
+    cy.get('.process-variable-item').eq(3).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Integer');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('55');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit numberOfDays');
+    });
+    cy.get('.process-variable-item').eq(4).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Double');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('0.0');
+        cy.get('button').should('be.disabled');
+        cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit ticketFare');
+    });
+    cy.get('.process-variable-item').eq(5).within(() => {
+        cy.get('.item-label').eq(1).contains('Type');
+        cy.get('.item-value').eq(1).contains('java.lang.Long');
+        cy.get('.item-label').eq(2).contains('Value');
+        cy.get('.item-value').eq(2).contains('123456789');
+        cy.get('button').should('be.disabled');
         cy.get('.glyphicon-pencil').should('have.attr', 'title', 'Edit timeStamp');
     });
     cy.contains('.text-primary.item-label:visible', 'Process variables shown: 6 of 6');
