@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminCaseDetailsBonitaV8",
   "name" : "adminCaseDetailsBonitaV8",
-  "lastUpdate" : 1676995500436,
+  "lastUpdate" : 1678287358281,
   "rows" : [
     [
       {
@@ -4646,7 +4646,8 @@
         "        return buttonLabel;",
         "    },",
         "    isEditable: function(type) {",
-        "       return isEditable(type);",
+        "       var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
+        "       return !isArchived && isEditable(type);",
         "    },",
         "    isString: function(type) {",
         "       return isString(type);",
@@ -4702,13 +4703,6 @@
       ],
       "exposed" : false
     },
-    "apiProcessVariables" : {
-      "type": "constant",
-      "value": [
-        "../API/bpm/caseVariable"
-      ],
-      "exposed": false
-    },
     "backButtonAction" : {
       "type" : "expression",
       "value" : [
@@ -4722,6 +4716,14 @@
         "if ($data.backButtonAction.length && $data.backButtonAction.includes('goToPreviousPage')) {",
         "    window.history.back();",
         "}"
+      ],
+      "exposed" : false
+    },
+    "apiProcessVariables" : {
+      "type" : "expression",
+      "value" : [
+        "var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
+        "return isArchived ?  \"../API/bpm/archivedCaseVariable\" : \"../API/bpm/caseVariable\";"
       ],
       "exposed" : false
     }
