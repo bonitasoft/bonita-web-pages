@@ -5081,7 +5081,8 @@
         "        return buttonLabel;",
         "    },",
         "    isEditable: function(type) {",
-        "       return isEditable(type);",
+        "       var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
+        "       return !isArchived && isEditable(type);",
         "    },",
         "    isString: function(type) {",
         "       return isString(type);",
@@ -5138,9 +5139,10 @@
       "exposed" : false
     },
     "apiProcessVariables" : {
-      "type" : "constant",
+      "type" : "expression",
       "value" : [
-        "../API/bpm/caseVariable"
+        "var isArchived = !$data.openCase && $data.archivedCase && $data.archivedCase.length > 0;",
+        "return isArchived ?  \"../API/bpm/archivedCaseVariable\" : \"../API/bpm/caseVariable\";"
       ],
       "exposed" : false
     },
