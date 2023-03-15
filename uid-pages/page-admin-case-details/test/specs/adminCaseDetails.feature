@@ -81,6 +81,13 @@ Feature: The Admin Case Details in desktop resolution
     When I visit the admin case details page
     And I click on process variables tab
     Then The process variables have the correct information
+  
+   Scenario: The admin case details displays the archived process variables
+    Given The response "archived case" is defined
+    And The response "archived process variables with headers" is defined
+    When I visit the admin case details page
+    And I click on process variables tab
+    Then The archived process variables have the correct information
 
   Scenario: The edit process variables works correctly for string variable
     Given The response "default details" is defined
