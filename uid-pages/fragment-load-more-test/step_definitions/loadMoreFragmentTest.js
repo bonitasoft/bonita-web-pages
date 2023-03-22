@@ -10,6 +10,12 @@ const defaultSortOrder = '&o=defaultValue' + enabledFilter;
 const tab1Url = 'tab1Url?c=10&p=0&filters1';
 const tab2Url = 'tab2Url?c=10&p=0&filters2';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
+
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {

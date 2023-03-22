@@ -1,9 +1,13 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-
 const url = 'build/dist/resources/index.html';
 const checkNumberOfCases = (numberOfCases) => { cy.get('.case-item:visible').should('have.length', numberOfCases); }
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-details?id=';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("A list of open cases is available", ()=> {
     cy.server();

@@ -8,6 +8,11 @@ const defaultRequestUrl = urlPrefix + processListUrl + '?c=10&p=0&time=0' + defa
 const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The page response {string} is defined for disabled processes", (filterType) => {
     cy.server();
     switch (filterType) {

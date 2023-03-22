@@ -7,6 +7,11 @@ const resourceUrl = 'API/portal/page?';
 const defaultRequestUrl = urlPrefix + resourceUrl + 'c=10&p=0' + defaultFilters;
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {

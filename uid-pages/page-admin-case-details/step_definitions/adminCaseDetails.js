@@ -16,6 +16,10 @@ const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
 const archivedProcessVariableUrl = 'API/bpm/archivedCaseVariable?c=10&p=0&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined", (responseType) => {
     cy.server();

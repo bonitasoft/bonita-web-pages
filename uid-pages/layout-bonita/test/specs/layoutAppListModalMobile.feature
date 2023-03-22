@@ -1,5 +1,8 @@
 Feature: The Bonita layout app list modal in mobile resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+
   Scenario: The app selection modal is shown correctly
     Given The resolution is set to mobile
     And The URL target to the application "appName1"

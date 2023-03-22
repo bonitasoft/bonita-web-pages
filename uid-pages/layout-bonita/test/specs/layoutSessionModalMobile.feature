@@ -1,5 +1,8 @@
 Feature: The Bonita layout current session modal in mobile resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+	
   Scenario: The Bonita layout shows the current session modal
     Given The resolution is set to mobile
     And The URL target to the application "appName1"

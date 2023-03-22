@@ -1,5 +1,8 @@
 Feature: The Bonita layout header in desktop resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+
   Scenario: The Bonita layout is running
     Given The URL target to the application "appName1"
     And I have the application home page token defined
