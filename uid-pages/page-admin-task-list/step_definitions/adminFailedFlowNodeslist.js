@@ -12,6 +12,11 @@ const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-
 const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=10&p=0' + defaultFilters;
 const doneTaskRequestUrl = urlPrefix + 'API/bpm/archivedTask?c=10&p=0' + defaultFilters;
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
     switch (filterType) {

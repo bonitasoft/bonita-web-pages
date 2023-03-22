@@ -19,6 +19,11 @@ const refreshArchivedTaskUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigne
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1'
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The response {string} is defined for failed tasks", (responseType) => {
     cy.server();
     switch (responseType) {

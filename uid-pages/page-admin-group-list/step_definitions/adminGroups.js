@@ -11,6 +11,11 @@ const subGroupUrl = urlPrefix + groupsUrl + '?c=10&p=0&o=displayName ASC&f=paren
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=group_id=';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The response {string} is defined", (responseType) => {
     cy.server();
     switch (responseType) {

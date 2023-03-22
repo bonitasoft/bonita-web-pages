@@ -13,6 +13,12 @@ const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defa
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 const featuresListUrl = urlPrefix + 'API/system/feature?p=0&c=100';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
+
 given("The filter response {string} is defined for open cases", (filterType) => {
     cy.server();
     switch (filterType) {

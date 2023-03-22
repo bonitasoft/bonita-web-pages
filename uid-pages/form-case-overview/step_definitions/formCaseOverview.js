@@ -6,6 +6,12 @@ const caseUrlWithoutId = 'build/dist/resources/index.html';
 const caseUrlWithEmptyId = 'build/dist/resources/index.html?id=';
 const trimSpaces = (element) => element.text().trim();
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
+
 given('The archived case {string} server response is defined', (archivedCaseId) => {
     cy.server();
     cy.fixture('json/archivedCase.json').as('archivedCase');

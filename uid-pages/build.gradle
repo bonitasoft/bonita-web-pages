@@ -1,6 +1,6 @@
 def parentProject = project
 subprojects { subProject ->
-    if (file("cypress.json").exists()){
+    if (file("test").exists()){
         apply plugin: 'com.github.node-gradle.node'
 
         node {
@@ -20,16 +20,15 @@ subprojects { subProject ->
 
         subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"openTest") {
             workingDir = parentProject.projectDir
-            args = ['run', 'open', '--', '--project', subProject.name]
+            args = ['run', 'open', '--', '--config-file', '../cypress.json', '--project', subProject.name]
             group 'ui designer'
         }
 
         subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"runTestChrome") {
             workingDir = parentProject.projectDir
-            args = ['test', '--', '--project', subProject.name, '--browser', 'chrome', '--headless']
+            args = ['test', '--', '--config-file', '../cypress.json', '--project', subProject.name, '--browser', 'chrome', '--headless']
             group 'Bonita'
             outputs.cacheIf {true}
-            inputs.files('cypress.json')
             inputs.dir('src')
             inputs.dir('step_definitions')
             inputs.dir('test')

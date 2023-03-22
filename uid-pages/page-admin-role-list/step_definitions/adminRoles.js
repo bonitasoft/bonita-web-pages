@@ -1,6 +1,5 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-
 const urlPrefix = 'build/dist/';
 const url = urlPrefix + 'resources/index.html';
 const rolesUrl = 'API/identity/role';
@@ -9,6 +8,11 @@ const defaultRequestUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=0' + defaultFilter
 const refreshUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=1*' + defaultFilters;
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=role_id=';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined", (responseType) => {
     cy.server();

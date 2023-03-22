@@ -1,4 +1,12 @@
+import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+
 const url = 'build/dist/resources/index.html';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 
 given('The resolution is set to mobile', () => {
     /* 766 instead of 767 because bootstrap issue with hidden-xs

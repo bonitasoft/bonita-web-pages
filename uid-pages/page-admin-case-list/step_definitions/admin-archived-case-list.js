@@ -11,6 +11,11 @@ const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 const featuresListUrl = urlPrefix + 'API/system/feature?p=0&c=100';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
 given("The filter response {string} is defined for archived cases", (filterType) => {
     cy.server();
     switch (filterType) {

@@ -2,6 +2,11 @@ import { Given as given, Then as then, When as when } from "cypress-cucumber-pre
 
 const url = 'build/dist/resources/index.html';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given('Server tenant is running', () => {
     cy.server();
     cy.route('GET', 'build/dist/API/system/tenant/unusedId?t=0', 'fixture:tenantRunning').as('tenant');

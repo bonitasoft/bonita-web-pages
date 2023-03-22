@@ -2,6 +2,11 @@ import { Given as given, Then as then, When as when } from "cypress-cucumber-pre
 
 const url = 'build/dist/resources/index.html';
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given('No file is selected', () => {
     cy.get('.form-control').should('have.attr','placeholder','Click here to choose your .xml file');
 });

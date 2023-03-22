@@ -7,6 +7,11 @@ const processFilters = 'c=999&p=0&o=displayName ASC';
 const pendingTasksUrl = 'API/bpm/humanTask?';
 const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=10&p=0' + defaultFilters;
 
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
+
 given("The filter response {string} is defined for pending tasks", (filterType) => {
     cy.server();
     switch (filterType) {
