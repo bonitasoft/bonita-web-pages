@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';
@@ -10,6 +10,11 @@ const defaultRequestUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + d
 const refreshArchivedCaseUrl = urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const archivedCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 const featuresListUrl = urlPrefix + 'API/system/feature?p=0&c=100';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
 
 given("The filter response {string} is defined for archived cases", (filterType) => {
     cy.server();

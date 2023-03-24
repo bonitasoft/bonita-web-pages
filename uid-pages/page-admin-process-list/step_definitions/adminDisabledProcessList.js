@@ -1,12 +1,17 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=DISABLED';
 const processListUrl = 'API/bpm/process';
 const defaultRequestUrl = urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters;
 const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The page response {string} is defined for disabled processes", (filterType) => {
     cy.server();
@@ -141,7 +146,6 @@ given("The page response {string} is defined for disabled processes", (filterTyp
 
 when("I visit admin process list page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I click on Disabled tab", () => {

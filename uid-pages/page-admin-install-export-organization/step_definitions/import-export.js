@@ -1,17 +1,23 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const url = 'build/dist/resources/index.html';
+const buildDir = Cypress.env('BUILD_DIR');
+const url = `${buildDir}/resources/index.html`;
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given('No file is selected', () => {
     cy.get('.form-control').should('have.attr','placeholder','Click here to choose your .xml file');
 });
 
 given('The response for fileUpload is defined', () => {
-    cy.intercept('POST', 'build/dist/API/formFileUpload', {"filename":"ACME.xml","tempPath":"tmp_632726332956609779.xml","contentType":"text\/xml"});
+    cy.intercept('POST', `${buildDir}/API/formFileUpload`, {"filename":"ACME.xml","tempPath":"tmp_632726332956609779.xml","contentType":"text\/xml"});
 });
 
 given('The response for install Organisation is defined', () => {
-    cy.intercept('POST', 'build/dist/API/services/organization/import', {organizationDataUpload: "tmp_8603867932412969442.xml"});
+    cy.intercept('POST', `${buildDir}/API/services/organization/import`, {organizationDataUpload: "tmp_8603867932412969442.xml"});
 })
 
 

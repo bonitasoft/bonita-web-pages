@@ -1,7 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
 const processListUrl = 'API/bpm/process';
@@ -10,6 +9,11 @@ const defaultSortOrder = '&o=displayName+ASC';
 const processDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=';
 const disabledProcessRequestUrl = urlPrefix + processListUrl + '?c=10&p=0&time=0&d=deployedBy&f=activationState=DISABLED';
 const refreshUrl = urlPrefix + processListUrl + '?c=10&p=0' + defaultFilters + '&time=1*';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The page response {string} is defined", (filterType) => {
     cy.server();
@@ -154,7 +158,6 @@ given("The page response {string} is defined", (filterType) => {
 
 when("I visit admin process list page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {

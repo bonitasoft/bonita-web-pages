@@ -1,11 +1,12 @@
 UIDesigner {
-    version "1.16.9"
+    version '1.17.0'
 }
 
 allprojects {
     apply plugin: 'distribution'
     apply plugin: 'maven-publish'
-
+    apply plugin: 'com.github.node-gradle.node'
+    
     group 'org.bonitasoft.web.page'
 
     repositories {
@@ -26,6 +27,14 @@ allprojects {
                 }
             }
         }
+    }
+    
+    node {
+        download = true
+        version = Versions.nodeVersion
+        npmVersion = Versions.npmVersion
+        // Use the same location for all subprojects
+        workDir = file("${rootProject.projectDir}/.gradle/nodejs")
     }
     
     // Disable tar distribution declared by the distribution plugin, only distZip is used

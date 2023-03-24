@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const flowNodeCounters = '&n=activeFlowNodes&n=failedFlowNodes';
@@ -12,6 +12,12 @@ const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id
 const refreshOpenCaseUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=1*';
 const openCaseDiagramUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-visu?id=';
 const featuresListUrl = urlPrefix + 'API/system/feature?p=0&c=100';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
 
 given("The filter response {string} is defined for open cases", (filterType) => {
     cy.server();
