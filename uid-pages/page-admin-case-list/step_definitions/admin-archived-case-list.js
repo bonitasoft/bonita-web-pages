@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const processUrl = urlPrefix + 'API/bpm/process';

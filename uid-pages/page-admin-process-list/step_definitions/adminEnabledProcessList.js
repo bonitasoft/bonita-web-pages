@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=deployedBy&f=activationState=ENABLED';
 const processListUrl = 'API/bpm/process';
@@ -158,7 +158,6 @@ given("The page response {string} is defined", (filterType) => {
 
 when("I visit admin process list page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {

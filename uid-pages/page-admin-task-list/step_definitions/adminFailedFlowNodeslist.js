@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
 const failedFlowNodesUrl = 'API/bpm/flowNode?';
@@ -132,12 +132,10 @@ given("The filter response {string} is defined", (filterType) => {
 
 when("I visit admin task list page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I visit admin task list page with caseId {string} in URL parameter", (caseId) => {
     cy.visit(url + "?caseId=" + caseId);
-    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {

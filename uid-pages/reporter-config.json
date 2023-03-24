@@ -1,15 +1,13 @@
 {
-  "reporterEnabled": "cypress-mochawesome-reporter, junit",
+  "reporterEnabled": "mochawesome, junit",
   "junitReporterOptions" :{
-	 "mochaFile": "build/tests/results/test-results-output.xml"
+	 "mochaFile": "build-gradle/tests/results/test-results-output.xml"
   },
-  "cypressMochawesomeReporterReporterOptions": {
-    "reportDir": "build/tests/results/html",
-    "overwrite": false,
+  "mochawesomeReporterOptions": {
     "charts": true,
-	"reportPageTitle": "cypress-tests",
-	"embeddedScreenshots": true,
-	"inlineAssets": true,
-	"saveAllAttempts": false
+    "overwrite": false,
+    "html": false,
+    "json": true,
+    "reportDir": "build-gradle/tests/results/mochawesome-report"
   }
 }

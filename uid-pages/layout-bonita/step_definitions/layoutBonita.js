@@ -1,6 +1,7 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const url = 'build/dist/resources/index.html';
+const buildDir = Cypress.env('BUILD_DIR');
+const url = `${buildDir}/resources/index.html`;
 
 given('The resolution is set to mobile', () => {
     /* 766 instead of 767 because bootstrap issue with hidden-xs
@@ -14,12 +15,12 @@ given('The URL target to the application {string}', () => {
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application/*',
+        url: `${buildDir}/API/living/application/*`,
         response: '@app1',
     }).as('app1Route');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application-menu/**',
+        url: `${buildDir}/API/living/application-menu/**`,
         response: '@pageList'
     });
 });
@@ -30,12 +31,12 @@ given('The URL target to the application {string} with icon', () => {
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application/*',
+        url: `${buildDir}/API/living/application/*`,
         response: '@app1WithIcon',
     }).as('app1Route');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application-menu/**',
+        url: `${buildDir}/API/living/application-menu/**`,
         response: '@pageList'
     });
 });
@@ -44,7 +45,7 @@ given('A user is connected without sso', () => {
     cy.fixture('json/session.json').as('session');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/session/*',
+        url: `${buildDir}/API/system/session/*`,
         response: '@session'
     });
 });
@@ -53,7 +54,7 @@ given('A technical user is connected without sso', () => {
     cy.fixture('json/sessionTechnicalUser.json').as('session');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/session/*',
+        url: `${buildDir}/API/system/session/*`,
         response: '@session'
     });
 });
@@ -62,7 +63,7 @@ given('A user is connected with sso', () => {
     cy.fixture('json/sessionWithSSO.json').as('sessionWithSSO');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/session/*',
+        url: `${buildDir}/API/system/session/*`,
         response: '@sessionWithSSO'
     });
 });
@@ -71,7 +72,7 @@ given('A user is connected as guest', () => {
     cy.fixture('json/sessionAsGuest.json').as('sessionAsGuest');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/session/*',
+        url: `${buildDir}/API/system/session/*`,
         response: '@sessionAsGuest'
     });
 });
@@ -80,7 +81,7 @@ given('A user is connected as guest with sso', () => {
     cy.fixture('json/sessionAsGuestWithSSO.json').as('sessionAsGuestWithSSO');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/session/*',
+        url: `${buildDir}/API/system/session/*`,
         response: '@sessionAsGuestWithSSO'
     });
 });
@@ -89,7 +90,7 @@ given('The user has a first and last name defined', () => {
     cy.fixture('json/userFull.json').as('userFull');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/identity/user/*',
+        url: `${buildDir}/API/identity/user/*`,
         response: '@userFull'
     }).as('userRoute');
 });
@@ -98,7 +99,7 @@ given('The user has the default icon', () => {
     cy.fixture('json/userDefaultImage.json').as('userDefaultImage');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/identity/user/*',
+        url: `${buildDir}/API/identity/user/*`,
         response: '@userDefaultImage'
     });
 });
@@ -107,7 +108,7 @@ given('The user has a first, a last name, but no image defined', () => {
     cy.fixture('json/userNoImage.json').as('userNoImage');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/identity/user/*',
+        url: `${buildDir}/API/identity/user/*`,
         response: '@userNoImage'
     });
 });
@@ -118,7 +119,7 @@ given('The user doesn\'t have a {string} info available', (unavailableInfo) => {
             cy.fixture('json/userNoFirstname.json').as('userNoFirstname');
             cy.route({
                 method: 'GET',
-                url: '/build/dist/API/identity/user/*',
+                url: `${buildDir}/API/identity/user/*`,
                 response: '@userNoFirstname'
             }).as('userNoFirstnameRoute');
             break;
@@ -126,7 +127,7 @@ given('The user doesn\'t have a {string} info available', (unavailableInfo) => {
             cy.fixture('json/userNoLastname.json').as('userNoLastname');
             cy.route({
                 method: 'GET',
-                url: '/build/dist/API/identity/user/*',
+                url: `${buildDir}/API/identity/user/*`,
                 response: '@userNoLastname'
             }).as('userNoLastnameRoute');
             break;
@@ -137,7 +138,7 @@ given('I have languages available', () => {
     cy.fixture('json/i18locale.json').as('i18locale');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/system/i18nlocale*',
+        url: `${buildDir}/API/system/i18nlocale*`,
         response: '@i18locale'
     });
 });
@@ -146,7 +147,7 @@ given('Multiple applications are available for the user', () => {
     cy.fixture('json/appsList5.json').as('appsList');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsList'
     });
 });
@@ -155,25 +156,25 @@ given('35 applications are available for the user', () => {
     cy.fixture('json/appsList20.json').as('appsList20');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsList20'
     });
     cy.fixture('json/appsList10.json').as('appsList10');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
         response: '@appsList10'
     });
     cy.fixture('json/appsList5.json').as('appsList5');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=3&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=3&f=userId=4`,
         response: '@appsList5'
     });
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=4&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=4&f=userId=4`,
         response: '@emptyResult'
     });
 });
@@ -182,31 +183,31 @@ given('30 applications are available for the user', () => {
     cy.fixture('json/appsList20.json').as('appsList20');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsList20'
     });
     cy.fixture('json/appsList10.json').as('appsList10');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
         response: '@appsList10'
     });
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=3&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=3&f=userId=4`,
         response: '@emptyResult'
     });
     cy.fixture('json/appsList20.json').as('appsList20');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=Bonita',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=Bonita`,
         response: '@appsList20'
     });
     cy.fixture('json/appsList10.json').as('appsList10');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4&s=Bonita',
+        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4&s=Bonita`,
         response: '@appsList10'
     });
 });
@@ -215,13 +216,13 @@ given('20 applications are available for the user', () => {
     cy.fixture('json/appsList20.json').as('appsList20');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsList20'
     });
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=10&p=2&f=userId=4',
+        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
         response: '@emptyResult'
     });
 });
@@ -232,17 +233,17 @@ given('The filter responses are defined', () => {
     cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=My first',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=My first`,
         response: '@filteredAppsListMyFirst'
     }).as('filteredAppsListMyFirstRoute');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=app1',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=app1`,
         response: '@filteredAppsListapp1'
     }).as('filteredAppsListapp1Route');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=1.0.5',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=1.0.5`,
         response: '@filteredAppsList105'
     }).as('filteredAppsList105Route');
 });
@@ -251,7 +252,7 @@ given('Incorrect name filter response is defined', () => {
     cy.fixture('json/emptyResult.json').as('emptyResult');
     cy.route({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=Incorrect name',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=Incorrect name`,
         response: '@emptyResult'
     }).as('emptyResultRoute');
 });
@@ -260,7 +261,7 @@ given('I have the application home page token defined', () => {
     cy.fixture('json/homePage.json').as('homePage');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application-page/107',
+        url: `${buildDir}/API/living/application-page/107`,
         response: '@homePage'
     }).as('homePageRoute');
 });
@@ -269,7 +270,7 @@ given('Multiple applications are available for the user, some without access rig
     cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
     cy.route({
         method: 'GET',
-        url: 'build/dist/API/living/application?c=20&p=0&f=userId=4',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsListWithUnauthorizedApp'
     }).as('appsListWithUnauthorizedAppRoute');
 });

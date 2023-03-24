@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const profilesUrl = 'API/portal/profile';
 const profileMemberUrl = 'API/portal/profileMember';
 const defaultProfileFilters = '&o=name ASC';
@@ -441,7 +441,6 @@ given("The response {string} is defined", (responseType) => {
 
 when("I visit the admin profiles page", () => {
     cy.visit(urlPrefix + 'resources/index.html');
-    cy.wait(500);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
