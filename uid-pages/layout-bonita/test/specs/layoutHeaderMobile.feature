@@ -1,5 +1,8 @@
 Feature: The Bonita layout in mobile resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+
   Scenario: The application name should be shown in the menu bar
     Given The resolution is set to mobile
     And The URL target to the application "appName1"

@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=81358';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
 const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
@@ -10,6 +10,11 @@ const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceI
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
 const archivedConnectorUrl = 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4288'
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined for done tasks", (responseType) => {
     cy.server();
@@ -50,7 +55,6 @@ given("The response {string} is defined for done tasks", (responseType) => {
 
 when("I visit the admin done task details page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 then("The done task details have the correct information", () => {

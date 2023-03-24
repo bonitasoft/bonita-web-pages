@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=1';
 const urlWithoutId = urlPrefix + 'resources/index.html';
 const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
@@ -11,6 +11,11 @@ const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined", (responseType) => {
     cy.server();

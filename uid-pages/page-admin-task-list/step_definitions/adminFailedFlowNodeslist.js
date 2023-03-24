@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
 const failedFlowNodesUrl = 'API/bpm/flowNode?';
@@ -11,6 +11,11 @@ const defaultSortOrder = '&o=lastUpdateDate+DESC';
 const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=10&p=0' + defaultFilters;
 const doneTaskRequestUrl = urlPrefix + 'API/bpm/archivedTask?c=10&p=0' + defaultFilters;
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
@@ -127,12 +132,10 @@ given("The filter response {string} is defined", (filterType) => {
 
 when("I visit admin task list page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I visit admin task list page with caseId {string} in URL parameter", (caseId) => {
     cy.visit(url + "?caseId=" + caseId);
-    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {

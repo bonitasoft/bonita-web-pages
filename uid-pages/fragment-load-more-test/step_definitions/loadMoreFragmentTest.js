@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&count=100';
 const userUrl = 'API/identity/user?';
@@ -9,6 +9,12 @@ const enabledFilter = '&f=active=true';
 const defaultSortOrder = '&o=defaultValue' + enabledFilter;
 const tab1Url = 'tab1Url?c=10&p=0&filters1';
 const tab2Url = 'tab2Url?c=10&p=0&filters2';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+})
+
 
 given("The filter response {string} is defined", (filterType) => {
     cy.server();
