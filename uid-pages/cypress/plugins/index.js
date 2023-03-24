@@ -18,5 +18,4 @@ module.exports = (on, config) => {
     launchOptions.args.push('--lang=en');
     return launchOptions
   })
-  require('cypress-mochawesome-reporter/plugin')(on);
 }
