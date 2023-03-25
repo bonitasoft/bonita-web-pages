@@ -2,7 +2,11 @@ apply plugin: BonitaPagePlugin
 
 bonitaPage {
     frontendBuildDir = 'public'
-    lintCheck.enabled=false
+    lintCheck.enabled = false
+}
+
+task copyAssets(type: Copy) {
+    from 'src/assets' into 'public'
 }
 
 publishing {
@@ -11,4 +15,4 @@ publishing {
     }
 }
 
-
+buildPage.dependsOn(copyAssets)

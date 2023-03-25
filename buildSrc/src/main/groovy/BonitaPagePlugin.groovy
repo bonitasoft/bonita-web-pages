@@ -30,7 +30,7 @@ class BonitaPagePlugin implements Plugin<Project> {
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
             inputs.dir('resources')
-            outputs.dirs({extension.frontendBuildDir})
+            outputs.files(project.fileTree({extension.frontendBuildDir}))
         }
 
         project.tasks.distZip.dependsOn buildPage
