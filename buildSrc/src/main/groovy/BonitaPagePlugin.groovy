@@ -8,14 +8,6 @@ class BonitaPagePlugin implements Plugin<Project> {
         def extension = project.extensions.create('bonitaPage', BonitaPagePluginExtension)
         project.plugins.apply('com.github.node-gradle.node')
         project.plugins.apply('distribution')
-        def currentDir = project.rootProject.projectDir
-        def cacheDir = project.rootProject.layout.projectDirectory.dir(".gradle")
-
-        project.node {
-            version = Versions.nodeVersion
-            npmVersion = Versions.npmVersion
-            download = true
-        }
 
         project.tasks.npm_install.configure {
             group 'Bonita'
