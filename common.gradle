@@ -30,11 +30,11 @@ allprojects {
     }
     
     node {
-        download = true
         version = Versions.nodeVersion
         npmVersion = Versions.npmVersion
         // Use the same location for all subprojects
         workDir = file("${rootProject.projectDir}/.gradle/nodejs")
+        download = true
     }
     
     // Disable tar distribution declared by the distribution plugin, only distZip is used
