@@ -2,6 +2,9 @@ UIDesigner {
     version '1.17.0'
 }
 
+println 'Remove gradle nodejs cache folder'
+delete files("${rootProject.projectDir}/.gradle/nodejs")
+
 allprojects {
     apply plugin: 'distribution'
     apply plugin: 'maven-publish'
@@ -34,7 +37,7 @@ allprojects {
         npmVersion = Versions.npmVersion
         // Use the same location for all subprojects
         workDir = file("${rootProject.projectDir}/.gradle/nodejs")
-        download = true
+        download = !workDir.getAsFile().get().exists()
     }
     
     // Disable tar distribution declared by the distribution plugin, only distZip is used
