@@ -13,7 +13,7 @@
   ],
   "id" : "ApplicationDirectoryBonitaV6",
   "name" : "ApplicationDirectoryBonitaV6",
-  "lastUpdate" : 1680185144316,
+  "lastUpdate" : 1680858818277,
   "rows" : [
     [
       {
@@ -103,7 +103,7 @@
                 },
                 "allowHTML" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 }
               },
               "reference" : "35deb571-a19d-477e-ad87-60810e884948",
@@ -160,7 +160,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<span title=\"{{userName}}\">{{userName}}</span>"
+                        "value" : "<span title=\"{{htmlEncoder.encodeHTML(userName)}}\">{{htmlEncoder.encodeHTML(userName)}}</span>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -387,7 +387,7 @@
                       },
                       "allowHTML" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       }
                     },
                     "reference" : "df12ba50-61c4-4cb6-8fb0-5645a6ca2428",
@@ -461,7 +461,7 @@
                       },
                       "allowHTML" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "text" : {
                         "type" : "interpolation",
@@ -549,7 +549,7 @@
                       },
                       "allowHTML" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       }
                     },
                     "reference" : "3c761cd8-9ad9-440a-b012-d4eb806d0b31",
@@ -893,7 +893,7 @@
                                         },
                                         "allowHTML" : {
                                           "type" : "constant",
-                                          "value" : true
+                                          "value" : false
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -949,7 +949,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<p title=\"{{applicationCtrl.sanitizeString($item.description)}}\">{{$item.description}}</p>"
+                                          "value" : "<p title=\"{{htmlEncoder.encodeHTML($item.description)}}\">{{htmlEncoder.encodeHTML($item.description)}}</p>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -997,7 +997,7 @@
                                         },
                                         "allowHTML" : {
                                           "type" : "constant",
-                                          "value" : true
+                                          "value" : false
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -1036,7 +1036,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<a title=\"{{applicationCtrl.sanitizeString($item.description)}}\"></a>"
+                                    "value" : "<a title=\"{{htmlEncoder.encodeHTML($item.description)}}\"></a>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -1114,7 +1114,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<span title=\"{{applicationCtrl.sanitizeString($item.displayName)}}\">{{$item.displayName}}</span>"
+                              "value" : "<span title=\"{{htmlEncoder.encodeHTML($item.displayName)}}\">{{htmlEncoder.encodeHTML($item.displayName)}}</span>"
                             },
                             "type" : {
                               "type" : "constant",
@@ -1342,7 +1342,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "6e53e3b6-d226-459a-8e3d-34739a38178c",
@@ -1489,7 +1489,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "7a27ea60-83f7-4a6b-9102-a1d63e57bb8f",
@@ -1533,7 +1533,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "text" : {
                                 "type" : "interpolation",
@@ -1585,7 +1585,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "text" : {
                                 "type" : "interpolation",
@@ -1663,7 +1663,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "1ebde760-51c7-44b2-b397-dacaa1541eed",
@@ -1735,7 +1735,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "691cd598-bfb9-4fc0-b5e1-19b6789b0cc8",
@@ -1829,7 +1829,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "a6b0526c-a09a-484b-b834-2ca40ce28e3a",
@@ -1935,7 +1935,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "88f66614-d114-43c2-b20a-67601d05cecf",
@@ -2027,7 +2027,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "1c5332f5-9454-446f-8433-67f7c906f867",
@@ -2113,9 +2113,6 @@
         "    },",
         "    getIcon: function(icon) {",
         "        return icon === \"\" ? \"../skin/images/logo.png\" : icon;",
-        "    },",
-        "    sanitizeString: function(stringToSanitize) {",
-        "        return stringToSanitize.replaceAll(\"\\\"\", \"&quot;\").replaceAll(\"\\'\", \"&#039;\");",
         "    },",
         "    getApplicationCssClasses: function(application) {",
         "        var cssClasses = \"application-card \";",
@@ -2234,9 +2231,9 @@
         "",
         "var isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';",
         "",
-        "const htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;",
+        "const htmlContentForImage = `<span><img title=\"${$data.htmlEncoder.encodeHTML($data.userName)}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;",
         "",
-        "const htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;",
+        "const htmlContentForDefaultIcon = `<i title=\"${$data.htmlEncoder.encodeHTML($data.userName)}\" class=\"fa fa-user-circle\"></i>`;",
         "",
         "return isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;"
       ],
@@ -2312,6 +2309,23 @@
       "type" : "constant",
       "value" : [
         "../API/living/application"
+      ],
+      "exposed" : false
+    },
+    "htmlEncoder" : {
+      "type" : "expression",
+      "value" : [
+        "const textArea = document.createElement('textarea');",
+        "return {",
+        "    encodeHTML: function(text) {",
+        "        if (text) {",
+        "            textArea.innerText = text;",
+        "            console.log(textArea.innerHTML);",
+        "            return textArea.innerHTML.replaceAll(\"\\\"\", \"&quot;\").replaceAll(\"\\'\", \"&#039;\");",
+        "        }",
+        "        return text;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
