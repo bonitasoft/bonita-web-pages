@@ -242,7 +242,7 @@
                       },
                       "allowHTML" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       }
                     },
                     "reference" : "90561f46-80ea-4864-aa7f-5a117aee2bb9",
@@ -299,7 +299,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "<span title=\"{{userName}}\">{{userName}}</span>"
+                              "value" : "<span title=\"{{htmlEncoder.encodeHTML(userName)}}\">{{htmlEncoder.encodeHTML(userName)}}</span>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -527,7 +527,7 @@
                             },
                             "allowHTML" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             }
                           },
                           "reference" : "511c9f30-4ba0-49fe-b524-f6d2bbb590c7",
@@ -892,7 +892,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "078bce10-17ca-4dd8-82b8-66180b75fbda",
@@ -1039,7 +1039,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "4e5703ca-93a1-47b3-9f9f-3b39971a2b8f",
@@ -1067,7 +1067,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "text" : {
                                 "type" : "interpolation",
@@ -1119,7 +1119,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "text" : {
                                 "type" : "interpolation",
@@ -1213,7 +1213,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "eb05271f-6b6a-4e58-b623-d552d1129c87",
@@ -1285,7 +1285,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "151aa916-30b2-4757-936d-811fd48995d0",
@@ -1379,7 +1379,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "4939b47c-a22f-48c0-9b29-ea7576e47132",
@@ -1485,7 +1485,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "c375a2e5-6ec3-48c0-bcb6-17aae98b77a5",
@@ -1577,7 +1577,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "28b64920-062d-49d2-a76d-37205135a2f3",
@@ -1691,7 +1691,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "0a62175c-8427-4059-8116-f2b3c54fca06",
@@ -1800,7 +1800,7 @@
                               },
                               "allowHTML" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               }
                             },
                             "reference" : "d648505d-c967-499c-b96d-f36c800a65fc",
@@ -2139,7 +2139,7 @@
                                           },
                                           "allowHTML" : {
                                             "type" : "constant",
-                                            "value" : true
+                                            "value" : false
                                           },
                                           "text" : {
                                             "type" : "interpolation",
@@ -2178,7 +2178,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "<span title=\"{{applicationCtrl.sanitizeString($item.displayName)}}\">{{$item.displayName}}</span>"
+                                      "value" : "<span title=\"{{htmlEncoder.encodeHTML($item.displayName)}}\">{{htmlEncoder.encodeHTML($item.displayName)}}</span>"
                                     },
                                     "type" : {
                                       "type" : "constant",
@@ -2271,7 +2271,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "ce885e7e-6fc2-40bd-98ce-cec403a89ce4",
@@ -2366,7 +2366,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "49f41ad6-4948-46db-9b37-f68e330790d3",
@@ -2490,7 +2490,7 @@
                         },
                         "allowHTML" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         }
                       },
                       "reference" : "e1ca0f27-599a-43ed-84a9-596b17a2fffc",
@@ -2608,9 +2608,9 @@
         "",
         "var isCustomIconPath = $data.loggedUser.icon && $data.loggedUser.icon!='icons/default/icon_user.png';",
         "",
-        "const htmlContentForImage = `<span><img title=\"${$data.userName}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;",
+        "const htmlContentForImage = `<span><img title=\"${$data.htmlEncoder.encodeHTML($data.userName)}\" src=\"${$data.loggedUser.icon}\" alt=\"${uiTranslate('User icon')}\"></span>`;",
         "",
-        "const htmlContentForDefaultIcon = `<i title=\"${$data.userName}\" class=\"fa fa-user-circle\"></i>`;",
+        "const htmlContentForDefaultIcon = `<i title=\"${$data.htmlEncoder.encodeHTML($data.userName)}\" class=\"fa fa-user-circle\"></i>`;",
         "",
         "return isCustomIconPath ? htmlContentForImage : htmlContentForDefaultIcon;"
       ],
@@ -2832,9 +2832,6 @@
         "    getIcon: function(icon) {",
         "        return icon === \"\" ? \"../skin/images/logo.png\" : icon;",
         "    },",
-        "    sanitizeString: function(stringToSanitize) {",
-        "        return stringToSanitize.replaceAll(\"\\\"\", \"&quot;\").replaceAll(\"\\'\", \"&#039;\");",
-        "    },",
         "    getApplicationCssClasses: function(application) {",
         "        var cssClasses = \"application-card \";",
         "        ",
@@ -2907,6 +2904,23 @@
         "    return '';",
         "}",
         "return \"../API/identity/user/\" + $data.session.user_id + \"?d=professional_data\";"
+      ],
+      "exposed" : false
+    },
+    "htmlEncoder" : {
+      "type" : "expression",
+      "value" : [
+        "const textArea = document.createElement('textarea');",
+        "return {",
+        "    encodeHTML: function(text) {",
+        "        if (text) {",
+        "            textArea.innerText = text;",
+        "            console.log(textArea.innerHTML);",
+        "            return textArea.innerHTML.replaceAll(\"\\\"\", \"&quot;\").replaceAll(\"\\'\", \"&#039;\");",
+        "        }",
+        "        return text;",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
