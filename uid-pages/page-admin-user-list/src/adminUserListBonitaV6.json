@@ -1,9 +1,9 @@
 {
   "modelVersion" : "2.2",
   "previousArtifactVersion" : "2.1",
-  "id" : "adminUserListBonitaV2",
-  "name" : "adminUserListBonitaV2",
-  "lastUpdate" : 1623139966656,
+  "id" : "adminUserListBonitaV6",
+  "name" : "adminUserListBonitaV6",
+  "lastUpdate" : 1686733221269,
   "rows" : [
     [
       {
@@ -2540,6 +2540,58 @@
                                 },
                                 "hidden" : {
                                   "type" : "expression",
+                                  "value" : "createUserData.statusCode !== 403 && createUserData.statusCode !== 500"
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Default label"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                },
+                                "text" : {
+                                  "type" : "interpolation",
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getCreateUserErrorMessage(createUserData.failedCreationResponse)}}"
+                                },
+                                "alignment" : {
+                                  "type" : "constant",
+                                  "value" : "left"
+                                }
+                              },
+                              "reference" : "174959f5-880e-4c5d-8445-bea42571fe76",
+                              "hasValidationError" : false,
+                              "id" : "pbText"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
                                   "value" : "createUserData.statusCode !== 500"
                                 },
                                 "labelHidden" : {
@@ -2572,58 +2624,6 @@
                                 }
                               },
                               "reference" : "8ce1c481-6b05-4e1b-acc4-e43a3b105103",
-                              "hasValidationError" : false,
-                              "id" : "pbText"
-                            }
-                          ],
-                          [
-                            {
-                              "type" : "component",
-                              "dimension" : {
-                                "xs" : 12,
-                                "sm" : 12,
-                                "md" : 12,
-                                "lg" : 12
-                              },
-                              "propertyValues" : {
-                                "cssClasses" : {
-                                  "type" : "constant",
-                                  "value" : ""
-                                },
-                                "hidden" : {
-                                  "type" : "expression",
-                                  "value" : "createUserData.statusCode !== 403"
-                                },
-                                "labelHidden" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "label" : {
-                                  "type" : "interpolation",
-                                  "value" : "Default label"
-                                },
-                                "labelPosition" : {
-                                  "type" : "constant",
-                                  "value" : "top"
-                                },
-                                "labelWidth" : {
-                                  "type" : "constant",
-                                  "value" : 4
-                                },
-                                "allowHTML" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "text" : {
-                                  "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getErrorMessageFor403(createUserData.failedCreationResponse)}}"
-                                },
-                                "alignment" : {
-                                  "type" : "constant",
-                                  "value" : "left"
-                                }
-                              },
-                              "reference" : "174959f5-880e-4c5d-8445-bea42571fe76",
                               "hasValidationError" : false,
                               "id" : "pbText"
                             }
@@ -3152,18 +3152,19 @@
       "type" : "expression",
       "value" : [
         "var isErrorOfType = function (failedResponse, type) {",
-        "    if (failedResponse.cause",
-        "        && (failedResponse.cause.exception.indexOf(type) > -1",
-        "            || failedResponse.cause.message.indexOf(type) > -1)) {",
+        "    if ( (failedResponse && (failedResponse.exception.indexOf(type) > -1 || failedResponse.message.indexOf(type) > -1))",
+        "        || (failedResponse.cause && (failedResponse.cause.exception.indexOf(type) > -1 || failedResponse.cause.message.indexOf(type) > -1))) {",
         "        return true;",
         "    }",
         "    return false;",
         "};",
         "",
         "return {",
-        "    getErrorMessageFor403: function(failedResponse) {",
+        "    getCreateUserErrorMessage: function(failedResponse) {",
         "        if (isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
         "            return uiTranslate(\"Another user already exists with this username. Choose a different username.\");",
+        "        } else if (isErrorOfType(failedResponse, 'ValidationException')) {",
+        "            return uiTranslate(\"Password must be at least 10 characters long containing at least 3 digits, 2 upper case characters, and 2 special characters.\");",
         "        }",
         "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
         "    },",
