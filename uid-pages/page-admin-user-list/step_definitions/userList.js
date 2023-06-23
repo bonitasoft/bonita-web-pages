@@ -160,6 +160,16 @@ given("The create user already exists response is defined", () => {
     }).as("userAlreadyExistsRoute");
 });
 
+given("The robustness password error response is defined", () => {
+    cy.fixture('json/robustnessPasswordError.json').as('robustnessPasswordError');
+    cy.route({
+        method: 'POST',
+        url: urlPrefix + 'API/identity/user',
+        status: 403,
+        response: '@robustnessPasswordError'
+    }).as("robustnessPasswordErrorRoute");
+});
+
 when("I visit the user list page", () => {
     cy.visit(url);
 });
