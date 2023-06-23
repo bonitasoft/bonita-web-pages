@@ -1,4 +1,5 @@
 {
+<<<<<<<< HEAD:community/uid-pages/page-admin-user-list/src/adminUserListBonitaV5.json
   "id" : "adminUserListBonitaV5",
   "name" : "adminUserListBonitaV5",
   "displayName" : "Bonita Admin User List",
@@ -8,6 +9,13 @@
   "previousArtifactVersion" : "2.2",
   "lastUpdate" : 1681394507532,
   "description" : "This page allows to manage the users. It is dedicated to Administrator-like profiles. You can export it and edit it in the UI Designer.",
+========
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "2.1",
+  "id" : "adminUserListBonitaV8",
+  "name" : "adminUserListBonitaV8",
+  "lastUpdate" : 1686733221269,
+>>>>>>>> 7.15.x:community/uid-pages/page-admin-user-list/src/adminUserListBonitaV8.json
   "rows" : [
     [
       {
@@ -3054,7 +3062,7 @@
                                 },
                                 "hidden" : {
                                   "type" : "expression",
-                                  "value" : "createUserData.statusCode !== 500"
+                                  "value" : "createUserData.statusCode !== 403 && createUserData.statusCode !== 500"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -3078,14 +3086,14 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'An error has occurred. For more information, check the log file.' | uiTranslate}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getCreateUserErrorMessage(createUserData.failedCreationResponse)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
                                   "value" : "left"
                                 }
                               },
-                              "reference" : "8ce1c481-6b05-4e1b-acc4-e43a3b105103",
+                              "reference" : "174959f5-880e-4c5d-8445-bea42571fe76",
                               "hasValidationError" : false,
                               "id" : "pbText"
                             }
@@ -3592,18 +3600,19 @@
       "type" : "expression",
       "value" : [
         "var isErrorOfType = function (failedResponse, type) {",
-        "    if (failedResponse.cause",
-        "        && (failedResponse.cause.exception.indexOf(type) > -1",
-        "            || failedResponse.cause.message.indexOf(type) > -1)) {",
+        "    if ( (failedResponse && (failedResponse.exception.indexOf(type) > -1 || failedResponse.message.indexOf(type) > -1))",
+        "        || (failedResponse.cause && (failedResponse.cause.exception.indexOf(type) > -1 || failedResponse.cause.message.indexOf(type) > -1))) {",
         "        return true;",
         "    }",
         "    return false;",
         "};",
         "",
         "return {",
-        "    getErrorMessageFor403: function(failedResponse) {",
+        "    getCreateUserErrorMessage: function(failedResponse) {",
         "        if (isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
         "            return uiTranslate(\"Another user already exists with this username. Choose a different username.\");",
+        "        } else if (isErrorOfType(failedResponse, 'ValidationException')) {",
+        "            return uiTranslate(\"Password must be at least 10 characters long containing at least 3 digits, 2 upper case characters, and 2 special characters.\");",
         "        }",
         "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
         "    },",
