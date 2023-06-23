@@ -90,3 +90,16 @@ Feature: create user modal in desktop resolution
     And I click on create button
     Then All create user modal information is cleared
     And I don't see any error message
+
+  Scenario: The modal should display robustness password error message
+    Given The filter response "default filter with headers" is defined
+    And The robustness password error response is defined
+    When I visit the user list page
+    And I click on create button
+    And I fill in the user information
+    And I click on "Create" button in modal
+    Then I see "Password must be at least 10 characters long containing at least 3 digits, 2 upper case characters, and 2 special characters." error message
+    When I click on "Cancel" button in modal
+    And I click on create button
+    Then All create user modal information is cleared
+    And I don't see any error message
