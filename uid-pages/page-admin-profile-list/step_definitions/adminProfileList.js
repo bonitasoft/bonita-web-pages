@@ -1,6 +1,5 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-
 const urlPrefix = 'build/dist/';
 const profilesUrl = 'API/portal/profile';
 const profileMemberUrl = 'API/portal/profileMember';
@@ -123,7 +122,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(groupMappingUrl + '&t=1*', 'profileMappingGroups10Route', 'profileMappingGroups10');
             createRouteWithResponse(roleMappingUrl + '&t=1*', 'profileMappingRoles10Route', 'profileMappingRoles10');
             createRouteWithResponse(roleMappingUrlTwo + '&t=1*', 'profileMappingRoles2Route', 'profileMappingRoles2');
-            createRouteWithResponse(membershipMappingUrl + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10');
+            createRouteWithResponse(membershipMappingUrl + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2');
             break;
         case 'user list':
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
@@ -297,36 +296,36 @@ given("The response {string} is defined", (responseType) => {
             createRoute(membershipMappingUrl + '&t=1*', 'refreshMembershipMappingUrlRoute');
             break;
         case 'refresh mapped membership list':
-            createRouteWithResponse(refreshMembershipMappingUrl + '&t=1*', 'refreshMembershipsMappingRoute', 'profileMappingMemberships10');
+            createRouteWithResponse(refreshMembershipMappingUrl + '&t=1*', 'refreshMembershipsMappingRoute', 'profileMappingMemberships2');
             break;
         case '500 during edit membership mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?&c=10&p=0f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 500);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 500);
             break;
         case '404 during edit membership mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?&c=10&p=0f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 404);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 404);
             break;
         case '403 during edit membership mapping':
             createRouteWithResponse(urlPrefix + profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=A&t=1*', 'searchMembershipRoute', 'profileMappingMemberships8');
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithMethodAndStatus(profileMemberUrl + '/106', 'removeMembershipMemberRoute', 'DELETE', 403);
             createRouteWithMethodAndStatus(profileMemberUrl, 'addMembershipMemberRoute', 'POST', 403);
             break;
         case 'membership already exists during edit membership mapping':
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'alreadyExistsException','POST', 403);
             break;
         case 'membership does not exist during edit membership mapping':
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'membershipDoesNotExistException','POST', 500);
             break;
         case 'member does not exist during edit membership mapping':
-            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships10Route', 'profileMappingMemberships10', '0', '10');
+            createRouteWithResponseAndPagination(profileMemberUrl, defaultMembershipMappingFilters + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2', '0', '10');
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         case 'default filter with missing features':
@@ -401,21 +400,6 @@ given("The response {string} is defined", (responseType) => {
             url: url,
             status: status,
             response: '@' + response
-        }).as(routeName);
-    }
-
-    function createProfilesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + profilesUrl + '?c=' + count + '&p=' + page + defaultProfileFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
         }).as(routeName);
     }
 
@@ -598,11 +582,11 @@ when("I type {string} in the selection input", (selectedValue) => {
 });
 
 when("I type {string} in the role selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(0).type(selectedValue);
+    cy.get('.modal .add-role-membership-mapping-search input').type(selectedValue);
 });
 
 when("I type {string} in the group selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(1).type(selectedValue);
+    cy.get('.modal .add-group-membership-mapping-search input').type(selectedValue);
 });
 
 when("I click on {string} in the list", (option) => {
@@ -621,12 +605,12 @@ when("I click on the remove {string} button in modal", () => {
     cy.get('.modal-content button .glyphicon-remove').eq(0).click();
 });
 
-when("The search input is filled with {string}", (searchTerm) => {
-    cy.get('.modal-body .form-group input').eq(1).type(searchTerm, {force: true});
+when("I type {string} in search input", (searchTerm) => {
+    cy.get('.modal-body .add-group-membership-mapping-search input').type(searchTerm, {force: true});
 });
 
-when("The mapped membership search input is filled with {string}", (searchTerm) => {
-    cy.get('.modal-body .form-group input').eq(2).type(searchTerm, {force: true});
+when("I type {string} in membership search input", (searchTerm) => {
+    cy.get('.modal-body .membership-mapping-search input').type(searchTerm, {force: true});
 });
 
 when("I erase one character", (userName) => {
@@ -1078,7 +1062,7 @@ then("The {string} list is not displayed", () => {
 });
 
 then("The role input in membership is filled with {string}", (selectedValue) => {
-    cy.get('.modal-body .form-group input').eq(0).should('have.value', selectedValue);
+    cy.get('.modal-body .add-role-membership-mapping-search input').should('have.value', selectedValue);
 });
 
 then("The group input in membership is filled with {string}", (selectedValue) => {
@@ -1281,7 +1265,7 @@ then("The membership inputs are filled with {string}", (roleName) => {
 });
 
 then("The mapped membership list is displayed", () => {
-    cy.get('.modal-body .profile-item').should('have.length', 10);
+    cy.get('.modal-body .profile-item').should('have.length', 2);
     cy.get('.modal-body .profile-item').eq(0).within(() => {
         cy.contains('.item-label', 'Role');
         cy.contains('.item-value', 'Executive');
@@ -1366,21 +1350,21 @@ then("It uploads a profile", () => {
 then("The successfully imported message displayed correctly", () => {
     cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
     cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
-    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');
     cy.contains(".modal-body p", "1 profile(s) has been successfully imported.");
 });
 
 then("The skipped message displayed correctly", () => {
     cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
     cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
-    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');
     cy.contains(".modal-body p", "1 profile(s) has been SKIPPED. Check the .xml file and retry.");
 });
 
 then("The imported and skipped messages are displayed correctly", () => {
     cy.get(".modal-body p .glyphicon-ok-sign").should('be.visible');
     cy.contains(".modal-body p", "The profile(s) file has been successfully imported");
-    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');;
+    cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');
     cy.contains(".modal-body p", "1 profile(s) has been successfully imported.");
     cy.get(".modal-body p .glyphicon-info-sign").should('be.visible');
     cy.contains(".modal-body p", "1 profile(s) has been SKIPPED. Check the .xml file and retry.");
