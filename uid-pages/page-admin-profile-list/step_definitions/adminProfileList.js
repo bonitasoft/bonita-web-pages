@@ -581,16 +581,24 @@ when("I click on edit membership mapping button for second profile", () => {
     cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).should('be.visible').click();
 });
 
-when("I type {string} in the selection input", (selectedValue) => {
-    cy.get('.modal .form-group input').eq(0).should('be.visible').type(selectedValue);
-});
-
-when("I type {string} in the role selection input", (selectedValue) => {
-    cy.get('.modal .add-role-membership-mapping-search input').type(selectedValue);
+when("I type {string} in the user selection input", (selectedValue) => {
+    cy.get('.modal .add-user-mapping-search input').scrollIntoView().type(selectedValue);
 });
 
 when("I type {string} in the group selection input", (selectedValue) => {
-    cy.get('.modal .add-group-membership-mapping-search input').type(selectedValue);
+    cy.get('.modal .add-group-mapping-search input').scrollIntoView().type(selectedValue);
+});
+
+when("I type {string} in the role selection input", (selectedValue) => {
+    cy.get('.modal .add-role-mapping-search input').scrollIntoView().type(selectedValue);
+});
+
+when("I type {string} in the role membership mapping selection input", (selectedValue) => {
+    cy.get('.modal .add-role-membership-mapping-search input').scrollIntoView().type(selectedValue);
+});
+
+when("I type {string} in the group membership mapping selection input", (selectedValue) => {
+    cy.get('.modal .add-group-membership-mapping-search input').scrollIntoView().type(selectedValue);
 });
 
 when("I click on {string} in the list", (option) => {
@@ -610,11 +618,7 @@ when("I click on the remove {string} button in modal", () => {
 });
 
 when("I type {string} in search input", (searchTerm) => {
-    cy.get('.modal-body .add-group-membership-mapping-search input').type(searchTerm, {force: true});
-});
-
-when("I type {string} in membership search input", (searchTerm) => {
-    cy.get('.modal-body .membership-mapping-search input').type(searchTerm, {force: true});
+    cy.get('.modal-body .mapping-search input').type(searchTerm, {force: true});
 });
 
 when("I erase one character", (userName) => {

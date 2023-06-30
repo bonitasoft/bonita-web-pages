@@ -22,7 +22,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     And I click on the "Add" button in modal
@@ -33,7 +33,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see the mapping information for second profile
     When I click on edit group mapping button for second profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Administrator" profile
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     And I click on the "Add" button in modal
@@ -50,10 +50,10 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
-    When The search input is filled with "Acme"
+    When I type "Acme" in search input
     Then The api call is made for "Acme"
     When I erase the search filter in the modal
-    When The search input is filled with "Search term with no match"
+    When I type "Search term with no match" in search input
     Then No group mappings are displayed
 
   Scenario: The groups mapping modal should display information about typing more
@@ -65,10 +65,10 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The "group selection" list is not displayed
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     Then The "group" list is displayed
     And The type more message is displayed and disabled
-    When I type "s" in the selection input
+    When I type "s" in the group selection input
     Then The type more message is not displayed
 
   Scenario: The edit group mapping modal adds groups successfully
@@ -82,12 +82,12 @@ Feature: The admin profiles mapping with groups in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The "group" list is not displayed
     And The group input is filled with "Acme"
-    When The search input is filled with "A"
+    When I type "A" in search input
     And I erase one character
     Then The "group" list is displayed
     And The add button is disabled
@@ -102,7 +102,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And The list of group mappings is refreshed
     And The page is refreshed
     And The search input has the value "A"
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     Then The "group" list is displayed
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -122,7 +122,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "group" button in modal
     Then There is a confirmation for a group mapping being removed
     When I wait for 2000
@@ -143,7 +143,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "group" button in modal
     Then I see "500" group mapping error message
     When I wait for 2000
@@ -155,7 +155,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "500" group mapping error message
@@ -169,7 +169,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "group" button in modal
     Then I see "404" group mapping error message
     When I wait for 2000
@@ -181,7 +181,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "404" group mapping error message
@@ -195,7 +195,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "group" button in modal
     Then I see "403" group mapping error message
     When I wait for 2000
@@ -207,7 +207,7 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When I type "A" in the selection input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "403" group mapping error message
@@ -221,8 +221,8 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
-    When I type "A" in the selection input
+    When I type "A" in search input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "group already exists" group mapping error message
@@ -245,8 +245,8 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
-    When I type "A" in the selection input
+    When I type "A" in search input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "group does not exist" group mapping error message
@@ -269,8 +269,8 @@ Feature: The admin profiles mapping with groups in desktop resolution
     And I click on edit group mapping button for first profile
     Then The edit group mapping modal is open and has a default state for "Edit group mapping of Custom profile 1" profile
     And The mapped group list is displayed
-    When The search input is filled with "A"
-    When I type "A" in the selection input
+    When I type "A" in search input
+    When I type "A" in the group selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "member does not exist" group mapping error message
