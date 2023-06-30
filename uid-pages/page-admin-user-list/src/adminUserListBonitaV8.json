@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV8",
   "name" : "adminUserListBonitaV8",
-  "lastUpdate" : 1686733221269,
+  "lastUpdate" : 1687869894958,
   "rows" : [
     [
       {
@@ -2970,7 +2970,7 @@
                                 },
                                 "hidden" : {
                                   "type" : "expression",
-                                  "value" : "createUserData.statusCode !== 403 && createUserData.statusCode !== 500"
+                                  "value" : "!createUserData.statusCode || createUserData.statusCode === 200"
                                 },
                                 "labelHidden" : {
                                   "type" : "constant",
@@ -2994,59 +2994,7 @@
                                 },
                                 "text" : {
                                   "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getCreateUserErrorMessage(createUserData.failedCreationResponse)}}"
-                                },
-                                "alignment" : {
-                                  "type" : "constant",
-                                  "value" : "left"
-                                }
-                              },
-                              "reference" : "174959f5-880e-4c5d-8445-bea42571fe76",
-                              "hasValidationError" : false,
-                              "id" : "pbText"
-                            }
-                          ],
-                          [
-                            {
-                              "type" : "component",
-                              "dimension" : {
-                                "xs" : 12,
-                                "sm" : 12,
-                                "md" : 12,
-                                "lg" : 12
-                              },
-                              "propertyValues" : {
-                                "cssClasses" : {
-                                  "type" : "constant",
-                                  "value" : ""
-                                },
-                                "hidden" : {
-                                  "type" : "expression",
-                                  "value" : "createUserData.statusCode !== 403"
-                                },
-                                "labelHidden" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "label" : {
-                                  "type" : "interpolation",
-                                  "value" : "Default label"
-                                },
-                                "labelPosition" : {
-                                  "type" : "constant",
-                                  "value" : "top"
-                                },
-                                "labelWidth" : {
-                                  "type" : "constant",
-                                  "value" : 4
-                                },
-                                "allowHTML" : {
-                                  "type" : "constant",
-                                  "value" : true
-                                },
-                                "text" : {
-                                  "type" : "interpolation",
-                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getErrorMessageFor403(createUserData.failedCreationResponse)}}"
+                                  "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{createUserCtrl.getCreateUserErrorMessage(createUserData.failedCreationResponse, createUserData.statusCode)}}"
                                 },
                                 "alignment" : {
                                   "type" : "constant",
@@ -3517,21 +3465,27 @@
       "type" : "expression",
       "value" : [
         "var isErrorOfType = function (failedResponse, type) {",
-        "    if ( (failedResponse && (failedResponse.exception.indexOf(type) > -1 || failedResponse.message.indexOf(type) > -1))",
-        "        || (failedResponse.cause && (failedResponse.cause.exception.indexOf(type) > -1 || failedResponse.cause.message.indexOf(type) > -1))) {",
-        "        return true;",
-        "    }",
-        "    return false;",
+        "    return failedResponse && ",
+        "            ((failedResponse.exception && failedResponse.exception.indexOf(type) > -1) || ",
+        "            (failedResponse.message && failedResponse.message.indexOf(type) > -1) || ",
+        "            (failedResponse.cause && ",
+        "                ((failedResponse.cause.exception && failedResponse.cause.exception.indexOf(type) > -1) || ",
+        "                (failedResponse.cause.message && failedResponse.cause.message.indexOf(type) > -1))));",
         "};",
         "",
         "return {",
-        "    getCreateUserErrorMessage: function(failedResponse) {",
-        "        if (isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
-        "            return uiTranslate(\"Another user already exists with this username. Choose a different username.\");",
-        "        } else if (isErrorOfType(failedResponse, 'ValidationException')) {",
+        "    getCreateUserErrorMessage: function(failedResponse, statusCode) {",
+        "        if(statusCode === 403) {",
+        "            if(isErrorOfType(failedResponse, 'AlreadyExistsException')) {",
+        "                return uiTranslate(\"Another user already exists with this username. Choose a different username.\");",
+        "            }",
+        "            return uiTranslate(\"Access denied. For more information, check the log file.\");",
+        "        } ",
+        "        ",
+        "        if(statusCode === 500 && isErrorOfType(failedResponse, 'ValidationException')) {",
         "            return uiTranslate(\"Password must be at least 10 characters long containing at least 3 digits, 2 upper case characters, and 2 special characters.\");",
-        "        }",
-        "        return uiTranslate(\"Access denied. For more information, check the log file.\");",
+        "        } ",
+        "        return uiTranslate(\"An error has occurred. For more information, check the log file.\");    ",
         "    },",
         "    doPasswordsMatch: function() {",
         "        return $data.createUserData.creationPayload.password === $data.createUserData.creationPayload.password_confirm;",
