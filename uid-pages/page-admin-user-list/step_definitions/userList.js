@@ -172,7 +172,7 @@ given("The robustness password error response is defined", () => {
     cy.route({
         method: 'POST',
         url: urlPrefix + 'API/identity/user',
-        status: 403,
+        status: 500,
         response: '@robustnessPasswordError'
     }).as("robustnessPasswordErrorRoute");
 });
