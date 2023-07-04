@@ -462,7 +462,9 @@ when("I erase the search filter in the modal", () => {
 });
 
 when("I click on delete button for first profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-trash').eq(0).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(0).within((container) => {
+        cy.wrap(container).get('.glyphicon-trash').click();
+    });
 });
 
 when("I click on add button", () => {
@@ -503,11 +505,15 @@ when("I click inside the modal", () => {
 });
 
 when("I click on edit button for first profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(0).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(0).within((container) => {
+        cy.wrap(container).get('.glyphicon-pencil').click();
+    });
 });
 
 when("I click on edit button for fifth profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-pencil').eq(4).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(4).within((container) => {
+        cy.wrap(container).get('.glyphicon-pencil').click();
+    });
 });
 
 when("I click on the {string} button in modal", (buttonName) => {
@@ -529,51 +535,59 @@ when("I fill in the information", () => {
 });
 
 when("I click on show organization mapping button for first profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(0).within((container) => {
+        cy.wrap(container).get('.glyphicon-triangle-bottom').click();
+    });
 });
 
 when("I click on show organization mapping button for second profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(1).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(1).within((container) => {
+        cy.wrap(container).get('.glyphicon-triangle-bottom').click();
+    });
 });
 
 when("I click on show organization mapping button for second profile without closing the first", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-triangle-bottom').eq(0).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(1).within((container) => {
+        cy.wrap(container).get('.glyphicon-triangle-bottom').click();
+    });
 });
 
 when("I click on hide organization mapping button for first profile", () => {
-    cy.get('.action-button-container .glyphicon.glyphicon-triangle-top').eq(0).should('be.visible').parent().click();
+    cy.get('.action-button-container').eq(0).within((container) => {
+        cy.wrap(container).get('.glyphicon-triangle-top').click();
+    });
 });
 
 when("I click on edit user mapping button for first profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).should('be.visible').click();
+    cy.get('.edit-user-mapping-icon').click();
 });
 
 when("I click on edit user mapping button for second profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(0).should('be.visible').click();
+    cy.get('.edit-user-mapping-icon').click();
 });
 
 when("I click on edit role mapping button for first profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).should('be.visible').click();
+    cy.get('.edit-role-mapping-icon').click();
 });
 
 when("I click on edit role mapping button for second profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(2).should('be.visible').click();
+    cy.get('.edit-role-mapping-icon').click();
 });
 
 when("I click on edit group mapping button for first profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).should('be.visible').click();
+    cy.get('.edit-group-mapping-icon').click();
 });
 
 when("I click on edit group mapping button for second profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(1).should('be.visible').click();
+    cy.get('.edit-group-mapping-icon').click();
 });
 
 when("I click on edit membership mapping button for first profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).should('be.visible').click();
+    cy.get('.edit-membership-mapping-icon').click();
 });
 
 when("I click on edit membership mapping button for second profile", () => {
-    cy.get('.organization-mapping-container .glyphicon.glyphicon-pencil').eq(3).should('be.visible').click();
+    cy.get('.edit-membership-mapping-icon').click();
 });
 
 when("I type {string} in the user selection input", (selectedValue) => {
@@ -600,16 +614,8 @@ when("I click on {string} in the list", (option) => {
     cy.contains('.modal-content .dropdown-menu button', option).click();
 });
 
-when("I click on the remove user button in modal", () => {
-    cy.get('.modal-content button .glyphicon-remove').eq(0).should('be.visible').click();
-});
-
-when("I click on the remove role button in modal", () => {
-    cy.get('.modal-content button .glyphicon-remove').eq(0).should('be.visible').click();
-});
-
 when("I click on the remove {string} button in modal", () => {
-    cy.get('.modal-content button .glyphicon-remove').eq(0).should('be.visible').click();
+    cy.get('.modal-content .profile-item:first-of-type .glyphicon-remove').click({force: true});
 });
 
 when("I type {string} in search input", (searchTerm) => {
