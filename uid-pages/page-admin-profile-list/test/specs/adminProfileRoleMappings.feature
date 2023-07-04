@@ -22,7 +22,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     Then The "role" list is displayed
     When I click on "Executive" in the list
     And I click on the "Add" button in modal
@@ -33,7 +33,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see the mapping information for second profile
     When I click on edit role mapping button for second profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Administrator" profile
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     Then The "role" list is displayed
     When I click on "Executive" in the list
     And I click on the "Add" button in modal
@@ -50,10 +50,10 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
-    When The search input is filled with "Executive"
+    When I type "Executive" in search input
     Then The api call is made for "Executive"
     When I erase the search filter in the modal
-    When The search input is filled with "Search term with no match"
+    When I type "Search term with no match" in search input
     Then No role mappings are displayed
 
   Scenario: The roles mapping modal should display information about typing more
@@ -65,10 +65,10 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The "role selection" list is not displayed
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     Then The "role" list is displayed
     And The type more message is displayed and disabled
-    When I type "x" in the selection input
+    When I type "x" in the role selection input
     Then The type more message is not displayed
 
   Scenario: The edit role mapping modal adds roles successfully
@@ -82,12 +82,12 @@ Feature: The admin profiles mapping with roles in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
     Then The "role" list is not displayed
     And The role input is filled with "Executive Assistants"
-    When The search input is filled with "E"
+    When I type "E" in search input
     And I erase one character
     Then The "role" list is displayed
     And The add button is disabled
@@ -102,7 +102,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And The list of role mappings is refreshed
     And The page is refreshed
     And The search input has the value "E"
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     Then The "role" list is displayed
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -122,7 +122,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
+    When I type "E" in search input
     And I click on the remove "role" button in modal
     Then There is a confirmation for a role mapping being removed
     When I wait for 2000
@@ -143,7 +143,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
+    When I type "E" in search input
     And I click on the remove "role" button in modal
     Then I see "500" role mapping error message
     When I wait for 2000
@@ -155,7 +155,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "500" role mapping error message
@@ -169,7 +169,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
+    When I type "E" in search input
     And I click on the remove "role" button in modal
     Then I see "404" role mapping error message
     When I wait for 2000
@@ -181,7 +181,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "404" role mapping error message
@@ -195,7 +195,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
+    When I type "E" in search input
     And I click on the remove "role" button in modal
     Then I see "403" role mapping error message
     When I wait for 2000
@@ -207,7 +207,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When I type "E" in the selection input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "403" role mapping error message
@@ -221,8 +221,8 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
-    When I type "E" in the selection input
+    When I type "E" in search input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "role already exists" role mapping error message
@@ -245,8 +245,8 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
-    When I type "E" in the selection input
+    When I type "E" in search input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "role does not exist" role mapping error message
@@ -269,8 +269,8 @@ Feature: The admin profiles mapping with roles in desktop resolution
     And I click on edit role mapping button for first profile
     Then The edit role mapping modal is open and has a default state for "Edit role mapping of Custom profile 1" profile
     And The mapped role list is displayed
-    When The search input is filled with "E"
-    When I type "E" in the selection input
+    When I type "E" in search input
+    When I type "E" in the role selection input
     And I click on "Executive Assistants" in the list
     And I click on the "Add" button in modal
     Then I see "member does not exist" role mapping error message
