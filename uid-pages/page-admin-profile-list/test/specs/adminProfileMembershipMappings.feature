@@ -22,11 +22,11 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive" in the list
     Then The role input in membership is filled with "Executive"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
@@ -38,11 +38,11 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see the mapping information for second profile
     When I click on edit membership mapping button for second profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Administrator" profile
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive" in the list
     Then The role input in membership is filled with "Executive"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
@@ -60,10 +60,10 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
-    When The mapped membership search input is filled with "Executive"
+    When I type "Executive" in search input
     Then The api call is made for "Executive"
     When I erase the search filter in the modal
-    When The search input is filled with "Search term with no match"
+    When I type "Search term with no match" in search input
     Then No membership mappings are displayed
 
   Scenario: The memberships mapping modal should display information about typing more
@@ -75,17 +75,17 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The "role selection" list is not displayed
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     And The type more message is displayed and disabled
-    When I type "x" in the selection input
+    When I type "x" in the role membership mapping selection input
     Then The type more message is not displayed
     When I click on "Executive Assistants" in the list
     Then The role input in membership is filled with "Executive Assistants"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     And The type more message is displayed and disabled
-    When I type "c" in the group selection input
+    When I type "c" in the group membership mapping selection input
     Then The type more message is not displayed
 
   Scenario: The edit membership mapping modal adds memberships successfully
@@ -99,15 +99,15 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then I see the mapping information for first profile
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
     Then The role input in membership is filled with "Executive Assistants"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
-    When The mapped membership search input is filled with "Acme"
+    When I type "Acme" in search input
     And I erase one character
     Then The "membership" list is displayed
     And The add button is disabled
@@ -122,9 +122,9 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And The list of membership mappings is refreshed
     And The page is refreshed
     And The mapped membership search input has the value "Acme"
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on the "Close" button in modal
     Then There is no modal displayed
@@ -145,7 +145,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "membership" button in modal
     Then There is a confirmation for a membership mapping being removed
     When I wait for 2000
@@ -166,7 +166,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "membership" button in modal
     Then I see "500" membership mapping error message
     When I wait for 2000
@@ -178,10 +178,10 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
-    And I type "A" in the group selection input
+    And I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     And I click on the "Add" button in modal
@@ -196,7 +196,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "membership" button in modal
     Then I see "404" membership mapping error message
     When I wait for 2000
@@ -215,7 +215,7 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
+    When I type "A" in search input
     And I click on the remove "membership" button in modal
     Then I see "403" membership mapping error message
     When I wait for 2000
@@ -227,10 +227,10 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When I type "E" in the role selection input
+    When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
-    And I type "A" in the group selection input
+    And I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     And I click on the "Add" button in modal
@@ -245,12 +245,12 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
-    And I type "E" in the role selection input
+    When I type "A" in search input
+    And I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
     Then The role input in membership is filled with "Executive Assistants"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
@@ -275,12 +275,12 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
-    And I type "E" in the role selection input
+    When I type "A" in search input
+    And I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
     When I click on "Executive Assistants" in the list
     Then The role input in membership is filled with "Executive Assistants"
-    When I type "A" in the group selection input
+    When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
@@ -305,10 +305,10 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     And I click on edit membership mapping button for first profile
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     And The mapped membership list is displayed
-    When The mapped membership search input is filled with "A"
-    And I type "E" in the role selection input
+    When I type "A" in search input
+    And I type "E" in the role membership mapping selection input
     And I click on "Executive Assistants" in the list
-    And I type "A" in the group selection input
+    And I type "A" in the group membership mapping selection input
     And I click on "Acme" in the list
     And I click on the "Add" button in modal
     Then I see "member does not exist" membership mapping error message

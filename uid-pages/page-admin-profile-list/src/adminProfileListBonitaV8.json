@@ -1,12 +1,12 @@
 {
-  "id" : "adminProfileListBonitaV6",
-  "name" : "adminProfileListBonitaV6",
+  "id" : "adminProfileListBonitaV8",
+  "name" : "adminProfileListBonitaV8",
   "displayName" : "Bonita Admin Profile List",
   "type" : "page",
   "uuid" : "50077d1e-8fc4-4109-8a0f-87ced3d26e79",
   "modelVersion" : "2.4",
   "previousArtifactVersion" : "2.3",
-  "lastUpdate" : 1681379338265,
+  "lastUpdate" : 1688112271235,
   "description" : "This page provides the list of a profiles. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -306,7 +306,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "filter-widget"
+                        "value" : "filter-widget profile-search"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -372,7 +372,7 @@
                       },
                       "debounce" : {
                         "type" : "constant",
-                        "value" : 300
+                        "value" : 200
                       }
                     },
                     "reference" : "139b8c86-d981-444e-b23f-8f5beb709949",
@@ -2698,7 +2698,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Users\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil btn-link\" title=\"{{\"Edit user mapping\" | uiTranslate}}\"></i>"
+                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Users\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil edit-user-mapping-icon btn-link\" title=\"{{\"Edit user mapping\" | uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -2924,7 +2924,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Groups\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil btn-link\" title=\"{{\"Edit group mapping\" | uiTranslate}}\"></i>"
+                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Groups\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil edit-group-mapping-icon btn-link\" title=\"{{\"Edit group mapping\" | uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -3150,7 +3150,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Roles\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil btn-link\" title=\"{{\"Edit role mapping\" | uiTranslate}}\"></i>"
+                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Roles\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil edit-role-mapping-icon btn-link\" title=\"{{\"Edit role mapping\" | uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -3376,7 +3376,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Memberships\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil btn-link\" title=\"{{\"Edit membership mapping\" | uiTranslate}}\"></i>"
+                                    "value" : "<span class=\"mapping-label\">{{\"Mapping with Memberships\"| uiTranslate}}</span>  <i class=\"glyphicon glyphicon-pencil edit-membership-mapping-icon btn-link\" title=\"{{\"Edit membership mapping\" | uiTranslate}}\"></i>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -4168,6 +4168,10 @@
                                       "allowHTML" : {
                                         "type" : "constant",
                                         "value" : false
+                                      },
+                                      "debounce" : {
+                                        "type" : "constant",
+                                        "value" : 0
                                       }
                                     },
                                     "reference" : "fcd90061-c702-4a11-a224-91e031e83879",
@@ -5761,7 +5765,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "name-input"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -5823,6 +5827,10 @@
                         "allowHTML" : {
                           "type" : "constant",
                           "value" : false
+                        },
+                        "debounce" : {
+                          "type" : "constant",
+                          "value" : 0
                         }
                       },
                       "reference" : "b3a34821-dac7-49c2-85e5-cd5e2ee05d67",
@@ -5894,7 +5902,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "description-input"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -6986,7 +6994,7 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "add-user-mapping-search"
                                     },
                                     "hidden" : {
                                       "type" : "constant",
@@ -7049,6 +7057,10 @@
                                     "allowHTML" : {
                                       "type" : "constant",
                                       "value" : false
+                                    },
+                                    "debounce" : {
+                                      "type" : "constant",
+                                      "value" : 200
                                     }
                                   },
                                   "reference" : "a34c5843-ffb9-4ea9-946d-27e77dccb2e3",
@@ -7421,7 +7433,7 @@
                             "propertyValues" : {
                               "cssClasses" : {
                                 "type" : "constant",
-                                "value" : ""
+                                "value" : "mapping-search"
                               },
                               "hidden" : {
                                 "type" : "constant",
@@ -8771,7 +8783,7 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "add-role-mapping-search"
                                     },
                                     "hidden" : {
                                       "type" : "constant",
@@ -9210,7 +9222,7 @@
                             "propertyValues" : {
                               "cssClasses" : {
                                 "type" : "constant",
-                                "value" : ""
+                                "value" : "mapping-search"
                               },
                               "hidden" : {
                                 "type" : "constant",
@@ -9273,6 +9285,10 @@
                               "allowHTML" : {
                                 "type" : "constant",
                                 "value" : false
+                              },
+                              "debounce" : {
+                                "type" : "constant",
+                                "value" : 200
                               }
                             },
                             "reference" : "48590d3d-6f14-4572-808e-b338363591a8",
@@ -10423,7 +10439,7 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "add-group-mapping-search"
                                     },
                                     "hidden" : {
                                       "type" : "constant",
@@ -10486,6 +10502,10 @@
                                     "allowHTML" : {
                                       "type" : "constant",
                                       "value" : false
+                                    },
+                                    "debounce" : {
+                                      "type" : "constant",
+                                      "value" : 200
                                     }
                                   },
                                   "reference" : "1be5d45c-bf6e-4242-8a41-9708fdce295c",
@@ -10858,7 +10878,7 @@
                             "propertyValues" : {
                               "cssClasses" : {
                                 "type" : "constant",
-                                "value" : ""
+                                "value" : "mapping-search"
                               },
                               "hidden" : {
                                 "type" : "constant",
@@ -12311,7 +12331,7 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "add-role-membership-mapping-search"
                                     },
                                     "hidden" : {
                                       "type" : "constant",
@@ -12374,6 +12394,10 @@
                                     "allowHTML" : {
                                       "type" : "constant",
                                       "value" : false
+                                    },
+                                    "debounce" : {
+                                      "type" : "constant",
+                                      "value" : 200
                                     }
                                   },
                                   "reference" : "f39c32bd-354b-4468-9b8e-94c5a3199e81",
@@ -12577,7 +12601,7 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : "input-with-light-label"
+                                      "value" : "input-with-light-label add-group-membership-mapping-search"
                                     },
                                     "hidden" : {
                                       "type" : "constant",
@@ -12640,6 +12664,10 @@
                                     "allowHTML" : {
                                       "type" : "constant",
                                       "value" : false
+                                    },
+                                    "debounce" : {
+                                      "type" : "constant",
+                                      "value" : 200
                                     }
                                   },
                                   "reference" : "39f4a832-8b9c-41c3-903f-eadefce79baf",
@@ -13012,7 +13040,7 @@
                             "propertyValues" : {
                               "cssClasses" : {
                                 "type" : "constant",
-                                "value" : ""
+                                "value" : "mapping-search"
                               },
                               "hidden" : {
                                 "type" : "constant",
