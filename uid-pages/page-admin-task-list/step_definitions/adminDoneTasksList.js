@@ -211,30 +211,30 @@ then("The done tasks list have the correct information", () => {
 
     cy.get('.task-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('Lowest');
-        cy.get('.item-value').contains('140081');
-        cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-value').contains('InvolveUserDisplayName');
-        cy.get('.item-value').contains('2/5/20 4:00 PM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('7024');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('PublishDailyMeal (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('Publish daily meal by mail for all the team');
-        cy.get('.item-label').contains('Description');
-        cy.get('.item-value').contains('This is a done task description.');
+        cy.contains('.item-value', 'Lowest');
+        cy.contains('.item-value', '140081');
+        cy.contains('.item-value', 'InvolveUser');
+        cy.contains('.item-value', 'InvolveUserDisplayName');
+        cy.contains('.item-value', '2/5/20 4:00 PM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '7024');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'PublishDailyMeal (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'Publish daily meal by mail for all the team');
+        cy.contains('.item-label', 'Description');
+        cy.contains('.item-value', 'This is a done task description.');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details');
     });
 });
 
 then("The done tasks list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Done tasks shown: 5 of 5');
+    cy.contains('.text-primary.item-label:visible', 'Done tasks shown: 5 of 5');
 });
 
 then("A list of {string} done tasks is displayed out of {string}", (nbrOfItems, totalItems) => {
     cy.get('.task-item:visible').should('have.length', nbrOfItems);
-    cy.get('.text-primary.item-label:visible').contains('Done tasks shown: ' + nbrOfItems + ' of ' + totalItems);
+    cy.contains('.text-primary.item-label:visible', 'Done tasks shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string} for done tasks", (filterValue) => {
@@ -290,13 +290,13 @@ then("The api call is made for {string} for done tasks", (filterValue) => {
 });
 
 then("I see the done tasks page", () => {
-    cy.get('.item-value:visible').contains('140081');
+    cy.contains('.item-value:visible', '140081');
 });
 
 then("No done tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
-    cy.get('h4:visible').contains('No done tasks to display').should('be.visible');
-    cy.get('h4:visible').contains('No failed flow nodes to display').should('not.exist');
+    cy.contains('h4:visible', 'No done tasks to display').should('be.visible');
+    cy.contains('h4:visible', 'No failed flow nodes to display').should('not.exist');
 });
 
 then("The more button has correct href with {string} for done tasks", (doneTaskId) => {

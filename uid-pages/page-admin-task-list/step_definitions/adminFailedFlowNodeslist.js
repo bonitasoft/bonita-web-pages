@@ -210,7 +210,7 @@ when("I erase the caseId filter", () => {
 });
 
 when("I click on Load more flow nodes button", () => {
-    cy.get('button').contains('Load more flow nodes').click();
+    cy.contains('button', 'Load more flow nodes').click();
 });
 
 when("I click on refresh", ()=>{
@@ -229,95 +229,95 @@ then("The failed flow nodes list have the correct information", () => {
     cy.contains('.item-label-container p', 'View details').should('be.visible');
     cy.get('.task-item').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('--');
-        cy.get('.item-value').contains('60002');
-        cy.get('.item-value').contains('ALowScenario');
-        cy.get('.item-value').contains('ALowScenario display name');
-        cy.get('.item-value').contains('User task');
-        cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('3001');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('generateRandomCases (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('generateRandomCases display name');
-        cy.get('.item-label').contains('Description');
-        cy.get('.item-value').contains('This is a failed flow node description.');
+        cy.contains('.item-value', '--');
+        cy.contains('.item-value', '60002');
+        cy.contains('.item-value', 'ALowScenario');
+        cy.contains('.item-value', 'ALowScenario display name');
+        cy.contains('.item-value', 'User task');
+        cy.contains('.item-value', '1/16/20 10:13 AM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '3001');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'generateRandomCases (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'generateRandomCases display name');
+        cy.contains('.item-label', 'Description');
+        cy.contains('.item-value', 'This is a failed flow node description.');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('Lowest');
-        cy.get('.item-value').contains('60003');
-        cy.get('.item-value').contains('A Lowest Scenario');
-        cy.get('.item-value').contains('A Lowest Scenario display name');
-        cy.get('.item-value').contains('User task');
-        cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('4001');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('generateCases (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('generateCases display name');
+        cy.contains('.item-value', 'Lowest');
+        cy.contains('.item-value', '60003');
+        cy.contains('.item-value', 'A Lowest Scenario');
+        cy.contains('.item-value', 'A Lowest Scenario display name');
+        cy.contains('.item-value', 'User task');
+        cy.contains('.item-value', '1/16/20 10:13 AM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '4001');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'generateCases (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'generateCases display name');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(2).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('Highest');
-        cy.get('.item-value').contains('60004');
-        cy.get('.item-value').contains('A Highest Scenario');
-        cy.get('.item-value').contains('A Highest Scenario display name');
-        cy.get('.item-value').contains('User task');
-        cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('5001');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('cases (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('Cases display name');
+        cy.contains('.item-value', 'Highest');
+        cy.contains('.item-value', '60004');
+        cy.contains('.item-value', 'A Highest Scenario');
+        cy.contains('.item-value', 'A Highest Scenario display name');
+        cy.contains('.item-value', 'User task');
+        cy.contains('.item-value', '1/16/20 10:13 AM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '5001');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'cases (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'Cases display name');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(3).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('High');
-        cy.get('.item-value').contains('60005');
-        cy.get('.item-value').contains('A High Scenario');
-        cy.get('.item-value').contains('A High Scenario display name');
-        cy.get('.item-value').contains('User task');
-        cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('6001');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('donotgenerateRandomCases (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('Do not generateRandomCases display name');
+        cy.contains('.item-value', 'High');
+        cy.contains('.item-value', '60005');
+        cy.contains('.item-value', 'A High Scenario');
+        cy.contains('.item-value', 'A High Scenario display name');
+        cy.contains('.item-value', 'User task');
+        cy.contains('.item-value', '1/16/20 10:13 AM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '6001');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'donotgenerateRandomCases (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'Do not generateRandomCases display name');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
     cy.get('.task-item').eq(4).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('Normal');
-        cy.get('.item-value').contains('60006');
-        cy.get('.item-value').contains('A Normal Scenario');
-        cy.get('.item-value').contains('A Normal Scenario display name');
-        cy.get('.item-value').contains('User task');
-        cy.get('.item-value').contains('1/16/20 10:13 AM');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('7001');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('donotgenerateCases (1.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('Do not generateCases display name');
+        cy.contains('.item-value', 'Normal');
+        cy.contains('.item-value', '60006');
+        cy.contains('.item-value', 'A Normal Scenario');
+        cy.contains('.item-value', 'A Normal Scenario display name');
+        cy.contains('.item-value', 'User task');
+        cy.contains('.item-value', '1/16/20 10:13 AM');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '7001');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'donotgenerateCases (1.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'Do not generateCases display name');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
 });
 
 then("The failed flow nodes list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Failed flow nodes shown: 5 of 5');
+    cy.contains('.text-primary.item-label:visible', 'Failed flow nodes shown: 5 of 5');
 });
 
 then("A list of {string} failed flow nodes is displayed out of {string}", (nbrOfItems, totalItems) => {
     cy.get('.task-item:visible').should('have.length', nbrOfItems);
-cy.get('.text-primary.item-label:visible').contains('Failed flow nodes shown: ' + nbrOfItems + ' of ' + totalItems);
+cy.contains('.text-primary.item-label:visible', 'Failed flow nodes shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 
