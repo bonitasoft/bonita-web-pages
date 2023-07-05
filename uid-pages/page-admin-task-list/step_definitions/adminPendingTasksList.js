@@ -108,7 +108,7 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
 });
 
 when("I click on {string} tab", (tabName) => {
-    cy.get("a").contains(tabName).click();
+    cy.contains("a", tabName).click();
 });
 
 when("I put {string} in {string} filter field for pending tasks", (filterValue, filterType) => {
@@ -185,7 +185,7 @@ when("I click on Load more pending tasks button", () => {
 });
 
 then("I see the failed flow nodes page", () => {
-    cy.get('.item-value:visible').contains('60002');
+    cy.contains('.item-value:visible', '60002');
 });
 
 then("The pending tasks list have the correct information", () => {
@@ -200,49 +200,49 @@ then("The pending tasks list have the correct information", () => {
     cy.contains('.item-label-container p', 'View details').should('be.visible');
     cy.get('.task-item:visible').eq(0).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('Highest');
-        cy.get('.item-value').contains('100227');
-        cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-value').contains('--');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('5049');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('VacationRequest (2.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('New vacation request with means of transportation');
-        cy.get('.item-label').contains('Description');
-        cy.get('.item-value').contains('This is a pending task description.');
+        cy.contains('.item-value', 'Highest');
+        cy.contains('.item-value', '100227');
+        cy.contains('.item-value', 'InvolveUser');
+        cy.contains('.item-value', 'InvolveUser');
+        cy.contains('.item-value', '--');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '5049');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'VacationRequest (2.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'New vacation request with means of transportation');
+        cy.contains('.item-label', 'Description');
+        cy.contains('.item-value', 'This is a pending task description.');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
 
     cy.get('.task-item:visible').eq(1).within(() => {
         // Check that the element exist.
-        cy.get('.item-value').contains('--');
-        cy.get('.item-value').contains('100229');
-        cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-value').contains('InvolveUser');
-        cy.get('.item-value').contains('1/22/20 5:51 PM');
+        cy.contains('.item-value', '--');
+        cy.contains('.item-value', '100229');
+        cy.contains('.item-value', 'InvolveUser');
+        cy.contains('.item-value', 'InvolveUser');
+        cy.contains('.item-value', '1/22/20 5:51 PM');
         cy.get('.item-value i.glyphicon-alert').should('have.attr', 'title', 'This task is overdue');
-        cy.get('.item-label').contains('Case ID');
-        cy.get('.item-value').contains('5050');
-        cy.get('.item-label').contains('Process name (version)');
-        cy.get('.item-value').contains('VacationRequest (2.0)');
-        cy.get('.item-label').contains('Process display name');
-        cy.get('.item-value').contains('New vacation request with means of transportation');
-        cy.get('.item-label').contains('Description');
-        cy.get('.item-value').contains('No description');
+        cy.contains('.item-label', 'Case ID');
+        cy.contains('.item-value', '5050');
+        cy.contains('.item-label', 'Process name (version)');
+        cy.contains('.item-value', 'VacationRequest (2.0)');
+        cy.contains('.item-label', 'Process display name');
+        cy.contains('.item-value', 'New vacation request with means of transportation');
+        cy.contains('.item-label', 'Description');
+        cy.contains('.item-value', 'No description');
         cy.get('.glyphicon-eye-open').should('have.attr', 'title', 'View task details')
     });
 });
 
 then("The pending tasks list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: 5 of 5');
+    cy.contains('.text-primary.item-label:visible', 'Pending tasks shown: 5 of 5');
 });
 
 then("A list of {string} pending tasks is displayed out of {string}", (nbrOfItems, totalItems) => {
     cy.get('.task-item:visible').should('have.length', nbrOfItems);
-cy.get('.text-primary.item-label:visible').contains('Pending tasks shown: ' + nbrOfItems + ' of ' + totalItems);
+cy.contains('.text-primary.item-label:visible', 'Pending tasks shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 then("The api call is made for {string} for pending tasks", (filterValue) => {
@@ -287,8 +287,8 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
 
 then("No pending tasks are available", () => {
     cy.get('.task-item:visible').should('have.length', 0);
-    cy.get('h4').contains('No pending tasks to display').should('be.visible');
-    cy.get('h4').contains('No failed flow nodes to display').should('not.exist');
+    cy.contains('h4', 'No pending tasks to display').should('be.visible');
+    cy.contains('h4', 'No failed flow nodes to display').should('not.exist');
 });
 
 then("{string} items in the list are overdue", (overdueItems) => {
@@ -297,5 +297,5 @@ then("{string} items in the list are overdue", (overdueItems) => {
 });
 
 then("I see the pending tasks page", (overdueItems) => {
-    cy.get('.item-value:visible').contains('100227');
+    cy.contains('.item-value:visible', '100227');
 });
