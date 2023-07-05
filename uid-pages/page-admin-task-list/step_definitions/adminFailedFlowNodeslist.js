@@ -207,7 +207,7 @@ when("I erase the caseId filter", () => {
 });
 
 when("I click on Load more flow nodes button", () => {
-    cy.get('button').contains('Load more flow nodes').click();
+    cy.contains('button', 'Load more flow nodes').click();
 });
 
 when("I click on refresh", ()=>{
@@ -309,12 +309,12 @@ then("The failed flow nodes list have the correct information", () => {
 });
 
 then("The failed flow nodes list have the correct item shown number", () => {
-    cy.get('.text-primary.item-label:visible').contains('Failed flow nodes shown: 5 of 5');
+    cy.contains('.text-primary.item-label:visible', 'Failed flow nodes shown: 5 of 5');
 });
 
 then("A list of {string} failed flow nodes is displayed out of {string}", (nbrOfItems, totalItems) => {
     cy.get('.task-item:visible').should('have.length', nbrOfItems);
-cy.get('.text-primary.item-label:visible').contains('Failed flow nodes shown: ' + nbrOfItems + ' of ' + totalItems);
+cy.contains('.text-primary.item-label:visible', 'Failed flow nodes shown: ' + nbrOfItems + ' of ' + totalItems);
 });
 
 
