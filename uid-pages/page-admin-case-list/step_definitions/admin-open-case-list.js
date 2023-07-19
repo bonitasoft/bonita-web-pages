@@ -425,7 +425,7 @@ then("I see an open case list page", () => {
 
 then("A list of {string} items is displayed", (nbrOfItems) => {
     cy.contains('.text-primary.item-label:visible', 'Cases shown: ').scrollIntoView();
-    cy.get('.case-item:visible', {timeout: 10000}).should('have.length', nbrOfItems);
+    cy.get('.case-item').should('have.length', nbrOfItems);
 });
 
 then("A list of {string} items is displayed out of {string}", (nbrOfItems, totalItems) => {
