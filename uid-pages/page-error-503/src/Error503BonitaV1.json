@@ -1,10 +1,13 @@
 {
-  "modelVersion" : "2.4",
-  "previousArtifactVersion" : "2.1",
-  "webResources" : [ ],
   "id" : "Error503BonitaV1",
   "name" : "Error503BonitaV1",
-  "lastUpdate" : 1693317110660,
+  "displayName" : "Bonita Error 503",
+  "type" : "page",
+  "uuid" : "721ee410-4518-43bf-949b-3d1b1fcfcc96",
+  "modelVersion" : "2.5",
+  "previousArtifactVersion" : "2.4",
+  "lastUpdate" : 1694443358625,
+  "description" : "This is a 503 error page dedicated to Bonita applications. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
       {
@@ -350,6 +353,15 @@
       }
     ]
   ],
+  "variables" : {
+    "homepageUrl" : {
+      "type" : "expression",
+      "value" : [
+        "return top.location.pathname + '../../../';"
+      ],
+      "exposed" : false
+    }
+  },
   "assets" : [
     {
       "id" : "ecb7041c-4424-4d96-bbca-e12d575ea6bf",
@@ -381,18 +393,6 @@
     }
   ],
   "inactiveAssets" : [ ],
-  "variables" : {
-    "homepageUrl" : {
-      "type" : "expression",
-      "value" : [
-        "return top.location.pathname + '../../../';"
-      ],
-      "exposed" : false
-    }
-  },
-  "hasValidationError" : false,
-  "uuid" : "721ee410-4518-43bf-949b-3d1b1fcfcc96",
-  "type" : "page",
-  "description" : "This is a 503 error page dedicated to Bonita applications. You can export it and edit it in the UI Designer.",
-  "displayName" : "Bonita Error 503"
+  "webResources" : [ ],
+  "hasValidationError" : false
 }
