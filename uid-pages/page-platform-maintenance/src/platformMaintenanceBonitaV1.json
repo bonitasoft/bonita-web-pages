@@ -1,12 +1,12 @@
 {
-  "id" : "tenantStatusBonitaV3",
-  "name" : "tenantStatusBonitaV3",
-  "displayName" : "Tenant status page",
+  "id" : "platformMaintenanceBonitaV1",
+  "name" : "platformMaintenanceBonitaV1",
+  "displayName" : "Platform maintenance page",
   "type" : "page",
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1694443358428,
+  "lastUpdate" : 1695283973600,
   "description" : "Page allowing to stop and start the BPM services",
   "rows" : [
     [
@@ -306,7 +306,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "BPM services"
+                  "value" : "Platform Maintenance"
                 },
                 "level" : {
                   "type" : "constant",
@@ -345,11 +345,10 @@
                   "value" : false
                 },
                 "repeatedCollection" : {
-                  "type" : "variable",
-                  "value" : ""
+                  "type" : "variable"
                 }
               },
-              "reference" : "efc7fb8c-df00-4a4c-ad25-521a0e42a5f0",
+              "reference" : "b71d3276-ccbf-4e30-8a7c-3b6e3667b14e",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -358,70 +357,40 @@
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "sm" : 2,
+                      "md" : 2,
+                      "lg" : 2
                     },
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "hidden-sm hidden-md hidden-lg"
+                        "value" : "platform-icon-container"
                       },
                       "hidden" : {
                         "type" : "constant",
                         "value" : false
                       },
                       "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
+                        "type" : "variable"
                       }
                     },
-                    "reference" : "1d92a63e-6ada-4b43-9115-5b5741fc2872",
+                    "reference" : "2466407f-2eea-4430-ac79-3337cd059496",
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
                       [
                         {
-                          "type" : "container",
-                          "dimension" : {
-                            "xs" : 4,
-                            "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
-                            }
-                          },
-                          "reference" : "911d8da5-2b3b-4433-a598-b4d275b64910",
-                          "hasValidationError" : false,
-                          "id" : "pbContainer",
-                          "rows" : [
-                            [ ]
-                          ]
-                        },
-                        {
                           "type" : "component",
                           "dimension" : {
-                            "xs" : 4,
+                            "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 12,
+                            "lg" : 12
                           },
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "platform-icon"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -432,63 +401,31 @@
                               "value" : "Asset"
                             },
                             "url" : {
-                              "type" : "constant",
-                              "value" : "status.img"
+                              "type" : "constant"
                             },
                             "assetName" : {
-                              "type" : "expression",
-                              "value" : "status.img"
+                              "type" : "constant",
+                              "value" : "maintenance_scheduled.svg"
                             },
                             "alt" : {
                               "type" : "interpolation",
-                              "value" : "status.img"
+                              "value" : "Maintenance scheduled image"
                             }
                           },
-                          "reference" : "e06cfef7-3056-499d-8ff7-82cc9c2c7bac",
+                          "reference" : "5f1483c7-92a3-4718-abde-8e2043ca5927",
                           "hasValidationError" : false,
                           "id" : "pbImage"
-                        },
-                        {
-                          "type" : "container",
-                          "dimension" : {
-                            "xs" : 4,
-                            "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
-                            }
-                          },
-                          "reference" : "2502afae-6dc5-4c31-8cb2-87a7f5a748ad",
-                          "hasValidationError" : false,
-                          "id" : "pbContainer",
-                          "rows" : [
-                            [ ]
-                          ]
                         }
                       ]
                     ]
-                  }
-                ],
-                [
+                  },
                   {
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "sm" : 10,
+                      "md" : 10,
+                      "lg" : 10
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -500,76 +437,36 @@
                         "value" : false
                       },
                       "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
+                        "type" : "variable"
                       }
                     },
-                    "reference" : "280adac6-bfde-44b8-8362-c92247be706a",
+                    "reference" : "f80667f0-80ef-48ea-851d-776f6ce998d6",
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
                       [
                         {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 4,
-                            "md" : 2,
-                            "lg" : 2,
-                            "sm" : 2
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "hidden-xs"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "srcType" : {
-                              "type" : "constant",
-                              "value" : "Asset"
-                            },
-                            "url" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "assetName" : {
-                              "type" : "expression",
-                              "value" : "status.img"
-                            },
-                            "alt" : {
-                              "type" : "interpolation",
-                              "value" : "status.img"
-                            }
-                          },
-                          "reference" : "4cff073c-1e60-4844-9fc7-05164a66f5e2",
-                          "hasValidationError" : false,
-                          "id" : "pbImage"
-                        },
-                        {
                           "type" : "container",
                           "dimension" : {
                             "xs" : 12,
-                            "sm" : 10,
-                            "md" : 7,
-                            "lg" : 7
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
                           },
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "toggle-container"
                             },
                             "hidden" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
+                              "type" : "variable"
                             }
                           },
-                          "reference" : "b43a9ebe-d290-4252-9b0f-af2f9c3ccad8",
+                          "reference" : "41d05e74-ae4e-4a77-8e1b-6a868258735d",
                           "hasValidationError" : false,
                           "id" : "pbContainer",
                           "rows" : [
@@ -585,9 +482,17 @@
                                 "propertyValues" : {
                                   "cssClasses" : {
                                     "type" : "constant",
-                                    "value" : "tenantStateLabel"
+                                    "value" : "input-display-message"
                                   },
                                   "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
                                     "type" : "constant",
                                     "value" : false
                                   },
@@ -595,97 +500,521 @@
                                     "type" : "constant",
                                     "value" : true
                                   },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "<b>Status:</b><span class=\"text-upperCase\"> {{status.state | uiTranslate}}</span>"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : ""
+                                    "value" : "Display message to users"
                                   },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "scheduleMaintenanceData.maintenanceMessageActive"
                                   }
                                 },
-                                "reference" : "38176792-3218-4b3a-afbe-95382c80646f",
+                                "reference" : "d80ad2b7-2af4-4c43-9789-5b82c1ff9de8",
                                 "hasValidationError" : false,
-                                "id" : "pbText"
-                              }
-                            ],
-                            [
-                              {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "lg" : 12,
-                                  "md" : 12,
-                                  "sm" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : ""
-                                  },
-                                  "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "allowHTML" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "You need to pause the BPM services when you make an update to your environment that cannot be done while there are active users."
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : ""
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
-                                  }
-                                },
-                                "reference" : "e026035f-e43c-4360-aedf-bcff878e8cf6",
-                                "hasValidationError" : false,
-                                "id" : "pbText"
+                                "id" : "pbCheckbox"
                               }
                             ]
                           ]
-                        },
+                        }
+                      ],
+                      [
                         {
                           "type" : "component",
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 3,
-                            "lg" : 3
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Scheduled maintenance message"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "scheduleMaintenanceData.maintenanceMessage"
+                            }
+                          },
+                          "reference" : "cab51655-b2dd-493f-880d-fe4b91abd743",
+                          "hasValidationError" : false,
+                          "id" : "pbTextarea"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<i class='glyphicon glyphicon-info-sign text-info'></i>\n{{'The message specified here will be visible to users who are logged in. It should provide information about the scheduled maintenance time and the details of the updates.' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "5411d3d2-7a25-4483-a211-66f38ab510eb",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "scheduleMaintenanceData.maintenanceStatusCode !== 200"
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<span class=\"glyphicon glyphicon-ok-sign text-success\"></span>\n{{'Maintenance scheduled message successfully updated.' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "f17a71d8-1494-43f1-8539-490fa90e8c38",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "!scheduleMaintenanceData.maintenanceStatusCode  || scheduleMaintenanceData.maintenanceStatusCode === 200"
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<span class=\"glyphicon glyphicon-remove-sign text-danger\"></span>\n{{'Maintenance scheduled message has not been updated, check the log.' | translate}}"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "ab091ff7-df39-499b-b773-0ef717556e08",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "expression",
+                              "value" : "scheduleMaintenanceCtrl.isUpdateButtonDisabled()"
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Update"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "PUT"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation",
+                              "value" : "../API/system/maintenance"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : "scheduleMaintenanceData.maintenanceStatusCode"
+                            },
+                            "dataToSend" : {
+                              "type" : "expression",
+                              "value" : "scheduleMaintenanceCtrl.getMaintenanceMessagePayload()"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : "response.success"
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "5aec16ed-bd8e-40df-970e-826d84de8622",
+                          "hasValidationError" : false,
+                          "id" : "pbButton"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "panel panel-default panel-body"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "5eb88efc-8015-42c8-ad88-4f40aacac239",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 2,
+                      "md" : 2,
+                      "lg" : 2
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "platform-icon-container"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable"
+                      }
+                    },
+                    "reference" : "6a93dcf2-3cfe-44f7-8c86-cd248975cd98",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "platform-icon"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "srcType" : {
+                              "type" : "constant",
+                              "value" : "Asset"
+                            },
+                            "url" : {
+                              "type" : "constant"
+                            },
+                            "assetName" : {
+                              "type" : "expression",
+                              "value" : "status.img"
+                            },
+                            "alt" : {
+                              "type" : "interpolation",
+                              "value" : "status.img"
+                            }
+                          },
+                          "reference" : "77102fd9-eafc-45d6-80e4-e2d81729a7c1",
+                          "hasValidationError" : false,
+                          "id" : "pbImage"
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 10,
+                      "md" : 10,
+                      "lg" : 10
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable"
+                      }
+                    },
+                    "reference" : "9b2f0f6f-21e6-4d63-9631-2226b8e64f05",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 5,
+                            "md" : 7,
+                            "lg" : 7
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "expression",
+                              "value" : "status.state === 'Paused' ? 'tenantStateLabel text-warning' : 'tenantStateLabel text-success'"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<b>Platform State:</b>\n<span class=\"text-upperCase\"> {{status.state | uiTranslate}}</span>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "7454b067-7306-4bcf-94e4-b2b929f67064",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 7,
+                            "md" : 5,
+                            "lg" : 5
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -700,13 +1029,17 @@
                               "type" : "constant",
                               "value" : false
                             },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
                             "label" : {
                               "type" : "interpolation",
                               "value" : "{{status.btnLabel.toUpperCase()}}"
                             },
                             "alignment" : {
                               "type" : "constant",
-                              "value" : "center"
+                              "value" : "right"
                             },
                             "buttonStyle" : {
                               "type" : "constant",
@@ -716,23 +1049,28 @@
                               "type" : "constant",
                               "value" : "Open modal"
                             },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
                             "url" : {
                               "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable"
                             },
                             "dataToSend" : {
                               "type" : "constant"
                             },
                             "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : ""
+                              "type" : "variable"
                             },
                             "closeOnSuccess" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
+                              "type" : "variable"
                             },
                             "targetUrlOnSuccess" : {
                               "type" : "interpolation"
@@ -753,83 +1091,20 @@
                             },
                             "removeItem" : {
                               "type" : "variable"
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : false
                             }
                           },
-                          "reference" : "77bdddde-8fd3-443e-8ba7-b19716c9deec",
+                          "reference" : "e44b59d2-eda4-47c1-9981-39a612089879",
                           "hasValidationError" : false,
                           "id" : "pbButton"
                         }
-                      ]
-                    ]
-                  }
-                ],
-                [
-                  {
-                    "type" : "container",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : "hidden-xs"
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "repeatedCollection" : {
-                        "type" : "variable",
-                        "value" : ""
-                      }
-                    },
-                    "reference" : "9fe29d35-b834-4713-b0cc-14b9e7efa36b",
-                    "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [
+                      ],
                       [
                         {
                           "type" : "container",
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 8,
-                            "lg" : 2
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
-                            }
-                          },
-                          "reference" : "c3f545b5-0d38-4181-a231-0be25a1a6bd1",
-                          "hasValidationError" : false,
-                          "id" : "pbContainer",
-                          "rows" : [
-                            [ ]
-                          ]
-                        },
-                        {
-                          "type" : "container",
-                          "dimension" : {
-                            "xs" : 8,
-                            "sm" : 12,
-                            "md" : 4,
+                            "md" : 9,
                             "lg" : 10
                           },
                           "propertyValues" : {
@@ -842,11 +1117,10 @@
                               "value" : false
                             },
                             "repeatedCollection" : {
-                              "type" : "variable",
-                              "value" : ""
+                              "type" : "variable"
                             }
                           },
-                          "reference" : "4e7d64c5-0e6a-43ea-b9f8-524951a9ff08",
+                          "reference" : "c93940c8-d5fa-40c2-8632-af732aac28c4",
                           "hasValidationError" : false,
                           "id" : "pbContainer",
                           "rows" : [
@@ -870,15 +1144,7 @@
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "When the services are paused:"
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
+                                    "value" : true
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -886,7 +1152,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : ""
+                                    "value" : "Default label"
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -895,61 +1161,17 @@
                                   "labelWidth" : {
                                     "type" : "constant",
                                     "value" : 4
-                                  }
-                                },
-                                "reference" : "99e8f310-eefb-4f38-b575-69c2c28bfb0a",
-                                "hasValidationError" : false,
-                                "id" : "pbText"
-                              }
-                            ],
-                            [
-                              {
-                                "type" : "component",
-                                "dimension" : {
-                                  "xs" : 12,
-                                  "lg" : 12,
-                                  "md" : 12,
-                                  "sm" : 12
-                                },
-                                "propertyValues" : {
-                                  "cssClasses" : {
-                                    "type" : "constant",
-                                    "value" : ""
-                                  },
-                                  "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "allowHTML" : {
-                                    "type" : "constant",
-                                    "value" : true
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<ul>\n<li>{{'Only the technical user can log in to the Portal.' | uiTranslate}}\n</li>\n<li>{{'Users who are currently logged in, including Administrator users, are automatically logged out.' | uiTranslate}}\n</li>\n<li>{{'Users who are filling in forms when the services are paused will lose any information that has not been submitted.' | uiTranslate}}\n</li>\n<li>{{'All processes are automatically paused.' | uiTranslate}}\n</li>\n</ul>"
+                                    "value" : "You need to enable Maintenance mode when you make an update to your environment and you want to avoid users using the platform during this update."
                                   },
                                   "alignment" : {
                                     "type" : "constant",
                                     "value" : "left"
-                                  },
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : true
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : ""
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 4
                                   }
                                 },
-                                "reference" : "9dcc9758-9424-43d6-95f2-b5b5707f15d1",
+                                "reference" : "c263f5eb-0296-4e06-9e0e-8bfde4b74a6c",
                                 "hasValidationError" : false,
                                 "id" : "pbText"
                               }
@@ -974,15 +1196,7 @@
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "text" : {
-                                    "type" : "interpolation",
-                                    "value" : "When you resume the services, tell your users that they can log back in to the Portal."
-                                  },
-                                  "alignment" : {
-                                    "type" : "constant",
-                                    "value" : "left"
+                                    "value" : true
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -990,7 +1204,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : ""
+                                    "value" : "Default label"
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -999,13 +1213,101 @@
                                   "labelWidth" : {
                                     "type" : "constant",
                                     "value" : 4
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "{{'When the maintenance mode is enabled' | uiTranslate}}: <br/><br/>\n<ul>\n<li>{{'BPM and BDM APIs are not accessible.' | uiTranslate}}\n</li>\n<li>{{'Users who are currently logged in, including Administrator users, are automatically redirected to a maintenance page.' | uiTranslate}}\n</li>\n<li>{{'Users who are filling in forms when the services are paused will lose any information that has not been submitted.' | uiTranslate}}\n</li>\n<li>{{'All processes are automatically paused.' | uiTranslate}}\n</li>\n</ul>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
                                   }
                                 },
-                                "reference" : "71dcc239-0e60-4fa6-baa6-1e054155deaf",
+                                "reference" : "964933e3-e7e8-4da0-bc79-1bc194661179",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "When maintenance mode is disabled, users can use the platform again."
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "778154c0-ae4e-47a9-8dc5-1f765adb0560",
                                 "hasValidationError" : false,
                                 "id" : "pbText"
                               }
                             ]
+                          ]
+                        },
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 3,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "c45eac07-dc9a-4c7e-9e6a-5376404bc8da",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [ ]
                           ]
                         }
                       ]
@@ -1310,7 +1612,7 @@
                         },
                         "url" : {
                           "type" : "interpolation",
-                          "value" : "../API/system/tenant/unusedId"
+                          "value" : "../API/system/maintenance"
                         },
                         "dataToSend" : {
                           "type" : "expression",
@@ -1352,6 +1654,13 @@
                         "allowHTML" : {
                           "type" : "constant",
                           "value" : false
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable"
                         }
                       },
                       "reference" : "c2ee6bb2-0b0f-4225-87d8-62248f7cba17",
@@ -1452,10 +1761,10 @@
     ]
   ],
   "variables" : {
-    "tenantStatus" : {
+    "maintenanceDetails" : {
       "type" : "url",
       "value" : [
-        "../API/system/tenant/unusedId?t={{response.timestamp}}"
+        "../API/system/maintenance?t={{response.timestamp}}"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -1463,7 +1772,10 @@
     "isPaused" : {
       "type" : "expression",
       "value" : [
-        "return $data.tenantStatus.paused === 'true';"
+        "if($data.maintenanceDetails) {",
+        "    return $data.maintenanceDetails.maintenanceState === 'ENABLED';",
+        "}",
+        "return false;"
       ],
       "exposed" : false
     },
@@ -1471,7 +1783,7 @@
       "type" : "expression",
       "value" : [
         "return $data.isPaused \r",
-        "        ? uiTranslate(\"Services will resume. Users will be able to log in.\") \r",
+        "        ? uiTranslate(\"Services will resume. Users will be able to use the platform again\") \r",
         "        : uiTranslate(\"Services will be paused for maintenance.\");"
       ],
       "exposed" : false
@@ -1485,11 +1797,14 @@
       ],
       "exposed" : false
     },
-    "exp_response" : {
+    "responseHandler" : {
       "type" : "expression",
       "value" : [
-        "if(!$data.response.success ){",
-        "    $data.response.success = \"none\";",
+        "if($data.response.success){",
+        "    // update maintenanceMessageActive checkbox",
+        "    $data.scheduleMaintenanceData.maintenanceMessageActive = angular.copy($data.response.success.maintenanceMessageActive);",
+        "    // reset success response",
+        "    $data.response.success = null;",
         "    $data.response.timestamp = new Date().getTime();",
         "}"
       ],
@@ -1505,7 +1820,7 @@
     "response" : {
       "type" : "json",
       "value" : [
-        "{\"success\":\"none\", \"timestamp\":0}"
+        "{\"success\": null, \"timestamp\":0}"
       ],
       "exposed" : false
     },
@@ -1519,8 +1834,8 @@
     "sendDataOnClick" : {
       "type" : "expression",
       "value" : [
-        "var paused = !($data.isPaused);",
-        "return {paused: paused.toString()};"
+        "var state = $data.isPaused ? 'DISABLED' : 'ENABLED';",
+        "return {maintenanceState: state};"
       ],
       "exposed" : false
     },
@@ -1532,9 +1847,9 @@
       "type" : "expression",
       "value" : [
         "if($data.isPaused){",
-        "    return {state: \"Paused\", btnLabel:uiTranslate(\"Resume\"), img: \"paused.jpg\"};",
+        "    return {state: \"Paused\", btnLabel:uiTranslate(\"Disable maintenance mode\"), img: \"platform_paused.svg\"};",
         "}",
-        "return {state: \"Running\", btnLabel:uiTranslate(\"Pause\"), img: \"running.jpg\"};"
+        "return {state: \"Running\", btnLabel:uiTranslate(\"Enable maintenance mode\"), img: \"platform_running.svg\"};"
       ],
       "exposed" : false
     },
@@ -1552,6 +1867,54 @@
         "return $data.licenseStatus ? $data.licenseStatus.edition : \"Community\";"
       ],
       "exposed" : false
+    },
+    "scheduleMaintenanceData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    firstFetch: false,",
+        "    maintenanceMessage: undefined,",
+        "    maintenanceMessageActive: undefined,",
+        "    maintenanceStatusCode: undefined,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "scheduleMaintenanceCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getMaintenanceMessagePayload: function() {",
+        "        return {",
+        "            maintenanceMessageActive: $data.scheduleMaintenanceData.maintenanceMessageActive,",
+        "            maintenanceMessage: $data.scheduleMaintenanceData.maintenanceMessage",
+        "        };",
+        "    },",
+        "    isUpdateButtonDisabled: function() {",
+        "        return ($data.scheduleMaintenanceData.maintenanceMessageActive == $data.maintenanceDetails.maintenanceMessageActive) && ",
+        "        ($data.scheduleMaintenanceData.maintenanceMessage == $data.maintenanceDetails.maintenanceMessage)",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "scheduleMaintenanceHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.maintenanceDetails && !$data.scheduleMaintenanceData.firstFetch) {",
+        "    //init values",
+        "    $data.scheduleMaintenanceData.firstFetch = true;",
+        "    $data.scheduleMaintenanceData.maintenanceMessageActive = angular.copy($data.maintenanceDetails.maintenanceMessageActive);",
+        "    $data.scheduleMaintenanceData.maintenanceMessage = angular.copy($data.maintenanceDetails.maintenanceMessage);",
+        "}",
+        "if($data.scheduleMaintenanceData.maintenanceStatusCode) {",
+        "    //$data.scheduleMaintenanceData.maintenanceMessage = '';",
+        "    setTimeout(function() {",
+        "        $data.scheduleMaintenanceData.maintenanceStatusCode = undefined;",
+        "    }, 2000);",
+        "}"
+      ],
+      "exposed" : false
     }
   },
   "assets" : [
@@ -1563,17 +1926,24 @@
       "external" : false
     },
     {
-      "id" : "8bdb0ca4-d040-4499-907a-a7d6ba37a38d",
-      "name" : "running.jpg",
+      "id" : "54e2b743-5439-4ce6-bd1c-a66b19ba498c",
+      "name" : "platform_paused.svg",
       "type" : "img",
-      "order" : 3,
+      "order" : 11,
       "external" : false
     },
     {
-      "id" : "e24de8cb-63dc-4fd1-8900-e8a70bfe4a1a",
-      "name" : "paused.jpg",
+      "id" : "3dc05701-07b7-4d41-b41d-8d8d277e4129",
+      "name" : "maintenance_scheduled.svg",
       "type" : "img",
-      "order" : 2,
+      "order" : 12,
+      "external" : false
+    },
+    {
+      "id" : "16b062e0-1729-48ee-81b4-65cb9dff12ea",
+      "name" : "platform_running.svg",
+      "type" : "img",
+      "order" : 10,
       "external" : false
     },
     {
