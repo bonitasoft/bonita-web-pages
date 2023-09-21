@@ -6,7 +6,7 @@
   "uuid" : "721ee410-4518-43bf-949b-3d1b1fcfcc96",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1694595853985,
+  "lastUpdate" : 1695219957496,
   "description" : "This is a 503 error page dedicated to Bonita applications. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -237,7 +237,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!maintenanceAPI.maintenanceMessage || maintenanceAPI.maintenanceMessage === null"
+                        "value" : "!maintenanceDetails.maintenanceMessageActive || !maintenanceDetails.maintenanceMessage"
                       },
                       "allowHTML" : {
                         "type" : "constant",
@@ -245,7 +245,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{maintenanceAPI.maintenanceMessage}}"
+                        "value" : "{{maintenanceDetails.maintenanceMessage}}"
                       },
                       "level" : {
                         "type" : "constant",
@@ -401,7 +401,7 @@
       ],
       "exposed" : false
     },
-    "maintenanceAPI" : {
+    "maintenanceDetails" : {
       "type" : "url",
       "value" : [
         "../API/system/maintenance"
