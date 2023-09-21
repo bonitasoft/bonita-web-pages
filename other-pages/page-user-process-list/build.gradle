@@ -6,7 +6,14 @@ bonitaPage {
 
 publishing {
     publications {
-        distributionZip(MavenPublication) { artifact distZip }
+        distributionZip(MavenPublication) {
+            artifact distZip
+            pom { mavenProject ->
+                name = "User process list page"
+                description = "The process list page embedded in the Bonita User Application."
+                PomUtils.pomCommunityPublication(pom)
+            }
+        }
     }
 }
 
