@@ -1,12 +1,12 @@
 {
-  "id" : "LayoutBonitaV14",
-  "name" : "BonitaLayoutV14",
+  "id" : "LayoutBonitaV15",
+  "name" : "BonitaLayoutV15",
   "displayName" : "Bonita layout",
   "type" : "layout",
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1694443358480,
+  "lastUpdate" : 1695479661661,
   "description" : "This is the Bonita living application layout, offered for any new application created. You can export it and edit it in the UI Designer. Its header contains a logo placeholder, the name of the application, the logged user's details (with a language picker and a logout button), and an access to all applications of the logged user. The application content is rendered as an horizontal menu and an iframe for application pages. This layout requires font-awesome in order to be able to display the default user icons. This dependence should be available in the theme of the application where this layout will be used.",
   "rows" : [
     [
@@ -528,6 +528,34 @@
                           "hasValidationError" : false,
                           "id" : "pbLink"
                         }
+                      ],
+                      [
+                        {
+                          "type" : "container",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "maintenance-notification-badge progress-bar-warning"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "!maintenanceDetails.maintenanceMessageActive || !loggedUser"
+                            },
+                            "repeatedCollection" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "21b8590a-8f6a-4443-b7c4-863bc75edf97",
+                          "hasValidationError" : false,
+                          "id" : "pbContainer",
+                          "rows" : [ ]
+                        }
                       ]
                     ]
                   },
@@ -758,37 +786,6 @@
     ],
     [
       {
-        "type" : "container",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : "layout-footer remove-padding-and-margin"
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "repeatedCollection" : {
-            "type" : "variable",
-            "value" : ""
-          }
-        },
-        "reference" : "62b6cc6e-6925-4310-9dc9-6b1ce440b13d",
-        "hasValidationError" : false,
-        "id" : "pbContainer",
-        "rows" : [
-          [ ]
-        ]
-      }
-    ],
-    [
-      {
         "type" : "modalContainer",
         "dimension" : {
           "xs" : 12,
@@ -839,76 +836,6 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : "modal-header"
-                  },
-                  "hidden" : {
-                    "type" : "constant",
-                    "value" : false
-                  },
-                  "repeatedCollection" : {
-                    "type" : "variable",
-                    "value" : ""
-                  }
-                },
-                "reference" : "06b54dba-9288-4ed0-b4a8-bf2de61bff64",
-                "hasValidationError" : false,
-                "id" : "pbContainer",
-                "rows" : [
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : "user-details--break-all"
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "text" : {
-                          "type" : "interpolation",
-                          "value" : "{{userName}}"
-                        },
-                        "level" : {
-                          "type" : "constant",
-                          "value" : "Level 3"
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "left"
-                        },
-                        "allowHTML" : {
-                          "type" : "constant",
-                          "value" : false
-                        }
-                      },
-                      "reference" : "078bce10-17ca-4dd8-82b8-66180b75fbda",
-                      "hasValidationError" : false,
-                      "id" : "pbTitle"
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                "type" : "container",
-                "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
-                  "md" : 12,
-                  "lg" : 12
-                },
-                "propertyValues" : {
-                  "cssClasses" : {
-                    "type" : "constant",
                     "value" : "modal-body"
                   },
                   "hidden" : {
@@ -929,34 +856,18 @@
                       "type" : "component",
                       "dimension" : {
                         "xs" : 12,
-                        "sm" : 4,
-                        "md" : 4,
-                        "lg" : 4
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
                       },
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : "hidden-xs userIcon--large image-circle image-circle--large"
+                          "value" : "maintenance-scheduled-message text-danger bg-danger"
                         },
                         "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Default label"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
+                          "type" : "expression",
+                          "value" : "!maintenanceDetails.maintenanceMessageActive"
                         },
                         "allowHTML" : {
                           "type" : "constant",
@@ -964,24 +875,30 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{userIconHtmlContent}}"
+                          "value" : "<i class=\"glyphicon glyphicon-exclamation-sign\"></i> {{maintenanceDetails.maintenanceMessage?maintenanceDetails.maintenanceMessage:('Platform maintenance may occur. Contact the technical user for more details.' | uiTranslate)}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 5"
                         },
                         "alignment" : {
                           "type" : "constant",
                           "value" : "left"
                         }
                       },
-                      "reference" : "4bd7a598-52a4-4721-b786-d8a4308d6852",
+                      "reference" : "188e0f82-3af3-45ad-8579-d25bdef3a9ac",
                       "hasValidationError" : false,
-                      "id" : "pbText"
-                    },
+                      "id" : "pbTitle"
+                    }
+                  ],
+                  [
                     {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 8,
-                        "md" : 8,
-                        "lg" : 8
+                        "md" : 7,
+                        "lg" : 7
                       },
                       "propertyValues" : {
                         "cssClasses" : {
@@ -1025,7 +942,7 @@
                               },
                               "level" : {
                                 "type" : "constant",
-                                "value" : "Level 4"
+                                "value" : "Level 3"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -1143,6 +1060,125 @@
                             "reference" : "a88f2d95-ca07-47d0-800d-4e8b8053c6a7",
                             "hasValidationError" : false,
                             "id" : "pbText"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 4,
+                        "md" : 5,
+                        "lg" : 5
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "pt-15 hidden-xs"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "12b622a1-6757-46a2-8457-1d3ac6e3f4e3",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "hidden-xs userIcon--large image-circle image-circle--large"
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "{{userIconHtmlContent}}"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "4bd7a598-52a4-4721-b786-d8a4308d6852",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "user-details--break-all"
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "{{userName}}"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : false
+                              }
+                            },
+                            "reference" : "078bce10-17ca-4dd8-82b8-66180b75fbda",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
                           }
                         ]
                       ]
@@ -2866,6 +2902,13 @@
         "        return text;",
         "    }",
         "};"
+      ],
+      "exposed" : false
+    },
+    "maintenanceDetails" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/maintenance"
       ],
       "exposed" : false
     }

@@ -279,6 +279,33 @@ given('The current language in BOS_Locale is {string}', (language) => {
     cy.setCookie('BOS_Locale', language);
 });
 
+given('Maintenance message is disabled', () => {
+    cy.fixture('json/maintenanceMsgDisabled.json').as('maintenanceMsgDisabled');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/system/maintenance`,
+        response: '@maintenanceMsgDisabled'
+    });
+});
+
+given('Maintenance message is enabled', () => {
+    cy.fixture('json/maintenanceMsgEnabled.json').as('maintenanceMsgEnabled');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/system/maintenance`,
+        response: '@maintenanceMsgEnabled'
+    });
+});
+
+given('Empty maintenance message is enabled', () => {
+    cy.fixture('json/emptyMaintenanceMsgEnabled.json').as('emptyMaintenanceMsgEnabled');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/system/maintenance`,
+        response: '@emptyMaintenanceMsgEnabled'
+    });
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
     cy.wait('@app1Route');
@@ -442,7 +469,7 @@ then('The current session modal is visible', () => {
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {
-    cy.get('pb-title > h3').eq(0).should('have.text', firstAndLastName)
+    cy.get('pb-title > h4').eq(0).should('have.text', firstAndLastName)
 });
 
 then('The user name {string} is shown', (userName) => {
@@ -689,4 +716,25 @@ then("A list of {int} items is displayed", (nbrOfItems) => {
 
 then("The load more applications button is disabled", () => {
     cy.get('button').contains('Load more applications').should('be.disabled');
+});
+
+
+then('Maintenance notification badge is {string}', (badgeState) => {
+    switch (badgeState) {
+        case 'shown':
+            cy.get('.maintenance-notification-badge').should('exist');
+            break;
+        case 'hidden':
+            cy.get('.maintenance-notification-badge').should('not.exist');
+            break;
+    }
+});
+
+then('Maintenance message is {string}', (msg) => {
+    if(msg === 'hidden') {
+        cy.get('.maintenance-scheduled-message').should('not.exist');
+    } else {
+        cy.get('.maintenance-scheduled-message').should('exist');
+        cy.contains('.maintenance-scheduled-message > pb-title > h5', msg).should('be.visible');
+    }
 });

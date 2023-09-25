@@ -142,3 +142,58 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I click the user name
     Then The current session modal is visible
     And The current language is "English"
+
+  Scenario: Disabled scheduled maintenance message is not displayed
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And The user has the default icon
+    And Maintenance message is disabled
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is not displayed for guest user
+    Given The URL target to the application "appName1"
+    And A user is connected as guest
+    And Maintenance message is enabled
+    When I visit the index page
+    Then The username button does not exist
+    And Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is not displayed for guest user with sso
+    Given The URL target to the application "appName1"
+    And A user is connected as guest with sso
+    And Maintenance message is enabled
+    When I visit the index page
+    Then The username button does not exist
+    And Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is displayed for user
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And Maintenance message is "maintenance msg"
+
+  Scenario: Enabled scheduled maintenance message is displayed for user with sso
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And Maintenance message is "maintenance msg"
+
+  Scenario: Default scheduled maintenance message is displayed for user
+    And The URL target to the application "appName1"
+    And A user is connected without sso
+    And Empty maintenance message is enabled
+    When I visit the index page
+    And I click the user name
+    Then The current session modal is visible
+    And Maintenance message is "Platform maintenance may occur. Contact the technical user for more details."
