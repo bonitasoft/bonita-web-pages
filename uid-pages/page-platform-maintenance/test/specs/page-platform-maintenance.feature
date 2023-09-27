@@ -19,7 +19,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see "DISABLE MAINTENANCE MODE" button
+    Then I see "Stop maintenance" button
+    And I see "Disable maintenance mode" tooltip when I mouseover the button
 
   Scenario: Platform is running
     Given I'm user with "en" bos_local
@@ -27,7 +28,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see "ENABLE MAINTENANCE MODE" button
+    Then I see "Start maintenance" button
+    And I see "Enable maintenance mode" tooltip when I mouseover the button
 
   Scenario: Opens a modal window on pressing the status button while Maintenance mode is disabled
     Given I'm user with "en" bos_local
@@ -35,8 +37,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "ENABLE MAINTENANCE MODE" button
-    Then I see a modal that opened
+    And I click on "Start maintenance" button
+    Then I see a modal that opened and has displayed correctly for start maintenance
     And The modal closes afterwards
 
   Scenario: Opens a modal window on pressing the status button while Maintenance mode is enabled
@@ -45,8 +47,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "DISABLE MAINTENANCE MODE" button
-    Then I see a modal that opened
+    And I click on "Stop maintenance" button
+    Then I see a modal that opened and has displayed correctly for stop maintenance
     And The modal closes afterwards
 
   Scenario: Maintenance state changes when pressing the status button inside the modal while Maintenance mode is disabled
@@ -55,7 +57,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "ENABLE MAINTENANCE MODE" button
+    And I click on "Start maintenance" button
     And I press the status changing button
     Then Maintenance mode is enabled
 
@@ -65,7 +67,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "DISABLE MAINTENANCE MODE" button
+    And I click on "Stop maintenance" button
     And I press the status changing button
     Then Maintenance mode is disabled
 
@@ -75,7 +77,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "ENABLE MAINTENANCE MODE" button
+    And I click on "Start maintenance" button
     And I press the "Cancel" button
     Then The modal is closed
 
@@ -85,7 +87,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "DISABLE MAINTENANCE MODE" button
+    And I click on "Stop maintenance" button
     And I press the "Cancel" button
     Then The modal is closed
 
@@ -96,25 +98,25 @@ Feature: The Platform-Maintenance
     And The license information is defined
     And The tenant status page can refresh
     When I open platform-maintenance page
-    And I click on "ENABLE MAINTENANCE MODE" button
+    And I click on "Start maintenance" button
     And I press the status changing button
     Then There is an API call for refreshing the page
-#
-#  Scenario: Tenant is running in French
-#    Given I'm user with "fr" bos_local
-#    And Maintenance mode is disabled
-#    And I'm logged as technical user
-#    And The license information is defined
-#    When I open platform-maintenance page
-#    Then I see "SUSPENDRE" button
-#
-#  Scenario: Tenant is running in Spanish
-#    Given I'm user with "es" bos_local
-#    And Maintenance mode is disabled
-#    And I'm logged as technical user
-#    And The license information is defined
-#    When I open platform-maintenance page
-#    Then I see "PAUSAR" button
+
+  Scenario: Platform is running in French
+    Given I'm user with "fr" bos_local
+    And Maintenance mode is disabled
+    And I'm logged as technical user
+    And The license information is defined
+    When I open platform-maintenance page
+    Then I see platform is in "En cours d'exécution" state
+
+  Scenario: Platform is running in Spanish
+    Given I'm user with "es" bos_local
+    And Maintenance mode is disabled
+    And I'm logged as technical user
+    And The license information is defined
+    When I open platform-maintenance page
+    Then I see platform is in "EN EJECUCIÓN" state
 
   Scenario: The platform maintenance information is displayed correctly
     Given I'm user with "en" bos_local

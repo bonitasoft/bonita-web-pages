@@ -76,8 +76,42 @@ then('I see {string} button', (text) => {
     cy.contains('button.btn-primary', text).should('be.visible');
 });
 
-then('I see a modal that opened', () => {
+then('I see {string} tooltip when I mouseover the button', (tooltip) => {
+    cy.get('button.btn-primary span').should('have.attr', 'title', tooltip);
+});
+
+then('I see a modal that opened and has displayed correctly for start maintenance', () => {
     cy.get('#modal-body').invoke('show');
+    // header
+    cy.contains('.modal-header h2', 'Are your sure you want to deactivate the services?').should('be.visible');
+    cy.contains('.modal-header h2', 'Are your sure you want to activate the services?').should('not.exist');
+
+    // body
+    cy.contains('.modal-body p', 'Services will be paused for maintenance.').should('be.visible');
+    cy.contains('.modal-body p', 'Services will resume. Users will be able to use the platform again.').should('not.exist');
+
+    // footer
+    cy.contains('.modal-footer .btn.btn-primary', 'Enable maintenance mode').should('be.visible');
+    cy.contains('.modal-footer .btn.btn-primary', 'Disable maintenance mode').should('not.exist');
+    cy.contains('.modal-footer .btn.btn-default', 'Cancel').should('be.visible');
+
+});
+
+then('I see a modal that opened and has displayed correctly for stop maintenance', () => {
+    cy.get('#modal-body').invoke('show');
+    // header
+    cy.contains('.modal-header h2', 'Are your sure you want to deactivate the services?').should('not.exist');
+    cy.contains('.modal-header h2', 'Are your sure you want to activate the services?').should('be.visible');
+
+    // body
+    cy.contains('.modal-body p', 'Services will be paused for maintenance.').should('not.exist');
+    cy.contains('.modal-body p', 'Services will resume. Users will be able to use the platform again.').should('be.visible');
+
+    // footer
+    cy.contains('.modal-footer .btn.btn-primary', 'Enable maintenance mode').should('not.exist');
+    cy.contains('.modal-footer .btn.btn-primary', 'Disable maintenance mode').should('be.visible');
+    cy.contains('.modal-footer .btn.btn-default', 'Cancel').should('be.visible');
+
 });
 
 then('The modal closes afterwards', () => {
@@ -160,4 +194,8 @@ then('Display Error when The platform maintenance message cannot be updated', ()
     cy.get('textarea').type(' updated');
     cy.contains('button.btn-primary', 'Update').click();
     cy.contains('p', 'Maintenance scheduled message has not been updated, check the log.');
+});
+
+then('I see platform is in {string} state', (state) => {
+    cy.contains('span.text-upperCase', state).should('be.visible');
 });
