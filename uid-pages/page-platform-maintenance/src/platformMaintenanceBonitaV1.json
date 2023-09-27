@@ -6,7 +6,7 @@
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1695283973600,
+  "lastUpdate" : 1695802426554,
   "description" : "Page allowing to stop and start the BPM services",
   "rows" : [
     [
@@ -997,7 +997,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<b>Platform State:</b>\n<span class=\"text-upperCase\"> {{status.state | uiTranslate}}</span>"
+                              "value" : "<b>{{\"Platform State\" | uiTranslate}}:</b>\n<span class=\"text-upperCase\"> {{status.state | uiTranslate}}</span>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1031,11 +1031,11 @@
                             },
                             "allowHTML" : {
                               "type" : "constant",
-                              "value" : false
+                              "value" : true
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "{{status.btnLabel.toUpperCase()}}"
+                              "value" : "<span title=\"{{status.btnTooltip}}\">{{status.btnLabel}}</span>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1596,7 +1596,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "{{status.btnLabel}}"
+                          "value" : "{{status.modalBtnTooltip}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1783,7 +1783,7 @@
       "type" : "expression",
       "value" : [
         "return $data.isPaused \r",
-        "        ? uiTranslate(\"Services will resume. Users will be able to use the platform again\") \r",
+        "        ? uiTranslate(\"Services will resume. Users will be able to use the platform again.\") \r",
         "        : uiTranslate(\"Services will be paused for maintenance.\");"
       ],
       "exposed" : false
@@ -1847,9 +1847,9 @@
       "type" : "expression",
       "value" : [
         "if($data.isPaused){",
-        "    return {state: \"Paused\", btnLabel:uiTranslate(\"Disable maintenance mode\"), img: \"platform_paused.svg\"};",
+        "    return {state: \"Paused\", btnTooltip:uiTranslate(\"Disable maintenance mode\"), btnLabel:uiTranslate(\"Stop maintenance\"), modalBtnTooltip:uiTranslate(\"Disable maintenance mode\"), img: \"platform_paused.svg\"};",
         "}",
-        "return {state: \"Running\", btnLabel:uiTranslate(\"Enable maintenance mode\"), img: \"platform_running.svg\"};"
+        "return {state: \"Running\", btnTooltip:uiTranslate(\"Enable maintenance mode\"), btnLabel:uiTranslate(\"Start maintenance\"), modalBtnTooltip:uiTranslate(\"Enable maintenance mode\"), img: \"platform_running.svg\"};"
       ],
       "exposed" : false
     },
