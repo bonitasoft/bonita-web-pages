@@ -6,7 +6,7 @@
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1695802426554,
+  "lastUpdate" : 1695909767214,
   "description" : "Page allowing to enable and disable the maintenance mode",
   "rows" : [
     [
@@ -506,7 +506,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "scheduleMaintenanceData.maintenanceMessageActive"
+                                    "value" : "maintenanceData.maintenanceMessageActive"
                                   }
                                 },
                                 "reference" : "d80ad2b7-2af4-4c43-9789-5b82c1ff9de8",
@@ -573,7 +573,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "scheduleMaintenanceData.maintenanceMessage"
+                              "value" : "maintenanceData.maintenanceMessage"
                             }
                           },
                           "reference" : "cab51655-b2dd-493f-880d-fe4b91abd743",
@@ -649,7 +649,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "scheduleMaintenanceData.maintenanceStatusCode !== 200"
+                              "value" : "maintenanceData.maintenanceStatusCode !== 200"
                             },
                             "allowHTML" : {
                               "type" : "constant",
@@ -701,7 +701,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "!scheduleMaintenanceData.maintenanceStatusCode  || scheduleMaintenanceData.maintenanceStatusCode === 200"
+                              "value" : "!maintenanceData.maintenanceStatusCode  || maintenanceData.maintenanceStatusCode === 200"
                             },
                             "allowHTML" : {
                               "type" : "constant",
@@ -757,7 +757,7 @@
                             },
                             "disabled" : {
                               "type" : "expression",
-                              "value" : "scheduleMaintenanceCtrl.isUpdateButtonDisabled()"
+                              "value" : "maintenanceCtrl.isUpdateButtonDisabled()"
                             },
                             "allowHTML" : {
                               "type" : "constant",
@@ -789,11 +789,11 @@
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
-                              "value" : "scheduleMaintenanceData.maintenanceStatusCode"
+                              "value" : "maintenanceData.maintenanceStatusCode"
                             },
                             "dataToSend" : {
                               "type" : "expression",
-                              "value" : "scheduleMaintenanceCtrl.getMaintenanceMessagePayload()"
+                              "value" : "maintenanceCtrl.getMaintenanceMessagePayload()"
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
@@ -1616,7 +1616,7 @@
                         },
                         "dataToSend" : {
                           "type" : "expression",
-                          "value" : "sendDataOnClick"
+                          "value" : "maintenanceCtrl.getMaintenanceStatePayload()"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -1802,7 +1802,7 @@
       "value" : [
         "if($data.response.success){",
         "    // update maintenanceMessageActive checkbox",
-        "    $data.scheduleMaintenanceData.maintenanceMessageActive = angular.copy($data.response.success.maintenanceMessageActive);",
+        "    $data.maintenanceData.maintenanceMessageActive = angular.copy($data.response.success.maintenanceMessageActive);",
         "    // reset success response",
         "    $data.response.success = null;",
         "    $data.response.timestamp = new Date().getTime();",
@@ -1868,7 +1868,7 @@
       ],
       "exposed" : false
     },
-    "scheduleMaintenanceData" : {
+    "maintenanceData" : {
       "type" : "expression",
       "value" : [
         "return {",
@@ -1880,37 +1880,40 @@
       ],
       "exposed" : false
     },
-    "scheduleMaintenanceCtrl" : {
+    "maintenanceCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
         "    getMaintenanceMessagePayload: function() {",
         "        return {",
-        "            maintenanceMessageActive: $data.scheduleMaintenanceData.maintenanceMessageActive,",
-        "            maintenanceMessage: $data.scheduleMaintenanceData.maintenanceMessage",
+        "            maintenanceMessageActive: $data.maintenanceData.maintenanceMessageActive,",
+        "            maintenanceMessage: $data.maintenanceData.maintenanceMessage",
         "        };",
         "    },",
         "    isUpdateButtonDisabled: function() {",
-        "        return ($data.scheduleMaintenanceData.maintenanceMessageActive == $data.maintenanceDetails.maintenanceMessageActive) && ",
-        "        ($data.scheduleMaintenanceData.maintenanceMessage == $data.maintenanceDetails.maintenanceMessage)",
+        "        return (($data.maintenanceData && $data.maintenanceData.maintenanceMessageActive) === ($data.maintenanceDetails && $data.maintenanceDetails.maintenanceMessageActive)) && ",
+        "        (($data.maintenanceData && $data.maintenanceData.maintenanceMessage) === ($data.maintenanceDetails && $data.maintenanceDetails.maintenanceMessage));",
+        "    },",
+        "    getMaintenanceStatePayload: function() {",
+        "        var state = $data.isPaused ? 'DISABLED' : 'ENABLED';",
+        "        return { maintenanceState: state };",
         "    }",
         "};"
       ],
       "exposed" : false
     },
-    "scheduleMaintenanceHandler" : {
+    "maintenanceHandler" : {
       "type" : "expression",
       "value" : [
-        "if($data.maintenanceDetails && !$data.scheduleMaintenanceData.firstFetch) {",
+        "if($data.maintenanceDetails && !$data.maintenanceData.firstFetch) {",
         "    //init values",
-        "    $data.scheduleMaintenanceData.firstFetch = true;",
-        "    $data.scheduleMaintenanceData.maintenanceMessageActive = angular.copy($data.maintenanceDetails.maintenanceMessageActive);",
-        "    $data.scheduleMaintenanceData.maintenanceMessage = angular.copy($data.maintenanceDetails.maintenanceMessage);",
+        "    $data.maintenanceData.firstFetch = true;",
+        "    $data.maintenanceData.maintenanceMessageActive = angular.copy($data.maintenanceDetails.maintenanceMessageActive);",
+        "    $data.maintenanceData.maintenanceMessage = angular.copy($data.maintenanceDetails.maintenanceMessage);",
         "}",
-        "if($data.scheduleMaintenanceData.maintenanceStatusCode) {",
-        "    //$data.scheduleMaintenanceData.maintenanceMessage = '';",
+        "if($data.maintenanceData.maintenanceStatusCode) {",
         "    setTimeout(function() {",
-        "        $data.scheduleMaintenanceData.maintenanceStatusCode = undefined;",
+        "        $data.maintenanceData.maintenanceStatusCode = undefined;",
         "    }, 2000);",
         "}"
       ],
