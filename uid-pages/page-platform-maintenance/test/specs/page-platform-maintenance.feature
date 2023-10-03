@@ -19,7 +19,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see "Stop maintenance" button
+    Then I see "End maintenance" button
     And I see "Disable maintenance mode" tooltip when I mouseover the button
 
   Scenario: Platform is running
@@ -47,7 +47,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Stop maintenance" button
+    And I click on "End maintenance" button
     Then I see a modal that opened and has displayed correctly for stop maintenance
     And The modal closes afterwards
 
@@ -67,7 +67,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Stop maintenance" button
+    And I click on "End maintenance" button
     And I press the status changing button
     Then Maintenance mode is disabled
 
@@ -87,7 +87,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Stop maintenance" button
+    And I click on "End maintenance" button
     And I press the "Cancel" button
     Then The modal is closed
 
