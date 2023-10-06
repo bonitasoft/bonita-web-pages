@@ -137,3 +137,13 @@ Feature: The Bonita layout header in desktop resolution
     And Maintenance message is enabled
     When I visit the index page
     Then Maintenance notification badge is "shown"
+
+  Scenario: Maintenance alter is displayed correctly
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    Then I see maintenance header alert is displayed correctly
+    When I click on "close" icon
+    Then The maintenance alert is not visible
