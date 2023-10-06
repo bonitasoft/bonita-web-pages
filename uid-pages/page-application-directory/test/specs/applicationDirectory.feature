@@ -292,4 +292,15 @@ Feature: The Application Directory in desktop resolution
     Then Maintenance notification badge is "shown"
     When I click the "Walter Bates"
     Then The current session modal is visible
-    Then Maintenance message is "Platform maintenance may occur. Contact the technical user for more details."
+    Then Maintenance message is "Platform maintenance may occur. Contact the platform administrator for more details."
+
+  Scenario: Maintenance alter is displayed correctly
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "user" is defined
+    And The response "empty maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then I see maintenance header alert is displayed correctly
+    When I click on "close" icon
+    Then The maintenance alert is not visible

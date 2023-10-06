@@ -401,6 +401,10 @@ function checkUserRouteUntilItSucceeds() {
     });
 }
 
+when('I click on {string} icon', (iconName) => {
+    cy.get('.alert button.close').click();
+});
+
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
     switch (pageNumber) {
         case 'first' :
@@ -737,4 +741,18 @@ then('Maintenance message is {string}', (msg) => {
         cy.get('.maintenance-scheduled-message').should('exist');
         cy.contains('.maintenance-scheduled-message > pb-title > h5', msg).should('be.visible');
     }
+});
+
+then('I see maintenance header alert is displayed correctly', () => {
+    cy.get('.alert').should('be.visible');
+    cy.get('.alert-title i.glyphicon').should('be.visible');
+    cy.contains('.alert-title span', 'Scheduled Maintenance').should('be.visible');
+    cy.contains('.alert p', 'maintenance msg').should('be.visible');
+    cy.get('input.no-show-input').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.checked');
+    cy.get('label.no-show-message').should('be.visible');
+});
+
+then('The maintenance alert is not visible', () => {
+    cy.get('.alert').should('not.exist');
 });

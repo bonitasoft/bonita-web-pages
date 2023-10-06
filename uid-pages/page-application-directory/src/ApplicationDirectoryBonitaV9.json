@@ -6,9 +6,53 @@
   "uuid" : "0d9308a4-4bd9-4ca0-b752-e0df0ca663a1",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1695394251007,
+  "lastUpdate" : 1696599565228,
   "description" : "This page displays the list of applications based on the logged in user. You can export it and edit it in the UI Designer.",
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "p-0 m-0"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "alertTitle" : {
+            "type" : "constant",
+            "value" : "Scheduled Maintenance"
+          },
+          "alertMessage" : {
+            "type" : "expression",
+            "value" : "maintenanceMessage"
+          },
+          "isActive" : {
+            "type" : "expression",
+            "value" : "maintenanceDetails.maintenanceMessageActive"
+          },
+          "localStoragePropertyName" : {
+            "type" : "constant",
+            "value" : "showMaintenanceAlert"
+          },
+          "style" : {
+            "type" : "constant",
+            "value" : "danger"
+          }
+        },
+        "reference" : "af92986f-2d00-4abc-b961-b455467abad3",
+        "hasValidationError" : false,
+        "id" : "customHeaderAlertV1"
+      }
+    ],
     [
       {
         "type" : "container",
@@ -1360,7 +1404,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-exclamation-sign\"></i> {{maintenanceDetails.maintenanceMessage?maintenanceDetails.maintenanceMessage:('Platform maintenance may occur. Contact the technical user for more details.' | uiTranslate)}}"
+                          "value" : "<i class=\"glyphicon glyphicon-exclamation-sign\"></i> {{maintenanceMessage}}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -2366,6 +2410,13 @@
       "type" : "url",
       "value" : [
         "../API/system/maintenance"
+      ],
+      "exposed" : false
+    },
+    "maintenanceMessage" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.maintenanceDetails.maintenanceMessage ? $data.maintenanceDetails.maintenanceMessage : uiTranslate('Platform maintenance may occur. Contact the platform administrator for more details.');"
       ],
       "exposed" : false
     }

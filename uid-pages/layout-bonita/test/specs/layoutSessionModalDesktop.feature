@@ -196,4 +196,4 @@ Feature: The Bonita layout current session modal in desktop resolution
     When I visit the index page
     And I click the user name
     Then The current session modal is visible
-    And Maintenance message is "Platform maintenance may occur. Contact the technical user for more details."
+    And Maintenance message is "Platform maintenance may occur. Contact the platform administrator for more details."
