@@ -19,8 +19,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see "End maintenance" button
-    And I see "Disable maintenance mode" tooltip when I mouseover the button
+    Then I see "Deactivate maintenance mode" button
+    And I see "Deactivate maintenance mode" tooltip when I mouseover the button
 
   Scenario: Platform is running
     Given I'm user with "en" bos_local
@@ -28,8 +28,8 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see "Start maintenance" button
-    And I see "Enable maintenance mode" tooltip when I mouseover the button
+    Then I see "Activate maintenance mode" button
+    And I see "Activate maintenance mode" tooltip when I mouseover the button
 
   Scenario: Opens a modal window on pressing the status button while Maintenance mode is disabled
     Given I'm user with "en" bos_local
@@ -37,7 +37,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Start maintenance" button
+    And I click on "Activate maintenance mode" button
     Then I see a modal that opened and has displayed correctly for start maintenance
     And The modal closes afterwards
 
@@ -47,7 +47,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "End maintenance" button
+    And I click on "Deactivate maintenance mode" button
     Then I see a modal that opened and has displayed correctly for stop maintenance
     And The modal closes afterwards
 
@@ -57,7 +57,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Start maintenance" button
+    And I click on "Activate maintenance mode" button
     And I press the status changing button
     Then Maintenance mode is enabled
 
@@ -67,7 +67,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "End maintenance" button
+    And I click on "Deactivate maintenance mode" button
     And I press the status changing button
     Then Maintenance mode is disabled
 
@@ -77,7 +77,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "Start maintenance" button
+    And I click on "Activate maintenance mode" button
     And I press the "Cancel" button
     Then The modal is closed
 
@@ -87,7 +87,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    And I click on "End maintenance" button
+    And I click on "Deactivate maintenance" button
     And I press the "Cancel" button
     Then The modal is closed
 
@@ -96,9 +96,9 @@ Feature: The Platform-Maintenance
     And Maintenance mode is disabled
     And I'm logged as technical user
     And The license information is defined
-    And The tenant status page can refresh
+    And The platform maintenance page can refresh
     When I open platform-maintenance page
-    And I click on "Start maintenance" button
+    And I click on "Activate maintenance" button
     And I press the status changing button
     Then There is an API call for refreshing the page
 
@@ -131,7 +131,7 @@ Feature: The Platform-Maintenance
     And Maintenance mode is disabled
     And I'm logged as technical user
     And The license information is defined
-    And The tenant status page can refresh after maintenance message enabled
+    And The platform maintenance page can refresh after maintenance message enabled
     When I open platform-maintenance page
     Then The platform maintenance message is enabled correctly
 
@@ -148,7 +148,7 @@ Feature: The Platform-Maintenance
     And Maintenance mode is disabled
     And I'm logged as technical user
     And The license information is defined
-    And The tenant status page can refresh after maintenance message updated
+    And The platform maintenance page can refresh after maintenance message updated
     When I open platform-maintenance page
     Then The platform maintenance message is updated correctly
 

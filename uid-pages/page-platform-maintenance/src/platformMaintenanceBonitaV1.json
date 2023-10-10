@@ -6,7 +6,7 @@
   "uuid" : "2be4e81d-9a15-4ef9-893c-61caf156398f",
   "modelVersion" : "2.5",
   "previousArtifactVersion" : "2.4",
-  "lastUpdate" : 1696420959190,
+  "lastUpdate" : 1696945783807,
   "description" : "Page allowing to enable and disable the maintenance mode",
   "rows" : [
     [
@@ -1035,7 +1035,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "<span title=\"{{status.btnTooltip}}\">{{status.btnLabel}}</span>"
+                              "value" : "<span title=\"{{status.btnLabel}}\">{{status.btnLabel}}</span>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1596,7 +1596,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "{{status.modalBtnTooltip}}"
+                          "value" : "{{status.btnLabel}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1792,8 +1792,8 @@
       "type" : "expression",
       "value" : [
         "return $data.isPaused \r",
-        "        ? uiTranslate(\"Are your sure you want to activate the services?\") \r",
-        "        : uiTranslate(\"Are your sure you want to deactivate the services?\");"
+        "        ? uiTranslate(\"Are you sure you want to deactivate the maintenance mode?\") \r",
+        "        : uiTranslate(\"Are you sure you want to activate the maintenance mode?\");"
       ],
       "exposed" : false
     },
@@ -1847,9 +1847,9 @@
       "type" : "expression",
       "value" : [
         "if($data.isPaused){",
-        "    return {state: \"Paused\", btnTooltip:uiTranslate(\"Disable maintenance mode\"), btnLabel:uiTranslate(\"End maintenance\"), modalBtnTooltip:uiTranslate(\"Disable maintenance mode\"), img: \"platform_paused.svg\"};",
+        "    return {state: \"Paused\", btnLabel:uiTranslate(\"Deactivate maintenance mode\"), img: \"platform_paused.svg\"};",
         "}",
-        "return {state: \"Running\", btnTooltip:uiTranslate(\"Enable maintenance mode\"), btnLabel:uiTranslate(\"Start maintenance\"), modalBtnTooltip:uiTranslate(\"Enable maintenance mode\"), img: \"platform_running.svg\"};"
+        "return {state: \"Running\", btnLabel:uiTranslate(\"Activate maintenance mode\"), img: \"platform_running.svg\"};"
       ],
       "exposed" : false
     },

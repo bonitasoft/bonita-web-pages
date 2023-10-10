@@ -23,19 +23,19 @@ given('I\'m logged as technical user', () => {
     cy.route('GET', `${buildDir}/API/system/session/unusedId`, 'fixture:technicalUser').as('session');
 });
 
-given('The tenant status page can refresh', () => {
+given('The platform maintenance page can refresh', () => {
     cy.server();
     cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeEnabled').as('enableMaintenance')
     cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeEnabled').as('platformStateAfterRefresh');
 });
 
-given('The tenant status page can refresh after maintenance message enabled', () => {
+given('The platform maintenance page can refresh after maintenance message enabled', () => {
     cy.server();
     cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeDisabled-msgEnabled').as('enableMaintenanceMsg')
     cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeDisabled-msgEnabled').as('platformStateAfterRefresh');
 });
 
-given('The tenant status page can refresh after maintenance message updated', () => {
+given('The platform maintenance page can refresh after maintenance message updated', () => {
     cy.server();
     cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeDisabled-msgUpdated').as('updateMaintenanceMsg')
     cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeDisabled-msgUpdated').as('platformStateAfterRefresh');
@@ -83,16 +83,16 @@ then('I see {string} tooltip when I mouseover the button', (tooltip) => {
 then('I see a modal that opened and has displayed correctly for start maintenance', () => {
     cy.get('#modal-body').invoke('show');
     // header
-    cy.contains('.modal-header h2', 'Are your sure you want to deactivate the services?').should('be.visible');
-    cy.contains('.modal-header h2', 'Are your sure you want to activate the services?').should('not.exist');
+    cy.contains('.modal-header h2', 'Are you sure you want to activate the maintenance mode?').should('be.visible');
+    cy.contains('.modal-header h2', 'Are you sure you want to deactivate the maintenance mode?').should('not.exist');
 
     // body
     cy.contains('.modal-body p', 'Services will be paused for maintenance.').should('be.visible');
     cy.contains('.modal-body p', 'Services will resume. Users will be able to use the platform again.').should('not.exist');
 
     // footer
-    cy.contains('.modal-footer .btn.btn-primary', 'Enable maintenance mode').should('be.visible');
-    cy.contains('.modal-footer .btn.btn-primary', 'Disable maintenance mode').should('not.exist');
+    cy.contains('.modal-footer .btn.btn-primary', 'Activate maintenance mode').should('be.visible');
+    cy.contains('.modal-footer .btn.btn-primary', 'Deactivate maintenance mode').should('not.exist');
     cy.contains('.modal-footer .btn.btn-default', 'Cancel').should('be.visible');
 
 });
@@ -100,16 +100,16 @@ then('I see a modal that opened and has displayed correctly for start maintenanc
 then('I see a modal that opened and has displayed correctly for stop maintenance', () => {
     cy.get('#modal-body').invoke('show');
     // header
-    cy.contains('.modal-header h2', 'Are your sure you want to deactivate the services?').should('not.exist');
-    cy.contains('.modal-header h2', 'Are your sure you want to activate the services?').should('be.visible');
+    cy.contains('.modal-header h2', 'Are you sure you want to activate the maintenance mode?').should('not.exist');
+    cy.contains('.modal-header h2', 'Are you sure you want to deactivate the maintenance mode?').should('be.visible');
 
     // body
     cy.contains('.modal-body p', 'Services will be paused for maintenance.').should('not.exist');
     cy.contains('.modal-body p', 'Services will resume. Users will be able to use the platform again.').should('be.visible');
 
     // footer
-    cy.contains('.modal-footer .btn.btn-primary', 'Enable maintenance mode').should('not.exist');
-    cy.contains('.modal-footer .btn.btn-primary', 'Disable maintenance mode').should('be.visible');
+    cy.contains('.modal-footer .btn.btn-primary', 'Activate maintenance mode').should('not.exist');
+    cy.contains('.modal-footer .btn.btn-primary', 'Deactivate maintenance mode').should('be.visible');
     cy.contains('.modal-footer .btn.btn-default', 'Cancel').should('be.visible');
 
 });
