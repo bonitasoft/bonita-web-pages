@@ -745,8 +745,8 @@ then('Maintenance message is {string}', (msg) => {
 
 then('I see maintenance header alert is displayed correctly', () => {
     cy.get('.alert').should('be.visible');
-    cy.get('.alert-title i.glyphicon').should('be.visible');
-    cy.contains('.alert-title span', 'Scheduled Maintenance').should('be.visible');
+    cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
+    cy.contains('.bonita-alert-title span', 'Scheduled Maintenance').should('be.visible');
     cy.contains('.alert p', 'maintenance msg').should('be.visible');
     cy.get('input.no-show-input').should('be.visible');
     cy.get('input.no-show-input').should('not.be.checked');

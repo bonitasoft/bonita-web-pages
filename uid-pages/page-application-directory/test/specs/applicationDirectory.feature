@@ -294,7 +294,7 @@ Feature: The Application Directory in desktop resolution
     Then The current session modal is visible
     Then Maintenance message is "Platform maintenance may occur. Contact the platform administrator for more details."
 
-  Scenario: Maintenance alter is displayed correctly
+  Scenario: Maintenance alert is displayed correctly
     Given The response "default filter" is defined
     And The response "session" is defined
     And The response "user" is defined

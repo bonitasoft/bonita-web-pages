@@ -6,9 +6,14 @@
      of the Custom Widget to be displayed in the whiteboard only. By default the widget is represented by an auto-generated icon
      and its name (See the <span> below).
 -->
- 
-<div id="header-alert" class="alert alert-{{ properties.style }} mbe-0" ng-if="isAlertVisible()" role="alert">
-    <div class="alert-title">
+ <div ng-if="environment" class="alert alert-{{ properties.style }}">{{properties.alertTitle}}
+    <div>
+        <p>{{ properties.alertMessage | uiTranslate }}</p>
+    </div>
+ </div>
+
+<div id="header-alert" class="alert alert-{{ properties.style }} bonita-alert mbe-0" ng-if="isAlertVisible()" role="alert">
+    <div class="bonita-alert-title">
         <button type="button" class="close" aria-label="Close" ng-click="hideAlert()">
             <span aria-hidden="true">&times;</span>
         </button>
