@@ -138,7 +138,7 @@ Feature: The Bonita layout header in desktop resolution
     When I visit the index page
     Then Maintenance notification badge is "shown"
 
-  Scenario: Maintenance alter is displayed correctly
+  Scenario: Maintenance alert is displayed correctly
     Given The URL target to the application "appName1"
     And A user is connected with sso
     And The user has the default icon
