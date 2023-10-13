@@ -116,7 +116,7 @@ Feature: The Platform-Maintenance
     And I'm logged as technical user
     And The license information is defined
     When I open platform-maintenance page
-    Then I see platform is in "EN EJECUCIÓN" state
+    Then I see platform is in "En ejecución" state
 
   Scenario: The platform maintenance information is displayed correctly
     Given I'm user with "en" bos_local
