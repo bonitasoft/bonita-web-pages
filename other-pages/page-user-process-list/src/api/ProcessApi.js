@@ -30,7 +30,7 @@ class ProcessApi {
       queries: {
         p: page,
         c: size,
-        s: search,
+        s: encodeURIComponent(search),
         o: order ? `displayName ${order}` : undefined,
         f: queryParams
       }
