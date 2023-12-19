@@ -652,3 +652,7 @@ then("The parent group edition field should contain {string}", (parentDisplayNam
 then("The parent group dropdown is not shown", (parentDisplayName) => {
     cy.get('.modal-body .dropdown-menu').should('not.exist');
 });
+
+then("A long group name is displayed correctly", () => {
+    cy.get('.dropdown-parent-group .dropdown-menu button').should('have.css', 'white-space', 'normal');
+});
