@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "UserCaseListBonitaV8",
   "name" : "UserCaseListBonitaV8",
-  "lastUpdate" : 1677141732350,
+  "lastUpdate" : 1703002137737,
   "rows" : [
     [
       {
@@ -3244,7 +3244,7 @@
         "        }",
         "        ",
         "        if($data.archivedCaseData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.archivedCaseData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.archivedCaseData.filters.searchValue);",
         "        }",
         "    ",
         "        return queryParameters;",
@@ -3291,7 +3291,7 @@
         "        }",
         "        ",
         "        if($data.openCaseData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.openCaseData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.openCaseData.filters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",
