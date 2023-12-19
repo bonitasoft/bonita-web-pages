@@ -473,3 +473,7 @@ then("The comments have the correct information", () => {
     cy.get('.item-value').contains('comment no. 4');
     cy.get('.item-value').contains('anthony.nichols');
 });
+
+then('The long user name is displayed correctly', () => {
+    cy.get('.dropdown button').should('have.css', 'white-space', 'normal');
+});
