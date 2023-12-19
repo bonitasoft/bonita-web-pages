@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "ApplicationDirectoryBonitaV5",
   "name" : "ApplicationDirectoryBonitaV5",
-  "lastUpdate" : 1633702340777,
+  "lastUpdate" : 1703000841740,
   "rows" : [
     [
       {
@@ -2041,7 +2041,7 @@
         "        var queryParameters = \"&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=\" + $data.session.user_id;",
         "        ",
         "        if($data.applicationData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.applicationData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.applicationData.filters.searchValue);",
         "        }",
         "        return queryParameters;",
         "    },",
