@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminUserListBonitaV7",
   "name" : "adminUserListBonitaV7",
-  "lastUpdate" : 1687869894958,
+  "lastUpdate" : 1703086344954,
   "rows" : [
     [
       {
@@ -2805,7 +2805,7 @@
         "        }",
         "        ",
         "        if($data.userListData.userFilters.searchValue){",
-        "            queryParameters += \"&s=\" + $data.userListData.userFilters.searchValue;",
+        "            queryParameters += \"&s=\" + encodeURIComponent($data.userListData.userFilters.searchValue);",
         "        }",
         "    ",
         "        if($data.userListData.userFilters.userStatusEnabled){",
