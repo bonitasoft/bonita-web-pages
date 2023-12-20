@@ -72,6 +72,9 @@ Feature: The admin open case list in desktop resolution
    When I put "Process" in "search" filter field for open cases
    Then The api call is made for "Process" for open cases
    When I erase the search filter
+   When I put "&Special" in "search" filter field for open cases
+   Then The api call is made for "&Special" for open cases
+   When I erase the search filter
    Then A list of "5" items is displayed
    When I put "Search term with no match" in "search" filter field for open cases
    Then No open cases are available
