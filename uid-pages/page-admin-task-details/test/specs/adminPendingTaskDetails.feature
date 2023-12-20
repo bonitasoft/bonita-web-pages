@@ -26,6 +26,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     Given The response "empty done task" is defined for pending tasks
     And The response "default unassigned details" is defined for pending tasks
     And The response "user list" is defined for pending tasks
+    And The response "special character user list" is defined for pending tasks
     And The response "assign and refresh task" is defined for pending tasks
     When I visit the admin pending task details page
     Then The unassign button is not displayed
@@ -33,6 +34,9 @@ Feature: The Admin Pending Task Details in desktop resolution
     Then The assign modal is open and has a default state for "Request Vacation"
     And The user list is not displayed
     And The assign button in the modal is disabled
+    When I type "&Speci@l" in the user input
+    Then The special character user list is displayed
+    And I clear the user input
     When I type "H" in the user input
     Then The user list is displayed
     When I click on "Helen Kelly" in the list
