@@ -35,6 +35,7 @@ Feature: The Admin Pending Task Details in desktop resolution
     And The assign button in the modal is disabled
     When I type "H" in the user input
     Then The user list is displayed
+    And The long user name is displayed correctly
     When I click on "Helen Kelly" in the list
     Then The user list is not displayed
     And The user input is filled with "Helen Kelly"

@@ -1388,3 +1388,7 @@ then("The incorrect profile import message is displayed correctly", () => {
     cy.get(".modal-body p .glyphicon-remove-sign").should('be.visible');
     cy.contains(".modal-body p", "The imported profile(s) file seems incorrect. It may affect the REST API and the profile page. Check the .xml file and retry.");
 });
+
+then('The long {string} is displayed correctly', () => {
+    cy.get('.dropdown-menu button').should('have.css', 'white-space', 'normal');
+});

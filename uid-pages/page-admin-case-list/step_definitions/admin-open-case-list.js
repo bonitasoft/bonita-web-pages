@@ -621,3 +621,7 @@ then("The case state filter is set to {string}", (state) => {
 then("The API call is made with all filters", () => {
     cy.wait('@casesWithAllFiltersRoute');
 });
+
+then("The long process name is displayed correctly", () => {
+    cy.get('.dropdown-menu button').should('have.css', 'white-space', 'normal');
+});
