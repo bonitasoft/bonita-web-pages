@@ -22,7 +22,8 @@ Feature: The admin open case list in desktop resolution
     Then I see an open case list page
     And A list of "5" items is displayed
     When I put "Process" in "process name" filter field for open cases
-    And I click on "Process 1" in process dropdown
+    Then The long process name is displayed correctly
+    When I click on "Process 1" in process dropdown
     Then The api call is made for "Process 1 (1.0)" for open cases
     And A list of "2" items is displayed
     When I clear the process name filter

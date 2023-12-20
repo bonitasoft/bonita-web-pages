@@ -282,6 +282,7 @@ Feature: The Admin Groups in desktop resolution
     And I click on the "pencil" glyphicon button in modal body
     And I type "A" in the parent group input
     Then The parent group list is displayed
+    And A long group name is displayed correctly
     When I click on "Asia" in the list
     Then The parent group list is not displayed
     And The parent group input is filled with "Asia"
