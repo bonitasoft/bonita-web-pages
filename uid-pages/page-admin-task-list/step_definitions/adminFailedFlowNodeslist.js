@@ -32,6 +32,7 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'search by name':
             createRoute('&t=0&s=Alowscenario', 'searchRoute');
+            createRoute('&t=0&s=&Special', 'filterByTaskNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl, '&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
@@ -369,6 +370,9 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case '3001':
             cy.wait('@filterByCaseId3001Route');
+            break;
+        case '&Special':
+            cy.wait('@filterByTaskNameWithSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");
