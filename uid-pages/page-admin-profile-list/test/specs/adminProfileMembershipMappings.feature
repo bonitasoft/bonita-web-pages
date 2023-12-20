@@ -24,10 +24,12 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     When I type "E" in the role membership mapping selection input
     Then The "role" list is displayed
+    And The long "role name" is displayed correctly
     When I click on "Executive" in the list
     Then The role input in membership is filled with "Executive"
     When I type "A" in the group membership mapping selection input
     Then The "group" list is displayed
+    And The long "group name" is displayed correctly
     When I click on "Acme" in the list
     Then The group input in membership is filled with "Acme"
     When I click on the "Add" button in modal
