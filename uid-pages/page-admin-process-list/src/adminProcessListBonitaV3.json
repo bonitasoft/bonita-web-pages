@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminProcessListBonitaV3",
   "name" : "adminProcessListBonitaV3",
-  "lastUpdate" : 1642586440022,
+  "lastUpdate" : 1703061198885,
   "rows" : [
     [
       {
@@ -4993,7 +4993,7 @@
         "        }\r",
         "        \r",
         "        if($data.enabledProcessData.filters.searchValue){\r",
-        "            queryParameters += \"&s=\" +  $data.enabledProcessData.filters.searchValue;\r",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.enabledProcessData.filters.searchValue);\r",
         "        }\r",
         "        return queryParameters;\r",
         "    },\r",
@@ -5057,7 +5057,7 @@
         "        }\r",
         "        \r",
         "        if($data.disabledProcessData.filters.searchValue) {\r",
-        "            queryParameters += \"&s=\" +  $data.disabledProcessData.filters.searchValue;\r",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.disabledProcessData.filters.searchValue);\r",
         "        }\r",
         "        \r",
         "        return queryParameters;\r",
