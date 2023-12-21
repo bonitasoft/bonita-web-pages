@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminResourceListBonitaV6",
   "name" : "adminResourceListBonitaV6",
-  "lastUpdate" : 1677082913032,
+  "lastUpdate" : 1703167697663,
   "rows" : [
     [
       {
@@ -4208,7 +4208,7 @@
         "        }",
         "        ",
         "        if($data.resourceListData.resourcesFilters.searchValue){",
-        "            queryParameters += \"&s=\" + $data.resourceListData.resourcesFilters.searchValue;",
+        "            queryParameters += \"&s=\" + encodeURIComponent($data.resourceListData.resourcesFilters.searchValue);",
         "        }",
         "    ",
         "        return queryParameters;",

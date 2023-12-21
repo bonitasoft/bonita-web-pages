@@ -39,6 +39,9 @@ Feature: The resources list in desktop resolution
     When I put "ApplicationHomeBonita" in "search" filter field
     Then The api call is made for "ApplicationHomeBonita"
     When I erase the search filter
+    And I put "&Speci@lResources" in "search" filter field
+    Then The api call is made for "&Speci@lResources"
+    When I erase the search filter
     Then A list of "5" resources is displayed
     When I put "Search term with no match" in "search" filter field
     Then No resources are available
