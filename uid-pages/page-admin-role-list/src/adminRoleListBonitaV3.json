@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.1",
   "id" : "adminRoleListBonitaV3",
   "name" : "adminRoleListBonitaV3",
-  "lastUpdate" : 1641821159178,
+  "lastUpdate" : 1703154298458,
   "rows" : [
     [
       {
@@ -4639,7 +4639,7 @@
         "        }",
         "        ",
         "        if ($data.rolesData.filters.searchValue) {",
-        "            queryParameters += \"&s=\" + $data.rolesData.filters.searchValue;",
+        "            queryParameters += \"&s=\" + encodeURIComponent($data.rolesData.filters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",
@@ -4810,7 +4810,7 @@
         "        var queryParameters = \"&f=enabled=true&f=role_id=\" + selectedRoleId;",
         "        ",
         "        if($data.userListData.userFilters.searchValue) {",
-        "            queryParameters += \"&s=\" + $data.userListData.userFilters.searchValue;",
+        "            queryParameters += \"&s=\" + encodeURIComponent($data.userListData.userFilters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",
