@@ -126,8 +126,8 @@ function sortOrderOpenCasesParameter(sortType) {
         case 'openCasesSortedByStartDateNew':
             return '&t=0&o=startDate+DESC';
 
-        case 'openCases':
-            return '&o=startDate+ASC';
+        case 'openCasesSortedByStartDateOld':
+            return '&t=0&o=startDate+ASC';
     }
 }
 
@@ -143,7 +143,7 @@ given("A list of archived cases sorted by {string} is available", (sortType)=> {
 
 function sortOrderArchivedCasesParameter(sortType) {
     switch(sortType) {
-        case 'archivedCases':
+        case 'archivedCasesSortedByCaseIdAsc':
             return '&o=id+ASC';
 
         case 'archivedCasesSortedByOriginalCaseIdAsc':
@@ -161,7 +161,7 @@ function sortOrderArchivedCasesParameter(sortType) {
         case 'archivedCasesSortedByStartDateNew':
             return '&t=0&o=startDate+DESC';
 
-        case 'archivedCases':
+        case 'archivedCasesSortedByStartDateOld':
             return '&t=0&o=startDate+ASC';
 
         case 'archivedCasesSortedByEndDateNew':
@@ -566,10 +566,22 @@ then("The process list has the right content", ()=>{
 });
 
 then("A list of open cases is displayed", ()=>{
+    cy.wait('@openCasesRoute');
+    checkNumberOfCases(5);
+});
+
+then("A list of filtered open cases is displayed", ()=>{
+    cy.wait('@openCasesFilteredByProcessNameRoute');
     checkNumberOfCases(5);
 });
 
 then("A list of archived cases is displayed", ()=>{
+    cy.wait('@archivedCasesRoute');
+    checkNumberOfCases(4);
+});
+
+then("A list of filtered archived cases is displayed", ()=>{
+    cy.wait('@archivedCasesFilteredByProcessNameRoute');
     checkNumberOfCases(4);
 });
 
@@ -699,7 +711,6 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
     cy.server();
     switch (filterType) {
         case 'process name':
-            cy.wait('@openCasesFilteredByProcessNameRoute');
             cy.get('.case-item:visible').eq(0).within(() => {
                 cy.get('.case-property-value').contains('2001');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
@@ -748,7 +759,6 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
 then("I see only the filtered archived cases by {string}", (filterType)=>{
     switch (filterType) {
         case 'process name':
-            cy.wait('@archivedCasesFilteredByProcessNameRoute');
             cy.get('.case-item:visible').eq(0).within(() => {
                 cy.get('.case-property-value').contains('1004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
