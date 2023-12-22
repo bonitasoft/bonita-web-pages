@@ -45,7 +45,7 @@ Feature: The user open case list in desktop resolution
     Then I see only the filtered open cases by "process name"
     And I don't see the cases that are unmatched by the "process name" filter
     When I select "All processes (all versions)" in "process name" filter for "open" cases
-    Then A list of open cases is displayed
+    Then A list of filtered open cases is displayed
     When I select "Cancel Vacation Request (1.0)" in "process name" filter for "open" cases
     Then No cases are available
 
@@ -64,7 +64,7 @@ Feature: The user open case list in desktop resolution
     Then I see only the filtered archived cases by "process name"
     And I don't see the cases that are unmatched by the "process name" filter
     When I select "All processes (all versions)" in "process name" filter for "archived" cases
-    Then A list of archived cases is displayed
+    Then A list of filtered archived cases is displayed
     When I select "Cancel Vacation Request (1.0)" in "process name" filter for "archived" cases
     Then No cases are available
 
@@ -77,7 +77,7 @@ Feature: The user open case list in desktop resolution
     And A list of open cases sorted by "openCasesSortedByProcessNameAsc" is available
     And A list of open cases sorted by "openCasesSortedByProcessNameDesc" is available
     And A list of open cases sorted by "openCasesSortedByStartDateNew" is available
-    And A list of open cases sorted by "openCases" is available
+    And A list of open cases sorted by "openCasesSortedByStartDateOld" is available
     When I visit the user case list page
     Then A list of open cases is displayed
     When I select "Case ID (Asc)" in "open cases sort by" filter for "open" cases
@@ -91,7 +91,7 @@ Feature: The user open case list in desktop resolution
     When I select "Start date (Newest first)" in "open cases sort by" filter for "open" cases
     Then A list of open cases sorted by "openCasesSortedByStartDateNew" is displayed
     When I select "Start date (Oldest first)" in "open cases sort by" filter for "open" cases
-    Then A list of open cases sorted by "openCases" is displayed
+    Then A list of open cases sorted by "openCasesSortedByStartDateOld" is displayed
 
   Scenario: The user archived case list sort by works correctly
     Given A list of no open cases is available
@@ -103,7 +103,7 @@ Feature: The user open case list in desktop resolution
     And A list of archived cases sorted by "archivedCasesSortedByProcessNameAsc" is available
     And A list of archived cases sorted by "archivedCasesSortedByProcessNameDesc" is available
     And A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is available
-    And A list of archived cases sorted by "archivedCases" is available
+    And A list of archived cases sorted by "archivedCasesSortedByStartDateOld" is available
     And A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is available
     And A list of archived cases sorted by "archivedCasesSortedByEndDateOld" is available
     When I visit the user case list page
@@ -121,7 +121,7 @@ Feature: The user open case list in desktop resolution
     When I select "Start date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByStartDateNew" is displayed
     When I select "Start date (Oldest first)" in "archived cases sort by" filter for "archived" cases
-    Then A list of archived cases sorted by "archivedCases" is displayed
+    Then A list of archived cases sorted by "archivedCasesSortedByStartDateOld" is displayed
     When I select "End date (Newest first)" in "archived cases sort by" filter for "archived" cases
     Then A list of archived cases sorted by "archivedCasesSortedByEndDateNew" is displayed
     When I select "End date (Oldest first)" in "archived cases sort by" filter for "archived" cases
