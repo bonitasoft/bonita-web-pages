@@ -53,6 +53,9 @@ Feature: The admin profiles mapping with users in desktop resolution
     When The search input is filled with "Helen"
     Then The api call is made for "Helen"
     When I erase the search filter in the modal
+    When The search input is filled with "&Speci@lUser"
+    Then The api call is made for "&Speci@lUser"
+    When I erase the search filter in the modal
     When The search input is filled with "Search term with no match"
     Then No user mappings are displayed
 

@@ -51,22 +51,27 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Administrator', 'searchAdministratorRoute', 'profiles1');
+            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lProfile', 'specialProfileRoute', 'profileSpecial');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'search mapped user':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=user&d=user_id&t=1*&s=Helen', 'searchHelenRoute');
+            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=user&d=user_id&t=1*&s=&Speci@lUser', 'specialUserRoute');
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped role':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=role&d=role_id&t=1*&s=Executive', 'searchExecutiveRoute');
+            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=role&d=role_id&t=1*&s=&Speci@lRole', 'specialRoleRoute');
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped group':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&t=1*&s=Acme', 'searchAcmeRoute');
+            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&t=1*&s=&Speci@lGroup', 'specialGroupRoute');
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped membership':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&t=1*&s=Executive', 'searchExecutiveRoute');
+            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&t=1*&s=&Speci@lMembership', 'specialMembershipRoute');
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profile deletion success':
@@ -460,6 +465,10 @@ when("I erase the search filter in the modal", () => {
     cy.get('.modal-body pb-input input').eq(1).clear();
 });
 
+when("I erase the search filter in the edit membership modal", () => {
+    cy.get('.modal-body pb-input input').eq(2).clear();
+});
+
 when("I click on delete button for first profile", () => {
     cy.get('.glyphicon.glyphicon-trash').eq(0).parent().click();
 });
@@ -661,6 +670,21 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'Acme':
             cy.wait('@searchAcmeRoute');
+            break;
+        case '&Speci@lProfile':
+            cy.wait('@specialProfileRoute');
+            break;
+        case '&Speci@lGroup':
+            cy.wait('@specialGroupRoute');
+            break;
+        case '&Speci@lMembership':
+            cy.wait('@specialMembershipRoute');
+            break;
+        case '&Speci@lRole':
+            cy.wait('@specialRoleRoute');
+            break;
+        case '&Speci@lUser':
+            cy.wait('@specialUserRoute');
             break;
         default:
             throw new Error("Unsupported case");

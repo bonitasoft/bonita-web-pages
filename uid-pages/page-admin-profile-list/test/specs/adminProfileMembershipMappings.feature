@@ -62,8 +62,11 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     Then The edit membership mapping modal is open and has a default state for "Edit membership mapping of Custom profile 1" profile
     When The mapped membership search input is filled with "Executive"
     Then The api call is made for "Executive"
-    When I erase the search filter in the modal
-    When The search input is filled with "Search term with no match"
+    When I erase the search filter in the edit membership modal
+    And The mapped membership search input is filled with "&Speci@lMembership"
+    Then The api call is made for "&Speci@lMembership"
+    When I erase the search filter in the edit membership modal
+    And The search input is filled with "Search term with no match"
     Then No membership mappings are displayed
 
   Scenario: The memberships mapping modal should display information about typing more
