@@ -31,7 +31,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
-            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lGroup', 'groupNameWithSpecialCharacterRoute', 'groupWithSpecialCharacters');
+            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lGroup', 'groupNameWithSpecialCharacterRoute', 'groupNameWithSpecialCharacter');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'group creation success':
@@ -39,7 +39,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'parent group list':
             createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupListRoute', 'groups8');
-            createRouteWithResponse(parentGroupSearchUrl + '&Speci@lParent', 'specialParentGroupListRoute', 'groupWithSpecialCharacters');
+            createRouteWithResponse(parentGroupSearchUrl + '&Speci@lParent', 'specialParentGroupListRoute', 'groupNameWithSpecialCharacter');
             break;
         case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
