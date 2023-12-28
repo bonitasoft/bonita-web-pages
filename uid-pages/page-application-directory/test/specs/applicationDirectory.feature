@@ -20,6 +20,16 @@ Feature: The Application Directory in desktop resolution
     When I put "Search term with no match" in search filter field
     Then No applications are displayed
 
+  Scenario: The application directory search works correctly for app name with special characters
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "search" is defined
+    When I visit the application directory page
+    Then A list of 5 items is displayed
+    When I put "&Special" in search filter field
+    Then The api call is made for "&Special"
+    And A list of 1 items is displayed
+
   Scenario: The application directory shows the user icon correctly
     Given The response "default filter" is defined
     And The response "session" is defined

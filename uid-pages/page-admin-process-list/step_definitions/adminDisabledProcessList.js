@@ -37,6 +37,7 @@ given("The page response {string} is defined for disabled processes", (filterTyp
             break;
         case 'search':
             createDefaultRoute(defaultSortOrder + '&s=VacationRequest', 'searchByNameRoute');
+            createDefaultRoute(defaultSortOrder + '&s=&Special', 'searchByNameWithSpecialCharacterRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder, '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -373,6 +374,9 @@ then("The api call is made for {string} processes", (filterValue) => {
             break;
         case 'refresh disabled process list':
             cy.wait('@refreshDisabledProcessesList');
+            break;
+        case '&Special':
+            cy.wait('@searchByNameWithSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");

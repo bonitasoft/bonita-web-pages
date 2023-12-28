@@ -10224,7 +10224,7 @@
         "    getUserSearchUrl: function() {",
         "         if ($data.userListData.userDisplayName !==  $data.userListData.searchUserValue) { ",
         "            $data.userListData.userId = undefined;",
-        "            return $data.userListData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&f=task_id%3d\" + $data.taskIdQueryParameter + \"&s=\" + $data.userListData.searchUserValue : undefined;    ",
+        "            return $data.userListData.searchUserValue ? \"../API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled%3dtrue&f=task_id%3d\" + $data.taskIdQueryParameter + \"&s=\" + encodeURIComponent($data.userListData.searchUserValue) : undefined;    ",
         "        }",
         "        return undefined;",
         "    },",

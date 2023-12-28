@@ -28,6 +28,10 @@ Feature: The Admin Groups in desktop resolution
     Then The api call is made for "Acme"
     And A list of 1 groups is displayed
     When I erase the search filter
+    And I put "&Speci@lGroup" in "search" filter field
+    Then The api call is made for "&Speci@lGroup"
+    And A list of 1 groups is displayed
+    When I erase the search filter
     Then A list of 8 groups is displayed
     When I put "Search term with no match" in "search" filter field
     Then No groups are available
@@ -52,6 +56,9 @@ Feature: The Admin Groups in desktop resolution
     When I click on create button
     Then The create modal is open and has a default state for "Create a group"
     When I fill in the information
+    And I type "&Speci@lParent" in the parent group input
+    Then The parent group list is displayed
+    And I erase the parent group search input
     And I type "A" in the parent group input
     Then The parent group list is displayed
     When I click on "Acme" in the list
@@ -177,6 +184,10 @@ Feature: The Admin Groups in desktop resolution
     Then The api call is made for "Virginie"
     And Only one item is displayed
     When I erase the modal search filter
+    And I put "&Speci@lUser" in modal search filter field
+    Then The api call is made for "&Speci@lUser"
+    And Only one item is displayed
+    When I erase the modal search filter
     Then The user list modal is open and has 5 users for "Users in the group Acme"
     When I put "Search term with no match" in modal search filter field
     Then No users are available
@@ -235,6 +246,10 @@ Feature: The Admin Groups in desktop resolution
     Then The sub-group list modal is open and has 5 sub-groups for "Sub-groups of Acme (/acme)"
     When I put "Acme" in modal search filter field
     Then The api call is made for "Acme"
+    And Only one item is displayed
+    When I erase the modal search filter
+    And I put "&Speci@lSubGroup" in modal search filter field
+    Then The api call is made for "&Speci@lSubGroup"
     And Only one item is displayed
     When I erase the modal search filter
     Then The sub-group list modal is open and has 5 sub-groups for "Sub-groups of Acme (/acme)"

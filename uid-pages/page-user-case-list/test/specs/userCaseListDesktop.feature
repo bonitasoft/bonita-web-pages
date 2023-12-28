@@ -146,6 +146,16 @@ Feature: The user open case list in desktop resolution
     When I search "Incorrect" in search filter
     Then No cases are available
 
+  Scenario: Search by process name with special characters works correctly for open cases
+    Given A list of open cases is available
+    And A user session is available
+    And A list of processes is available
+    And The filter responses search are defined for open cases
+    When I visit the user case list page
+    Then A list of open cases is displayed
+    When I search "&Special" in search filter
+    Then I see only the filtered open cases by "&Special"
+
   Scenario: Search by process name and search keys works correctly for archived cases
     Given A list of no open cases is available
     And A list of archived cases is available
@@ -167,6 +177,19 @@ Feature: The user open case list in desktop resolution
     And I erase the search filter
     When I search "Incorrect" in search filter
     Then No cases are available
+
+  Scenario: Search by process name with special characters works correctly for archived cases
+    Given A list of no open cases is available
+    And A list of archived cases is available
+    And A user session is available
+    And A list of processes is available
+    And The filter responses search are defined for archived cases
+    When I visit the user case list page
+    And I wait for no open cases api call
+    And I click on "Archived cases" tab
+    Then A list of archived cases is displayed
+    When I search "&Special" in search filter
+    Then I see only the filtered archived cases by "&Special"
 
   Scenario: The view open case details button works correctly
     Given A list of open cases is available

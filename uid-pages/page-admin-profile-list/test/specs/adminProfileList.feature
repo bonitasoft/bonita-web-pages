@@ -24,6 +24,10 @@ Feature: The Admin Profiles in desktop resolution
     Then The api call is made for "Administrator"
     And A list of 1 items is displayed
     When I erase the search filter
+    And I put "&Speci@lProfile" in "search" filter field
+    Then The api call is made for "&Speci@lProfile"
+    And A list of 1 items is displayed
+    When I erase the search filter
     Then A list of 8 items is displayed
     When I put "Search term with no match" in "search" filter field
     Then No profiles are displayed

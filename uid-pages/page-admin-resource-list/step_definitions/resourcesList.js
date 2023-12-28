@@ -31,6 +31,7 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'search by name':
             createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
+            createRoute('&o=lastUpdateDate+DESC&s=&Speci@lResources', 'specialResourcesRoute');
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'all types of resources':
@@ -413,6 +414,9 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'refresh list':
             cy.wait('@refreshListRoute');
+            break;
+        case '&Speci@lResources':
+            cy.wait('@specialResourcesRoute');
             break;
         default:
             throw new Error("Unsupported case");

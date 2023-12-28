@@ -23,6 +23,7 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute');
             createRoute('&o=lastname+ASC&s=Bates' + enabledFilter, 'lastNameRoute');
             createRoute('&o=lastname+ASC&s=walter.bates' + enabledFilter, 'userNameRoute');
+            createRoute('&o=lastname+ASC&s=&Speci@l' + enabledFilter, '&Speci@lRoute');
             createRouteWithResponse('&o=lastname+ASC&s=Search term with no match' + enabledFilter, 'emptyResultRoute', 'emptyResult');
             break;
         case 'user search during limitation':
@@ -343,6 +344,9 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case 'refresh list':
             cy.wait('@refreshListRoute');
+            break;
+        case '&Speci@l':
+            cy.wait('@&Speci@lRoute');
             break;
         default:
             throw new Error("Unsupported case");

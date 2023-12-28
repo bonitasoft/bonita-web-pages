@@ -53,7 +53,10 @@ Feature: The admin profiles mapping with groups in desktop resolution
     When I type "Acme" in search input
     Then The api call is made for "Acme"
     When I erase the search filter in the modal
-    When I type "Search term with no match" in search input
+    And I type "&Speci@lGroup" in search input
+    Then The api call is made for "&Speci@lGroup"
+    When I erase the search filter in the modal
+    And I type "Search term with no match" in search input
     Then No group mappings are displayed
 
   Scenario: The groups mapping modal should display information about typing more

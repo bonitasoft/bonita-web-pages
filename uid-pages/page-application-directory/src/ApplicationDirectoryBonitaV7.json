@@ -2101,7 +2101,7 @@
         "        var queryParameters = \"&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=\" + $data.session.user_id;",
         "        ",
         "        if($data.applicationData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.applicationData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.applicationData.filters.searchValue);",
         "        }",
         "        return queryParameters;",
         "    },",

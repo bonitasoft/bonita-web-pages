@@ -230,7 +230,8 @@ given("The filter response only started by me is defined for archived cases", ()
 given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as('openCasesSearchPool3');
     cy.fixture('json/openCasesSearchKey.json').as('openCasesSearchKey');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&f=started_by=4';
+    cy.fixture('json/openCasesSearchSpecialCharacter.json').as('openCasesSearchSpecialCharacter');
+    let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0';
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -241,12 +242,18 @@ given("The filter responses search are defined for open cases", ()=>{
         url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@openCasesSearchKey',
     }).as('openCasesSearchKeyRoute');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&s=&Special',
+        response: '@openCasesSearchSpecialCharacter',
+    }).as('openCasesSearchSpecialCharacterRoute');
 });
 
 given("The filter responses search are defined for archived cases", ()=>{
     cy.fixture('json/archivedCasesSearchPool3.json').as('archivedCasesSearchPool3');
     cy.fixture('json/archivedCasesSearchKey.json').as('archivedCasesSearchKey');
-    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&f=started_by=4';
+    cy.fixture('json/archivedCasesSearchSpecialCharacter.json').as('archivedCasesSearchSpecialCharacter');
+    let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0';
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -257,6 +264,11 @@ given("The filter responses search are defined for archived cases", ()=>{
         url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@archivedCasesSearchKey',
     }).as('archivedCasesSearchKeyRoute');
+    cy.route({
+        method: 'GET',
+        url: filterQueryURLPrefix + '&s=&Special',
+        response: '@archivedCasesSearchSpecialCharacter',
+    }).as('archivedCasesSearchSpecialCharacterRoute');
 });
 
 given("A list of open cases with several pages is available", ()=>{

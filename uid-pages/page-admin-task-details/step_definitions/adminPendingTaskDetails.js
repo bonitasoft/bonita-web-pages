@@ -44,6 +44,9 @@ given("The response {string} is defined for pending tasks", (responseType) => {
         case 'user list':
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
             break;
+        case 'special character user list':
+            createRouteWithResponse(userSearchUrl + '&Speci@l', 'specialCharacterUserListRoute', 'specialCharacterUserList');
+            break;
         case 'assign and refresh task':
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult', 'PUT');
             createRouteWithResponse(refreshUrl, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
@@ -275,6 +278,10 @@ then("The assign button in the modal is disabled", () => {
     cy.contains('.modal-footer button', 'Assign').should('be.disabled');
 });
 
+then("The special character user list is displayed", () => {
+    cy.contains('.modal-content .dropdown-menu button', '&Speci@l').should('be.visible');
+});
+
 then("The user list is displayed", () => {
     cy.get('.modal-content .dropdown-menu').should('be.visible');
 });
@@ -476,4 +483,8 @@ then("The comments have the correct information", () => {
 
 then('The long user name is displayed correctly', () => {
     cy.get('.dropdown button').should('have.css', 'white-space', 'normal');
+});
+
+then("I clear the user input", () => {
+    cy.get('.assign-user input[type="text"]').clear();
 });

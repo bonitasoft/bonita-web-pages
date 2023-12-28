@@ -65,6 +65,9 @@ Feature: The admin profiles mapping with memberships in desktop resolution
     When I type "Executive" in search input
     Then The api call is made for "Executive"
     When I erase the search filter in the modal
+    And I type "&Speci@lMembership" in search input
+    Then The api call is made for "&Speci@lMembership"
+    When I erase the search filter in the modal
     When I type "Search term with no match" in search input
     Then No membership mappings are displayed
 
