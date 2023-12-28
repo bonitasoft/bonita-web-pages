@@ -63,6 +63,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         case 'search by name':
             createRoute('&s=Process', 'searchRoute');
+            createRoute('&s=&Special', 'caseNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
@@ -465,6 +466,9 @@ then("The api call is made for {string} for open cases", (filterValue) => {
             break;
         case 'With failures':
             cy.wait('@casesWithFailuresRoute');
+            break;
+        case '&Special':
+            cy.wait('@caseNameWithSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");

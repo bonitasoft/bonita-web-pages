@@ -70,6 +70,9 @@ Feature: The done tasks list in desktop resolution
     When I put "Alowscenario" in "search" filter field for done tasks
     Then The api call is made for "Alowscenario" for done tasks
     When I erase the search filter
+    And I put "&Special" in "search" filter field for done tasks
+    Then The api call is made for "&Special" for done tasks
+    When I erase the search filter
     Then A list of "5" items is displayed
     When I put "Search term with no match" in "search" filter field for done tasks
     Then No done tasks are available

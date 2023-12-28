@@ -92,6 +92,9 @@ Feature: The admin archived case list in desktop resolution
     When I put "Process" in "search" filter field for archived cases
     Then The api call is made for "Process" for archived cases
     When I erase the search filter
+    When I put "&Special" in "search" filter field for archived cases
+    Then The api call is made for "&Special" for archived cases
+    When I erase the search filter
     Then A list of "5" items is displayed
     When I put "Search term with no match" in "search" filter field for archived cases
     Then No archived cases are available

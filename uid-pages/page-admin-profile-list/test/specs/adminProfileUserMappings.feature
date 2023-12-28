@@ -53,7 +53,10 @@ Feature: The admin profiles mapping with users in desktop resolution
     When I type "Helen" in search input
     Then The api call is made for "Helen"
     When I erase the search filter in the modal
-    When I type "Search term with no match" in search input
+    And I type "&Speci@lUser" in search input
+    Then The api call is made for "&Speci@lUser"
+    When I erase the search filter in the modal
+    And I type "Search term with no match" in search input
     Then No user mappings are displayed
 
   Scenario: The users mapping modal should display information about typing more

@@ -2634,7 +2634,7 @@
         "if(!$data.searchFilterValue) {",
         "    return \"\";",
         "}",
-        "return \"&s=\"+$data.searchFilterValue;"
+        "return \"&s=\" + encodeURIComponent($data.searchFilterValue);"
       ],
       "exposed" : false
     },
@@ -2771,7 +2771,7 @@
         "        var queryParameters = \"?c=\" + applicationsPerPage + \"&p=\" + pageId + \"&f=userId=\" + $data.session.user_id + $data.queryParamSearchFilter;",
         "        ",
         "        if($data.applicationData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.applicationData.filters.searchValue;",
+        "            queryParameters += \"&s=\" + encodeURIComponent($data.applicationData.filters.searchValue);",
         "        }",
         "        return queryParameters;",
         "    },",
