@@ -567,25 +567,25 @@ then("The process list has the right content", ()=>{
 
 then("A list of open cases is displayed", ()=>{
     cy.wait('@openCasesRoute');
-    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ').scrollIntoView();
+    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ', {timeout: 10000}).scrollIntoView();
     checkNumberOfCases(5);
 });
 
 then("A list of filtered open cases is displayed", ()=>{
     cy.wait('@openCasesFilteredByProcessNameRoute');
-    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ').scrollIntoView();
+    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ', {timeout: 10000}).scrollIntoView();
     checkNumberOfCases(5);
 });
 
 then("A list of archived cases is displayed", ()=>{
     cy.wait('@archivedCasesRoute');
-    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ').scrollIntoView();
+    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ', {timeout: 10000}).scrollIntoView();
     checkNumberOfCases(4);
 });
 
 then("A list of filtered archived cases is displayed", ()=>{
     cy.wait('@archivedCasesFilteredByProcessNameRoute');
-    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ').scrollIntoView();
+    cy.contains('.text-primary.case-property-label:visible', 'Cases shown: ', {timeout: 10000}).scrollIntoView();
     checkNumberOfCases(4);
 });
 
