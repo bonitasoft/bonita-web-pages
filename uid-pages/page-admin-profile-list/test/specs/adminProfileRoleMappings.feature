@@ -53,7 +53,7 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I type "Executive" in search input
     Then The api call is made for "Executive"
     When I erase the search filter in the modal
-    And The search input is filled with "&Speci@lRole"
+    And I type "&Speci@lRole" in search input
     Then The api call is made for "&Speci@lRole"
     When I erase the search filter in the modal
     And I type "Search term with no match" in search input
