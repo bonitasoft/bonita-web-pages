@@ -43,7 +43,7 @@ Feature: The Bonita layout app list modal in desktop resolution
     And I click the app selection icon
     Then The app selection modal is visible
     When I filter the app selection by "&Special"
-    Then I see only the filtered applications by "&Special" in desktop
+    Then I see only the filtered applications by "special name" in desktop
 
   Scenario: The app selection modal closes correctly
     Given The URL target to the application "appName1"
