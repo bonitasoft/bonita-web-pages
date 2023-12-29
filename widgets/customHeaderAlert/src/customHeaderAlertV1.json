@@ -1,0 +1,65 @@
+{
+  "id" : "customHeaderAlertV1",
+  "name" : "HeaderAlertV1",
+  "type" : "widget",
+  "custom" : true,
+  "modelVersion" : "2.6",
+  "previousArtifactVersion" : "2.5",
+  "lastUpdate" : 1698249603674,
+  "template" : "@customHeaderAlertV1.tpl.html",
+  "controller" : "@customHeaderAlertV1.ctrl.js",
+  "properties" : [
+    {
+      "label" : "Alert title",
+      "name" : "alertTitle",
+      "type" : "text",
+      "defaultValue" : "Title",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Alert message",
+      "name" : "alertMessage",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Is active",
+      "name" : "isActive",
+      "type" : "boolean",
+      "defaultValue" : true,
+      "bond" : "expression"
+    },
+    {
+      "label" : "Local storage property name",
+      "name" : "localStoragePropertyName",
+      "help" : "An entry with this key will be created in the localStorage and set to true when the user checks the 'Do not show me again' option",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Style",
+      "name" : "style",
+      "type" : "choice",
+      "defaultValue" : "success",
+      "choiceValues" : [
+        "success",
+        "info",
+        "warning",
+        "danger"
+      ],
+      "bond" : "expression"
+    }
+  ],
+  "assets" : [
+    {
+      "id" : "94bd1ae4-8f83-4d96-838c-e7cce1590403",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    }
+  ],
+  "requiredModules" : [ ],
+  "webResources" : [ ],
+  "hasHelp" : false
+}

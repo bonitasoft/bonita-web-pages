@@ -1,0 +1,64 @@
+UIDesigner {
+    version '1.18.1'
+}
+
+println 'Remove gradle nodejs cache folder'
+delete files("${rootProject.projectDir}/.gradle/nodejs")
+
+allprojects {
+    apply plugin: 'distribution'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.node-gradle.node'
+    
+    group 'org.bonitasoft.web.page'
+
+    repositories {
+        // Keep me! Required for interoperability with maven built dependencies (UI Designer)
+        // https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local
+        mavenLocal()
+
+        mavenCentral()
+        if (project.hasProperty("extraRepositories")) {
+            def extraRepositories = project.getProperties().get("extraRepositories")
+            extraRepositories.split(",").each { repo ->
+                def repoProperties = repo.split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+    
+    node {
+        version = Versions.nodeVersion
+        // Use the same location for all subprojects
+        workDir = file("${rootProject.projectDir}/.gradle/nodejs")
+        download = !workDir.getAsFile().get().exists()
+    }
+
+    nodeSetup {
+         onlyIf {
+            !com.github.gradle.node.NodeExtension.get(project).workDir.get().getAsFile().exists()
+         }
+    }
+    
+    // Disable tar distribution declared by the distribution plugin, only distZip is used
+    distTar.enabled = false
+
+    publishing {
+        repositories {
+            if (project.hasProperty("altDeploymentRepository")) {
+                def repoProperties = project.getProperties()."altDeploymentRepository".split("::")
+                maven {
+                    name = repoProperties.first()
+                    url = repoProperties.last()
+                    //those credentials can be given using -P<repo_name>Username and -P<repo_name>Password see README.md
+                    credentials(PasswordCredentials)
+                }
+            }
+        }
+    }
+}
