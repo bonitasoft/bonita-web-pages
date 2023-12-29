@@ -596,6 +596,11 @@ then ('I see only the filtered applications by {string} in desktop', (type)=> {
             cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', 'My first app');
             cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
             break;
+        case 'special name':
+            cy.wait('@filteredAppsListSpecialCharacterRoute');
+            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', '&Special #Character');
+            cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
+            break;
     }
     cy.get(appNameSelectorForDestop).eq(2).should('not.exist');
 });
