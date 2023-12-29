@@ -249,7 +249,7 @@ given('The filter responses are defined', () => {
     }).as('filteredAppsList105Route');
     cy.route({
         method: 'GET',
-        url: '${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=&Special',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=&Special`,
         response: '@filteredAppsListSpecialCharacter'
     }).as('filteredAppsListSpecialCharacterRoute');
 });
@@ -626,6 +626,11 @@ then ('I see only the filtered applications by {string} in desktop', (type)=> {
         case 'version':
             cy.wait('@filteredAppsList105Route');
             cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', 'My first app');
+            cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
+            break;
+        case 'special name':
+            cy.wait('@filteredAppsListSpecialCharacterRoute');
+            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', '&Special #Character');
             cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
             break;
     }
