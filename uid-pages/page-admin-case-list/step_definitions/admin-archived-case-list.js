@@ -60,6 +60,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         case 'search by name':
             createRoute('&t=0&s=Process', 'searchRoute');
+            createRoute('&t=0&s=&Special', 'archivedCaseNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'refresh archived case list':
@@ -351,6 +352,9 @@ then("The api call is made for {string} for archived cases", (filterValue) => {
             break;
         case 'With failures':
             cy.wait('@casesWithFailuresRoute');
+            break;
+        case '&Special':
+            cy.wait('@archivedCaseNameWithSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");

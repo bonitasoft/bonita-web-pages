@@ -28,6 +28,10 @@ Feature: The Admin Roles in desktop resolution
     Then The api call is made for "Member"
     And A list of 1 roles is displayed
     When I erase the search filter
+    And I put "&Speci@lRole" in "search" filter field
+    Then The api call is made for "&Speci@lRole"
+    And A list of 1 roles is displayed
+    When I erase the search filter
     Then A list of 8 roles is displayed
     When I put "Search term with no match" in "search" filter field
     Then No roles are available
@@ -209,16 +213,6 @@ Feature: The Admin Roles in desktop resolution
     When I click on the "Close" button in modal
     Then There is no modal displayed
 
-  Scenario: The user list modal displays a list
-    Given The response "default filter with headers" is defined
-    And The response "user list" is defined
-    When I visit the admin roles page
-    Then A list of 8 roles is displayed
-    When I click on user button for first role
-    Then The user list modal is open and has users for "Users mapped to the role Member"
-    When I click on the "Close" button in modal
-    Then There is no modal displayed
-
   Scenario: The user list search works correctly
     Given The response "default filter with headers" is defined
     And The response "user list" is defined
@@ -229,6 +223,10 @@ Feature: The Admin Roles in desktop resolution
     Then The user list modal is open and has users for "Users mapped to the role Member"
     When I put "Virginie" in user list search filter field
     Then The api call is made for "Virginie"
+    And Only one user is displayed
+    When I erase the user search filter
+    And I put "&Speci@lUser" in user list search filter field
+    Then The api call is made for "&Speci@lUser"
     And Only one user is displayed
     When I erase the user search filter
     Then The user list modal is open and has users for "Users mapped to the role Member"

@@ -36,6 +36,18 @@ Feature: The Bonita layout app list modal in desktop resolution
     Then I don't see any apps
     And The no app is available text is "No applications to display"
 
+  Scenario: The app selection modal filter works correctly for an app with special characters
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has a first and last name defined
+    And Multiple applications are available for the user
+    And The filter responses are defined
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    When I filter the app selection by "&Special"
+    Then I see only the filtered applications by "&Special" in desktop
+
   Scenario: The app selection modal closes correctly
     Given The URL target to the application "appName1"
     And A user is connected with sso

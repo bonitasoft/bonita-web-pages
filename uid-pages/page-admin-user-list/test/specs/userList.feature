@@ -31,10 +31,13 @@ Feature: The users list in desktop resolution
     When I put "Bates" in "search" filter field
     Then The api call is made for "Bates"
     When I erase the search filter
-    When I put "walter.bates" in "search" filter field
+    And I put "walter.bates" in "search" filter field
     Then The api call is made for "walter.bates"
     When I erase the search filter
-    When I put "Search term with no match" in "search" filter field
+    And I put "&Speci@l" in "search" filter field
+    Then The api call is made for "&Speci@l"
+    When I erase the search filter
+    And I put "Search term with no match" in "search" filter field
     Then No users are available
 
   Scenario: Show inactive users works correctly
