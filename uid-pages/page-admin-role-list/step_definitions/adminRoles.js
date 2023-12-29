@@ -41,6 +41,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Member', 'searchMemberRoute', 'roles1');
+            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lRole', 'roleWithSpecialCharacterRoute', 'roleWithSpecialCharacter');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'role creation success':
@@ -81,6 +82,7 @@ given("The response {string} is defined", (responseType) => {
         case 'user list search':
             createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
             createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + "1&s=&Speci@lUser", 'userWithSpecialCharacterRoute', 'userWithSpecialCharacter');
             createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match", 'noMatchRoute', 'emptyResult');
             createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'emptyResult');
             break;
@@ -344,8 +346,14 @@ then("The api call is made for {string}", (filterValue) => {
         case 'Member':
             cy.wait('@searchMemberRoute');
             break;
+        case '&Speci@lRole':
+            cy.wait('@roleWithSpecialCharacterRoute');
+            break;
         case 'Virginie':
             cy.wait('@oneUserRoute');
+            break;
+        case '&Speci@lUser':
+            cy.wait('@userWithSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");

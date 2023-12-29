@@ -32,6 +32,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Bonita', 'applications1Route', 'applications1');
+            createRouteWithResponse(defaultRequestUrl + '&s=&Special', 'applicationsSpecialCharacterRoute', 'applicationsSpecialCharacter');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'user':
@@ -206,6 +207,9 @@ then("The api call is made for {string}", (filterValue) => {
     switch (filterValue) {
         case 'Bonita':
             cy.wait('@applications1Route');
+            break;
+        case '&Special':
+            cy.wait('@applicationsSpecialCharacterRoute');
             break;
         default:
             throw new Error("Unsupported case");

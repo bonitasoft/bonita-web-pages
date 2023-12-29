@@ -62,6 +62,9 @@ Feature: The pending tasks list in desktop resolution
     When I put "InvolveUser" in "search" filter field for pending tasks
     Then The api call is made for "InvolveUser" for pending tasks
     When I erase the search filter
+    And I put "&Special" in "search" filter field for pending tasks
+    Then The api call is made for "&Special" for pending tasks
+    When I erase the search filter
     Then A list of "5" items is displayed
     When I put "Search term with no match" in "search" filter field for pending tasks
     Then No pending tasks are available

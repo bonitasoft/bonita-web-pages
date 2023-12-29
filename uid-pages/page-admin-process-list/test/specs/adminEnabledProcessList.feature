@@ -50,11 +50,14 @@ Feature: The enabled process list in desktop resolution
     When I put "Pool3" in "search" filter field
     Then The api call is made for "Pool3"
     When I erase the search filter
-    When I put "New" in "search" filter field
+    And I put "New" in "search" filter field
     Then The api call is made for "New"
     When I erase the search filter
-    When I put "1.0" in "search" filter field
+    And I put "1.0" in "search" filter field
     Then The api call is made for "1.0"
+    When I erase the search filter
+    And I put "&Special" in "search" filter field
+    Then The api call is made for "&Special"
     When I erase the search filter
     Then A list of "5" items is displayed
     When I put "Search term with no match" in "search" filter field

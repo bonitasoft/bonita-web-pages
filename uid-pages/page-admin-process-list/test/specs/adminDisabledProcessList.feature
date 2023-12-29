@@ -54,11 +54,14 @@ Feature: The disabled process list in desktop resolution
     When I put "VacationRequest" in "search" filter field in disabled processes list
     Then The api call is made for "VacationRequest" processes
     When I erase the search filter in disabled processes list
-    When I put "New" in "search" filter field in disabled processes list
+    And I put "New" in "search" filter field in disabled processes list
     Then The api call is made for "New" processes
     When I erase the search filter in disabled processes list
-    When I put "1.0" in "search" filter field in disabled processes list
+    And I put "1.0" in "search" filter field in disabled processes list
     Then The api call is made for "1.0" processes
+    When I erase the search filter in disabled processes list
+    When I put "&Special" in "search" filter field in disabled processes list
+    Then The api call is made for "&Special" processes
     When I erase the search filter in disabled processes list
     Then A list of "5" items is displayed
     When I put "Search term with no match" in "search" filter field in disabled processes list

@@ -38,6 +38,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
+            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lGroup', 'groupNameWithSpecialCharacterRoute', 'groupNameWithSpecialCharacter');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'group creation success':
@@ -45,6 +46,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'parent group list':
             createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupListRoute', 'groups8');
+            createRouteWithResponse(parentGroupSearchUrl + '&Speci@lParent', 'specialParentGroupListRoute', 'groupNameWithSpecialCharacter');
             break;
         case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
@@ -76,6 +78,7 @@ given("The response {string} is defined", (responseType) => {
         case 'user list search':
             createRouteWithResponse(defaultUserUrl + '1', 'userUrlRoute', 'users5');
             createRouteWithResponse(defaultUserUrl + '1&s=Virginie', 'oneUserRoute', 'users1');
+            createRouteWithResponse(defaultUserUrl + '1&s=&Speci@lUser', 'userNameWithSpecialCharacterRoute', 'userNameWithSpecialCharacter');
             createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'user search during limitation':
@@ -98,6 +101,7 @@ given("The response {string} is defined", (responseType) => {
         case 'sub-group list search':
             createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
             createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'searchAcmeRoute', 'subGroups1');
+            createRouteWithResponse(subGroupUrl + '/acme&s=&Speci@lSubGroup', 'subGroupNameWithSpecialCharacterRoute', 'subGroupNameWithSpecialCharacter');
             createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'sub-groups search during limitation':
@@ -418,6 +422,15 @@ then("The api call is made for {string}", (filterValue) => {
         case 'Virginie':
             cy.wait('@oneUserRoute');
             break;
+        case '&Speci@lGroup':
+            cy.wait('@groupNameWithSpecialCharacterRoute');
+            break;
+        case '&Speci@lUser':
+            cy.wait('@userNameWithSpecialCharacterRoute');
+            break;
+        case '&Speci@lSubGroup':
+            cy.wait('@subGroupNameWithSpecialCharacterRoute');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -462,6 +475,10 @@ then("The {string} button in modal is {string}", (buttonName, buttonState) => {
 
 then("The parent group list is displayed", () => {
     cy.get('.modal-body .dropdown-menu').scrollIntoView().should('be.visible');
+});
+
+then("I erase the parent group search input", () => {
+    cy.get('.modal-body .dropdown-parent-group input[type="text"]').clear();
 });
 
 then("The parent group list is not displayed", () => {

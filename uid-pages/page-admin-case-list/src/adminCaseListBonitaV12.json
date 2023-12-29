@@ -6638,7 +6638,7 @@
       "value" : [
         "return {",
         "    hideDropdownMenu: !$data.processUrl || $data.processUrl.length === 0 || $data.processData.processSearch === \"\",",
-        "    getProcessSearchUrl: $data.processData.processSearch && $data.processData.selectedProcessName !== $data.processData.processSearch ? \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + $data.processData.processSearch  : undefined,",
+        "    getProcessSearchUrl: $data.processData.processSearch && $data.processData.selectedProcessName !== $data.processData.processSearch ? \"../API/bpm/process?c=20&p=0&o=displayName%20ASC&s=\" + encodeURIComponent($data.processData.processSearch)  : undefined,",
         "    getProcessByIdUrl: $data.processData.selectedProcessList === undefined && $data.caseFilterData && $data.caseFilterData.filters && $data.caseFilterData.filters.processId ? \"../API/bpm/process/\" + $data.caseFilterData.filters.processId : undefined",
         "};"
       ],

@@ -53,7 +53,10 @@ Feature: The admin profiles mapping with roles in desktop resolution
     When I type "Executive" in search input
     Then The api call is made for "Executive"
     When I erase the search filter in the modal
-    When I type "Search term with no match" in search input
+    And I type "&Speci@lRole" in search input
+    Then The api call is made for "&Speci@lRole"
+    When I erase the search filter in the modal
+    And I type "Search term with no match" in search input
     Then No role mappings are displayed
 
   Scenario: The roles mapping modal should display information about typing more
