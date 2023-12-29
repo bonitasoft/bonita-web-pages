@@ -249,7 +249,7 @@ given('The filter responses are defined', () => {
     }).as('filteredAppsList105Route');
     cy.route({
         method: 'GET',
-        url: '${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=&Special',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=&Special`,
         response: '@filteredAppsListSpecialCharacter'
     }).as('filteredAppsListSpecialCharacterRoute');
 });
