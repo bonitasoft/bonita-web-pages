@@ -235,7 +235,7 @@ given("The filter response only started by me is defined for archived cases", ()
 given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as('openCasesSearchPool3');
     cy.fixture('json/openCasesSearchKey.json').as('openCasesSearchKey');
-    let filterQueryURLPrefix = '${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0';
+    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`;
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -248,7 +248,7 @@ given("The filter responses search are defined for open cases", ()=>{
     }).as('openCasesSearchKeyRoute');
     cy.intercept({
         method: 'GET',
-        pathname: '${buildDir}/API/bpm/case',
+        pathname: `${buildDir}/API/bpm/case`,
         query: {
             'c': '10',
             'p': '0',
@@ -282,7 +282,7 @@ given("The filter responses search are defined for archived cases", ()=>{
     }).as('archivedCasesSearchKeyRoute');
     cy.intercept({
         method: 'GET',
-        pathname: '${buildDir}/API/bpm/archivedCase',
+        pathname: `${buildDir}/API/bpm/archivedCase`,
         query: {
             'c': '10',
             'p': '0',
