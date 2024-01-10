@@ -33,7 +33,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
-            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lGroup', 'groupNameWithSpecialCharacterRoute', 'groupNameWithSpecialCharacter');
+            createRouteForSpecialCharacterGroup(urlPrefix + groupsUrl, '&Speci@lGroup', 'json/groupNameWithSpecialCharacter.json', 'groupNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'group creation success':
@@ -41,7 +41,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'parent group list':
             createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupListRoute', 'groups8');
-            createRouteWithResponse(parentGroupSearchUrl + '&Speci@lParent', 'specialParentGroupListRoute', 'groupNameWithSpecialCharacter');
+            createRouteForSpecialCharacterParent(urlPrefix + groupsUrl, '&Speci@lParent', 'json/groupNameWithSpecialCharacter.json', 'specialParentGroupListRoute');
             break;
         case 'refresh list after create':
             createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
@@ -73,7 +73,7 @@ given("The response {string} is defined", (responseType) => {
         case 'user list search':
             createRouteWithResponse(defaultUserUrl + '1', 'userUrlRoute', 'users5');
             createRouteWithResponse(defaultUserUrl + '1&s=Virginie', 'oneUserRoute', 'users1');
-            createRouteWithResponse(defaultUserUrl + '1&s=&Speci@lUser', 'userNameWithSpecialCharacterRoute', 'userNameWithSpecialCharacter');
+            createRouteForSpecialCharacterUser(urlPrefix + userUrl, '&Speci@lUser', 'json/userNameWithSpecialCharacter.json', 'userNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultUserUrl + '1&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'user search during limitation':
@@ -96,7 +96,7 @@ given("The response {string} is defined", (responseType) => {
         case 'sub-group list search':
             createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
             createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'searchAcmeRoute', 'subGroups1');
-            createRouteWithResponse(subGroupUrl + '/acme&s=&Speci@lSubGroup', 'subGroupNameWithSpecialCharacterRoute', 'subGroupNameWithSpecialCharacter');
+            createRouteForSpecialCharacterSubGroup(urlPrefix + groupsUrl, '&Speci@lSubGroup', 'json/subGroupNameWithSpecialCharacter.json', 'subGroupNameWithSpecialCharacterRoute');
             createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match', 'noMatchRoute', 'emptyResult');
             break;
         case 'sub-groups search during limitation':
@@ -151,6 +151,70 @@ given("The response {string} is defined", (responseType) => {
             break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createRouteForSpecialCharacterGroup(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'displayName ASC',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterParent(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'p': '0',
+                'c': '20',
+                'o': 'name',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterSubGroup(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'o': 'displayName ASC',
+                'f': 'parent_path=/acme',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterUser(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'enabled=true',
+                'f[1]': 'group_id=1',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
     }
 
     function createRoute(urlSuffix, routeName) {

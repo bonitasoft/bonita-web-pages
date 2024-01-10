@@ -228,7 +228,6 @@ given('20 applications are available for the user', () => {
 
 given('The filter responses are defined', () => {
     cy.fixture('json/filteredAppsListMyFirst.json').as('filteredAppsListMyFirst');
-    cy.fixture('json/filteredAppsListSpecialCharacter.json').as('filteredAppsListSpecialCharacter');
     cy.fixture('json/filteredAppsList105.json').as('filteredAppsList105');
     cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
     cy.route({
@@ -246,10 +245,17 @@ given('The filter responses are defined', () => {
         url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=1.0.5',
         response: '@filteredAppsList105'
     }).as('filteredAppsList105Route');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: '/build/dist/API/living/application?c=20&p=0&f=userId=4&s=&Special',
-        response: '@filteredAppsListSpecialCharacter'
+        pathname: '/build/dist/API/living/application',
+        query: {
+            'c': '20',
+            'p': '0',
+            'f': 'userId=4',
+            's': '&Special'
+        }
+    }, {
+        fixture: 'json/filteredAppsListSpecialCharacter.json'
     }).as('filteredAppsListSpecialCharacterRoute');
 });
 

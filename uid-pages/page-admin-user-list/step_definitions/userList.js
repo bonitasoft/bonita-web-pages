@@ -23,7 +23,7 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute');
             createRoute('&o=lastname+ASC&s=Bates' + enabledFilter, 'lastNameRoute');
             createRoute('&o=lastname+ASC&s=walter.bates' + enabledFilter, 'userNameRoute');
-            createRoute('&o=lastname+ASC&s=&Speci@l' + enabledFilter, '&Speci@lRoute');
+            createRouteForSpecialCharacter(urlPrefix + 'API/identity/user', '&Speci@l', '&Speci@lRoute')
             createRouteWithResponse('&o=lastname+ASC&s=Search term with no match' + enabledFilter, 'emptyResultRoute', 'emptyResult');
             break;
         case 'user search during limitation':
@@ -45,6 +45,21 @@ given("The filter response {string} is defined", (filterType) => {
         cy.route({
             method: 'GET',
             url: defaultRequestUrl + queryParameter,
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'o': 'lastname ASC',
+                's': searchParameter,
+                'f': 'enabled=true'
+            }
         }).as(routeName);
     }
 

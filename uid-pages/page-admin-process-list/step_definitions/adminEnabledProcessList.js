@@ -49,7 +49,7 @@ given("The page response {string} is defined", (filterType) => {
             break;
         case 'search':
             createDefaultRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
-            createDefaultRoute(defaultSortOrder + '&s=&Special', 'searchByNameWithSpecialCharacterRoute');
+            createRouteForSpecialCharacter(urlPrefix + processListUrl, '&Special', 'searchByNameWithSpecialCharacterRoute');
             createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
             createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
             createRouteWithResponse(defaultRequestUrl + defaultSortOrder + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
@@ -100,6 +100,22 @@ given("The page response {string} is defined", (filterType) => {
 
     function createDefaultRoute(queryParameter, routeName) {
         createRoute(defaultRequestUrl + queryParameter, routeName, "GET");
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'deployedBy',
+                'f': 'activationState=ENABLED',
+                'o': 'displayName ASC',
+                's': searchParameter
+            }
+        }).as(routeName);
     }
 
     function createRoute(url, routeName, method) {

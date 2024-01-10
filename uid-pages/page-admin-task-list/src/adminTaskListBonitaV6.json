@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "2.2",
   "id" : "adminTaskListBonitaV6",
   "name" : "adminTaskListBonitaV6",
-  "lastUpdate" : 1688118595501,
+  "lastUpdate" : 1704806909833,
   "rows" : [
     [
       {
@@ -10374,7 +10374,7 @@
         "        }",
         "        ",
         "        if($data.failedFlowNodeData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.failedFlowNodeData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.failedFlowNodeData.filters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",
@@ -10432,7 +10432,7 @@
         "        }",
         "        ",
         "        if($data.pendingTaskData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.pendingTaskData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.pendingTaskData.filters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",
@@ -10534,7 +10534,7 @@
         "        }",
         "        ",
         "        if($data.doneTaskData.filters.searchValue){",
-        "            queryParameters += \"&s=\" +  $data.doneTaskData.filters.searchValue;",
+        "            queryParameters += \"&s=\" +  encodeURIComponent($data.doneTaskData.filters.searchValue);",
         "        }",
         "        ",
         "        return queryParameters;",

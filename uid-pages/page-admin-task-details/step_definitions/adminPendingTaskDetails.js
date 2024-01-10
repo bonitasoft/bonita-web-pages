@@ -45,7 +45,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
             break;
         case 'special character user list':
-            createRouteWithResponse(userSearchUrl + '&Speci@l', 'specialCharacterUserListRoute', 'specialCharacterUserList');
+            createRouteForSpecialCharacter(urlPrefix + 'API/identity/user', '&Speci@l', 'json/specialCharacterUserList.json', 'specialCharacterUserListRoute');
             break;
         case 'assign and refresh task':
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult', 'PUT');
@@ -92,6 +92,23 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             url: url,
             status: status,
             response: '@' + response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'p': '0',
+                'c': '20',
+                'o': 'firstname,lastname',
+                'f[0]': 'enabled=true',
+                'f[1]': 'task_id=25',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
         }).as(routeName);
     }
 

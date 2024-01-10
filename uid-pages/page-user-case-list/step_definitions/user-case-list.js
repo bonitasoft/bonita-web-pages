@@ -230,7 +230,6 @@ given("The filter response only started by me is defined for archived cases", ()
 given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as('openCasesSearchPool3');
     cy.fixture('json/openCasesSearchKey.json').as('openCasesSearchKey');
-    cy.fixture('json/openCasesSearchSpecialCharacter.json').as('openCasesSearchSpecialCharacter');
     let filterQueryURLPrefix = 'build/dist/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0';
     cy.route({
         method: 'GET',
@@ -242,17 +241,29 @@ given("The filter responses search are defined for open cases", ()=>{
         url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@openCasesSearchKey',
     }).as('openCasesSearchKeyRoute');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: filterQueryURLPrefix + '&s=&Special',
-        response: '@openCasesSearchSpecialCharacter',
+        pathname: '/build/dist/API/bpm/case',
+        query: {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            'f': 'user_id=4',
+            'n[0]': 'activeFlowNodes',
+            'n[1]': 'failedFlowNodes',
+            't': '0',
+            's': '&Special',
+        }
+    }, {
+        fixture: 'json/openCasesSearchSpecialCharacter.json',
     }).as('openCasesSearchSpecialCharacterRoute');
 });
 
 given("The filter responses search are defined for archived cases", ()=>{
     cy.fixture('json/archivedCasesSearchPool3.json').as('archivedCasesSearchPool3');
     cy.fixture('json/archivedCasesSearchKey.json').as('archivedCasesSearchKey');
-    cy.fixture('json/archivedCasesSearchSpecialCharacter.json').as('archivedCasesSearchSpecialCharacter');
     let filterQueryURLPrefix = 'build/dist/API/bpm/archivedCase?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&t=0';
     cy.route({
         method: 'GET',
@@ -264,10 +275,21 @@ given("The filter responses search are defined for archived cases", ()=>{
         url: filterQueryURLPrefix + '&s=Long%20Search%20Value%205',
         response: '@archivedCasesSearchKey',
     }).as('archivedCasesSearchKeyRoute');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: filterQueryURLPrefix + '&s=&Special',
-        response: '@archivedCasesSearchSpecialCharacter',
+        pathname: '/build/dist/API/bpm/archivedCase',
+        query: {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            'f': 'user_id=4',
+            't': '0',
+            's': '&Special'
+        }
+    }, {
+        fixture: 'json/archivedCasesSearchSpecialCharacter.json'
     }).as('archivedCasesSearchSpecialCharacterRoute');
 });
 
@@ -749,6 +771,11 @@ then("I see only the filtered open cases by {string}", (filterType)=>{
                 cy.get('.case-property-value').contains('Pool3');
             });
             break;
+        case "&Special":
+            cy.wait('@openCasesSearchSpecialCharacterRoute');
+            cy.contains('.case-property-value', '8008').should('be.visible');
+            cy.contains('.case-property-value', '&Special #Character (1.0)').should('be.visible');
+            break;
     }
 });
 
@@ -792,6 +819,11 @@ then("I see only the filtered archived cases by {string}", (filterType)=>{
                 cy.get('.case-property-value').contains('1004');
                 cy.get('.case-property-value').contains('Another My Pool (1.0)');
             });
+            break;
+        case "&Special":
+            cy.wait('@archivedCasesSearchSpecialCharacterRoute');
+            cy.contains('.case-property-value', '4004').should('be.visible');
+            cy.contains('.case-property-value', '&Special #Character (1.0)').should('be.visible');
             break;
     }
 });

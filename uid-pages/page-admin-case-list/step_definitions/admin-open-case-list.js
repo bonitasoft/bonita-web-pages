@@ -57,7 +57,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         case 'search by name':
             createRoute('&s=Process', 'searchRoute');
-            createRoute('&s=&Special', 'caseNameWithSpecialCharacterRoute');
+            createRouteForSpecialCharacter(urlPrefix + adminOpenCaseListUrl,'&Special', 'caseNameWithSpecialCharacterRoute')
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
@@ -99,6 +99,24 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'processDefinitionId',
+                'd[1]': 'started_by',
+                'd[2]': 'startedBySubstitute',
+                't': '0',
+                'n[0]': 'activeFlowNodes',
+                'n[1]': 'failedFlowNodes',
+                's': searchParameter
+            }
+        }).as(routeName);
     }
 
     function createRoute(queryParameter, routeName) {
