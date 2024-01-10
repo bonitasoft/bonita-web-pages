@@ -41,7 +41,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Member', 'searchMemberRoute', 'roles1');
-            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lRole', 'roleWithSpecialCharacterRoute', 'roleWithSpecialCharacter');
+            createRouteForSpecialCharacterRole(urlPrefix + rolesUrl, '&Speci@lRole', 'json/roleWithSpecialCharacter.json', 'roleWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'role creation success':
@@ -82,7 +82,7 @@ given("The response {string} is defined", (responseType) => {
         case 'user list search':
             createRouteWithResponse(defaultUserUrl + "1", 'userUrlRoute', 'users5');
             createRouteWithResponse(defaultUserUrl + "1&s=Virginie", 'oneUserRoute', 'users1');
-            createRouteWithResponse(defaultUserUrl + "1&s=&Speci@lUser", 'userWithSpecialCharacterRoute', 'userWithSpecialCharacter');
+            createRouteForSpecialCharacterUser(urlPrefix + userUrl, '&Speci@lUser', 'json/userWithSpecialCharacter.json', 'userWithSpecialCharacterRoute');
             createRouteWithResponse(defaultUserUrl + "1&s=Search term with no match", 'noMatchRoute', 'emptyResult');
             createRouteWithResponse(defaultUserUrl + "116", 'userUrlRoute', 'emptyResult');
             break;
@@ -117,6 +117,38 @@ given("The response {string} is defined", (responseType) => {
         cy.route({
             method: 'GET',
             url: urlPrefix + urlSuffix
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterRole(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName ASC',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterUser(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'enabled=true',
+                'f[1]': 'role_id=1',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
         }).as(routeName);
     }
 

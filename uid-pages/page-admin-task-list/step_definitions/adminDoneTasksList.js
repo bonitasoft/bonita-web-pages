@@ -42,7 +42,7 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
             break;
         case 'search by name':
             createRoute('&t=0' + defaultSortOrder + '&s=Alowscenario', 'searchRoute');
-            createRoute('&t=0' + defaultSortOrder + '&s=&Special', 'filterByTaskNameWithSpecialCharacterRoute');
+            createRouteForSpecialCharacter(urlPrefix + 'API/bpm/archivedTask','&Special', 'filterByTaskNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl + defaultFilters + '&t=0' + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
@@ -66,6 +66,22 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
         cy.route({
             method: 'GET',
             url: defaultRequestUrl + defaultFilters + queryParameter,
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'rootContainerId',
+                'd[1]': 'assigned_id',
+                't': '0',
+                'o': 'reached_state_date DESC',
+                's': searchParameter
+            }
         }).as(routeName);
     }
 

@@ -32,7 +32,7 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Bonita', 'applications1Route', 'applications1');
-            createRouteWithResponse(defaultRequestUrl + '&s=&Special', 'applicationsSpecialCharacterRoute', 'applicationsSpecialCharacter');
+            createRouteForSpecialCharacter(urlPrefix + applicationUrl, '&Special', 'json/applicationsSpecialCharacter.json', 'applicationsSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'user':
@@ -67,6 +67,25 @@ given("The response {string} is defined", (responseType) => {
         cy.route({
             method: 'GET',
             url: urlPrefix + urlSuffix
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'profileId',
+                'd[1]': 'createdBy',
+                'd[2]': 'updatedBy',
+                'd[3]': 'layoutId',
+                'f': 'userId=4',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
         }).as(routeName);
     }
 

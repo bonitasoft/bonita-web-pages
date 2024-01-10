@@ -58,27 +58,27 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'search':
             createRouteWithResponse(defaultRequestUrl + '&s=Administrator', 'searchAdministratorRoute', 'profiles1');
-            createRouteWithResponse(defaultRequestUrl + '&s=&Speci@lProfile', 'specialProfileRoute', 'profileSpecial');
+            createRouteForSpecialCharacterProfile(urlPrefix + profilesUrl, '&Speci@lProfile', 'json/profileSpecial', 'specialProfileRoute')
             createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'search mapped user':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=user&d=user_id&t=1*&s=Helen', 'searchHelenRoute');
-            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=user&d=user_id&t=1*&s=&Speci@lUser', 'specialUserRoute');
+            createRouteForSpecialCharacterUser(urlPrefix + profileMemberUrl, '&Speci@lUser', 'specialUserRoute');
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=user&d=user_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped role':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=role&d=role_id&t=1*&s=Executive', 'searchExecutiveRoute');
-            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=role&d=role_id&t=1*&s=&Speci@lRole', 'specialRoleRoute');
+            createRouteForSpecialCharacterRole(urlPrefix + profileMemberUrl, '&Speci@lRole', 'specialRoleRoute');
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=role&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped group':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&t=1*&s=Acme', 'searchAcmeRoute');
-            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&t=1*&s=&Speci@lGroup', 'specialGroupRoute');
+            createRouteForSpecialCharacterGroup( urlPrefix + profileMemberUrl,'&Speci@lGroup','specialGroupRoute');
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'search mapped membership':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&t=1*&s=Executive', 'searchExecutiveRoute');
-            createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&t=1*&s=&Speci@lMembership', 'specialMembershipRoute');
+            createRouteForSpecialCharacterMembership(urlPrefix + profileMemberUrl, '&Speci@lMembership', 'specialMembershipRoute')
             createRoute(profileMemberUrl + '?p=0&c=10&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id&s=Search term with no match', 'emptyResultRoute');
             break;
         case 'profile deletion success':
@@ -364,6 +364,87 @@ given("The response {string} is defined", (responseType) => {
         cy.route({
             method: 'GET',
             url: urlPrefix + urlSuffix
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterProfile(pathname, searchParameter, response, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC',
+                's': searchParameter
+            }
+        }, {
+            fixture: response
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterGroup(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'profile_id=101',
+                'f[1]': 'member_type=group',
+                'd': 'group_id',
+                't': '1*',
+                's': searchParameter
+            }
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterRole(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'profile_id=101',
+                'f[1]': 'member_type=role',
+                'd': 'role_id',
+                't': '1*',
+                's': searchParameter
+            }
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterUser(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'profile_id=101',
+                'f[1]': 'member_type=user',
+                'd': 'user_id',
+                't': '1*',
+                's': searchParameter
+            }
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacterMembership(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f[0]': 'profile_id=101',
+                'f[1]': 'member_type=roleAndGroup',
+                'd[0]': 'group_id',
+                'd[1]': 'role_id',
+                't': '1*',
+                's': searchParameter
+            }
         }).as(routeName);
     }
 
