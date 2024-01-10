@@ -36,7 +36,7 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'search by name':
             createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
-            createRoute('&o=lastUpdateDate+DESC&s=&Speci@lResources', 'specialResourcesRoute');
+            createRouteForSpecialCharacter(urlPrefix + 'API/portal/page','&Speci@lResources', 'specialResourcesRoute');
             createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'all types of resources':
@@ -56,6 +56,21 @@ given("The filter response {string} is defined", (filterType) => {
         cy.route({
             method: 'GET',
             url: defaultRequestUrl + queryParameter,
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'updatedBy',
+                'o': 'lastUpdateDate DESC',
+                's': searchParameter
+            }
         }).as(routeName);
     }
 
