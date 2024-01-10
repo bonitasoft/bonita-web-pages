@@ -39,7 +39,7 @@ given("The filter response {string} is defined", (filterType) => {
             break;
         case 'search by name':
             createRoute('&t=0&s=Alowscenario', 'searchRoute');
-            createRoute('&t=0&s=&Special', 'filterByTaskNameWithSpecialCharacterRoute');
+            createRouteForSpecialCharacter(urlPrefix + 'API/bpm/flowNode', '&Special', 'filterByTaskNameWithSpecialCharacterRoute')
             createRouteWithResponse(defaultRequestUrl, '&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
@@ -83,6 +83,22 @@ given("The filter response {string} is defined", (filterType) => {
         cy.route({
             method: 'GET',
             url: defaultRequestUrl + queryParameter,
+        }).as(routeName);
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'f': 'state=failed',
+                'd[0]': 'rootContainerId',
+                'd[1]': 'assigned_id',
+                't': '0',
+                's': searchParameter
+            }
         }).as(routeName);
     }
 

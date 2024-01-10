@@ -60,7 +60,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         case 'search by name':
             createRoute('&t=0&s=Process', 'searchRoute');
-            createRoute('&t=0&s=&Special', 'archivedCaseNameWithSpecialCharacterRoute');
+            createRouteForSpecialCharacter(urlPrefix + adminArchivedCaseListUrl,'&Special', 'archivedCaseNameWithSpecialCharacterRoute');
             createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'refresh archived case list':
@@ -92,6 +92,22 @@ given("The filter response {string} is defined for archived cases", (filterType)
             break;
         default:
             throw new Error("Unsupported case");
+    }
+
+    function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + pathname,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'processDefinitionId',
+                'd[1]': 'started_by',
+                'd[2]': 'startedBySubstitute',
+                't': '0',
+                's': searchParameter
+            }
+        }).as(routeName);
     }
 
     function createRoute(queryParameter, routeName) {
