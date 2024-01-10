@@ -248,7 +248,7 @@ given('The filter responses are defined', () => {
     }).as('filteredAppsList105Route');
     cy.intercept({
         method: 'GET',
-        pathname: `${buildDir}/API/living/application`,
+        pathname: `/${buildDir}/API/living/application`,
         query: {
             'c': '20',
             'p': '0',
