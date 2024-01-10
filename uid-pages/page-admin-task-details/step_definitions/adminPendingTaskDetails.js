@@ -102,7 +102,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
     function createRouteForSpecialCharacter(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: '/' + pathname,
+            pathname: pathname,
             query: {
                 'p': '0',
                 'c': '20',

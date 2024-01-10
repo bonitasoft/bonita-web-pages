@@ -282,7 +282,7 @@ given("The filter responses search are defined for archived cases", ()=>{
     }).as('archivedCasesSearchKeyRoute');
     cy.intercept({
         method: 'GET',
-        pathname: '/build/dist/API/bpm/archivedCase',
+        pathname: '${buildDir}/API/bpm/archivedCase',
         query: {
             'c': '10',
             'p': '0',

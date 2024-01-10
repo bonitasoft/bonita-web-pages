@@ -63,7 +63,7 @@ given("The response {string} is defined", (responseType) => {
     function createRouteForSpecialCharacter(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: '/' + pathname,
+            pathname: pathname,
             query: {
                 'c': '10',
                 'p': '0',

@@ -97,7 +97,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: '/' + pathname,
+            pathname: pathname,
             query: {
                 'c': '10',
                 'p': '0',
