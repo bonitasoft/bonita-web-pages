@@ -115,7 +115,7 @@ given("The page response {string} is defined for disabled processes", (filterTyp
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: pathname,
+            pathname: '/' + pathname,
             query: {
                 'c': '10',
                 'p': '0',

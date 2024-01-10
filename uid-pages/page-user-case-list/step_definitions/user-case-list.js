@@ -248,7 +248,7 @@ given("The filter responses search are defined for open cases", ()=>{
     }).as('openCasesSearchKeyRoute');
     cy.intercept({
         method: 'GET',
-        pathname: `${buildDir}/API/bpm/case`,
+        pathname: `/${buildDir}/API/bpm/case`,
         query: {
             'c': '10',
             'p': '0',
@@ -282,7 +282,7 @@ given("The filter responses search are defined for archived cases", ()=>{
     }).as('archivedCasesSearchKeyRoute');
     cy.intercept({
         method: 'GET',
-        pathname: `${buildDir}/API/bpm/archivedCase`,
+        pathname: `/${buildDir}/API/bpm/archivedCase`,
         query: {
             'c': '10',
             'p': '0',

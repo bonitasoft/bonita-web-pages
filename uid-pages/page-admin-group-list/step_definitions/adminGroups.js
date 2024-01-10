@@ -161,7 +161,7 @@ given("The response {string} is defined", (responseType) => {
     function createRouteForSpecialCharacterGroup(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: pathname,
+            pathname: '/' + pathname,
             query: {
                 'c': '10',
                 'p': '0',
@@ -178,7 +178,7 @@ given("The response {string} is defined", (responseType) => {
     function createRouteForSpecialCharacterParent(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: pathname,
+            pathname: '/' + pathname,
             query: {
                 'p': '0',
                 'c': '20',
@@ -193,7 +193,7 @@ given("The response {string} is defined", (responseType) => {
     function createRouteForSpecialCharacterSubGroup(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: pathname,
+            pathname: '/' + pathname,
             query: {
                 'c': '10',
                 'p': '0',
@@ -209,7 +209,7 @@ given("The response {string} is defined", (responseType) => {
     function createRouteForSpecialCharacterUser(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
-            pathname: pathname,
+            pathname: '/' + pathname,
             query: {
                 'c': '10',
                 'p': '0',
