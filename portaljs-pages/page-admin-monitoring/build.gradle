@@ -1,0 +1,9 @@
+apply plugin: BonitaHtmlPagePlugin
+
+bonitaPage { frontendBuildDir = 'build' }
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) { artifact distZip }
+    }
+}
