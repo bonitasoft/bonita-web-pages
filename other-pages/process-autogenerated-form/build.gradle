@@ -1,0 +1,22 @@
+apply plugin: BonitaPagePlugin
+
+bonitaPage {
+    frontendBuildDir = 'build/dist/resources'
+}
+
+project.distributions {
+    main {
+        contents {
+            from('build/dist') {
+                into '/'
+                include 'index.html'
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) { artifact distZip }
+    }
+}
