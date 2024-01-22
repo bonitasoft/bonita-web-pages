@@ -1,0 +1,21 @@
+apply plugin: BonitaPagePlugin
+
+bonitaPage {
+    frontendBuildDir = 'build'
+}
+
+publishing {
+    publications {
+        distributionZip(MavenPublication) {
+            artifact distZip
+            pom { mavenProject ->
+                name = "User process list page"
+                description = "The process list page embedded in the Bonita User Application."
+                PomUtils.pomCommunityPublication(pom)
+            }
+        }
+    }
+}
+
+project.tasks.buildPage.configure { inputs.dir('public') }
+project.tasks.buildPage.dependsOn(project(':common:bonita-theme').tasks.npm_install)

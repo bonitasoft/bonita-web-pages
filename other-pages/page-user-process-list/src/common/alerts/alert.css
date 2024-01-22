@@ -1,0 +1,49 @@
+.Alert {
+  display: flex;
+  align-items: center;
+
+  padding: 1.2rem;
+
+  border-radius: 2px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  background-color: white;
+
+  transition: opacity 0.5s;
+}
+
+.Alert + .Alert {
+  margin-top: 1rem;
+}
+
+.Alert p {
+  flex: 1;
+  margin: 0 2rem;
+  color: inherit;
+}
+
+.Alert-icon {
+  font-size: 1.8rem;
+  align-items: center;
+  display: inline-flex;
+}
+
+.Alert-closeBtn {
+  cursor: pointer;
+
+  font-size: 1.8rem;
+  line-height: 1.8rem;
+  font-weight: 200;
+
+  color: #707070;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.Alert-closeBtn:hover {
+  color: inherit;
+}
+
+.Alert.is-closed {
+  opacity: 0;
+}

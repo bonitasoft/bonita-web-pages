@@ -1,0 +1,203 @@
+{
+  "id" : "LayoutWithoutMenuBonitaV1",
+  "name" : "LayoutWithoutMenuBonitaV1",
+  "displayName" : "Layout Without Menu",
+  "type" : "layout",
+  "uuid" : "ffcba296-c942-4aa6-a1dd-57e1cd9fdb30",
+  "modelVersion" : "2.6",
+  "previousArtifactVersion" : "2.5",
+  "lastUpdate" : 1698249693641,
+  "description" : "This is a layout without a menu. It displays the landing page based on the top URL. You can export it and edit it in the UI Designer.",
+  "rows" : [
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "layout-header"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "50ba806e-2a93-4c15-9236-90fd72a1fb7b",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "layout-content"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "509932d0-7b31-4495-a2eb-e7a634db2a83",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "remove-padding-and-margin living-application-iframe"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "src" : {
+                  "type" : "variable",
+                  "value" : "currentSource.getTargetUrl()"
+                }
+              },
+              "reference" : "9aa1173b-c5e3-4e5f-9e51-846da7ab0100",
+              "hasValidationError" : false,
+              "id" : "customLivingApplicationIFrameV4"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "layout-footer"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "a65b70e4-5d0d-4256-95b1-2982fd8a9628",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      }
+    ]
+  ],
+  "variables" : {
+    "currentSource" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getTargetUrl: function() {",
+        "        var pathArray = window.location.pathname.split( '/' );",
+        "        var searchSeparator = window.location.search ? \"&\" : \"?\";",
+        "         ",
+        "        return '../../../portal/resource/app/' + pathArray[pathArray.length-3] + '/' + pathArray[pathArray.length-2] + '/content/' + window.location.search + searchSeparator + 'app=' + pathArray[pathArray.length-3];",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "appToken" : {
+      "type" : "expression",
+      "value" : [
+        "var pathArray = window.location.pathname.split('/');",
+        "",
+        "return pathArray[pathArray.length-3];"
+      ],
+      "exposed" : false
+    },
+    "currentApplication" : {
+      "type" : "url",
+      "value" : [
+        "../API/living/application/?c=1&f=token={{appToken}}"
+      ],
+      "exposed" : false
+    },
+    "appName" : {
+      "type" : "expression",
+      "value" : [
+        "if (!$data.currentApplication || !$data.currentApplication[0]) {",
+        "    return \"\";",
+        "}",
+        "return $data.currentApplication[0].displayName;"
+      ],
+      "exposed" : false
+    },
+    "setWindowAppName" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.appName && window.document.title !== $data.appName) {",
+        "    window.document.title = $data.appName;",
+        "}"
+      ],
+      "exposed" : false
+    }
+  },
+  "assets" : [
+    {
+      "id" : "96af07e0-a012-4ca1-98ca-9a767e20fe3f",
+      "name" : "layout.css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "f132944c-2819-48b4-9d6e-e2776e7386bd",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    }
+  ],
+  "inactiveAssets" : [ ],
+  "webResources" : [ ],
+  "hasValidationError" : false
+}
