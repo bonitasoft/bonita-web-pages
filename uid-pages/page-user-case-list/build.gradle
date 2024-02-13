@@ -1,0 +1,25 @@
+group 'org.bonitasoft.web.page'
+
+UIDPage {
+    resources {
+        from("src/resources") {
+            include '**/*'
+        }
+    }
+}
+
+dependencies {
+    page project(':fragments:fragment-load-more')
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom { mavenProject ->
+                name = 'User case list page'
+                description = 'The case list page embedded in the Bonita User Application.'
+                PomUtils.pomCommunityPublication(pom)
+            }
+        }
+    }
+}

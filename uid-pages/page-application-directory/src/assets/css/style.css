@@ -1,0 +1,338 @@
+/* Add margin bottom and top to each widgets */
+.component {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+/* Set cursor to pointer on table with selectable rows */
+.table-hover tr {
+    cursor: pointer;
+}
+
+/* Set a red border to invalid input fields in forms */
+input[type='text'].ng-invalid.ng-dirty, input[type='email'].ng-invalid.ng-dirty,
+input[type='number'].ng-invalid.ng-dirty, input[type='url'].ng-invalid.ng-dirty,
+input[type='password'].ng-invalid.ng-dirty {
+    border-color: #C00;
+    border-width: 1px;
+}
+
+/* Add a red star after required inputs */
+.control-label--required:after {
+    content: " *";
+    color: #C00;
+}
+
+.btn-invalid {
+    border-color: #C00;
+    border-width: 1px;
+}
+
+.bonita-modal {
+    overflow-y: auto;
+}
+
+.modal-open .datepicker,
+.modal-open .timepicker {
+    z-index: 9999;
+}
+
+/* Application Card UI */
+.application-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.application-container > .row {
+    width: 80%;
+}
+
+.application-card {
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.application-card .icon-container {
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.application-card .icon-container img {
+    height: 100%;
+    width: 100%;
+}
+
+.application-card .row {
+  margin: 0;
+}
+
+.application-card .application-details {
+    position: absolute;
+    left: 0;
+    bottom: -250px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    flex-direction: column;
+    transition: bottom 0.5s;
+}
+
+.application-container:hover .application-details {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.application-container:hover .application-details,
+.application-container:hover .clickable-overlay {
+    bottom: 0;
+}
+
+.application-card--current {
+    border: 2px solid;
+}
+
+.application-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    height: 100px;
+    overflow: hidden;
+}
+
+.application-title {
+    padding: 0;
+}
+
+.application-title a {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: break-spaces;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 3.5em;
+}
+
+.application-card .clickable-overlay {
+    position: absolute;
+    left: 0;
+    bottom: -250px;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    transition: bottom 0.5s;
+    padding: 0;
+    cursor: pointer;
+}
+
+.application-card .clickable-overlay a {
+    width: 100%;
+    height: 200px;
+}
+
+.application-card .clickable-overlay a a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
+}
+
+/* User icon */
+.user-info > .row {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.user-info > .row > div:nth-child(1){
+    flex: 1 1 0; /* Override width defined in UIDesigner properties panel  */
+    min-width: 0;
+}
+
+.remove-padding-and-margin.component {
+    margin: 0;
+    padding: 0;
+}
+
+.remove-padding-and-margin-left.component {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.remove-padding-and-margin-right.component {
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.user-menu button {
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.user-menu button i {
+    font-size: 1.5em;    
+}
+
+.user-menu button:hover,
+.user-menu button:focus {
+    text-decoration: none;
+}
+
+.user-menu-name {
+    width: 100%; 
+}
+
+.user-menu-name button {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    text-align: right;
+    padding-right: 0;
+}
+
+.image-circle span {
+    border-radius: 100%;
+    display: flex;
+    flex: 0 0 32px;
+    height: 32px;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    width: 32px;
+    border: solid 1px lightgray;
+}
+
+.image-circle--large span {
+    flex: 0 0 152px;
+    height: 152px;
+    width: 152px;
+}
+
+.image-circle img {
+    height: 100%;
+}
+
+.user-details--break-all p,
+.user-details--break-all pb-title:first-child {
+    word-break: break-all;
+}
+
+.userIcon--large i {
+    font-size: 10em;
+    display: block;
+    text-align: center;
+}
+
+.maintenance-notification-badge {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    top: 12px;
+    right: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.maintenance-scheduled-message {
+    border-radius: 5px;
+}
+
+/*!
+ * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+.fa,
+.fas {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1; 
+}
+
+.fa-user-circle:before {
+  content: "\f2bd"; 
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: auto;
+  src: url("../img/fa-solid-900.woff") format("woff"),
+       url("../img/fa-solid-900.woff2") format("woff2");
+}
+
+.fa,
+.fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; 
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.p-0 {
+    padding: 0;
+}
+
+/* Spinner */
+.gly-spin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin{
+    0%{
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100%{
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+    width: 700px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    background: #fff;
+    padding: 0;
+}
+
+.ngdialog.ngdialog-theme-default {
+    padding-top: 30px;
+}
+
+@media screen and (max-width: 767px) {
+    .ngdialog.ngdialog-theme-default .ngdialog-content {
+        width: 75%;
+    }
+}
+
