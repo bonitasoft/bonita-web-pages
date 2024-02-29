@@ -1,0 +1,73 @@
+def parentProject = project
+subprojects { subProject ->
+    if (file("test").exists()){
+        task unzip(type: Copy) {
+            dependsOn('buildUIDPage')
+            def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
+            def outputDir = file("${buildDir}/dist")
+
+            from zipTree(zipFile)
+            into outputDir
+        }
+
+        subProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest") {
+            workingDir = parentProject.projectDir
+            args = ['run', 'open', '--', '--config-file', '../cypress.json', '--project', subProject.name]
+            environment = ['CYPRESS_BUILD_DIR' : "${file(buildDir).name}/dist"]
+            group 'ui designer'
+        }
+
+        subProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTestChrome") {
+            if (!project.hasProperty("browser")) {
+                ext.browser = 'chrome'
+            }
+            workingDir = parentProject.projectDir
+            args = ['test', '--', '--config-file', '../cypress.json', '--project', subProject.name, '--browser', "${browser}", '--headless']
+            environment = ['CYPRESS_BUILD_DIR' : "${file(buildDir).name}/dist"]
+            group 'Bonita'
+            outputs.cacheIf {true}
+            inputs.dir('src')
+            inputs.dir('step_definitions')
+            inputs.dir('test')
+            outputs.dir("${buildDir}/tests/results")
+        }
+    }
+
+    apply plugin: 'com.bonitasoft.gradle.bonita-uid-page'
+    apply plugin: 'com.bonitasoft.gradle.bonita-uid-page-crowdin'
+    publishToMavenLocal.dependsOn buildUIDPage
+
+    
+    def pageArchiveFile = layout.buildDirectory.file("${project.name}-${project.version}.zip")
+    def pagetArtifact = artifacts.add('archives', pageArchiveFile.get().asFile) {
+        type 'zip'
+        builtBy 'buildUIDPage'
+    }
+    
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                artifact pagetArtifact
+                artifact (sourceUIDPage) {
+                    classifier "sources"
+                    extension "zip"
+                }
+            }
+        }
+    }
+
+}
+
+mkdir parentProject.file("${buildDir}/tests/report")
+
+task([dependsOn: [npm_install], type: NpmTask], "mergeReports") {
+    workingDir = parentProject.projectDir
+    ignoreExitValue = true
+    args = ['run', 'merge']
+}
+
+task([dependsOn: [mergeReports], type: NpmTask], "htmlReport") {
+    workingDir = parentProject.projectDir
+    ignoreExitValue = true
+    args = ['run', 'html:report']
+}

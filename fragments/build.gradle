@@ -1,0 +1,27 @@
+subprojects { subProject ->
+
+    task unzip(type: Copy) {
+        dependsOn('buildUIDFragment')
+        def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
+        def outputDir = file("${buildDir}/dist")
+
+        from zipTree(zipFile)
+        into outputDir
+    }
+
+    apply plugin: 'com.bonitasoft.gradle.bonita-uid-fragment'
+    
+    def fragmentArchiveFile = layout.buildDirectory.file("${project.name}-${project.version}.zip")
+    def fragmentArtifact = artifacts.add('archives', fragmentArchiveFile.get().asFile) {
+        type 'zip'
+        builtBy 'buildUIDFragment'
+    }
+    
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                 artifact fragmentArtifact
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+class BonitaPagePluginExtension {
+    String frontendBuildDir
+}
