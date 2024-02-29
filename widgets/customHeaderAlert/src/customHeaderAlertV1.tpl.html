@@ -1,0 +1,29 @@
+<!-- The custom widget template is defined here
+   - You can use standard HTML tags and AngularJS built-in directives, scope and interpolation system
+   - Custom widget properties defined on the right can be used as variables in a templates with properties.newProperty
+   - Functions exposed in the controller can be used with ctrl.newFunction()
+   - You can use the 'environment' property injected in the scope when inside the Editor whiteboard. It allows to define a mockup
+     of the Custom Widget to be displayed in the whiteboard only. By default the widget is represented by an auto-generated icon
+     and its name (See the <span> below).
+-->
+ <div ng-if="environment" class="alert alert-{{ properties.style }}">{{properties.alertTitle}}
+    <div>
+        <p>{{ properties.alertMessage | uiTranslate }}</p>
+    </div>
+ </div>
+
+<div id="header-alert" class="alert alert-{{ properties.style }} bonita-alert mbe-0" ng-if="isAlertVisible()" role="alert">
+    <div class="bonita-alert-title">
+        <button type="button" class="close" aria-label="Close" ng-click="hideAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span><i class="glyphicon {{ getAlertIcon() }}"></i> {{ properties.alertTitle | uiTranslate }} </span>
+    </div>
+    <p>{{ properties.alertMessage | uiTranslate }}</p>
+    
+    <div class="no-show-input-container">
+        <input type="checkbox" name="noShowAlert" ng-model="preferences.noShowAlert" class="no-show-input" />
+        <label for="noShow" class="no-show-message">{{"Don't show this message again" | uiTranslate}}</label>
+    </div>
+    
+</div>

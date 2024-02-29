@@ -1,0 +1,33 @@
+{
+  "name": "uid-pages",
+  "version": "1.0.0",
+  "description": "> Cypress + UIDesigner = ❤️Tests",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "cypress run",
+    "open": "cypress open",
+    "merge": "mochawesome-merge **/build-gradle/tests/results/mochawesome-report/*.json > build-gradle/tests/output.json",
+    "html:report": "marge build-gradle/tests/output.json --reportDir build-gradle/tests/report --inline"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/bonitasoft/bonita-web-pages/issues"
+  },
+  "homepage": "https://github.com/bonitasoft/bonita-web-pages",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bonitasoft/bonita-web-pages"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "cypress": "9.7.0",
+    "cypress-cucumber-preprocessor": "4.3.1",
+    "cypress-mochawesome-reporter": "3.3.0",
+    "cypress-multi-reporters": "^1.6.3",
+    "mochawesome-merge": "^4.3.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "step_definitions": "step_definitions/"
+  }
+}

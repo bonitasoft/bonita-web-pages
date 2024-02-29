@@ -1,0 +1,21 @@
+group 'org.bonitasoft.web.page'
+
+UIDPage {
+    resources {
+        from("src/resources") {
+            include '**/*'
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom { mavenProject ->
+                name = 'User case details page'
+                description = 'The case details page embedded in the Bonita User Application.'
+                PomUtils.pomCommunityPublication(pom)
+            }
+        }
+    }
+}
