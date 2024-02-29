@@ -451,6 +451,8 @@ then("The groups page have the correct information", () => {
     cy.get('.group-item').eq(0).within((item) => {
         cy.wrap(item).contains('.item-value', 'Acme');
         cy.wrap(item).contains('.item-value', 'acme');
+        cy.wrap(item).get('.parent-group').should('have.css', 'word-wrap', 'break-word');
+        cy.wrap(item).contains('.parent-group p', '/acme/this/is/long/main/group/name/sales/this/is/a/long/name/of/group/for/this/team');
         cy.wrap(item).contains('.item-value', '7/31/20 11:34 AM');
         cy.wrap(item).contains('.item-value', '8/6/20 9:52 AM');
         cy.wrap(item).contains('.item-label', 'This group represents the acme department of the ACME organization');
