@@ -30,7 +30,7 @@ const mockupProcesses = Array(25).fill({
   configurationState: 'RESOLVED',
   last_update_date: '2018-02-14 12:18:34.723',
   actorinitiatorid: '1',
-  categories: []
+  categories: [],
 });
 
 describe('<List />', () => {
@@ -124,10 +124,7 @@ describe('<List />', () => {
         handleProcessStart={handleProcessStart}
       />
     );
-    wrapper
-      .find('.List-process')
-      .first()
-      .prop('onClick')();
+    wrapper.find('.List-process').first().prop('onClick')();
 
     expect(handleProcessStart.mock.calls.length).toBe(1);
   });

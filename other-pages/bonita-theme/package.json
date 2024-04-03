@@ -1,0 +1,17 @@
+{
+  "name": "bonita-theme",
+  "version": "0.0.1",
+  "description": "Application theme based on Bonita theme.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build:only": "node-sass --precision 8 --output-style compressed --omit-source-map-url true --include-path ./node_modules/bootstrap-sass/assets/stylesheets/ src/scss/main.scss build/theme.noprefix.css && postcss build/theme.noprefix.css --no-map --use autoprefixer -b \"last 2 versions\" -o public/theme.css",
+    "test" : ""
+  },
+  "devDependencies": {
+    "node-sass": "8.0.0",
+    "postcss-cli": "10.1.0",
+    "postcss": "8.4.21",
+    "autoprefixer": "10.4.13",
+    "bootstrap-sass": "3.4.1"
+  }
+}

@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const profilesUrl = 'API/portal/profile';
 const profileMemberUrl = 'API/portal/profileMember';
 const defaultProfileFilters = '&o=name ASC';
@@ -26,6 +26,11 @@ const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_i
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';
 const defaultMembershipMappingFilters = '&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
 const featureListUrl = 'API/system/feature?p=0&c=100';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined", (responseType) => {
     cy.server();

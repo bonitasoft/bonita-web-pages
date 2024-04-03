@@ -22,7 +22,7 @@ const mockupCategories = Array(10).fill({
   name: 'tests',
   description: '',
   creation_date: '2018-03-02 11:05:39.490',
-  id: '101'
+  id: '101',
 });
 
 const mockupProcesses = Array(25)
@@ -40,13 +40,13 @@ const mockupProcesses = Array(25)
     configurationState: 'RESOLVED',
     last_update_date: '2018-02-14 12:18:34.723',
     actorinitiatorid: '1',
-    categories: []
+    categories: [],
   }));
 
 const processSet = mockupProcesses.slice(0, 10);
-const processSetPopulated = processSet.map(process => ({
+const processSetPopulated = processSet.map((process) => ({
   ...process,
-  categories: mockupCategories
+  categories: mockupCategories,
 }));
 
 describe('Process API', () => {
@@ -62,8 +62,8 @@ describe('Process API', () => {
         () =>
           new Response(JSON.stringify(processSet), {
             headers: {
-              'Content-Range': '0-10/25'
-            }
+              'Content-Range': '0-10/25',
+            },
           })
       );
 
@@ -73,7 +73,7 @@ describe('Process API', () => {
       const { unpopulated, populated } = await ProcessApi.fetchProcesses(
         {
           page: 0,
-          count: 10
+          count: 10,
         },
         {}
       );
@@ -90,7 +90,7 @@ describe('Process API', () => {
       expect(responses.unpopulated.pagination).toEqual({
         page: 0,
         size: 10,
-        total: 25
+        total: 25,
       });
     });
 

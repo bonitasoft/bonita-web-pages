@@ -23,29 +23,23 @@ describe('Alerts', () => {
     const alerts = {
       1234: { message: 'an error', severity: 'error' },
       4567: { message: 'a success', severity: 'success' },
-      8910: { message: 'a warning', severity: 'warning' }
+      8910: { message: 'a warning', severity: 'warning' },
     };
 
     wrapper.setState({ alerts });
 
-    expect(
-      wrapper
-        .find('Alert')
-        .at(0)
-        .props()
-    ).toMatchObject({ message: 'an error', severity: 'error' });
-    expect(
-      wrapper
-        .find('Alert')
-        .at(1)
-        .props()
-    ).toMatchObject({ message: 'a success', severity: 'success' });
-    expect(
-      wrapper
-        .find('Alert')
-        .at(2)
-        .props()
-    ).toMatchObject({ message: 'a warning', severity: 'warning' });
+    expect(wrapper.find('Alert').at(0).props()).toMatchObject({
+      message: 'an error',
+      severity: 'error',
+    });
+    expect(wrapper.find('Alert').at(1).props()).toMatchObject({
+      message: 'a success',
+      severity: 'success',
+    });
+    expect(wrapper.find('Alert').at(2).props()).toMatchObject({
+      message: 'a warning',
+      severity: 'warning',
+    });
   });
 
   it('should synchronize its state with alert service', () => {
@@ -58,22 +52,22 @@ describe('Alerts', () => {
     const alertsInState = Object.values(wrapper.state().alerts);
     expect(alertsInState).toContainEqual({
       message: 'a warning',
-      severity: 'warning'
+      severity: 'warning',
     });
     expect(alertsInState).toContainEqual({
       message: 'a success',
-      severity: 'success'
+      severity: 'success',
     });
     expect(alertsInState).toContainEqual({
       message: 'an error',
-      severity: 'danger'
+      severity: 'danger',
     });
   });
 
   it('should close an alert', () => {
     jest.useFakeTimers();
     const alerts = {
-      1234: { message: 'an error', severity: 'error' }
+      1234: { message: 'an error', severity: 'error' },
     };
     alertService.close = jest.fn();
     const wrapper = shallow(<Alerts />);

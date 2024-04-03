@@ -33,5 +33,5 @@ export default {
     return reactLocale;
   },
 
-  cacheUserLanguage(lng, options) {}
+  cacheUserLanguage(lng, options) {},
 };

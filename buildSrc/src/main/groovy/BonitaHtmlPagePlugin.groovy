@@ -8,13 +8,6 @@ class BonitaHtmlPagePlugin implements Plugin<Project> {
         def extension = project.extensions.create('bonitaPage', BonitaPagePluginExtension)
         project.plugins.apply('com.github.node-gradle.node')
         project.plugins.apply('distribution')
-        def projectRootDir = project.rootProject.projectDir
-
-        project.node {
-            download = true
-            version = Versions.nodeVersion
-            npmVersion = Versions.npmVersion
-        }
 
         project.tasks.npm_install.configure {
             group 'Bonita'

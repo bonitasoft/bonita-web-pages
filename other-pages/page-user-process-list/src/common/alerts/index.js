@@ -21,7 +21,7 @@ export default class Alerts extends Component {
   constructor() {
     super();
     this.state = {
-      alerts: {}
+      alerts: {},
     };
 
     this.syncAlerts = this.syncAlerts.bind(this);
@@ -73,7 +73,7 @@ export default class Alerts extends Component {
           this.isEmpty() ? 'is-empty' : ''
         }`}
       >
-        {Object.keys(this.state.alerts).map(uuid => {
+        {Object.keys(this.state.alerts).map((uuid) => {
           const alert = this.state.alerts[uuid];
           return (
             <Alert

@@ -17,10 +17,19 @@ import Adapter from 'enzyme-adapter-react-16';
 
 jest.mock('react-i18next', () => ({
   // this mock makes sure any components using the translate HoC receive the t function as a prop
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: key => key };
+  withTranslation: () => (Component) => {
+    Component.defaultProps = { ...Component.defaultProps, t: (key) => key };
     return Component;
-  }
+  },
 }));
 
 configure({ adapter: new Adapter() });
+
+// https://medium.com/walmartglobaltech/jest-v18-to-v23-migration-notes-b726cf6aafcf
+const oldLocation = global.window.location;
+delete global.window.location;
+global.window.location = { ...oldLocation };
+
+const oldSessionStorage = global.window.sessionStorage;
+delete global.window.sessionStorage;
+global.window.sessionStorage = { ...oldSessionStorage };

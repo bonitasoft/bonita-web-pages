@@ -1,6 +1,6 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const urlPrefix = 'build/dist/';
+const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
 const defaultFilters = '&d=parent_group_id&t=0&o=displayName ASC';
@@ -10,6 +10,11 @@ const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
 const subGroupUrl = urlPrefix + groupsUrl + '?c=10&p=0&o=displayName ASC&f=parent_path=';
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=group_id=';
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given("The response {string} is defined", (responseType) => {
     cy.server();
@@ -303,7 +308,6 @@ given("The response {string} is defined", (responseType) => {
 
 when("I visit the admin groups page", () => {
     cy.visit(url);
-    cy.wait(1000);
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
@@ -447,6 +451,8 @@ then("The groups page have the correct information", () => {
     cy.get('.group-item').eq(0).within((item) => {
         cy.wrap(item).contains('.item-value', 'Acme');
         cy.wrap(item).contains('.item-value', 'acme');
+        cy.wrap(item).get('.parent-group').should('have.css', 'word-wrap', 'break-word');
+        cy.wrap(item).contains('.parent-group p', '/acme/this/is/long/main/group/name/sales/this/is/a/long/name/of/group/for/this/team');
         cy.wrap(item).contains('.item-value', '7/31/20 11:34 AM');
         cy.wrap(item).contains('.item-value', '8/6/20 9:52 AM');
         cy.wrap(item).contains('.item-label', 'This group represents the acme department of the ACME organization');

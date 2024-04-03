@@ -34,13 +34,13 @@ describe('Form API', () => {
         lastUpdatedBy: '0',
         lastUpdateDate: null,
         formRequired: false,
-        url: null
-      }
+        url: null,
+      },
     ];
     fetchMock.get(
       '../API/form/mapping?c=10&p=0&f=processDefinitionId%3D1114&f=type%3DPROCESS_START',
       {
-        body: expectedResponse
+        body: expectedResponse,
       }
     );
 

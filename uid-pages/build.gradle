@@ -1,14 +1,6 @@
 def parentProject = project
 subprojects { subProject ->
-    if (file("cypress.json").exists()){
-        apply plugin: 'com.github.node-gradle.node'
-
-        node {
-            download = true
-            version = Versions.nodeVersion
-            npmVersion = Versions.npmVersion
-        }
-
+    if (file("test").exists()){
         task unzip(type: Copy) {
             dependsOn('buildUIDPage')
             def zipFile = file("${buildDir}/${project.name}-${project.version}.zip")
@@ -18,22 +10,26 @@ subprojects { subProject ->
             into outputDir
         }
 
-        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"openTest") {
+        subProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"openTest") {
             workingDir = parentProject.projectDir
-            args = ['run', 'open', '--', '--project', subProject.name]
+            args = ['run', 'open', '--', '--config-file', '../cypress.json', '--project', subProject.name]
+            environment = ['CYPRESS_BUILD_DIR' : "${file(buildDir).name}/dist"]
             group 'ui designer'
         }
 
-        subProject.task([dependsOn: [unzip, subProject.tasks.npm_install], type: NpmTask],"runTestChrome") {
+        subProject.task([dependsOn: [unzip, parentProject.tasks.npm_install], type: NpmTask],"runTestChrome") {
+            if (!project.hasProperty("browser")) {
+                ext.browser = 'chrome'
+            }
             workingDir = parentProject.projectDir
-            args = ['test', '--', '--project', subProject.name, '--browser', 'chrome', '--headless']
+            args = ['test', '--', '--config-file', '../cypress.json', '--project', subProject.name, '--browser', "${browser}", '--headless']
+            environment = ['CYPRESS_BUILD_DIR' : "${file(buildDir).name}/dist"]
             group 'Bonita'
             outputs.cacheIf {true}
-            inputs.files('cypress.json')
             inputs.dir('src')
             inputs.dir('step_definitions')
             inputs.dir('test')
-            outputs.dir('build/tests/results')
+            outputs.dir("${buildDir}/tests/results")
         }
     }
 
@@ -41,10 +37,17 @@ subprojects { subProject ->
     apply plugin: 'com.bonitasoft.gradle.bonita-uid-page-crowdin'
     publishToMavenLocal.dependsOn buildUIDPage
 
+    
+    def pageArchiveFile = layout.buildDirectory.file("${project.name}-${project.version}.zip")
+    def pagetArtifact = artifacts.add('archives', pageArchiveFile.get().asFile) {
+        type 'zip'
+        builtBy 'buildUIDPage'
+    }
+    
     publishing {
         publications {
             maven(MavenPublication) {
-                artifact (file("${project.buildDir}/${project.name}-${project.version}.zip"))
+                artifact pagetArtifact
                 artifact (sourceUIDPage) {
                     classifier "sources"
                     extension "zip"
@@ -52,4 +55,19 @@ subprojects { subProject ->
             }
         }
     }
+
+}
+
+mkdir parentProject.file("${buildDir}/tests/report")
+
+task([dependsOn: [npm_install], type: NpmTask], "mergeReports") {
+    workingDir = parentProject.projectDir
+    ignoreExitValue = true
+    args = ['run', 'merge']
+}
+
+task([dependsOn: [mergeReports], type: NpmTask], "htmlReport") {
+    workingDir = parentProject.projectDir
+    ignoreExitValue = true
+    args = ['run', 'html:report']
 }

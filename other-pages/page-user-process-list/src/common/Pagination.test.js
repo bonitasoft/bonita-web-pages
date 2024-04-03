@@ -21,7 +21,7 @@ describe('pagination', () => {
     expect(pagination).toEqual({
       page: 12,
       size: 25,
-      total: 1234
+      total: 1234,
     });
   });
 

@@ -32,8 +32,8 @@ class ProcessApi {
         c: size,
         s: encodeURIComponent(search),
         o: order ? `displayName ${order}` : undefined,
-        f: queryParams
-      }
+        f: queryParams,
+      },
     });
 
     const response = await this.apiClient.get(url.get());
@@ -41,18 +41,18 @@ class ProcessApi {
 
     return {
       unpopulated: Promise.resolve({
-        processes: processes.map(process => ({ ...process, categories: [] })),
-        pagination: Pagination.from(response.headers.get('Content-Range'))
+        processes: processes.map((process) => ({ ...process, categories: [] })),
+        pagination: Pagination.from(response.headers.get('Content-Range')),
       }),
 
       populated: Promise.all(
-        processes.map(process =>
-          CategoryApi.fetchByProcess(process).then(categories => ({
+        processes.map((process) =>
+          CategoryApi.fetchByProcess(process).then((categories) => ({
             ...process,
-            categories
+            categories,
           }))
         )
-      ).then(processes => ({ processes }))
+      ).then((processes) => ({ processes })),
     };
   }
 
@@ -62,8 +62,8 @@ class ProcessApi {
     );
 
     return response
-      .then(body => body.json())
-      .then(responseJson => responseJson[0])
+      .then((body) => body.json())
+      .then((responseJson) => responseJson[0])
       .catch(() => {
         return undefined;
       });
@@ -72,10 +72,10 @@ class ProcessApi {
   async instantiateProcess(processId) {
     return this.apiClient
       .post(`../API/bpm/process/${processId}/instantiation`)
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .catch(function(response) {
+      .catch(function (response) {
         return response;
       });
   }

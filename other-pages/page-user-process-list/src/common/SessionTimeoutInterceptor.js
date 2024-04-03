@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-export const sessionTimeoutInterceptor = response => {
+export const sessionTimeoutInterceptor = (response) => {
   if (response.status === 401) {
     window.parent.location.reload();
   }

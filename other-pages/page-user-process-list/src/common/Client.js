@@ -18,8 +18,8 @@ const OPTIONS = {
   credentials: 'same-origin', // automatically send cookies for the current domain
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 };
 
 const headers = () => {
@@ -38,7 +38,7 @@ class Client {
     const options = {
       ...OPTIONS,
       method: 'GET',
-      headers: headers()
+      headers: headers(),
     };
 
     return this._fetch(url, options);
@@ -49,7 +49,7 @@ class Client {
       ...OPTIONS,
       method: 'POST',
       headers: headers(),
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
 
     return this._fetch(url, options);
@@ -60,7 +60,7 @@ class Client {
   }
 
   _fetch(url, options) {
-    let promise = fetch(url, options).then(response => {
+    let promise = fetch(url, options).then((response) => {
       if (response.ok) {
         return Promise.resolve(response);
       }

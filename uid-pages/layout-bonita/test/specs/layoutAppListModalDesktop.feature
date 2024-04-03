@@ -1,5 +1,8 @@
 Feature: The Bonita layout app list modal in desktop resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+
   Scenario: The app selection modal is shown correctly
     Given The URL target to the application "appName1"
     And A user is connected with sso

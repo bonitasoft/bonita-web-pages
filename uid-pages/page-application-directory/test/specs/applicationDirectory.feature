@@ -1,5 +1,8 @@
 Feature: The Application Directory in desktop resolution
 
+  Background:
+    Given The current language in BOS_Locale is "en"
+    
   Scenario: The application directory displays the correct attributes
     Given The response "default filter" is defined
     And The response "session" is defined
@@ -160,6 +163,7 @@ Feature: The Application Directory in desktop resolution
     And The response "session" is defined
     And The response "user" is defined
     And The response "localization" is defined
+    And The current language in BOS_Locale is ""
     When I visit the application directory page
     And I click the "Walter Bates"
     Then The current session modal is visible

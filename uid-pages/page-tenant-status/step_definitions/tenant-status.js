@@ -1,30 +1,36 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
-const url = 'build/dist/resources/index.html';
+const buildDir = Cypress.env('BUILD_DIR');
+const url = `${buildDir}/resources/index.html`;
+
+beforeEach(() => {
+  // Force locale as we test labels value
+  cy.setCookie('BOS_Locale', 'en');
+});
 
 given('Server tenant is running', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantRunning').as('tenant');
+    cy.route('GET',  `${buildDir}/API/system/tenant/unusedId?t=0`, 'fixture:tenantRunning').as('tenant');
 });
 
 given('Server tenant is paused', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=0', 'fixture:tenantPaused').as('tenant');
+    cy.route('GET', `${buildDir}/API/system/tenant/unusedId?t=0`, 'fixture:tenantPaused').as('tenant');
 });
 
 given('I\'m logged as technical user', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/session/unusedId', 'fixture:technicalUser').as('session');
+    cy.route('GET', `${buildDir}/API/system/session/unusedId`, 'fixture:technicalUser').as('session');
 });
 
 given('The tenant status page can refresh', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/tenant/1?t=1*', 'fixture:tenantPaused').as('tenantAfterRefresh');
+    cy.route('GET', `${buildDir}/API/system/tenant/unusedId?t=1*`, 'fixture:tenantPaused').as('tenantAfterRefresh');
 });
 
 given('The license information is defined', () => {
     cy.server();
-    cy.route('GET', 'build/dist/API/system/license/1', 'fixture:license').as('license');
+    cy.route('GET', `${buildDir}/API/system/license/1`, 'fixture:license').as('license');
 });
 
 when('I press the modal opening button', () => {

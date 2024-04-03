@@ -26,14 +26,14 @@ import {
   Glyphicon,
   HelpBlock,
   MenuItem,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 
 class Filters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: props.filters.search
+      search: props.filters.search,
     };
 
     this.searchInput = null;
@@ -79,7 +79,7 @@ class Filters extends Component {
               bsStyle="primary"
               disabled={Object.values(categories).length < 2}
             >
-              {Object.values(categories).map(category => (
+              {Object.values(categories).map((category) => (
                 <MenuItem
                   className="Filters-category-item"
                   eventKey={category.id}
@@ -92,7 +92,7 @@ class Filters extends Component {
             </DropdownButton>
           </div>
           <Form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault() /*to avoid page refresh*/;
               this.updateSearch();
             }}
@@ -103,8 +103,8 @@ class Filters extends Component {
                 type="text"
                 placeholder={t('Search') + '...'}
                 value={search}
-                onChange={e => this.setState({ search: e.target.value })}
-                inputRef={ref => (this.searchInput = ref)}
+                onChange={(e) => this.setState({ search: e.target.value })}
+                inputRef={(ref) => (this.searchInput = ref)}
               />
               <div
                 className="Filters-search-clear"
@@ -141,13 +141,13 @@ const categoryType = shape({
   name: string,
   description: string,
   creation_date: string,
-  id: string
+  id: string,
 });
 
 Filters.propTypes = {
   filters: objectOf(string),
   categories: objectOf(categoryType),
-  onChange: func
+  onChange: func,
 };
 
 export default withTranslation()(Filters);

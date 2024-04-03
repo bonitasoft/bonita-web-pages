@@ -1,6 +1,5 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.repositories.IvyArtifactRepository
 
 class BonitaPagePlugin implements Plugin<Project> {
 
@@ -9,20 +8,11 @@ class BonitaPagePlugin implements Plugin<Project> {
         def extension = project.extensions.create('bonitaPage', BonitaPagePluginExtension)
         project.plugins.apply('com.github.node-gradle.node')
         project.plugins.apply('distribution')
-        def currentDir = project.rootProject.projectDir
-
-        project.node {
-            download = true
-
-            version = Versions.nodeVersion
-            npmVersion = Versions.npmVersion
-        }
 
         project.tasks.npm_install.configure {
             group 'Bonita'
             description 'Install node moodule for this project'
             inputs.files('package.json', 'package-lock.json')
-            outputs.dirs('node_modules')
         }
 
         def buildPage = project.task([type: com.github.gradle.node.npm.task.NpmTask, dependsOn: project.tasks.npm_install], 'buildPage') {
@@ -32,7 +22,7 @@ class BonitaPagePlugin implements Plugin<Project> {
             inputs.files('package.json', 'package-lock.json')
             inputs.dir('src')
             inputs.dir('resources')
-            outputs.dirs({extension.frontendBuildDir})
+            outputs.files(project.fileTree({extension.frontendBuildDir}))
         }
 
         project.tasks.distZip.dependsOn buildPage
@@ -60,7 +50,7 @@ class BonitaPagePlugin implements Plugin<Project> {
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             group 'Bonita'
-            description 'Clean node moodule for this project'
+            description 'Clean node module for this project'
             doFirst {
                 project.delete extension.frontendBuildDir
             }
