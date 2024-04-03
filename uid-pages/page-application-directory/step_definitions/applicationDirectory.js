@@ -4,6 +4,7 @@ const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
 const defaultFilters = '&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=4';
+const maintenanceDetailsUrl = urlPrefix + 'API/system/maintenance';
 const defaultRequestUrl = urlPrefix + applicationUrl + '?c=10&p=0' + defaultFilters;
 const defaultUserUrl = urlPrefix + 'API/identity/user/4?d=professional_data';
 const languageUrl = urlPrefix + 'API/system/i18nlocale*';
@@ -45,6 +46,15 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'no user last name':
             createRouteWithResponse(defaultUserUrl, 'userNoLastNameRoute', 'userNoLastName');
+            break;
+        case 'maintenance msg disabled':
+            createRouteWithResponse(maintenanceDetailsUrl, 'maintenanceMsgDisabled', 'maintenanceMsgDisabled');
+            break;
+        case 'maintenance msg enabled':
+            createRouteWithResponse(maintenanceDetailsUrl, 'maintenanceMsgEnabled', 'maintenanceMsgEnabled');
+            break;
+        case 'empty maintenance msg enabled':
+            createRouteWithResponse(maintenanceDetailsUrl, 'emptyMaintenanceMsgEnabled', 'emptyMaintenanceMsgEnabled');
             break;
         case 'localization':
             createRouteWithResponse(languageUrl, 'i18localeRoute', 'i18locale');
@@ -179,6 +189,10 @@ when('I click next to the current session modal', () => {
     cy.get('.modal.fade').click('right');
 });
 
+when('I click on {string} icon', (iconName) => {
+    cy.get('.alert button.close').click();
+});
+
 then("The application directory page has the correct information", () => {
     cy.contains('h3', 'Application list');
     cy.contains('p', 'This is your catalog of applications; hover to get a description, click to access.');
@@ -255,7 +269,7 @@ then('The current session modal is visible', () => {
 });
 
 then('The user first and last name {string} are visible', (firstAndLastName) => {
-    cy.contains('.modal-header h3', firstAndLastName);
+    cy.contains('pb-title > h4', firstAndLastName);
 });
 
 then('The user name {string} is shown', (userName) => {
@@ -343,4 +357,38 @@ then('The current language is {string}', (language) => {
 
 then('The technical user email is hidden', () => {
     cy.contains('.user-details--break-all p', 'Email').should('not.exist');
+});
+
+then('Maintenance notification badge is {string}', (badgeState) => {
+    switch (badgeState) {
+        case 'shown':
+            cy.get('.maintenance-notification-badge').should('exist');
+            break;
+        case 'hidden':
+            cy.get('.maintenance-notification-badge').should('not.exist');
+            break;
+    }
+});
+
+then('Maintenance message is {string}', (msg) => {
+    if(msg === 'hidden') {
+        cy.get('.maintenance-scheduled-message').should('not.exist');
+    } else {
+        cy.get('.maintenance-scheduled-message').should('exist');
+        cy.contains('.maintenance-scheduled-message > pb-title > h5', msg).should('be.visible');
+    }
+});
+
+then('I see maintenance header alert is displayed correctly', () => {
+    cy.get('.alert').should('be.visible');
+    cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
+    cy.contains('.bonita-alert-title span', 'Scheduled Maintenance').should('be.visible');
+    cy.contains('.alert p', 'Platform maintenance may occur. Contact the platform administrator for more details.').should('be.visible');
+    cy.get('input.no-show-input').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.checked');
+    cy.get('label.no-show-message').should('be.visible');
+});
+
+then('The maintenance alert is not visible', () => {
+    cy.get('.alert').should('not.exist');
 });

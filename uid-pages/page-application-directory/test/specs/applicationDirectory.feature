@@ -2,7 +2,7 @@ Feature: The Application Directory in desktop resolution
 
   Background:
     Given The current language in BOS_Locale is "en"
-    
+
   Scenario: The application directory displays the correct attributes
     Given The response "default filter" is defined
     And The response "session" is defined
@@ -233,3 +233,84 @@ Feature: The Application Directory in desktop resolution
     When I click the "Walter Bates"
     Then The current session modal is visible
     And The current language is "English"
+
+  Scenario: Disabled scheduled maintenance message is not displayed
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "user" is defined
+    And The current language in BOS_Locale is "en"
+    And The response "maintenance msg disabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "hidden"
+    When I click the "Walter Bates"
+    Then The current session modal is visible
+    Then Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is not displayed for guest user
+    Given The response "default filter" is defined
+    And The response "guest user" is defined
+    And The response "maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "hidden"
+    And I don't see "guest" as the user name
+    And Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is not displayed for guest user with sso
+    Given The response "default filter" is defined
+    And The response "guest user with sso" is defined
+    And The response "maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "hidden"
+    And I don't see "guest" as the user name
+    And Maintenance message is "hidden"
+
+  Scenario: Enabled scheduled maintenance message is displayed for user
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "user" is defined
+    And The current language in BOS_Locale is "en"
+    And The response "maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "shown"
+    When I click the "Walter Bates"
+    Then Maintenance message is "maintenance msg"
+
+  Scenario: Enabled scheduled maintenance message is displayed for user with sso
+    Given The response "default filter" is defined
+    And The response "session with SSO" is defined
+    And The response "user" is defined
+    And The current language in BOS_Locale is "en"
+    And The response "maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "shown"
+    When I click the "Walter Bates"
+    Then Maintenance message is "maintenance msg"
+
+  Scenario: Default scheduled maintenance message is displayed for user
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "user" is defined
+    And The current language in BOS_Locale is "en"
+    And The response "empty maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then Maintenance notification badge is "shown"
+    When I click the "Walter Bates"
+    Then The current session modal is visible
+    Then Maintenance message is "Platform maintenance may occur. Contact the platform administrator for more details."
+
+  Scenario: Maintenance alert is displayed correctly
+    Given The response "default filter" is defined
+    And The response "session" is defined
+    And The response "user" is defined
+    And The response "empty maintenance msg enabled" is defined
+    And The response "localization" is defined
+    When I visit the application directory page
+    Then I see maintenance header alert is displayed correctly
+    When I click on "close" icon
+    Then The maintenance alert is not visible

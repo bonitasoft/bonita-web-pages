@@ -97,3 +97,53 @@ Feature: The Bonita layout header in desktop resolution
     Given The URL target to the application "appName1"
     When I visit the index page
     Then The favicon link should be set to "../theme/icons/default/favicon.ico"
+
+  Scenario: Maintenance badge is not displayed when maintenance message is disabled
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And The user has the default icon
+    And Maintenance message is disabled
+    When I visit the index page
+    Then Maintenance notification badge is "hidden"
+
+  Scenario: Maintenance badge is displayed when maintenance message is enabled for guest user
+    Given The URL target to the application "appName1"
+    And A user is connected as guest
+    And Maintenance message is enabled
+    When I visit the index page
+    Then The username button does not exist
+    And Maintenance notification badge is "hidden"
+
+  Scenario: Maintenance badge is displayed when maintenance message is enabled for guest user with sso
+    Given The URL target to the application "appName1"
+    And A user is connected as guest with sso
+    And Maintenance message is enabled
+    When I visit the index page
+    Then The username button does not exist
+    And Maintenance notification badge is "hidden"
+
+  Scenario: Maintenance badge is displayed when maintenance message is enabled for user
+    Given The URL target to the application "appName1"
+    And A user is connected without sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    Then Maintenance notification badge is "shown"
+
+  Scenario: Maintenance badge is displayed when maintenance message is enabled for user with sso
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    Then Maintenance notification badge is "shown"
+
+  Scenario: Maintenance alert is displayed correctly
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And Maintenance message is enabled
+    When I visit the index page
+    Then I see maintenance header alert is displayed correctly
+    When I click on "close" icon
+    Then The maintenance alert is not visible

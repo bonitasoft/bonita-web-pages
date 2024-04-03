@@ -11,7 +11,8 @@
 
 /* Set a red border to invalid input fields in forms */
 input[type='text'].ng-invalid.ng-dirty, input[type='email'].ng-invalid.ng-dirty,
-input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-dirty {
+input[type='number'].ng-invalid.ng-dirty, input[type='url'].ng-invalid.ng-dirty,
+input[type='password'].ng-invalid.ng-dirty {
     border-color: #C00;
     border-width: 1px;
 }
@@ -236,6 +237,21 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     text-align: center;
 }
 
+.maintenance-notification-badge {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    top: 12px;
+    right: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.maintenance-scheduled-message {
+    border-radius: 5px;
+}
+
 /*!
  * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -270,6 +286,14 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
   font-weight: 900; 
 }
 
+.m-0 {
+    margin: 0;
+}
+
+.p-0 {
+    padding: 0;
+}
+
 /* Spinner */
 .gly-spin {
     -webkit-animation: spin 2s infinite linear;
@@ -293,3 +317,22 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
         transform: rotate(360deg);
     }
 }
+
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+    width: 700px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    background: #fff;
+    padding: 0;
+}
+
+.ngdialog.ngdialog-theme-default {
+    padding-top: 30px;
+}
+
+@media screen and (max-width: 767px) {
+    .ngdialog.ngdialog-theme-default .ngdialog-content {
+        width: 75%;
+    }
+}
+

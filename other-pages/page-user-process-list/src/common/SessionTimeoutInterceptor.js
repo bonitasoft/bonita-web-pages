@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 export const sessionTimeoutInterceptor = (response) => {
-  if (response.status === 401) {
+  if (response.status === 401 || response.status === 503) {
     window.parent.location.reload();
   }
   return Promise.reject(response);

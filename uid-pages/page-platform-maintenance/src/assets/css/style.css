@@ -1,0 +1,156 @@
+/* Add margin bottom and top to each widgets */
+.component {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+h1{
+    margin-bottom: 50px;
+}
+
+/* Set cursor to pointer on table with selectable rows */
+.table-hover tr {
+    cursor: pointer;
+}
+
+/* Set a red border to invalid input fields in forms */
+input[type='text'].ng-invalid.ng-dirty, input[type='email'].ng-invalid.ng-dirty,
+input[type='number'].ng-invalid.ng-dirty, input[type='url'].ng-invalid.ng-dirty,
+input[type='password'].ng-invalid.ng-dirty {
+  border-color: #C00;
+  border-width: 1px;
+}
+
+/* Add a red star after required inputs */
+.control-label--required:after {
+  content: " *";
+  color: #C00;
+}
+.btn-invalid{
+    border-color: #C00;
+    border-width: 1px;
+}
+
+.bonita-modal{
+    overflow-y: auto;
+}
+
+.modal-open .datepicker,
+.modal-open .timepicker {
+    z-index: 9999;
+}
+
+.tenantStateLabel {
+    font-size: larger;   
+}
+
+.text-upperCase{
+    text-transform: uppercase;
+}
+
+/* Toggle display maintenance message */
+.toggle-container,
+.toggle-container > .row {
+    display: flex;
+    justify-content: flex-end;
+    padding-inline-end: 1.5rem;
+}
+
+.toggle-container > .row {
+    flex-direction: row;
+}
+
+.input-display-message {
+    padding-inline-end: 0;    
+}
+
+.input-display-message label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*flex-direction: column;*/
+    font-weight: bold;
+    gap: 30px;
+}
+
+.input-display-message .checkbox {
+    margin: 0 0 5px 0;
+}
+
+.input-display-message label ng-bind {
+    margin-inline-end: 25px;
+    font-size: 14px;
+}
+
+.input-display-message input[type="checkbox"] {
+    position: relative;
+    width: 60px;
+    height: 25px;
+    -webkit-appearance: none;
+    background: transparent;
+    outline: lightgray solid 1px;
+    outline-offset: 0;
+    border-radius: 5px;
+    order: 1;
+}
+
+.input-display-message input:checked[type="checkbox"]{
+    background: #e2e2e2;
+}
+
+.input-display-message input[type="checkbox"]::before {
+    content: '\2716';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    /*color: #fff;*/
+    width: 30px;
+    height: 25px;
+    background: #fff;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    transform: scale(.98, .96);
+    transition: .5s;
+}
+
+.input-display-message input:checked[type="checkbox"]::before{
+    content: '\2713';
+    left: 30px;
+    /*color: #fff;*/
+}
+
+.platform-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .platform-icon {
+        width: 150px;
+        height: auto;
+    }
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+    width: 700px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    background: #fff;
+    padding: 0;
+}
+
+.ngdialog.ngdialog-theme-default {
+    padding-top: 30px;
+}
+
+@media screen and (max-width: 767px) {
+    .ngdialog.ngdialog-theme-default .ngdialog-content {
+        width: 75%;
+    }
+}
+
