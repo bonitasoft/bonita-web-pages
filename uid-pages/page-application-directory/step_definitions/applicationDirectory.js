@@ -15,6 +15,9 @@ given("The response {string} is defined", (responseType) => {
         case 'default filter':
             createRouteWithResponseAndHeaders(defaultRequestUrl, 'applications5Route', 'applications5', {'content-range': '0-4/5'});
             break;
+        case 'advanced app':
+            createRouteWithResponseAndHeaders(defaultRequestUrl, 'applicationsAdvancedRoute', 'applicationsAdvanced', {'content-range': '0-1/2'});
+            break;
         case 'session':
             createRouteWithResponse(urlPrefix + session, 'sessionRoute', 'session');
             break;
@@ -392,3 +395,37 @@ then('I see maintenance header alert is displayed correctly', () => {
 then('The maintenance alert is not visible', () => {
     cy.get('.alert').should('not.exist');
 });
+
+then("The application directory page points on the correct links", () => {
+    cy.contains('h3', 'Application list');
+    cy.get('.application-container').eq(0).within(() => {
+        // Legacy application (advanced=false)
+        cy.contains('.application-title span', 'Legacy application');
+        // Link from the image
+        cy.get('.btn-link')
+          .should('have.attr', 'href').and('include', 'apps/legacyApp');
+        // Link from the application title
+        cy.get('.application-title').within(() => {
+            cy.get('.btn-link')
+              .should('have.attr', 'href').and('include', 'apps/legacyApp');
+        });
+    });
+    cy.get('.application-container').eq(1).within(() => {
+        // Advanced application (advanced=true)
+        cy.contains('.application-title span', 'Advanced application');
+        // Link from the image
+        cy.get('.btn-link')
+          .should('have.attr', 'href').then((href) => {
+            expect(href.endsWith('/advancedApp')).to.be.true;
+            expect(href.includes('apps')).to.be.false;
+          });
+        // Link from the application title
+        cy.get('.application-title').within(() => {
+            cy.get('.btn-link')
+              .should('have.attr', 'href').then((href) => {
+                expect(href.endsWith('/advancedApp')).to.be.true;
+                expect(href.includes('apps')).to.be.false;
+            });
+        });
+    });
+ });

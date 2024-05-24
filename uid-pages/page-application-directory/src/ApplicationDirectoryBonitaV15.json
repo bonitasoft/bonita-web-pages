@@ -1,12 +1,12 @@
 {
-  "id" : "ApplicationDirectoryBonitaV14",
-  "name" : "ApplicationDirectoryBonitaV14",
+  "id" : "ApplicationDirectoryBonitaV15",
+  "name" : "ApplicationDirectoryBonitaV15",
   "displayName" : "Bonita Application Directory",
   "type" : "page",
   "uuid" : "0d9308a4-4bd9-4ca0-b752-e0df0ca663a1",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1703000841740,
+  "lastUpdate" : 1716296890092,
   "description" : "This page displays the list of applications based on the logged in user. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -1101,8 +1101,8 @@
                                     "value" : "clickable-overlay"
                                   },
                                   "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "$item.advanced === 'true'"
                                   },
                                   "text" : {
                                     "type" : "interpolation",
@@ -1160,6 +1160,79 @@
                                 "hasValidationError" : false,
                                 "id" : "pbLink"
                               }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "clickable-overlay"
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "$item.advanced === 'false'"
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<a title=\"{{htmlEncoder.encodeHTML($item.description)}}\"></a>"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "URL"
+                                  },
+                                  "targetUrl" : {
+                                    "type" : "expression",
+                                    "value" : "'/' + $item.token"
+                                  },
+                                  "pageToken" : {
+                                    "type" : "constant"
+                                  },
+                                  "processName" : {
+                                    "type" : "constant"
+                                  },
+                                  "processVersion" : {
+                                    "type" : "constant"
+                                  },
+                                  "taskId" : {
+                                    "type" : "constant"
+                                  },
+                                  "caseId" : {
+                                    "type" : "constant"
+                                  },
+                                  "target" : {
+                                    "type" : "constant",
+                                    "value" : "_self"
+                                  },
+                                  "appToken" : {
+                                    "type" : "constant"
+                                  },
+                                  "urlParams" : {
+                                    "type" : "constant"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "link"
+                                  }
+                                },
+                                "reference" : "6f6f1f80-0253-4db3-96c1-a2289d33855d",
+                                "hasValidationError" : false,
+                                "id" : "pbLink"
+                              }
                             ]
                           ]
                         }
@@ -1179,8 +1252,8 @@
                               "value" : "application-title"
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "$item.advanced === 'true'"
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -1235,6 +1308,79 @@
                             }
                           },
                           "reference" : "ef17b0e1-7201-49b5-bad6-3d43797ab600",
+                          "hasValidationError" : false,
+                          "id" : "pbLink"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "application-title"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "$item.advanced === 'false'"
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<span title=\"{{htmlEncoder.encodeHTML($item.displayName)}}\">{{htmlEncoder.encodeHTML($item.displayName)}}</span>"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "targetUrl" : {
+                              "type" : "expression",
+                              "value" : "'/' + $item.token"
+                            },
+                            "pageToken" : {
+                              "type" : "constant"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "constant"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_self"
+                            },
+                            "appToken" : {
+                              "type" : "constant"
+                            },
+                            "urlParams" : {
+                              "type" : "constant"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            }
+                          },
+                          "reference" : "f153024c-c835-427a-908a-b4a5b79c070c",
                           "hasValidationError" : false,
                           "id" : "pbLink"
                         }
