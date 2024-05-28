@@ -1,12 +1,12 @@
 {
-  "id" : "LayoutBonitaV19",
-  "name" : "BonitaLayoutV19",
+  "id" : "LayoutBonitaV20",
+  "name" : "BonitaLayoutV20",
   "displayName" : "Bonita layout",
   "type" : "layout",
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1702979843171,
+  "lastUpdate" : 1716886250210,
   "description" : "This is the Bonita living application layout, offered for any new application created. You can export it and edit it in the UI Designer. Its header contains a logo placeholder, the name of the application, the logged user's details (with a language picker and a logout button), and an access to all applications of the logged user. The application content is rendered as an horizontal menu and an iframe for application pages. This layout requires font-awesome in order to be able to display the default user icons. This dependence should be available in the theme of the application where this layout will be used.",
   "rows" : [
     [
@@ -2121,8 +2121,8 @@
                                             "value" : "clickable-overlay"
                                           },
                                           "hidden" : {
-                                            "type" : "constant",
-                                            "value" : false
+                                            "type" : "expression",
+                                            "value" : "$item.advanced === 'true'"
                                           },
                                           "text" : {
                                             "type" : "interpolation",
@@ -2177,6 +2177,79 @@
                                           }
                                         },
                                         "reference" : "59253532-defa-4a17-9fa9-09ac49b81c88",
+                                        "hasValidationError" : false,
+                                        "id" : "pbLink"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : "clickable-overlay"
+                                          },
+                                          "hidden" : {
+                                            "type" : "expression",
+                                            "value" : "$item.advanced === 'false'"
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "<a></a>"
+                                          },
+                                          "type" : {
+                                            "type" : "constant",
+                                            "value" : "URL"
+                                          },
+                                          "targetUrl" : {
+                                            "type" : "expression",
+                                            "value" : "'/' + $item.token"
+                                          },
+                                          "pageToken" : {
+                                            "type" : "constant"
+                                          },
+                                          "processName" : {
+                                            "type" : "constant"
+                                          },
+                                          "processVersion" : {
+                                            "type" : "constant"
+                                          },
+                                          "taskId" : {
+                                            "type" : "constant"
+                                          },
+                                          "caseId" : {
+                                            "type" : "constant"
+                                          },
+                                          "target" : {
+                                            "type" : "constant",
+                                            "value" : "_self"
+                                          },
+                                          "appToken" : {
+                                            "type" : "constant"
+                                          },
+                                          "urlParams" : {
+                                            "type" : "constant"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          },
+                                          "buttonStyle" : {
+                                            "type" : "constant",
+                                            "value" : "link"
+                                          }
+                                        },
+                                        "reference" : "9a1cf09d-ca24-4931-aa96-a93933209738",
                                         "hasValidationError" : false,
                                         "id" : "pbLink"
                                       }
@@ -2251,8 +2324,8 @@
                                       "value" : "application-title"
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "$item.advanced === 'true'"
                                     },
                                     "text" : {
                                       "type" : "interpolation",
@@ -2307,6 +2380,79 @@
                                     }
                                   },
                                   "reference" : "dca72963-71bd-448e-8942-b10179b134cf",
+                                  "hasValidationError" : false,
+                                  "id" : "pbLink"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : "application-title"
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "$item.advanced === 'false'"
+                                    },
+                                    "allowHTML" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "text" : {
+                                      "type" : "interpolation",
+                                      "value" : "<span title=\"{{htmlEncoder.encodeHTML($item.displayName)}}\">{{htmlEncoder.encodeHTML($item.displayName)}}</span>"
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "URL"
+                                    },
+                                    "targetUrl" : {
+                                      "type" : "expression",
+                                      "value" : "'/' + $item.token"
+                                    },
+                                    "pageToken" : {
+                                      "type" : "constant"
+                                    },
+                                    "processName" : {
+                                      "type" : "constant"
+                                    },
+                                    "processVersion" : {
+                                      "type" : "constant"
+                                    },
+                                    "taskId" : {
+                                      "type" : "constant"
+                                    },
+                                    "caseId" : {
+                                      "type" : "constant"
+                                    },
+                                    "target" : {
+                                      "type" : "constant",
+                                      "value" : "_self"
+                                    },
+                                    "appToken" : {
+                                      "type" : "constant"
+                                    },
+                                    "urlParams" : {
+                                      "type" : "constant"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "center"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "link"
+                                    }
+                                  },
+                                  "reference" : "f470866c-a8b5-4cb0-9137-ae3f938fabbc",
                                   "hasValidationError" : false,
                                   "id" : "pbLink"
                                 }

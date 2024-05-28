@@ -25,6 +25,22 @@ given('The URL target to the application {string}', () => {
     });
 });
 
+given('The URL target to the advanced application {string}', () => {
+    cy.server();
+    cy.fixture('json/advancedApp1.json').as('advancedApp1');
+    cy.fixture('json/pageList.json').as('pageList');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/living/application/*`,
+        response: '@advancedApp1',
+    }).as('app1Route');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/living/application-menu/**`,
+        response: '@pageList'
+    });
+});
+
 given('The URL target to the application {string} with icon', () => {
     cy.server();
     cy.fixture('json/app1WithIcon.json').as('app1WithIcon');
@@ -149,6 +165,15 @@ given('Multiple applications are available for the user', () => {
         method: 'GET',
         url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
         response: '@appsList'
+    });
+});
+
+given('Multiple advanced applications are available for the user', () => {
+    cy.fixture('json/advancedAppsList5.json').as('advancedAppsList');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
+        response: '@advancedAppsList'
     });
 });
 
@@ -612,6 +637,15 @@ then('I see my apps', () => {
         cy.contains('.application-title span', 'My second app');
         cy.contains('.application-title a', 'My second app').should('have.attr', 'href', '/bonita/apps/app2/');
         cy.contains('1.0').should('be.visible');
+    });
+    cy.contains('h4', 'No applications to display').should('not.exist');
+});
+
+then('I see my advanced app', () => {
+    cy.get('.application-container').eq(0).within(() => {
+        cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../API/applicationIcon/15');
+        cy.contains('.application-title a', 'My first advanced app').should('have.attr', 'href', '/advancedApp1');
+        cy.contains('1.0.5').should('be.visible');
     });
     cy.contains('h4', 'No applications to display').should('not.exist');
 });

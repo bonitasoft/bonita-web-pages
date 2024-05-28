@@ -13,6 +13,16 @@ Feature: The Bonita layout app list modal in desktop resolution
     Then The app selection modal is visible
     And I see my apps
 
+  Scenario: The app selection modal is shown correctly for advanced apps
+    Given The URL target to the advanced application "advancedAppName1"
+    And A user is connected with sso
+    And The user has a first and last name defined
+    And Multiple advanced applications are available for the user
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    And I see my advanced app
+
   Scenario: The app selection modal filter works correctly
     Given The URL target to the application "appName1"
     And A user is connected with sso
