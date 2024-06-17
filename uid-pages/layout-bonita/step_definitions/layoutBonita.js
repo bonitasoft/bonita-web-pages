@@ -644,7 +644,7 @@ then('I see my apps', () => {
 then('I see my advanced app', () => {
     cy.get('.application-container').eq(0).within(() => {
         cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../API/applicationIcon/15');
-        cy.contains('.application-title a', 'My first advanced app').should('have.attr', 'href', '/advancedApp1');
+        cy.contains('.application-title a', 'My first advanced app').should('have.attr', 'href', '/app/advancedApp1');
         cy.contains('1.0.5').should('be.visible');
     });
     cy.contains('h4', 'No applications to display').should('not.exist');

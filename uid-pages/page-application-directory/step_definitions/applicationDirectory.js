@@ -416,14 +416,14 @@ then("The application directory page points on the correct links", () => {
         // Link from the image
         cy.get('.btn-link')
           .should('have.attr', 'href').then((href) => {
-            expect(href.endsWith('/advancedApp')).to.be.true;
+            expect(href.includes('/app/advancedApp')).to.be.true;
             expect(href.includes('apps')).to.be.false;
           });
         // Link from the application title
         cy.get('.application-title').within(() => {
             cy.get('.btn-link')
               .should('have.attr', 'href').then((href) => {
-                expect(href.endsWith('/advancedApp')).to.be.true;
+                expect(href.includes('/app/advancedApp')).to.be.true;
                 expect(href.includes('apps')).to.be.false;
             });
         });
