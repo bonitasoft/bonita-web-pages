@@ -315,8 +315,8 @@ Feature: The Application Directory in desktop resolution
     When I click on "close" icon
     Then The maintenance alert is not visible
 
-  Scenario: The application directory points on the correct link for Advanced applications
-    Given The response "advanced app" is defined
+  Scenario: The application directory points on the correct link for Application links
+    Given The response "app link" is defined
     And The response "session" is defined
     When I visit the application directory page
     Then The application directory page points on the correct links

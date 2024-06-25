@@ -25,14 +25,14 @@ given('The URL target to the application {string}', () => {
     });
 });
 
-given('The URL target to the advanced application {string}', () => {
+given('The URL target to the application link {string}', () => {
     cy.server();
-    cy.fixture('json/advancedApp1.json').as('advancedApp1');
+    cy.fixture('json/appLink1.json').as('appLink1');
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
         url: `${buildDir}/API/living/application/*`,
-        response: '@advancedApp1',
+        response: '@appLink1',
     }).as('app1Route');
     cy.route({
         method: 'GET',
@@ -168,12 +168,12 @@ given('Multiple applications are available for the user', () => {
     });
 });
 
-given('Multiple advanced applications are available for the user', () => {
-    cy.fixture('json/advancedAppsList5.json').as('advancedAppsList');
+given('Multiple application links are available for the user', () => {
+    cy.fixture('json/appLinksList5.json').as('appLinksList');
     cy.route({
         method: 'GET',
         url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@advancedAppsList'
+        response: '@appLinksList'
     });
 });
 
@@ -641,10 +641,10 @@ then('I see my apps', () => {
     cy.contains('h4', 'No applications to display').should('not.exist');
 });
 
-then('I see my advanced app', () => {
+then('I see my app link', () => {
     cy.get('.application-container').eq(0).within(() => {
         cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../API/applicationIcon/15');
-        cy.contains('.application-title a', 'My first advanced app').should('have.attr', 'href', '/app/advancedApp1');
+        cy.contains('.application-title a', 'My first app link').should('have.attr', 'href', '/app/appLink1');
         cy.contains('1.0.5').should('be.visible');
     });
     cy.contains('h4', 'No applications to display').should('not.exist');
