@@ -1,12 +1,12 @@
 {
-  "id" : "LayoutBonitaV20",
-  "name" : "BonitaLayoutV20",
+  "id" : "LayoutBonitaV21",
+  "name" : "BonitaLayoutV21",
   "displayName" : "Bonita layout",
   "type" : "layout",
   "uuid" : "e73d62fc-4c9d-47d1-bd83-6082a7ba9ce1",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1716886250210,
+  "lastUpdate" : 1727084000973,
   "description" : "This is the Bonita living application layout, offered for any new application created. You can export it and edit it in the UI Designer. Its header contains a logo placeholder, the name of the application, the logged user's details (with a language picker and a logout button), and an access to all applications of the logged user. The application content is rendered as an horizontal menu and an iframe for application pages. This layout requires font-awesome in order to be able to display the default user icons. This dependence should be available in the theme of the application where this layout will be used.",
   "rows" : [
     [
@@ -36,6 +36,50 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "p-0 m-0"
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "caseLimitCtrl.hideCaseLimitAlert()"
+                },
+                "alertTitle" : {
+                  "type" : "constant",
+                  "value" : "Case Counter Limit"
+                },
+                "alertMessage" : {
+                  "type" : "expression",
+                  "value" : "caseLimitCtrl.getCaseLimitMessage()"
+                },
+                "isActive" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "localStoragePropertyName" : {
+                  "type" : "constant",
+                  "value" : "showCaseLimitAlert"
+                },
+                "style" : {
+                  "type" : "constant",
+                  "value" : "warning"
+                }
+              },
+              "reference" : "908a32b2-289b-420d-9f02-6c7d9c124962",
+              "hasValidationError" : false,
+              "id" : "customHeaderAlertV1"
+            }
+          ],
           [
             {
               "type" : "component",
@@ -2867,7 +2911,7 @@
     "application" : {
       "type" : "url",
       "value" : [
-        "../API/living/application/?c=1&f=token%3D{{appToken}}"
+        "../API/living/application?c=1&f=token%3D{{appToken}}"
       ],
       "exposed" : false
     },
@@ -3106,6 +3150,126 @@
       "type" : "expression",
       "value" : [
         "return $data.maintenanceDetails.maintenanceMessage ? $data.maintenanceDetails.maintenanceMessage : uiTranslate('Platform maintenance may occur. Contact the platform administrator for more details.');"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "featuresListStatusCode"
+      },
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        return $data.featuresList && $data.featuresList.includes(feature);",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "caseLimitCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "const isAdminApp = function(){",
+        "    const application = $data.application;",
+        "    const isAdminApp = application && (application[0].token === \"adminAppBonita\" || application[0].token === \"adminAppEEBonita\" );",
+        "    const isSuperAdminApp = application && application[0].token === \"superAdminAppBonita\";",
+        "    return isAdminApp || isSuperAdminApp;",
+        "};",
+        "",
+        "return {",
+        "    getCaseStartedPercentage: function() {",
+        "        if(isAdminApp()){",
+        "            const caseCounter = $data.caseCounterInformationAPI.caseCounter;",
+        "            const caseCounterLimit = $data.caseCounterInformationAPI.caseCounterLimit;",
+        "            ",
+        "            if (!caseCounterLimit || caseCounterLimit <= 0) {",
+        "                return 0;    ",
+        "            }",
+        "            ",
+        "            return Math.round((caseCounter / caseCounterLimit) * 100);",
+        "        }",
+        "    },",
+        "    hideCaseLimitAlert: function() {",
+        "       if(isAdminApp()){",
+        "          const caseCounterInformationAPI = $data.caseCounterInformationAPI;",
+        "          const caseLimit = caseCounterInformationAPI && caseCounterInformationAPI.caseCounterLimit;",
+        "          const caseStartedPercentage = this.getCaseStartedPercentage();",
+        "          // Hide alert if: Not in Admin or Super Admin app || Case started percentage is less than 80% || No valid case limit data || case limit is 0 or less",
+        "          return caseStartedPercentage < 80 || caseLimit <= 0;",
+        "       }else{",
+        "            return true;",
+        "       }",
+        "    },",
+        "    getCaseLimitMessage: function() {",
+        "        if(isAdminApp()){",
+        "        const caseLimitMessage = uiTranslate(\"You have started\") + \" \" + $data.caseLimitCtrl.getCaseStartedPercentage() + \"% \" ;",
+        "",
+        "        if ($data.caseCounterInformationAPI) {",
+        "            const edition = $data.caseCounterInformationAPI.edition.toUpperCase();",
+        "            const subscriptionStartPeriod = $data.caseCounterInformationAPI.subscriptionStartPeriod;",
+        "            const currentDate = new Date();",
+        "            ",
+        "            // Get timezone settings",
+        "            const timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;",
+        "",
+        "            // Options for date formatting including timeZone and weekday",
+        "            const options = {",
+        "                weekday: \"long\",",
+        "                year: \"numeric\",",
+        "                month: \"long\",",
+        "                day: \"numeric\",",
+        "                timeZone: timeZone,",
+        "                timeZoneName: \"short\"",
+        "            };",
+        "        ",
+        "            if (edition === 'COMMUNITY') {",
+        "                return caseLimitMessage + uiTranslate(\"of your allowed cases. If you need more volume, please consider subscribing to an Enterprise edition.\");",
+        "            } else {",
+        "                let subscriptionStartedDate = new Date(parseInt(subscriptionStartPeriod));",
+        "                ",
+        "                //Verify whether subscriptionStartedDate is earlier than currentDate. If it is, keep adding 12 months to subscriptionStartedDate until it falls in the future relative to currentDate.",
+        "                while (subscriptionStartedDate <= currentDate) {",
+        "                    subscriptionStartedDate.setMonth(subscriptionStartedDate.getMonth() + 12);",
+        "                }",
+        "                ",
+        "                const languageMap = {",
+        "                    \"en\": \"en-US\",",
+        "                    \"fr\": \"fr-FR\",",
+        "                    \"es\": \"es-ES\",",
+        "                    \"pt_BR\": \"pt-BR\",",
+        "                    \"ja\": \"ja-JP\"",
+        "                };",
+        "                ",
+        "                const setLanguage = languageMap[$data.storageLanguage] || \"en-US\";",
+        "            ",
+        "                return caseLimitMessage + uiTranslate(\"of your allowed cases. Your counter will be reset on\") + \" \" + ",
+        "                     subscriptionStartedDate.toLocaleDateString(setLanguage, options) + \". \" + ",
+        "                    uiTranslate(\"If you need more information, please contact your Sales representative.\");",
+        "            }",
+        "        }",
+        "        return '';",
+        "        }",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "featuresListStatusCode" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "caseCounterInformationAPI" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/information"
       ],
       "exposed" : false
     }

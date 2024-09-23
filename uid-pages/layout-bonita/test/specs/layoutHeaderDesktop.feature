@@ -147,3 +147,59 @@ Feature: The Bonita layout header in desktop resolution
     Then I see maintenance header alert is displayed correctly
     When I click on "close" icon
     Then The maintenance alert is not visible
+
+  Scenario: Case limit alert is displayed correctly for admin application in subscription edition
+    Given The URL target to bonita admin application
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for subscription edition
+    When I visit the index page
+    Then I see case counter limit alert is displayed correctly for subscription edition
+    When I click on close case count alert icon
+    Then The case count alert is not visible
+
+  Scenario: Case limit alert is displayed correctly for super admin application in subscription edition
+    Given The URL target to bonita super admin application
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for subscription edition
+    When I visit the index page
+    Then I see case counter limit alert is displayed correctly for subscription edition
+    When I click on close case count alert icon
+    Then The case count alert is not visible
+
+  Scenario: Case limit alert is not displayed for other applications in subscription edition
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for subscription edition
+    When I visit the index page
+    Then The case count alert is not visible
+
+  Scenario: Case limit alert is displayed correctly for admin application in community edition
+    Given The URL target to bonita admin application
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for community edition
+    When I visit the index page
+    Then I see case counter limit alert is displayed correctly for community edition
+    When I click on close case count alert icon
+    Then The case count alert is not visible
+
+  Scenario: Case limit alert is displayed correctly for super admin application in community edition
+    Given The URL target to bonita super admin application
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for community edition
+    When I visit the index page
+    Then I see case counter limit alert is displayed correctly for community edition
+    When I click on close case count alert icon
+    Then The case count alert is not visible
+
+  Scenario: Case limit alert is not displayed for other applications in community edition
+    Given The URL target to the application "appName1"
+    And A user is connected with sso
+    And The user has the default icon
+    And The case counter limit response is defined for community edition
+    When I visit the index page
+    Then The case count alert is not visible

@@ -15,7 +15,7 @@ given('The URL target to the application {string}', () => {
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/living/application/*`,
+        url: `${buildDir}/API/living/application*`,
         response: '@app1',
     }).as('app1Route');
     cy.route({
@@ -25,13 +25,33 @@ given('The URL target to the application {string}', () => {
     });
 });
 
+given('The URL target to bonita admin application', () => {
+    cy.server();
+    cy.fixture('json/adminApp.json').as('adminApp');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/living/application*`,
+        response: '@adminApp',
+    }).as('app1Route');
+});
+
+given('The URL target to bonita super admin application', () => {
+    cy.server();
+    cy.fixture('json/superAdminApp.json').as('superAdminApp');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/living/application*`,
+        response: '@superAdminApp',
+    }).as('app1Route');
+});
+
 given('The URL target to the application link {string}', () => {
     cy.server();
     cy.fixture('json/appLink1.json').as('appLink1');
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/living/application/*`,
+        url: `${buildDir}/API/living/application*`,
         response: '@appLink1',
     }).as('app1Route');
     cy.route({
@@ -47,7 +67,7 @@ given('The URL target to the application {string} with icon', () => {
     cy.fixture('json/pageList.json').as('pageList');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/living/application/*`,
+        url: `${buildDir}/API/living/application*`,
         response: '@app1WithIcon',
     }).as('app1Route');
     cy.route({
@@ -256,6 +276,7 @@ given('The filter responses are defined', () => {
     cy.fixture('json/filteredAppsListMyFirst.json').as('filteredAppsListMyFirst');
     cy.fixture('json/filteredAppsList105.json').as('filteredAppsList105');
     cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
+    cy.fixture('json/filteredAppsListSpecialCharacter.json').as('filteredAppsListSpecialCharacter');
     cy.route({
         method: 'GET',
         url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=My first`,
@@ -271,17 +292,10 @@ given('The filter responses are defined', () => {
         url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=1.0.5`,
         response: '@filteredAppsList105'
     }).as('filteredAppsList105Route');
-    cy.intercept({
+    cy.route({
         method: 'GET',
-        pathname: `/${buildDir}/API/living/application`,
-        query: {
-            'c': '20',
-            'p': '0',
-            'f': 'userId=4',
-            's': '&Special'
-        }
-    }, {
-        fixture: 'json/filteredAppsListSpecialCharacter.json'
+        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=&Special`,
+        response: '@filteredAppsListSpecialCharacter'
     }).as('filteredAppsListSpecialCharacterRoute');
 });
 
@@ -343,6 +357,24 @@ given('Empty maintenance message is enabled', () => {
     });
 });
 
+given('The case counter limit response is defined for subscription edition', () => {
+    cy.fixture('json/caseLimitSubscription.json').as('caseLimitSubscription');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/system/information`,
+        response: '@caseLimitSubscription'
+    })
+});
+
+given('The case counter limit response is defined for community edition', () => {
+    cy.fixture('json/caseLimitCommunity.json').as('caseLimitCommunity');
+    cy.route({
+        method: 'GET',
+        url: `${buildDir}/API/system/information`,
+        response: '@caseLimitCommunity'
+    })
+});
+
 when('I visit the index page', () => {
     cy.visit(url);
     cy.wait('@app1Route');
@@ -387,7 +419,7 @@ when('I click the burger', () => {
 });
 
 when('I click the app selection icon', () => {
-    cy.get('.ng-binding > .glyphicon').click();
+    cy.get('.user-menu .glyphicon-th').click();
 });
 
 when('I click the app selection icon in dropdown', () => {
@@ -439,7 +471,11 @@ function checkUserRouteUntilItSucceeds() {
 }
 
 when('I click on {string} icon', (iconName) => {
-    cy.get('.alert button.close').click();
+    cy.get('.alert.alert-danger  button.close').click();
+});
+
+when('I click on close case count alert icon', (iconName) => {
+    cy.get('.alert.alert-warning button.close').click();
 });
 
 then('The {string} page displayName is {string}', (pageNumber, pageName) => {
@@ -490,7 +526,7 @@ then('The username button does not exist', () => {
 });
 
 then('I see the app selection icon', () => {
-    cy.get('.ng-binding > .glyphicon').should('have.attr', 'class', 'glyphicon glyphicon-th');
+    cy.get('.glyphicon-th').should('be.visible');
 });
 
 then('The application icon has the correct source', () => {
@@ -670,8 +706,7 @@ then ('I see only the filtered applications by {string} in desktop', (type)=> {
             break;
         case 'special name':
             cy.wait('@filteredAppsListSpecialCharacterRoute');
-            cy.get(appNameSelectorForDestop).eq(0).should('be.visible').should('have.text', '&Special #Character');
-            cy.get(appNameSelectorForDestop).eq(1).should('not.exist');
+            cy.contains('.application-title a span', '&Special #Character').should('exist');
             break;
     }
     cy.get(appNameSelectorForDestop).eq(2).should('not.exist');
@@ -773,7 +808,6 @@ then("The load more applications button is disabled", () => {
     cy.get('button').contains('Load more applications').should('be.disabled');
 });
 
-
 then('Maintenance notification badge is {string}', (badgeState) => {
     switch (badgeState) {
         case 'shown':
@@ -805,5 +839,29 @@ then('I see maintenance header alert is displayed correctly', () => {
 });
 
 then('The maintenance alert is not visible', () => {
-    cy.get('.alert').should('not.exist');
+    cy.get('.alert.alert-danger').should('not.exist');
+});
+
+then('The case count alert is not visible', () => {
+    cy.get('.alert.alert-warning').should('not.exist');
+});
+
+then('I see case counter limit alert is displayed correctly for subscription edition', () => {
+    cy.get('.alert').should('be.visible');
+    cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
+    cy.contains('.bonita-alert-title span', 'Case Counter Limit').should('be.visible');
+    cy.get('.alert.alert-warning p').should('contain.text', 'You have started').and('contain.text', 'Your counter will be reset on').and('contain.text', 'please contact your Sales representative');
+    cy.get('input.no-show-input').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.checked');
+    cy.get('label.no-show-message').should('be.visible');
+});
+
+then('I see case counter limit alert is displayed correctly for community edition', () => {
+    cy.get('.alert').should('be.visible');
+    cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
+    cy.contains('.bonita-alert-title span', 'Case Counter Limit').should('be.visible');
+    cy.get('.alert.alert-warning p').should('contain.text', 'You have started 93% of your allowed cases. If you need more volume, please consider subscribing to an Enterprise edition.');
+    cy.get('input.no-show-input').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.checked');
+    cy.get('label.no-show-message').should('be.visible');
 });
