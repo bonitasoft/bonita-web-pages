@@ -12,23 +12,31 @@ function ($scope) {
     $scope.preferences = {};
     $scope.preferences.noShowAlert = false;
     
+    $scope.hideAskAgainCheckbox = function(){
+        return localStorageKey === undefined || localStorageKey === null || localStorageKey === "";
+    };
+    
     $scope.isAlertVisible = function() {
         const isActive = $scope.properties.isActive;
+        
         if(isActive == undefined) {
             return false;
         }
         
-        //reset alert for new incoming message
-        if(isActive != undefined && isActive == false) {
-            localStorage.setItem(localStorageKey, true);
-            return false;
+        if(localStorageKey){
+            //reset alert for new incoming message
+            if(isActive != undefined && isActive == false) {
+                localStorage.setItem(localStorageKey, true);
+                return false;
+            }
+            
+            if(localStorage.getItem(localStorageKey) == null) {
+                localStorage.setItem(localStorageKey, true);
+            }
+            
+            return (localStorage.getItem(localStorageKey)  === "true") && !isClosed;
         }
-        
-        if(localStorage.getItem(localStorageKey) == null) {
-            localStorage.setItem(localStorageKey, true);
-        }
-        
-        return (localStorage.getItem(localStorageKey)  === "true") && !isClosed;
+        return !isClosed;
 
     };
     

@@ -851,9 +851,8 @@ then('I see case counter limit alert is displayed correctly for subscription edi
     cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
     cy.contains('.bonita-alert-title span', 'Case Counter Limit').should('be.visible');
     cy.get('.alert.alert-warning p').should('contain.text', 'You have started').and('contain.text', 'Your counter will be reset on').and('contain.text', 'please contact your Sales representative');
-    cy.get('input.no-show-input').should('be.visible');
-    cy.get('input.no-show-input').should('not.be.checked');
-    cy.get('label.no-show-message').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.visible');
+    cy.get('label.no-show-message').should('not.be.visible');
 });
 
 then('I see case counter limit alert is displayed correctly for community edition', () => {
@@ -861,7 +860,6 @@ then('I see case counter limit alert is displayed correctly for community editio
     cy.get('.bonita-alert-title i.glyphicon').should('be.visible');
     cy.contains('.bonita-alert-title span', 'Case Counter Limit').should('be.visible');
     cy.get('.alert.alert-warning p').should('contain.text', 'You have started 93% of your allowed cases. If you need more volume, please consider subscribing to an Enterprise edition.');
-    cy.get('input.no-show-input').should('be.visible');
-    cy.get('input.no-show-input').should('not.be.checked');
-    cy.get('label.no-show-message').should('be.visible');
+    cy.get('input.no-show-input').should('not.be.visible');
+    cy.get('label.no-show-message').should('not.be.visible');
 });
