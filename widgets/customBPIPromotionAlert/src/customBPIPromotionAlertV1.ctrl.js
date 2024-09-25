@@ -6,15 +6,19 @@
  * 
  * You can leave the controller empty if you do not need it.
  */
-function BPIPromotionAlertCtrl($scope) {
+function BPIPromotionAlertCtrl($scope, $timeout) {
     $scope.redirectId = localeToRedirectId();
+    $scope.delay = false;
     const localStorageKey = $scope.properties.id +  "_lastClosedTimestamp";
     const _30_DAYS = 2592000000
         
     var isClosed = false;
     $scope.preferences = {};
     $scope.preferences.noShowAlert = false;
-    
+     $timeout(function(){
+            $scope.delay = true;
+        }, 3000);
+
     $scope.isVisible = function() {
         const now = Date.now()
         const lastDisplayedTimstamp = localStorage.getItem(localStorageKey);
@@ -40,6 +44,6 @@ function BPIPromotionAlertCtrl($scope) {
         }
         return "762";
     }
-
+    
 
 }
