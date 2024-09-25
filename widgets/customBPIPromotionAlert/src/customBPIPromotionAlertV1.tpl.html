@@ -15,11 +15,11 @@
         </div>     
      </div>
 </div>
-<div id="{{ properties.id}}" class="shadow-box-border-right fade-in bg-primary" ng-if="isVisible()" role="alert">
+<div id="{{ properties.id}}" class="shadow-box-border-right bg-primary fade" ng-show="delay" ng-if="isVisible()" role="alert">
     <div class="flex-container">
         <p>{{"Unlock advanced monitoring and reporting with Bonita Process Insights—try it now fro deeper insights!" | uiTranslate }}</p>
         <div>        
-           <a class="btn btn-primary" href="https://www.bonitasoft.com/bos_redirect.php?bos_redirect_id={{ redirectId }}" target="_blank">{{ "Try Now" | uiTranslate }}</a>
+           <a class="btn btn-primary" href="https://www.bonitasoft.com/bos_redirect.php?bos_redirect_id={{ redirectId }}&source={{ properties.id }}" target="_blank">{{ "Try Now" | uiTranslate }}</a>
            <button class="btn btn-link"  ng-click="hideMessage()">{{ "Hide this recommendation" | uiTranslate }}</button>
         </div>     
      </div>
