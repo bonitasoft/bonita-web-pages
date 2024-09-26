@@ -6,7 +6,7 @@
      of the Custom Widget to be displayed in the whiteboard only. By default the widget is represented by an auto-generated icon
      and its name (See the <span> below).
 -->
-<div ng-if="environment" id="{{ properties.id}}" class="shadow-box-border-right" role="alert">
+<div ng-if="environment" id="{{ properties.id}}" class="shadow-box-border-left" role="alert">
     <div class="flex-container">
         <p>{{"Unlock advanced monitoring and reporting with Bonita Process Insights—try it now for deeper insights!" | uiTranslate }}</p>
         <div>        
@@ -15,11 +15,11 @@
         </div>     
      </div>
 </div>
-<div id="{{ properties.id}}" class="shadow-box-border-right bg-primary fade" ng-show="delay" ng-if="isVisible()" role="alert">
+<div id="{{ properties.id}}" class="shadow-box-border-left bg-primary fade" ng-show="delay" ng-if="isVisible()" role="alert">
     <div class="flex-container">
         <p>{{"Unlock advanced monitoring and reporting with Bonita Process Insights—try it now for deeper insights!" | uiTranslate }}</p>
         <div>        
-           <a class="btn btn-primary" href="https://www.bonitasoft.com/bos_redirect.php?bos_redirect_id={{ redirectId }}&source={{ properties.id }}" target="_blank">{{ "Try Now" | uiTranslate }}</a>
+           <a class="btn btn-primary" href="https://www.bonitasoft.com/bos_redirect.php?bos_redirect_id={{ redirectId }}&amp;source={{ properties.id }}" target="_blank">{{ "Try Now" | uiTranslate }}</a>
            <button class="btn btn-link" ng-click="hideMessage()">{{ "Hide this recommendation" | uiTranslate }}</button>
         </div>     
      </div>
