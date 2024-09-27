@@ -1,28 +1,29 @@
 /**
- * The controller is a JavaScript function that augments the AngularJS scope and exposes functions that can be used in the custom widget template
- * 
- * Custom widget properties defined on the right can be used as variables in a controller with $scope.properties
- * To use AngularJS standard services, you must declare them in the main function arguments.
- * 
- * You can leave the controller empty if you do not need it.
+ *This custom widget is duplicated in bonita-portal-js-sp for monitoring page
  */
-function BPIPromotionAlertCtrl($scope, $timeout) {
+function BPIPromotionAlertCtrl($scope, $timeout, $http) {
+    var localizedRedirect = {
+        en: "762",
+        es: "763",
+        fr: "764"
+    }
     $scope.redirectId = localeToRedirectId();
-    $scope.delay = false;
+    $scope.showMessage = false;
     const localStorageKey = $scope.properties.id +  "_lastClosedTimestamp";
-    const _30_DAYS = 2592000000
-        
+    const _30_DAYS = 2592000000;
     var isClosed = false;
-    $scope.preferences = {};
-    $scope.preferences.noShowAlert = false;
-     $timeout(function(){
-            $scope.delay = true;
-        }, 3000);
+    
+    $http.get('../API/system/information')
+        .then(function success(response) {
+          if(response.data && "true" === response.data.enablePromotionMessages){
+                $timeout(() => $scope.showMessage = true, 3000);
+          }
+        }, angular.noop);
 
     $scope.isVisible = function() {
         const now = Date.now()
         const lastDisplayedTimstamp = localStorage.getItem(localStorageKey);
-        return (lastDisplayedTimstamp === null || lastDisplayedTimstamp === "" || lastDisplayedTimstamp === undefined  || parseInt(lastDisplayedTimstamp) + _30_DAYS < now ) && !isClosed;
+        return (!Boolean(lastDisplayedTimstamp) || parseInt(lastDisplayedTimstamp) + _30_DAYS < now ) && !isClosed;
     };
     
     $scope.hideMessage = function() {
@@ -31,18 +32,16 @@ function BPIPromotionAlertCtrl($scope, $timeout) {
     };
     
     function localeToRedirectId(){
-        const bosLocale = document.cookie.split(";").filter((item) => item.trim().startsWith("BOS_Locale=")).map((item) => item.trim().split("=")[1])[0]
-        
-        if(bosLocale == null){
-            return "762";
+        const bosLocale = document.cookie.split(";")
+            .filter((item) => item.trim().startsWith("BOS_Locale="))
+            .map((item) => item.trim().split("=")[1])[0];
+        if(bosLocale && bosLocale.startsWith("es")){
+            return localizedRedirect.es;
         }
-        if(bosLocale.startsWith("es")){
-            return "763";
+        if(bosLocale && bosLocale.startsWith("fr")){
+            return localizedRedirect.fr;
         }
-        if(bosLocale.startsWith("fr")){
-            return "764";
-        }
-        return "762";
+        return localizedRedirect.en;
     }
     
 
