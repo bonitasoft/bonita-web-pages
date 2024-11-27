@@ -46,27 +46,46 @@ input[type='password'].ng-invalid.ng-dirty {
 
 /* Custom css */
 
+.task-title h3 {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.pl-0,
 .pl-0.component {
     padding-left: 0;
 }
 
+.pr-0,
 .pr-0.component {
     padding-right: 0;
 }
 
+.pt-0,
 .pt-0.component,
-.pt-0 a {
+.pt-0 a,
+.pt-0 button {
     padding-top: 0;
 }
 
-.pb-0.component {
+.pb-0,
+.pb-0.component,
+.pb-0 a,
+.pb-0 button {
     padding-bottom: 0;
+}
+
+.py-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .pb-20 {
     padding-bottom: 20px;
 }
 
+.mb-0,
 .mb-0.component {
     margin-bottom: 0;
 }
@@ -79,6 +98,7 @@ input[type='password'].ng-invalid.ng-dirty {
     margin-right: 0;
 }
 
+.mt-0,
 .mt-0.component {
     margin-top: 0;
 }
@@ -95,14 +115,14 @@ input[type='password'].ng-invalid.ng-dirty {
     margin-left: 20px;
 }
 
-.ml-2 {
-    margin-left: 2px;
+.ml-5 {
+    margin-left: 5px;
 }
 
 .item-label p,
 .item-label.component {
     font-size: 11px;
-    opacity: 0.7;
+    /*opacity: 0.7;*/
     margin: 0;
     padding-right: 0;
     word-wrap: break-word;
@@ -113,7 +133,7 @@ input[type='password'].ng-invalid.ng-dirty {
 .item-value a,
 .item-value p {
     font-size: 12px;
-    margin: 0 0 3px 0;
+    margin: 0;
     padding-right: 0;
     word-wrap: break-word;
     word-break: break-word;
@@ -221,3 +241,73 @@ input[type='password'].ng-invalid.ng-dirty {
     }
 }
 
+/*Bootstrap panel styles*/
+.w-auto {
+    width: auto;    
+}
+
+.overflow-scroll {
+    max-height: 100%;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.panel-primary {
+    .panel-heading {
+        color: #fff;
+        background-color: #2c3e50;
+        border-color: #ddd;
+        margin: 0;
+        padding: 0 10px;
+    }
+    
+    .link-height .text-left {
+        line-height: 1;
+    }
+}
+    
+.panel-danger {
+    .panel-heading {
+        color: #fff;
+        background-color: #c71c22;
+        border-color: #ddd;
+        margin: 0;
+        padding: 0 10px;
+
+    }
+    
+    .panel-body {
+        
+        .glyphicon-signal {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.dl-horizontal {
+    dt, dd {
+        line-height: 1;
+    }
+}
+
+.panel-footer-text p {
+    margin-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+    .dl-horizontal {
+        dt {
+            width: 15em;
+        }
+        
+        dd {
+            margin-left: 16em;
+        }
+    }
+}
+
+.action-buttons-container .row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

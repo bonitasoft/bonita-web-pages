@@ -18,6 +18,7 @@ const refreshFailedTaskUrl = failedTaskUrl + 'd=processId&d=executedBy&d=assigne
 const refreshArchivedTaskUrl = doneTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1'
+const failureFlowNodeUrl = 'API/bpm/failure/flowNode/1?c=5';
 
 beforeEach(() => {
   // Force locale as we test labels value
@@ -93,6 +94,12 @@ given("The response {string} is defined for failed tasks", (responseType) => {
         case 'failed task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             break;
+        case 'failure details':
+            createRouteWithResponse(failureFlowNodeUrl, 'failureDetailsRoute', 'failureDetails');
+            break;
+        case 'failure details with history':
+            createRouteWithResponse(failureFlowNodeUrl, 'failureDetailsWithHistoryRoute', 'failureDetailsWithHistory');
+            break;
         default:
             throw new Error("Unsupported case");
     }
@@ -162,6 +169,7 @@ when("I click on {string} button in the modal", (buttonLabel) => {
 });
 
 when("I click on {string} button in the modal footer", (buttonLabel) => {
+    cy.get('.modal-footer button i.glyphicon').should('be.visible');
     cy.contains('.modal-footer button', buttonLabel).click();
 });
 
@@ -182,33 +190,51 @@ when("I skip the first and the third connectors", () => {
     cy.get('.modal-body input[type="radio"]').eq(5).click();
 });
 
+when("I click on the show stacktrace button", () => {
+    cy.get('.panel-danger .panel-body .glyphicon-eye-open').eq(0).click();
+});
+
+when("I click on the close modal button", () => {
+    cy.contains('.modal-dialog .modal-footer button', 'Close').click();
+});
+
 then("The failed task details have the correct information", () => {
-    cy.get('h3').contains('1 failed task (1)');
-    cy.get('.item-value').contains('This is a task display description.');
-    cy.get('h4').contains('General');
-    cy.get('.item-label').contains('Display name');
-    cy.get('.item-value').contains('1 failed task');
-    cy.get('.item-label').contains('Type');
-    cy.get('.item-value').contains('USER_TASK');
-    cy.get('.item-label').contains('Priority');
-    cy.get('.item-value').contains('normal');
-    cy.get('.item-label').contains('Due date');
-    cy.get('.item-value').contains('--');
-    cy.get('.item-label').contains('Case Id');
-    cy.get('.item-value a.btn-link').should('have.attr', 'href', '../../admin-case-details/content/?id=1');
-    cy.get('.item-label').contains('Process name (version)');
-    cy.get('.item-value').contains('VacationRequest (4.0)');
-    cy.get('.item-label').contains('Process display name');
-    cy.get('.item-value').contains('Failed vacation request');
-    cy.get('.item-label').contains('State');
-    cy.get('.item-value').contains('Failed');
-    cy.get('.item-label').contains('Done on').should('not.exist');
-    cy.get('.item-label').contains('Failed on');
-    cy.get('.item-value').contains('4/30/20 9:22 AM');
-    cy.get('.item-label').contains('Assigned to');
-    cy.get('.item-value').contains('Anthony Nichols');
-    cy.get('.item-label').contains('Assigned on');
-    cy.get('.item-value').contains('4/30/20 10:44');
+    cy.get('.task-title img').should('have.attr', 'alt', 'flow node image');
+    cy.contains('.task-title h3', '1 failed task');
+    cy.contains('.w-auto span.label', 'failed');
+    cy.contains('.text-muted p.text-left', 'ID: 1');
+    cy.contains('.item-value', 'This is a task display description.');
+    cy.contains('.panel-primary .panel-heading h4', 'General');
+    cy.contains('.panel-primary .dl-horizontal dt', 'Display name');
+    cy.contains('.panel-primary .dl-horizontal dd', '1 failed task');
+    cy.contains('.panel-primary .dl-horizontal dt','Type');
+    cy.contains('.panel-primary .dl-horizontal dd','USER_TASK');
+    cy.contains('.panel-primary .dl-horizontal dt','Priority');
+    cy.contains('.panel-primary .dl-horizontal dd','normal');
+    cy.contains('.panel-primary .dl-horizontal dt','Due date');
+    cy.contains('.panel-primary .dl-horizontal dd','--');
+    cy.contains('.panel-primary .dl-horizontal dt','Assigned on');
+    cy.contains('.panel-primary .dl-horizontal dd','4/30/20 10:44');
+    cy.contains('.panel-primary .dl-horizontal dt','Assigned to');
+    cy.contains('.panel-primary .dl-horizontal dd','Anthony Nichols');
+    cy.contains('.panel-primary .dl-horizontal dt','Process name (version)');
+    cy.contains('.panel-primary .link-height a', 'VacationRequest (4.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=6634235015645352871');
+    cy.contains('.panel-primary .dl-horizontal dd','VacationRequest (4.0)');
+    cy.contains('.panel-primary .dl-horizontal dt','Process display name');
+    cy.contains('.panel-primary .dl-horizontal dd','Failed vacation request');
+    cy.contains('.panel-primary .dl-horizontal dt','Case Id');
+    cy.contains('.panel-primary .link-height a', '4151').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4151');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root process display name').should('not.exist');
+    cy.get('.panel-footer span.glyphicon-remove').should('be.visible');
+    cy.contains('.panel-footer p','Failed on Apr 30, 2020 9:22:11 AM');
+    cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Context');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Error message');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
+    cy.contains('.panel-danger .panel-body h5','Failure history').should('not.exist');
 });
 
 then("The back button has correct href", () => {
@@ -419,7 +445,7 @@ then("There are no possible actions", () => {
 });
 
 then("The page has initializing state", () => {
-    cy.get('.item-value').contains('initializing');
+    cy.get('.text-uppercase.label').contains('initializing');
     cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
     cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
         cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed');
@@ -430,7 +456,7 @@ then("The page has initializing state", () => {
 });
 
 then("The page has executing state", () => {
-    cy.get('.item-value').contains('executing');
+    cy.get('.text-uppercase.label').contains('executing');
     cy.contains('No action can be performed while the task is executing or initializing. Refresh the page to check its new status.').should('be.visible');
     cy.contains('p.text-left', 'failedConnectorName').parent().within((element) => {
         cy.wrap(element).get('.glyphicon.glyphicon-refresh').should('have.attr', 'title', 'Connector is being replayed');
@@ -458,4 +484,60 @@ then("There is no {string} button", (btnLabel) => {
 
 then("I see that {string}", (message) => {
     cy.contains('div', message).should('be.visible');
+});
+
+then("The failed task details shows correctly the failure history information", () => {
+    function getLocaleDateAndTime(timestamp) {
+        const failureDate = new Date(timestamp);
+        const options = {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        };
+
+        const date = failureDate.toLocaleDateString( 'en-US', options);
+        const time = failureDate.toLocaleTimeString('en-US');
+        return `${date} ${time}`;
+    }
+
+    cy.wait('@failureDetailsWithHistoryRoute')
+    cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'UNKNOWN');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Context');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', '--');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Error message');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
+    cy.get('.panel-danger .panel-body h5 span.glyphicon-hourglass').should('be.visible');
+    cy.contains('.panel-danger .panel-body .item-label p','Failed on');
+    cy.get('.panel-danger .panel-body .item-value p').eq(0).should('have.text', getLocaleDateAndTime(1732108063031));
+    cy.contains('.panel-danger .panel-body .item-label P', 'Scope');
+    cy.get('.panel-danger .panel-body .item-value p').eq(1).should('have.text','UNKNOWN');
+    cy.contains('.panel-danger .panel-body .item-label P','Error message');
+    cy.get('.panel-danger .panel-body .item-value p').eq(2).should('have.text', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
+    cy.get('.glyphicon-eye-open').should('be.visible');
+});
+
+then("The failure details modal is open", () => {
+    cy.get('.modal-dialog').should('be.visible');
+});
+
+then("The failure details modal is close", () => {
+    cy.get('.modal-dialog').should('not.exist');
+});
+
+then("The failure details modal displays the information correctly", () => {
+    cy.get('.modal-dialog').should('be.visible');
+    cy.contains('.modal-header h4', 'Error details');
+    cy.contains('.modal-body .form-group label', 'Scope');
+    cy.contains('.modal-body .form-group p', 'UNKNOWN');
+    cy.contains('.modal-body .form-group label', 'Context');
+    cy.contains('.modal-body .form-group p', '--');
+    cy.contains('.modal-body .form-group label', 'Error message');
+    cy.contains('.modal-body .form-group p', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
+    cy.contains('.modal-body .form-group label', 'Stacktrace');
+    cy.contains('.modal-body .form-group .overflow-scroll', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
 });

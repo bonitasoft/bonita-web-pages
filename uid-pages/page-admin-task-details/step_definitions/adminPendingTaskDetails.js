@@ -17,6 +17,7 @@ const featureListUrl = 'API/system/feature?p=0&c=100';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=0';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4277'
+const failureFlowNodeUrl = 'API/bpm/failure/flowNode/2?c=5';
 
 beforeEach(() => {
   // Force locale as we test labels value
@@ -28,6 +29,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
     switch (responseType) {
         case 'empty done task':
             createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createRouteWithResponse(failureFlowNodeUrl, 'emptyFailureFlowNodeRoute', 'emptyResult');
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default details':
@@ -225,32 +227,37 @@ when("I fill in the comment field", () => {
 });
 
 then("The pending task details have the correct information", () => {
-    cy.get('h3').contains('Request Vacation (2)');
-    cy.get('.item-value').contains('This is a task display description.');
-    cy.get('h4').contains('Original Id:').should('not.exist');
-    cy.get('h4').contains('General');
-    cy.get('.item-label').contains('Display name');
-    cy.get('.item-value').contains('Request Vacation');
-    cy.get('.item-label').contains('Type');
-    cy.get('.item-value').contains('USER_TASK');
-    cy.get('.item-label').contains('Priority');
-    cy.get('.item-value').contains('normal');
-    cy.get('.item-label').contains('Due date');
-    cy.get('.item-value').contains('4/30/20 9:22 AM');
-    cy.get('.item-label').contains('Case Id');
-    cy.get('.item-value a.btn-link').should('have.attr', 'href', '../../admin-case-details/content/?id=4277');
-    cy.get('.item-label').contains('Process name (version)');
-    cy.get('.item-value').contains('VacationRequest (3.0)');
-    cy.get('.item-label').contains('Process display name');
-    cy.get('.item-value').contains('New vacation request with transportation');
-    cy.get('.item-label').contains('State');
-    cy.get('.item-value').contains('ready');
-    cy.get('.item-label').contains('Failed on').should('not.exist');
-    cy.get('.item-label').contains('Done on').should('not.exist');
-    cy.get('.item-label').contains('Assigned to');
-    cy.get('.item-value').contains('Helen Kelly');
-    cy.get('.item-label').contains('Assigned on');
-    cy.get('.item-value').contains('4/30/20 2:37');
+    cy.get('.task-title img').should('have.attr', 'alt', 'flow node image');
+    cy.contains('.task-title h3', 'Request Vacation');
+    cy.contains('.w-auto span.label', 'ready');
+    cy.contains('.text-muted p.text-left', 'ID: 2');
+    cy.contains('.item-value', 'This is a task display description.');
+    cy.contains('.panel-primary .panel-heading h4', 'General');
+    cy.contains('.panel-primary .dl-horizontal dt', 'Display name');
+    cy.contains('.panel-primary .dl-horizontal dd', 'Request Vacation');
+    cy.contains('.panel-primary .dl-horizontal dt','Type');
+    cy.contains('.panel-primary .dl-horizontal dd','USER_TASK');
+    cy.contains('.panel-primary .dl-horizontal dt','Priority');
+    cy.contains('.panel-primary .dl-horizontal dd','normal');
+    cy.contains('.panel-primary .dl-horizontal dt','Due date');
+    cy.contains('.panel-primary .dl-horizontal dd','4/30/20 9:22 AM');
+    cy.contains('.panel-primary .dl-horizontal dt','Assigned on');
+    cy.contains('.panel-primary .dl-horizontal dd','4/30/20 2:37');
+    cy.contains('.panel-primary .dl-horizontal dt','Assigned to');
+    cy.contains('.panel-primary .dl-horizontal dd','Helen Kelly');
+    cy.contains('.panel-primary .link-height a dt', 'Process name (version)')
+    cy.contains('.panel-primary .link-height a', 'VacationRequest (3.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8835222915848848756');
+    cy.contains('.panel-primary .dl-horizontal dt','Process display name');
+    cy.contains('.panel-primary .dl-horizontal dd','New vacation request with transportation');
+    cy.contains('.panel-primary .link-height a dt','Case Id');
+    cy.contains('.panel-primary .link-height a', '4277').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4277');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root process display name').should('not.exist');
+    cy.get('.panel-footer span.glyphicon-inbox').should('be.visible');
+    cy.contains('.panel-footer p','Ready since Apr 30, 2020 9:22:24 AM');
+    cy.get('.panel-footer span.glyphicon-user').should('not.exist');
+    cy.contains('.panel-danger .panel-heading h4', 'Error details').should('not.exist');
 });
 
 then("The back button has correct href", () => {
@@ -343,7 +350,7 @@ then("I see {string} error message for {string}", (statusCode, taskType) => {
 });
 
 then("I don't see any error message", () => {
-    cy.get('.modal .glyphicon').should('not.exist');
+    cy.get('.modal .glyphicon-remove-sign').should('not.exist');
 });
 
 then("The unassign modal is open and has a default state for {string}", (taskName) => {

@@ -3,6 +3,7 @@ Feature: The Admin Failed Task Details in desktop resolution
   Scenario: The admin task details displays the correct attributes for failed tasks
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
+    And The response "failure details" is defined for failed tasks
     When I visit the admin failed task details page
     Then The failed task details have the correct information
 
@@ -288,3 +289,28 @@ Feature: The Admin Failed Task Details in desktop resolution
   Scenario: No id is specified message is shown when id is empty
     When I visit the admin failed task details page with an empty id
     Then I see that "Task id not provided. Unable to retrieve the task."
+
+  Scenario: The admin task details displays the failure error details correctly
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "failure details with history" is defined for failed tasks
+    When I visit the admin failed task details page
+    Then The failed task details shows correctly the failure history information
+
+  Scenario: The failure history modal open and close correctly
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "failure details with history" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on the show stacktrace button
+    Then The failure details modal is open
+    And I click on the close modal button
+    Then The failure details modal is close
+
+  Scenario: The failure history modal displays the failure details correctly
+    Given The response "empty done task" is defined for failed tasks
+    And The response "default details" is defined for failed tasks
+    And The response "failure details with history" is defined for failed tasks
+    When I visit the admin failed task details page
+    And I click on the show stacktrace button
+    Then The failure details modal displays the information correctly
