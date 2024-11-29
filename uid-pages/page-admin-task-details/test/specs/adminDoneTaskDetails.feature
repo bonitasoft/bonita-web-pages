@@ -25,3 +25,24 @@ Feature: The Admin Done Task Details in desktop resolution
     Given The response "default details without executedBySubstitute" is defined for done tasks
     When I visit the admin done task details page
     Then The executedBy information is displayed correctly when executedBySubstitute is undefined
+
+  Scenario: The archived errors notification is displayed correctly
+    Given The response "skipped failed flow node" is defined for done tasks
+    When I visit the admin done task details page
+    Then The error notification with show error button is displayed correctly and have the default state
+
+  Scenario: The show hide archived failure errors button works correctly
+    Given The response "skipped failed flow node" is defined for done tasks
+    When I visit the admin done task details page
+    Then The error notification with show error button is displayed correctly and have the default state
+    When I click on the "click here to view the details" button
+    Then The Failure flow node error panel is displayed
+    When I click on the "click here to hide the details" button
+    Then The Failure flow node error panel is not displayed
+
+  Scenario: The admin done task details displays the archived failure error details correctly
+    Given The response "skipped failed flow node" is defined for done tasks
+    When I visit the admin done task details page
+    Then The error notification with show error button is displayed correctly and have the default state
+    When I click on the "click here to view the details" button
+    Then The archived failure errors are displayed correctly

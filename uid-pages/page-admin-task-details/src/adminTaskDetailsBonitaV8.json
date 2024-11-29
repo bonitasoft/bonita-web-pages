@@ -6,7 +6,7 @@
   "uuid" : "bde0c96f-58e2-4cc9-8931-ef9f09d0ad8d",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1732711920413,
+  "lastUpdate" : 1732875110672,
   "description" : "This page provides the detail information of a task. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -188,7 +188,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-user\"></i> Assign"
+                        "value" : "<i class=\"glyphicon glyphicon-user\"></i> {{\"Assign\" | uiTranslate}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -280,7 +280,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-user\" ></i> Unassign"
+                        "value" : "<i class=\"glyphicon glyphicon-user\" ></i> {{\"Unassign\" | uiTranslate}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -466,7 +466,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-fast-forward\"></i> Skip"
+                        "value" : "<i class=\"glyphicon glyphicon-fast-forward\"></i> {{\"Skip\" | uiTranslate}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -558,7 +558,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<i class=\"glyphicon glyphicon-repeat\"></i> Replay"
+                        "value" : "<i class=\"glyphicon glyphicon-repeat\"></i> {{\"Replay\" | uiTranslate}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -761,7 +761,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>ID: {{taskDetailsCtrl.getOpenOrArchivedTask().id}}</small>"
+                  "value" : "<small>ID: {{taskDetailsCtrl.getOpenOrArchivedTask().sourceObjectId || taskDetailsCtrl.getOpenOrArchivedTask().id}}</small>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -957,7 +957,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Name\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().name}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Name\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getFlowNodeDisplayName()}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -991,7 +991,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Process name (version)\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().processId.name}} ({{taskDetailsCtrl.getOpenOrArchivedTask().processId.version}})</dd></dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Process name\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{taskDetailsCtrl.getProcessDisplayName(taskDetailsCtrl.getOpenOrArchivedTask().processId)}}</dd></dl>"
                             },
                             "type" : {
                               "type" : "constant",
@@ -1040,108 +1040,6 @@
                           "reference" : "5aae1468-e12b-47af-be28-934b371698ad",
                           "hasValidationError" : false,
                           "id" : "pbLink"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 6,
-                            "lg" : 6
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "mt-0 mb-0"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Display name\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().displayName}}\n</dd>\n</dl>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "e408a8bf-d884-4d47-aa90-058705cc90df",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        },
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 6,
-                            "lg" : 6
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "mt-0 mb-0"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Process display name\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().processId.displayName}}\n</dd>\n</dl>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "b69c7e20-2844-47ec-988a-a3a20eaf6642",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
                         }
                       ],
                       [
@@ -1335,6 +1233,131 @@
                             },
                             "hidden" : {
                               "type" : "expression",
+                              "value" : "taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.id === taskDetailsCtrl.getOpenOrArchivedTask().processId.id"
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Root process name\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{taskDetailsCtrl.getProcessDisplayName(taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId)}}</dd></dl>"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "page"
+                            },
+                            "targetUrl" : {
+                              "type" : "constant",
+                              "value" : "http://"
+                            },
+                            "pageToken" : {
+                              "type" : "constant",
+                              "value" : "admin-process-details"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "constant"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_self"
+                            },
+                            "appToken" : {
+                              "type" : "constant"
+                            },
+                            "urlParams" : {
+                              "type" : "expression",
+                              "value" : "redirectToDetailsPage.payload(taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.id)"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            }
+                          },
+                          "reference" : "1ce0b27a-bdf8-4f42-a781-36acac62517e",
+                          "hasValidationError" : false,
+                          "id" : "pbLink"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "mt-0 mb-0"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Due date\"|uiTranslate}}</dt>\n<dd class=\"{{ taskDetailsCtrl.isDueDateOverdue(taskDetailsCtrl.getOpenOrArchivedTask().dueDate) && 'text-danger' || '' }}\">\n{{taskDetailsCtrl.getOpenOrArchivedTask().dueDate && taskDetailsCtrl.getOpenOrArchivedTask().dueDate.replace(\" \", \"T\") || \"--\" |uiDate:'short'}} <i class=\"glyphicon glyphicon-time {{taskDetailsCtrl.isDueDateOverdue(taskDetailsCtrl.getOpenOrArchivedTask().dueDate) || 'hidden' }}\" title=\"{{'This task is overdue' | uiTranslate}}\"></i>\n</dd>\n</dl>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "315c687a-9486-47a7-9ba7-b80a21314874",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "pl-0 pt-0 pb-0 mt-0 mb-0 link-height"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
                               "value" : "taskDetailsCtrl.getOpenOrArchivedTask().rootCaseId === taskDetailsCtrl.getOpenOrArchivedTask().parentCaseId"
                             },
                             "allowHTML" : {
@@ -1434,131 +1457,6 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Due date\"|uiTranslate}}</dt>\n<dd class=\"{{ taskDetailsCtrl.isDueDateOverdue(taskDetailsCtrl.getOpenOrArchivedTask().dueDate) && 'text-danger' || '' }}\">\n{{taskDetailsCtrl.getOpenOrArchivedTask().dueDate && taskDetailsCtrl.getOpenOrArchivedTask().dueDate.replace(\" \", \"T\") || \"--\" |uiDate:'short'}} <i class=\"glyphicon glyphicon-time {{taskDetailsCtrl.isDueDateOverdue(taskDetailsCtrl.getOpenOrArchivedTask().dueDate) || 'hidden' }}\" title=\"{{'This task is overdue' | uiTranslate}}\"></i>\n</dd>\n</dl>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "315c687a-9486-47a7-9ba7-b80a21314874",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        },
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 6,
-                            "lg" : 6
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "pl-0 pt-0 pb-0 mt-0 mb-0 link-height"
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.id === taskDetailsCtrl.getOpenOrArchivedTask().processId.id"
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Root process name (version)\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.name}} ({{taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.version}})</dd></dl>"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "page"
-                            },
-                            "targetUrl" : {
-                              "type" : "constant",
-                              "value" : "http://"
-                            },
-                            "pageToken" : {
-                              "type" : "constant",
-                              "value" : "admin-process-details"
-                            },
-                            "processName" : {
-                              "type" : "constant"
-                            },
-                            "processVersion" : {
-                              "type" : "constant"
-                            },
-                            "taskId" : {
-                              "type" : "constant"
-                            },
-                            "caseId" : {
-                              "type" : "constant"
-                            },
-                            "target" : {
-                              "type" : "constant",
-                              "value" : "_self"
-                            },
-                            "appToken" : {
-                              "type" : "constant"
-                            },
-                            "urlParams" : {
-                              "type" : "expression",
-                              "value" : "redirectToDetailsPage.payload(taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.id)"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "link"
-                            }
-                          },
-                          "reference" : "1ce0b27a-bdf8-4f42-a781-36acac62517e",
-                          "hasValidationError" : false,
-                          "id" : "pbLink"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 6,
-                            "lg" : 6
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : "mt-0 mb-0"
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "text" : {
-                              "type" : "interpolation",
                               "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Assigned on\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().assigned_date && (taskDetailsCtrl.getOpenOrArchivedTask().assigned_date.replace(\" \", \"T\")|uiDate:'short') || \"--\"}}\n</dd>\n</dl>"
                             },
                             "alignment" : {
@@ -1567,56 +1465,6 @@
                             }
                           },
                           "reference" : "d0c78f67-ee1d-4edf-a7b9-a805123ddd37",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        },
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 6,
-                            "lg" : 6
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.id === taskDetailsCtrl.getOpenOrArchivedTask().processId.id"
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Root process display name\"|uiTranslate}}</dt>\n<dd class=\"text-capitalize\">{{taskDetailsCtrl.getOpenOrArchivedTask().rootContainerId.displayName}}</dd>\n</dl>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "e3a72ba2-2489-4603-bf9b-fb85ae9febef",
                           "hasValidationError" : false,
                           "id" : "pbText"
                         }
@@ -1672,58 +1520,6 @@
                           "hasValidationError" : false,
                           "id" : "pbText"
                         }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"executing\" && taskDetailsCtrl.getOpenOrArchivedTask().state !== \"initializing\""
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{\"No action can be performed while the task is executing or initializing. Refresh the page to check its new status.\" | translate}}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "97eead2b-ec77-4cf0-9d2d-bb9f1ab23f18",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
                       ]
                     ]
                   }
@@ -1743,8 +1539,60 @@
                         "value" : "panel-footer py-5 panel-footer-text mb-0"
                       },
                       "hidden" : {
+                        "type" : "expression",
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state !== \"executing\" && taskDetailsCtrl.getOpenOrArchivedTask().state !== \"initializing\""
+                      },
+                      "labelHidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{\"No action can be performed while the task is executing or initializing. Refresh the page to check its new status.\" | translate}}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "97eead2b-ec77-4cf0-9d2d-bb9f1ab23f18",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "panel-footer py-5 panel-footer-text mb-0"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "taskDetailsCtrl.getOpenOrArchivedTask().state === \"executing\" || taskDetailsCtrl.getOpenOrArchivedTask().state === \"initializing\""
                       },
                       "allowHTML" : {
                         "type" : "constant",
@@ -1768,7 +1616,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<span class=\"{{taskDetailsCtrl.getOpenOrArchivedTask().state | stateIcon}} {{taskDetailsCtrl.getOpenOrArchivedTask().state | stateColor}}\"></span> {{  taskDetailsCtrl.getOpenOrArchivedTask() | stateMessage}}"
+                        "value" : "<span class=\"{{taskDetailsCtrl.getOpenOrArchivedTask().state | stateIcon}} {{taskDetailsCtrl.getOpenOrArchivedTask().state | stateColor}}\"></span> {{taskDetailsCtrl.getOpenOrArchivedTask() | stateMessage}}"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1795,11 +1643,225 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
+                  "value" : "mb-10"
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "!archivedTaskDetails.length || !allFlowNodeFailures.length"
+                },
+                "repeatedCollection" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "f98ecf81-6bdf-47b8-bc4d-39a93416fce6",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "pl-0 pr-0 pb-0 pt-0 btn-show-hide-errors"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "archivedFailureFlowNodeData.displayErrorDetails.includes(true)"
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "<span class=\"glyphicon glyphicon-exclamation-sign text-danger\"></span> {{\"Errors occurred on this flow node,\" | uiTranslate}} <u>{{\"click here to view the details\" | uiTranslate}}</u>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "link"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Add to collection"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable"
+                      },
+                      "dataToSend" : {
+                        "type" : "constant"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable"
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable"
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable",
+                        "value" : "archivedFailureFlowNodeData.displayErrorDetails"
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "First"
+                      },
+                      "valueToAdd" : {
+                        "type" : "expression",
+                        "value" : "true"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      }
+                    },
+                    "reference" : "2aa90e96-982a-4aaf-a89b-648b02b3125d",
+                    "hasValidationError" : false,
+                    "id" : "pbButton"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "pl-0 pr-0 pb-0 pt-0 btn-show-hide-errors"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!archivedFailureFlowNodeData.displayErrorDetails.length"
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "<span class=\"glyphicon glyphicon-exclamation-sign text-danger\"></span> {{\"Errors occurred on this flow node,\" | uiTranslate}} <u>{{\"click here to hide the details\" | uiTranslate}}</u>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "link"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Remove from collection"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable"
+                      },
+                      "dataToSend" : {
+                        "type" : "constant"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable"
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable"
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable",
+                        "value" : "archivedFailureFlowNodeData.displayErrorDetails"
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "First"
+                      },
+                      "valueToAdd" : {
+                        "type" : "constant"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      }
+                    },
+                    "reference" : "5d516467-b23c-4fdc-a135-15d173da5e2a",
+                    "hasValidationError" : false,
+                    "id" : "pbButton"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
                   "value" : "panel panel-danger"
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") || failureFlowNode.length === 0 || failureFlowNodeData.statusCode !== 200"
+                  "value" : "failureFlowNodeCtrl.hideErrorDetails()"
                 },
                 "repeatedCollection" : {
                   "type" : "variable"
@@ -1915,7 +1977,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Scope\"|uiTranslate}}</dt>\n<dd>{{failureFlowNode[0].scope}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Scope\"|uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].scope}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1967,7 +2029,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Context\" |uiTranslate}}</dt>\n<dd>{{failureFlowNode[0].context || '--'}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Context\" |uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].context || '--'}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2019,7 +2081,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{failureFlowNode[0].errorMessage}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].errorMessage}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2071,7 +2133,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{failureFlowNode[0].stackTrace}}</pre>\n</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{allFlowNodeFailures[0].stackTrace}}</pre>\n</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2099,7 +2161,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "failureFlowNode.length <= 1"
+                              "value" : "allFlowNodeFailures.length <= 1"
                             },
                             "repeatedCollection" : {
                               "type" : "variable"
@@ -2315,7 +2377,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<strong>{{\"Error \n message\"|uiTranslate}}</strong>"
+                                          "value" : "<strong>{{\"Error message\"|uiTranslate}}</strong>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -2350,7 +2412,7 @@
                                   },
                                   "repeatedCollection" : {
                                     "type" : "variable",
-                                    "value" : "failureFlowNode.slice(1)"
+                                    "value" : "allFlowNodeFailures.slice(1)"
                                   }
                                 },
                                 "reference" : "69647a19-23e5-4237-a959-3cb2c315a050",
@@ -2917,7 +2979,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "mt-20"
+                  "value" : ""
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -6153,7 +6215,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-user\"></i> Assign"
+                          "value" : "<i class=\"glyphicon glyphicon-user\"></i> {{\"Assign\" | uiTranslate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -6827,7 +6889,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-user\" ></i> Unassign"
+                          "value" : "<i class=\"glyphicon glyphicon-user\" ></i> {{\"Unassign\" | uiTranslate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7150,8 +7212,8 @@
                           "value" : ""
                         },
                         "hidden" : {
-                          "type" : "expression",
-                          "value" : "userListData.hasRecentlyBeenApplied"
+                          "type" : "constant",
+                          "value" : false
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -7553,7 +7615,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-fast-forward\"></i> Skip"
+                          "value" : "<i class=\"glyphicon glyphicon-fast-forward\"></i> {{\"Skip\" | uiTranslate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -8701,7 +8763,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-play\"></i> Do the task"
+                          "value" : "<i class=\"glyphicon glyphicon-play\"></i> {{\"Do the task\" | uiTranslate}}"
                         },
                         "type" : {
                           "type" : "constant",
@@ -9820,7 +9882,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "<i class=\"glyphicon glyphicon-repeat\"></i> Replay"
+                          "value" : "<i class=\"glyphicon glyphicon-repeat\"></i> {{\"Replay\" | uiTranslate}}"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -10138,7 +10200,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "item-value"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -10190,7 +10252,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "item-value"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -10242,7 +10304,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "item-value"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -10559,6 +10621,20 @@
         "    getDisplayDescription: function() {",
         "        var displayDescription = getOpenOrArchivedTask().displayDescription;",
         "        return displayDescription ? displayDescription : uiTranslate(\"No description\");",
+        "    },",
+        "    getFlowNodeDisplayName: function() {",
+        "        const task = getOpenOrArchivedTask();",
+        "        ",
+        "        if(task.name === task.displayName) {",
+        "            return task.displayName;",
+        "        }",
+        "        return `${task.displayName} (${task.name})`;",
+        "    },",
+        "    getProcessDisplayName: function(process) {",
+        "        if(process.name === process.displayName) {",
+        "            return `${process.displayName} (${process.version})`;",
+        "        }",
+        "        return `${process.displayName} (${process.name} - ${process.version})`;",
         "    }",
         "};"
       ],
@@ -11201,7 +11277,7 @@
     "failureFlowNode" : {
       "type" : "url",
       "value" : [
-        "{{featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") && \"../API/bpm/failure/flowNode/\" + taskIdQueryParameter + \"?c=5\" || undefined}}"
+        "{{featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") && taskDetails && taskDetails.state === \"failed\" && \"../API/bpm/failure/flowNode/\" + taskIdQueryParameter + \"?c=5\" || undefined}}"
       ],
       "advancedOptions" : {
         "statusCode" : "failureFlowNodeData.statusCode"
@@ -11240,6 +11316,12 @@
         "        const time = failureDate.toLocaleTimeString(setLanguage);",
         "        ",
         "        return `${date} ${time}`;",
+        "    },",
+        "    hideErrorDetails: function(){",
+        "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") ",
+        "        || ($data.allFlowNodeFailures && $data.allFlowNodeFailures.length === 0)",
+        "        || ($data.failureFlowNodeData.statusCode !== 200 && $data.archivedFailureFlowNodeData.statusCode !== 200)",
+        "        || ($data.archivedTaskDetails && $data.archivedTaskDetails.length && !$data.archivedFailureFlowNodeData.displayErrorDetails.includes(true));",
         "    }",
         "};"
       ],
@@ -11278,6 +11360,38 @@
         "    payload: function(id){ ",
         "        return {\"id\": id}; ",
         "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "allFlowNodeFailures" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.archivedFailureFlowNode && $data.archivedFailureFlowNode.length){",
+        "  return $data.archivedFailureFlowNode;",
+        "}",
+        "if($data.failureFlowNode && $data.failureFlowNode.length){",
+        " return $data.failureFlowNode;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "archivedFailureFlowNode" : {
+      "type" : "url",
+      "value" : [
+        "{{featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") && archivedTaskDetails && archivedTaskDetails.length === 1 && \"../API/bpm/archivedFailure/flowNode/\" + taskIdQueryParameter + \"?c=5\" || undefined}}"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "archivedFailureFlowNodeData.statusCode"
+      },
+      "exposed" : false
+    },
+    "archivedFailureFlowNodeData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    statusCode: undefined,",
+        "    displayErrorDetails: []",
         "};"
       ],
       "exposed" : false

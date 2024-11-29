@@ -233,7 +233,7 @@ then("The pending task details have the correct information", () => {
     cy.contains('.text-muted p.text-left', 'ID: 2');
     cy.contains('.item-value', 'This is a task display description.');
     cy.contains('.panel-primary .panel-heading h4', 'General');
-    cy.contains('.panel-primary .dl-horizontal dt', 'Display name');
+    cy.contains('.panel-primary .dl-horizontal dt', 'Name');
     cy.contains('.panel-primary .dl-horizontal dd', 'Request Vacation');
     cy.contains('.panel-primary .dl-horizontal dt','Type');
     cy.contains('.panel-primary .dl-horizontal dd','USER_TASK');
@@ -245,14 +245,12 @@ then("The pending task details have the correct information", () => {
     cy.contains('.panel-primary .dl-horizontal dd','4/30/20 2:37');
     cy.contains('.panel-primary .dl-horizontal dt','Assigned to');
     cy.contains('.panel-primary .dl-horizontal dd','Helen Kelly');
-    cy.contains('.panel-primary .link-height a dt', 'Process name (version)')
-    cy.contains('.panel-primary .link-height a', 'VacationRequest (3.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8835222915848848756');
-    cy.contains('.panel-primary .dl-horizontal dt','Process display name');
-    cy.contains('.panel-primary .dl-horizontal dd','New vacation request with transportation');
+    cy.contains('.panel-primary .link-height a dt', 'Process name')
+    cy.contains('.panel-primary .link-height a', 'New vacation request with transportation and a description of the trip (VacationRequest - 3.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8835222915848848756');
     cy.contains('.panel-primary .link-height a dt','Case Id');
     cy.contains('.panel-primary .link-height a', '4277').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4277');
-    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
     cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
     cy.contains('.panel-primary .dl-horizontal dt','Root process display name').should('not.exist');
     cy.get('.panel-footer span.glyphicon-inbox').should('be.visible');
     cy.contains('.panel-footer p','Ready since Apr 30, 2020 9:22:24 AM');
