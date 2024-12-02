@@ -198,8 +198,24 @@ then("The error notification with show error button is displayed correctly and h
 });
 
 then("The archived failure errors are displayed correctly", () => {
+    function getLocaleDateAndTime(timestamp) {
+        const failureDate = new Date(timestamp);
+        const options = {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        };
+
+        const date = failureDate.toLocaleDateString( 'en-US', options);
+        const time = failureDate.toLocaleTimeString('en-US');
+        return `${date} ${time}`;
+    }
+
     cy.wait('@archivedFailureFlowNodeRoute')
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1732786618732));
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Context');

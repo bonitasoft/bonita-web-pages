@@ -226,6 +226,7 @@ then("The failed task details have the correct information", () => {
     cy.get('.panel-footer span.glyphicon-remove').should('be.visible');
     cy.contains('.panel-footer p','Failed on Apr 30, 2020 9:22:11 AM');
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Context');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Error message');
@@ -499,6 +500,8 @@ then("The failed task details shows correctly the failure history information", 
 
     cy.wait('@failureDetailsWithHistoryRoute')
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1732112345785));
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'UNKNOWN');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Context');

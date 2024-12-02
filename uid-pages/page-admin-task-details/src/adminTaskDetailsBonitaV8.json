@@ -6,7 +6,7 @@
   "uuid" : "bde0c96f-58e2-4cc9-8931-ef9f09d0ad8d",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1732875110672,
+  "lastUpdate" : 1733151846748,
   "description" : "This page provides the detail information of a task. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -1977,6 +1977,58 @@
                             },
                             "text" : {
                               "type" : "interpolation",
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Failed on\"|uiTranslate}}</dt>\n<dd>{{failureFlowNodeCtrl.getFailedDate(allFlowNodeFailures[0].failureDate)}}</dd>\n</dl>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "513d358a-244b-4884-b48a-71e6605b78bf",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "mt-0 mb-0"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "text" : {
+                              "type" : "interpolation",
                               "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Scope\"|uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].scope}}</dd>\n</dl>"
                             },
                             "alignment" : {
@@ -2029,7 +2081,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Context\" |uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].context || '--'}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Context\" |uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].context || '--'}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2081,7 +2133,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].errorMessage}}</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{allFlowNodeFailures[0].errorMessage}}</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2133,7 +2185,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<dl class=\"dl-horizontal\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{allFlowNodeFailures[0].stackTrace}}</pre>\n</dd>\n</dl>"
+                              "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{allFlowNodeFailures[0].stackTrace}}</pre>\n</dd>\n</dl>"
                             },
                             "alignment" : {
                               "type" : "constant",
