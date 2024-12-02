@@ -1,12 +1,12 @@
 {
-  "id" : "adminCaseDetailsBonitaV11",
-  "name" : "adminCaseDetailsBonitaV11",
+  "id" : "adminCaseDetailsBonitaV12",
+  "name" : "adminCaseDetailsBonitaV12",
   "displayName" : "Bonita Admin Case Details",
   "type" : "page",
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1727273895250,
+  "lastUpdate" : 1732890015938,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -69,7 +69,7 @@
             {
               "type" : "component",
               "dimension" : {
-                "xs" : 2,
+                "xs" : 1,
                 "sm" : 1,
                 "md" : 1,
                 "lg" : 1
@@ -160,10 +160,84 @@
             {
               "type" : "component",
               "dimension" : {
-                "xs" : 10,
-                "sm" : 11,
-                "md" : 11,
-                "lg" : 11
+                "xs" : 8,
+                "sm" : 9,
+                "md" : 10,
+                "lg" : 10
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "!featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")"
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<i class=\"glyphicon glyphicon-picture\" title=\"{{\"View diagram\" | uiTranslate}}\"></i>  {{\"Diagram\" | uiTranslate}}"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-case-visu"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "caseVisuQueryParameters.payload()"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                }
+              },
+              "reference" : "bf200488-eb37-460c-88cd-39347491f83e",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 3,
+                "sm" : 2,
+                "md" : 1,
+                "lg" : 1
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -4888,7 +4962,7 @@
         "            return undefined;",
         "        }",
         "        if(isArchived) {",
-        "            return \"?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=\" + $data.caseIdQueryParameter;",
+        "            return \"?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=caller=any&f=sourceObjectId=\" + $data.caseIdQueryParameter;",
         "        }",
         "        return $data.caseIdQueryParameter + \"?d=processDefinitionId&d=started_by&d=startedBySubstitute\";",
         "    },",
@@ -5181,6 +5255,54 @@
         "if ($data.backButtonAction.length && $data.backButtonAction.includes('goToPreviousPage')) {",
         "    window.history.back();",
         "}"
+      ],
+      "exposed" : false
+    },
+    "featuresListCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isFeatureAvailable: function(feature) {",
+        "        if (!$data.featuresList) {",
+        "            return false;",
+        "        }",
+        "        var featureAvailable = false;",
+        "        ",
+        "        $data.featuresList.forEach((f) => {",
+        "            if (f.name === feature) {",
+        "                featureAvailable = true;",
+        "                return;",
+        "            }",
+        "        });",
+        "        ",
+        "        return featureAvailable;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "featuresList" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/feature?p=0&c=100"
+      ],
+      "exposed" : false
+    },
+    "caseVisuQueryParameters" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    payload: function() {",
+        "        let openOrArchivedCase =$data.caseDetailsCtrl.getOpenOrArchivedCase();",
+        "        let caseId;",
+        "        if ($data.caseDetailsCtrl.isArchived()) {",
+        "            caseId = openOrArchivedCase.sourceObjectId;",
+        "        } else {",
+        "            caseId = openOrArchivedCase.id",
+        "        }",
+        "        return {\"id\": openOrArchivedCase.processDefinitionId.id + \"-\" + caseId};",
+        "    }",
+        "};"
       ],
       "exposed" : false
     }
