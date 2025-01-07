@@ -70,7 +70,7 @@ Feature: The Admin Case Details in desktop resolution
     Given The response "archived case" is defined
     And The response "archived comments" is defined
     When I visit the admin case details page
-    Then The state is "completed"
+    Then The state is "Completed"
     And The input placeholder is "Comments cannot be added to archived cases"
     And The input placeholder is not "Type new comment"
     And The comments have the correct information
@@ -81,7 +81,7 @@ Feature: The Admin Case Details in desktop resolution
     When I visit the admin case details page
     And I click on process variables tab
     Then The process variables have the correct information
-  
+
    Scenario: The admin case details displays the archived process variables
     Given The response "archived case" is defined
     And The response "archived process variables with headers" is defined

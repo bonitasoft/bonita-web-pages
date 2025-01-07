@@ -55,10 +55,12 @@ input[type='password'].ng-invalid.ng-dirty {
     padding-left: 10px;
 }
 
+.pr-0,
 .pr-0.component {
     padding-right: 0;
 }
 
+.pt-0,
 .pt-0.component,
 .pt-0 a {
     padding-top: 0;
@@ -68,6 +70,7 @@ input[type='password'].ng-invalid.ng-dirty {
     padding-top: 5px;
 }
 
+.pb-0,
 .pb-0.component {
     padding-bottom: 0;
 }
@@ -76,18 +79,32 @@ input[type='password'].ng-invalid.ng-dirty {
     padding-bottom: 20px;
 }
 
+.py-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.mb-0,
 .mb-0.component {
     margin-bottom: 0;
 }
 
+.ml-0,
 .ml-0.component {
     margin-left: 0;
 }
 
+.ml-5,
+.ml-5 {
+    margin-left: 5px;
+}
+
+.mr-0,
 .mr-0.component {
     margin-right: 0;
 }
 
+.mt-0,
 .mt-0.component {
     margin-top: 0;
 }
@@ -191,9 +208,18 @@ input[type='password'].ng-invalid.ng-dirty {
     width: calc(100% + 3rem);
 }
 
-.action-button-container button {
-    padding-top: 0;
-    padding-bottom: 0;
+.action-buttons-container {
+    .row {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: -webkit-fill-available;
+        
+        button {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
 }
 
 /* For mobile view only */
@@ -237,7 +263,6 @@ input[type='password'].ng-invalid.ng-dirty {
     }
 }
 
-
 .ngdialog.ngdialog-theme-default .ngdialog-content {
     width: 700px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -255,3 +280,75 @@ input[type='password'].ng-invalid.ng-dirty {
     }
 }
 
+.case-title p {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    font-weight:bold;
+}
+
+.w-auto {
+    width: auto;    
+}
+
+.panel-primary {
+    .panel-heading {
+        color: #fff;
+        background-color: #2c3e50;
+        border-color: #ddd;
+        margin: 0;
+        padding: 0 10px;
+    }
+    
+    .link-height .text-left {
+        line-height: 1;
+        
+        a {
+            text-align: left;
+        }
+    }
+}
+    
+.panel-danger {
+    .panel-heading {
+        color: #fff;
+        background-color: #c71c22;
+        border-color: #ddd;
+        margin: 0;
+        padding: 0 10px;
+
+    }
+    
+    .panel-body {
+        padding: 15px;
+    }
+}
+
+.dl-horizontal {
+    dt, dd {
+        line-height: 1;
+        white-space: normal;
+        word-break: break-word;
+    }
+    
+    dd {
+        text-align: left;
+    }
+}
+
+.panel-footer-text p {
+    margin-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+    .dl-horizontal {
+        dt {
+            width: 15em;
+        }
+        
+        dd {
+            margin-left: 16em;
+        }
+    }
+}

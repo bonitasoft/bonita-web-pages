@@ -221,46 +221,56 @@ when("I click on {string} button in the modal", (buttonLabel) => {
 
 then("The case details have the correct information", () => {
     // Check that the element exist.
-    cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
-    cy.get('.item-value').contains('This is a display description of Pool.');
-    cy.get('.item-label').contains('Process name');
-    cy.get('.item-value').contains('Pool');
-    cy.get('.item-label').contains('Process display name');
-    cy.get('.item-value').contains('Pool display name');
-    cy.get('.item-label').contains('Version');
-    cy.get('.item-value').contains('1.0');
-    cy.get('.item-label').contains('State');
-    cy.get('.item-value').contains('started');
-    cy.get('.item-label').contains('Started by');
-    cy.get('.item-value').contains('Walter Bates for William Jobs');
-    cy.get('.item-label').contains('Started on');
-    cy.get('.item-value').contains('12/30/19 4:01 PM');
-    cy.get('.item-label').contains('Last updated');
-    cy.get('.item-value').contains('12/30/19 4:01 PM');
-    cy.get('.item-label').contains('Search key 1');
-    cy.get('.item-value').contains('Search value 1');
-    cy.get('.item-label').contains('Search key 2');
-    cy.get('.item-value').contains('Search value 2');
-    cy.get('.item-label').contains('Search key 3');
-    cy.get('.item-value').contains('Search value 3');
-    cy.get('.item-label').contains('Search key 4');
-    cy.get('.item-value').contains('Search value 4');
-    cy.get('.item-label').contains('Search key 5');
-    cy.get('.item-value').contains('Search value 5');
+    cy.get('.case-title img').should('have.attr', 'alt', 'Case type');
+    cy.contains('.case-title', 'Case of : Pool display name').should('be.visible');
+    cy.contains('.w-auto span.label', 'started');
+    cy.contains('.text-muted p.text-left', 'ID: 1');
+    cy.contains('.item-value', 'This is a display description of Pool.');
+    cy.contains('.panel-primary .panel-heading h4', 'General');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt', 'Started by');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd', 'Walter Bates for William Jobs');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Started on');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','12/30/19 4:01 PM');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','State');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','started');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Last updated');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','12/30/19 4:01 PM');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Process name');
+    cy.contains('.panel-primary .panel-body .link-height a', 'Pool display name (Pool - 1.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=7881320656099632799');
+    cy.contains('.panel-primary .panel-body .label-success', 'Search keys');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Search key 1');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','Search value 1');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Search key 2');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','Search value 2');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Search key 3');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','Search value 3');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Search key 4');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','Search value 4');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Search key 5');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','Search value 5');
+    cy.get('.panel-footer span.glyphicon-inbox').should('be.visible');
+    cy.contains('.panel-footer p','Started on Dec 30, 2019 4:01:56 PM');
+    cy.contains('.panel-danger .panel-heading h4', 'Error details').should('not.exist');
 });
 
 then("The startedBy information is displayed correctly when startedBySubstitute is undefined", () => {
     // Check that the element exist.
-    cy.get('h3.text-left').contains('Case ID: 1').should('be.visible');
-    cy.get('.item-value').contains('No description');
-    cy.get('.item-label').contains('Process display name');
-    cy.get('.item-value').contains('Pool display name');
-    cy.get('.item-label').contains('Started by');
-    cy.get('.item-value').contains('William Jobs');
-    cy.get('.item-label').contains('Started on');
-    cy.get('.item-value').contains('12/30/19 4:01 PM');
-    cy.get('.item-label').contains('Last updated');
-    cy.get('.item-value').contains('12/30/19 4:01 PM');
+    cy.get('.case-title img').should('have.attr', 'alt', 'Case type');
+    cy.contains('.case-title', 'Case of : Pool display name').should('be.visible');
+    cy.contains('.w-auto span.label', 'started');
+    cy.contains('.text-muted p.text-left', 'ID: 1');
+    cy.contains('.item-value', 'No description');
+    cy.contains('.panel-primary .panel-heading h4', 'General');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt', 'Started by');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd', 'William Jobs');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Started on');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','12/30/19 4:01 PM');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','State');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','started');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Last updated');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dd','12/30/19 4:01 PM');
+    cy.contains('.panel-primary .panel-body .dl-horizontal dt','Process name');
+    cy.contains('.panel-primary .panel-body .link-height a', 'Pool display name (Pool - 1.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=7881320656099632799');
 });
 
 then("The comments have the correct information", () => {
@@ -321,7 +331,7 @@ then("The new comment input is empty", () => {
 });
 
 then("The state is {string}", (state) => {
-    cy.get('.item-value p').contains(state).should('be.visible');
+    cy.contains('.panel-footer p', state).should('be.visible');
 });
 
 then("The add comment button is {string}", (buttonState) => {
