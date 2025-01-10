@@ -1,0 +1,542 @@
+{
+  "id" : "fragmentSubCaseMonitoringV1",
+  "name" : "fragmentSubCaseMonitoringV1",
+  "type" : "fragment",
+  "modelVersion" : "2.6",
+  "previousArtifactVersion" : "2.5",
+  "lastUpdate" : 1736156439123,
+  "rows" : [
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable"
+          }
+        },
+        "reference" : "b4b27dfa-0e4d-4da7-8051-d10e6a6d1a7a",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 1,
+                "sm" : 1,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "p-0 m-0"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{caseId}}</small>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-case-details"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "{\"id\" : caseId}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "link"
+                }
+              },
+              "reference" : "a95e332c-2f31-4688-8458-c9b4dadb0f37",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 3,
+                "sm" : 3,
+                "md" : 3,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "p-0 m-0"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{processName}}</small>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-process-details"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "{\"id\" : processId}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "link"
+                }
+              },
+              "reference" : "a73d7cbc-b13d-4970-b320-db272158ad0f",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 2,
+                "sm" : 2,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "expression",
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders)}}</small>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-task-list"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "{\"caseId\" : caseId}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "link"
+                }
+              },
+              "reference" : "764868e6-c5d5-4ce5-b948-f9c5debe4b4d",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 2,
+                "sm" : 2,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "expression",
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders)}}</small>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-task-list"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "{\"caseId\" : caseId}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "link"
+                }
+              },
+              "reference" : "15b5030f-c7cc-4c7f-a2ed-3e23d888f5b4",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 2,
+                "sm" : 2,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "expression",
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders)}}</small>"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "admin-task-list"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "expression",
+                  "value" : "{\"caseId\" : caseId}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "link"
+                }
+              },
+              "reference" : "f9eb25c8-c848-4ea9-b2fb-32f7a1656867",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 2,
+                "sm" : 2,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "m-0"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<small>{{date}}</small>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "5a7b0af6-93ea-4bad-96a9-d2b54e0e279c",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ]
+        ]
+      }
+    ]
+  ],
+  "variables" : {
+    "caseId" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "apiFailedFlowNodes" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId={{caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "subCaseMonitoringData.failedSubTasksFromAPIHeaders"
+      },
+      "exposed" : false
+    },
+    "apiPendingFlowNodes" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId={{caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "subCaseMonitoringData.pendingSubTasksFromAPIHeaders"
+      },
+      "exposed" : false
+    },
+    "apiDoneFailedFlowNodes" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedTask?p=0&c=0&f=parentCaseId={{caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "subCaseMonitoringData.doneSubTasksFromAPIHeaders"
+      },
+      "exposed" : false
+    },
+    "processName" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "processId" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "subCaseMonitoringCtrl" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    getFlowNodeCounter: function(responseHeader) {",
+        "        return responseHeader ? responseHeader['content-range'].split('/')[1] : 0;",
+        "    }",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "subCaseMonitoringData" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"pendingSubTasksFromAPIHeaders\": undefined,",
+        "    \"failedSubTasksFromAPIHeaders\": undefined,",
+        "    \"doneSubTasksFromAPIHeaders\": undefined,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "date" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    }
+  },
+  "assets" : [ ],
+  "inactiveAssets" : [ ],
+  "webResources" : [ ],
+  "hasValidationError" : false
+}

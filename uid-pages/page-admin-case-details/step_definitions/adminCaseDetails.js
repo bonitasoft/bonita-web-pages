@@ -15,6 +15,11 @@ const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
 const archivedProcessVariableUrl = 'API/bpm/archivedCaseVariable?c=10&p=0&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
+const caseMonitoringUrl = 'API/bpm/case?c=5&p=0&d=processDefinitionId&o=startDate DESC&f=caller=any&f=rootCaseId=1';
+const archivedCaseMonitoringUrl = 'API/bpm/archivedCase?c=5&p=0&d=processDefinitionId&o=archiveDate DESC&f=caller=any&f=rootCaseId=1';
+const currentCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCaseId=1';
+const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=1';
+const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
 
 beforeEach(() => {
   // Force locale as we test labels value
@@ -47,26 +52,6 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse('API/system/session/unusedId', 'sessionRoute', 'session');
             createRouteWithResponse('API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=4&f=caseId=1', 'availableTasksRoute', 'availableTasks');
             break;
-        case 'monitor 9 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '9FlowNodeRoute', '9Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '9HumanTask', '9Tasks');
-            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '9TasksRoute', '9Tasks');
-            break;
-        case 'monitor 10 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10FlowNodeRoute', '10Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10HumanTask', '10Tasks');
-            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10TasksRoute', '10Tasks');
-            break;
-        case 'monitor 10+ tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '10+FlowNodeRoute', '10+Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '10+HumanTask', '10+Tasks');
-            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '10+TasksRoute', '10+Tasks');
-            break;
-        case 'monitor 0 tasks':
-            createRouteWithResponse("API/bpm/flowNode?p=0&c=11&f=caseId=1&f=state=failed", '0FlowNodeRoute', '0Tasks');
-            createRouteWithResponse("API/bpm/humanTask?p=0&c=11&f=caseId=1&f=state=ready", '0HumanTask', '0Tasks');
-            createRouteWithResponse("API/bpm/archivedTask?p=0&c=11&f=caseId=1", '0TasksRoute', '0Tasks');
-            break;
         case 'process variables':
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
             break;
@@ -95,6 +80,13 @@ given("The response {string} is defined", (responseType) => {
                     throw new Error("The process variable api should not have been called");
                 }
             });
+            break;
+        case 'current case monitoring':
+            createRouteWithResponse(caseMonitoringUrl, 'openSubCaseMonitoringRoute', 'openSubCaseMonitoring');
+            createRouteWithResponse(archivedCaseMonitoringUrl, 'archivedSubCaseMonitoringRoute', 'archivedSubCaseMonitoring');
+            createRouteWithResponseAndHeaders(currentCaseArchivedFlowNodeUrl,'', 'currentCaseArchivedRoute', 'emptyResult', {'content-range': '0-0/2'});
+            createRouteWithResponseAndHeaders(currentCasePendingFlowNodeUrl,'', 'currentCasePendingRoute', 'emptyResult', {'content-range': '0-0/0'});
+            createRouteWithResponseAndHeaders(currentCaseFailedFlowNodeUrl,'', 'currentCaseFailedRoute', 'emptyResult', {'content-range': '0-0/1'});
             break;
         default:
             throw new Error("Unsupported case");
@@ -286,26 +278,54 @@ then("The comments have the correct information", () => {
     cy.get('.item-value').contains('anthony.nichols');
 });
 
-then("The monitoring have the correct information for {string} tasks", (numberOfTasks) => {
+then("The monitoring section have the correct information for a root case", (numberOfTasks) => {
     // Check that the element exist.
-    switch (numberOfTasks) {
-        case "9":
-            cy.wait(['@9TasksRoute', '@9FlowNodeRoute', '@9HumanTask']);
-            cy.get('.item-value').contains('Failed (9), Pending (9), Done (9)');
-            break;
-        case "10":
-            cy.wait(['@10TasksRoute', '@10FlowNodeRoute', '@10HumanTask']);
-            cy.get('.item-value').contains('Failed (10), Pending (10), Done (10)');
-            break;
-        case "11":
-            cy.wait(['@10+TasksRoute', '@10+FlowNodeRoute', '@10+HumanTask']);
-            cy.get('.item-value').contains('Failed (10+), Pending (10+), Done (10+)');
-            break;
-        case "0":
-            cy.wait(['@0TasksRoute', '@0FlowNodeRoute', '@0HumanTask']);
-            cy.get('.item-value').contains('No task in the task list for this case.');
-            break;
-    }
+    cy.contains('.panel-primary .panel-heading h4', 'Monitoring');
+    cy.contains('.panel-body h4', 'Case monitoring');
+    cy.contains('.well-sm p small', 'Done flow nodes');
+    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
+    cy.contains('.well-sm p small', 'Pending flow nodes');
+    cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
+    cy.contains('.well-sm p small', 'Failed flow nodes');
+    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
+    cy.contains('.px-3 h4', 'Sub case monitoring');
+
+    cy.get('ul.nav-tabs').eq(0).within(() => {
+        cy.get('li tab-heading').should('have.length', 2);
+        cy.get('li tab-heading').eq(0).contains('Open sub cases');
+        cy.get('li tab-heading').eq(1).contains('Archived sub cases');
+    });
+    cy.get('.tab-content').within(() => {
+        cy.contains('.well-sm p small', 'Id');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '2');
+        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
+
+        cy.contains('.well-sm p small', 'Process name');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', 'DirectChild');
+        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8775543365026706254');
+
+        cy.contains('.well-sm p small', 'Done flow nodes');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(2).should('have.css', 'pointer-events', 'none');
+
+        cy.contains('.well-sm p small', 'Pending flow nodes');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
+
+        cy.contains('.well-sm p small', 'Failed flow nodes');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(4).should('have.css', 'pointer-events', 'none');
+
+        cy.contains('.well-sm p small', 'Start date');
+        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 p small', '1/3/25 4:04 PM');
+        cy.contains('.well-sm p small', 'End date').should('not.exist');
+    });
+
+    cy.contains('.item-label p', 'Sub cases shown:');
+});
+
+then('The monitoring section have the correct information for no cases', () => {
+    cy.contains('pb-fragment-fragment-load-more-v1 h4', 'No sub cases available for this case');
 });
 
 then("There are no search keys", () => {

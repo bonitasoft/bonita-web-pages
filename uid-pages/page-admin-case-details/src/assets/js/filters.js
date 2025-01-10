@@ -1,7 +1,7 @@
 angular.module('bonitasoft.ui.extensions')
  .filter('typeIcon', function () {
    return function typeIcon(type) {
-       return type && (type.rootcaseId !== type.id) ? 'subprocess' : 'process';
+       return type && (type.rootCaseId !== type.id) ? 'subprocess' : 'process';
    };
 }).filter('statusToCss', function () {
    return function statusToCss(status) {
