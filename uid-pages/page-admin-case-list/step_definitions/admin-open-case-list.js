@@ -35,6 +35,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
+        case "default filter with all cases":
+            createRouteWithResponse(defaultRequestUrl, '&f=caller=any', 'openCasesWithSubProcessRoute', 'openCasesWithSubProcess');
+            break;
         case "default filter without features":
             createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');
             break;
@@ -223,6 +226,10 @@ when("I visit the admin case list page with the following url parameters", (urlP
 
 when("I click on {string} tab", (tabName) => {
     cy.get("a").contains(tabName).click();
+});
+
+when("I click on {string} radio button", (radioLabel) => {
+    cy.get('.view-mode label').filter(':contains('+ radioLabel + ')').children('input').eq(0).click();
 });
 
 when("I put {string} in {string} filter field for open cases", (filterValue, filterType) => {

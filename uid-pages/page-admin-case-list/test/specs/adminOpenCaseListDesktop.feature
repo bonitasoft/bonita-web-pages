@@ -15,6 +15,14 @@ Feature: The admin open case list in desktop resolution
     When I click on "Open cases" tab
     Then I see an open case list page
 
+  Scenario: The admin open case list is able to show all cases
+    Given The filter response "default filter" is defined for open cases
+    And The filter response "default filter with all cases" is defined for open cases
+    When I visit the admin case list page
+    And I click on "All cases" radio button
+    Then I see an open case list page
+    And A list of "6" items is displayed
+
   Scenario: The admin open case list filtered by process name works correctly
     Given The filter response "default filter" is defined for open cases
     And The filter response "process name" is defined for open cases

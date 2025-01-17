@@ -20,6 +20,16 @@ Feature: The admin archived case list in desktop resolution
     When I click on "Archived cases" tab
     Then I see an archived case list page
 
+  Scenario: The admin archived case list is able to show all cases
+    Given The filter response "default filter" is defined for open cases
+    And The filter response "default filter" is defined for archived cases
+    And The filter response "default filter with all cases" is defined for archived cases
+    When I visit the admin case list page
+    And I click on "All cases" radio button
+    And I click on "Archived cases" tab
+    Then I see an archived case list page
+    And A list of "6" items is displayed
+
   Scenario: The admin archived case list filtered by process name works correctly
     Given The filter response "no open cases" is defined for open cases
     And  The filter response "default filter" is defined for archived cases

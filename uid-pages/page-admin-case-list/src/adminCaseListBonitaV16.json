@@ -1,12 +1,12 @@
 {
-  "id" : "adminCaseListBonitaV15",
-  "name" : "adminCaseListBonitaV15",
+  "id" : "adminCaseListBonitaV16",
+  "name" : "adminCaseListBonitaV16",
   "displayName" : "Bonita Admin Case List",
   "type" : "page",
   "uuid" : "6fc3d1be-750f-4e2d-b244-308d15032873",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1703064483431,
+  "lastUpdate" : 1737132351106,
   "description" : "This page provides the list of open and archived cases. It is dedicated to admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -107,39 +107,80 @@
           ],
           [
             {
-              "type" : "container",
+              "type" : "component",
               "dimension" : {
                 "xs" : 12,
-                "sm" : 12,
+                "sm" : 6,
                 "md" : 6,
                 "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "view-mode"
                 },
                 "hidden" : {
                   "type" : "constant",
                   "value" : false
                 },
-                "repeatedCollection" : {
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Show"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 2
+                },
+                "inline" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "caseData.viewMode"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "label"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "showSubCases"
+                },
+                "selectedValue" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "caseData.showSubCases"
                 }
               },
-              "reference" : "add66938-4e4d-413e-a54f-91b374674d35",
+              "reference" : "263483d9-c93f-4ce8-bf99-33ab61a2166c",
               "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [ ]
-              ]
+              "id" : "pbRadioButtons"
             },
             {
               "type" : "component",
               "dimension" : {
-                "xs" : 9,
-                "sm" : 10,
+                "xs" : 10,
+                "sm" : 5,
                 "md" : 5,
                 "lg" : 5
               },
@@ -222,15 +263,15 @@
             {
               "type" : "component",
               "dimension" : {
-                "xs" : 3,
-                "sm" : 2,
+                "xs" : 2,
+                "sm" : 1,
                 "md" : 1,
                 "lg" : 1
               },
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "(!caseData.filters.caseIdFilter || caseData.filters.caseIdFilter === \"\") ? \"isDisabled\" : \"\""
+                  "value" : "(!caseData.filters.caseIdFilter || caseData.filters.caseIdFilter === \"\") ? \"isDisabled pr-0\" : \"pr-0\""
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -6458,7 +6499,18 @@
         "    numberOfCasesPerPage: 10,",
         "    refreshAction: [],",
         "    timestamp: 0,",
-        "    previousSearchValue: \"\"",
+        "    previousSearchValue: \"\",",
+        "    viewMode: [",
+        "        {",
+        "            label: uiTranslate(\"Root cases only\"),",
+        "            showSubCases: false",
+        "        },",
+        "       {",
+        "            label: uiTranslate(\"All cases\"),",
+        "            showSubCases: true",
+        "        }",
+        "    ],",
+        "    showSubCases: false ",
         "};"
       ],
       "exposed" : false
@@ -6615,10 +6667,13 @@
         "    if(filters.processId){",
         "        urlSearchParams.append('f', 'processDefinitionId='+ filters.processId);",
         "    }",
+        "    if($data.caseData.showSubCases){",
+        "        urlSearchParams.append('f', 'caller=any');",
+        "    }",
         "    if(filters.sort){",
         "        urlSearchParams.append('o', `${sortId(filters, archived)}${filters.sort}`);",
         "    }",
-        "     if(filters.search){",
+        "    if(filters.search){",
         "        urlSearchParams.append('s', filters.search);",
         "    }",
         "    return '&' + urlSearchParams.toString();",
