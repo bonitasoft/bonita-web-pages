@@ -288,7 +288,7 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
     cy.contains('.well-sm p small', 'Failed flow nodes');
     cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
-    cy.contains('.px-3 h4', 'Sub case monitoring');
+    cy.contains('.px-3 h4', 'Sub-cases monitoring');
 
     cy.get('ul.nav-tabs').eq(0).within(() => {
         cy.get('li tab-heading').should('have.length', 2);

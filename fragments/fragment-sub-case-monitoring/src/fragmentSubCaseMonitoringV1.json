@@ -4,7 +4,7 @@
   "type" : "fragment",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1736156439123,
+  "lastUpdate" : 1737043523258,
   "rows" : [
     [
       {
@@ -190,7 +190,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -263,7 +263,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -336,7 +336,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders) < 1 ? 'noClick m-0' : 'm-0'"
+                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders) < 1 ? 'no-click m-0 failed-count' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -348,7 +348,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders)}}</small>"
+                  "value" : "{{failedFlowNodeCounter}}"
                 },
                 "type" : {
                   "type" : "constant",
@@ -394,7 +394,7 @@
                   "value" : "link"
                 }
               },
-              "reference" : "f9eb25c8-c848-4ea9-b2fb-32f7a1656867",
+              "reference" : "1dfe944c-da4e-45ee-9ca3-a979f6ed71e1",
               "hasValidationError" : false,
               "id" : "pbLink"
             },
@@ -533,6 +533,19 @@
         ""
       ],
       "exposed" : true
+    },
+    "failedFlowNodeCounter" : {
+      "type" : "expression",
+      "value" : [
+        "const flowNodeCounter = $data.subCaseMonitoringCtrl.getFlowNodeCounter($data.subCaseMonitoringData.failedSubTasksFromAPIHeaders);",
+        "",
+        "if(flowNodeCounter < 1) {",
+        "    return `<small>${flowNodeCounter}</small>`;",
+        "} else {",
+        "    return `<i class=\"glyphicon glyphicon-exclamation-sign text-warning\"></i> <small>${flowNodeCounter}</small>`;",
+        "}"
+      ],
+      "exposed" : false
     }
   },
   "assets" : [ ],

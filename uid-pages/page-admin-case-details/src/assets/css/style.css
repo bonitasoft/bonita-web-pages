@@ -1,3 +1,24 @@
+/* vertical tabs */
+/*.nav-tabs>li>a,*/
+/*.nav-tabs>li.active>a, */
+/*.nav-tabs>li.active>a:hover, */
+/*.nav-tabs>li.active>a:focus {*/
+/*    border: none;*/
+/*}*/
+
+@media (min-width:  768px) {
+    .tab-vertical .nav {
+        float: left;
+        width: 20%;
+    }
+
+    .tab-vertical .tab-content {
+        float: left;
+        width: 80%;
+    }
+}
+
+
 /* Add margin bottom and top to each widgets */
 .component {
     margin-bottom: 3px;
@@ -71,7 +92,8 @@ input[type='password'].ng-invalid.ng-dirty {
 
 .pt-0,
 .pt-0.component,
-.pt-0 a {
+.pt-0 a,
+.pt-0 button {
     padding-top: 0;
 }
 
@@ -80,7 +102,8 @@ input[type='password'].ng-invalid.ng-dirty {
 }
 
 .pb-0,
-.pb-0.component {
+.pb-0.component,
+.pb-0 button {
     padding-bottom: 0;
 }
 
@@ -154,10 +177,10 @@ input[type='password'].ng-invalid.ng-dirty {
     margin-bottom: 0;
 }
 
+.item-label,
 .item-label p,
 .item-label.component {
     font-size: 11px;
-    opacity: 0.7;
     margin: 0;
     word-wrap: break-word;
     word-break: break-word;
@@ -167,8 +190,7 @@ input[type='password'].ng-invalid.ng-dirty {
 .item-value a,
 .item-value p {
     font-size: 12px;
-    margin: 0 0 3px 0;
-    padding-right: 0;
+    margin: 0;
     word-wrap: break-word;
     word-break: break-word;
 }
@@ -366,6 +388,12 @@ input[type='password'].ng-invalid.ng-dirty {
     margin-bottom: 0;
 }
 
+.overflow-scroll {
+    max-height: 100%;
+    height: 300px;
+    overflow-y: auto;
+}
+
 @media screen and (min-width: 768px) {
     .dl-horizontal {
         dt {
@@ -382,13 +410,43 @@ input[type='password'].ng-invalid.ng-dirty {
     overflow: hidden;
     transition: 0.3s;
     margin-block-end: 10px;
- 
+
 }
 
-.noClick {
+.no-click {
    pointer-events: none;
 }
 
 .line-height-1 {
     line-height: 1;
+}
+
+.btn-show-hide-errors button:hover {
+    text-decoration: none;
+}
+
+.failed-count {
+    padding-inline-start: 3.4rem
+}
+
+.flownode-link {
+    padding-left: 2px;
+    
+    a,
+    a:hover,
+    a:active,
+    a:focus {
+        text-decoration: none;    
+    }
+}
+
+.modal-body .form-group {
+    label.control-label {
+        margin-bottom: 0;
+    }
+    
+    p.form-control-static {
+        padding-top: 0;
+        min-height: max-content;
+    }
 }
