@@ -1,10 +1,10 @@
 import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
-const defaultFilters = '&f=state=ready&d=rootContainerId&d=assigned_id';
+const defaultFilters = '&f=state=pending&d=rootContainerId&d=assigned_id';
 const processUrl = urlPrefix + 'API/bpm/process?';
 const processFilters = 'c=999&p=0&o=displayName ASC';
-const pendingTasksUrl = 'API/bpm/humanTask?';
+const pendingTasksUrl = 'API/bpm/flowNode?';
 const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=10&p=0' + defaultFilters;
 
 beforeEach(() => {
@@ -36,7 +36,7 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             break;
         case 'search by name':
             createRoute('&t=0&s=InvolveUser', 'searchRoute');
-            createRouteForSpecialCharacter(urlPrefix + 'API/bpm/humanTask', '&Special', 'filterByTaskNameWithSpecialCharacterRoute')
+            createRouteForSpecialCharacter(urlPrefix + 'API/bpm/flowNode', '&Special', 'filterByTaskNameWithSpecialCharacterRoute')
             createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
@@ -70,7 +70,7 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             query: {
                 'c': '10',
                 'p': '0',
-                'f': 'state=ready',
+                'f': 'state=pending',
                 'd[0]': 'rootContainerId',
                 'd[1]': 'assign_id',
                 't': '0',
