@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1737370953336,
+  "lastUpdate" : 1737401630714,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -3251,7 +3251,7 @@
                                   "numberOfItemsPerPage" : "subCaseMonitoringData.numberOfFlowNodesPerPage",
                                   "buttonLabel" : "\"Load more sub cases\"",
                                   "urlPrefix" : "subCaseMonitoringCtrl.defaultSubCasesUrl()",
-                                  "noItemsMessage" : "\"No sub cases available for this case\"",
+                                  "noItemsMessage" : "\"No sub cases for this case\"",
                                   "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
                                   "itemsShownMessage" : "\"Sub cases shown\"",
                                   "filtersString" : "subCaseMonitoringData.openSubCasesActiveTab && !subCaseMonitoringData.archivedSubCasesActiveTab ? subCaseMonitoringCtrl.getOpenSubCaseQueryParamters() : subCaseMonitoringCtrl.getArchivedSubCaseQueryParameters()",
@@ -3563,8 +3563,8 @@
                         "value" : "px-3"
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "caseFailures.length === 0"
                       },
                       "repeatedCollection" : {
                         "type" : "variable"
@@ -3707,8 +3707,8 @@
                                     "value" : "pl-0 pt-0 pb-0 mt-0 mb-0 link-height"
                                   },
                                   "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "caseFailures[0].flowNodeInstanceId < 1"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -10401,8 +10401,10 @@
         "    },",
         "    hideErrorDetails: function(){",
         "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") ",
-        "        || ($data.caseFailures && $data.caseFailures.length === 0)",
-        "        || $data.failureCaseData.statusCode !== 200 ",
+        "        || (!$data.caseFailures && !$data.subCaseFailures)",
+        "        || ($data.caseFailures && $data.caseFailures.length === 0",
+        "            && $data.subCaseFailures && $data.subCaseFailures.length === 0)",
+        "        || ($data.failureCaseData.statusCode !== 200 && $data.failureCaseData.subFailuresStatusCode !== 200)",
         "        || ($data.archivedCase && $data.archivedCase.length && !$data.failureCaseData.displayErrorDetails.includes(true));",
         "    },",
         "    getFailedDate: function(timestamp) {",
@@ -10448,6 +10450,7 @@
         "return {",
         "    previousFailure: {},",
         "    statusCode: undefined,",
+        "    subFailuresStatusCode: undefined,",
         "    displayErrorDetails: []",
         "};"
       ],
@@ -10484,6 +10487,9 @@
       "value" : [
         "{{failureCaseCtrl.getSubCaseFailureUrls()}}"
       ],
+      "advancedOptions" : {
+        "statusCode" : "failureCaseData.subFailuresStatusCode"
+      },
       "exposed" : false
     }
   },

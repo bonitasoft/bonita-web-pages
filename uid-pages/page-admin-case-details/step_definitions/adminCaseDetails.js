@@ -325,7 +325,7 @@ then("The monitoring section have the correct information for a root case", (num
 });
 
 then('The monitoring section have the correct information for no cases', () => {
-    cy.contains('pb-fragment-fragment-load-more-v1 h4', 'No sub cases available for this case');
+    cy.contains('pb-fragment-fragment-load-more-v1 h4', 'No sub cases for this case');
 });
 
 then("There are no search keys", () => {
