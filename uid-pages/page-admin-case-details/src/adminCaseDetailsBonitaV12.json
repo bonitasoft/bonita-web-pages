@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1737401630714,
+  "lastUpdate" : 1737538691683,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -5173,7 +5173,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures[0].flowNodeInstanceId < 1"
+                                    "value" : "subCaseFailures[0].flowNodeInstanceId <= 0"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -5248,7 +5248,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures[0].flowNodeInstanceId >= 0"
+                                    "value" : "subCaseFailures[0].flowNodeInstanceId > 0"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -5684,8 +5684,8 @@
                                                 "value" : "item-label text-muted"
                                               },
                                               "hidden" : {
-                                                "type" : "expression",
-                                                "value" : "subCaseFailures[0].flowNodeInstanceId < 1"
+                                                "type" : "constant",
+                                                "value" : false
                                               },
                                               "allowHTML" : {
                                                 "type" : "constant",
@@ -5709,7 +5709,7 @@
                                               },
                                               "text" : {
                                                 "type" : "interpolation",
-                                                "value" : "<strong>{{\"Flow node\"|uiTranslate}}</strong>"
+                                                "value" : "<strong>{{\"Case / Flow node\"|uiTranslate}}</strong>"
                                               },
                                               "alignment" : {
                                                 "type" : "constant",
@@ -5717,56 +5717,6 @@
                                               }
                                             },
                                             "reference" : "3637fbe6-e6fc-4025-a09f-a1df514b919d",
-                                            "hasValidationError" : false,
-                                            "id" : "pbText"
-                                          },
-                                          {
-                                            "type" : "component",
-                                            "dimension" : {
-                                              "xs" : 12,
-                                              "sm" : 2,
-                                              "md" : 2,
-                                              "lg" : 2
-                                            },
-                                            "propertyValues" : {
-                                              "cssClasses" : {
-                                                "type" : "constant",
-                                                "value" : "item-label text-muted"
-                                              },
-                                              "hidden" : {
-                                                "type" : "expression",
-                                                "value" : "subCaseFailures[0].flowNodeInstanceId >= 0"
-                                              },
-                                              "allowHTML" : {
-                                                "type" : "constant",
-                                                "value" : true
-                                              },
-                                              "labelHidden" : {
-                                                "type" : "constant",
-                                                "value" : true
-                                              },
-                                              "label" : {
-                                                "type" : "interpolation",
-                                                "value" : "Default label"
-                                              },
-                                              "labelPosition" : {
-                                                "type" : "constant",
-                                                "value" : "top"
-                                              },
-                                              "labelWidth" : {
-                                                "type" : "constant",
-                                                "value" : 4
-                                              },
-                                              "text" : {
-                                                "type" : "interpolation",
-                                                "value" : "<strong>{{\"Case\"|uiTranslate}}</strong>"
-                                              },
-                                              "alignment" : {
-                                                "type" : "constant",
-                                                "value" : "left"
-                                              }
-                                            },
-                                            "reference" : "b87be1bf-a1b1-4cb4-a69b-d19686a72ae9",
                                             "hasValidationError" : false,
                                             "id" : "pbText"
                                           },
@@ -6048,7 +5998,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "$item.flowNodeInstanceId < 1"
+                                                "value" : ""
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable"
@@ -6098,7 +6048,7 @@
                                                     },
                                                     "text" : {
                                                       "type" : "interpolation",
-                                                      "value" : "<strong>{{\"Flow node\"|uiTranslate}}</strong>"
+                                                      "value" : "<strong>{{\"Case / Flow node\"|uiTranslate}}</strong>"
                                                     },
                                                     "alignment" : {
                                                       "type" : "constant",
@@ -6134,7 +6084,7 @@
                                                     },
                                                     "text" : {
                                                       "type" : "interpolation",
-                                                      "value" : "{{$item.flowNodeInstanceId}}"
+                                                      "value" : "{{failureCaseCtrl.getCaseOrFlowNodeId($item.flowNodeInstanceId, $item.caseId)}}"
                                                     },
                                                     "type" : {
                                                       "type" : "constant",
@@ -6145,8 +6095,8 @@
                                                       "value" : "http://"
                                                     },
                                                     "pageToken" : {
-                                                      "type" : "constant",
-                                                      "value" : "admin-task-details"
+                                                      "type" : "expression",
+                                                      "value" : "failureCaseCtrl.getDetailsPageToken($item.flowNodeInstanceId, $item.caseId)"
                                                     },
                                                     "processName" : {
                                                       "type" : "constant"
@@ -6169,7 +6119,7 @@
                                                     },
                                                     "urlParams" : {
                                                       "type" : "expression",
-                                                      "value" : "{\"id\" : $item.flowNodeInstanceId}"
+                                                      "value" : "{\"id\": failureCaseCtrl.getCaseOrFlowNodeId($item.flowNodeInstanceId, $item.caseId)}"
                                                     },
                                                     "alignment" : {
                                                       "type" : "constant",
@@ -6181,160 +6131,6 @@
                                                     }
                                                   },
                                                   "reference" : "36cf3bb4-7825-42e7-933e-f9b5bf22d9d6",
-                                                  "hasValidationError" : false,
-                                                  "id" : "pbLink"
-                                                }
-                                              ]
-                                            ]
-                                          },
-                                          {
-                                            "type" : "container",
-                                            "dimension" : {
-                                              "xs" : 12,
-                                              "sm" : 2,
-                                              "md" : 2,
-                                              "lg" : 2
-                                            },
-                                            "propertyValues" : {
-                                              "cssClasses" : {
-                                                "type" : "constant",
-                                                "value" : ""
-                                              },
-                                              "hidden" : {
-                                                "type" : "expression",
-                                                "value" : "$item.flowNodeInstanceId >= 0"
-                                              },
-                                              "repeatedCollection" : {
-                                                "type" : "variable"
-                                              }
-                                            },
-                                            "reference" : "c1b6ec6b-4bcf-4fa9-980c-2eaa96306900",
-                                            "hasValidationError" : false,
-                                            "id" : "pbContainer",
-                                            "rows" : [
-                                              [
-                                                {
-                                                  "type" : "component",
-                                                  "dimension" : {
-                                                    "xs" : 12,
-                                                    "sm" : 12,
-                                                    "md" : 12,
-                                                    "lg" : 12
-                                                  },
-                                                  "propertyValues" : {
-                                                    "cssClasses" : {
-                                                      "type" : "constant",
-                                                      "value" : "item-label visible-xs text-muted"
-                                                    },
-                                                    "hidden" : {
-                                                      "type" : "constant",
-                                                      "value" : false
-                                                    },
-                                                    "allowHTML" : {
-                                                      "type" : "constant",
-                                                      "value" : true
-                                                    },
-                                                    "labelHidden" : {
-                                                      "type" : "constant",
-                                                      "value" : true
-                                                    },
-                                                    "label" : {
-                                                      "type" : "interpolation",
-                                                      "value" : "Default label"
-                                                    },
-                                                    "labelPosition" : {
-                                                      "type" : "constant",
-                                                      "value" : "top"
-                                                    },
-                                                    "labelWidth" : {
-                                                      "type" : "constant",
-                                                      "value" : 4
-                                                    },
-                                                    "text" : {
-                                                      "type" : "interpolation",
-                                                      "value" : "<strong>{{\"Case\"|uiTranslate}}</strong>"
-                                                    },
-                                                    "alignment" : {
-                                                      "type" : "constant",
-                                                      "value" : "left"
-                                                    }
-                                                  },
-                                                  "reference" : "fe299954-459a-4020-bc82-f55da77f876c",
-                                                  "hasValidationError" : false,
-                                                  "id" : "pbText"
-                                                }
-                                              ],
-                                              [
-                                                {
-                                                  "type" : "component",
-                                                  "dimension" : {
-                                                    "xs" : 12,
-                                                    "sm" : 12,
-                                                    "md" : 12,
-                                                    "lg" : 12
-                                                  },
-                                                  "propertyValues" : {
-                                                    "cssClasses" : {
-                                                      "type" : "constant",
-                                                      "value" : "pt-0 pb-0 mt-0 mb-0 link-height item-value"
-                                                    },
-                                                    "hidden" : {
-                                                      "type" : "constant",
-                                                      "value" : false
-                                                    },
-                                                    "allowHTML" : {
-                                                      "type" : "constant",
-                                                      "value" : false
-                                                    },
-                                                    "text" : {
-                                                      "type" : "interpolation",
-                                                      "value" : "{{$item.caseId}}"
-                                                    },
-                                                    "type" : {
-                                                      "type" : "constant",
-                                                      "value" : "page"
-                                                    },
-                                                    "targetUrl" : {
-                                                      "type" : "constant",
-                                                      "value" : "http://"
-                                                    },
-                                                    "pageToken" : {
-                                                      "type" : "constant",
-                                                      "value" : "admin-case-details"
-                                                    },
-                                                    "processName" : {
-                                                      "type" : "constant"
-                                                    },
-                                                    "processVersion" : {
-                                                      "type" : "constant"
-                                                    },
-                                                    "taskId" : {
-                                                      "type" : "constant"
-                                                    },
-                                                    "caseId" : {
-                                                      "type" : "constant"
-                                                    },
-                                                    "target" : {
-                                                      "type" : "constant",
-                                                      "value" : "_self"
-                                                    },
-                                                    "appToken" : {
-                                                      "type" : "constant"
-                                                    },
-                                                    "urlParams" : {
-                                                      "type" : "expression",
-                                                      "value" : "{\"id\" : $item.caseId}"
-                                                    },
-                                                    "alignment" : {
-                                                      "type" : "constant",
-                                                      "value" : "left"
-                                                    },
-                                                    "buttonStyle" : {
-                                                      "type" : "constant",
-                                                      "value" : "link"
-                                                    }
-                                                  },
-                                                  "reference" : "96554637-9cce-4f94-b413-d8c865067520",
                                                   "hasValidationError" : false,
                                                   "id" : "pbLink"
                                                 }
@@ -10439,6 +10235,20 @@
         "    initPreviousSubCaseFailureModal: function(previousFailure){",
         "        $data.failureCaseData.previousFailure = previousFailure;",
         "        return \"previousFailureModal\";",
+        "    },",
+        "    getCaseOrFlowNodeId: function(flowNodeId, caseId) {",
+        "        if(flowNodeId <= 0) {",
+        "            return caseId;",
+        "        } else {",
+        "            return flowNodeId;",
+        "        }",
+        "    },",
+        "    getDetailsPageToken: function(flowNodeId, caseId) {",
+        "        if(flowNodeId <= 0) {",
+        "            return 'admin-case-details';",
+        "        } else {",
+        "            return 'admin-task-details';",
+        "        }",
         "    }",
         "};"
       ],

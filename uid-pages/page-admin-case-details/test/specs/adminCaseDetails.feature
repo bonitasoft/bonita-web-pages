@@ -132,3 +132,41 @@ Feature: The Admin Case Details in desktop resolution
   Scenario: No id is specified message is shown when id is empty
     When I visit the admin case details page with an empty id
     Then I see that "Case id not provided. Unable to retrieve the case."
+
+  Scenario: The admin case details display error details correctly for default root case failure
+    Given The response "default details" is defined
+    And The response "default root case failures" is defined
+    When I visit the admin case details page
+    Then The error details section have the correct information for a root case
+
+  Scenario: The admin case details display error details correctly for root case failure with histories
+    Given The response "default details" is defined
+    And The response "root case failures with histories" is defined
+    When I visit the admin case details page
+    Then The error details section have the correct information for a root case with failure histories
+
+  Scenario: The failure history modal displays the failure details correctly for a root case history
+    Given The response "default details" is defined
+    And The response "root case failures with histories" is defined
+    When I visit the admin case details page
+    And I click on the show stacktrace button
+    Then The failure details modal displays the information correctly
+
+  Scenario: The admin case details display error details correctly for sub-cases failures
+    Given The response "default details" is defined
+    And The response "sub-cases failures" is defined
+    When I visit the admin case details page
+    Then The error details section have the correct information for a sub-cases failures
+
+  Scenario: The admin case details display error details correctly for sub-cases failure with histories
+    Given The response "default details" is defined
+    And The response "sub-cases failures with histories" is defined
+    When I visit the admin case details page
+    Then The error details section have the correct information for sub-cases with failure histories
+
+  Scenario: The failure history modal displays the failure details correctly for a sub-case history
+    Given The response "default details" is defined
+    And The response "sub-cases failures with histories" is defined
+    When I visit the admin case details page
+    And I click on the show stacktrace button
+    Then The failure details modal displays the information correctly for a sub-case failure history

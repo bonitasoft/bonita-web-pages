@@ -20,6 +20,23 @@ const archivedCaseMonitoringUrl = 'API/bpm/archivedCase?c=5&p=0&d=processDefinit
 const currentCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCaseId=1';
 const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=1';
 const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
+const rootCaseFailuresUrl = 'API/bpm/failure/case/1?c=10';
+const subCasesFailuresUrl = 'API/bpm/failure/case/1/subCases?c=10';
+const featureListUrl = 'API/system/feature?p=0&c=100';
+
+const getLocaleDateAndTime = (timestamp) => {
+    const failureDate = new Date(timestamp);
+    const options = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    };
+
+    const date = failureDate.toLocaleDateString( 'en-US', options);
+    const time = failureDate.toLocaleTimeString('en-US');
+    return `${date} ${time}`;
+}
 
 beforeEach(() => {
   // Force locale as we test labels value
@@ -87,6 +104,26 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndHeaders(currentCaseArchivedFlowNodeUrl,'', 'currentCaseArchivedRoute', 'emptyResult', {'content-range': '0-0/2'});
             createRouteWithResponseAndHeaders(currentCasePendingFlowNodeUrl,'', 'currentCasePendingRoute', 'emptyResult', {'content-range': '0-0/0'});
             createRouteWithResponseAndHeaders(currentCaseFailedFlowNodeUrl,'', 'currentCaseFailedRoute', 'emptyResult', {'content-range': '0-0/1'});
+            break;
+        case 'default root case failures':
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
+            createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresRoute', 'rootCaseFailures');
+            createRouteWithResponse(subCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
+            break;
+        case 'root case failures with histories':
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
+            createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresWithHistoriesRoute', 'rootCaseFailuresWithHistories');
+            createRouteWithResponse(subCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
+            break;
+        case 'sub-cases failures':
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
+            createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresRoute', 'emptyResult');
+            createRouteWithResponse(subCasesFailuresUrl, 'subCasesFailureRoute', 'subCasesFailure');
+            break;
+        case 'sub-cases failures with histories':
+            createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
+            createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresWithHistoriesRoute', 'emptyResult');
+            createRouteWithResponse(subCasesFailuresUrl, 'subCasesFailuresWithHistoriesRoute', 'subCasesFailuresWithHistories');
             break;
         default:
             throw new Error("Unsupported case");
@@ -209,6 +246,10 @@ when("I modify the value for variable {string}", (variableNumber) => {
 
 when("I click on {string} button in the modal", (buttonLabel) => {
     cy.get('.modal button').contains(buttonLabel).click();
+});
+
+when("I click on the show stacktrace button", () => {
+    cy.get('.glyphicon-eye-open').eq(0).click();
 });
 
 then("The case details have the correct information", () => {
@@ -579,4 +620,111 @@ then("A list of {int} items is displayed", (nbrOfItems) => {
 then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems) => {
     cy.get('.process-variable-item').should('have.length', nbrOfItems);
     cy.get('.text-primary.item-label:visible').contains('Process variables shown: ' + nbrOfItems + ' of ' + totalItems);
+});
+
+then("The error details section have the correct information for a root case", () => {
+    // Check that the element exist.
+    cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.get('.panel-danger h4 i.glyphicon-triangle-right');
+    cy.contains('.panel-danger h4', 'Case errors');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736434346149));
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node');
+    cy.contains('.panel-danger .panel-body .link-height a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case').should('not.exist');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Context');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'expression::init_()');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Error message');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'RuntimeException: Root case failed');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'org.bonitasoft.engine.core.process.instance.api.exceptions.SActivityStateExecutionException: PROCESS_DEFINITION_ID=7960869961155104624');
+    cy.get('.panel-danger .panel-body p span.glyphicon-hourglass').should('not.exist');
+    cy.contains('.panel-danger p', 'Failure history').should('not.exist');
+});
+
+then('The error details section have the correct information for a root case with failure histories', () => {
+    cy.get('.panel-danger .panel-body p span.glyphicon-hourglass');
+    cy.contains('.panel-danger p', 'Failure history');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Failed on');
+    cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736434327762));
+    cy.contains('.panel-danger .panel-body .item-label p','Flow node');
+    cy.contains('.panel-danger .panel-body .item-value a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.panel-danger .panel-body .item-label p','Case').should('not.exist');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
+    cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Error message');
+    cy.contains('.panel-danger .panel-body .item-value p', 'RuntimeException: Root case failed');
+    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'Show stacktrace');
+});
+
+then('The failure details modal displays the information correctly', () => {
+    cy.get('.modal-dialog').should('be.visible');
+    cy.contains('.modal-header h4', 'Error details');
+    cy.contains('.modal-body a dt','Flow node');
+    cy.contains('.modal-body a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.modal-body a dt','Case').should('not.exist');
+    cy.contains('.modal-body .form-group label', 'Scope');
+    cy.contains('.modal-body .form-group p', 'Data initialization');
+    cy.contains('.modal-body .form-group label', 'Context');
+    cy.contains('.modal-body .form-group p', 'expression::init_()');
+    cy.contains('.modal-body .form-group label', 'Error message');
+    cy.contains('.modal-body .form-group p', 'RuntimeException: Root case failed');
+    cy.contains('.modal-body .form-group label', 'Stacktrace');
+    cy.contains('.modal-body .form-group .overflow-scroll', 'org.bonitasoft.engine.core.process.instance.api.exceptions.SActivityStateExecutionException: PROCESS_DEFINITION_ID=7960869961155104624');
+});
+
+then("The error details section have the correct information for a sub-cases failures", () => {
+    cy.contains('.panel-danger .panel-heading h4', 'Error details');
+    cy.get('.panel-danger h4 i.glyphicon-triangle-right');
+    cy.contains('.panel-danger h4', 'Sub-cases errors');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736762470984));
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node');
+    cy.contains('.panel-danger .panel-body .link-height a', '20014').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20014');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case').should('not.exist');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Context');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'expression::init_()');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Error message');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'RuntimeException: Toto');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'org.bonitasoft.engine.core.process.instance.api.exceptions.SActivityStateExecutionException: PROCESS_DEFINITION_ID=5882600122454068267');
+    cy.get('.panel-danger .panel-body p span.glyphicon-hourglass').should('not.exist');
+    cy.contains('.panel-danger p', 'Failure history').should('not.exist');
+});
+
+then('The error details section have the correct information for sub-cases with failure histories', () => {
+    cy.get('.panel-danger .panel-body p span.glyphicon-hourglass');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case');
+    cy.contains('.panel-danger .panel-body .link-height a', '1').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=1');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node').should('not.exist');
+    cy.contains('.panel-danger p', 'Failure history');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Failed on');
+    cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736429846741));
+    cy.contains('.panel-danger .panel-body .item-label p','Case / Flow node');
+    cy.contains('.panel-danger .panel-body .item-value a', '14002').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
+    cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
+    cy.contains('.panel-danger .panel-body .item-label p', 'Error message');
+    cy.contains('.panel-danger .panel-body .item-value p', 'RuntimeException: Toto');
+    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'Show stacktrace');
+});
+
+then('The failure details modal displays the information correctly for a sub-case failure history', () => {
+    cy.get('.modal-dialog').should('be.visible');
+    cy.contains('.modal-header h4', 'Error details');
+    cy.contains('.modal-body a dt','Flow node');
+    cy.contains('.modal-body a', '14002').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
+    cy.contains('.modal-body a dt','Case').should('not.exist');
+    cy.contains('.modal-body .form-group label', 'Scope');
+    cy.contains('.modal-body .form-group p', 'Data initialization');
+    cy.contains('.modal-body .form-group label', 'Context');
+    cy.contains('.modal-body .form-group p', 'expression::init_()');
+    cy.contains('.modal-body .form-group label', 'Error message');
+    cy.contains('.modal-body .form-group p', 'RuntimeException: Toto');
+    cy.contains('.modal-body .form-group label', 'Stacktrace');
+    cy.contains('.modal-body .form-group .overflow-scroll', 'org.bonitasoft.engine.core.process.instance.api.exceptions.SActivityStateExecutionException: PROCESS_DEFINITION_ID=5882600122454068267');
 });
