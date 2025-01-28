@@ -1,6 +1,6 @@
 {
-  "id" : "fragmentSubCaseMonitoringV1",
-  "name" : "fragmentSubCaseMonitoringV1",
+  "id" : "fragmentChildCaseMonitoringV1",
+  "name" : "fragmentChildCaseMonitoringV1",
   "type" : "fragment",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
@@ -190,7 +190,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
+                  "value" : "childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.doneSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -202,7 +202,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.doneSubTasksFromAPIHeaders)}}</small>"
+                  "value" : "<small>{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.doneSubTasksFromAPIHeaders)}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -263,7 +263,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
+                  "value" : "childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.pendingSubTasksFromAPIHeaders) < 1 ? 'no-click m-0' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -275,7 +275,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.pendingSubTasksFromAPIHeaders)}}</small>"
+                  "value" : "<small>{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.pendingSubTasksFromAPIHeaders)}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -336,7 +336,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "expression",
-                  "value" : "subCaseMonitoringCtrl.getFlowNodeCounter(subCaseMonitoringData.failedSubTasksFromAPIHeaders) < 1 ? 'no-click m-0 failed-count' : 'm-0'"
+                  "value" : "childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.failedSubTasksFromAPIHeaders) < 1 ? 'no-click m-0 failed-count' : 'm-0'"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -467,7 +467,7 @@
         "../API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId={{caseId}}"
       ],
       "advancedOptions" : {
-        "headers" : "subCaseMonitoringData.failedSubTasksFromAPIHeaders"
+        "headers" : "childCaseMonitoringData.failedSubTasksFromAPIHeaders"
       },
       "exposed" : false
     },
@@ -477,7 +477,7 @@
         "../API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId={{caseId}}"
       ],
       "advancedOptions" : {
-        "headers" : "subCaseMonitoringData.pendingSubTasksFromAPIHeaders"
+        "headers" : "childCaseMonitoringData.pendingSubTasksFromAPIHeaders"
       },
       "exposed" : false
     },
@@ -487,7 +487,7 @@
         "../API/bpm/archivedTask?p=0&c=0&f=parentCaseId={{caseId}}"
       ],
       "advancedOptions" : {
-        "headers" : "subCaseMonitoringData.doneSubTasksFromAPIHeaders"
+        "headers" : "childCaseMonitoringData.doneSubTasksFromAPIHeaders"
       },
       "exposed" : false
     },
@@ -505,7 +505,7 @@
       ],
       "exposed" : true
     },
-    "subCaseMonitoringCtrl" : {
+    "childCaseMonitoringCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
@@ -516,7 +516,7 @@
       ],
       "exposed" : false
     },
-    "subCaseMonitoringData" : {
+    "childCaseMonitoringData" : {
       "type" : "expression",
       "value" : [
         "return {",
@@ -537,7 +537,7 @@
     "failedFlowNodeCounter" : {
       "type" : "expression",
       "value" : [
-        "const flowNodeCounter = $data.subCaseMonitoringCtrl.getFlowNodeCounter($data.subCaseMonitoringData.failedSubTasksFromAPIHeaders);",
+        "const flowNodeCounter = $data.childCaseMonitoringCtrl.getFlowNodeCounter($data.childCaseMonitoringData.failedSubTasksFromAPIHeaders);",
         "",
         "if(flowNodeCounter < 1) {",
         "    return `<small>${flowNodeCounter}</small>`;",

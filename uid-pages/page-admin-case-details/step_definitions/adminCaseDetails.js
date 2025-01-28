@@ -21,7 +21,7 @@ const currentCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCas
 const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=1';
 const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
 const rootCaseFailuresUrl = 'API/bpm/failure/case/1?c=10';
-const subCasesFailuresUrl = 'API/bpm/failure/case/1/subCases?c=10';
+const childCasesFailuresUrl = 'API/bpm/failure/case/1/subCases?c=10';
 const featureListUrl = 'API/system/feature?p=0&c=100';
 
 const getLocaleDateAndTime = (timestamp) => {
@@ -108,22 +108,22 @@ given("The response {string} is defined", (responseType) => {
         case 'default root case failures':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresRoute', 'rootCaseFailures');
-            createRouteWithResponse(subCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
+            createRouteWithResponse(childCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
             break;
         case 'root case failures with histories':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresWithHistoriesRoute', 'rootCaseFailuresWithHistories');
-            createRouteWithResponse(subCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
+            createRouteWithResponse(childCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
             break;
-        case 'sub-cases failures':
+        case 'child cases failures':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresRoute', 'emptyResult');
-            createRouteWithResponse(subCasesFailuresUrl, 'subCasesFailureRoute', 'subCasesFailure');
+            createRouteWithResponse(childCasesFailuresUrl, 'childCasesFailureRoute', 'childCasesFailure');
             break;
-        case 'sub-cases failures with histories':
+        case 'child cases failures with histories':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresWithHistoriesRoute', 'emptyResult');
-            createRouteWithResponse(subCasesFailuresUrl, 'subCasesFailuresWithHistoriesRoute', 'subCasesFailuresWithHistories');
+            createRouteWithResponse(childCasesFailuresUrl, 'childCasesFailuresWithHistoriesRoute', 'childCasesFailuresWithHistories');
             break;
         default:
             throw new Error("Unsupported case");
@@ -329,44 +329,44 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
     cy.contains('.well-sm p small', 'Failed flow nodes');
     cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
-    cy.contains('.px-3 h4', 'Sub-cases monitoring');
+    cy.contains('.px-3 h4', 'Child cases monitoring');
 
     cy.get('ul.nav-tabs').eq(0).within(() => {
         cy.get('li tab-heading').should('have.length', 2);
-        cy.get('li tab-heading').eq(0).contains('Open sub cases');
-        cy.get('li tab-heading').eq(1).contains('Archived sub cases');
+        cy.get('li tab-heading').eq(0).contains('Open child cases');
+        cy.get('li tab-heading').eq(1).contains('Archived child cases');
     });
     cy.get('.tab-content').within(() => {
         cy.contains('.well-sm p small', 'Id');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '2');
-        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '2');
+        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
 
         cy.contains('.well-sm p small', 'Process name');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', 'DirectChild');
-        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8775543365026706254');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', 'DirectChild');
+        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8775543365026706254');
 
         cy.contains('.well-sm p small', 'Done flow nodes');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
-        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(2).should('have.css', 'pointer-events', 'none');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(2).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Pending flow nodes');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
-        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Failed flow nodes');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 a.btn small', '0');
-        cy.get('pb-fragment-fragment-sub-case-monitoring-v1 a.btn').eq(4).should('have.css', 'pointer-events', 'none');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '0');
+        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(4).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Start date');
-        cy.contains('pb-fragment-fragment-sub-case-monitoring-v1 p small', '1/3/25 4:04 PM');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 p small', '1/3/25 4:04 PM');
         cy.contains('.well-sm p small', 'End date').should('not.exist');
     });
 
-    cy.contains('.item-label p', 'Sub cases shown:');
+    cy.contains('.item-label p', 'Child cases shown:');
 });
 
 then('The monitoring section have the correct information for no cases', () => {
-    cy.contains('pb-fragment-fragment-load-more-v1 h4', 'No sub cases for this case');
+    cy.contains('pb-fragment-fragment-load-more-v1 h4', 'No child cases for this case');
 });
 
 then("There are no search keys", () => {
@@ -675,10 +675,10 @@ then('The failure details modal displays the information correctly', () => {
     cy.contains('.modal-body .form-group .overflow-scroll', 'org.bonitasoft.engine.core.process.instance.api.exceptions.SActivityStateExecutionException: PROCESS_DEFINITION_ID=7960869961155104624');
 });
 
-then("The error details section have the correct information for a sub-cases failures", () => {
+then("The error details section have the correct information for a child cases failures", () => {
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
     cy.get('.panel-danger h4 i.glyphicon-triangle-right');
-    cy.contains('.panel-danger h4', 'Sub-cases errors');
+    cy.contains('.panel-danger h4', 'Child cases errors');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736762470984));
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node');
@@ -696,7 +696,7 @@ then("The error details section have the correct information for a sub-cases fai
     cy.contains('.panel-danger p', 'Failure history').should('not.exist');
 });
 
-then('The error details section have the correct information for sub-cases with failure histories', () => {
+then('The error details section have the correct information for child cases with failure histories', () => {
     cy.get('.panel-danger .panel-body p span.glyphicon-hourglass');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case');
     cy.contains('.panel-danger .panel-body .link-height a', '1').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=1');
@@ -713,7 +713,7 @@ then('The error details section have the correct information for sub-cases with 
     cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'Show stacktrace');
 });
 
-then('The failure details modal displays the information correctly for a sub-case failure history', () => {
+then('The failure details modal displays the information correctly for a child case failure history', () => {
     cy.get('.modal-dialog').should('be.visible');
     cy.contains('.modal-header h4', 'Error details');
     cy.contains('.modal-body a dt','Flow node');

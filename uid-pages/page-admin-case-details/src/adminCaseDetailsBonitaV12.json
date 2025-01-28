@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1737538691683,
+  "lastUpdate" : 1737544101119,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -2231,7 +2231,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<i class=\"glyphicon glyphicon-triangle-right text-primary\"></i> {{\"Sub-cases monitoring\" | uiTranslate}} <small><i class=\"glyphicon glyphicon-info-sign text-info\" title='{{\"Includes all cases started by a call activity of this case or of a child case.\" | uiTranslate}}'></i></small>"
+                                    "value" : "<i class=\"glyphicon glyphicon-triangle-right text-primary\"></i> {{\"Child cases monitoring\" | uiTranslate}} <small><i class=\"glyphicon glyphicon-info-sign text-info\" title='{{\"Includes all cases started by a call activity of this case or of a child case.\" | uiTranslate}}'></i></small>"
                                   },
                                   "level" : {
                                     "type" : "constant",
@@ -2263,7 +2263,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures.length < 1"
+                                    "value" : "childCaseFailures.length < 1"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -2357,11 +2357,11 @@
                                       },
                                       "title" : {
                                         "type" : "interpolation",
-                                        "value" : "Open sub cases"
+                                        "value" : "Open child cases"
                                       },
                                       "active" : {
                                         "type" : "variable",
-                                        "value" : "subCaseMonitoringData.openSubCasesActiveTab"
+                                        "value" : "childCaseMonitoringData.openChildCasesActiveTab"
                                       },
                                       "isLazyLoad" : {
                                         "type" : "constant",
@@ -2397,7 +2397,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes.length < 1"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes.length < 1"
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable"
@@ -2728,11 +2728,11 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes.length < 1"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes.length < 1"
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes"
                                               }
                                             },
                                             "reference" : "6de43ceb-5c20-4926-98dc-29ed9a893b18",
@@ -2760,13 +2760,13 @@
                                                   },
                                                   "reference" : "37decaab-730a-4dbe-94a2-87844df309e6",
                                                   "hasValidationError" : false,
-                                                  "id" : "fragmentSubCaseMonitoringV1",
+                                                  "id" : "fragmentChildCaseMonitoringV1",
                                                   "binding" : {
                                                     "caseId" : "$item.sourceObjectId || $item.id",
                                                     "processName" : "$item.processDefinitionId.displayName",
                                                     "processId" : "$item.processDefinitionId.id",
                                                     "date" : "$item.start.replace(\" \", \"T\")|uiDate:'short'",
-                                                    "subCaseFailures" : ""
+                                                    "childCaseFailures" : ""
                                                   }
                                                 }
                                               ]
@@ -2803,11 +2803,11 @@
                                       },
                                       "title" : {
                                         "type" : "interpolation",
-                                        "value" : "Archived sub cases"
+                                        "value" : "Archived child cases"
                                       },
                                       "active" : {
                                         "type" : "variable",
-                                        "value" : "subCaseMonitoringData.archivedSubCasesActiveTab"
+                                        "value" : "childCaseMonitoringData.archivedChildCasesActiveTab"
                                       },
                                       "isLazyLoad" : {
                                         "type" : "constant",
@@ -2843,7 +2843,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes.length < 1"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes.length < 1"
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable"
@@ -3174,11 +3174,11 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes.length < 1"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes.length < 1"
                                               },
                                               "repeatedCollection" : {
                                                 "type" : "variable",
-                                                "value" : "subCaseMonitoringData.displayedFlowNodes"
+                                                "value" : "childCaseMonitoringData.displayedFlowNodes"
                                               }
                                             },
                                             "reference" : "77df9580-1842-4ab7-b45d-18d082a23cdc",
@@ -3206,7 +3206,7 @@
                                                   },
                                                   "reference" : "168bd21a-a1df-4b83-a262-096466901c6f",
                                                   "hasValidationError" : false,
-                                                  "id" : "fragmentSubCaseMonitoringV1",
+                                                  "id" : "fragmentChildCaseMonitoringV1",
                                                   "binding" : {
                                                     "caseId" : "$item.sourceObjectId || $item.id",
                                                     "processName" : "$item.processDefinitionId.displayName",
@@ -3247,15 +3247,15 @@
                                 "hasValidationError" : false,
                                 "id" : "fragmentLoadMoreV1",
                                 "binding" : {
-                                  "displayedItems" : "subCaseMonitoringData.displayedFlowNodes",
-                                  "numberOfItemsPerPage" : "subCaseMonitoringData.numberOfFlowNodesPerPage",
-                                  "buttonLabel" : "\"Load more sub cases\"",
-                                  "urlPrefix" : "subCaseMonitoringCtrl.defaultSubCasesUrl()",
-                                  "noItemsMessage" : "\"No sub cases for this case\"",
+                                  "displayedItems" : "childCaseMonitoringData.displayedFlowNodes",
+                                  "numberOfItemsPerPage" : "childCaseMonitoringData.numberOfFlowNodesPerPage",
+                                  "buttonLabel" : "\"Load more child cases\"",
+                                  "urlPrefix" : "childCaseMonitoringCtrl.defaultChildCasesUrl()",
+                                  "noItemsMessage" : "\"No child cases for this case\"",
                                   "itemsShownCSSClasses" : "\"text-primary item-label pt-5\"",
-                                  "itemsShownMessage" : "\"Sub cases shown\"",
-                                  "filtersString" : "subCaseMonitoringData.openSubCasesActiveTab && !subCaseMonitoringData.archivedSubCasesActiveTab ? subCaseMonitoringCtrl.getOpenSubCaseQueryParamters() : subCaseMonitoringCtrl.getArchivedSubCaseQueryParameters()",
-                                  "loadingItemsMessage" : "\"Loading sub cases\""
+                                  "itemsShownMessage" : "\"Child cases shown\"",
+                                  "filtersString" : "childCaseMonitoringData.openChildCasesActiveTab && !childCaseMonitoringData.archivedChildCasesActiveTab ? childCaseMonitoringCtrl.getOpenChildCaseQueryParamters() : childCaseMonitoringCtrl.getArchivedChildCaseQueryParameters()",
+                                  "loadingItemsMessage" : "\"Loading child cases\""
                                 }
                               }
                             ]
@@ -4977,7 +4977,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || subCaseFailures.length === 0"
+                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || childCaseFailures.length === 0"
                       },
                       "allowHTML" : {
                         "type" : "constant",
@@ -5029,7 +5029,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || subCaseFailures.length === 0"
+                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || childCaseFailures.length === 0"
                       },
                       "repeatedCollection" : {
                         "type" : "variable"
@@ -5063,7 +5063,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<i class=\"glyphicon glyphicon-triangle-right text-warning\"></i> {{\"Sub-cases errors\" | uiTranslate}} <small><i class=\"glyphicon glyphicon-info-sign text-info\" title='{{\"Includes all failures from the cases started by a call activity of this case or of a child case.\" | uiTranslate}}'></i></small>"
+                              "value" : "<i class=\"glyphicon glyphicon-triangle-right text-warning\"></i> {{\"Child cases errors\" | uiTranslate}} <small><i class=\"glyphicon glyphicon-info-sign text-info\" title='{{\"Includes all failures from the cases started by a call activity of this case or of a child case.\" | uiTranslate}}'></i></small>"
                             },
                             "level" : {
                               "type" : "constant",
@@ -5145,7 +5145,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Failed on\"|uiTranslate}}</dt>\n<dd>{{failureCaseCtrl.getFailedDate(subCaseFailures[0].failureDate)}}</dd>\n</dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Failed on\"|uiTranslate}}</dt>\n<dd>{{failureCaseCtrl.getFailedDate(childCaseFailures[0].failureDate)}}</dd>\n</dl>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5173,7 +5173,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures[0].flowNodeInstanceId <= 0"
+                                    "value" : "childCaseFailures[0].flowNodeInstanceId <= 0"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -5181,7 +5181,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{subCaseFailures[0].flowNodeInstanceId}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{childCaseFailures[0].flowNodeInstanceId}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -5216,7 +5216,7 @@
                                   },
                                   "urlParams" : {
                                     "type" : "expression",
-                                    "value" : "{\"id\" : subCaseFailures[0].flowNodeInstanceId}"
+                                    "value" : "{\"id\" : childCaseFailures[0].flowNodeInstanceId}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5248,7 +5248,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures[0].flowNodeInstanceId > 0"
+                                    "value" : "childCaseFailures[0].flowNodeInstanceId > 0"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -5256,7 +5256,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Case\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{subCaseFailures[0].caseId}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Case\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{childCaseFailures[0].caseId}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -5291,7 +5291,7 @@
                                   },
                                   "urlParams" : {
                                     "type" : "expression",
-                                    "value" : "{\"id\" : subCaseFailures[0].caseId}"
+                                    "value" : "{\"id\" : childCaseFailures[0].caseId}"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5347,7 +5347,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Scope\"|uiTranslate}}</dt>\n<dd>{{subCaseFailures[0].scope}}</dd>\n</dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Scope\"|uiTranslate}}</dt>\n<dd>{{childCaseFailures[0].scope}}</dd>\n</dl>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5399,7 +5399,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Context\"|uiTranslate}}</dt>\n<dd>{{subCaseFailures[0].context}}</dd>\n</dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Context\"|uiTranslate}}</dt>\n<dd>{{childCaseFailures[0].context}}</dd>\n</dl>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5451,7 +5451,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{subCaseFailures[0].errorMessage}}</dd>\n</dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Error message\"|uiTranslate}}</dt>\n<dd>{{childCaseFailures[0].errorMessage}}</dd>\n</dl>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5503,7 +5503,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{subCaseFailures[0].stackTrace}}</pre>\n</dd>\n</dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\">\n<dt>{{\"Stacktrace\"|uiTranslate}}</dt>\n<dd>\n<pre class=\"overflow-scroll\">{{childCaseFailures[0].stackTrace}}</pre>\n</dd>\n</dl>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -5531,7 +5531,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "subCaseFailures.length <= 1"
+                                    "value" : "childCaseFailures.length <= 1"
                                   },
                                   "repeatedCollection" : {
                                     "type" : "variable"
@@ -5844,7 +5844,7 @@
                                         },
                                         "repeatedCollection" : {
                                           "type" : "variable",
-                                          "value" : "subCaseFailures.slice(1)"
+                                          "value" : "childCaseFailures.slice(1)"
                                         }
                                       },
                                       "reference" : "87e602c2-a6bf-4801-a15f-5dd30a20d8bf",
@@ -6471,7 +6471,7 @@
                                               },
                                               "modalId" : {
                                                 "type" : "expression",
-                                                "value" : "failureCaseCtrl.initPreviousSubCaseFailureModal($item)"
+                                                "value" : "failureCaseCtrl.initPreviousChildCaseFailureModal($item)"
                                               },
                                               "collectionPosition" : {
                                                 "type" : "constant",
@@ -10127,33 +10127,33 @@
       },
       "exposed" : false
     },
-    "subCaseMonitoringData" : {
+    "childCaseMonitoringData" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    openSubCasesActiveTab: true,",
-        "    archivedSubCasesActiveTab: false,",
+        "    openChildCasesActiveTab: true,",
+        "    archivedChildCasesActiveTab: false,",
         "    displayedFlowNodes: [],",
         "    numberOfFlowNodesPerPage: 5",
         "};"
       ],
       "exposed" : false
     },
-    "subCaseMonitoringCtrl" : {
+    "childCaseMonitoringCtrl" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    defaultSubCasesUrl: function() {",
-        "      if($data.subCaseMonitoringData.openSubCasesActiveTab && !$data.subCaseMonitoringData.archivedSubCasesActiveTab) {",
+        "    defaultChildCasesUrl: function() {",
+        "      if($data.childCaseMonitoringData.openChildCasesActiveTab && !$data.childCaseMonitoringData.archivedChildCasesActiveTab) {",
         "          return '../API/bpm/case';",
         "      } else {",
         "         return '../API/bpm/archivedCase'; ",
         "      }",
         "    },",
-        "    getArchivedSubCaseQueryParameters: function() {",
+        "    getArchivedChildCaseQueryParameters: function() {",
         "        return `&d=processDefinitionId&o=archiveDate%20DESC&f=caller=any&f=rootCaseId=${$data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId()}`;",
         "    },",
-        "    getOpenSubCaseQueryParamters: function() {",
+        "    getOpenChildCaseQueryParamters: function() {",
         "        return `&d=processDefinitionId&o=startDate%20DESC&f=caller=any&f=rootCaseId=${$data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId()}`;",
         "    }",
         "};"
@@ -10177,7 +10177,7 @@
         "        ",
         "        return $data.caseDetailsCtrl.isArchived() ? `../API/bpm/archivedFailure/case/${caseId}?c=10` : `../API/bpm/failure/case/${caseId}?c=10`;",
         "    },",
-        "    getSubCaseFailureUrls: function() {",
+        "    getChildCaseFailureUrls: function() {",
         "      const caseId = $data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId();",
         "",
         "        if(!caseId) {",
@@ -10188,7 +10188,7 @@
         "            return undefined;",
         "        }",
         "        ",
-        "        if (!$data.subCaseMonitoringData.openSubCasesActiveTab && $data.subCaseMonitoringData.archivedSubCasesActiveTab) {",
+        "        if (!$data.childCaseMonitoringData.openChildCasesActiveTab && $data.childCaseMonitoringData.archivedChildCasesActiveTab) {",
         "            return `../API/bpm/archivedFailure/case/${caseId}/subCases?c=10`;",
         "            ",
         "        } else {",
@@ -10197,10 +10197,10 @@
         "    },",
         "    hideErrorDetails: function(){",
         "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") ",
-        "        || (!$data.caseFailures && !$data.subCaseFailures)",
+        "        || (!$data.caseFailures && !$data.childCaseFailures)",
         "        || ($data.caseFailures && $data.caseFailures.length === 0",
-        "            && $data.subCaseFailures && $data.subCaseFailures.length === 0)",
-        "        || ($data.failureCaseData.statusCode !== 200 && $data.failureCaseData.subFailuresStatusCode !== 200)",
+        "            && $data.childCaseFailures && $data.childCaseFailures.length === 0)",
+        "        || ($data.failureCaseData.statusCode !== 200 && $data.failureCaseData.childCaseFailuresStatusCode !== 200)",
         "        || ($data.archivedCase && $data.archivedCase.length && !$data.failureCaseData.displayErrorDetails.includes(true));",
         "    },",
         "    getFailedDate: function(timestamp) {",
@@ -10232,7 +10232,7 @@
         "        $data.failureCaseData.previousFailure = previousFailure;",
         "        return \"previousFailureModal\";",
         "    },",
-        "    initPreviousSubCaseFailureModal: function(previousFailure){",
+        "    initPreviousChildCaseFailureModal: function(previousFailure){",
         "        $data.failureCaseData.previousFailure = previousFailure;",
         "        return \"previousFailureModal\";",
         "    },",
@@ -10260,7 +10260,7 @@
         "return {",
         "    previousFailure: {},",
         "    statusCode: undefined,",
-        "    subFailuresStatusCode: undefined,",
+        "    childCaseFailuresStatusCode: undefined,",
         "    displayErrorDetails: []",
         "};"
       ],
@@ -10292,13 +10292,13 @@
       },
       "exposed" : false
     },
-    "subCaseFailures" : {
+    "childCaseFailures" : {
       "type" : "url",
       "value" : [
-        "{{failureCaseCtrl.getSubCaseFailureUrls()}}"
+        "{{failureCaseCtrl.getChildCaseFailureUrls()}}"
       ],
       "advancedOptions" : {
-        "statusCode" : "failureCaseData.subFailuresStatusCode"
+        "statusCode" : "failureCaseData.childCaseFailuresStatusCode"
       },
       "exposed" : false
     }

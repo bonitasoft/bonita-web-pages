@@ -23,7 +23,7 @@ Feature: The Admin Case Details in desktop resolution
     When I visit the admin case details page
     Then The monitoring section have the correct information for a root case
 
-  Scenario: The admin case details display monitoring for no sub cases correctly
+  Scenario: The admin case details display monitoring for no child cases correctly
     Given The response "default details" is defined
     When I visit the admin case details page
     Then The monitoring section have the correct information for no cases
@@ -152,21 +152,21 @@ Feature: The Admin Case Details in desktop resolution
     And I click on the show stacktrace button
     Then The failure details modal displays the information correctly
 
-  Scenario: The admin case details display error details correctly for sub-cases failures
+  Scenario: The admin case details display error details correctly for child cases failures
     Given The response "default details" is defined
-    And The response "sub-cases failures" is defined
+    And The response "child cases failures" is defined
     When I visit the admin case details page
-    Then The error details section have the correct information for a sub-cases failures
+    Then The error details section have the correct information for a child cases failures
 
-  Scenario: The admin case details display error details correctly for sub-cases failure with histories
+  Scenario: The admin case details display error details correctly for child cases failure with histories
     Given The response "default details" is defined
-    And The response "sub-cases failures with histories" is defined
+    And The response "child cases failures with histories" is defined
     When I visit the admin case details page
-    Then The error details section have the correct information for sub-cases with failure histories
+    Then The error details section have the correct information for child cases with failure histories
 
-  Scenario: The failure history modal displays the failure details correctly for a sub-case history
+  Scenario: The failure history modal displays the failure details correctly for a child case history
     Given The response "default details" is defined
-    And The response "sub-cases failures with histories" is defined
+    And The response "child cases failures with histories" is defined
     When I visit the admin case details page
     And I click on the show stacktrace button
-    Then The failure details modal displays the information correctly for a sub-case failure history
+    Then The failure details modal displays the information correctly for a child case failure history
