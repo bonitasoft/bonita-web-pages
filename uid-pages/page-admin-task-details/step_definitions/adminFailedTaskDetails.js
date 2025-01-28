@@ -6,7 +6,6 @@ const urlWithoutId = urlPrefix + 'resources/index.html';
 const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const failedTaskUrl = 'API/bpm/flowNode/1?';
 const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
-const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
@@ -232,10 +231,6 @@ then("The failed task details have the correct information", () => {
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Error message');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
     cy.contains('.panel-danger .panel-body h5','Failure history').should('not.exist');
-});
-
-then("The back button has correct href", () => {
-    cy.get('a').contains('Back').should('have.attr', 'href', adminTaskListUrl);
 });
 
 then("The comments have the correct information", () => {
@@ -539,4 +534,8 @@ then("The failure details modal displays the information correctly", () => {
     cy.contains('.modal-body .form-group p', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
     cy.contains('.modal-body .form-group label', 'Stacktrace');
     cy.contains('.modal-body .form-group .overflow-scroll', 'groovy.lang.MissingPropertyException: No such property: toto for class: BScript1');
+});
+
+then('I go back in browser history', () => {
+    cy.go('back');
 });

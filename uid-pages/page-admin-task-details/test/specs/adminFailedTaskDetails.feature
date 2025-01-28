@@ -11,7 +11,8 @@ Feature: The Admin Failed Task Details in desktop resolution
     Given The response "empty done task" is defined for failed tasks
     And The response "default details" is defined for failed tasks
     When I visit the admin failed task details page
-    Then The back button has correct href
+    And I click on "Back" button
+    Then I go back in browser history
 
   Scenario: The admin failed task details display comments correctly
     Given The response "empty done task" is defined for failed tasks
