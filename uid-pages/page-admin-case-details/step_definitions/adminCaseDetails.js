@@ -21,7 +21,7 @@ const currentCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCas
 const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=1';
 const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
 const rootCaseFailuresUrl = 'API/bpm/failure/case/1?c=10';
-const childCasesFailuresUrl = 'API/bpm/failure/case/1/subCases?c=10';
+const childCasesFailuresUrl = 'API/bpm/failure/case/1/childCases?c=10';
 const featureListUrl = 'API/system/feature?p=0&c=100';
 
 const getLocaleDateAndTime = (timestamp) => {
