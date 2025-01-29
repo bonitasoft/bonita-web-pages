@@ -4,7 +4,7 @@
   "type" : "fragment",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1737043523258,
+  "lastUpdate" : 1738141366754,
   "rows" : [
     [
       {
@@ -348,7 +348,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{failedFlowNodeCounter}}"
+                  "value" : "<small>{{childCaseMonitoringCtrl.getFailedFlowNodeCounter()}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -511,6 +511,15 @@
         "return {",
         "    getFlowNodeCounter: function(responseHeader) {",
         "        return responseHeader ? responseHeader['content-range'].split('/')[1] : 0;",
+        "    },",
+        "    getFailedFlowNodeCounter: function() {",
+        "        const flowNodeCounter = this.getFlowNodeCounter($data.childCaseMonitoringData.failedSubTasksFromAPIHeaders);",
+        "",
+        "            if(flowNodeCounter < 1) {",
+        "                return `${flowNodeCounter}`;",
+        "            } else {",
+        "                return `<i class=\"glyphicon glyphicon-exclamation-sign text-warning\"></i> ${flowNodeCounter}`;",
+        "            }",
         "    }",
         "};"
       ],
@@ -533,19 +542,6 @@
         ""
       ],
       "exposed" : true
-    },
-    "failedFlowNodeCounter" : {
-      "type" : "expression",
-      "value" : [
-        "const flowNodeCounter = $data.childCaseMonitoringCtrl.getFlowNodeCounter($data.childCaseMonitoringData.failedSubTasksFromAPIHeaders);",
-        "",
-        "if(flowNodeCounter < 1) {",
-        "    return `<small>${flowNodeCounter}</small>`;",
-        "} else {",
-        "    return `<i class=\"glyphicon glyphicon-exclamation-sign text-warning\"></i> <small>${flowNodeCounter}</small>`;",
-        "}"
-      ],
-      "exposed" : false
     }
   },
   "assets" : [ ],

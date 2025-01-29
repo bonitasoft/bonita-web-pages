@@ -625,7 +625,7 @@ then("A list of {int} items is displayed out of {int}", (nbrOfItems, totalItems)
 then("The error details section have the correct information for a root case", () => {
     // Check that the element exist.
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
-    cy.get('.panel-danger h4 i.glyphicon-triangle-right');
+    cy.get('.panel-danger h4 i.glyphicon-warning-sign');
     cy.contains('.panel-danger h4', 'Case errors');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736434346149));
@@ -677,7 +677,7 @@ then('The failure details modal displays the information correctly', () => {
 
 then("The error details section have the correct information for a child cases failures", () => {
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
-    cy.get('.panel-danger h4 i.glyphicon-triangle-right');
+    cy.get('.panel-danger h4 i.glyphicon-warning-sign');
     cy.contains('.panel-danger h4', 'Child cases errors');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736762470984));
