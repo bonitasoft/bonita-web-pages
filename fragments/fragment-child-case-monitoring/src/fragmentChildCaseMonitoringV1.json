@@ -56,7 +56,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{caseId}}</small>"
+                  "value" : "<small title=\"{{'View case details' | uiTranslate}}\" class=\"page-link\">{{caseId}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -129,7 +129,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{processName}}</small>"
+                  "value" : "<small title=\"{{'View process details' | uiTranslate}}\" class=\"page-link\">{{processName}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -202,7 +202,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.doneSubTasksFromAPIHeaders)}}</small>"
+                  "value" : "<small title=\"{{'View task list' | uiTranslate}}\" class=\"{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.doneSubTasksFromAPIHeaders) > 0 && 'page-link' }}\">{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.doneSubTasksFromAPIHeaders)}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -275,7 +275,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.pendingSubTasksFromAPIHeaders)}}</small>"
+                  "value" : "<small title=\"{{'View task list' | uiTranslate}}\" class=\"{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.pendingSubTasksFromAPIHeaders) > 0 && 'page-link'}}\">{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.pendingSubTasksFromAPIHeaders)}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -348,7 +348,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small>{{childCaseMonitoringCtrl.getFailedFlowNodeCounter()}}</small>"
+                  "value" : "<small title=\"{{'View task list' | uiTranslate}}\" class=\"{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.failedSubTasksFromAPIHeaders) > 0 && 'page-link'}}\">{{childCaseMonitoringCtrl.getFailedFlowNodeCounter()}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -518,7 +518,7 @@
         "            if(flowNodeCounter < 1) {",
         "                return `${flowNodeCounter}`;",
         "            } else {",
-        "                return `<i class=\"glyphicon glyphicon-exclamation-sign text-warning\"></i> ${flowNodeCounter}`;",
+        "                return `<i class=\"glyphicon glyphicon-exclamation-sign\"></i> ${flowNodeCounter}`;",
         "            }",
         "    }",
         "};"

@@ -21,6 +21,9 @@ const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&
 const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
 const rootCaseFailuresUrl = 'API/bpm/failure/case/1?c=10';
 const childCasesFailuresUrl = 'API/bpm/failure/case/1/childCases?c=10';
+const childCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCaseId=2';
+const childCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=2';
+const childCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=2';
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const flowNodeOfCaseFailureUrl = 'API/bpm/flowNode/20010';
 const flowNodeOfChildCaseFailureUrl = 'API/bpm/flowNode/14002';
@@ -105,6 +108,9 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndHeaders(currentCaseArchivedFlowNodeUrl,'', 'currentCaseArchivedRoute', 'emptyResult', {'content-range': '0-0/2'});
             createRouteWithResponseAndHeaders(currentCasePendingFlowNodeUrl,'', 'currentCasePendingRoute', 'emptyResult', {'content-range': '0-0/0'});
             createRouteWithResponseAndHeaders(currentCaseFailedFlowNodeUrl,'', 'currentCaseFailedRoute', 'emptyResult', {'content-range': '0-0/1'});
+            createRouteWithResponseAndHeaders(childCaseArchivedFlowNodeUrl,'', 'childCaseArchivedRoute', 'emptyResult', {'content-range': '0-0/0'});
+            createRouteWithResponseAndHeaders(childCasePendingFlowNodeUrl,'', 'childCasePendingRoute', 'emptyResult', {'content-range': '0-0/0'});
+            createRouteWithResponseAndHeaders(childCaseFailedFlowNodeUrl,'', 'childCaseFailedRoute', 'emptyResult', {'content-range': '0-0/1'});
             break;
         case 'default root case failures':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
@@ -329,6 +335,7 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.panel-primary .panel-heading h4', 'Monitoring');
     cy.contains('.panel-body h4', 'Case monitoring');
     cy.contains('.well-sm p small', 'Done flow nodes');
+    cy.contains('.px-3 a small.badge-link', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
     cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
     cy.contains('.well-sm p small', 'Pending flow nodes');
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
@@ -343,11 +350,11 @@ then("The monitoring section have the correct information for a root case", (num
     });
     cy.get('.tab-content').within(() => {
         cy.contains('.well-sm p small', 'Id');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '2');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.badge-link', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
-
         cy.contains('.well-sm p small', 'Process name');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', 'DirectChild');
+
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', 'DirectChild').trigger('mouseover').should('have.attr', 'title', 'View process details');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8775543365026706254');
 
         cy.contains('.well-sm p small', 'Done flow nodes');
@@ -355,12 +362,12 @@ then("The monitoring section have the correct information for a root case", (num
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(2).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Pending flow nodes');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '0');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 .no-click a.btn small', '0');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Failed flow nodes');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '0');
-        cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(4).should('have.css', 'pointer-events', 'none');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.badge-link', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
+
 
         cy.contains('.well-sm p small', 'Start date');
         cy.contains('pb-fragment-fragment-child-case-monitoring-v1 p small', '1/3/25 4:04 PM');
@@ -660,12 +667,13 @@ then('The error details section have the correct information for a root case wit
     cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736434327762));
     cy.contains('.panel-danger .panel-body .item-label p','Flow node');
     cy.contains('.panel-danger .panel-body .item-value a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.panel-danger .panel-body .item-value a span.badge-link', '20010').trigger('mouseover').should('have.attr', 'title', 'View task details');
     cy.contains('.panel-danger .panel-body .item-label p','Case').should('not.exist');
     cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
     cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
     cy.contains('.panel-danger .panel-body .item-label p', 'Error message');
     cy.contains('.panel-danger .panel-body .item-value p', 'RuntimeException: Root case failed');
-    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'Show stacktrace');
+    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'View stacktrace');
 });
 
 then('The failure details modal displays the information correctly', () => {
@@ -721,11 +729,12 @@ then('The error details section have the correct information for child cases wit
     cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736429846741));
     cy.contains('.panel-danger .panel-body .item-label p','Case / Flow node');
     cy.contains('.panel-danger .panel-body .item-value a', '14002').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
+    cy.contains('.panel-danger .panel-body .item-value a span.badge-link', '14002').trigger('mouseover').should('have.attr', 'title', 'View task details');
     cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
     cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
     cy.contains('.panel-danger .panel-body .item-label p', 'Error message');
     cy.contains('.panel-danger .panel-body .item-value p', 'RuntimeException: Toto');
-    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'Show stacktrace');
+    cy.get('.panel-danger .panel-body i.glyphicon-eye-open').should('have.attr', 'title', 'View stacktrace');
 });
 
 then('The failure details modal displays the information correctly for a child case failure history', () => {
