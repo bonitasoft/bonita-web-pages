@@ -2217,7 +2217,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "px-3 mt-20"
+                              "value" : "px-3 mt-5"
                             },
                             "hidden" : {
                               "type" : "expression",
@@ -3815,7 +3815,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize page-link\" title=\"{{'View task details' | uiTranslate}}\">{{apiFlowNodeOfCaseFailure.displayName}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize page-link\" title=\"{{'View task details' | uiTranslate}}\">{{apiFlowNodeOfCaseFailure.displayName || apiArchivedFlowNodeOfCaseFailure[0].displayName}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -5355,7 +5355,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize page-link\" title=\"{{'View task details' | uiTranslate}}\">{{apiFlowNodeOfChildCaseFailure.displayName}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize page-link\" title=\"{{'View task details' | uiTranslate}}\">{{apiFlowNodeOfChildCaseFailure.displayName || apiArchivedFlowNodeOfChildCaseFailure[0].displayName}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -9360,7 +9360,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node ID\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\">{{failureCaseData.previousFailure.flowNodeInstanceId}}</dd></dl>"
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node ID\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\" title=\"{{'View task details' | uiTranslate}}\">{{failureCaseData.previousFailure.flowNodeInstanceId}}</dd></dl>"
                         },
                         "type" : {
                           "type" : "constant",
@@ -9435,7 +9435,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\">{{apiFlowNodeOfModalCaseFailure.displayName}}</dd></dl>"
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\" title=\"{{'View task details' | uiTranslate}}\">{{apiFlowNodeOfModalCaseFailure.displayName || apiArchivedFlowNodeOfModalCaseFailure[0].displayName}}</dd></dl>"
                         },
                         "type" : {
                           "type" : "constant",
@@ -9510,7 +9510,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Case\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\">{{failureCaseData.previousFailure.caseId}}</dd></dl>"
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Case ID\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left page-link\" title=\"{{'View case details' | uiTranslate}}\">{{failureCaseData.previousFailure.caseId}}</dd></dl>"
                         },
                         "type" : {
                           "type" : "constant",
@@ -10524,7 +10524,10 @@
         "        }",
         "    },",
         "    getFlowNodeOfFailure: function(caseFailure) {",
-        "        return caseFailure && caseFailure.flowNodeInstanceId ? `../API/bpm/flowNode/${caseFailure.flowNodeInstanceId}` : undefined;",
+        "        return caseFailure && caseFailure.flowNodeInstanceId && !$data.caseDetailsCtrl.isArchived() ? `../API/bpm/flowNode/${caseFailure.flowNodeInstanceId}` : undefined;",
+        "    },",
+        "    getArchivedFlowNodeOfFailure: function(caseFailure) {",
+        "        return caseFailure && caseFailure.flowNodeInstanceId ? `../API/bpm/archivedFlowNode?p=0&c=1&f=sourceObjectId=${caseFailure.flowNodeInstanceId}` : undefined;",
         "    }",
         "};"
       ],
@@ -10596,6 +10599,27 @@
       "type" : "url",
       "value" : [
         "{{failureCaseCtrl.getFlowNodeOfFailure(failureCaseData.previousFailure)}}"
+      ],
+      "exposed" : false
+    },
+    "apiArchivedFlowNodeOfCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(caseFailures[0])}}"
+      ],
+      "exposed" : false
+    },
+    "apiArchivedFlowNodeOfChildCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(caseFailures[0])}}"
+      ],
+      "exposed" : false
+    },
+    "apiArchivedFlowNodeOfModalCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(failureCaseData.previousFailure)}}"
       ],
       "exposed" : false
     }

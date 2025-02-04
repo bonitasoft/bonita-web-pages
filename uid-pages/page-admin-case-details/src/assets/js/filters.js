@@ -50,9 +50,9 @@ angular.module('bonitasoft.ui.extensions')
         switch(task.state){
             case 'started': return `${translate('Started on')} ${formatDate(task.start)}`;
             case 'error': return `${translate('Error since')} ${formatDate(task.last_update_date)}`;
-            case 'suspended': return `${translate('Suspended on')} ${formatDate(task.reached_state_date)}`;
-            case 'aborted': return `${translate('Aborted on')} ${formatDate(task.reached_state_date)}`;
-            case 'cancelled': return `${translate('Cancelled on')} ${formatDate(task.reached_state_date)}`;
+            case 'suspended': return `${translate('Suspended on')} ${formatDate(task.archivedDate)}`;
+            case 'aborted': return `${translate('Aborted on')} ${formatDate(task.archivedDate)}`;
+            case 'cancelled': return `${translate('Cancelled on')} ${formatDate(task.archivedDate)}`;
 
             case 'completed':
                 const { started_by, startedBySubstitute } = task;

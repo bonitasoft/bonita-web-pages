@@ -335,7 +335,7 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.panel-primary .panel-heading h4', 'Monitoring');
     cy.contains('.panel-body h4', 'Case monitoring');
     cy.contains('.well-sm p small', 'Done flow nodes');
-    cy.contains('.px-3 a small.badge-link', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
+    cy.contains('.px-3 a small.page-link', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
     cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
     cy.contains('.well-sm p small', 'Pending flow nodes');
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
@@ -350,7 +350,7 @@ then("The monitoring section have the correct information for a root case", (num
     });
     cy.get('.tab-content').within(() => {
         cy.contains('.well-sm p small', 'Id');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.badge-link', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.page-link', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
         cy.contains('.well-sm p small', 'Process name');
 
@@ -366,14 +366,13 @@ then("The monitoring section have the correct information for a root case", (num
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Failed flow nodes');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.badge-link', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.page-link', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
 
 
         cy.contains('.well-sm p small', 'Start date');
         cy.contains('pb-fragment-fragment-child-case-monitoring-v1 p small', '1/3/25 4:04 PM');
         cy.contains('.well-sm p small', 'End date').should('not.exist');
     });
-
     cy.contains('.item-label p', 'Child cases shown:');
 });
 
@@ -667,7 +666,7 @@ then('The error details section have the correct information for a root case wit
     cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736434327762));
     cy.contains('.panel-danger .panel-body .item-label p','Flow node');
     cy.contains('.panel-danger .panel-body .item-value a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
-    cy.contains('.panel-danger .panel-body .item-value a span.badge-link', '20010').trigger('mouseover').should('have.attr', 'title', 'View task details');
+    cy.contains('.panel-danger .panel-body .item-value a span.page-link', '20010').trigger('mouseover').should('have.attr', 'title', 'View task details');
     cy.contains('.panel-danger .panel-body .item-label p','Case').should('not.exist');
     cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
     cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
@@ -706,7 +705,7 @@ then("The error details section have the correct information for a child cases f
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node name');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd','Step1');
     cy.get('.panel-danger .panel-body .link-height a').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20014');
-    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case').should('not.exist');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case ID').should('not.exist');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Context');
@@ -729,7 +728,7 @@ then('The error details section have the correct information for child cases wit
     cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736429846741));
     cy.contains('.panel-danger .panel-body .item-label p','Case / Flow node');
     cy.contains('.panel-danger .panel-body .item-value a', '14002').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
-    cy.contains('.panel-danger .panel-body .item-value a span.badge-link', '14002').trigger('mouseover').should('have.attr', 'title', 'View task details');
+    cy.contains('.panel-danger .panel-body .item-value a span.page-link', '14002').trigger('mouseover').should('have.attr', 'title', 'View task details');
     cy.contains('.panel-danger .panel-body .item-label p', 'Scope');
     cy.contains('.panel-danger .panel-body .item-value p', 'Data initialization');
     cy.contains('.panel-danger .panel-body .item-label p', 'Error message');
@@ -745,7 +744,7 @@ then('The failure details modal displays the information correctly for a child c
     cy.contains('.modal-body .flownode-link a dt','Flow node name');
     cy.contains('.modal-body .flownode-link a dd','Step1');
     cy.get('.modal-body .flownode-link a').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
-    cy.contains('.modal-body .flownode-link  a dt','Case').should('not.exist');
+    cy.contains('.modal-body .flownode-link  a dt','Case ID').should('not.exist');
     cy.contains('.modal-body .form-group label', 'Scope');
     cy.contains('.modal-body .form-group p', 'Data initialization');
     cy.contains('.modal-body .form-group label', 'Context');
