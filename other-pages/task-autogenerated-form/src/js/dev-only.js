@@ -620,7 +620,7 @@
         last_update_date: '2014-11-27 17:53:46.516'
       },
       start: '2014-11-27 17:55:00.906',
-      activeFlowNodes: '9',
+      pendingFlowNodes: '9',
       state: 'started',
       rootCaseId: '1',
       started_by: {

@@ -15,7 +15,7 @@ given("A list of open cases is available", ()=> {
     cy.fixture('json/openCases.json').as('openCases');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`,
+        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0`,
         response: '@openCases'
     }).as('openCasesRoute');
 });
@@ -25,7 +25,7 @@ given("A list of open cases with headers is available", ()=> {
     cy.fixture('json/openCases.json').as('openCases');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`,
+        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0`,
         response: '@openCases',
         headers: {'content-range': '0-5/5'}
     }).as('openCasesRoute');
@@ -85,7 +85,7 @@ given("The responses filtered by process name are defined for open cases", ()=>{
     cy.fixture('json/openCasesFilteredByProcessName.json').as('openCasesFilteredByProcessName');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0&f=processDefinitionId=4713701278409746992`,
+        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0&f=processDefinitionId=4713701278409746992`,
         response: '@openCasesFilteredByProcessName',
     }).as('openCasesFilteredByProcessNameRoute');
 });
@@ -100,7 +100,7 @@ given("The responses filtered by process name are defined for archived cases", (
 });
 
 given("A list of open cases sorted by {string} is available", (sortType)=> {
-    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes`;
+    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes`;
 
     cy.route({
         method: 'GET',
@@ -174,7 +174,7 @@ function sortOrderArchivedCasesParameter(sortType) {
 
 given("No open cases for {string} are available response is defined", (filterType)=>{
     cy.fixture('json/emptyResult.json').as('emptyResult');
-    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`;
+    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0`;
     switch(filterType) {
         case 'process name':
             cy.route({
@@ -218,7 +218,7 @@ given("The filter response only started by me is defined for open cases", ()=>{
     cy.fixture('json/openCasesFilteredStartedByMe.json').as('openCasesFilteredStartedByMe');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0&f=started_by=4`,
+        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0&f=started_by=4`,
         response: '@openCasesFilteredStartedByMe',
     }).as('openCasesFilteredStartedByMeRoute');
 });
@@ -235,7 +235,7 @@ given("The filter response only started by me is defined for archived cases", ()
 given("The filter responses search are defined for open cases", ()=>{
     cy.fixture('json/openCasesSearchPool3.json').as('openCasesSearchPool3');
     cy.fixture('json/openCasesSearchKey.json').as('openCasesSearchKey');
-    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`;
+    let filterQueryURLPrefix = `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0`;
     cy.route({
         method: 'GET',
         url: filterQueryURLPrefix + '&s=Pool3',
@@ -256,7 +256,7 @@ given("The filter responses search are defined for open cases", ()=>{
             'd[1]': 'started_by',
             'd[2]': 'startedBySubstitute',
             'f': 'user_id=4',
-            'n[0]': 'activeFlowNodes',
+            'n[0]': 'pendingFlowNodes',
             'n[1]': 'failedFlowNodes',
             't': '0',
             's': '&Special',
@@ -301,7 +301,7 @@ given("The filter responses search are defined for archived cases", ()=>{
 given("A list of open cases with several pages is available", ()=>{
     cy.server();
     function getOpenCasesQuery(casesPerPage, pageIndex, timestamp) {
-        return `${buildDir}/API/bpm/case?c=${casesPerPage}&p=${pageIndex}&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=${timestamp}`;
+        return `${buildDir}/API/bpm/case?c=${casesPerPage}&p=${pageIndex}&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=${timestamp}`;
     }
 
     cy.fixture('json/openCasesPage0.json').as('openCasesPage0');
@@ -337,7 +337,7 @@ given("A list of open cases with several pages is available", ()=>{
 given("A list of open cases with headers with several pages is available", ()=>{
     cy.server();
     function getOpenCasesQuery(casesPerPage, pageIndex) {
-        return `${buildDir}/API/bpm/case?c=${casesPerPage}&p=${pageIndex}&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes`;
+        return `${buildDir}/API/bpm/case?c=${casesPerPage}&p=${pageIndex}&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes`;
     }
 
     cy.fixture('json/openCasesPage0.json').as('openCasesPage0');
@@ -453,7 +453,7 @@ given("A list of no open cases is available", ()=> {
     cy.fixture('json/emptyResult.json').as('emptyResultRoute');
     cy.route({
         method: 'GET',
-        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=activeFlowNodes&n=failedFlowNodes&t=0`,
+        url: `${buildDir}/API/bpm/case?c=10&p=0&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id=4&n=pendingFlowNodes&n=failedFlowNodes&t=0`,
         response: '@emptyResultRoute'
     }).as('noOpenCasesRoute');
 });

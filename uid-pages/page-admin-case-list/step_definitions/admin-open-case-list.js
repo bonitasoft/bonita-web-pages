@@ -3,7 +3,7 @@ import { Given as given, Then as then, When as when } from "cypress-cucumber-pre
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
-const flowNodeCounters = '&n=activeFlowNodes&n=failedFlowNodes';
+const flowNodeCounters = '&n=pendingFlowNodes&n=failedFlowNodes';
 const processUrl = urlPrefix + 'API/bpm/process';
 const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
@@ -121,7 +121,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
                 'd[1]': 'started_by',
                 'd[2]': 'startedBySubstitute',
                 't': '0',
-                'n[0]': 'activeFlowNodes',
+                'n[0]': 'pendingFlowNodes',
                 'n[1]': 'failedFlowNodes',
                 's': searchParameter
             }
