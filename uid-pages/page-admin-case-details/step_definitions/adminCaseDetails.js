@@ -9,7 +9,6 @@ const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=caller=any&f=sourceObjectId=1';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
@@ -23,6 +22,8 @@ const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=
 const rootCaseFailuresUrl = 'API/bpm/failure/case/1?c=10';
 const childCasesFailuresUrl = 'API/bpm/failure/case/1/childCases?c=10';
 const featureListUrl = 'API/system/feature?p=0&c=100';
+const flowNodeOfCaseFailureUrl = 'API/bpm/flowNode/20010';
+const flowNodeOfChildCaseFailureUrl = 'API/bpm/flowNode/14002';
 
 const getLocaleDateAndTime = (timestamp) => {
     const failureDate = new Date(timestamp);
@@ -108,21 +109,25 @@ given("The response {string} is defined", (responseType) => {
         case 'default root case failures':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresRoute', 'rootCaseFailures');
+            createRouteWithResponse(flowNodeOfCaseFailureUrl, 'flowNodeOfCaseFailureRoute', 'flowNodeOfCaseFailure');
             createRouteWithResponse(childCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
             break;
         case 'root case failures with histories':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'rootCaseFailuresWithHistoriesRoute', 'rootCaseFailuresWithHistories');
+            createRouteWithResponse(flowNodeOfCaseFailureUrl, 'flowNodeOfCaseFailureRoute', 'flowNodeOfCaseFailure');
             createRouteWithResponse(childCasesFailuresUrl, 'emptySubCasesFailuresRoute', 'emptyResult');
             break;
         case 'child cases failures':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresRoute', 'emptyResult');
             createRouteWithResponse(childCasesFailuresUrl, 'childCasesFailureRoute', 'childCasesFailure');
+            createRouteWithResponse(flowNodeOfChildCaseFailureUrl, 'flowNodeOfChildCaseFailureRoute', 'flowNodeOfChildCaseFailure');
             break;
         case 'child cases failures with histories':
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(rootCaseFailuresUrl, 'emptyRootCaseFailuresWithHistoriesRoute', 'emptyResult');
+            createRouteWithResponse(flowNodeOfChildCaseFailureUrl, 'flowNodeOfChildCaseFailureRoute', 'flowNodeOfChildCaseFailure');
             createRouteWithResponse(childCasesFailuresUrl, 'childCasesFailuresWithHistoriesRoute', 'childCasesFailuresWithHistories');
             break;
         default:
@@ -629,8 +634,12 @@ then("The error details section have the correct information for a root case", (
     cy.contains('.panel-danger h4', 'Case errors');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736434346149));
-    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node');
-    cy.contains('.panel-danger .panel-body .link-height a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.panel-danger .panel-body .link-height .dl-horizontal dt','Flow node ID');
+    cy.contains('.panel-danger .panel-body .link-height .dl-horizontal dd','20010');
+    cy.get('.panel-danger .panel-body .link-height a').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.panel-danger .panel-body .link-height .dl-horizontal dt','Flow node name');
+    cy.contains('.panel-danger .panel-body .link-height .dl-horizontal dd', 'GrandParentFailedTask');
+    cy.get('.panel-danger .panel-body .link-height a').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case').should('not.exist');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
@@ -662,8 +671,10 @@ then('The error details section have the correct information for a root case wit
 then('The failure details modal displays the information correctly', () => {
     cy.get('.modal-dialog').should('be.visible');
     cy.contains('.modal-header h4', 'Error details');
-    cy.contains('.modal-body a dt','Flow node');
+    cy.contains('.modal-body a dt','Flow node ID');
     cy.contains('.modal-body a', '20010').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
+    cy.contains('.modal-body a dt','Flow node name');
+    cy.contains('.modal-body a', 'GrandParentFailedTask').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20010');
     cy.contains('.modal-body a dt','Case').should('not.exist');
     cy.contains('.modal-body .form-group label', 'Scope');
     cy.contains('.modal-body .form-group p', 'Data initialization');
@@ -681,8 +692,12 @@ then("The error details section have the correct information for a child cases f
     cy.contains('.panel-danger h4', 'Child cases errors');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Failed on');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', getLocaleDateAndTime(1736762470984));
-    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node');
-    cy.contains('.panel-danger .panel-body .link-height a', '20014').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20014');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node ID');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd','20014');
+    cy.get('.panel-danger .panel-body .link-height a').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20014');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node name');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dd','Step1');
+    cy.get('.panel-danger .panel-body .link-height a').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=20014');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case').should('not.exist');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt', 'Scope');
     cy.contains('.panel-danger .panel-body .dl-horizontal dd', 'Data initialization');
@@ -700,7 +715,7 @@ then('The error details section have the correct information for child cases wit
     cy.get('.panel-danger .panel-body p span.glyphicon-hourglass');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Case');
     cy.contains('.panel-danger .panel-body .link-height a', '1').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=1');
-    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node').should('not.exist');
+    cy.contains('.panel-danger .panel-body .dl-horizontal dt','Flow node ID').should('not.exist');
     cy.contains('.panel-danger p', 'Failure history');
     cy.contains('.panel-danger .panel-body .item-label p', 'Failed on');
     cy.contains('.panel-danger .panel-body .item-value p', getLocaleDateAndTime(1736429846741));
@@ -716,9 +731,12 @@ then('The error details section have the correct information for child cases wit
 then('The failure details modal displays the information correctly for a child case failure history', () => {
     cy.get('.modal-dialog').should('be.visible');
     cy.contains('.modal-header h4', 'Error details');
-    cy.contains('.modal-body a dt','Flow node');
-    cy.contains('.modal-body a', '14002').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
-    cy.contains('.modal-body a dt','Case').should('not.exist');
+    cy.contains('.modal-body .flownode-link a dt','Flow node ID');
+    cy.get('.modal-body .flownode-link a').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
+    cy.contains('.modal-body .flownode-link a dt','Flow node name');
+    cy.contains('.modal-body .flownode-link a dd','Step1');
+    cy.get('.modal-body .flownode-link a').eq(1).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=14002');
+    cy.contains('.modal-body .flownode-link  a dt','Case').should('not.exist');
     cy.contains('.modal-body .form-group label', 'Scope');
     cy.contains('.modal-body .form-group p', 'Data initialization');
     cy.contains('.modal-body .form-group label', 'Context');

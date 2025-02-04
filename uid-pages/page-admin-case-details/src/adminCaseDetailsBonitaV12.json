@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738141048285,
+  "lastUpdate" : 1738658605117,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -3768,7 +3768,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{caseFailures[0].flowNodeInstanceId}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node ID\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{caseFailures[0].flowNodeInstanceId}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -3815,6 +3815,81 @@
                                   }
                                 },
                                 "reference" : "dfa42fa8-9f20-4edc-8fa7-bc32333a2bf8",
+                                "hasValidationError" : false,
+                                "id" : "pbLink"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "pl-0 pt-0 pb-0 mt-0 mb-0 link-height"
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "caseFailures[0].flowNodeInstanceId < 1"
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{apiFlowNodeOfCaseFailure.displayName}}</dd></dl>"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "page"
+                                  },
+                                  "targetUrl" : {
+                                    "type" : "constant",
+                                    "value" : "http://"
+                                  },
+                                  "pageToken" : {
+                                    "type" : "constant",
+                                    "value" : "admin-task-details"
+                                  },
+                                  "processName" : {
+                                    "type" : "constant"
+                                  },
+                                  "processVersion" : {
+                                    "type" : "constant"
+                                  },
+                                  "taskId" : {
+                                    "type" : "constant"
+                                  },
+                                  "caseId" : {
+                                    "type" : "constant"
+                                  },
+                                  "target" : {
+                                    "type" : "constant",
+                                    "value" : "_self"
+                                  },
+                                  "appToken" : {
+                                    "type" : "constant"
+                                  },
+                                  "urlParams" : {
+                                    "type" : "expression",
+                                    "value" : "{\"id\" : caseFailures[0].flowNodeInstanceId}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "link"
+                                  }
+                                },
+                                "reference" : "330fdf61-090f-4c17-a1e7-f9837f6490af",
                                 "hasValidationError" : false,
                                 "id" : "pbLink"
                               }
@@ -5077,7 +5152,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "px-3 mt-20"
+                        "value" : "px-3 mt-5"
                       },
                       "hidden" : {
                         "type" : "expression",
@@ -5233,7 +5308,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{childCaseFailures[0].flowNodeInstanceId}}</dd></dl>"
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node ID\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{childCaseFailures[0].flowNodeInstanceId}}</dd></dl>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -5280,6 +5355,81 @@
                                   }
                                 },
                                 "reference" : "0c72c016-992d-48ab-8f9d-fc65a02750b6",
+                                "hasValidationError" : false,
+                                "id" : "pbLink"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "pl-0 pt-0 pb-0 mt-0 mb-0 link-height"
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "childCaseFailures[0].flowNodeInstanceId <= 0"
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<dl class=\"dl-horizontal mb-0\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{apiFlowNodeOfChildCaseFailure.displayName}}</dd></dl>"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "page"
+                                  },
+                                  "targetUrl" : {
+                                    "type" : "constant",
+                                    "value" : "http://"
+                                  },
+                                  "pageToken" : {
+                                    "type" : "constant",
+                                    "value" : "admin-task-details"
+                                  },
+                                  "processName" : {
+                                    "type" : "constant"
+                                  },
+                                  "processVersion" : {
+                                    "type" : "constant"
+                                  },
+                                  "taskId" : {
+                                    "type" : "constant"
+                                  },
+                                  "caseId" : {
+                                    "type" : "constant"
+                                  },
+                                  "target" : {
+                                    "type" : "constant",
+                                    "value" : "_self"
+                                  },
+                                  "appToken" : {
+                                    "type" : "constant"
+                                  },
+                                  "urlParams" : {
+                                    "type" : "expression",
+                                    "value" : "{\"id\" : childCaseFailures[0].flowNodeInstanceId}"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "link"
+                                  }
+                                },
+                                "reference" : "86d27b3d-454f-4158-87ba-ffaafce9db55",
                                 "hasValidationError" : false,
                                 "id" : "pbLink"
                               }
@@ -9230,7 +9380,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<dl class=\"mb-0 item-value\"><dt>{{\"Flow node\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left\">{{failureCaseData.previousFailure.flowNodeInstanceId}}</dd></dl>"
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node ID\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left\">{{failureCaseData.previousFailure.flowNodeInstanceId}}</dd></dl>"
                         },
                         "type" : {
                           "type" : "constant",
@@ -9297,6 +9447,81 @@
                         },
                         "hidden" : {
                           "type" : "expression",
+                          "value" : "failureCaseData.previousFailure.flowNodeInstanceId < 1"
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Flow node name\"|uiTranslate}}</dt><dd class=\"text-capitalize text-left\">{{apiFlowNodeOfModalCaseFailure.displayName}}</dd></dl>"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "page"
+                        },
+                        "targetUrl" : {
+                          "type" : "constant",
+                          "value" : "http://"
+                        },
+                        "pageToken" : {
+                          "type" : "constant",
+                          "value" : "admin-task-details"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_self"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "expression",
+                          "value" : "{\"id\" : failureCaseData.previousFailure.flowNodeInstanceId}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "link"
+                        }
+                      },
+                      "reference" : "fd4a9b0c-f4a4-40fb-92d3-1a236cb65e6f",
+                      "hasValidationError" : false,
+                      "id" : "pbLink"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "flownode-link"
+                        },
+                        "hidden" : {
+                          "type" : "expression",
                           "value" : "failureCaseData.previousFailure.flowNodeInstanceId >= 0"
                         },
                         "allowHTML" : {
@@ -9305,7 +9530,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<dl class=\"mb-0\"><dt>{{\"Case\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{failureCaseData.previousFailure.caseId}}</dd></dl>"
+                          "value" : "<dl class=\"mb-0 item-value text-left\"><dt>{{\"Case\"|uiTranslate}}</dt><dd class=\"text-capitalize\">{{failureCaseData.previousFailure.caseId}}</dd></dl>"
                         },
                         "type" : {
                           "type" : "constant",
@@ -10310,6 +10535,9 @@
         "        } else {",
         "            return `<i class=\"glyphicon glyphicon-exclamation-sign text-warning\"></i> ${failedFlowNodeCounter}`;",
         "        }",
+        "    },",
+        "    getFlowNodeOfFailure: function(caseFailure) {",
+        "        return caseFailure && caseFailure.flowNodeInstanceId ? `../API/bpm/flowNode/${caseFailure.flowNodeInstanceId}` : undefined;",
         "    }",
         "};"
       ],
@@ -10361,6 +10589,27 @@
       "advancedOptions" : {
         "statusCode" : "failureCaseData.childCaseFailuresStatusCode"
       },
+      "exposed" : false
+    },
+    "apiFlowNodeOfCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getFlowNodeOfFailure(caseFailures[0])}}"
+      ],
+      "exposed" : false
+    },
+    "apiFlowNodeOfChildCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getFlowNodeOfFailure(childCaseFailures[0])}}"
+      ],
+      "exposed" : false
+    },
+    "apiFlowNodeOfModalCaseFailure" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getFlowNodeOfFailure(failureCaseData.previousFailure)}}"
+      ],
       "exposed" : false
     }
   },
