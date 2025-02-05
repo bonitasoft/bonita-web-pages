@@ -98,7 +98,7 @@ Feature: The pending tasks list in desktop resolution
     Then A list of "5" items is displayed
     And "3" items in the list are overdue
 
-  Scenario: The pending task list search by caseId works correctly
+  Scenario: The pending task list search by root caseId works correctly
     Given The filter response "filter by caseId" is defined for pending tasks
     When I visit admin task list page with caseId "2001" in URL parameter
     And I click on "Pending tasks" tab
@@ -106,6 +106,16 @@ Feature: The pending tasks list in desktop resolution
     When I erase the caseId filter
     And I put "3001" in "caseId" filter field for pending tasks
     Then The api call is made for "3001" for pending tasks
+
+  Scenario: The pending task list search by parent caseId works correctly
+    Given The filter response "filter by parentCaseId" is defined for pending tasks
+    When I visit admin task list page with caseId "2001" in URL parameter
+    And I click on "Parent case ID" radio button
+    And I click on "Pending tasks" tab
+    Then The api call is made for "parent 2001" for pending tasks
+    When I erase the caseId filter
+    And I put "3001" in "caseId" filter field for pending tasks
+    Then The api call is made for "parent 3001" for pending tasks
 
   Scenario: The failed flow nodes list process filter is disabled
     Given The filter response "empty process list" is defined

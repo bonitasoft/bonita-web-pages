@@ -69,13 +69,22 @@ Feature: The failed flow nodes list in desktop resolution
     When I visit admin task list page
     Then Only the no failed flow node is displayed
 
-  Scenario: The failed flow nodes list search by caseId works correctly
+  Scenario: The failed flow nodes list search by root caseId works correctly
     Given The filter response "filter by caseId" is defined
     When I visit admin task list page with caseId "2001" in URL parameter
     Then The api call is made for "2001"
     When I erase the caseId filter
     When I put "3001" in "caseId" filter field
     Then The api call is made for "3001"
+
+  Scenario: The failed flow nodes list search by parent caseId works correctly
+    Given The filter response "filter by parentCaseId" is defined
+    When I visit admin task list page with caseId "2001" in URL parameter
+    And I click on "Parent case ID" radio button
+    Then The api call is made for "parent 2001"
+    When I erase the caseId filter
+    When I put "3001" in "caseId" filter field
+    Then The api call is made for "parent 3001"
 
   Scenario: The failed flow nodes list process filter is disabled
     Given The filter response "empty process list" is defined

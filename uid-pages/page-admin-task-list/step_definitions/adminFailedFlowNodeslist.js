@@ -43,8 +43,12 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse(defaultRequestUrl, '&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&t=0&f=caseId=2001', 'filterByCaseId2001Route');
-            createRoute('&t=0&f=caseId=3001', 'filterByCaseId3001Route');
+            createRoute('&t=0&f=rootCaseId=2001', 'filterByCaseId2001Route');
+            createRoute('&t=0&f=rootCaseId=3001', 'filterByCaseId3001Route');
+            break;
+        case 'filter by parentCaseId':
+            createRoute('&t=0&f=parentCaseId=2001', 'filterByParentCaseId2001Route');
+            createRoute('&t=0&f=parentCaseId=3001', 'filterByParentCaseId3001Route');
             break;
         case 'refresh failed flow nodes list':
             createRouteWithResponseAndHeaders('&t=0', 'failedFlowNodes10Route', 'failedFlowNodes10', {'content-range': '0-10/35'})
@@ -370,6 +374,12 @@ then("The api call is made for {string}", (filterValue) => {
             break;
         case '3001':
             cy.wait('@filterByCaseId3001Route');
+            break;
+        case 'parent 2001':
+            cy.wait('@filterByParentCaseId2001Route');
+            break;
+        case 'parent 3001':
+            cy.wait('@filterByParentCaseId3001Route');
             break;
         case '&Special':
             cy.wait('@filterByTaskNameWithSpecialCharacterRoute');

@@ -40,8 +40,12 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             createRouteWithResponse(defaultRequestUrl,'&t=0&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&t=0&f=caseId=2001', 'filterByCaseId2001Route');
-            createRoute('&t=0&f=caseId=3001', 'filterByCaseId3001Route');
+            createRoute('&t=0&f=rootCaseId=2001', 'filterByCaseId2001Route');
+            createRoute('&t=0&f=rootCaseId=3001', 'filterByCaseId3001Route');
+            break;
+        case 'filter by parentCaseId':
+            createRoute('&t=0&f=parentCaseId=2001', 'filterByParentCaseId2001Route');
+            createRoute('&t=0&f=parentCaseId=3001', 'filterByParentCaseId3001Route');
             break;
         case 'refresh pending tasks list':
             createRouteWithResponseAndHeaders('&t=0', 'pendingTasks10Route', 'pendingTasks10', {'content-range': '0-10/35'});
@@ -126,6 +130,10 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
 
 when("I click on {string} tab", (tabName) => {
     cy.contains("a", tabName).click();
+});
+
+when("I click on {string} radio button", (radioLabel) => {
+    cy.get('.case-filter-mode label').filter(':contains('+ radioLabel + ')').children('input').eq(0).click();
 });
 
 when("I put {string} in {string} filter field for pending tasks", (filterValue, filterType) => {
@@ -296,6 +304,12 @@ then("The api call is made for {string} for pending tasks", (filterValue) => {
             break;
         case '3001':
             cy.wait('@filterByCaseId3001Route');
+            break;
+        case 'parent 2001':
+            cy.wait('@filterByParentCaseId2001Route');
+            break;
+        case 'parent 3001':
+            cy.wait('@filterByParentCaseId3001Route');
             break;
         case '&Special':
             cy.wait('@filterByTaskNameWithSpecialCharacterRoute');

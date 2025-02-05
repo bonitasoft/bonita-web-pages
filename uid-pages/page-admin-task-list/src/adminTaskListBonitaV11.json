@@ -6,7 +6,7 @@
   "uuid" : "9fe5628a-f7e9-4eed-b788-b580e185edb8",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1736782042293,
+  "lastUpdate" : 1738768855085,
   "description" : "This page lists all the tasks. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -107,91 +107,82 @@
           ],
           [
             {
-              "type" : "container",
+              "type" : "component",
               "dimension" : {
-                "xs" : 6,
-                "sm" : 6,
-                "md" : 6,
-                "lg" : 6
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 7,
+                "lg" : 7
               },
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "case-filter-mode"
                 },
                 "hidden" : {
                   "type" : "constant",
                   "value" : false
                 },
-                "repeatedCollection" : {
-                  "type" : "variable",
-                  "value" : ""
-                }
-              },
-              "reference" : "94849ed6-3b03-4d18-a7d0-4970b1a81074",
-              "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [ ]
-              ]
-            },
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 3,
-                "sm" : 3,
-                "md" : 3,
-                "lg" : 3
-              },
-              "propertyValues" : {
-                "cssClasses" : {
+                "disabled" : {
                   "type" : "constant",
-                  "value" : "mt-0 mb-0 pt-10 pb-10"
+                  "value" : false
                 },
-                "hidden" : {
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
                   "type" : "constant",
                   "value" : false
                 },
                 "labelHidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Default label"
+                  "value" : "Filter flow nodes by"
                 },
                 "labelPosition" : {
                   "type" : "constant",
-                  "value" : "top"
+                  "value" : "left"
                 },
                 "labelWidth" : {
                   "type" : "constant",
                   "value" : 4
                 },
-                "allowHTML" : {
+                "inline" : {
                   "type" : "constant",
                   "value" : true
                 },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<strong>Case Id</strong>"
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "tasksData.caseFilterMode"
                 },
-                "alignment" : {
+                "displayedKey" : {
                   "type" : "constant",
-                  "value" : "right"
+                  "value" : "label"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "isRootCaseIdFilter"
+                },
+                "selectedValue" : {
+                  "type" : "variable",
+                  "value" : "tasksData.isRootCaseIdFilter"
                 }
               },
-              "reference" : "30330bb0-d891-4071-aed6-2e966dc998f6",
+              "reference" : "483842ee-adeb-4e5e-ac5a-5eef7e974bac",
               "hasValidationError" : false,
-              "id" : "pbText"
+              "id" : "pbRadioButtons"
             },
             {
               "type" : "component",
               "dimension" : {
-                "xs" : 3,
-                "sm" : 3,
-                "md" : 3,
-                "lg" : 3
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 5,
+                "lg" : 5
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -220,11 +211,11 @@
                 },
                 "labelHidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Case ID"
+                  "value" : "<i class=\"glyphicon glyphicon-info-sign text-info\"></i> {{tasksData.isRootCaseIdFilter ? \"Includes child cases\" : \"Includes no child case\" | uiTranslate}}"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -232,11 +223,11 @@
                 },
                 "labelWidth" : {
                   "type" : "constant",
-                  "value" : 6
+                  "value" : 8
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "Filter by case ID"
+                  "value" : "{{tasksData.isRootCaseIdFilter ? \"Root case ID\" : \"Case ID\"}}"
                 },
                 "value" : {
                   "type" : "variable",
@@ -258,7 +249,7 @@
                 },
                 "allowHTML" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "debounce" : {
                   "type" : "constant",
@@ -10353,7 +10344,11 @@
         "        var queryParameters = \"&f=state=failed&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
-        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "            if($data.tasksData.isRootCaseIdFilter) {",
+        "                queryParameters += \"&f=rootCaseId=\" + $data.caseId;",
+        "            } else {",
+        "                queryParameters += \"&f=parentCaseId=\" + $data.caseId;",
+        "            }",
         "        }",
         "        ",
         "        if($data.failedFlowNodeData.filters.processId){",
@@ -10411,7 +10406,11 @@
         "        var queryParameters = \"&f=state=pending&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
-        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "            if($data.tasksData.isRootCaseIdFilter) {",
+        "                queryParameters += \"&f=rootCaseId=\" + $data.caseId;",
+        "            } else {",
+        "                queryParameters += \"&f=parentCaseId=\" + $data.caseId;",
+        "            }",
         "        }",
         "        ",
         "        if($data.pendingTaskData.filters.processId){",
@@ -10511,7 +10510,11 @@
         "        var queryParameters = \"&d=rootContainerId&d=assigned_id&t=\" + $data.tasksData.timestamp;",
         "        ",
         "        if($data.caseId){",
-        "            queryParameters += \"&f=caseId=\" + $data.caseId;",
+        "            if($data.tasksData.isRootCaseIdFilter) {",
+        "                queryParameters += \"&f=rootCaseId=\" + $data.caseId;",
+        "            } else {",
+        "                queryParameters += \"&f=parentCaseId=\" + $data.caseId;",
+        "            }",
         "        }",
         "        ",
         "        if($data.doneTaskData.filters.processId){",
@@ -10560,7 +10563,18 @@
         "    displayedItems: [],",
         "    numberOfItemsPerPage: 10,",
         "    timestamp: 0,",
-        "    refreshAction: []",
+        "    refreshAction: [],",
+        "    caseFilterMode: [",
+        "        {",
+        "            label: uiTranslate(\"Root cases ID\"),",
+        "            isRootCaseIdFilter: true",
+        "        },",
+        "       {",
+        "            label: uiTranslate(\"Parent case ID\"),",
+        "            isRootCaseIdFilter: false",
+        "        }",
+        "    ],",
+        "    isRootCaseIdFilter: $data.isRootCaseId ? ($data.isRootCaseId === \"true\") : true",
         "};"
       ],
       "exposed" : false
@@ -10656,6 +10670,13 @@
         "    $data.tasksData.refreshAction = [];",
         "    $data.tasksData.displayedItems = [];",
         "}"
+      ],
+      "exposed" : false
+    },
+    "isRootCaseId" : {
+      "type" : "urlparameter",
+      "value" : [
+        "isRootCaseId"
       ],
       "exposed" : false
     }

@@ -46,8 +46,12 @@ given("The filter response {string} is defined for done tasks", (filterType) => 
             createRouteWithResponse(defaultRequestUrl + defaultFilters + '&t=0' + defaultSortOrder,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'filter by caseId':
-            createRoute('&t=0&f=caseId=2001' + defaultSortOrder, 'filterByCaseId2001Route');
-            createRoute('&t=0&f=caseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
+            createRoute('&t=0&f=rootCaseId=2001' + defaultSortOrder, 'filterByCaseId2001Route');
+            createRoute('&t=0&f=rootCaseId=3001' + defaultSortOrder, 'filterByCaseId3001Route');
+            break;
+        case 'filter by parentCaseId':
+            createRoute('&t=0&f=parentCaseId=2001' + defaultSortOrder, 'filterByParentCaseId2001Route');
+            createRoute('&t=0&f=parentCaseId=3001' + defaultSortOrder, 'filterByParentCaseId3001Route');
             break;
         case 'refresh done tasks list':
             createRouteWithResponseAndHeaders('&t=0' + defaultSortOrder, 'doneTasks10Route', 'doneTasks10', {'content-range': '0-10/35'});
@@ -300,6 +304,12 @@ then("The api call is made for {string} for done tasks", (filterValue) => {
             break;
         case '3001':
             cy.wait('@filterByCaseId3001Route');
+            break;
+        case 'parent 2001':
+            cy.wait('@filterByParentCaseId2001Route');
+            break;
+        case 'parent 3001':
+            cy.wait('@filterByParentCaseId3001Route');
             break;
         case '&Special':
             cy.wait('@filterByTaskNameWithSpecialCharacterRoute');
