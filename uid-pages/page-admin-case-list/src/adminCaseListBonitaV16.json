@@ -6,7 +6,7 @@
   "uuid" : "6fc3d1be-750f-4e2d-b244-308d15032873",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1737132351106,
+  "lastUpdate" : 1738788083222,
   "description" : "This page provides the list of open and archived cases. It is dedicated to admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -1113,6 +1113,10 @@
                     "allowHTML" : {
                       "type" : "constant",
                       "value" : false
+                    },
+                    "isLazyLoad" : {
+                      "type" : "constant",
+                      "value" : true
                     }
                   },
                   "reference" : "190fbc8c-d05e-40d4-a110-b3c49641ec89",
@@ -1837,7 +1841,7 @@
                                       "propertyValues" : {
                                         "cssClasses" : {
                                           "type" : "constant",
-                                          "value" : "item-value pt-5 p-0"
+                                          "value" : "item-value"
                                         },
                                         "hidden" : {
                                           "type" : "constant",
@@ -1845,7 +1849,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<span title=\"{{\"View case details\" | uiTranslate}}\">{{$item.id}}</span>"
+                                          "value" : "<span title=\"{{\"View case details\" | uiTranslate}}\" class=\"page-link\">{{$item.id}}</span>"
                                         },
                                         "type" : {
                                           "type" : "constant",
@@ -2361,7 +2365,7 @@
                                 "propertyValues" : {
                                   "cssClasses" : {
                                     "type" : "constant",
-                                    "value" : "hidden-xs"
+                                    "value" : "hidden-xs caseID"
                                   },
                                   "hidden" : {
                                     "type" : "constant",
@@ -2439,45 +2443,68 @@
                                       },
                                       "propertyValues" : {
                                         "cssClasses" : {
-                                          "type" : "constant",
-                                          "value" : "item-value pt-5"
+                                          "type" : "expression",
+                                          "value" : "$item.failedFlowNodes < 1 ? 'item-value no-click' : 'item-value'"
                                         },
                                         "hidden" : {
                                           "type" : "constant",
                                           "value" : false
                                         },
-                                        "labelHidden" : {
+                                        "allowHTML" : {
                                           "type" : "constant",
                                           "value" : true
                                         },
-                                        "label" : {
-                                          "type" : "interpolation",
-                                          "value" : "Default label"
-                                        },
-                                        "labelPosition" : {
-                                          "type" : "constant",
-                                          "value" : "top"
-                                        },
-                                        "labelWidth" : {
-                                          "type" : "constant",
-                                          "value" : 4
-                                        },
-                                        "allowHTML" : {
-                                          "type" : "constant",
-                                          "value" : false
-                                        },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "{{$item.failedFlowNodes}}"
+                                          "value" : "<span title=\"{{\"View case details\" | uiTranslate}}\" class=\"{{$item.failedFlowNodes > 0 && 'page-link'}}\">{{$item.failedFlowNodes}}</span>"
+                                        },
+                                        "type" : {
+                                          "type" : "constant",
+                                          "value" : "page"
+                                        },
+                                        "targetUrl" : {
+                                          "type" : "constant",
+                                          "value" : "http://"
+                                        },
+                                        "pageToken" : {
+                                          "type" : "constant",
+                                          "value" : "admin-task-list"
+                                        },
+                                        "processName" : {
+                                          "type" : "constant"
+                                        },
+                                        "processVersion" : {
+                                          "type" : "constant"
+                                        },
+                                        "taskId" : {
+                                          "type" : "constant"
+                                        },
+                                        "caseId" : {
+                                          "type" : "constant"
+                                        },
+                                        "target" : {
+                                          "type" : "constant",
+                                          "value" : "_self"
+                                        },
+                                        "appToken" : {
+                                          "type" : "constant"
+                                        },
+                                        "urlParams" : {
+                                          "type" : "expression",
+                                          "value" : "{\"caseId\" : $item.id, \"isRootCaseId\": !caseData.showSubCases}"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
                                           "value" : "center"
+                                        },
+                                        "buttonStyle" : {
+                                          "type" : "constant",
+                                          "value" : "link"
                                         }
                                       },
-                                      "reference" : "fcebc635-cb58-4454-8493-998fec3686cd",
+                                      "reference" : "eda11e12-fa85-4545-a42e-ba2c1e6a7e2c",
                                       "hasValidationError" : false,
-                                      "id" : "pbText"
+                                      "id" : "pbLink"
                                     }
                                   ]
                                 ]
@@ -2571,45 +2598,68 @@
                                       },
                                       "propertyValues" : {
                                         "cssClasses" : {
-                                          "type" : "constant",
-                                          "value" : "item-value pt-5"
+                                          "type" : "expression",
+                                          "value" : "$item.pendingFlowNodes < 1 ? 'item-value no-click' : 'item-value'"
                                         },
                                         "hidden" : {
                                           "type" : "constant",
                                           "value" : false
                                         },
-                                        "labelHidden" : {
+                                        "allowHTML" : {
                                           "type" : "constant",
                                           "value" : true
                                         },
-                                        "label" : {
-                                          "type" : "interpolation",
-                                          "value" : "Default label"
-                                        },
-                                        "labelPosition" : {
-                                          "type" : "constant",
-                                          "value" : "top"
-                                        },
-                                        "labelWidth" : {
-                                          "type" : "constant",
-                                          "value" : 4
-                                        },
-                                        "allowHTML" : {
-                                          "type" : "constant",
-                                          "value" : false
-                                        },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "{{$item.pendingFlowNodes}}"
+                                          "value" : "<span title=\"{{\"View task list\" | uiTranslate}}\" class=\"{{$item.pendingFlowNodes > 0 && 'page-link'}}\">{{$item.pendingFlowNodes}}<span>"
+                                        },
+                                        "type" : {
+                                          "type" : "constant",
+                                          "value" : "page"
+                                        },
+                                        "targetUrl" : {
+                                          "type" : "constant",
+                                          "value" : "http://"
+                                        },
+                                        "pageToken" : {
+                                          "type" : "constant",
+                                          "value" : "admin-task-list"
+                                        },
+                                        "processName" : {
+                                          "type" : "constant"
+                                        },
+                                        "processVersion" : {
+                                          "type" : "constant"
+                                        },
+                                        "taskId" : {
+                                          "type" : "constant"
+                                        },
+                                        "caseId" : {
+                                          "type" : "constant"
+                                        },
+                                        "target" : {
+                                          "type" : "constant",
+                                          "value" : "_self"
+                                        },
+                                        "appToken" : {
+                                          "type" : "constant"
+                                        },
+                                        "urlParams" : {
+                                          "type" : "expression",
+                                          "value" : "{\"caseId\" : $item.id, \"isRootCaseId\": !caseData.showSubCases}"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
                                           "value" : "center"
+                                        },
+                                        "buttonStyle" : {
+                                          "type" : "constant",
+                                          "value" : "link"
                                         }
                                       },
-                                      "reference" : "ff8b1516-547d-496d-823b-c89df8c6bb77",
+                                      "reference" : "4998e2e7-ad52-4c5c-83b9-0f59e6c307be",
                                       "hasValidationError" : false,
-                                      "id" : "pbText"
+                                      "id" : "pbLink"
                                     }
                                   ]
                                 ]
@@ -3383,6 +3433,10 @@
                     "allowHTML" : {
                       "type" : "constant",
                       "value" : false
+                    },
+                    "isLazyLoad" : {
+                      "type" : "constant",
+                      "value" : true
                     }
                   },
                   "reference" : "02f5fd1d-0ec9-43cb-8ab8-fc0ad7bfffc7",
@@ -4116,7 +4170,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<span title=\"{{\"View case details\" | uiTranslate}}\">{{$item.sourceObjectId}}</span>"
+                                          "value" : "<span title=\"{{\"View case details\" | uiTranslate}}\" class=\"page-link\">{{$item.sourceObjectId}}</span>"
                                         },
                                         "type" : {
                                           "type" : "constant",
@@ -4843,7 +4897,7 @@
                                       "propertyValues" : {
                                         "cssClasses" : {
                                           "type" : "constant",
-                                          "value" : "item-value pt-5"
+                                          "value" : "item-value pt-5 text-capitalize"
                                         },
                                         "hidden" : {
                                           "type" : "constant",
