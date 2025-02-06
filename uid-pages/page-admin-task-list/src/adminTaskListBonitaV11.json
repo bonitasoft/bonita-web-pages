@@ -6,7 +6,7 @@
   "uuid" : "9fe5628a-f7e9-4eed-b788-b580e185edb8",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738768855085,
+  "lastUpdate" : 1738840349052,
   "description" : "This page lists all the tasks. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -133,7 +133,7 @@
                 },
                 "allowHTML" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -215,7 +215,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "<i class=\"glyphicon glyphicon-info-sign text-info\"></i> {{tasksData.isRootCaseIdFilter ? \"Includes child cases\" : \"Includes no child case\" | uiTranslate}}"
+                  "value" : "{{tasksData.isRootCaseIdFilter ? \"Root case ID\" : \"Case ID\" | uiTranslate}} <small><i class=\"glyphicon glyphicon-info-sign text-info\" title=\"{{tasksData.isRootCaseIdFilter ? \"Includes flow nodes of child cases\" : \"Includes no child case's flow nodes\" | uiTranslate}}\"></i></small>"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -227,7 +227,7 @@
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "{{tasksData.isRootCaseIdFilter ? \"Root case ID\" : \"Case ID\"}}"
+                  "value" : ""
                 },
                 "value" : {
                   "type" : "variable",

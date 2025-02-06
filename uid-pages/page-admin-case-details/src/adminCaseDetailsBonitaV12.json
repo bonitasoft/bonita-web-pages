@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738769054595,
+  "lastUpdate" : 1738838034484,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -2099,7 +2099,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<small title=\"{{'View task list' | uiTranslate}}\" class=\"{{caseDetailsCtrl.getFlowNodeCounter(caseDetailsData.failedFlowNodesFromAPIHeaders) > 0 && 'page-link'}}\">{{failureCaseCtrl.getRootCaseFailedFlowNodeCounter()}}</small>"
+                                    "value" : "<small title=\"{{'View task list' | uiTranslate}}\">{{failureCaseCtrl.getRootCaseFailedFlowNodeCounter()}}</small>"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -10520,7 +10520,7 @@
         "        if(failedFlowNodeCounter < 1) {",
         "            return `${failedFlowNodeCounter}`;",
         "        } else {",
-        "            return `<i class=\"glyphicon glyphicon-exclamation-sign\"></i> ${failedFlowNodeCounter}`;",
+        "            return `<i class=\"glyphicon glyphicon-exclamation-sign\"></i> <span class=\"page-link\">${failedFlowNodeCounter}</span>`;",
         "        }",
         "    },",
         "    getFlowNodeOfFailure: function(caseFailure) {",

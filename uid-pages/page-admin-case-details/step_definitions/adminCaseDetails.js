@@ -335,7 +335,7 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.panel-primary .panel-heading h4', 'Monitoring');
     cy.contains('.panel-body h4', 'Case monitoring');
     cy.contains('.well-sm p small', 'Done flow nodes');
-    cy.contains('.px-3 a small.page-link', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
+    cy.contains('.px-3 a small', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
     cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
     cy.contains('.well-sm p small', 'Pending flow nodes');
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
@@ -350,7 +350,7 @@ then("The monitoring section have the correct information for a root case", (num
     });
     cy.get('.tab-content').within(() => {
         cy.contains('.well-sm p small', 'Id');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.page-link', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
         cy.contains('.well-sm p small', 'Process name');
 
@@ -366,7 +366,7 @@ then("The monitoring section have the correct information for a root case", (num
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(3).should('have.css', 'pointer-events', 'none');
 
         cy.contains('.well-sm p small', 'Failed flow nodes');
-        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small.page-link', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
+        cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
 
 
         cy.contains('.well-sm p small', 'Start date');

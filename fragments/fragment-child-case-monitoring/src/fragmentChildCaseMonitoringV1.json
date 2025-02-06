@@ -4,7 +4,7 @@
   "type" : "fragment",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738769132493,
+  "lastUpdate" : 1738838090325,
   "rows" : [
     [
       {
@@ -348,7 +348,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<small title=\"{{'View task list' | uiTranslate}}\" class=\"{{childCaseMonitoringCtrl.getFlowNodeCounter(childCaseMonitoringData.failedSubTasksFromAPIHeaders) > 0 && 'page-link'}}\">{{childCaseMonitoringCtrl.getFailedFlowNodeCounter()}}</small>"
+                  "value" : "<small title=\"{{'View task list' | uiTranslate}}\">{{childCaseMonitoringCtrl.getFailedFlowNodeCounter()}}</small>"
                 },
                 "type" : {
                   "type" : "constant",
@@ -518,7 +518,7 @@
         "            if(flowNodeCounter < 1) {",
         "                return `${flowNodeCounter}`;",
         "            } else {",
-        "                return `<i class=\"glyphicon glyphicon-exclamation-sign\"></i> ${flowNodeCounter}`;",
+        "                return `<i class=\"glyphicon glyphicon-exclamation-sign\"></i> <span class=\"page-link\">${flowNodeCounter}</span>`;",
         "            }",
         "    }",
         "};"
