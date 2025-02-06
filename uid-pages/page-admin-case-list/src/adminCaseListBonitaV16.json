@@ -6,7 +6,7 @@
   "uuid" : "6fc3d1be-750f-4e2d-b244-308d15032873",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738788083222,
+  "lastUpdate" : 1738847033287,
   "description" : "This page provides the list of open and archived cases. It is dedicated to admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -6564,7 +6564,7 @@
         "            showSubCases: true",
         "        }",
         "    ],",
-        "    showSubCases: false ",
+        "    showSubCases: $data.isRootCaseOnly ? ($data.isRootCaseOnly === \"false\") : false",
         "};"
       ],
       "exposed" : false
@@ -6938,6 +6938,13 @@
         "        return text;",
         "    }",
         "};"
+      ],
+      "exposed" : false
+    },
+    "isRootCaseOnly" : {
+      "type" : "urlparameter",
+      "value" : [
+        "isRootCaseOnly"
       ],
       "exposed" : false
     }
