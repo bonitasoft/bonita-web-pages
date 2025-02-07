@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738838034484,
+  "lastUpdate" : 1738947807375,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -5128,7 +5128,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || childCaseFailures.length === 0"
+                        "value" : "!caseDetailsCtrl.isRootCase(caseDetailsCtrl.getOpenOrArchivedCase()) || (openChildCaseFailures.length === 0 && archivedChildCaseFailures.length === 0)"
                       },
                       "repeatedCollection" : {
                         "type" : "variable"
@@ -5180,6 +5180,227 @@
                       ],
                       [
                         {
+                          "type" : "tabsContainer",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "mt-0 mb-0 pl-0"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "vertical" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "tabs"
+                            }
+                          },
+                          "reference" : "3a0764cf-957e-488b-b938-7f94cb74d3ad",
+                          "hasValidationError" : false,
+                          "id" : "pbTabsContainer",
+                          "tabList" : [
+                            {
+                              "type" : "tabContainer",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression"
+                                },
+                                "disabled" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "title" : {
+                                  "type" : "interpolation",
+                                  "value" : "Open child cases errors"
+                                },
+                                "active" : {
+                                  "type" : "variable",
+                                  "value" : "failureCaseData.openChildCasesErrorsActiveTab"
+                                },
+                                "isLazyLoad" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                }
+                              },
+                              "reference" : "78461635-ef56-4533-8d31-3a2aee48893d",
+                              "hasValidationError" : false,
+                              "id" : "pbTabContainer",
+                              "container" : {
+                                "type" : "container",
+                                "dimension" : {
+                                  "xs" : 12
+                                },
+                                "propertyValues" : { },
+                                "reference" : "30f0f3ba-c362-4d52-973c-1da40b4c3ec2",
+                                "hasValidationError" : false,
+                                "id" : "pbContainer",
+                                "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "hidden" : {
+                                          "type" : "expression",
+                                          "value" : "childCaseFailures.length !== 0"
+                                        },
+                                        "allowHTML" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "There is no error in open child cases"
+                                        },
+                                        "level" : {
+                                          "type" : "constant",
+                                          "value" : "Level 4"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "center"
+                                        }
+                                      },
+                                      "reference" : "b330a222-c349-4b70-a804-b72730500866",
+                                      "hasValidationError" : false,
+                                      "id" : "pbTitle"
+                                    }
+                                  ]
+                                ]
+                              }
+                            },
+                            {
+                              "type" : "tabContainer",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "disabled" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "allowHTML" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "title" : {
+                                  "type" : "interpolation",
+                                  "value" : "Archived child cases errors"
+                                },
+                                "active" : {
+                                  "type" : "variable",
+                                  "value" : "failureCaseData.archivedChildCasesErrorsActiveTab"
+                                },
+                                "isLazyLoad" : {
+                                  "type" : "constant",
+                                  "value" : true
+                                }
+                              },
+                              "reference" : "fceb5115-fed1-48bf-8af7-bb3bef905add",
+                              "hasValidationError" : false,
+                              "id" : "pbTabContainer",
+                              "container" : {
+                                "type" : "container",
+                                "dimension" : {
+                                  "xs" : 12
+                                },
+                                "propertyValues" : { },
+                                "reference" : "c2276c06-7394-42c7-8e43-15df88fc95b7",
+                                "hasValidationError" : false,
+                                "id" : "pbContainer",
+                                "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "hidden" : {
+                                          "type" : "expression",
+                                          "value" : "childCaseFailures.length !== 0"
+                                        },
+                                        "allowHTML" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "text" : {
+                                          "type" : "interpolation",
+                                          "value" : "There is no error in archived child cases"
+                                        },
+                                        "level" : {
+                                          "type" : "constant",
+                                          "value" : "Level 4"
+                                        },
+                                        "alignment" : {
+                                          "type" : "constant",
+                                          "value" : "center"
+                                        }
+                                      },
+                                      "reference" : "0403bc3f-bf61-4433-ba42-378a1fb10c0d",
+                                      "hasValidationError" : false,
+                                      "id" : "pbTitle"
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      [
+                        {
                           "type" : "container",
                           "dimension" : {
                             "xs" : 12,
@@ -5193,8 +5414,8 @@
                               "value" : "panel-body pb-0"
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "childCaseFailures.length === 0"
                             },
                             "repeatedCollection" : {
                               "type" : "variable"
@@ -10421,7 +10642,7 @@
       "type" : "expression",
       "value" : [
         "return {",
-        "    getCaseFailureUrls: function() {",
+        "    getCaseFailureUrl: function() {",
         "        const caseId = $data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId();",
         "        ",
         "        if(!caseId) {",
@@ -10434,8 +10655,8 @@
         "        ",
         "        return $data.caseDetailsCtrl.isArchived() ? `../API/bpm/archivedFailure/case/${caseId}?c=10` : `../API/bpm/failure/case/${caseId}?c=10`;",
         "    },",
-        "    getChildCaseFailureUrls: function() {",
-        "      const caseId = $data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId();",
+        "    getChildCaseFailureUrl: function(isGettingArchives) {",
+        "        const caseId = $data.caseDetailsCtrl.getOpenOrArchivedCaseOriginalId();",
         "",
         "        if(!caseId) {",
         "            return undefined;",
@@ -10445,19 +10666,27 @@
         "            return undefined;",
         "        }",
         "        ",
-        "        if (!$data.childCaseMonitoringData.openChildCasesActiveTab && $data.childCaseMonitoringData.archivedChildCasesActiveTab) {",
-        "            return `../API/bpm/archivedFailure/case/${caseId}/childCases?c=10`;",
+        "        if (! $data.caseDetailsCtrl.isRootCase($data.caseDetailsCtrl.getOpenOrArchivedCase())) {",
+        "            return undefined;",
         "            ",
-        "        } else {",
-        "            return `../API/bpm/failure/case/${caseId}/childCases?c=10`;",
         "        }",
+        "        return isGettingArchives ? `../API/bpm/archivedFailure/case/${caseId}/childCases?c=10` : `../API/bpm/failure/case/${caseId}/childCases?c=10`;",
+        "    },",
+        "    getOpenChildCaseFailureUrl: function() {",
+        "        return this.getChildCaseFailureUrl(false);",
+        "    },",
+        "    getArchivedChildCaseFailureUrl: function() {",
+        "        return this.getChildCaseFailureUrl(true);",
         "    },",
         "    hideErrorDetails: function(){",
-        "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\") ",
-        "        || (!$data.caseFailures && !$data.childCaseFailures)",
-        "        || ($data.caseFailures && $data.caseFailures.length === 0",
-        "            && $data.childCaseFailures && $data.childCaseFailures.length === 0)",
-        "        || ($data.failureCaseData.statusCode !== 200 && $data.failureCaseData.childCaseFailuresStatusCode !== 200)",
+        "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")",
+        "        || (!$data.caseFailures && $data.caseDetailsCtrl.isRootCase($data.caseDetailsCtrl.getOpenOrArchivedCase()))",
+        "        || (!$data.caseFailures && !$data.openChildCaseFailures && !$data.archivedChildCaseFailures)",
+        "        || ($data.caseFailures && $data.caseFailures.length === 0 ",
+        "            && $data.openChildCaseFailures && $data.openChildCaseFailures.length === 0",
+        "            && $data.archivedChildCaseFailures && $data.archivedChildCaseFailures.length === 0)",
+        "        || ($data.failureCaseData.statusCode !== 200 && $data.failureCaseData.openChildCaseFailuresStatusCode !== 200 ",
+        "            && $data.failureCaseData.archivedChildCaseFailuresStatusCode !== 200)",
         "        || ($data.archivedCase && $data.archivedCase.length && !$data.failureCaseData.displayErrorDetails.includes(true));",
         "    },",
         "    getFailedDate: function(timestamp) {",
@@ -10539,7 +10768,10 @@
         "return {",
         "    previousFailure: {},",
         "    statusCode: undefined,",
-        "    childCaseFailuresStatusCode: undefined,",
+        "    openChildCasesErrorsActiveTab: true,",
+        "    archivedChildCasesErrorsActiveTab: false,",
+        "    archivedChildCaseFailuresStatusCode: undefined,",
+        "    openChildCaseFailuresStatusCode: undefined,",
         "    displayErrorDetails: []",
         "};"
       ],
@@ -10564,20 +10796,10 @@
     "caseFailures" : {
       "type" : "url",
       "value" : [
-        "{{failureCaseCtrl.getCaseFailureUrls()}}"
+        "{{failureCaseCtrl.getCaseFailureUrl()}}"
       ],
       "advancedOptions" : {
         "statusCode" : "failureCaseData.statusCode"
-      },
-      "exposed" : false
-    },
-    "childCaseFailures" : {
-      "type" : "url",
-      "value" : [
-        "{{failureCaseCtrl.getChildCaseFailureUrls()}}"
-      ],
-      "advancedOptions" : {
-        "statusCode" : "failureCaseData.childCaseFailuresStatusCode"
       },
       "exposed" : false
     },
@@ -10591,7 +10813,7 @@
     "apiFlowNodeOfChildCaseFailure" : {
       "type" : "url",
       "value" : [
-        "{{failureCaseCtrl.getFlowNodeOfFailure(childCaseFailures[0])}}"
+        "{{failureCaseCtrl.getFlowNodeOfFailure(openChildCaseFailures[0])}}"
       ],
       "exposed" : false
     },
@@ -10612,7 +10834,7 @@
     "apiArchivedFlowNodeOfChildCaseFailure" : {
       "type" : "url",
       "value" : [
-        "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(caseFailures[0])}}"
+        "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(archivedChildCaseFailures[0])}}"
       ],
       "exposed" : false
     },
@@ -10620,6 +10842,38 @@
       "type" : "url",
       "value" : [
         "{{failureCaseCtrl.getArchivedFlowNodeOfFailure(failureCaseData.previousFailure)}}"
+      ],
+      "exposed" : false
+    },
+    "openChildCaseFailures" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getOpenChildCaseFailureUrl()}}"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "failureCaseData.openChildCaseFailuresStatusCode"
+      },
+      "exposed" : false
+    },
+    "archivedChildCaseFailures" : {
+      "type" : "url",
+      "value" : [
+        "{{failureCaseCtrl.getArchivedChildCaseFailureUrl()}}"
+      ],
+      "advancedOptions" : {
+        "statusCode" : "failureCaseData.archivedChildCaseFailuresStatusCode"
+      },
+      "exposed" : false
+    },
+    "childCaseFailures" : {
+      "type" : "expression",
+      "value" : [
+        "if (!$data.failureCaseData.openChildCasesErrorsActiveTab && $data.failureCaseData.archivedChildCasesErrorsActiveTab) {",
+        "    return $data.archivedChildCaseFailures;",
+        "    ",
+        "} else {",
+        "    return $data.openChildCaseFailures;",
+        "}"
       ],
       "exposed" : false
     }
