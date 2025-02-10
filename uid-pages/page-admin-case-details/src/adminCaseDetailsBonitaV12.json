@@ -6,7 +6,7 @@
   "uuid" : "9c596730-dec7-44d0-b30e-85f69526861a",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1738947807375,
+  "lastUpdate" : 1739185011025,
   "description" : "This page provides the detail information of a case. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer. This page can only be used as an orphan page as it needs an 'id' parameter to display some content.",
   "rows" : [
     [
@@ -10326,27 +10326,6 @@
       ],
       "exposed" : false
     },
-    "countOpenTasks" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/humanTask?p=0&c=11&f=caseId={{caseIdQueryParameter}}&f=state=ready"
-      ],
-      "exposed" : false
-    },
-    "countFailedTasks" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/flowNode?p=0&c=11&f=caseId={{caseIdQueryParameter}}&f=state=failed"
-      ],
-      "exposed" : false
-    },
-    "countDoneTasks" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedTask?p=0&c=11&f=caseId={{caseIdQueryParameter}}"
-      ],
-      "exposed" : false
-    },
     "processVariablesCtrl" : {
       "type" : "expression",
       "value" : [
@@ -10680,7 +10659,8 @@
         "    },",
         "    hideErrorDetails: function(){",
         "        return !$data.featuresListCtrl.isFeatureAvailable(\"PROCESS_MONITORING\")",
-        "        || (!$data.caseFailures && $data.caseDetailsCtrl.isRootCase($data.caseDetailsCtrl.getOpenOrArchivedCase()))",
+        "        || (!$data.caseDetailsCtrl.isRootCase($data.caseDetailsCtrl.getOpenOrArchivedCase()) && (!$data.caseFailures || $data.caseFailures.length === 0))",
+        "        // || ($data.caseFailures && $data.caseFailures.length === 0 && !$data.caseDetailsCtrl.isRootCase($data.caseDetailsCtrl.getOpenOrArchivedCase()))",
         "        || (!$data.caseFailures && !$data.openChildCaseFailures && !$data.archivedChildCaseFailures)",
         "        || ($data.caseFailures && $data.caseFailures.length === 0 ",
         "            && $data.openChildCaseFailures && $data.openChildCaseFailures.length === 0",
