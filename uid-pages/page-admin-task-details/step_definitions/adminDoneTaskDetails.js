@@ -90,11 +90,11 @@ then("The done task details have the correct information", () => {
     cy.contains('.panel-primary .dl-horizontal dd','Walter Bates');
     cy.contains('.panel-primary .dl-horizontal dt','Process name');
     cy.contains('.panel-primary .link-height a', 'Publish daily meal by mail for all the team (PublishDailyMeal - 1.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=5637856552961874995');
-    cy.contains('.panel-primary .dl-horizontal dt','Case Id');
+    cy.contains('.panel-primary .dl-horizontal dt','Case ID');
     cy.contains('.panel-primary .link-height a', '4289').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4289');
     cy.contains('.panel-primary .dl-horizontal dt','Root process name');
     cy.contains('.panel-primary .link-height a', 'Root process display name (RootProcessName - 1.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=5637856552961874994');
-    cy.contains('.panel-primary .dl-horizontal dt','Root case id');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case ID');
     cy.contains('.panel-primary .link-height a', '4288').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4288');
     cy.get('.panel-footer span.glyphicon-ok').should('be.visible');
     cy.contains('.panel-footer p','Completed on Apr 30, 2020 9:22:25 AM by');
@@ -124,7 +124,7 @@ then("The executedBy information is displayed correctly when executedBySubstitut
     cy.contains('.panel-primary .dl-horizontal dd','Walter Bates');
     cy.contains('.panel-primary .dl-horizontal dt','Process name');
     cy.contains('.panel-primary .link-height a', 'Publish daily meal by mail for all the team (PublishDailyMeal - 1.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=5637856552961874994');
-    cy.contains('.panel-primary .dl-horizontal dt','Case Id');
+    cy.contains('.panel-primary .dl-horizontal dt','Case ID');
     cy.contains('.panel-primary .link-height a', '4290').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4290');
     cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
     cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');

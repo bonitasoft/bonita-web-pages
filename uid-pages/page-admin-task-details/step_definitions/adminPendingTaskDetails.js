@@ -247,10 +247,10 @@ then("The pending task details have the correct information", () => {
     cy.contains('.panel-primary .dl-horizontal dd','Helen Kelly');
     cy.contains('.panel-primary .link-height a dt', 'Process name')
     cy.contains('.panel-primary .link-height a', 'New vacation request with transportation and a description of the trip (VacationRequest - 3.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=8835222915848848756');
-    cy.contains('.panel-primary .link-height a dt','Case Id');
+    cy.contains('.panel-primary .link-height a dt','Case ID');
     cy.contains('.panel-primary .link-height a', '4277').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4277');
     cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');
-    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case ID').should('not.exist');
     cy.contains('.panel-primary .dl-horizontal dt','Root process display name').should('not.exist');
     cy.get('.panel-footer span.glyphicon-inbox').should('be.visible');
     cy.contains('.panel-footer p','Ready since Apr 30, 2020 9:22:24 AM');

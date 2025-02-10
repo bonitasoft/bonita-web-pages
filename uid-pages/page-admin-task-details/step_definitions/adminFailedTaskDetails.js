@@ -218,10 +218,10 @@ then("The failed task details have the correct information", () => {
     cy.contains('.panel-primary .dl-horizontal dd','Anthony Nichols');
     cy.contains('.panel-primary .dl-horizontal dt','Process name');
     cy.contains('.panel-primary .link-height a', 'Failed vacation request (VacationRequest - 4.0)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-process-details?id=6634235015645352871');
-    cy.contains('.panel-primary .dl-horizontal dt','Case Id');
+    cy.contains('.panel-primary .dl-horizontal dt','Case ID');
     cy.contains('.panel-primary .link-height a', '4151').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=4151');
     cy.contains('.panel-primary .dl-horizontal dt','Root process name').should('not.exist');
-    cy.contains('.panel-primary .dl-horizontal dt','Root case id').should('not.exist');
+    cy.contains('.panel-primary .dl-horizontal dt','Root case ID').should('not.exist');
     cy.get('.panel-footer span.glyphicon-remove').should('be.visible');
     cy.contains('.panel-footer p','Failed on Apr 30, 2020 9:22:11 AM');
     cy.contains('.panel-danger .panel-heading h4', 'Error details');
