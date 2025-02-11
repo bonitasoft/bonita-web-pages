@@ -336,11 +336,11 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.panel-body h4', 'Case monitoring');
     cy.contains('.well-sm p small', 'Done flow nodes');
     cy.contains('.px-3 a small', '2').trigger('mouseover').should('have.attr', 'title', 'View task list');
-    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
+    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1&isRootCaseId=true');
     cy.contains('.well-sm p small', 'Pending flow nodes');
     cy.contains('.px-3 a.btn', '0').should('have.css', 'pointer-events', 'none');
     cy.contains('.well-sm p small', 'Failed flow nodes');
-    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
+    cy.contains('.px-3 a.btn', '2').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1&isRootCaseId=true');
     cy.contains('.px-3 h4', 'Child cases monitoring');
 
     cy.get('ul.nav-tabs').eq(0).within(() => {
@@ -430,7 +430,7 @@ then("The input placeholder is not {string}", (placeholder) => {
 });
 
 then("The task list link has correct href", () => {
-    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1');
+    cy.get('a').contains('Failed (9), Pending (9), Done (9)').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1&isRootCaseId=true');
 });
 
 then("The no task message is not visible", () => {
