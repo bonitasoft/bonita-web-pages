@@ -7,8 +7,8 @@ const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_i
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4288&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
-const archivedConnectorUrl = 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerId=81358';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerType=flowNode&f=containerId=1';
+const archivedConnectorUrl = 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerType=flowNode&f=containerId=81358';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4288'
 const archivedSkippedFlowNodeUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
 const archivedFailureFlowNodeUrl = 'API/bpm/archivedFailure/flowNode/81358?c=5';

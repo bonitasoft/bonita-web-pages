@@ -8,7 +8,7 @@ const failedTaskUrl = 'API/bpm/flowNode/1?';
 const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const commentUrl = 'API/bpm/comment';
 const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerId=1';
+const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerType=flowNode&f=containerId=1';
 const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=1&f=isTerminal=true&';
 const failureConnector = 'API/bpm/connectorFailure/';
 const skipTaskUrl = 'API/bpm/activity/';
