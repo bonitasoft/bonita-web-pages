@@ -156,7 +156,7 @@ when("I visit admin task list page", () => {
 });
 
 when("I visit admin task list page with caseId {string} in URL parameter", (caseId) => {
-    cy.visit(url + "?caseId=" + caseId);
+    cy.visit(url + "?caseId=" + caseId + "&tab=");
 });
 
 when("I put {string} in {string} filter field", (filterValue, filterType) => {
