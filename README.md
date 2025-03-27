@@ -19,9 +19,17 @@ The following tasks should be executed with the Gradle wrapper (gradlew(.bat)) t
 
 ``./gradlew build``
 
+**Note**: if an error occurs at phantomjs startup (especially when running on Ubuntu 24), disable openssl by setting an environment variable `OPENSSL_CONF=/dev/null`.
+
 ### Run pages tests
 
 ``./gradlew runTestChrome``
+
+**IMPORTANT**: Chrome tests currently assume that the language of the browser is set to English.
+If your machine is set to another language, you can set the language on Ubuntu by using `LANG="en_US.UTF-8"` or `LC_ALL="en_US.ISO8859-1"` environment variables.
+For example, by running `LANG="en_US.UTF-8" ./gradlew runTestChrome`
+
+This is supposed to be configured in the cypress configuration, but it does not work for now. See the [cypress configuration](uid-pages/cypress/plugins/index.js) for more information and the Cypress documentation about [Browser Launch Event](https://docs.cypress.io/api/node-events/browser-launch-api).
 
 ### UID pages development
 
