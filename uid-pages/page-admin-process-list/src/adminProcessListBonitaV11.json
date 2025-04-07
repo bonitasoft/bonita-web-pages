@@ -6,7 +6,7 @@
   "uuid" : "c1da6215-8ead-41b6-bdef-a58197f33bc6",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1727272010424,
+  "lastUpdate" : 1741866515227,
   "description" : "This page lists all the processes. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -6730,6 +6730,58 @@
                         },
                         "hidden" : {
                           "type" : "expression",
+                          "value" : "{{!modalCtrl.isJarLessBar()}}"
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<span class=\"glyphicon glyphicon-warning-sign text-warning\"></span>\n{{'This .bar file does not contain the dependency jars. It is strongly discouraged to use it as there is no guarantee that the required dependencies will be available in classpath.<br/> You should regenerate the .bar file from Studio.' | translate}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "c74df69c-1422-4fc9-85b6-6cd5f18d76e9",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
                           "value" : "installModalData.statusCode !== 200"
                         },
                         "labelHidden" : {
@@ -7316,6 +7368,9 @@
         "    },",
         "    getInstallPayload : function() {",
         "        return {fileupload: $data.installModalData.filePath.tempPath};",
+        "    },",
+        "    isJarLessBar: function() {",
+        "        return $data.installModalData.filePath.jarlessBar == true;",
         "    }",
         "};"
       ],
