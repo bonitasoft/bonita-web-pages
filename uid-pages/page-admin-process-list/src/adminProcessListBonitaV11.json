@@ -6,7 +6,7 @@
   "uuid" : "c1da6215-8ead-41b6-bdef-a58197f33bc6",
   "modelVersion" : "2.6",
   "previousArtifactVersion" : "2.5",
-  "lastUpdate" : 1741866515227,
+  "lastUpdate" : 1746541744407,
   "description" : "This page lists all the processes. It is dedicated to Admin-like profiles. You can export it and edit it in the UI Designer.",
   "rows" : [
     [
@@ -6730,7 +6730,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "{{!modalCtrl.isJarLessBar()}}"
+                          "value" : "installModalData.filePath.jarlessBar !== true"
                         },
                         "allowHTML" : {
                           "type" : "constant",
@@ -7368,9 +7368,6 @@
         "    },",
         "    getInstallPayload : function() {",
         "        return {fileupload: $data.installModalData.filePath.tempPath};",
-        "    },",
-        "    isJarLessBar: function() {",
-        "        return $data.installModalData.filePath.jarlessBar == true;",
         "    }",
         "};"
       ],
