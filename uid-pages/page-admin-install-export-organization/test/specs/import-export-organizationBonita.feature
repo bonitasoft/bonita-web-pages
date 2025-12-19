@@ -8,9 +8,9 @@ Feature: The install-export Organization
 
   Scenario: The install button is disabled
     Given I'm user with "en" bos_local
-    Given No file is selected
     When I open the install-export organization page
-    Then I see the "Install" button being disabled
+    Then No file is selected
+    And I see the "Install" button being disabled
 
   Scenario: Current organization exported
     Given I'm user with "en" bos_local

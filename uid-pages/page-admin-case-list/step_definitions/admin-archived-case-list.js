@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -17,15 +17,10 @@ beforeEach(() => {
 })
 
 given("The filter response {string} is defined for archived cases", (filterType) => {
-    cy.server();
     switch (filterType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshArchivedCaseUrl,
-                onRequest: () => {
-                    throw new Error("This should have not been called");
-                }
+            cy.intercept('GET', refreshArchivedCaseUrl, (req) => {
+                throw new Error("This should have not been called");
             });
             break;
         case "default filter":
@@ -40,23 +35,23 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case 'process name':
-            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
+            createProcessRouteWithQueryMatcher('Process', 'processesRoute', 'processes', 100);
+            createArchivedCaseRouteWithQueryMatcher('archivedProcess1CasesRoute', 'archivedProcess1Cases', {'f': 'processDefinitionId=7724628355784275506'});
+            createArchivedCaseRouteWithQueryMatcher('archivedProcess2CasesRoute', 'emptyResult', {'f': 'processDefinitionId=4778742813773463488'});
             break;
         case 'processId filter':
-            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createProcessRouteWithQueryMatcher('Process', 'processesRoute', 'processes', 100);
             createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=7724628355784275506', 'archivedProcess1CasesRoute', 'archivedProcess1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&t=0&f=processDefinitionId=4778742813773463488', 'archivedProcess2CasesRoute', 'emptyResult');
+            createArchivedCaseRouteWithQueryMatcher('archivedProcess1CasesRoute', 'archivedProcess1Cases', {'f': 'processDefinitionId=7724628355784275506'});
+            createArchivedCaseRouteWithQueryMatcher('archivedProcess2CasesRoute', 'emptyResult', {'f': 'processDefinitionId=4778742813773463488'});
             break;
         case 'sort by':
-            createRoute('&t=0&o=sourceObjectId+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&t=0&o=sourceObjectId+DESC', 'sortByCaseIdDescRoute');
-            createRoute('&t=0&o=name+ASC', 'sortByProcessNameAscRoute');
-            createRoute('&t=0&o=name+DESC', 'sortByProcessNameDescRoute');
-            createRoute('&t=0&o=startDate+DESC', 'sortByStartDateDescRoute');
-            createRoute('&t=0&o=startDate+ASC', 'sortByStartDateAscRoute');
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByCaseIdAscRoute', {'o': 'sourceObjectId ASC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByCaseIdDescRoute', {'o': 'sourceObjectId DESC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByProcessNameAscRoute', {'o': 'name ASC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByProcessNameDescRoute', {'o': 'name DESC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByStartDateDescRoute', {'o': 'startDate DESC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherNoResponse('sortByStartDateAscRoute', {'o': 'startDate ASC', 't': '0'});
             break;
         case 'search by name':
             createRoute('&t=0&s=Process', 'searchRoute');
@@ -70,9 +65,9 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponse(defaultRequestUrl, '&t=1*', 'archivedCases10Route', 'archivedCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC&t=0', 'sortProcessNameDescRoute', 'archivedCases10');
-            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
-            createRouteWithResponse(urlPrefix + adminArchivedCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'archivedCases10');
+            createArchivedCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute', 'archivedCases10', {'c': '10', 'p': '0', 'o': 'name DESC', 't': '0'});
+            createArchivedCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute2', 'archivedCases10', {'c': '10', 'p': '1', 'o': 'name DESC'});
+            createArchivedCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute2', 'archivedCases10', {'c': '10', 'p': '2', 'o': 'name DESC'});
             break;
         case 'archived case deletion success':
             createRouteWithMethod(adminArchivedCaseListUrl + '/6071', 'archivedCaseDeletionRoute', 'DELETE');
@@ -110,20 +105,49 @@ given("The filter response {string} is defined for archived cases", (filterType)
         }).as(routeName);
     }
 
-    function createRoute(queryParameter, routeName) {
-        cy.route({
+    function createProcessRouteWithQueryMatcher(searchValue, routeName, response, delay) {
+        cy.intercept({
             method: 'GET',
-            url: defaultRequestUrl + queryParameter,
+            pathname: '/' + processUrl,
+            query: {
+                'c': '20',
+                'p': '0',
+                'o': 'displayName ASC',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            delay: delay
         }).as(routeName);
     }
 
+    function createArchivedCaseRouteWithQueryMatcher(routeName, response, additionalQuery) {
+        const query = {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            't': '0',
+            ...additionalQuery
+        };
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + adminArchivedCaseListUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRoute(queryParameter, routeName) {
+        cy.intercept('GET', defaultRequestUrl + queryParameter).as(routeName);
+    }
+
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            fixture: 'json/' + response + '.json',
+            statusCode: parseInt(status, 10)
         }).as(routeName);
     }
 
@@ -132,11 +156,9 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            body: "",
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 
@@ -145,47 +167,49 @@ given("The filter response {string} is defined for archived cases", (filterType)
     }
 
     function createRouteWithResponseAndDelay(url, queryParameter, routeName, response, delay) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', url + queryParameter, {
+            fixture: 'json/' + response + '.json',
             delay: delay
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + adminArchivedCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
+        }).as(routeName);
+    }
+
+    function createArchivedCaseRouteWithQueryMatcherNoResponse(routeName, additionalQuery) {
+        const query = {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            ...additionalQuery
+        };
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + adminArchivedCaseListUrl,
+            query: query
+        }).as(routeName);
+    }
+
+    function createArchivedCaseRouteWithQueryMatcherAndResponse(routeName, response, query) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + adminArchivedCaseListUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });

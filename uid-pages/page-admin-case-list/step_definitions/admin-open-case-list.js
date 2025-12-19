@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -20,15 +20,10 @@ beforeEach(() => {
 
 
 given("The filter response {string} is defined for open cases", (filterType) => {
-    cy.server();
     switch (filterType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshOpenCaseUrl,
-                onRequest: () => {
-                    throw new Error("This should have not been called");
-                }
+            cy.intercept('GET', refreshOpenCaseUrl, (req) => {
+                throw new Error("This should have not been called");
             });
             break;
         case "default filter":
@@ -43,23 +38,23 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case 'process name':
-            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createProcessRouteWithQueryMatcher('Process', 'processesRoute', 'processes', 100);
+            createCaseRouteWithQueryMatcher('process1CasesRoute', 'process1Cases', {'f': 'processDefinitionId=7724628355784275506'});
+            createCaseRouteWithQueryMatcher('process2CasesRoute', 'emptyResult', {'f': 'processDefinitionId=4778742813773463488'});
             break;
         case 'processId filter':
-            createRouteWithResponseAndDelay(processUrl, processFilters + '&s=Process', 'processesRoute', 'processes', 100);
+            createProcessRouteWithQueryMatcher('Process', 'processesRoute', 'processes', 100);
             createRouteWithResponse(processUrl + '/4778742813773463488', '', 'processRoute', 'process');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=7724628355784275506', 'process1CasesRoute', 'process1Cases');
-            createRouteWithResponse(defaultRequestUrl,'&f=processDefinitionId=4778742813773463488', 'process2CasesRoute', 'emptyResult');
+            createCaseRouteWithQueryMatcher('process1CasesRoute', 'process1Cases', {'f': 'processDefinitionId=7724628355784275506'});
+            createCaseRouteWithQueryMatcher('process2CasesRoute', 'emptyResult', {'f': 'processDefinitionId=4778742813773463488'});
             break;
         case 'sort by':
-            createRoute('&o=id+ASC', 'sortByCaseIdAscRoute');
-            createRoute('&o=id+DESC', 'sortByCaseIdDescRoute');
-            createRoute('&o=name+ASC', 'sortByProcessNameAscRoute');
-            createRoute('&o=name+DESC', 'sortByProcessNameDescRoute');
-            createRoute('&o=startDate+DESC', 'sortByStartDateDescRoute');
-            createRoute('&o=startDate+ASC', 'sortByStartDateAscRoute');
+            createCaseRouteWithQueryMatcherNoResponse('sortByCaseIdAscRoute', {'o': 'id ASC'});
+            createCaseRouteWithQueryMatcherNoResponse('sortByCaseIdDescRoute', {'o': 'id DESC'});
+            createCaseRouteWithQueryMatcherNoResponse('sortByProcessNameAscRoute', {'o': 'name ASC'});
+            createCaseRouteWithQueryMatcherNoResponse('sortByProcessNameDescRoute', {'o': 'name DESC'});
+            createCaseRouteWithQueryMatcherNoResponse('sortByStartDateDescRoute', {'o': 'startDate DESC'});
+            createCaseRouteWithQueryMatcherNoResponse('sortByStartDateAscRoute', {'o': 'startDate ASC'});
             break;
         case 'search by name':
             createRoute('&s=Process', 'searchRoute');
@@ -67,8 +62,8 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl,'&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'case state':
-            createRouteWithResponse(defaultRequestUrl,'&f=state=error', 'casesWithFailuresRoute', 'casesWithFailures');
-            createRouteWithResponse(defaultRequestUrl,'&f=state=allStates', 'openCases5Route', 'openCases5');
+            createCaseRouteWithQueryMatcher('casesWithFailuresRoute', 'casesWithFailures', {'f': 'state=error'});
+            createCaseRouteWithQueryMatcher('openCases5Route', 'openCases5', {'f': 'state=allStates'});
             break;
         case 'refresh open case list':
             createRouteWithResponseAndHeaders('', 'openCases10Route', 'openCases10', {'content-range': '0-10/35'});
@@ -77,9 +72,9 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters, '&t=1*' + flowNodeCounters, 'openCases10Route', 'openCases10');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=0', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute', 'openCases10');
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=1', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
-            createRouteWithResponse(urlPrefix + adminOpenCaseListUrl + '?c=10&p=2', defaultFilters + '&o=name+DESC', 'sortProcessNameDescRoute2', 'openCases10');
+            createCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute', 'openCases10', {'c': '10', 'p': '0', 'o': 'name DESC'});
+            createCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute2', 'openCases10', {'c': '10', 'p': '1', 'o': 'name DESC'});
+            createCaseRouteWithQueryMatcherAndResponse('sortProcessNameDescRoute2', 'openCases10', {'c': '10', 'p': '2', 'o': 'name DESC'});
             break;
         case 'open case deletion success':
             createRouteWithMethod(adminOpenCaseListUrl + '/3001', 'openCaseDeletionRoute', 'DELETE');
@@ -98,10 +93,15 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(defaultRequestUrl, '', 'noOpenCasesRoute', 'emptyResult');
             break;
         case 'open cases with errors':
-            createRouteWithResponse(defaultRequestUrl, '&f=state=error', 'casesWithErrorCaseStateFilterRoute', 'emptyResult');
+            createCaseRouteWithQueryMatcher('casesWithErrorCaseStateFilterRoute', 'emptyResult', {'f': 'state=error'});
             break;
         case 'case list with all filters':
-            createRouteWithResponse(defaultRequestUrl, '&f=state=error&f=processDefinitionId=4778742813773463488&o=id+ASC&s=Pool', 'casesWithAllFiltersRoute', 'emptyResult');
+            createCaseRouteWithQueryMatcher('casesWithAllFiltersRoute', 'emptyResult', {
+                'f[0]': 'state=error',
+                'f[1]': 'processDefinitionId=4778742813773463488',
+                'o': 'id ASC',
+                's': 'Pool'
+            });
             break;
         default:
             throw new Error("Unsupported case");
@@ -125,11 +125,45 @@ given("The filter response {string} is defined for open cases", (filterType) => 
         }).as(routeName);
     }
 
-    function createRoute(queryParameter, routeName) {
-        cy.route({
+    function createCaseRouteWithQueryMatcher(routeName, response, additionalQuery) {
+        const query = {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            't': '0',
+            'n[0]': 'activeFlowNodes',
+            'n[1]': 'failedFlowNodes',
+            ...additionalQuery
+        };
+        cy.intercept({
             method: 'GET',
-            url: defaultRequestUrl + queryParameter,
+            pathname: '/' + urlPrefix + adminOpenCaseListUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
+    }
+
+    function createProcessRouteWithQueryMatcher(searchValue, routeName, response, delay) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + processUrl,
+            query: {
+                'c': '20',
+                'p': '0',
+                'o': 'displayName ASC',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            delay: delay
+        }).as(routeName);
+    }
+
+    function createRoute(queryParameter, routeName) {
+        cy.intercept('GET', defaultRequestUrl + queryParameter).as(routeName);
     }
 
     function createRouteWithMethod(urlSuffix, routeName, method) {
@@ -137,21 +171,16 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            body: "",
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            fixture: 'json/' + response + '.json',
+            statusCode: parseInt(status, 10)
         }).as(routeName);
     }
 
@@ -160,47 +189,52 @@ given("The filter response {string} is defined for open cases", (filterType) => 
     }
 
     function createRouteWithResponseAndDelay(url, queryParameter, routeName, response, delay) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', url + queryParameter, {
+            fixture: 'json/' + response + '.json',
             delay: delay
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + adminOpenCaseListUrl + '?c=' + count + '&p=' + page + defaultFilters + '&t=0' + flowNodeCounters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
+        }).as(routeName);
+    }
+
+    function createCaseRouteWithQueryMatcherNoResponse(routeName, additionalQuery) {
+        const query = {
+            'c': '10',
+            'p': '0',
+            'd[0]': 'processDefinitionId',
+            'd[1]': 'started_by',
+            'd[2]': 'startedBySubstitute',
+            't': '0',
+            'n[0]': 'activeFlowNodes',
+            'n[1]': 'failedFlowNodes',
+            ...additionalQuery
+        };
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + adminOpenCaseListUrl,
+            query: query
+        }).as(routeName);
+    }
+
+    function createCaseRouteWithQueryMatcherAndResponse(routeName, response, query) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + adminOpenCaseListUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
@@ -615,7 +649,7 @@ then("{string} url parameter is set to {string}", (name, value) => {
 then("{string} url parameter is absent or empty", (name) => {
     cy.url().should('satisfy', (urlString) => {
         const url = new URL(urlString);
-        return !url.searchParams.has(name) || url.searchParams.get(name) === '' 
+        return !url.searchParams.has(name) || url.searchParams.get(name) === ''
                     || url.searchParams.get(name) === undefined;
     });
 });

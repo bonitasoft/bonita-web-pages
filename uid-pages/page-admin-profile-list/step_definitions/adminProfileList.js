@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const profilesUrl = 'API/portal/profile';
@@ -33,33 +33,60 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshUrl,
-                onRequest: () => {
-                    throw new Error("This should have not been called");
-                }
+            cy.intercept('GET', refreshUrl, (req) => {
+                throw new Error("This should have not been called");
             });
             break;
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl, 'profiles8Route', 'profiles8');
+            createRouteWithResponseAndQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC'
+            }, 'profiles8Route', 'profiles8');
             createRouteWithResponse(urlPrefix + featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultRequestUrl, '', 'profiles8Route', 'profiles8', {'content-range': '0-7/8'});
+            createRouteWithResponseAndQueryMatcherAndHeaders(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC'
+            }, 'profiles8Route', 'profiles8', {'content-range': '0-7/8'});
             createRouteWithResponse(urlPrefix + featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'sort by':
-            createRoute(profilesUrl + '?c=10&p=0&t=0&o=name+ASC', 'sortNameAscRoute');
-            createRoute(profilesUrl + '?c=10&p=0&t=0&o=name+DESC', 'sortNameDescRoute');
+            createRouteWithQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC'
+            }, 'sortNameAscRoute');
+            createRouteWithQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name DESC'
+            }, 'sortNameDescRoute');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Administrator', 'searchAdministratorRoute', 'profiles1');
+            createRouteWithResponseAndQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC',
+                's': 'Administrator'
+            }, 'searchAdministratorRoute', 'profiles1');
             createRouteForSpecialCharacterProfile(urlPrefix + profilesUrl, '&Speci@lProfile', 'json/profileSpecial', 'specialProfileRoute')
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponseAndQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC',
+                's': 'Search term with no match'
+            }, 'emptyResultRoute', 'emptyResult');
             break;
         case 'search mapped user':
             createRoute(profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=user&d=user_id&t=1*&s=Helen', 'searchHelenRoute');
@@ -85,7 +112,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(profilesUrl + '/101', 'profileDeletionRoute', 'DELETE');
             break;
         case 'refresh list after delete':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'profiles7');
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'profiles7');
             break;
         case '403 during deletion':
             createRouteWithMethodAndStatus(profilesUrl + '/101', 'unauthorizedDeleteProfileRoute', 'DELETE', '403');
@@ -100,7 +127,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(profilesUrl, 'profileCreationRoute', 'POST');
             break;
         case 'refresh list after create':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'profiles9');
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'profiles9');
             break;
         case '403 during creation':
             createRouteWithMethodAndStatus(profilesUrl, 'unauthorizedCreateProfileRoute', 'POST', '403');
@@ -115,7 +142,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(profilesUrl + "/101", 'profileEditionRoute', 'PUT');
             break;
         case 'refresh list after edit':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'profiles8Modified');
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'profiles8Modified');
             break;
         case '403 during edition':
             createRouteWithMethodAndStatus(profilesUrl + "/101", 'unauthorizedEditProfileRoute', 'PUT', '403');
@@ -135,12 +162,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(membershipMappingUrl + '&t=1*', 'profileMappingMemberships2Route', 'profileMappingMemberships2');
             break;
         case 'user list':
-            createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
-            createRouteWithResponse(userSearchUrl + 'Helen Kell', 'userListRoute', 'userList');
+            createUserRouteWithQueryMatcher('H', 'userListRoute', 'userList');
+            createUserRouteWithQueryMatcher('Helen Kell', 'userListRoute', 'userList');
             break;
         case 'user list with 10 elements':
-            createRouteWithResponse(userSearchUrl + 'U', 'userListWith10ElementsRoute', 'userListWith10Elements');
-            createRouteWithResponse(userSearchUrl + 'Us', 'userListRoute', 'userList');
+            createUserRouteWithQueryMatcher('U', 'userListWith10ElementsRoute', 'userListWith10Elements');
+            createUserRouteWithQueryMatcher('Us', 'userListRoute', 'userList');
             break;
         case 'add user and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addUserMemberRoute', 'POST');
@@ -185,12 +212,32 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addUserMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         case 'role list':
-            createRouteWithResponse(roleSearchUrl + 'E', 'roleListRoute', 'roleList');
-            createRouteWithResponse(roleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
+            createRouteWithResponseAndQueryMatcher('API/identity/role', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'E'
+            }, 'roleListRoute', 'roleList');
+            createRouteWithResponseAndQueryMatcher('API/identity/role', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'Executive Assistant'
+            }, 'roleListRoute', 'roleList');
             break;
         case 'role list with 10 elements':
-            createRouteWithResponse(roleSearchUrl + 'E', 'roleListWith10ElementsRoute', 'roleListWith10Elements');
-            createRouteWithResponse(roleSearchUrl + 'Ex', 'roleListRoute', 'roleList');
+            createRouteWithResponseAndQueryMatcher('API/identity/role', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'E'
+            }, 'roleListWith10ElementsRoute', 'roleListWith10Elements');
+            createRouteWithResponseAndQueryMatcher('API/identity/role', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'Ex'
+            }, 'roleListRoute', 'roleList');
             break;
         case 'add role and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addRoleMemberRoute', 'POST');
@@ -235,12 +282,32 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addRoleMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         case 'group list':
-            createRouteWithResponse(groupSearchUrl + 'A', 'groupListRoute', 'groupList');
-            createRouteWithResponse(groupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            createRouteWithResponseAndQueryMatcher('API/identity/group', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'A'
+            }, 'groupListRoute', 'groupList');
+            createRouteWithResponseAndQueryMatcher('API/identity/group', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'Acm'
+            }, 'groupListRoute', 'groupList');
             break;
         case 'group list with 10 elements':
-            createRouteWithResponse(groupSearchUrl + 'A', 'groupListWith10ElementsRoute', 'groupListWith10Elements');
-            createRouteWithResponse(groupSearchUrl + 'As', 'groupListRoute', 'groupList');
+            createRouteWithResponseAndQueryMatcher('API/identity/group', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'A'
+            }, 'groupListWith10ElementsRoute', 'groupListWith10Elements');
+            createRouteWithResponseAndQueryMatcher('API/identity/group', {
+                'p': '0',
+                'c': '10',
+                'o': 'name ASC',
+                's': 'As'
+            }, 'groupListRoute', 'groupList');
             break;
         case 'add group and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addGroupMemberRoute', 'POST');
@@ -285,16 +352,16 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addGroupMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         case 'membership list':
-            createRouteWithResponse(membershipRoleSearchUrl + 'E', 'roleListRoute', 'roleList');
-            createRouteWithResponse(membershipRoleSearchUrl + 'Executive Assistant', 'roleListRoute', 'roleList');
-            createRouteWithResponse(membershipGroupSearchUrl + 'A', 'groupListRoute', 'groupList');
-            createRouteWithResponse(membershipGroupSearchUrl + 'Acm', 'groupListRoute', 'groupList');
+            createMembershipRoleRouteWithQueryMatcher('E', 'roleListRoute', 'roleList');
+            createMembershipRoleRouteWithQueryMatcher('Executive Assistant', 'roleListRoute', 'roleList');
+            createMembershipGroupRouteWithQueryMatcher('A', 'groupListRoute', 'groupList');
+            createMembershipGroupRouteWithQueryMatcher('Acm', 'groupListRoute', 'groupList');
             break;
         case 'membership list with 10 elements':
-            createRouteWithResponse(membershipRoleSearchUrl + 'E', 'roleListWith10ElementsRoute', 'roleListWith10Elements');
-            createRouteWithResponse(membershipRoleSearchUrl + 'Ex', 'roleListRoute', 'roleList');
-            createRouteWithResponse(membershipGroupSearchUrl + 'A', 'groupListWith10ElementsRoute', 'groupListWith10Elements');
-            createRouteWithResponse(membershipGroupSearchUrl + 'Ac', 'groupListRoute', 'groupList');
+            createMembershipRoleRouteWithQueryMatcher('E', 'roleListWith10ElementsRoute', 'roleListWith10Elements');
+            createMembershipRoleRouteWithQueryMatcher('Ex', 'roleListRoute', 'roleList');
+            createMembershipGroupRouteWithQueryMatcher('A', 'groupListWith10ElementsRoute', 'groupListWith10Elements');
+            createMembershipGroupRouteWithQueryMatcher('Ac', 'groupListRoute', 'groupList');
             break;
         case 'add membership and refresh list':
             createRouteWithMethod(profileMemberUrl, 'addMembershipMemberRoute', 'POST');
@@ -339,7 +406,12 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + profileMemberUrl, 'addMembershipMemberRoute', 'memberDoesNotExistException','POST', 500);
             break;
         case 'default filter with missing features':
-            createRouteWithResponse(defaultRequestUrl + '&t=0', 'profiles8Route', 'profiles8');
+            createRouteWithResponseAndQueryMatcher(profilesUrl, {
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC'
+            }, 'profiles8Route', 'profiles8');
             break;
         case 'file upload':
             cy.intercept('POST', urlPrefix + 'API/profilesUpload', { "filename":"Profile_Data.xml","tempPath":"tmp_7171129632133896602.xml","contentType":"text\/xml" });
@@ -361,10 +433,7 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix
-        }).as(routeName);
+        cy.intercept('GET', urlPrefix + urlSuffix).as(routeName);
     }
 
     function createRouteForSpecialCharacterProfile(pathname, searchParameter, response, routeName) {
@@ -453,11 +522,9 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            body: "",
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 
@@ -466,16 +533,8 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', url + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
@@ -485,27 +544,105 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            fixture: 'json/' + response + '.json',
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(urlSuffix, queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + urlSuffix + '?c=' + count + '&p=' + page;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createRouteWithResponseAndQueryMatcher(urlSuffix, query, routeName, response) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + urlSuffix,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndQueryMatcherAndHeaders(urlSuffix, query, routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + urlSuffix,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcher(urlSuffix, query, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + urlSuffix,
+            query: query
+        }).as(routeName);
+    }
+
+    function createRefreshRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + profilesUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'o': 'name ASC'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createMembershipRoleRouteWithQueryMatcher(searchValue, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/identity/role',
+            query: {
+                'p': '0',
+                'c': '10',
+                'o': 'displayName',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createMembershipGroupRouteWithQueryMatcher(searchValue, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/identity/group',
+            query: {
+                'p': '0',
+                'c': '10',
+                'o': 'displayName',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createUserRouteWithQueryMatcher(searchValue, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/identity/user',
+            query: {
+                'p': '0',
+                'c': '10',
+                'o': 'firstname,lastname',
+                'f': 'enabled=true',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
@@ -1174,10 +1311,6 @@ then("The mapped user list is displayed", () => {
         cy.contains('.item-value', 'giovanna.almeida');
         cy.get('button .glyphicon-remove').should('have.attr', 'title', 'Remove user from mapping');
     });
-});
-
-then("The {string} list is not displayed", () => {
-    cy.get('.modal-body .dropdown-menu').should('not.exist');
 });
 
 then("The role input in membership is filled with {string}", (selectedValue) => {

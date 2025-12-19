@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -15,40 +15,80 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshUrl,
-                onRequest: () => {
+            cy.intercept('GET', refreshUrl, (req) => {
                 throw new Error("This should have not been called");
-                }
             });
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultRequestUrl,'', 'roles8Route', 'roles8', {'content-range': '0-7/8'});
+            createRouteWithQueryMatcherAndHeaders({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName ASC'
+            }, 'roles8Route', 'roles8', {'content-range': '0-7/8'});
             break;
         case 'sort by':
-            createRoute(rolesUrl + '?c=10&p=0&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
-            createRoute(rolesUrl + '?c=10&p=0&t=0&o=name+ASC', 'sortNameAscRoute');
-            createRoute(rolesUrl + '?c=10&p=0&t=0&o=name+DESC', 'sortNameDescRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name ASC'
+            }, 'sortNameAscRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'name DESC'
+            }, 'sortNameDescRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponseAndHeaders(urlPrefix + rolesUrl, '?c=10&p=0&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute', 'roles10', {'content-range': '0-9/30'});
-            createRouteWithResponse(urlPrefix + rolesUrl + '?c=10&p=1&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'roles10');
-            createRouteWithResponse(urlPrefix + rolesUrl + '?c=10&p=2&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'roles10');
+            createRouteWithQueryMatcherAndHeaders({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute', 'roles10', {'content-range': '0-9/30'});
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '1',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute2', 'roles10');
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '2',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute2', 'roles10');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Member', 'searchMemberRoute', 'roles1');
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName ASC',
+                's': 'Member'
+            }, 'searchMemberRoute', 'roles1');
             createRouteForSpecialCharacterRole(urlPrefix + rolesUrl, '&Speci@lRole', 'json/roleWithSpecialCharacter.json', 'roleWithSpecialCharacterRoute');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '0',
+                't': '0',
+                'o': 'displayName ASC',
+                's': 'Search term with no match'
+            }, 'emptyResultRoute', 'emptyResult');
             break;
         case 'role creation success':
             createRouteWithMethod(rolesUrl, 'roleCreationRoute', 'POST');
             break;
         case 'refresh list after create':
-            createRouteWithResponseAndHeaders(refreshUrl,'', 'refreshUrlRoute', 'roles9', {'content-range': '0-8/9'});
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'roles9', {'content-range': '0-8/9'});
             break;
         case 'already exists during creation':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl, 'createRoleAlreadyExistsRoute', 'createRoleAlreadyExists', 'POST', '403');
@@ -61,14 +101,14 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'role deletion success':
             createRouteWithResponseAndMethod(urlPrefix + rolesUrl + "/1", 'deleteSuccessRoute', 'emptyResult', 'DELETE');
-            createRouteWithResponseAndHeaders(refreshUrl, '','refreshUrlRoute', 'roles7'), {'content-range': '0-6/7'};
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'roles7', {'content-range': '0-6/7'});
             break;
         case '403 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '403');
             break;
         case 'not exists during delete':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'deleteRoleDoesNotExist', 'DELETE', '500');
-            createRouteWithResponseAndHeaders(refreshUrl, '', 'refreshUrlRoute', 'roles8', {'content-range': '0-7/8'});
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'roles8', {'content-range': '0-7/8'});
             break;
         case '500 during deletion':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + rolesUrl + "/1", 'unauthorizedCreateRoleRoute', 'emptyResult', 'DELETE', '500');
@@ -98,7 +138,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(rolesUrl + "/1", 'roleEditionRoute', 'PUT');
             break;
         case 'refresh list after edit':
-            createRouteWithResponseAndHeaders(refreshUrl,'', 'refreshUrlRoute', 'roles8Modified', {'content-range': '0-7/8'});
+            createRefreshRouteWithQueryMatcher('refreshUrlRoute', 'roles8Modified', {'content-range': '0-7/8'});
             break;
         case '403 during edition':
             createRouteWithMethodAndStatus(rolesUrl + "/1", 'unauthorizedEditRoleRoute', 'PUT', '403');
@@ -114,10 +154,7 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix
-        }).as(routeName);
+        cy.intercept('GET', urlPrefix + urlSuffix).as(routeName);
     }
 
     function createRouteForSpecialCharacterRole(pathname, searchParameter, response, routeName) {
@@ -161,16 +198,8 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', url + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
@@ -180,51 +209,74 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status,
+            body: ''
         }).as(routeName);
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status,
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRolesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + rolesUrl + '?c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createRouteWithQueryMatcher(query, routeName) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + rolesUrl,
+            query: query
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndHeaders(query, routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + rolesUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndResponse(query, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + rolesUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshRouteWithQueryMatcher(routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + rolesUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'o': 'displayName ASC'
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
         }).as(routeName);
     }
 });

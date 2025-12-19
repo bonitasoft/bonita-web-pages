@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=1';
@@ -25,41 +25,43 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined for failed tasks", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'empty done task':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createArchivedTaskRouteWithQueryMatcher('emptyDoneTaskRoute', 'emptyResult');
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default details':
-            createRouteWithResponse(failedTaskUrl + defaultFilters, 'failedTaskDetailsRoute', 'failedTaskDetails');
+            createFailedTaskRouteWithQueryMatcher('failedTaskDetailsRoute', 'failedTaskDetails');
             break;
         case 'comments':
             createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
-            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createCommentRouteWithQueryMatcher('commentsRoute', 'comments', '0');
             break;
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
-            createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=1*', 'commentsRoute', 'newComments');
+            createRefreshCommentRouteWithQueryMatcher('commentsRoute', 'newComments');
             break;
         case 'connectors':
-            createRouteWithResponse(connectorUrl, 'connectorRoute', 'connectors');
+            createConnectorRouteWithQueryMatcher('connectorRoute', 'connectors');
             break;
         case 'three failed connectors':
-            createRouteWithResponse(connectorUrl, 'connectorRoute', 'threeFailedConnectors');
+            createConnectorRouteWithQueryMatcher('connectorRoute', 'threeFailedConnectors');
             break;
         case 'failure connector':
             createRouteWithResponse(failureConnector + '80004', 'failureConnectorRoute', 'failureConnector');
             break;
         case 'skip and refresh task':
             createRouteWithResponseAndMethod(skipTaskUrl + '1', 'skipTaskRoute', 'emptyResult', 'PUT');
-            createRouteWithResponse(refreshArchivedTaskUrl, 'skippedTaskRoute', 'skippedTaskDetails');
+            createRefreshArchivedTaskRouteWithQueryMatcher('skippedTaskRoute', 'skippedTaskDetails');
             break;
         case 'refresh task not called':
-            cy.route({
-                method: "GET",
-                url: refreshArchivedTaskUrl,
-                onRequest: () => {
+            cy.intercept({
+                method: 'GET',
+                pathname: '/' + urlPrefix + 'API/bpm/archivedFlowNode'
+            }, (req) => {
+                // Only throw error for refresh calls (time parameter starts with 1, not 0)
+                const timeParam = req.query.time;
+                if (timeParam && timeParam !== '0' && !timeParam.startsWith('0')) {
                     throw new Error("This should have not been called");
                 }
             });
@@ -75,11 +77,11 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             break;
         case 'replay success':
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '204');
-            createRouteWithResponse(refreshFailedTaskUrl, 'refreshFailedTaskDetailsRoute', 'initializingTaskDetails');
+            createRefreshFailedTaskRouteWithQueryMatcher('refreshFailedTaskDetailsRoute', 'initializingTaskDetails');
             break;
         case 'less connectors after replay':
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '204');
-            createRouteWithResponse(refreshFailedTaskUrl, 'refreshFailedTaskDetailsRoute', 'executingTaskDetails');
+            createRefreshFailedTaskRouteWithQueryMatcher('refreshFailedTaskDetailsRoute', 'executingTaskDetails');
             break;
         case '500 during replay':
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '500');
@@ -91,17 +93,15 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createRouteWithMethodAndStatus(replayTaskUrl, 'replayTaskRoute', 'PUT', '404');
             break;
         case 'failed task':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createArchivedTaskRouteWithQueryMatcher('emptyDoneTaskRoute', 'emptyResult');
             break;
         default:
             throw new Error("Unsupported case");
     }
 
     function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
+        cy.intercept('POST', urlPrefix + urlSuffix, {
+            body: ""
         }).as(routeName);
     }
 
@@ -110,20 +110,149 @@ given("The response {string} is defined for failed tasks", (responseType) => {
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: '@' + response
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            body: "",
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
+        }).as(routeName);
+    }
+
+    function createCommentRouteWithQueryMatcher(routeName, response, timestamp) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + commentUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId',
+                't': timestamp
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshCommentRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + commentUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createArchivedTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/archivedFlowNode',
+            query: {
+                'c': '1',
+                'p': '0',
+                'f[0]': 'sourceObjectId=1',
+                'f[1]': 'isTerminal=true',
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute',
+                'time': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshArchivedTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/archivedFlowNode',
+            query: {
+                'c': '1',
+                'p': '0',
+                'f[0]': 'sourceObjectId=1',
+                'f[1]': 'isTerminal=true',
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute'
+            }
+        }, (req) => {
+            // Only respond to refresh calls (time != 0)
+            const timeParam = req.query.time;
+            if (timeParam && timeParam !== '0') {
+                req.reply({ fixture: 'json/' + response + '.json' });
+            }
+        }).as(routeName);
+    }
+
+    function createFailedTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/flowNode/1',
+            query: {
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute',
+                'time': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshFailedTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/flowNode/1',
+            query: {
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute'
+            }
+        }, (req) => {
+            // Only respond to refresh calls (time != 0)
+            const timeParam = req.query.time;
+            if (timeParam && timeParam !== '0') {
+                req.reply({ fixture: 'json/' + response + '.json' });
+            }
+        }).as(routeName);
+    }
+
+    function createConnectorRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/connectorInstance',
+            query: {
+                'p': '0',
+                'c': '999',
+                'f[0]': 'containerType=flowNode',
+                'f[1]': 'containerId=1'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
@@ -209,23 +338,6 @@ then("The failed task details have the correct information", () => {
     cy.get('.item-value').contains('Anthony Nichols');
     cy.get('.item-label').contains('Assigned on');
     cy.get('.item-value').contains('4/30/20 10:44');
-});
-
-then("The back button has correct href", () => {
-    cy.get('a').contains('Back').should('have.attr', 'href', adminTaskListUrl);
-});
-
-then("The comments have the correct information", () => {
-    // Check that the element be.visible.
-    cy.wait('@commentsRoute');
-    cy.get('.item-value').contains('comment no. 1');
-    cy.get('.item-value').contains('William Jobs');
-    cy.get('.item-value').contains('comment no. 2');
-    cy.get('.item-value').contains('helen.kelly');
-    cy.get('.item-value').contains('comment no. 3');
-    cy.get('.item-value').contains('walter.bates');
-    cy.get('.item-value').contains('comment no. 4');
-    cy.get('.item-value').contains('anthony.nichols');
 });
 
 then("{string} is shown at the end of the comments", (text) => {
