@@ -2,8 +2,6 @@ import { Given as given, Then as then, When as when } from "@badeball/cypress-cu
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const defaultFilters = '&f=state=ready&d=rootContainerId&d=assigned_id';
-const processUrl = urlPrefix + 'API/bpm/process?';
-const processFilters = 'c=999&p=0&o=displayName ASC';
 const pendingTasksUrl = 'API/bpm/humanTask?';
 const defaultRequestUrl = urlPrefix + pendingTasksUrl + 'c=10&p=0' + defaultFilters;
 

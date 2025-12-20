@@ -5,7 +5,6 @@ const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=processDefinitionId&d=started_by&d=startedBySubstitute';
 const flowNodeCounters = '&n=activeFlowNodes&n=failedFlowNodes';
 const processUrl = urlPrefix + 'API/bpm/process';
-const processFilters = '?c=20&p=0&o=displayName ASC';
 const adminOpenCaseListUrl = 'API/bpm/case';
 const defaultRequestUrl = urlPrefix + adminOpenCaseListUrl + '?c=10&p=0' + defaultFilters + '&t=0' + flowNodeCounters;
 const caseDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=';

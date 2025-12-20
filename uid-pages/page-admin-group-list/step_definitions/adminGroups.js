@@ -3,11 +3,8 @@ import { Given as given, Then as then, When as when } from "@badeball/cypress-cu
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
-const defaultFilters = '&d=parent_group_id&t=0&o=displayName ASC';
-const defaultRequestUrl = urlPrefix + groupsUrl + '?c=10&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=10&p=0&d=parent_group_id&t=1*&o=displayName ASC';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
-const subGroupUrl = urlPrefix + groupsUrl + '?c=10&p=0&o=displayName ASC&f=parent_path=';
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=group_id=';
 

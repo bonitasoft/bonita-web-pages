@@ -3,9 +3,7 @@ import { Given as given, Then as then, When as when } from "@badeball/cypress-cu
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
-const defaultFilters = '&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=4';
 const maintenanceDetailsUrl = urlPrefix + 'API/system/maintenance';
-const defaultRequestUrl = urlPrefix + applicationUrl + '?c=10&p=0' + defaultFilters;
 const defaultUserUrl = urlPrefix + 'API/identity/user/4?d=professional_data';
 const languageUrl = urlPrefix + 'API/system/i18nlocale*';
 

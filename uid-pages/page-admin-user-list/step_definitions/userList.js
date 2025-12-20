@@ -5,8 +5,6 @@ const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0';
 const userUrl = 'API/identity/user?';
 const defaultRequestUrl = urlPrefix + userUrl + 'c=10&p=0' + defaultFilters;
-const enabledFilter = '&f=enabled=true';
-const defaultSortOrder = '&o=lastname+ASC' + enabledFilter;
 
 beforeEach(() => {
   // Force locale as we test labels value

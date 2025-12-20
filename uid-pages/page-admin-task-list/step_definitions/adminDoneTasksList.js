@@ -5,8 +5,6 @@ const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&d=rootContainerId&d=assigned_id';
 const doneTasksUrl = 'API/bpm/archivedTask?';
 const defaultRequestUrl = urlPrefix + doneTasksUrl + 'c=10&p=0';
-const processUrl = urlPrefix + 'API/bpm/process?';
-const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=reached_state_date+DESC';
 const doneTaskDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 

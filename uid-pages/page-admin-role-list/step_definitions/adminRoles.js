@@ -4,7 +4,6 @@ const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const rolesUrl = 'API/identity/role';
 const defaultFilters = '&o=displayName ASC';
-const defaultRequestUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=0' + defaultFilters;
 const refreshUrl = urlPrefix + rolesUrl + '?c=10&p=0&t=1*' + defaultFilters;
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=role_id=';

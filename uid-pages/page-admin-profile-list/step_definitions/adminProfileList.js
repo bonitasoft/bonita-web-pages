@@ -16,11 +16,6 @@ const refreshUserMappingUrl = urlPrefix + profileMemberUrl + '?c=10&p=0&f=profil
 const refreshRoleMappingUrl = urlPrefix + profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=role&d=role_id';
 const refreshGroupMappingUrl = urlPrefix + profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=group&d=group_id';
 const refreshMembershipMappingUrl = urlPrefix + profileMemberUrl + '?c=10&p=0&f=profile_id=101&f=member_type=roleAndGroup&d=group_id&d=role_id';
-const userSearchUrl = urlPrefix + 'API/identity/user?p=0&c=10&o=firstname,lastname&f=enabled=true&s=';
-const roleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=name ASC&s=';
-const groupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=name ASC&s=';
-const membershipRoleSearchUrl = urlPrefix + 'API/identity/role?p=0&c=10&o=displayName&s=';
-const membershipGroupSearchUrl = urlPrefix + 'API/identity/group?p=0&c=10&o=displayName&s=';
 const defaultUserMappingFilters = '&f=profile_id=101&f=member_type=user&d=user_id';
 const defaultRoleMappingFilters = '&f=profile_id=101&f=member_type=role&d=role_id';
 const defaultGroupMappingFilters = '&f=profile_id=101&f=member_type=group&d=group_id';

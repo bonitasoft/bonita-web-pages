@@ -5,8 +5,6 @@ const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
 const failedFlowNodesUrl = 'API/bpm/flowNode?';
 const defaultRequestUrl = urlPrefix + failedFlowNodesUrl + 'c=10&p=0' + defaultFilters;
-const processUrl = urlPrefix + 'API/bpm/process?';
-const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=10&p=0' + defaultFilters;
