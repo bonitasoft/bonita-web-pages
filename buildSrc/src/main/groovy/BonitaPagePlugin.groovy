@@ -45,8 +45,8 @@ class BonitaPagePlugin implements Plugin<Project> {
             description 'Run test of project'
         }
 
-        project.tasks.buildPage.dependsOn lintCheck
-        project.tasks.buildPage.dependsOn test
+        project.tasks.check.dependsOn lintCheck
+        project.tasks.check.dependsOn test
 
         def cleanNpm = project.task([:], 'cleanNpm') {
             group 'Bonita'

@@ -1,21 +1,15 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=2';
-const pendingTaskUrl = 'API/bpm/flowNode/2?';
-const defaultFilters = 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
 const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
-const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=2&f=isTerminal=true&';
-const userSearchUrl = 'API/identity/user?p=0&c=20&o=firstname,lastname&f=enabled=true&f=task_id=2&s=';
 const assignTaskUrl = 'API/bpm/humanTask/';
-const refreshUrl = pendingTaskUrl + 'd=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=1*';
 const formMappingUrl = "API/form/mapping?c=10&p=0&f=processDefinitionId=8835222915848848756&f=task=request_vacation";
 const session = "API/system/session/unusedId";
 const identity = "API/identity/user/4";
 const taskWithoutFormExecution = "API/bpm/userTask/2/execution?user=3";
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const commentUrl = 'API/bpm/comment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=0';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4277'
 const failureFlowNodeUrl = 'API/bpm/failure/flowNode/2?c=5';
 
@@ -25,45 +19,46 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined for pending tasks", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'empty done task':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
             createRouteWithResponse(failureFlowNodeUrl, 'emptyFailureFlowNodeRoute', 'emptyResult');
+            createArchivedTaskRouteWithQueryMatcher('emptyDoneTaskRoute', 'emptyResult');
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             break;
         case 'default details':
-            createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
+            createPendingTaskRouteWithQueryMatcher('pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
         case 'default unassigned details':
-            createRouteWithResponse(pendingTaskUrl + defaultFilters, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
+            createPendingTaskRouteWithQueryMatcher('pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
             break;
         case 'refresh task not called':
-            cy.route({
-                method: "GET",
-                url: refreshUrl,
-                onRequest: () => {
+            cy.intercept({
+                method: 'GET',
+                pathname: '/' + urlPrefix + 'API/bpm/flowNode/2'
+            }, (req) => {
+                const timeParam = req.query.time;
+                if (timeParam && timeParam !== '0' && !timeParam.startsWith('0')) {
                     throw new Error("This should have not been called");
                 }
             });
             break;
         case 'user list':
-            createRouteWithResponse(userSearchUrl + 'H', 'userListRoute', 'userList');
+            createUserRouteWithQueryMatcher('H', 'userListRoute', 'userList');
             break;
         case 'special character user list':
             createRouteForSpecialCharacter(urlPrefix + 'API/identity/user', '&Speci@l', 'json/specialCharacterUserList.json', 'specialCharacterUserListRoute');
             break;
         case 'assign and refresh task':
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'assignTaskRoute', 'emptyResult', 'PUT');
-            createRouteWithResponse(refreshUrl, 'pendingTaskDetailsRoute', 'pendingTaskDetails');
+            createRefreshPendingTaskRouteWithQueryMatcher('pendingTaskDetailsRoute', 'pendingTaskDetails');
             break;
         case 'unassign and refresh task':
             createRouteWithResponseAndMethod(assignTaskUrl + '2', 'unassignTaskRoute', 'emptyResult', 'PUT');
-            createRouteWithResponse(refreshUrl, 'pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
+            createRefreshPendingTaskRouteWithQueryMatcher('pendingUnassignedTaskDetailsRoute', 'pendingUnassignedTaskDetails');
             break;
         case 'user list with 20 elements':
-            createRouteWithResponse(userSearchUrl + 'U', 'userListWith20ElementsRoute', 'userListWith20Elements');
-            createRouteWithResponse(userSearchUrl + 'Us', 'userListRoute', 'userList');
+            createUserRouteWithQueryMatcher('U', 'userListWith20ElementsRoute', 'userListWith20Elements');
+            createUserRouteWithQueryMatcher('Us', 'userListRoute', 'userList');
             break;
         case 'task with form':
             createRouteWithResponse(formMappingUrl, 'formMappingRoute', 'formMappingWithForm');
@@ -77,27 +72,24 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createRouteWithResponseAndMethodAndStatus(urlPrefix + taskWithoutFormExecution, 'taskWithoutFormRoute', 'emptyResult', 'POST', 204);
             break;
         case 'pending task':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'emptyDoneTaskRoute', 'emptyResult');
+            createArchivedTaskRouteWithQueryMatcher('emptyDoneTaskRoute', 'emptyResult');
             break;
         case 'comments':
             createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'emptyResult');
-            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createCommentRouteWithQueryMatcher('commentsRoute', 'comments', '0');
             break;
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
-            createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=4277&d=userId&t=1*', 'commentsRoute', 'newComments');
+            createRefreshCommentRouteWithQueryMatcher('commentsRoute', 'newComments');
             break;
         default:
             throw new Error("Unsupported case");
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            fixture: 'json/' + response + '.json',
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 
@@ -123,49 +115,147 @@ given("The response {string} is defined for pending tasks", (responseType) => {
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: '@' + response
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
+        cy.intercept('POST', urlPrefix + urlSuffix, {
+            body: ""
+        }).as(routeName);
+    }
+
+    function createArchivedTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/archivedFlowNode',
+            query: {
+                'c': '1',
+                'p': '0',
+                'f[0]': 'sourceObjectId=2',
+                'f[1]': 'isTerminal=true',
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute',
+                'time': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createPendingTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/flowNode/2',
+            query: {
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute',
+                'time': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshPendingTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/flowNode/2',
+            query: {
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute'
+            }
+        }, (req) => {
+            const timeParam = req.query.time;
+            if (timeParam && timeParam !== '0') {
+                req.reply({ fixture: 'json/' + response + '.json' });
+            }
+        }).as(routeName);
+    }
+
+    function createCommentRouteWithQueryMatcher(routeName, response, timestamp) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + commentUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=4277',
+                'd': 'userId',
+                't': timestamp
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshCommentRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + commentUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=4277',
+                'd': 'userId'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createUserRouteWithQueryMatcher(searchValue, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/identity/user',
+            query: {
+                'p': '0',
+                'c': '20',
+                'o': 'firstname,lastname',
+                'f[0]': 'enabled=true',
+                'f[1]': 'task_id=2',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
 });
 
 given("The assign status code {int} is defined for pending tasks", (statusCode) => {
-    cy.route({
-        method: 'PUT',
-        url: urlPrefix + assignTaskUrl + '2',
-        status: statusCode,
-        response: ''
+    cy.intercept('PUT', urlPrefix + assignTaskUrl + '2', {
+        body: '',
+        statusCode: statusCode
     }).as("assignRoute");
 });
 
 given("The do for response unassigned error status code 500 is defined for pending tasks", () => {
-    cy.fixture('json/unassignedDoForErrorResponse.json').as('unassignedDoForErrorResponse');
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + taskWithoutFormExecution,
-        status: 500,
-        response: '@unassignedDoForErrorResponse'
+    cy.intercept('POST', urlPrefix + taskWithoutFormExecution, {
+        fixture: 'json/unassignedDoForErrorResponse.json',
+        statusCode: 500
     }).as("unassignedDoForErrorRoute");
 });
 
 given("The do for status code {int} is defined for pending tasks", (errorCode) => {
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + taskWithoutFormExecution,
-        status: errorCode,
-        response: ''
+    cy.intercept('POST', urlPrefix + taskWithoutFormExecution, {
+        body: '',
+        statusCode: errorCode
     }).as("doForErrorRoute");
 });
 
@@ -365,10 +455,6 @@ then("The unassign api call has the correct user id", () => {
 
 then('The unassigned page is refreshed', () => {
     cy.wait('@pendingUnassignedTaskDetailsRoute');
-});
-
-then("The unassign button is not displayed", () => {
-    cy.contains('button', 'Unassign').should('not.exist');
 });
 
 then("The assign button is displayed", () => {

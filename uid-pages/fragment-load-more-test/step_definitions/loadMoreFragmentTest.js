@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -17,7 +17,6 @@ beforeEach(() => {
 
 
 given("The filter response {string} is defined", (filterType) => {
-    cy.server();
     switch (filterType) {
         case "default filter with headers":
             createRouteWithResponseAndHeaders(defaultSortOrder, 'userListRoute', 'emptyResult', {'content-range': '0-10/10'});
@@ -69,20 +68,14 @@ given("The filter response {string} is defined", (filterType) => {
             createRoute(tab2Url, '', 'tab2Route');
             break;
         case 'delayed tab 1 response':
-            cy.fixture('json/users5.json').as("users5Route");
-            cy.route({
-                method: 'GET',
-                url: tab1Url,
-                delay: 2000,
-                response: '@users5Route'
+            cy.intercept('GET', tab1Url, {
+                fixture: 'json/users5.json',
+                delay: 2000
             }).as('tab1Route');
             break;
         case 'tab 2 response':
-            cy.fixture('json/users10.json').as("users10Route");
-            cy.route({
-                method: 'GET',
-                url: tab2Url,
-                response: '@users10Route'
+            cy.intercept('GET', tab2Url, {
+                fixture: 'json/users10.json'
             }).as('tab2Route');
             break;
         default:
@@ -90,10 +83,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRoute(url, queryParameter, routeName) {
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-        }).as(routeName);
+        cy.intercept('GET', url + queryParameter).as(routeName);
     }
 
     function createRouteWithResponse(queryParameter, routeName, response) {
@@ -101,32 +91,16 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + 'c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });

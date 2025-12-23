@@ -1,12 +1,10 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&f=state=failed&d=rootContainerId&d=assigned_id';
 const failedFlowNodesUrl = 'API/bpm/flowNode?';
 const defaultRequestUrl = urlPrefix + failedFlowNodesUrl + 'c=10&p=0' + defaultFilters;
-const processUrl = urlPrefix + 'API/bpm/process?';
-const processFilters = 'c=999&p=0&o=displayName ASC';
 const defaultSortOrder = '&o=lastUpdateDate+DESC';
 const failedFlowNodeDetailsUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-details?id=';
 const pendingTaskRequestUrl = urlPrefix + 'API/bpm/humanTask?c=10&p=0' + defaultFilters;
@@ -18,7 +16,6 @@ beforeEach(() => {
 });
 
 given("The filter response {string} is defined", (filterType) => {
-    cy.server();
     switch (filterType) {
         case 'default filter':
             createRouteWithResponse(defaultRequestUrl, '&t=0', 'failedFlowNodes5Route', 'failedFlowNodes5');
@@ -27,15 +24,15 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponseAndHeaders('&t=0', 'failedFlowNodes5Route', 'failedFlowNodes5', {'content-range': '0-5/5'});
             break;
         case 'process name':
-            createRouteWithResponse(processUrl, processFilters, 'processesRoute', 'processes');
+            createProcessRouteWithQueryMatcher('processesRoute', 'processes');
             createRouteWithResponse(defaultRequestUrl, '&t=0&f=processId=7623202965572839246', 'newVacationRequestRoute', 'emptyResult');
             createRouteWithResponse(defaultRequestUrl, '&t=0&f=processId=8617198282405797017', 'generateRandomCasesRoute', 'generateRandomCases');
             break;
         case 'sort by':
-            createRoute('&t=0&o=name+ASC', 'sortByNameAscRoute');
-            createRoute('&t=0&o=name+DESC', 'sortByNameDescRoute');
-            createRoute('&t=0&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
-            createRoute('&t=0' + defaultSortOrder, 'sortByUpdateDateDescRoute');
+            createRouteWithQueryMatcher({'o': 'name ASC', 't': '0'}, 'sortByNameAscRoute');
+            createRouteWithQueryMatcher({'o': 'name DESC', 't': '0'}, 'sortByNameDescRoute');
+            createRouteWithQueryMatcher({'o': 'lastUpdateDate ASC', 't': '0'}, 'sortByUpdateDateAscRoute');
+            createRouteWithQueryMatcher({'o': 'lastUpdateDate DESC', 't': '0'}, 'sortByUpdateDateDescRoute');
             break;
         case 'search by name':
             createRoute('&t=0&s=Alowscenario', 'searchRoute');
@@ -60,23 +57,15 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse(defaultRequestUrl, '', 'emptyResultRoute', 'emptyResult');
             break;
         case 'empty process list':
-            createRouteWithResponse(processUrl, processFilters, 'emptyResultRoute', 'emptyResult');
+            createProcessRouteWithQueryMatcher('emptyResultRoute', 'emptyResult');
             break;
         case 'only failed flow node api call':
-            cy.route({
-                method: "GET",
-                url: pendingTaskRequestUrl + defaultSortOrder,
-                onRequest: () => {
-                    throw new Error("The pending task api should have not been called");
-                }
+            cy.intercept('GET', pendingTaskRequestUrl + defaultSortOrder, (req) => {
+                throw new Error("The pending task api should have not been called");
             });
 
-            cy.route({
-                method: "GET",
-                url: doneTaskRequestUrl + defaultSortOrder,
-                onRequest: () => {
-                    throw new Error("The done task api should have not been called");
-                }
+            cy.intercept('GET', doneTaskRequestUrl + defaultSortOrder, (req) => {
+                throw new Error("The done task api should have not been called");
             });
             break;
         default:
@@ -84,10 +73,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRoute(queryParameter, routeName) {
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-        }).as(routeName);
+        cy.intercept('GET', defaultRequestUrl + queryParameter).as(routeName);
     }
 
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
@@ -107,46 +93,49 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponse(url, queryParameter, routeName, response) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url + queryParameter,
-            response: responseValue
+        cy.intercept('GET', url + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + failedFlowNodesUrl + 'c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createRouteWithQueryMatcher(query, routeName) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + failedFlowNodesUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'f': 'state=failed',
+                ...query
+            }
+        }).as(routeName);
+    }
+
+    function createProcessRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/process',
+            query: {
+                'c': '999',
+                'p': '0',
+                'o': 'displayName ASC'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });

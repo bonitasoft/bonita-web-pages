@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=1';
@@ -8,7 +8,6 @@ const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=caller=any&f=sourceObjectId=1';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
@@ -48,23 +47,49 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'default details':
             createRouteWithResponse(caseUrl + defaultFilters, 'caseRoute', 'case');
             break;
         case 'comments':
-            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createRouteWithResponseAndQueryMatcher(commentUrl, {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId',
+                't': '0'
+            }, 'commentsRoute', 'comments');
             break;
         case 'archived comments':
-            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createRouteWithResponseAndQueryMatcher(archivedCommentUrl, {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId',
+                't': '0'
+            }, 'commentsRoute', 'comments');
             break;
         case 'default details without search keys':
             createRouteWithResponse(caseUrl + defaultFilters, 'caseWithoutSearchKeysRoute', 'caseWithoutSearchKeys');
             break;
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
-            createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=1*', 'commentsRoute', 'newComments');
+            // Use wildcard for timestamp parameter that changes
+            cy.intercept({
+                method: 'GET',
+                pathname: '/' + urlPrefix + commentUrl,
+                query: {
+                    'p': '0',
+                    'c': '999',
+                    'o': 'postDate DESC',
+                    'f': 'processInstanceId=1',
+                    'd': 'userId'
+                }
+            }, {
+                fixture: 'json/newComments.json'
+            }).as('commentsRoute');
             break;
         case 'archived case':
             createRouteWithResponse(archivedCaseListUrl, 'archivedCaseRoute', 'archivedCase');
@@ -91,15 +116,11 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(processVariableUrl + '&t=1*', 'processVariablesRoute', 'processVariablesUpdated');
             break;
         case '500 error':
-            createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', '500');
+            createRouteWithMethodAndStatus(processVariableUpdateUrl + 'description', 'processVariablesUpdateRoute', 'PUT', 500);
             break;
         case 'process variable api is not called':
-            cy.route({
-                method: "GET",
-                url: processVariableUrl + '&t=0',
-                onRequest: () => {
-                    throw new Error("The process variable api should not have been called");
-                }
+            cy.intercept('GET', processVariableUrl + '&t=0', (req) => {
+                throw new Error("The process variable api should not have been called");
             });
             break;
         case 'current case monitoring':
@@ -142,31 +163,18 @@ given("The response {string} is defined", (responseType) => {
 
     function createProcessVariablesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + defaultProcessVariablesUrl + 'p=' + page + '&c=' + count + '&f=case_id=1';
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix,
-        }).as(routeName);
+        cy.intercept('GET', urlPrefix + urlSuffix).as(routeName);
     }
 
     function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
+        cy.intercept('POST', urlPrefix + urlSuffix, {
+            body: ""
         }).as(routeName);
     }
 
@@ -174,36 +182,33 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethod(urlSuffix, routeName, response, 'GET');
     }
 
-    function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
+    function createRouteWithResponseAndQueryMatcher(urlSuffix, query, routeName, response) {
+        cy.intercept({
             method: 'GET',
-            url: urlPrefix + url + queryParameter,
-            response: responseValue,
+            pathname: '/' + urlPrefix + urlSuffix,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndHeaders(url, queryParameter, routeName, response, headers) {
+        cy.intercept('GET', urlPrefix + url + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: '@' + response
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            status: status,
-            response: ''
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            body: '',
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status
         }).as(routeName);
     }
 });

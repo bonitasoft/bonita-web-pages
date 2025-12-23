@@ -1,13 +1,10 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const groupsUrl = 'API/identity/group';
-const defaultFilters = '&d=parent_group_id&t=0&o=displayName ASC';
-const defaultRequestUrl = urlPrefix + groupsUrl + '?c=10&p=0' + defaultFilters;
 const refreshUrl = urlPrefix + groupsUrl + '?c=10&p=0&d=parent_group_id&t=1*&o=displayName ASC';
 const parentGroupSearchUrl = urlPrefix + groupsUrl + '?p=0&c=20&o=name&s=';
-const subGroupUrl = urlPrefix + groupsUrl + '?c=10&p=0&o=displayName ASC&f=parent_path=';
 const userUrl = 'API/identity/user';
 const defaultUserUrl = urlPrefix + userUrl + '?c=10&p=0&f=enabled=true&f=group_id=';
 
@@ -17,29 +14,42 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshUrl,
-                onRequest: () => {
-                    throw new Error("This should have not been called");
-                }
+            cy.intercept('GET', refreshUrl, (req) => {
+                throw new Error("This should have not been called");
             });
             break;
         case 'default filter with headers':
-            createRouteWithResponseAndHeaders(defaultRequestUrl, 'groups8Route', 'groups8', {'content-range': '0-7/8'});
+            createDefaultGroupRouteWithHeaders('groups8Route', 'groups8', {'content-range': '0-7/8'});
             break;
         case 'sort by':
-            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=displayName+DESC', 'sortDisplayNameDescRoute');
-            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=name+ASC', 'sortNameAscRoute');
-            createRoute(groupsUrl + '?c=10&p=0&d=parent_group_id&t=0&o=name+DESC', 'sortNameDescRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'name ASC'
+            }, 'sortNameAscRoute');
+            createRouteWithQueryMatcher({
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'name DESC'
+            }, 'sortNameDescRoute');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Acme', 'searchAcmeRoute', 'groups1');
+            createDefaultGroupRouteWithSearch('searchAcmeRoute', 'groups1', 'Acme');
             createRouteForSpecialCharacterGroup(urlPrefix + groupsUrl, '&Speci@lGroup', 'json/groupNameWithSpecialCharacter.json', 'groupNameWithSpecialCharacterRoute');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createDefaultGroupRouteWithSearch('emptyResultRoute', 'emptyResult', 'Search term with no match');
             break;
         case 'group creation success':
             createRouteWithMethod(groupsUrl, 'parentGroupCreationRoute', 'POST');
@@ -49,12 +59,28 @@ given("The response {string} is defined", (responseType) => {
             createRouteForSpecialCharacterParent(urlPrefix + groupsUrl, '&Speci@lParent', 'json/groupNameWithSpecialCharacter.json', 'specialParentGroupListRoute');
             break;
         case 'refresh list after create':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups9');
+            createRefreshGroupRoute('refreshUrlRoute', 'groups9');
             break;
         case 'sort during limitation':
-            createRouteWithResponseAndHeaders(urlPrefix + groupsUrl + '?c=10&p=0&d=parent_group_id&o=displayName+DESC&t=0', 'sortDisplayNameDescRoute', 'groups10', {'content-range': '0-9/30'});
-            createRouteWithResponse(urlPrefix + groupsUrl + '?c=10&p=1&d=parent_group_id&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'groups10');
-            createRouteWithResponse(urlPrefix + groupsUrl + '?c=10&p=2&d=parent_group_id&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'groups10');
+            createRouteWithQueryMatcherAndHeaders({
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                'o': 'displayName DESC',
+                't': '0'
+            }, 'sortDisplayNameDescRoute', 'groups10', {'content-range': '0-9/30'});
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '1',
+                'd': 'parent_group_id',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute2', 'groups10');
+            createRouteWithQueryMatcherAndResponse({
+                'c': '10',
+                'p': '2',
+                'd': 'parent_group_id',
+                'o': 'displayName DESC'
+            }, 'sortDisplayNameDescRoute2', 'groups10');
             break;
         case 'parent group list with 20 groups':
             createRouteWithResponse(parentGroupSearchUrl + 'A', 'parentGroupWith20GroupsRoute', 'groups20');
@@ -93,26 +119,26 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(defaultUserUrl + '9', 'userUrlRoute', 'emptyResult');
             break;
         case 'empty sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'emptyResult');
+            createSubGroupRoute('subGroupUrlRoute', 'emptyResult', '/acme', {});
             break;
         case 'sub-group list':
-            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
+            createSubGroupRoute('subGroupUrlRoute', 'subGroups5', '/acme', {});
             break;
         case 'sub-group list search':
-            createRouteWithResponse(subGroupUrl + '/acme', 'subGroupUrlRoute', 'subGroups5');
-            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'searchAcmeRoute', 'subGroups1');
+            createSubGroupRoute('subGroupUrlRoute', 'subGroups5', '/acme', {});
+            createSubGroupRoute('searchAcmeRoute', 'subGroups1', '/acme', {'s': 'Acme'});
             createRouteForSpecialCharacterSubGroup(urlPrefix + groupsUrl, '&Speci@lSubGroup', 'json/subGroupNameWithSpecialCharacter.json', 'subGroupNameWithSpecialCharacterRoute');
-            createRouteWithResponse(subGroupUrl + '/acme&s=Search term with no match', 'noMatchRoute', 'emptyResult');
+            createSubGroupRoute('noMatchRoute', 'emptyResult', '/acme', {'s': 'Search term with no match'});
             break;
         case 'sub-groups search during limitation':
-            createRouteWithResponse(subGroupUrl + '/acme&s=Acme', 'subGroups10Route', 'groups10');
-            createRouteWithResponse(urlPrefix + groupsUrl + '?p=2&c=10&o=displayName ASC&f=parent_path=/acme&s=Acme', 'emptyResultRoute', 'emptyResult');
+            createSubGroupRoute('subGroups10Route', 'groups10', '/acme', {'s': 'Acme'});
+            createSubGroupRoute('emptyResultRoute', 'emptyResult', '/acme', {'p': '2', 's': 'Acme'});
             break;
         case 'sub-groups list for two groups':
-            createRouteWithResponseAndHeaders(subGroupUrl + '/acme', 'subGroups10Route', 'subGroups10', {'content-range': '0-9/18'});
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'subGroups8Route', 'subGroups8', 1, 10);
-            createSubGroupsRouteWithResponseAndPagination('&o=displayName ASC&f=parent_path=/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
-            createRouteWithResponse(subGroupUrl + '/acme/sales/asia', 'SubGroupUrlRoute', 'emptyResult');
+            createSubGroupRouteWithHeaders('subGroups10Route', 'subGroups10', '/acme', {'content-range': '0-9/18'});
+            createSubGroupsRouteWithResponseAndPagination('/acme', 'subGroups8Route', 'subGroups8', 1, 10);
+            createSubGroupsRouteWithResponseAndPagination('/acme', 'emptyResultRoute', 'emptyResult', 2, 10);
+            createSubGroupRoute('SubGroupUrlRoute', 'emptyResult', '/acme/sales/asia', {});
             break;
         case 'current parent information':
             createRouteWithResponse(urlPrefix + groupsUrl + '/8?t=1*', 'currentParentGroupEuropeRoute', 'currentParentGroupEurope');
@@ -125,7 +151,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(urlPrefix + groupsUrl + '/9?t=1*', 'currentParentGroupAsiaRoute', 'currentParentGroupAsia');
             break;
         case 'refresh list after edit':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups8Updated');
+            createRefreshGroupRoute('refreshUrlRoute', 'groups8Updated');
             break;
         case 'already exists during edition':
             createRouteWithResponseAndMethodAndStatus(urlPrefix + groupsUrl + '/1', 'editGroupAlreadyExistsRoute', 'editGroupAlreadyExists', 'PUT', '403');
@@ -143,7 +169,7 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithMethod(groupsUrl + '/1', 'parentGroupDeletionRoute', 'DELETE');
             break;
         case 'refresh list after delete':
-            createRouteWithResponse(refreshUrl, 'refreshUrlRoute', 'groups7');
+            createRefreshGroupRoute('refreshUrlRoute', 'groups7');
             break;
         case '403 during deletion':
             createRouteWithMethodAndStatus(groupsUrl + '/1', 'unauthorizedDeleteGroupRoute', 'DELETE', '403');
@@ -223,10 +249,7 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix
-        }).as(routeName);
+        cy.intercept('GET', urlPrefix + urlSuffix).as(routeName);
     }
 
     function createRouteWithMethod(urlSuffix, routeName, method) {
@@ -238,16 +261,90 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponseAndHeaders(url, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', url, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createDefaultGroupRouteWithHeaders(routeName, response, headers) {
+        cy.intercept({
             method: 'GET',
-            url: url,
-            response: responseValue,
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'displayName ASC'
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createDefaultGroupRouteWithSearch(routeName, response, searchValue) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                't': '0',
+                'o': 'displayName ASC',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRefreshGroupRoute(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd': 'parent_group_id',
+                'o': 'displayName ASC'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createSubGroupRoute(routeName, response, parentPath, additionalQuery) {
+        const query = {
+            'c': '10',
+            'p': '0',
+            'o': 'displayName ASC',
+            'f': 'parent_path=' + parentPath,
+            ...additionalQuery
+        };
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createSubGroupRouteWithHeaders(routeName, response, parentPath, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'o': 'displayName ASC',
+                'f': 'parent_path=' + parentPath
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
@@ -257,51 +354,67 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status,
+            body: ''
         }).as(routeName);
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            statusCode: typeof status === 'string' ? parseInt(status, 10) : status,
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
-    function createSubGroupsRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + groupsUrl + '?c=' + count + '&p=' + page;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
+    function createSubGroupsRouteWithResponseAndPagination(parentPath, routeName, response, page, count) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: {
+                'c': String(count),
+                'p': String(page),
+                'o': 'displayName ASC',
+                'f': 'parent_path=' + parentPath
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcher(query, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: query
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndHeaders(query, routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndResponse(query, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + groupsUrl,
+            query: query
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
