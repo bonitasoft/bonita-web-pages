@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=1';
@@ -8,7 +8,6 @@ const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const caseListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/case-list';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1';
 
@@ -18,23 +17,22 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'default details':
             createRouteWithResponse(caseUrl + defaultFilters, 'caseRoute', 'case');
             break;
         case 'comments':
-            createRouteWithResponse(commentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createCommentRouteWithQueryMatcher(commentUrl, 'commentsRoute', 'comments', '0');
             break;
         case 'archived comments':
-            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'commentsRoute', 'comments');
+            createCommentRouteWithQueryMatcher(archivedCommentUrl, 'commentsRoute', 'comments', '0');
             break;
         case 'default details without search keys':
             createRouteWithResponse(caseUrl + defaultFilters, 'caseWithoutSearchKeysRoute', 'caseWithoutSearchKeys');
             break;
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
-            createRouteWithResponse(commentUrl + '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=1*', 'commentsRoute', 'newComments');
+            createCommentRouteWithQueryMatcherWildcard(commentUrl, 'commentsRoute', 'newComments');
             break;
         case 'archived case':
             createRouteWithResponse(archivedCaseListUrl, 'archivedCaseRoute', 'archivedCase');
@@ -47,27 +45,48 @@ given("The response {string} is defined", (responseType) => {
             throw new Error("Unsupported case");
     }
 
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix,
-        }).as(routeName);
-    }
-
     function createPostRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'POST',
-            url: urlPrefix + urlSuffix,
-            response: ""
+        cy.intercept('POST', urlPrefix + urlSuffix, {
+            body: ""
         }).as(routeName);
     }
 
     function createRouteWithResponse(urlSuffix, routeName, response) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
+        cy.intercept('GET', urlPrefix + urlSuffix, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createCommentRouteWithQueryMatcher(baseUrl, routeName, response, tValue) {
+        cy.intercept({
             method: 'GET',
-            url: urlPrefix + urlSuffix,
-            response: '@' + response
+            pathname: '/' + urlPrefix + baseUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId',
+                't': tValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createCommentRouteWithQueryMatcherWildcard(baseUrl, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + baseUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=1',
+                'd': 'userId'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });

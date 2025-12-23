@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -16,47 +16,69 @@ beforeEach(() => {
 });
 
 given("The page response {string} is defined", (filterType) => {
-    cy.server();
     switch (filterType) {
         case 'refresh not called':
-            cy.route({
-                method: "GET",
-                url: refreshUrl,
-                onRequest: () => {
-                    throw new Error("This should have not been called");
-                }
+            cy.intercept('GET', refreshUrl, (req) => {
+                throw new Error("This should have not been called");
             });
             break;
         case 'default filter':
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5');
+            createRouteWithResponseAndQueryMatcher('enabledProcesses5Route', 'enabledProcesses5', {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC'
+            });
             break;
         case "default filter with headers":
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'enabledProcesses5Route', 'enabledProcesses5', {'content-range': '0-5/5'});
+            createRouteWithResponseAndQueryMatcherAndHeaders('enabledProcesses5Route', 'enabledProcesses5', {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC'
+            }, {'content-range': '0-5/5'});
             break;
         case 'state':
-            createRouteWithResponse(defaultRequestUrl + '&f=configurationState=RESOLVED' + defaultSortOrder, 'enabledResolvedProcessesRoute', 'enabledResolvedProcesses');
+            // Use URL pattern with configurationState to specifically match filtered requests
+            cy.intercept('GET', '**/API/bpm/process?*f=configurationState=RESOLVED*', {
+                fixture: 'json/enabledResolvedProcesses.json'
+            }).as('enabledResolvedProcessesRoute');
             break;
         case 'sort by':
-            createDefaultRoute('&o=name+ASC', 'sortByNameAscRoute');
-            createDefaultRoute('&o=name+DESC', 'sortByNameDescRoute');
-            createDefaultRoute('&o=displayName+DESC', 'sortByDisplayNameDescRoute');
-            createDefaultRoute('&o=version+ASC', 'sortByVersionAscRoute');
-            createDefaultRoute('&o=version+DESC', 'sortByVersionDescRoute');
-            createDefaultRoute('&o=deploymentDate+ASC', 'sortByDeployedOnAscRoute');
-            createDefaultRoute('&o=deploymentDate+DESC', 'sortByDeployedOnDescRoute');
-            createDefaultRoute('&o=last_update_date+ASC', 'sortByLastUpdateDateAscRoute');
-            createDefaultRoute('&o=last_update_date+DESC', 'sortByLastUpdateDateDescRoute');
+            createDefaultRouteWithQueryMatcher('name ASC', 'sortByNameAscRoute');
+            createDefaultRouteWithQueryMatcher('name DESC', 'sortByNameDescRoute');
+            createDefaultRouteWithQueryMatcher('displayName DESC', 'sortByDisplayNameDescRoute');
+            createDefaultRouteWithQueryMatcher('version ASC', 'sortByVersionAscRoute');
+            createDefaultRouteWithQueryMatcher('version DESC', 'sortByVersionDescRoute');
+            createDefaultRouteWithQueryMatcher('deploymentDate ASC', 'sortByDeployedOnAscRoute');
+            createDefaultRouteWithQueryMatcher('deploymentDate DESC', 'sortByDeployedOnDescRoute');
+            createDefaultRouteWithQueryMatcher('last_update_date ASC', 'sortByLastUpdateDateAscRoute');
+            createDefaultRouteWithQueryMatcher('last_update_date DESC', 'sortByLastUpdateDateDescRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute', 'enabledProcesses10');
-            createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=1&time=0' + defaultFilters + '&o=displayName+DESC', 'sortByDisplayNameDescRoute2', 'enabledProcesses10');
+            createRouteWithResponseAndQueryMatcher('sortByDisplayNameDescRoute', 'enabledProcesses10', {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName DESC'
+            });
+            createRouteWithResponseAndQueryMatcher('sortByDisplayNameDescRoute2', 'enabledProcesses10', {
+                'c': '10', 'p': '1', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName DESC'
+            });
             break;
         case 'search':
-            createDefaultRoute(defaultSortOrder + '&s=Pool3', 'searchByNameRoute');
+            createRouteWithResponseAndQueryMatcher('searchByNameRoute', undefined, {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC', 's': 'Pool3'
+            });
             createRouteForSpecialCharacter(urlPrefix + processListUrl, '&Special', 'searchByNameWithSpecialCharacterRoute');
-            createDefaultRoute(defaultSortOrder + '&s=New', 'searchByDisplayNameRoute');
-            createDefaultRoute(defaultSortOrder + '&s=1.0', 'searchByVersionRoute');
-            createRouteWithResponse(defaultRequestUrl + defaultSortOrder + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithResponseAndQueryMatcher('searchByDisplayNameRoute', undefined, {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC', 's': 'New'
+            });
+            createRouteWithResponseAndQueryMatcher('searchByVersionRoute', undefined, {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC', 's': '1.0'
+            });
+            createRouteWithResponseAndQueryMatcher('emptyResultRoute', 'emptyResult', {
+                'c': '10', 'p': '0', 'time': '0', 'd': 'deployedBy',
+                'f': 'activationState=ENABLED', 'o': 'displayName ASC', 's': 'Search term with no match'
+            });
             break;
         case 'disable process':
             createRouteWithResponseAndMethod(urlPrefix + processListUrl + '/7150158626056333703', "processDisableRoute", 'emptyResult', "PUT");
@@ -70,19 +92,16 @@ given("The page response {string} is defined", (filterType) => {
             cy.intercept('POST', urlPrefix + 'API/bpm/process', {"fileupload": "tmp_5586848544544004207.bar"});
             break;
         case 'disable state code 500':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '500');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", 500);
             createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'disable state code 403':
-            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", '403');
+            createRouteWithResponseAndMethodAndStatus(urlPrefix + processListUrl + '/7150158626056333703',"processDisableRoute", 'emptyResult', "PUT", 403);
             createRouteWithResponse(urlPrefix + processListUrl + '?c=10&p=0&time=1*', 'enabledProcesses5Route', 'enabledProcesses5');
             break;
         case 'delay disable':
-            cy.fixture('json/emptyResult.json').as('emptyResult');
-            cy.route({
-                method: 'PUT',
-                url: urlPrefix + processListUrl + '/7150158626056333703',
-                response: '@emptyResult',
+            cy.intercept('PUT', urlPrefix + processListUrl + '/7150158626056333703', {
+                fixture: 'json/emptyResult.json',
                 delay: 2000
             }).as('delayDisableRoute');
             break;
@@ -90,12 +109,8 @@ given("The page response {string} is defined", (filterType) => {
             createRoute(urlPrefix + processListUrl + '?c=10&p=0&time=0' + defaultFilters + defaultSortOrder, "refreshEnabledProcessesList", "GET");
             break;
         case 'disabled process api is not called':
-            cy.route({
-                method: "GET",
-                url: disabledProcessRequestUrl + defaultSortOrder,
-                onRequest: () => {
-                    throw new Error("The disabled process api should have not been called");
-                }
+            cy.intercept('GET', disabledProcessRequestUrl + defaultSortOrder, (req) => {
+                throw new Error("The disabled process api should have not been called");
             });
             break;
         default:
@@ -104,6 +119,42 @@ given("The page response {string} is defined", (filterType) => {
 
     function createDefaultRoute(queryParameter, routeName) {
         createRoute(defaultRequestUrl + queryParameter, routeName, "GET");
+    }
+
+    function createDefaultRouteWithQueryMatcher(orderValue, routeName) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '**/' + processListUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'deployedBy',
+                'f': 'activationState=ENABLED',
+                'o': orderValue
+            }
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndQueryMatcher(routeName, response, queryObj) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '**/' + processListUrl,
+            query: queryObj
+        }, {
+            fixture: response ? 'json/' + response + '.json' : undefined
+        }).as(routeName);
+    }
+
+    function createRouteWithResponseAndQueryMatcherAndHeaders(routeName, response, queryObj, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '**/' + processListUrl,
+            query: queryObj
+        }, {
+            fixture: response ? 'json/' + response + '.json' : undefined,
+            headers: headers
+        }).as(routeName);
     }
 
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
@@ -123,10 +174,7 @@ given("The page response {string} is defined", (filterType) => {
     }
 
     function createRoute(url, routeName, method) {
-        cy.route({
-            method: method,
-            url: url
-        }).as(routeName);
+        cy.intercept(method, url).as(routeName);
     }
 
     function createRouteWithResponse(url, routeName, response) {
@@ -134,16 +182,8 @@ given("The page response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: response ? 'json/' + response + '.json' : undefined,
             headers: headers
         }).as(routeName);
     }
@@ -154,21 +194,13 @@ given("The page response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
-        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, '200');
+        createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
     }
 
-    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: method,
-            url: url,
-            response: responseValue,
-            status: status
+    function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, statusCode) {
+        cy.intercept(method, url, {
+            fixture: response ? 'json/' + response + '.json' : undefined,
+            statusCode: typeof statusCode === 'string' ? parseInt(statusCode, 10) : statusCode
         }).as(routeName);
     }
 });

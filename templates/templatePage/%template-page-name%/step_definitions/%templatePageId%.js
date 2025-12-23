@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const url = 'build/dist/resources/index.html';
 
