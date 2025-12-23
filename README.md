@@ -19,6 +19,8 @@ The following tasks should be executed with the Gradle wrapper (gradlew(.bat)) t
 
 ``./gradlew build``
 
+**Note**: if an error occurs at phantoms startup (especially when running on Ubuntu 24), disable openssl by setting an environment variable `OPENSSL_CONF=/dev/null`.
+
 ### Run pages tests
 
 ``./gradlew runTestChrome``

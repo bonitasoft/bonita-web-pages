@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const buildDir = Cypress.env('BUILD_DIR');
 const url = `${buildDir}/resources/index.html`;
@@ -8,7 +8,7 @@ beforeEach(() => {
   cy.setCookie('BOS_Locale', 'en');
 });
 
-given('No file is selected', () => {
+then('No file is selected', () => {
     cy.get('.form-control').should('have.attr','placeholder','Click here to choose your .xml file');
 });
 
@@ -26,7 +26,6 @@ when(`I\'m user with {string} bos_local`, (text) => {
 });
 
 when('I open the install-export organization page', () => {
-    cy.server();
     cy.visit(url);
 });
 

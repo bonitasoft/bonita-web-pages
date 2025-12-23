@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
@@ -13,7 +13,6 @@ beforeEach(() => {
 });
 
 given("The filter response {string} is defined", (filterType) => {
-    cy.server();
     switch (filterType) {
         case 'default filter with headers':
             createRouteWithResponseAndHeaders(defaultSortOrder, 'resourcesRoute', 'resources5', {'content-range': '0-4/5'});
@@ -25,19 +24,19 @@ given("The filter response {string} is defined", (filterType) => {
             createRouteWithResponse('&f=contentType=layout' + defaultSortOrder, 'emptyResultRoute', 'emptyResult');
             break;
         case 'sort by':
-            createRoute('&o=displayName+ASC', 'sortByNameAscRoute');
-            createRoute('&o=displayName+DESC', 'sortByNameDescRoute');
-            createRoute('&o=lastUpdateDate+ASC', 'sortByUpdateDateAscRoute');
+            createRouteWithQueryMatcher({'o': 'displayName ASC'}, 'sortByNameAscRoute');
+            createRouteWithQueryMatcher({'o': 'displayName DESC'}, 'sortByNameDescRoute');
+            createRouteWithQueryMatcher({'o': 'lastUpdateDate ASC'}, 'sortByUpdateDateAscRoute');
             break;
         case 'sort during limitation':
-            createRouteWithResponseAndHeaders('&o=displayName+DESC', 'sortDisplayNameDescRoute', 'resources10', {'content-range': '0-9/10'});
-            createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute1', 'resources10', 1, 10);
-            createRouteWithResponseAndPagination('&o=displayName+DESC', 'sortDisplayNameDescRoute2', 'resources10', 2, 10);
+            createRouteWithQueryMatcherAndHeaders({'o': 'displayName DESC'}, 'sortDisplayNameDescRoute', 'resources10', {'content-range': '0-9/10'});
+            createRouteWithQueryMatcherResponseAndPagination({'o': 'displayName DESC'}, 'sortDisplayNameDescRoute1', 'resources10', 1);
+            createRouteWithQueryMatcherResponseAndPagination({'o': 'displayName DESC'}, 'sortDisplayNameDescRoute2', 'resources10', 2);
             break;
         case 'search by name':
-            createRoute('&o=lastUpdateDate+DESC&s=ApplicationHomeBonita', 'searchRoute');
+            createRouteWithQueryMatcher({'o': 'lastUpdateDate DESC', 's': 'ApplicationHomeBonita'}, 'searchRoute');
             createRouteForSpecialCharacter(urlPrefix + 'API/portal/page','&Speci@lResources', 'specialResourcesRoute');
-            createRouteWithResponse('&o=lastUpdateDate+DESC&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createRouteWithQueryMatcherAndResponse({'o': 'lastUpdateDate DESC', 's': 'Search term with no match'}, 'emptyResultRoute', 'emptyResult');
             break;
         case 'all types of resources':
             createRouteWithResponse(defaultSortOrder, 'allResourcesRoute', 'allResources');
@@ -53,10 +52,7 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRoute(queryParameter, routeName) {
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-        }).as(routeName);
+        cy.intercept('GET', defaultRequestUrl + queryParameter).as(routeName);
     }
 
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
@@ -79,32 +75,79 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + resourceUrl + 'c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createRouteWithQueryMatcher(query, routeName) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + resourceUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'updatedBy',
+                ...query
+            }
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndHeaders(query, routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + resourceUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'updatedBy',
+                ...query
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndResponse(query, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + resourceUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                'd': 'updatedBy',
+                ...query
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherResponseAndPagination(query, routeName, response, page) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + resourceUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': String(page),
+                'time': '0',
+                'd': 'updatedBy',
+                ...query
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
@@ -135,20 +178,21 @@ given("The {string} is not involved in application response is defined", (resour
         default:
             throw new Error("Unsupported case");
     }
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'GET',
-        url: urlPrefix + applicationResourceUrl,
-        response: '@emptyResult'
+    cy.intercept('GET', urlPrefix + applicationResourceUrl, {
+        fixture: 'json/emptyResult.json'
     }).as("emptyResultRoute");
-    cy.route({
-        method: 'DELETE',
-        url: urlPrefix + applicationDeleteUrl,
-        response: '@emptyResult'
+    cy.intercept('DELETE', urlPrefix + applicationDeleteUrl, {
+        fixture: 'json/emptyResult.json'
     }).as("deletePageRoute");
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: urlPrefix + resourceUrl + "c=10&p=0&time=1*&d=updatedBy&o=lastUpdateDate+DESC"
+        pathname: '/' + urlPrefix + resourceUrl.replace('?', ''),
+        query: {
+            'c': '10',
+            'p': '0',
+            'd': 'updatedBy',
+            'o': 'lastUpdateDate DESC'
+        }
     }).as("refreshListRoute");
 });
 
@@ -175,21 +219,16 @@ given("The {string} is involved in application response is defined", (resourceTy
         default:
             throw new Error("Unsupported case");
     }
-    cy.fixture('json/' + resourceType + 'Used.json').as(resourceType + 'Used');
-    cy.route({
-        method: 'GET',
-        url: urlPrefix + applicationResourceUrl,
-        response: '@' + resourceType + 'Used'
+    cy.intercept('GET', urlPrefix + applicationResourceUrl, {
+        fixture: 'json/' + resourceType + 'Used.json'
     }).as(resourceType + "UsedRoute");
 });
 
 given("The delete status code {string} response is defined", (statusCode) => {
     let applicationDeleteUrl = 'API/portal/page/1';
-    cy.route({
-        method: 'DELETE',
-        url: urlPrefix + applicationDeleteUrl,
-        status: statusCode,
-        response: ''
+    cy.intercept('DELETE', urlPrefix + applicationDeleteUrl, {
+        body: '',
+        statusCode: parseInt(statusCode, 10)
     }).as("deletePageRoute");
 });
 
