@@ -1,12 +1,10 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html';
 const defaultFilters = '&time=0';
 const userUrl = 'API/identity/user?';
 const defaultRequestUrl = urlPrefix + userUrl + 'c=10&p=0' + defaultFilters;
-const enabledFilter = '&f=enabled=true';
-const defaultSortOrder = '&o=lastname+ASC' + enabledFilter;
 
 beforeEach(() => {
   // Force locale as we test labels value
@@ -14,43 +12,42 @@ beforeEach(() => {
 });
 
 given("The filter response {string} is defined", (filterType) => {
-    cy.server();
     switch (filterType) {
         case "default filter with headers":
-            createRouteWithResponseAndHeaders(defaultSortOrder, 'usersRoute', 'users5', {'content-range': '0-4/5'});
+            createRouteWithQueryMatcherAndHeaders({
+                'o': 'lastname ASC',
+                'f': 'enabled=true'
+            }, 'usersRoute', 'users5', {'content-range': '0-4/5'});
             break;
         case 'sort by':
-            createRoute('&o=firstname+ASC' + enabledFilter, 'sortByFirstNameAscRoute');
-            createRoute('&o=firstname+DESC' + enabledFilter, 'sortByFirstNameDescRoute');
-            createRoute('&o=lastname+DESC' + enabledFilter, 'sortByLastNameDescRoute');
+            createRouteWithQueryMatcher({'o': 'firstname ASC', 'f': 'enabled=true'}, 'sortByFirstNameAscRoute');
+            createRouteWithQueryMatcher({'o': 'firstname DESC', 'f': 'enabled=true'}, 'sortByFirstNameDescRoute');
+            createRouteWithQueryMatcher({'o': 'lastname DESC', 'f': 'enabled=true'}, 'sortByLastNameDescRoute');
             break;
         case 'search by':
-            createRoute('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute');
-            createRoute('&o=lastname+ASC&s=Bates' + enabledFilter, 'lastNameRoute');
-            createRoute('&o=lastname+ASC&s=walter.bates' + enabledFilter, 'userNameRoute');
+            createRouteWithQueryMatcher({'o': 'lastname ASC', 's': 'Walter', 'f': 'enabled=true'}, 'firstNameRoute');
+            createRouteWithQueryMatcher({'o': 'lastname ASC', 's': 'Bates', 'f': 'enabled=true'}, 'lastNameRoute');
+            createRouteWithQueryMatcher({'o': 'lastname ASC', 's': 'walter.bates', 'f': 'enabled=true'}, 'userNameRoute');
             createRouteForSpecialCharacter(urlPrefix + 'API/identity/user', '&Speci@l', '&Speci@lRoute')
-            createRouteWithResponse('&o=lastname+ASC&s=Search term with no match' + enabledFilter, 'emptyResultRoute', 'emptyResult');
+            createRouteWithQueryMatcherAndResponse({'o': 'lastname ASC', 's': 'Search term with no match', 'f': 'enabled=true'}, 'emptyResultRoute', 'emptyResult');
             break;
         case 'user search during limitation':
-            createRouteWithResponseAndHeaders('&o=lastname+ASC&s=Walter' + enabledFilter, 'firstNameRoute', 'users10', {'content-range': '0-9/10'});
-            createRouteWithResponseAndPagination('&o=lastname+ASC&s=Walter' + enabledFilter, 'users10Route', 'users10', 1, 10);
-            createRouteWithResponseAndPagination('&o=lastname+ASC&s=Walter' + enabledFilter, 'users10Route', 'users10', 2, 10);
+            createRouteWithQueryMatcherAndHeaders({'o': 'lastname ASC', 's': 'Walter', 'f': 'enabled=true'}, 'firstNameRoute', 'users10', {'content-range': '0-9/10'});
+            createRouteWithQueryMatcherResponseAndPagination({'o': 'lastname ASC', 's': 'Walter', 'f': 'enabled=true'}, 'users10Route', 'users10', 1);
+            createRouteWithQueryMatcherResponseAndPagination({'o': 'lastname ASC', 's': 'Walter', 'f': 'enabled=true'}, 'users10Route', 'users10', 2);
             break;
         case 'show inactive':
-            createRoute('&o=lastname+ASC&f=enabled=false', 'showInactiveRoute');
+            createRouteWithQueryMatcher({'o': 'lastname ASC', 'f': 'enabled=false'}, 'showInactiveRoute');
             break;
         case 'inactive user':
-            createRouteWithResponse('&o=lastname+ASC&f=enabled=false', 'inactiveUser1Route', 'inactiveUser1');
+            createRouteWithQueryMatcherAndResponse({'o': 'lastname ASC', 'f': 'enabled=false'}, 'inactiveUser1Route', 'inactiveUser1');
             break;
         default:
             throw new Error("Unsupported case");
     }
 
     function createRoute(queryParameter, routeName) {
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-        }).as(routeName);
+        cy.intercept('GET', defaultRequestUrl + queryParameter).as(routeName);
     }
 
     function createRouteForSpecialCharacter(pathname, searchParameter, routeName) {
@@ -73,123 +70,190 @@ given("The filter response {string} is defined", (filterType) => {
     }
 
     function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: defaultRequestUrl + queryParameter,
-            response: responseValue,
+        cy.intercept('GET', defaultRequestUrl + queryParameter, {
+            fixture: response ? 'json/' + response + '.json' : undefined,
             headers: headers
         }).as(routeName);
     }
 
     function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
         const loadMoreUrl = urlPrefix + userUrl + 'c=' + count + '&p=' + page + defaultFilters;
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
+        cy.intercept('GET', loadMoreUrl + queryParameter, {
+            fixture: response ? 'json/' + response + '.json' : undefined
+        }).as(routeName);
+    }
 
-        cy.route({
+    function createRouteWithQueryMatcher(query, routeName) {
+        cy.intercept({
             method: 'GET',
-            url: loadMoreUrl + queryParameter,
-            response: responseValue
+            pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                ...query
+            }
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndHeaders(query, routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                ...query
+            }
+        }, {
+            fixture: response ? 'json/' + response + '.json' : undefined,
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherAndResponse(query, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': '0',
+                'time': '0',
+                ...query
+            }
+        }, {
+            fixture: response ? 'json/' + response + '.json' : undefined
+        }).as(routeName);
+    }
+
+    function createRouteWithQueryMatcherResponseAndPagination(query, routeName, response, page) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+            query: {
+                'c': '10',
+                'p': String(page),
+                'time': '0',
+                ...query
+            }
+        }, {
+            fixture: response ? 'json/' + response + '.json' : undefined
         }).as(routeName);
     }
 });
 
 given("Deactivate user response is defined", () => {
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'PUT',
-        url: urlPrefix + 'API/identity/user/21',
-        response: '@emptyResult'
+    cy.intercept('PUT', urlPrefix + 'API/identity/user/21', {
+        fixture: 'json/emptyResult.json'
     }).as("deactivateUserRoute");
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult',
-        headers: {'content-range': '0-0/0'}
+        pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+        query: {
+            'c': '10',
+            'p': '0',
+            'o': 'lastname ASC',
+            'f': 'enabled=true'
+        }
+    }, (req) => {
+        const timeParam = req.query.time;
+        if (timeParam && timeParam !== '0') {
+            req.reply({
+                fixture: 'json/emptyResult.json',
+                headers: {'content-range': '0-0/0'}
+            });
+        }
     }).as("refreshListRoute");
 });
 
 given("Activate user response is defined", () => {
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'PUT',
-        url: urlPrefix + 'API/identity/user/21',
-        response: '@emptyResult'
+    cy.intercept('PUT', urlPrefix + 'API/identity/user/21', {
+        fixture: 'json/emptyResult.json'
     }).as("activateUserRoute");
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult',
-        headers: {'content-range': '0-0/0'}
+        pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+        query: {
+            'c': '10',
+            'p': '0',
+            'o': 'lastname ASC',
+            'f': 'enabled=true'
+        }
+    }, (req) => {
+        const timeParam = req.query.time;
+        if (timeParam && timeParam !== '0') {
+            req.reply({
+                fixture: 'json/emptyResult.json',
+                headers: {'content-range': '0-0/0'}
+            });
+        }
     }).as("refreshListRoute");
 });
 
 given("The deactivate status code {string} response is defined", (statusCode) => {
-    cy.route({
-        method: 'PUT',
-        url: urlPrefix + 'API/identity/user/21',
-        status: statusCode,
-        response: ''
+    cy.intercept('PUT', urlPrefix + 'API/identity/user/21', {
+        statusCode: parseInt(statusCode),
+        body: ''
     }).as("deactivateUserWithError" + statusCode + "Route");
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@users5',
+        pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+        query: {
+            'c': '10',
+            'p': '0',
+            'o': 'lastname ASC',
+            'f': 'enabled=true'
+        }
+    }, {
+        fixture: 'json/users5.json',
         headers: {'content-range': '0-4/5'}
     }).as("usersRoute");
 });
 
 given("Create user response is defined", () => {
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + 'API/identity/user',
-        status: 200,
-        response: ''
+    cy.intercept('POST', urlPrefix + 'API/identity/user', {
+        statusCode: 200,
+        body: ''
     }).as("createUserRoute");
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: urlPrefix + userUrl + 'c=10&p=0&time=1*&o=lastname+ASC' + enabledFilter,
-        response: '@emptyResult',
-        headers: {'content-range': '0-0/0'}
+        pathname: '/' + urlPrefix + userUrl.replace('?', ''),
+        query: {
+            'c': '10',
+            'p': '0',
+            'o': 'lastname ASC',
+            'f': 'enabled=true'
+        }
+    }, (req) => {
+        const timeParam = req.query.time;
+        if (timeParam && timeParam !== '0') {
+            req.reply({
+                fixture: 'json/emptyResult.json',
+                headers: {'content-range': '0-0/0'}
+            });
+        }
     }).as("refreshListRoute");
 });
 
 given("The create user status code {string} response is defined", (statusCode) => {
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + 'API/identity/user',
-        status: statusCode,
-        response: ''
+    cy.intercept('POST', urlPrefix + 'API/identity/user', {
+        statusCode: parseInt(statusCode),
+        body: ''
     }).as("createUserRoute");
 });
 
 given("The create user already exists response is defined", () => {
-    cy.fixture('json/userAlreadyExists.json').as('userAlreadyExists');
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + 'API/identity/user',
-        status: 403,
-        response: '@userAlreadyExists'
+    cy.intercept('POST', urlPrefix + 'API/identity/user', {
+        statusCode: 403,
+        fixture: 'json/userAlreadyExists.json'
     }).as("userAlreadyExistsRoute");
 });
 
 given("The robustness password error response is defined", () => {
-    cy.fixture('json/robustnessPasswordError.json').as('robustnessPasswordError');
-    cy.route({
-        method: 'POST',
-        url: urlPrefix + 'API/identity/user',
-        status: 500,
-        response: '@robustnessPasswordError'
+    cy.intercept('POST', urlPrefix + 'API/identity/user', {
+        statusCode: 500,
+        fixture: 'json/robustnessPasswordError.json'
     }).as("robustnessPasswordErrorRoute");
 });
 

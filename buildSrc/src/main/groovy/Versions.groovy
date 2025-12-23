@@ -1,4 +1,4 @@
 class Versions {
-    static def nodeVersion = '16.14.0'
-    static def npmVersion = '8.3.1'
+    static def nodeVersion = '18.20.5'
+    static def npmVersion = '10.8.2'
 }

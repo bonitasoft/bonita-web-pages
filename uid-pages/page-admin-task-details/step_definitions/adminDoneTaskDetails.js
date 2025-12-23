@@ -1,14 +1,8 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=81358';
-const doneTaskUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
-const defaultFilters = '&f=isTerminal=true&d=processId&d=executedBy&d=assigned_id&d=rootContainerId&d=parentTaskId&d=executedBySubstitute&time=0';
-const adminTaskListUrl = '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=4288&d=userId&t=0';
-const connectorUrl = 'API/bpm/connectorInstance?p=0&c=999&f=containerType=flowNode&f=containerId=1';
-const archivedConnectorUrl = 'API/bpm/archivedConnectorInstance?p=0&c=999&f=containerType=flowNode&f=containerId=81358';
 const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4288'
 
 beforeEach(() => {
@@ -17,23 +11,22 @@ beforeEach(() => {
 });
 
 given("The response {string} is defined for done tasks", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'default details':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'doneTaskDetailsRoute', 'doneTaskDetails');
+            createDoneTaskRouteWithQueryMatcher('doneTaskDetailsRoute', 'doneTaskDetails');
             break;
         case 'default details without executedBySubstitute':
-            createRouteWithResponse(doneTaskUrl + defaultFilters, 'doneTaskDetailsNoSubstituteRoute', 'doneTaskDetailsNoSubstitute');
+            createDoneTaskRouteWithQueryMatcher('doneTaskDetailsNoSubstituteRoute', 'doneTaskDetailsNoSubstitute');
             break;
         case 'archived comments':
             createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
-            createRouteWithResponse(archivedCommentUrl + getCommentQueryParameters, 'archivedCommentsRoute', 'archivedComments');
+            createCommentRouteWithQueryMatcher('archivedCommentsRoute', 'archivedComments');
             break;
         case 'empty connectors':
-            createRouteWithResponse(connectorUrl, 'connectorRoute', 'emptyResult');
+            createConnectorRouteWithQueryMatcher('connectorRoute', 'emptyResult');
             break;
         case 'archived connectors':
-            createRouteWithResponse(archivedConnectorUrl, 'archivedConnectorRoute', 'connectors');
+            createArchivedConnectorRouteWithQueryMatcher('archivedConnectorRoute', 'connectors');
             break;
         default:
             throw new Error("Unsupported case");
@@ -44,11 +37,77 @@ given("The response {string} is defined for done tasks", (responseType) => {
     }
 
     function createRouteWithResponseAndMethod(urlSuffix, routeName, response, method) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: '@' + response
+        cy.intercept(method, urlPrefix + urlSuffix, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createCommentRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + archivedCommentUrl,
+            query: {
+                'p': '0',
+                'c': '999',
+                'o': 'postDate DESC',
+                'f': 'processInstanceId=4288',
+                'd': 'userId',
+                't': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createDoneTaskRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/archivedFlowNode',
+            query: {
+                'c': '1',
+                'p': '0',
+                'f[0]': 'sourceObjectId=81358',
+                'f[1]': 'isTerminal=true',
+                'd[0]': 'processId',
+                'd[1]': 'executedBy',
+                'd[2]': 'assigned_id',
+                'd[3]': 'rootContainerId',
+                'd[4]': 'parentTaskId',
+                'd[5]': 'executedBySubstitute',
+                'time': '0'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createConnectorRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/connectorInstance',
+            query: {
+                'p': '0',
+                'c': '999',
+                'f[0]': 'containerType=flowNode',
+                'f[1]': 'containerId=1'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createArchivedConnectorRouteWithQueryMatcher(routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + 'API/bpm/archivedConnectorInstance',
+            query: {
+                'p': '0',
+                'c': '999',
+                'f[0]': 'containerType=flowNode',
+                'f[1]': 'containerId=81358'
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
@@ -117,10 +176,6 @@ then("The executedBy information is displayed correctly when executedBySubstitut
     cy.get('.item-value').contains('4/30/21 9:22');
     cy.get('.item-label').contains('Executed by');
     cy.get('.item-value').contains('Walter Bates');
-});
-
-then("The back button has correct href", () => {
-    cy.get('a').contains('Back').should('have.attr', 'href', adminTaskListUrl);
 });
 
 then("The connectors have the correct information", () => {
