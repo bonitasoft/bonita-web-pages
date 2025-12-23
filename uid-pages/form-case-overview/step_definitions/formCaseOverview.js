@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const buildDir = Cypress.env('BUILD_DIR');
 const archivedCaseUrl = `${buildDir}/resources/index.html?id=30003`;
@@ -14,178 +14,113 @@ beforeEach(() => {
 
 
 given('The archived case {string} server response is defined', (archivedCaseId) => {
-    cy.server();
-    cy.fixture('json/archivedCase.json').as('archivedCase');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedCase?c=1&d=started_by?d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=${archivedCaseId}&p=0`,
-        response: '@archivedCase'
+    // Mock the openCase request to return 404 so the page falls back to archivedCase
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${archivedCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        statusCode: 404,
+        body: {}
+    }).as('openCaseNotFoundRoute');
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedCase?c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D${archivedCaseId}&p=0`, {
+        fixture: 'json/archivedCase.json'
     }).as('archivedCaseRoute');
 });
 
 given('The archived case {string} empty context server response is defined', (archivedCaseId) => {
-    cy.server();
-    cy.fixture('json/archivedCaseEmptyContext.json').as('archivedCaseEmptyContext');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedCase/${archivedCaseId}/context`,
-        response: '@archivedCaseEmptyContext'
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedCase/${archivedCaseId}/context`, {
+        fixture: 'json/archivedCaseEmptyContext.json'
     }).as('archivedCaseEmptyContextRoute');
 });
 
 given('The archived case {string} empty document server response is defined', (archivedCaseId) => {
-    cy.server();
-    cy.fixture('json/archivedCaseEmptyDocument.json').as('archivedCaseEmptyDocument');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedCaseDocument?f=caseId=${archivedCaseId}`,
-        response: '@archivedCaseEmptyDocument'
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedCaseDocument?f=caseId=${archivedCaseId}`, {
+        fixture: 'json/archivedCaseEmptyDocument.json'
     }).as('archivedCaseEmptyDocumentRoute');
 });
 
 given('The open case {string} server response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCase.json').as('openCase');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCase'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCase.json'
     }).as('openCaseRoute');
 });
 
 
 given('The open case {string} empty context server response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseEmptyContext.json').as('openCaseEmptyContext');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}/context`,
-        response: '@openCaseEmptyContext'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}/context`, {
+        fixture: 'json/openCaseEmptyContext.json'
     }).as('openCaseEmptyContextRoute');
 });
 
 given('The open case {string} empty document server response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseEmptyDocument.json').as('openCaseEmptyDocument');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/caseDocument?f=caseId=${openCaseId}`,
-        response: '@openCaseEmptyDocument'
+    cy.intercept('GET', `${buildDir}/API/bpm/caseDocument?f=caseId=${openCaseId}`, {
+        fixture: 'json/openCaseEmptyDocument.json'
     }).as('openCaseEmptyDocumentRoute');
 });
 
 given('The open case {string} context server response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseContext.json').as('openCaseContext');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}/context`,
-        response: '@openCaseContext'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}/context`, {
+        fixture: 'json/openCaseContext.json'
     }).as('openCaseContextRoute');
 });
 
 given('The open case business data is defined', () => {
-    cy.server();
-    cy.fixture('json/businessData.json').as('businessData');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bdm/businessData/com.company.model.VacationRequest/1`,
-        response: '@businessData'
+    cy.intercept('GET', `${buildDir}/API/bdm/businessData/com.company.model.VacationRequest/1`, {
+        fixture: 'json/businessData.json'
     }).as('businessDataRoute');
 });
 
 given('The open case {string} started by system response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseStartedBySystem.json').as('openCaseStartedBySystem');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCaseStartedBySystem'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCaseStartedBySystem.json'
     }).as('openCaseStartedBySystemRoute');
 });
 
 given('The open case {string} started by system for user response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseStartedBySystemForUser.json').as('openCaseStartedBySystemForUser');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCaseStartedBySystemForUser'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCaseStartedBySystemForUser.json'
     }).as('openCaseStartedBySystemForUserRoute');
 });
 
 given('The open case {string} started by system for user without first name response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseStartedBySystemForUserWithoutFirstName.json').as('openCaseStartedBySystemForUserWithoutFirstName');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCaseStartedBySystemForUserWithoutFirstName'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCaseStartedBySystemForUserWithoutFirstName.json'
     }).as('openCaseStartedBySystemForUserWithoutFirstNameRoute');
 });
 
 given('The open case {string} started by system for user without last name response is defined', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseStartedBySystemForUserWithoutLastName.json').as('openCaseStartedBySystemForUserWithoutLastName');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCaseStartedBySystemForUserWithoutLastName'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCaseStartedBySystemForUserWithoutLastName.json'
     }).as('openCaseStartedBySystemForUserWithoutLastNameRoute');
 });
 
 given('The open case {string} started by user for another user', (openCaseId) => {
-    cy.server();
-    cy.fixture('json/openCaseStartedByUserForUser.json').as('openCaseStartedByUserForUser');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/case/${openCaseId}?d=started_by?d=startedBySubstitute&d=processDefinitionId`,
-        response: '@openCaseStartedByUserForUser'
+    cy.intercept('GET', `${buildDir}/API/bpm/case/${openCaseId}?d=started_by&d=startedBySubstitute&d=processDefinitionId`, {
+        fixture: 'json/openCaseStartedByUserForUser.json'
     }).as('openCaseStartedByUserForUserRoute');
 });
 
 given('A list of executed tasks server response is defined', () => {
-    cy.fixture('json/openTask.json').as('openTask');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@openTask'
+    cy.intercept('GET', `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/openTask.json'
     }).as('openTaskRoute');
-    cy.fixture('json/archivedTaskExecutedByUser.json').as('archivedTaskExecutedByUser');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@archivedTaskExecutedByUser'
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/archivedTaskExecutedByUser.json'
     }).as('archivedTaskExecutedByUserRoute');
 });
 
 given('A list of executed tasks by system for user server response is defined', () => {
-    cy.fixture('json/openTask.json').as('openTask');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@openTask'
+    cy.intercept('GET', `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/openTask.json'
     }).as('openTaskRoute');
-    cy.fixture('json/archivedTaskExecutedBySystemForUser.json').as('archivedTaskExecutedBySystemForUser');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@archivedTaskExecutedBySystemForUser'
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/archivedTaskExecutedBySystemForUser.json'
     }).as('archivedTaskExecutedBySystemForUserRoute');
 });
 
 given('A list of executed tasks by user for user server response is defined', () => {
-    cy.fixture('json/openTask.json').as('openTask');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@openTask'
+    cy.intercept('GET', `${buildDir}/API/bpm/task?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/openTask.json'
     }).as('openTaskRoute');
-    cy.fixture('json/archivedTaskExecutedByUserForUser.json').as('archivedTaskExecutedByUserForUser');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`,
-        response: '@archivedTaskExecutedByUserForUser'
+    cy.intercept('GET', `${buildDir}/API/bpm/archivedHumanTask?p=0&c=999&d=executedBy&d=executedBySubstitute*`, {
+        fixture: 'json/archivedTaskExecutedByUserForUser.json'
     }).as('archivedTaskExecutedByUserForUserRoute');
 });
 

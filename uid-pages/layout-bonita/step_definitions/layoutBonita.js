@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const buildDir = Cypress.env('BUILD_DIR');
 const url = `${buildDir}/resources/index.html`;
@@ -10,241 +10,177 @@ given('The resolution is set to mobile', () => {
 });
 
 given('The URL target to the application {string}', () => {
-    cy.server();
-    cy.fixture('json/app1.json').as('app1');
-    cy.fixture('json/pageList.json').as('pageList');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application/*`,
-        response: '@app1',
+    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+        fixture: 'json/app1.json'
     }).as('app1Route');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application-menu/**`,
-        response: '@pageList'
+    cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
+        fixture: 'json/pageList.json'
     });
 });
 
 given('The URL target to the application {string} with icon', () => {
-    cy.server();
-    cy.fixture('json/app1WithIcon.json').as('app1WithIcon');
-    cy.fixture('json/pageList.json').as('pageList');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application/*`,
-        response: '@app1WithIcon',
+    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+        fixture: 'json/app1WithIcon.json'
     }).as('app1Route');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application-menu/**`,
-        response: '@pageList'
+    cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
+        fixture: 'json/pageList.json'
     });
 });
 
 given('A user is connected without sso', () => {
-    cy.fixture('json/session.json').as('session');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/session/*`,
-        response: '@session'
+    cy.intercept('GET', `${buildDir}/API/system/session/*`, {
+        fixture: 'json/session.json'
     });
 });
 
 given('A technical user is connected without sso', () => {
-    cy.fixture('json/sessionTechnicalUser.json').as('session');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/session/*`,
-        response: '@session'
+    cy.intercept('GET', `${buildDir}/API/system/session/*`, {
+        fixture: 'json/sessionTechnicalUser.json'
     });
 });
 
 given('A user is connected with sso', () => {
-    cy.fixture('json/sessionWithSSO.json').as('sessionWithSSO');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/session/*`,
-        response: '@sessionWithSSO'
+    cy.intercept('GET', `${buildDir}/API/system/session/*`, {
+        fixture: 'json/sessionWithSSO.json'
     });
 });
 
 given('A user is connected as guest', () => {
-    cy.fixture('json/sessionAsGuest.json').as('sessionAsGuest');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/session/*`,
-        response: '@sessionAsGuest'
+    cy.intercept('GET', `${buildDir}/API/system/session/*`, {
+        fixture: 'json/sessionAsGuest.json'
     });
 });
 
 given('A user is connected as guest with sso', () => {
-    cy.fixture('json/sessionAsGuestWithSSO.json').as('sessionAsGuestWithSSO');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/session/*`,
-        response: '@sessionAsGuestWithSSO'
+    cy.intercept('GET', `${buildDir}/API/system/session/*`, {
+        fixture: 'json/sessionAsGuestWithSSO.json'
     });
 });
 
 given('The user has a first and last name defined', () => {
-    cy.fixture('json/userFull.json').as('userFull');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/identity/user/*`,
-        response: '@userFull'
+    cy.intercept('GET', `${buildDir}/API/identity/user/*`, {
+        fixture: 'json/userFull.json'
     }).as('userRoute');
 });
 
 given('The user has the default icon', () => {
-    cy.fixture('json/userDefaultImage.json').as('userDefaultImage');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/identity/user/*`,
-        response: '@userDefaultImage'
+    cy.intercept('GET', `${buildDir}/API/identity/user/*`, {
+        fixture: 'json/userDefaultImage.json'
     });
 });
 
 given('The user has a first, a last name, but no image defined', () => {
-    cy.fixture('json/userNoImage.json').as('userNoImage');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/identity/user/*`,
-        response: '@userNoImage'
+    cy.intercept('GET', `${buildDir}/API/identity/user/*`, {
+        fixture: 'json/userNoImage.json'
     });
 });
 
 given('The user doesn\'t have a {string} info available', (unavailableInfo) => {
     switch (unavailableInfo) {
         case 'firstname' :
-            cy.fixture('json/userNoFirstname.json').as('userNoFirstname');
-            cy.route({
-                method: 'GET',
-                url: `${buildDir}/API/identity/user/*`,
-                response: '@userNoFirstname'
+            cy.intercept('GET', `${buildDir}/API/identity/user/*`, {
+                fixture: 'json/userNoFirstname.json'
             }).as('userNoFirstnameRoute');
             break;
         case 'lastname' :
-            cy.fixture('json/userNoLastname.json').as('userNoLastname');
-            cy.route({
-                method: 'GET',
-                url: `${buildDir}/API/identity/user/*`,
-                response: '@userNoLastname'
+            cy.intercept('GET', `${buildDir}/API/identity/user/*`, {
+                fixture: 'json/userNoLastname.json'
             }).as('userNoLastnameRoute');
             break;
     }
 });
 
 given('I have languages available', () => {
-    cy.fixture('json/i18locale.json').as('i18locale');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/i18nlocale*`,
-        response: '@i18locale'
+    cy.intercept('GET', `${buildDir}/API/system/i18nlocale*`, {
+        fixture: 'json/i18locale.json'
     });
 });
 
 given('Multiple applications are available for the user', () => {
-    cy.fixture('json/appsList5.json').as('appsList');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appsList'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appsList5.json'
     });
 });
 
 given('35 applications are available for the user', () => {
-    cy.fixture('json/appsList20.json').as('appsList20');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appsList20'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appsList20.json'
     });
-    cy.fixture('json/appsList10.json').as('appsList10');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
-        response: '@appsList10'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=2&f=userId=4`, {
+        fixture: 'json/appsList10.json'
     });
-    cy.fixture('json/appsList5.json').as('appsList5');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=3&f=userId=4`,
-        response: '@appsList5'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=3&f=userId=4`, {
+        fixture: 'json/appsList5.json'
     });
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=4&f=userId=4`,
-        response: '@emptyResult'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=4&f=userId=4`, {
+        fixture: 'json/emptyResult.json'
     });
 });
 
 given('30 applications are available for the user', () => {
-    cy.fixture('json/appsList20.json').as('appsList20');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appsList20'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appsList20.json'
     });
-    cy.fixture('json/appsList10.json').as('appsList10');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
-        response: '@appsList10'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=2&f=userId=4`, {
+        fixture: 'json/appsList10.json'
     });
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=3&f=userId=4`,
-        response: '@emptyResult'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=3&f=userId=4`, {
+        fixture: 'json/emptyResult.json'
     });
-    cy.fixture('json/appsList20.json').as('appsList20');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=Bonita`,
-        response: '@appsList20'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=Bonita`, {
+        fixture: 'json/appsList20.json'
     });
-    cy.fixture('json/appsList10.json').as('appsList10');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4&s=Bonita`,
-        response: '@appsList10'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=2&f=userId=4&s=Bonita`, {
+        fixture: 'json/appsList10.json'
     });
 });
 
 given('20 applications are available for the user', () => {
-    cy.fixture('json/appsList20.json').as('appsList20');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appsList20'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appsList20.json'
     });
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=10&p=2&f=userId=4`,
-        response: '@emptyResult'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=10&p=2&f=userId=4`, {
+        fixture: 'json/emptyResult.json'
     });
 });
 
 given('The filter responses are defined', () => {
-    cy.fixture('json/filteredAppsListMyFirst.json').as('filteredAppsListMyFirst');
-    cy.fixture('json/filteredAppsList105.json').as('filteredAppsList105');
-    cy.fixture('json/filteredAppsListapp1.json').as('filteredAppsListapp1');
-    cy.route({
+    // Use query object matchers to properly handle URL encoding of spaces and special characters
+    cy.intercept({
         method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=My first`,
-        response: '@filteredAppsListMyFirst'
+        pathname: `/${buildDir}/API/living/application`,
+        query: {
+            'c': '20',
+            'p': '0',
+            'f': 'userId=4',
+            's': 'My first'
+        }
+    }, {
+        fixture: 'json/filteredAppsListMyFirst.json'
     }).as('filteredAppsListMyFirstRoute');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=app1`,
-        response: '@filteredAppsListapp1'
+        pathname: `/${buildDir}/API/living/application`,
+        query: {
+            'c': '20',
+            'p': '0',
+            'f': 'userId=4',
+            's': 'app1'
+        }
+    }, {
+        fixture: 'json/filteredAppsListapp1.json'
     }).as('filteredAppsListapp1Route');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=1.0.5`,
-        response: '@filteredAppsList105'
+        pathname: `/${buildDir}/API/living/application`,
+        query: {
+            'c': '20',
+            'p': '0',
+            'f': 'userId=4',
+            's': '1.0.5'
+        }
+    }, {
+        fixture: 'json/filteredAppsList105.json'
     }).as('filteredAppsList105Route');
     cy.intercept({
         method: 'GET',
@@ -261,29 +197,29 @@ given('The filter responses are defined', () => {
 });
 
 given('Incorrect name filter response is defined', () => {
-    cy.fixture('json/emptyResult.json').as('emptyResult');
-    cy.route({
+    cy.intercept({
         method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4&s=Incorrect name`,
-        response: '@emptyResult'
+        pathname: `/${buildDir}/API/living/application`,
+        query: {
+            'c': '20',
+            'p': '0',
+            'f': 'userId=4',
+            's': 'Incorrect name'
+        }
+    }, {
+        fixture: 'json/emptyResult.json'
     }).as('emptyResultRoute');
 });
 
 given('I have the application home page token defined', () => {
-    cy.fixture('json/homePage.json').as('homePage');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application-page/107`,
-        response: '@homePage'
+    cy.intercept('GET', `${buildDir}/API/living/application-page/107`, {
+        fixture: 'json/homePage.json'
     }).as('homePageRoute');
 });
 
 given('Multiple applications are available for the user, some without access rights', () => {
-    cy.fixture('json/appsListWithUnauthorizedApp.json').as('appsListWithUnauthorizedApp');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appsListWithUnauthorizedApp'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appsListWithUnauthorizedApp.json'
     }).as('appsListWithUnauthorizedAppRoute');
 });
 
@@ -292,29 +228,20 @@ given('The current language in BOS_Locale is {string}', (language) => {
 });
 
 given('Maintenance message is disabled', () => {
-    cy.fixture('json/maintenanceMsgDisabled.json').as('maintenanceMsgDisabled');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/maintenance`,
-        response: '@maintenanceMsgDisabled'
+    cy.intercept('GET', `${buildDir}/API/system/maintenance`, {
+        fixture: 'json/maintenanceMsgDisabled.json'
     });
 });
 
 given('Maintenance message is enabled', () => {
-    cy.fixture('json/maintenanceMsgEnabled.json').as('maintenanceMsgEnabled');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/maintenance`,
-        response: '@maintenanceMsgEnabled'
+    cy.intercept('GET', `${buildDir}/API/system/maintenance`, {
+        fixture: 'json/maintenanceMsgEnabled.json'
     });
 });
 
 given('Empty maintenance message is enabled', () => {
-    cy.fixture('json/emptyMaintenanceMsgEnabled.json').as('emptyMaintenanceMsgEnabled');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/maintenance`,
-        response: '@emptyMaintenanceMsgEnabled'
+    cy.intercept('GET', `${buildDir}/API/system/maintenance`, {
+        fixture: 'json/emptyMaintenanceMsgEnabled.json'
     });
 });
 
@@ -407,7 +334,7 @@ when("I wait for user API call", () => {
 
 function checkUserRouteUntilItSucceeds() {
     cy.wait('@userRoute').then((interception) => {
-        if (interception.status !== 200) {
+        if (interception.response.statusCode !== 200) {
             checkUserRouteUntilItSucceeds();
         }
     });

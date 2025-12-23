@@ -1,19 +1,16 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
-const defaultFilters = '&d=profileId&d=createdBy&d=updatedBy&d=layoutId&f=userId=4';
 const maintenanceDetailsUrl = urlPrefix + 'API/system/maintenance';
-const defaultRequestUrl = urlPrefix + applicationUrl + '?c=10&p=0' + defaultFilters;
 const defaultUserUrl = urlPrefix + 'API/identity/user/4?d=professional_data';
 const languageUrl = urlPrefix + 'API/system/i18nlocale*';
 
 given("The response {string} is defined", (responseType) => {
-    cy.server();
     switch (responseType) {
         case 'default filter':
-            createRouteWithResponseAndHeaders(defaultRequestUrl, 'applications5Route', 'applications5', {'content-range': '0-4/5'});
+            createDefaultFilterRouteWithQueryMatcher('applications5Route', 'applications5', {'content-range': '0-4/5'});
             break;
         case 'session':
             createRouteWithResponse(urlPrefix + session, 'sessionRoute', 'session');
@@ -31,9 +28,9 @@ given("The response {string} is defined", (responseType) => {
             createRouteWithResponse(urlPrefix + session, 'sessionGuestUserWithSSORoute', 'sessionGuestUserWithSSO');
             break;
         case 'search':
-            createRouteWithResponse(defaultRequestUrl + '&s=Bonita', 'applications1Route', 'applications1');
+            createSearchRouteWithQueryMatcher('Bonita', 'applications1Route', 'applications1');
             createRouteForSpecialCharacter(urlPrefix + applicationUrl, '&Special', 'json/applicationsSpecialCharacter.json', 'applicationsSpecialCharacterRoute');
-            createRouteWithResponse(defaultRequestUrl + '&s=Search term with no match', 'emptyResultRoute', 'emptyResult');
+            createSearchRouteWithQueryMatcher('Search term with no match', 'emptyResultRoute', 'emptyResult');
             break;
         case 'user':
             createRouteWithResponse(defaultUserUrl, 'userRoute', 'user');
@@ -63,13 +60,6 @@ given("The response {string} is defined", (responseType) => {
             throw new Error("Unsupported case");
     }
 
-    function createRoute(urlSuffix, routeName) {
-        cy.route({
-            method: 'GET',
-            url: urlPrefix + urlSuffix
-        }).as(routeName);
-    }
-
     function createRouteForSpecialCharacter(pathname, searchParameter, response, routeName) {
         cy.intercept({
             method: 'GET',
@@ -89,34 +79,13 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createRouteWithMethod(urlSuffix, routeName, method) {
-        createRouteWithMethodAndStatus(urlSuffix, routeName, method, 200);
-    }
-
-    function createRouteWithMethodAndStatus(urlSuffix, routeName, method, status) {
-        cy.route({
-            method: method,
-            url: urlPrefix + urlSuffix,
-            response: "",
-            status: status
-        }).as(routeName);
-    }
-
     function createRouteWithResponse(url, routeName, response) {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
     }
 
     function createRouteWithResponseAndHeaders(url, routeName, response, headers) {
-        let responseValue = undefined;
-        if (response) {
-            cy.fixture('json/' + response + '.json').as(response);
-            responseValue = '@' + response;
-        }
-
-        cy.route({
-            method: 'GET',
-            url: url,
-            response: responseValue,
+        cy.intercept('GET', url, {
+            fixture: 'json/' + response + '.json',
             headers: headers
         }).as(routeName);
     }
@@ -126,12 +95,47 @@ given("The response {string} is defined", (responseType) => {
     }
 
     function createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, status) {
-        cy.fixture('json/' + response + '.json').as(response);
-        cy.route({
-            method: method,
-            url: url,
-            status: status,
-            response: '@' + response
+        cy.intercept(method, url, {
+            fixture: 'json/' + response + '.json',
+            statusCode: status
+        }).as(routeName);
+    }
+
+    function createDefaultFilterRouteWithQueryMatcher(routeName, response, headers) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + applicationUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'profileId',
+                'd[1]': 'createdBy',
+                'd[2]': 'updatedBy',
+                'd[3]': 'layoutId',
+                'f': 'userId=4'
+            }
+        }, {
+            fixture: 'json/' + response + '.json',
+            headers: headers
+        }).as(routeName);
+    }
+
+    function createSearchRouteWithQueryMatcher(searchValue, routeName, response) {
+        cy.intercept({
+            method: 'GET',
+            pathname: '/' + urlPrefix + applicationUrl,
+            query: {
+                'c': '10',
+                'p': '0',
+                'd[0]': 'profileId',
+                'd[1]': 'createdBy',
+                'd[2]': 'updatedBy',
+                'd[3]': 'layoutId',
+                'f': 'userId=4',
+                's': searchValue
+            }
+        }, {
+            fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 });
