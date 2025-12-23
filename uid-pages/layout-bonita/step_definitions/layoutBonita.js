@@ -10,7 +10,7 @@ given('The resolution is set to mobile', () => {
 });
 
 given('The URL target to the application {string}', () => {
-    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+    cy.intercept('GET', `${buildDir}/API/living/application*`, {
         fixture: 'json/app1.json'
     }).as('app1Route');
     cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
@@ -19,19 +19,19 @@ given('The URL target to the application {string}', () => {
 });
 
 given('The URL target to bonita admin application', () => {
-    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+    cy.intercept('GET', `${buildDir}/API/living/application*`, {
         fixture: 'json/adminApp.json'
     }).as('app1Route');
 });
 
 given('The URL target to bonita super admin application', () => {
-    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+    cy.intercept('GET', `${buildDir}/API/living/application*`, {
         fixture: 'json/superAdminApp.json'
     }).as('app1Route');
 });
 
 given('The URL target to the application link {string}', () => {
-    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+    cy.intercept('GET', `${buildDir}/API/living/application*`, {
         fixture: 'json/appLink1.json'
     }).as('app1Route');
     cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
@@ -40,7 +40,7 @@ given('The URL target to the application link {string}', () => {
 });
 
 given('The URL target to the application {string} with icon', () => {
-    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+    cy.intercept('GET', `${buildDir}/API/living/application*`, {
         fixture: 'json/app1WithIcon.json'
     }).as('app1Route');
     cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
