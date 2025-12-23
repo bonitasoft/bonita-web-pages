@@ -1,4 +1,4 @@
-import { Given as given, Then as then, When as when } from "cypress-cucumber-preprocessor/steps";
+import { Given as given, Then as then, When as when } from "@badeball/cypress-cucumber-preprocessor";
 
 const buildDir = Cypress.env('BUILD_DIR');
 const url = `${buildDir}/resources/index.html`;
@@ -9,41 +9,34 @@ beforeEach(() => {
 });
 
 given('Maintenance mode is disabled', () => {
-    cy.server();
-    cy.route('GET', `${buildDir}/API/system/maintenance?t=0`, 'fixture:maintenanceModeDisabled').as('maintenance');
+    cy.intercept('GET', `${buildDir}/API/system/maintenance?t=0`, { fixture: 'maintenanceModeDisabled.json' }).as('maintenance');
 });
 
 given('Maintenance mode is enabled', () => {
-    cy.server();
-    cy.route('GET', `${buildDir}/API/system/maintenance?t=0`, 'fixture:maintenanceModeEnabled').as('maintenance');
+    cy.intercept('GET', `${buildDir}/API/system/maintenance?t=0`, { fixture: 'maintenanceModeEnabled.json' }).as('maintenance');
 });
 
 given('I\'m logged as technical user', () => {
-    cy.server();
-    cy.route('GET', `${buildDir}/API/system/session/unusedId`, 'fixture:technicalUser').as('session');
+    cy.intercept('GET', `${buildDir}/API/system/session/unusedId`, { fixture: 'technicalUser.json' }).as('session');
 });
 
 given('The platform maintenance page can refresh', () => {
-    cy.server();
-    cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeEnabled').as('enableMaintenance')
-    cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeEnabled').as('platformStateAfterRefresh');
+    cy.intercept('PUT', `${buildDir}/API/system/maintenance`, { fixture: 'maintenanceModeEnabled.json' }).as('enableMaintenance');
+    cy.intercept('GET', `${buildDir}/API/system/maintenance?t=1*`, { fixture: 'maintenanceModeEnabled.json' }).as('platformStateAfterRefresh');
 });
 
 given('The platform maintenance page can refresh after maintenance message enabled', () => {
-    cy.server();
-    cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeDisabled-msgEnabled').as('enableMaintenanceMsg')
-    cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeDisabled-msgEnabled').as('platformStateAfterRefresh');
+    cy.intercept('PUT', `${buildDir}/API/system/maintenance`, { fixture: 'maintenanceModeDisabled-msgEnabled.json' }).as('enableMaintenanceMsg');
+    cy.intercept('GET', `${buildDir}/API/system/maintenance?t=1*`, { fixture: 'maintenanceModeDisabled-msgEnabled.json' }).as('platformStateAfterRefresh');
 });
 
 given('The platform maintenance page can refresh after maintenance message updated', () => {
-    cy.server();
-    cy.route('PUT', `${buildDir}/API/system/maintenance`, 'fixture:maintenanceModeDisabled-msgUpdated').as('updateMaintenanceMsg')
-    cy.route('GET', `${buildDir}/API/system/maintenance?t=1*`, 'fixture:maintenanceModeDisabled-msgUpdated').as('platformStateAfterRefresh');
+    cy.intercept('PUT', `${buildDir}/API/system/maintenance`, { fixture: 'maintenanceModeDisabled-msgUpdated.json' }).as('updateMaintenanceMsg');
+    cy.intercept('GET', `${buildDir}/API/system/maintenance?t=1*`, { fixture: 'maintenanceModeDisabled-msgUpdated.json' }).as('platformStateAfterRefresh');
 });
 
 given('The license information is defined', () => {
-    cy.server();
-    cy.route('GET', `${buildDir}/API/system/license/1`, 'fixture:license').as('license');
+    cy.intercept('GET', `${buildDir}/API/system/license/1`, { fixture: 'license.json' }).as('license');
 });
 
 when('I press the modal opening button', () => {
