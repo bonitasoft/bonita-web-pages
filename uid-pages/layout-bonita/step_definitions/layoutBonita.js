@@ -19,38 +19,23 @@ given('The URL target to the application {string}', () => {
 });
 
 given('The URL target to bonita admin application', () => {
-    cy.server();
-    cy.fixture('json/adminApp.json').as('adminApp');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application*`,
-        response: '@adminApp',
+    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+        fixture: 'json/adminApp.json'
     }).as('app1Route');
 });
 
 given('The URL target to bonita super admin application', () => {
-    cy.server();
-    cy.fixture('json/superAdminApp.json').as('superAdminApp');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application*`,
-        response: '@superAdminApp',
+    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+        fixture: 'json/superAdminApp.json'
     }).as('app1Route');
 });
 
 given('The URL target to the application link {string}', () => {
-    cy.server();
-    cy.fixture('json/appLink1.json').as('appLink1');
-    cy.fixture('json/pageList.json').as('pageList');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application*`,
-        response: '@appLink1',
+    cy.intercept('GET', `${buildDir}/API/living/application/*`, {
+        fixture: 'json/appLink1.json'
     }).as('app1Route');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application-menu/**`,
-        response: '@pageList'
+    cy.intercept('GET', `${buildDir}/API/living/application-menu/**`, {
+        fixture: 'json/pageList.json'
     });
 });
 
@@ -139,11 +124,8 @@ given('Multiple applications are available for the user', () => {
 });
 
 given('Multiple application links are available for the user', () => {
-    cy.fixture('json/appLinksList5.json').as('appLinksList');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/living/application?c=20&p=0&f=userId=4`,
-        response: '@appLinksList'
+    cy.intercept('GET', `${buildDir}/API/living/application?c=20&p=0&f=userId=4`, {
+        fixture: 'json/appLinksList5.json'
     });
 });
 
@@ -291,21 +273,15 @@ given('Empty maintenance message is enabled', () => {
 });
 
 given('The case counter limit response is defined for subscription edition', () => {
-    cy.fixture('json/caseLimitSubscription.json').as('caseLimitSubscription');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/information`,
-        response: '@caseLimitSubscription'
-    })
+    cy.intercept('GET', `${buildDir}/API/system/information`, {
+        fixture: 'json/caseLimitSubscription.json'
+    });
 });
 
 given('The case counter limit response is defined for community edition', () => {
-    cy.fixture('json/caseLimitCommunity.json').as('caseLimitCommunity');
-    cy.route({
-        method: 'GET',
-        url: `${buildDir}/API/system/information`,
-        response: '@caseLimitCommunity'
-    })
+    cy.intercept('GET', `${buildDir}/API/system/information`, {
+        fixture: 'json/caseLimitCommunity.json'
+    });
 });
 
 when('I visit the index page', () => {
