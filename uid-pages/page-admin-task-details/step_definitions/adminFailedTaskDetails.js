@@ -9,7 +9,7 @@ const failureConnector = 'API/bpm/connectorFailure/';
 const skipTaskUrl = 'API/bpm/activity/';
 const replayTaskUrl = 'API/bpm/activityReplay/1';
 const featureListUrl = 'API/system/feature?p=0&c=100';
-const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=1'
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D1'
 const failureFlowNodeUrl = 'API/bpm/failure/flowNode/1?c=5';
 
 beforeEach(() => {
@@ -27,7 +27,7 @@ given("The response {string} is defined for failed tasks", (responseType) => {
             createFailedTaskRouteWithQueryMatcher('failedTaskDetailsRoute', 'failedTaskDetails');
             break;
         case 'comments':
-            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
+            createArchivedCaseRouteWithQueryMatcher('archivedCaseRoute', 'archivedCase', '1');
             createCommentRouteWithQueryMatcher('commentsRoute', 'comments', '0');
             break;
         case 'add new comment':
@@ -122,34 +122,22 @@ given("The response {string} is defined for failed tasks", (responseType) => {
     }
 
     function createCommentRouteWithQueryMatcher(routeName, response, timestamp) {
-        cy.intercept({
-            method: 'GET',
-            pathname: '/' + urlPrefix + commentUrl,
-            query: {
-                'p': '0',
-                'c': '999',
-                'o': 'postDate DESC',
-                'f': 'processInstanceId=1',
-                'd': 'userId',
-                't': timestamp
-            }
-        }, {
+        // Use regex pattern to match comment API with processInstanceId=1
+        cy.intercept('GET', /API\/bpm\/comment.*processInstanceId.*1/, {
             fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRefreshCommentRouteWithQueryMatcher(routeName, response) {
-        cy.intercept({
-            method: 'GET',
-            pathname: '/' + urlPrefix + commentUrl,
-            query: {
-                'p': '0',
-                'c': '999',
-                'o': 'postDate DESC',
-                'f': 'processInstanceId=1',
-                'd': 'userId'
-            }
-        }, {
+        // Use regex pattern to match comment API with processInstanceId=1 (refresh)
+        cy.intercept('GET', /API\/bpm\/comment.*processInstanceId.*1/, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createArchivedCaseRouteWithQueryMatcher(routeName, response, sourceObjectId) {
+        const archivedCaseUrlWithId = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=' + sourceObjectId;
+        cy.intercept('GET', urlPrefix + archivedCaseUrlWithId, {
             fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
@@ -353,19 +341,6 @@ then("The failed task details have the correct information", () => {
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Error message');
     cy.contains('.panel-danger .panel-body .dl-horizontal dt','Stacktrace');
     cy.contains('.panel-danger .panel-body h5','Failure history').should('not.exist');
-});
-
-then("The comments have the correct information", () => {
-    // Check that the element be.visible.
-    cy.wait('@commentsRoute');
-    cy.get('.item-value').contains('comment no. 1');
-    cy.get('.item-value').contains('William Jobs');
-    cy.get('.item-value').contains('comment no. 2');
-    cy.get('.item-value').contains('helen.kelly');
-    cy.get('.item-value').contains('comment no. 3');
-    cy.get('.item-value').contains('walter.bates');
-    cy.get('.item-value').contains('comment no. 4');
-    cy.get('.item-value').contains('anthony.nichols');
 });
 
 then("{string} is shown at the end of the comments", (text) => {

@@ -181,18 +181,6 @@ given("The page response {string} is defined", (filterType) => {
         createRouteWithResponseAndMethod(url, routeName, response, "GET");
     }
 
-    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        cy.intercept('GET', defaultRequestUrl + queryParameter, {
-            fixture: response ? 'json/' + response + '.json' : undefined,
-            headers: headers
-        }).as(routeName);
-    }
-
-    function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + processListUrl + '?c=' + count + '&p=' + page + "&time=0" + defaultFilters + queryParameter;
-        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET");
-    }
-
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
         createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
     }

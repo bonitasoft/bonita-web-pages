@@ -104,7 +104,7 @@ given("The filter response {string} is defined for pending tasks", (filterType) 
             query: {
                 'c': '10',
                 'p': '0',
-                'f': 'state=ready',
+                'f': 'state=pending',
                 ...query
             }
         }).as(routeName);
