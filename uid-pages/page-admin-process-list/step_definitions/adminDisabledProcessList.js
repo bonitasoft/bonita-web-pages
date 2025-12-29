@@ -108,13 +108,6 @@ given("The page response {string} is defined for disabled processes", (filterTyp
         }).as(routeName);
     }
 
-    function createRouteWithResponseAndHeaders(queryParameter, routeName, response, headers) {
-        cy.intercept('GET', defaultRequestUrl + queryParameter, {
-            fixture: response ? 'json/' + response + '.json' : undefined,
-            headers: headers
-        }).as(routeName);
-    }
-
     function createDefaultRoute(queryParameter, routeName) {
         createRoute(defaultRequestUrl + queryParameter, routeName, "GET");
     }
@@ -173,11 +166,6 @@ given("The page response {string} is defined for disabled processes", (filterTyp
 
     function createRoute(url, routeName, method) {
         cy.intercept(method, url).as(routeName);
-    }
-
-    function createRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + processListUrl + '?c=' + count + '&p=' + page + "&time=0" + defaultFilters + queryParameter;
-        createRouteWithResponseAndMethod(loadMoreUrl, routeName, response, "GET");
     }
 
     function createRouteWithResponseAndMethod(url, routeName, response, method) {

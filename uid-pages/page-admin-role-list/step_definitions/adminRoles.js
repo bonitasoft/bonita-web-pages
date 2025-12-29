@@ -221,20 +221,6 @@ given("The response {string} is defined", (responseType) => {
         }).as(routeName);
     }
 
-    function createRolesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + rolesUrl + '?c=' + count + '&p=' + page + defaultFilters;
-        cy.intercept('GET', loadMoreUrl + queryParameter, {
-            fixture: 'json/' + response + '.json'
-        }).as(routeName);
-    }
-
-    function createUserRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + userUrl + '?c=' + count + '&p=' + page;
-        cy.intercept('GET', loadMoreUrl + queryParameter, {
-            fixture: 'json/' + response + '.json'
-        }).as(routeName);
-    }
-
     function createRouteWithQueryMatcher(query, routeName) {
         cy.intercept({
             method: 'GET',
