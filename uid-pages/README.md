@@ -57,7 +57,7 @@ Two gradle tasks are available to write and run your tests.
 _Warning: This task can only be run from a page folder._
 
 * task ``runTests`` runs each test file in the **test/spec/** folder. This task can be run in the **uid-pages/** folder to run tests for all subprojects.
-  
+
 ### Write a test
 Consult official documentation to find kow to write a test.
 
