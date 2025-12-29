@@ -86,13 +86,6 @@ given("The response {string} is defined", (responseType) => {
         createRouteWithResponseAndMethod(url, routeName, response, 'GET');
     }
 
-    function createRouteWithResponseAndHeaders(url, routeName, response, headers) {
-        cy.intercept('GET', url, {
-            fixture: 'json/' + response + '.json',
-            headers: headers
-        }).as(routeName);
-    }
-
     function createRouteWithResponseAndMethod(url, routeName, response, method) {
         createRouteWithResponseAndMethodAndStatus(url, routeName, response, method, 200);
     }

@@ -3,8 +3,8 @@ import { Given as given, Then as then, When as when } from "@badeball/cypress-cu
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=81358';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4288'
-const archivedSkippedFlowNodeUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId=81358';
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D4288'
+const archivedSkippedFlowNodeUrl = 'API/bpm/archivedFlowNode?c=1&p=0&f=sourceObjectId%3D81358';
 const archivedFailureFlowNodeUrl = 'API/bpm/archivedFailure/flowNode/81358?c=5';
 const featureListUrl = 'API/system/feature?p=0&c=100';
 
@@ -19,7 +19,8 @@ given("The response {string} is defined for done tasks", (responseType) => {
             createDoneTaskRouteWithQueryMatcher('doneTaskDetailsRoute', 'doneTaskDetails');
             break;
         case 'skipped failed flow node':
-            createRouteWithResponse(archivedSkippedFlowNodeUrl + defaultFilters, 'archivedSkippedFlowNodeRoute', 'archivedSkippedFlowNode');
+            // Set up task details route first so the page can load the task
+            createDoneTaskRouteWithQueryMatcher('doneTaskDetailsRoute', 'archivedSkippedFlowNode');
             createRouteWithResponse(featureListUrl, 'featureListRoute', 'featureList');
             createRouteWithResponse(archivedFailureFlowNodeUrl, 'archivedFailureFlowNodeRoute', 'archivedFailureFlowNode');
             break;
@@ -27,7 +28,7 @@ given("The response {string} is defined for done tasks", (responseType) => {
             createDoneTaskRouteWithQueryMatcher('doneTaskDetailsNoSubstituteRoute', 'doneTaskDetailsNoSubstitute');
             break;
         case 'archived comments':
-            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'archivedCase');
+            createArchivedCaseRouteWithQueryMatcher('archivedCaseRoute', 'archivedCase', '4288');
             createCommentRouteWithQueryMatcher('archivedCommentsRoute', 'archivedComments');
             break;
         case 'empty connectors':
@@ -51,18 +52,15 @@ given("The response {string} is defined for done tasks", (responseType) => {
     }
 
     function createCommentRouteWithQueryMatcher(routeName, response) {
-        cy.intercept({
-            method: 'GET',
-            pathname: '/' + urlPrefix + archivedCommentUrl,
-            query: {
-                'p': '0',
-                'c': '999',
-                'o': 'postDate DESC',
-                'f': 'processInstanceId=4288',
-                'd': 'userId',
-                't': '0'
-            }
-        }, {
+        // Use regex pattern to match comment API with processInstanceId=4288
+        cy.intercept('GET', /API\/bpm\/archivedComment.*processInstanceId.*4288/, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createArchivedCaseRouteWithQueryMatcher(routeName, response, sourceObjectId) {
+        const archivedCaseUrlWithId = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=' + sourceObjectId;
+        cy.intercept('GET', urlPrefix + archivedCaseUrlWithId, {
             fixture: 'json/' + response + '.json'
         }).as(routeName);
     }

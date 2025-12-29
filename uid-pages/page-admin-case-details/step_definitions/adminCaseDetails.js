@@ -2,20 +2,19 @@ import { Given as given, Then as then, When as when } from "@badeball/cypress-cu
 
 const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const url = urlPrefix + 'resources/index.html?id=1';
-const urlWithoutId = urlPrefix + 'resources/index.html?id=1';
+const urlWithoutId = urlPrefix + 'resources/index.html';
 const urlWithEmptyId = urlPrefix + 'resources/index.html?id=';
 const caseUrl = 'API/bpm/case/1?';
 const defaultFilters = 'd=processDefinitionId&d=started_by&d=startedBySubstitute';
 const commentUrl = 'API/bpm/comment';
 const archivedCommentUrl = 'API/bpm/archivedComment';
-const getCommentQueryParameters = '?p=0&c=999&o=postDate DESC&f=processInstanceId=1&d=userId&t=0';
 const archivedCaseListUrl = 'API/bpm/archivedCase/?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=caller=any&f=sourceObjectId=1';
 const defaultProcessVariablesUrl = 'API/bpm/caseVariable?';
 const processVariableUrl =  defaultProcessVariablesUrl + 'c=10&p=0&f=case_id=1';
 const archivedProcessVariableUrl = 'API/bpm/archivedCaseVariable?c=10&p=0&f=case_id=1';
 const processVariableUpdateUrl = 'API/bpm/caseVariable/1/';
-const caseMonitoringUrl = 'API/bpm/case?c=5&p=0&d=processDefinitionId&o=startDate DESC&f=caller=any&f=rootCaseId=1';
-const archivedCaseMonitoringUrl = 'API/bpm/archivedCase?c=5&p=0&d=processDefinitionId&o=archiveDate DESC&f=caller=any&f=rootCaseId=1';
+const caseMonitoringUrl = 'API/bpm/case?c=5&p=0&d=processDefinitionId&o=startDate%20DESC&f=caller=any&f=rootCaseId=1';
+const archivedCaseMonitoringUrl = 'API/bpm/archivedCase?c=5&p=0&d=processDefinitionId&o=archiveDate%20DESC&f=caller=any&f=rootCaseId=1';
 const currentCaseArchivedFlowNodeUrl = 'API/bpm/archivedTask?p=0&c=0&f=parentCaseId=1';
 const currentCasePendingFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=pending&f=parentCaseId=1';
 const currentCaseFailedFlowNodeUrl = 'API/bpm/flowNode?p=0&c=0&f=state=failed&f=parentCaseId=1';
@@ -77,7 +76,6 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'add new comment':
             createPostRoute(commentUrl, 'addNewCommentRoute');
-            // Use wildcard for timestamp parameter that changes
             cy.intercept({
                 method: 'GET',
                 pathname: '/' + urlPrefix + commentUrl,
@@ -94,10 +92,6 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'archived case':
             createRouteWithResponse(archivedCaseListUrl, 'archivedCaseRoute', 'archivedCase');
-            break;
-        case 'available tasks':
-            createRouteWithResponse('API/system/session/unusedId', 'sessionRoute', 'session');
-            createRouteWithResponse('API/bpm/humanTask?p=0&c=2147483647&f=state=ready&f=user_id=4&f=caseId=1', 'availableTasksRoute', 'availableTasks');
             break;
         case 'process variables':
             createRouteWithResponse(processVariableUrl + '&t=0', 'processVariablesRoute', 'processVariables');
@@ -160,17 +154,6 @@ given("The response {string} is defined", (responseType) => {
             break;
         default:
             throw new Error("Unsupported case");
-    }
-
-    function createProcessVariablesRouteWithResponseAndPagination(queryParameter, routeName, response, page, count) {
-        const loadMoreUrl = urlPrefix + defaultProcessVariablesUrl + 'p=' + page + '&c=' + count + '&f=case_id=1';
-        cy.intercept('GET', loadMoreUrl + queryParameter, {
-            fixture: 'json/' + response + '.json'
-        }).as(routeName);
-    }
-
-    function createRoute(urlSuffix, routeName) {
-        cy.intercept('GET', urlPrefix + urlSuffix).as(routeName);
     }
 
     function createPostRoute(urlSuffix, routeName) {
@@ -270,7 +253,7 @@ when("I click on the show stacktrace button", () => {
 });
 
 then("The case details have the correct information", () => {
-    // Check that the element exist.
+    // Check that the element exists.
     cy.get('.case-title img').should('have.attr', 'alt', 'Case type');
     cy.contains('.case-title', 'Case of : Pool display name').should('be.visible');
     cy.contains('.w-auto span.label', 'started');
@@ -349,12 +332,16 @@ then("The monitoring section have the correct information for a root case", (num
     cy.contains('.px-3 a.btn', '1').should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-task-list?caseId=1&isRootCaseId=false&tab=failedFlowNodes');
     cy.contains('.px-3 h4', 'Child cases monitoring');
 
-    cy.get('ul.nav-tabs').eq(0).within(() => {
+    // Child cases monitoring tabs - find the nav-tabs that contains "Open child cases"
+    cy.contains('tab-heading', 'Open child cases').closest('ul.nav-tabs').within(() => {
         cy.get('li tab-heading').should('have.length', 2);
         cy.get('li tab-heading').eq(0).contains('Open child cases');
         cy.get('li tab-heading').eq(1).contains('Archived child cases');
     });
-    cy.get('.tab-content').within(() => {
+    // Find the tab-content that contains the child case monitoring fragment
+    // Wait for fragment to load with increased timeout
+    cy.get('pb-fragment-fragment-child-case-monitoring-v1').should('exist');
+    cy.get('pb-fragment-fragment-child-case-monitoring-v1').closest('.tab-content').within(() => {
         cy.contains('.well-sm p small', 'Id');
         cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '2').trigger('mouseover').should('have.attr', 'title', 'View case details');
         cy.get('pb-fragment-fragment-child-case-monitoring-v1 a.btn').eq(0).should('have.attr', 'href', '/bonita/apps/APP_TOKEN_PLACEHOLDER/admin-case-details?id=2');
@@ -373,7 +360,6 @@ then("The monitoring section have the correct information for a root case", (num
 
         cy.contains('.well-sm p small', 'Failed flow nodes');
         cy.contains('pb-fragment-fragment-child-case-monitoring-v1 a.btn small', '1').trigger('mouseover').should('have.attr', 'title', 'View task list');
-
 
         cy.contains('.well-sm p small', 'Start date');
         cy.contains('pb-fragment-fragment-child-case-monitoring-v1 p small', '1/3/25 4:04 PM');

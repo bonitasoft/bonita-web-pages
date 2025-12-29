@@ -10,7 +10,7 @@ const identity = "API/identity/user/4";
 const taskWithoutFormExecution = "API/bpm/userTask/2/execution?user=3";
 const featureListUrl = 'API/system/feature?p=0&c=100';
 const commentUrl = 'API/bpm/comment';
-const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=4277'
+const archivedCaseUrl = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId%3D4277'
 const failureFlowNodeUrl = 'API/bpm/failure/flowNode/2?c=5';
 
 beforeEach(() => {
@@ -75,7 +75,7 @@ given("The response {string} is defined for pending tasks", (responseType) => {
             createArchivedTaskRouteWithQueryMatcher('emptyDoneTaskRoute', 'emptyResult');
             break;
         case 'comments':
-            createRouteWithResponse(archivedCaseUrl, 'archivedCaseRoute', 'emptyResult');
+            createArchivedCaseRouteWithQueryMatcher('archivedCaseRoute', 'emptyResult', '4277');
             createCommentRouteWithQueryMatcher('commentsRoute', 'comments', '0');
             break;
         case 'add new comment':
@@ -187,34 +187,22 @@ given("The response {string} is defined for pending tasks", (responseType) => {
     }
 
     function createCommentRouteWithQueryMatcher(routeName, response, timestamp) {
-        cy.intercept({
-            method: 'GET',
-            pathname: '/' + urlPrefix + commentUrl,
-            query: {
-                'p': '0',
-                'c': '999',
-                'o': 'postDate DESC',
-                'f': 'processInstanceId=4277',
-                'd': 'userId',
-                't': timestamp
-            }
-        }, {
+        // Use regex pattern to match comment API with processInstanceId=4277
+        cy.intercept('GET', /API\/bpm\/comment.*processInstanceId.*4277/, {
             fixture: 'json/' + response + '.json'
         }).as(routeName);
     }
 
     function createRefreshCommentRouteWithQueryMatcher(routeName, response) {
-        cy.intercept({
-            method: 'GET',
-            pathname: '/' + urlPrefix + commentUrl,
-            query: {
-                'p': '0',
-                'c': '999',
-                'o': 'postDate DESC',
-                'f': 'processInstanceId=4277',
-                'd': 'userId'
-            }
-        }, {
+        // Use regex pattern to match comment API with processInstanceId=4277 (refresh)
+        cy.intercept('GET', /API\/bpm\/comment.*processInstanceId.*4277/, {
+            fixture: 'json/' + response + '.json'
+        }).as(routeName);
+    }
+
+    function createArchivedCaseRouteWithQueryMatcher(routeName, response, sourceObjectId) {
+        const archivedCaseUrlWithId = 'API/bpm/archivedCase?p=0&c=1&d=started_by&d=startedBySubstitute&d=processDefinitionId&f=sourceObjectId=' + sourceObjectId;
+        cy.intercept('GET', urlPrefix + archivedCaseUrlWithId, {
             fixture: 'json/' + response + '.json'
         }).as(routeName);
     }

@@ -30,7 +30,7 @@ given("The filter response {string} is defined for open cases", (filterType) => 
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case "default filter with all cases":
-            createRouteWithResponse(defaultRequestUrl, '&f=caller=any', 'openCasesWithSubProcessRoute', 'openCasesWithSubProcess');
+            createRouteWithResponse(defaultRequestUrl, '&f=caller%3Dany', 'openCasesWithSubProcessRoute', 'openCasesWithSubProcess');
             break;
         case "default filter without features":
             createRouteWithResponse(defaultRequestUrl, '', 'openCases5Route', 'openCases5');

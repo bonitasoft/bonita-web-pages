@@ -27,7 +27,7 @@ given("The filter response {string} is defined for archived cases", (filterType)
             createRouteWithResponse(featuresListUrl, '', 'featuresListRoute', 'featuresList');
             break;
         case "default filter with all cases":
-            createRouteWithResponse(defaultRequestUrl, '&t=0&f=caller=any', 'archivedCasesWithSubProcessRoute', 'archivedCasesWithSubProcess');
+            createRouteWithResponse(defaultRequestUrl, '&t=0&f=caller%3Dany', 'archivedCasesWithSubProcessRoute', 'archivedCasesWithSubProcess');
             break;
         case "default filter without features":
             createRouteWithResponse(defaultRequestUrl, '&t=0', 'archivedCases5Route', 'archivedCases5');
