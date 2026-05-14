@@ -97,6 +97,6 @@ Closes [BS-14965](https://bonitasoft.atlassian.net/browse/BS-14965)
 
 # Additional Resources
 
-* [Community website](http://community.bonitasoft.com/)
+* [Community website](http://community.ofelia.com/)
 * [Community Bug tracker (Jira)](https://bonita.atlassian.net/projects/BBPMC/)
 * [Internal Bug tracker (Jira)](https://bonitasoft.atlassian.net/projects/BS/)
