@@ -4,17 +4,6 @@ bonitaPage {
     frontendBuildDir = 'build'
 }
 
-task([dependsOn: [buildPage, npm_install], type: com.github.gradle.node.npm.task.NpmTask], "runTestChrome") {
-    group 'Bonita'
-    description 'Run Cypress E2E tests in Chrome'
-    args = ['run', 'test:e2e', '--', '--browser', 'chrome', '--headless']
-    environment = ['CYPRESS_BUILD_DIR': 'build']
-    inputs.dir('src')
-    inputs.dir('step_definitions')
-    inputs.dir('test')
-    outputs.dir("${buildDir}/tests/results")
-}
-
 publishing {
     publications {
         distributionZip(MavenPublication) {

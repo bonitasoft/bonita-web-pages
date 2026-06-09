@@ -1,0 +1,48 @@
+/* Color tokens — used across component <style> blocks. Bonita's runtime
+   theme.css (injected via Vite plugin) doesn't expose CSS variables, so
+   anything we want to track centrally lives here.
+
+   Primary surfaces (pager, category dropdown toggle, instantiation cancel bar,
+   search submit) use Bootstrap classes (.btn-primary / .btn-default) and are
+   rebranded by the Bonita theme automatically — no hardcoded primary needed.
+   --color-primary remains only for the keyboard focus ring (List.svelte); focus
+   rings are an allowed neutral exception (theme-first rule) and it mirrors the
+   theme's $brand-primary ($bonita-burgundy) so the default look stays on-brand. */
+:root {
+    --color-primary: #5c1932;
+    --color-text-muted: #999;
+    --color-panel-heading-bg: #f8f8f8;
+    --color-page-header-border: #ddd;
+    --color-menuitem-hover: #f5f5f5;
+    --color-menuitem-text: #333;
+    --color-pager-button-hover: #eee;
+}
+
+/* Z-index scale (documented for cross-component reference):
+   - 1000  →  view overlay (instantiation iframe)
+   - 1050  →  Bootstrap modal default
+   - 1060  →  toast notifications (must surface above modal)
+*/
+
+/* Page header — Bootstrap 3 defaults are too large (40px margin, 36px h1) */
+.page-header {
+    border-bottom-color: var(--color-page-header-border);
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.page-header h1 .glyphicon {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+/* Panel heading — slightly lighter than Bootstrap default (#f5f5f5) */
+.panel-default > .panel-heading {
+    background-color: var(--color-panel-heading-bg);
+    font-weight: 500;
+}
