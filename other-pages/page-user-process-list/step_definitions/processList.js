@@ -209,23 +209,33 @@ when('I press the Escape key', () => {
     cy.get('body').type('{esc}');
 });
 
-// The Instantiation listener gates by `event.origin === window.location.origin`.
-// Cypress's `cy.window()` returns the same window the page lives in, so a
-// `*` target works here — the message is dispatched from the same origin.
-// In production the form iframe does the dispatch from the same Bonita origin.
-when('the form posts a successful instantiation message', () => {
-    cy.window().then((win) => {
-        win.postMessage(
-            { action: 'Start process', message: 'success', dataFromSuccess: { caseId: '42' } },
-            '*',
+// The Instantiation listener gates the message twice: the origin must match
+// (`event.origin === window.location.origin`) AND the source must be the form
+// iframe's own contentWindow (`event.source === iframeEl.contentWindow`). The
+// latter is defence-in-depth against any other same-origin frame forging a
+// "Start process" success — see Instantiation.svelte.
+//
+// To satisfy the source gate we must dispatch the message *from inside the
+// iframe*, exactly as the real Bonita form does (`window.parent.postMessage`).
+// The iframe src resolves to a same-origin path on the Cypress static server,
+// so its contentWindow is scriptable: `eval` runs with the iframe window as the
+// incumbent global, which makes `event.source` the iframe's contentWindow.
+// Posting from `cy.window()` (the page window) sets the wrong source and the
+// handler rightly rejects it.
+function postFromForm(payload) {
+    cy.get('.Instantiation iframe').then(($iframe) => {
+        $iframe[0].contentWindow.eval(
+            `window.parent.postMessage(${JSON.stringify(payload)}, '*')`,
         );
     });
+}
+
+when('the form posts a successful instantiation message', () => {
+    postFromForm({ action: 'Start process', message: 'success', dataFromSuccess: { caseId: '42' } });
 });
 
 when('the form posts an error instantiation message', () => {
-    cy.window().then((win) => {
-        win.postMessage({ action: 'Start process', message: 'error' }, '*');
-    });
+    postFromForm({ action: 'Start process', message: 'error' });
 });
 
 // --- Then ---
