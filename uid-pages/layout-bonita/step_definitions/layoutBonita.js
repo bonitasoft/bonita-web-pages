@@ -272,6 +272,12 @@ given('Empty maintenance message is enabled', () => {
     });
 });
 
+given('A custom app base path is configured', () => {
+    cy.intercept('GET', '**/bonita-app-base-path.json', {
+        fixture: 'json/appBasePathConfig.json'
+    });
+});
+
 given('The case counter limit response is defined for subscription edition', () => {
     cy.intercept('GET', `${buildDir}/API/system/information`, {
         fixture: 'json/caseLimitSubscription.json'
@@ -587,13 +593,21 @@ then('I see my apps', () => {
 });
 
 then('I see my app link', () => {
+    assertAppLink('app');
+});
+
+then('I see my app link with base path {string}', (basePath) => {
+    assertAppLink(basePath);
+});
+
+function assertAppLink(basePath) {
     cy.get('.application-container').eq(0).within(() => {
         cy.get('.icon-container img').should('be.visible').should('have.attr', 'src', '../API/applicationIcon/15');
-        cy.contains('.application-title a', 'My first app link').should('have.attr', 'href', '/app/appLink1');
+        cy.contains('.application-title a', 'My first app link').should('have.attr', 'href', '/' + basePath + '/appLink1');
         cy.contains('1.0.5').should('be.visible');
     });
     cy.contains('h4', 'No applications to display').should('not.exist');
-});
+}
 
 then ('I see only the filtered applications by {string} in desktop', (type)=> {
     var appNameSelectorForDestop = '.application-title a';

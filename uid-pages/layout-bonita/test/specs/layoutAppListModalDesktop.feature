@@ -23,6 +23,17 @@ Feature: The Bonita layout app list modal in desktop resolution
     Then The app selection modal is visible
     And I see my app link
 
+  Scenario: The app selection modal uses the configured app base path when available
+    Given The URL target to the application link "appLinkName1"
+    And A user is connected with sso
+    And The user has a first and last name defined
+    And Multiple application links are available for the user
+    And A custom app base path is configured
+    When I visit the index page
+    And I click the app selection icon
+    Then The app selection modal is visible
+    And I see my app link with base path "custom-base-path"
+
   Scenario: The app selection modal filter works correctly
     Given The URL target to the application "appName1"
     And A user is connected with sso
