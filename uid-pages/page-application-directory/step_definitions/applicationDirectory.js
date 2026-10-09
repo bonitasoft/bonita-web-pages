@@ -4,6 +4,7 @@ const urlPrefix = Cypress.env('BUILD_DIR') + '/';
 const applicationUrl = 'API/living/application';
 const session = 'API/system/session/unusedId';
 const maintenanceDetailsUrl = urlPrefix + 'API/system/maintenance';
+const appBasePathUrl = '**/bonita-app-base-path.json';
 const defaultUserUrl = urlPrefix + 'API/identity/user/4?d=professional_data';
 const languageUrl = urlPrefix + 'API/system/i18nlocale*';
 
@@ -58,6 +59,9 @@ given("The response {string} is defined", (responseType) => {
             break;
         case 'localization':
             createRouteWithResponse(languageUrl, 'i18localeRoute', 'i18locale');
+            break;
+        case 'app base path':
+            createRouteWithResponse(appBasePathUrl, 'appBasePathRoute', 'appBasePathConfig');
             break;
         default:
             throw new Error("Unsupported case");
@@ -394,6 +398,14 @@ then('The maintenance alert is not visible', () => {
 });
 
 then("The application directory page points on the correct links", () => {
+    assertApplicationLinks('app');
+});
+
+then("The application directory page points on the correct links with base path {string}", (basePath) => {
+    assertApplicationLinks(basePath);
+});
+
+function assertApplicationLinks(basePath) {
     cy.contains('h3', 'Application list');
     cy.get('.application-container').eq(0).within(() => {
         // Legacy application (advanced=false)
@@ -412,17 +424,19 @@ then("The application directory page points on the correct links", () => {
         cy.contains('.application-title span', 'Application link');
         // Link from the image
         cy.get('.btn-link')
-          .should('have.attr', 'href').then((href) => {
-            expect(href.includes('/app/appLink')).to.be.true;
-            expect(href.includes('apps')).to.be.false;
+          .should((el) => {
+            const href = el.attr('href');
+            expect(href).to.include('/' + basePath + '/appLink');
+            expect(href).to.not.include('apps');
           });
         // Link from the application title
         cy.get('.application-title').within(() => {
             cy.get('.btn-link')
-              .should('have.attr', 'href').then((href) => {
-                expect(href.includes('/app/appLink')).to.be.true;
-                expect(href.includes('apps')).to.be.false;
+              .should((el) => {
+                const href = el.attr('href');
+                expect(href).to.include('/' + basePath + '/appLink');
+                expect(href).to.not.include('apps');
             });
         });
     });
- });
+ }

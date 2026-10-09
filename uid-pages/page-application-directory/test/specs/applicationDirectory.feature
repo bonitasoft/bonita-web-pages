@@ -320,3 +320,10 @@ Feature: The Application Directory in desktop resolution
     And The response "session" is defined
     When I visit the application directory page
     Then The application directory page points on the correct links
+
+  Scenario: The application directory uses the configured app base path when available
+    Given The response "app link" is defined
+    And The response "session" is defined
+    And The response "app base path" is defined
+    When I visit the application directory page
+    Then The application directory page points on the correct links with base path "custom-base-path"
