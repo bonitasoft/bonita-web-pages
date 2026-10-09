@@ -2257,7 +2257,7 @@
                                           },
                                           "targetUrl" : {
                                             "type" : "expression",
-                                            "value" : "'/app/' + $item.token"
+                                            "value" : "'/' + ((appBasePathConfig && appBasePathConfig.appBasePath) || 'app') + '/' + $item.token"
                                           },
                                           "pageToken" : {
                                             "type" : "constant"
@@ -2460,7 +2460,7 @@
                                     },
                                     "targetUrl" : {
                                       "type" : "expression",
-                                      "value" : "'/app/' + $item.token"
+                                      "value" : "'/' + ((appBasePathConfig && appBasePathConfig.appBasePath) || 'app') + '/' + $item.token"
                                     },
                                     "pageToken" : {
                                       "type" : "constant"
@@ -2797,6 +2797,13 @@
       "type" : "url",
       "value" : [
         "../API/system/session/unusedId"
+      ],
+      "exposed" : false
+    },
+    "appBasePathConfig" : {
+      "type" : "url",
+      "value" : [
+        "/bonita-app-base-path.json"
       ],
       "exposed" : false
     },
